@@ -240,7 +240,7 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
                       </label>
                     </div>
                     <div
-                      className="govuk-radios__item"
+                      className="govuk-radios__item govuk-!-margin-bottom-1"
                     >
                       <input
                         className="govuk-radios__input"
@@ -257,6 +257,26 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
                         htmlFor="group-org-staff"
                       >
                         Staff
+                      </label>
+                    </div>
+                    <div
+                      className="govuk-radios__item"
+                    >
+                      <input
+                        className="govuk-radios__input"
+                        data-aria-controls="group-operators-conditional"
+                        defaultChecked={false}
+                        id="group-operators"
+                        name="group"
+                        onChange={[Function]}
+                        type="radio"
+                        value="operators"
+                      />
+                      <label
+                        className="govuk-label govuk-radios__label"
+                        htmlFor="group-operators"
+                      >
+                        Operator
                       </label>
                     </div>
                   </div>
@@ -717,7 +737,7 @@ exports[`addUser > should render correctly with inputs 1`] = `
                       </label>
                     </div>
                     <div
-                      className="govuk-radios__item"
+                      className="govuk-radios__item govuk-!-margin-bottom-1"
                     >
                       <input
                         className="govuk-radios__input"
@@ -734,6 +754,26 @@ exports[`addUser > should render correctly with inputs 1`] = `
                         htmlFor="group-org-staff"
                       >
                         Staff
+                      </label>
+                    </div>
+                    <div
+                      className="govuk-radios__item"
+                    >
+                      <input
+                        className="govuk-radios__input"
+                        data-aria-controls="group-operators-conditional"
+                        defaultChecked={false}
+                        id="group-operators"
+                        name="group"
+                        onChange={[Function]}
+                        type="radio"
+                        value="operators"
+                      />
+                      <label
+                        className="govuk-label govuk-radios__label"
+                        htmlFor="group-operators"
+                      >
+                        Operator
                       </label>
                     </div>
                   </div>

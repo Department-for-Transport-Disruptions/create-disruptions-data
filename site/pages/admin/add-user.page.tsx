@@ -193,7 +193,7 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
                                 getOptionValue={(operator: OperatorData) => operator.id.toString()}
                                 display="NOC Codes"
                                 hint=""
-                                displaySize="m"
+                                displaySize="s"
                                 inputId="operatorNocInfo"
                                 isClearable
                                 inputValue={operatorSearchInput}

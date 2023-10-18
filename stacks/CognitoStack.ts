@@ -36,6 +36,7 @@ export const CognitoStack = ({ stack }: StackContext) => {
         customAttributes: {
             orgId: new StringAttribute({ minLen: 1, mutable: true }),
             disruptionEmailPref: new StringAttribute({ mutable: true }),
+            nocCodes: new StringAttribute({ mutable: true }),
         },
         standardAttributes: {
             email: {
@@ -85,7 +86,7 @@ export const CognitoStack = ({ stack }: StackContext) => {
         generateSecret: true,
         readAttributes: new ClientAttributes()
             .withStandardAttributes({ email: true, emailVerified: true, givenName: true, familyName: true })
-            .withCustomAttributes("orgId"),
+            .withCustomAttributes("orgId", "nocCodes"),
         writeAttributes: new ClientAttributes().withStandardAttributes({ email: true }).withCustomAttributes("orgId"),
         preventUserExistenceErrors: true,
         oAuth: {
