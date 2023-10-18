@@ -27,3 +27,27 @@ export type NetworkConsequence = z.infer<typeof networkConsequenceSchema>;
 export type OperatorConsequence = z.infer<typeof operatorConsequenceSchema>;
 export type StopsConsequence = z.infer<typeof stopsConsequenceSchema>;
 export type ServicesConsequence = z.infer<typeof servicesConsequenceSchema>;
+
+export const routesSchema = z.object({
+    inbound: z.array(stopSchema.partial()),
+    outbound: z.array(stopSchema.partial()),
+});
+
+export type Routes = z.infer<typeof routesSchema>;
+
+export type ServiceGeoJSON = {
+    type: string;
+    geometry: {
+        type: string;
+        coordinates: number[][];
+    };
+    properties: {
+        service_line_id: string;
+        destination: string;
+        origin: string;
+        service_line_name: string;
+        service_noc_code: string;
+        service_operator: string;
+        service_code: string;
+    };
+};

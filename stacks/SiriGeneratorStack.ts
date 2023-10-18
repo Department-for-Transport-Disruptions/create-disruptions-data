@@ -1,17 +1,12 @@
 import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { EventType, Bucket as S3Bucket } from "aws-cdk-lib/aws-s3";
 import { LambdaDestination } from "aws-cdk-lib/aws-s3-notifications";
-import { Config, Cron, Function, StackContext, use } from "sst/constructs";
+import { Cron, Function, StackContext, use } from "sst/constructs";
 import { DynamoDBStack } from "./DynamoDBStack";
 import { createBucket } from "./utils";
 
 export function SiriGeneratorStack({ stack }: StackContext) {
-    const {
-        disruptionsTable,
-        organisationsTableV2: organisationsTable,
-        disruptionsTableNameParam,
-        orgTableNameParam,
-    } = use(DynamoDBStack);
+    const { disruptionsTable, organisationsTableV2: organisationsTable } = use(DynamoDBStack);
 
     const siriSXBucket = createBucket(stack, "cdd-siri-sx", true);
 
@@ -19,27 +14,15 @@ export function SiriGeneratorStack({ stack }: StackContext) {
     const disruptionsJsonBucket = createBucket(stack, "cdd-disruptions-json", true);
     const disruptionsCsvBucket = createBucket(stack, "cdd-disruptions-csv", true);
 
-    const unvalidatedSiriBucketNameParam = new Config.Parameter(stack, "SIRI_SX_UNVALIDATED_BUCKET_NAME", {
-        value: siriSXUnvalidatedBucket.bucketName,
-    });
-
-    const disruptionsJsonBucketNameParam = new Config.Parameter(stack, "DISRUPTIONS_JSON_BUCKET_NAME", {
-        value: disruptionsJsonBucket.bucketName,
-    });
-
-    const disruptionsCsvBucketNameParam = new Config.Parameter(stack, "DISRUPTIONS_CSV_BUCKET_NAME", {
-        value: disruptionsCsvBucket.bucketName,
-    });
-
     const siriGenerator = new Function(stack, "cdd-siri-sx-generator", {
         functionName: `cdd-siri-sx-generator-${stack.stage}`,
-        bind: [
-            disruptionsTableNameParam,
-            orgTableNameParam,
-            unvalidatedSiriBucketNameParam,
-            disruptionsJsonBucketNameParam,
-            disruptionsCsvBucketNameParam,
-        ],
+        environment: {
+            DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
+            ORGANISATIONS_TABLE_NAME: organisationsTable.tableName,
+            SIRI_SX_UNVALIDATED_BUCKET_NAME: siriSXUnvalidatedBucket.bucketName,
+            DISRUPTIONS_JSON_BUCKET_NAME: disruptionsJsonBucket.bucketName,
+            DISRUPTIONS_CSV_BUCKET_NAME: disruptionsCsvBucket.bucketName,
+        },
         permissions: [
             new PolicyStatement({
                 resources: [
@@ -71,7 +54,10 @@ export function SiriGeneratorStack({ stack }: StackContext) {
 
     const siriStatsGenerator = new Function(stack, "cdd-siri-stats-generator", {
         functionName: `cdd-siri-stats-generator-${stack.stage}`,
-        bind: [disruptionsTableNameParam, orgTableNameParam],
+        environment: {
+            DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
+            ORGANISATIONS_TABLE_NAME: organisationsTable.tableName,
+        },
         permissions: [
             new PolicyStatement({
                 resources: [disruptionsTable.tableArn],
@@ -128,8 +114,5 @@ export function SiriGeneratorStack({ stack }: StackContext) {
         siriSXBucket,
         disruptionsJsonBucket,
         disruptionsCsvBucket,
-        unvalidatedSiriBucketNameParam,
-        disruptionsJsonBucketNameParam,
-        disruptionsCsvBucketNameParam,
     };
 }

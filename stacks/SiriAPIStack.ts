@@ -8,7 +8,11 @@ import { SiriGeneratorStack } from "./SiriGeneratorStack";
 export function SiriAPIStack({ stack }: StackContext) {
     const { siriSXBucket, disruptionsJsonBucket, disruptionsCsvBucket } = use(SiriGeneratorStack);
     const { hostedZone } = use(DnsStack);
-    const { orgTableNameParam, organisationsTableV2: organisationsTable } = use(DynamoDBStack);
+    const { disruptionsTable, organisationsTableV2: organisationsTable } = use(DynamoDBStack);
+
+    const apiUrl = !["preprod", "prod"].includes(stack.stage)
+        ? "https://api.test.ref-data.dft-create-data.com/v1"
+        : `https://api.${stack.stage}.ref-data.dft-create-data.com/v1`;
 
     const subDomain = ["test", "preprod", "prod"].includes(stack.stage) ? "api" : `api.${stack.stage}`;
 
@@ -39,10 +43,12 @@ export function SiriAPIStack({ stack }: StackContext) {
                     permissions: [
                         new PolicyStatement({
                             resources: [organisationsTable.tableArn],
-                            actions: ["dynamodb:Scan", "dynamodb:Query"],
+                            actions: ["dynamodb:Scan"],
                         }),
                     ],
-                    bind: [orgTableNameParam],
+                    environment: {
+                        ORGANISATIONS_TABLE_NAME: organisationsTable.tableName,
+                    },
                 },
                 cdk: { method: { apiKeyRequired: true } },
             },
@@ -52,10 +58,28 @@ export function SiriAPIStack({ stack }: StackContext) {
                     permissions: [
                         new PolicyStatement({
                             resources: [organisationsTable.tableArn],
-                            actions: ["dynamodb:Scan", "dynamodb:Query"],
+                            actions: ["dynamodb:Query"],
                         }),
                     ],
-                    bind: [orgTableNameParam],
+                    environment: {
+                        ORGANISATIONS_TABLE_NAME: organisationsTable.tableName,
+                    },
+                },
+                cdk: { method: { apiKeyRequired: true } },
+            },
+            "GET    /organisations/{id}/impacted/stops": {
+                function: {
+                    handler: "packages/organisations-api/get-organisation-stops/index.main",
+                    permissions: [
+                        new PolicyStatement({
+                            resources: [disruptionsTable.tableArn],
+                            actions: ["dynamodb:Query"],
+                        }),
+                    ],
+                    environment: {
+                        DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
+                        API_BASE_URL: apiUrl,
+                    },
                 },
                 cdk: { method: { apiKeyRequired: true } },
             },

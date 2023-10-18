@@ -8,6 +8,7 @@ import {
 } from "@aws-sdk/lib-dynamodb";
 import { Consequence, Disruption, DisruptionInfo, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
+import { getSortedDisruptionFinalEndDate } from "@create-disruptions-data/shared-ts/utils";
 import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { recursiveQuery } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { makeFilteredArraySchema } from "@create-disruptions-data/shared-ts/utils/zod";
@@ -250,9 +251,14 @@ export const getPublishedSocialMediaPosts = async (orgId: string): Promise<Socia
                     getDatetimeFromDateAndTime(period.disruptionEndDate, period.disruptionEndTime).isBefore(today),
             );
 
+            const getEndDateTime = getSortedDisruptionFinalEndDate({
+                ...disruption,
+                validity: validityPeriods,
+            });
+
             return (
                 !shouldNotDisplayDisruption &&
-                (isLiveDisruption(validityPeriods) || isUpcomingDisruption(validityPeriods, today))
+                (isLiveDisruption(validityPeriods, getEndDateTime) || isUpcomingDisruption(validityPeriods, today))
             );
         })
         .flatMap((item) => item.socialMediaPosts)

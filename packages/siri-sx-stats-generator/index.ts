@@ -5,7 +5,6 @@ import {
     getPublishedDisruptionsDataFromDynamo,
 } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import * as logger from "lambda-log";
-import { Config } from "sst/node/config";
 import { randomUUID } from "crypto";
 import { generateSiriStats, SiriStats } from "./utils/statGenerators";
 
@@ -83,7 +82,7 @@ export const main = async (): Promise<void> => {
         };
         logger.info("Starting SIRI-SX stats generator...");
 
-        const { DISRUPTIONS_TABLE_NAME: disruptionsTableName, ORGANISATIONS_TABLE_NAME: orgTableName } = Config;
+        const { DISRUPTIONS_TABLE_NAME: disruptionsTableName, ORGANISATIONS_TABLE_NAME: orgTableName } = process.env;
 
         if (!disruptionsTableName || !orgTableName) {
             throw new Error("Dynamo table names not set");

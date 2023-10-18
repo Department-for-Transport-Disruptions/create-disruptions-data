@@ -17,13 +17,7 @@ import {
     organisationSchema,
     OrganisationWithStats,
 } from "../organisationTypes";
-import { notEmpty } from "./index";
-
-type Logger = {
-    info: (message: string) => void;
-    error: (message: string | Error) => void;
-    warn: (message: string) => void;
-};
+import { Logger, notEmpty } from "./index";
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
 
@@ -122,19 +116,37 @@ export const recursiveQuery = async (
 export const getPublishedDisruptionsDataFromDynamo = async (
     tableName: string,
     logger: Logger,
+    orgId?: string,
 ): Promise<Disruption[]> => {
     logger.info("Getting disruptions data from DynamoDB table...");
 
-    const disruptions = await recursiveScan(
-        {
-            TableName: tableName,
-            FilterExpression: "publishStatus = :1",
-            ExpressionAttributeValues: {
-                ":1": PublishStatus.published,
+    let disruptions: Record<string, unknown>[] = [];
+
+    if (orgId) {
+        disruptions = await recursiveQuery(
+            {
+                TableName: tableName,
+                KeyConditionExpression: "PK = :1",
+                FilterExpression: "publishStatus = :2",
+                ExpressionAttributeValues: {
+                    ":1": orgId,
+                    ":2": PublishStatus.published,
+                },
             },
-        },
-        logger,
-    );
+            logger,
+        );
+    } else {
+        disruptions = await recursiveScan(
+            {
+                TableName: tableName,
+                FilterExpression: "publishStatus = :1",
+                ExpressionAttributeValues: {
+                    ":1": PublishStatus.published,
+                },
+            },
+            logger,
+        );
+    }
 
     const disruptionIds = disruptions
         .map((item) => (item as Disruption).disruptionId)

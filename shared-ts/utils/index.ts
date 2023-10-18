@@ -1,11 +1,49 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Dayjs } from "dayjs";
 import { getDatetimeFromDateAndTime, getFormattedDate } from "./dates";
-import { CleanedDisruption } from "../../packages/siri-sx-generator";
 import { Disruption, Validity } from "../disruptionTypes";
 
 export const notEmpty = <T>(value: T | null | undefined): value is T => {
     return value !== null && value !== undefined;
 };
+
+export const getApiValidityPeriods = (validityPeriods: Validity[]) =>
+    validityPeriods.map(({ disruptionNoEndDateTime, ...validity }) => ({
+        ...validity,
+        disruptionRepeats: validity.disruptionRepeats !== "doesntRepeat" ? validity.disruptionRepeats : undefined,
+        disruptionRepeatsEndDate: validity.disruptionRepeatsEndDate || undefined,
+    }));
+
+export const getApiDisruptions = (disruptions: (Disruption & { organisation: { id: string; name: string } })[]) =>
+    sortDisruptionsByStartDate(disruptions).map(
+        ({
+            template,
+            orgId,
+            publishStatus,
+            consequences,
+            validity,
+            disruptionStartDate,
+            disruptionStartTime,
+            disruptionEndDate,
+            disruptionRepeats,
+            disruptionRepeatsEndDate,
+            disruptionEndTime,
+            disruptionNoEndDateTime,
+            ...disruption
+        }) => ({
+            ...disruption,
+            associatedLink: disruption.associatedLink || undefined,
+            validity: getApiValidityPeriods([...(validity ?? [])]),
+            consequences:
+                consequences?.map(({ disruptionId, consequenceIndex, ...consequence }) => ({
+                    ...consequence,
+                    disruptionDelay: consequence.disruptionDelay || undefined,
+                })) ?? [],
+        }),
+    );
+
+export type ApiDisruption = Awaited<ReturnType<typeof getApiDisruptions>>[0];
+export type ApiConsequence = ApiDisruption["consequences"][0];
 
 export const sortDisruptionsByStartDate = (disruptions: Disruption[]): Disruption[] => {
     const sortEarliestDate = (firstDate: Dayjs, secondDate: Dayjs) => (firstDate.isBefore(secondDate) ? -1 : 1);
@@ -42,7 +80,7 @@ export const sortDisruptionsByStartDate = (disruptions: Disruption[]): Disruptio
     });
 };
 
-export const getSortedDisruptionFinalEndDate = (disruption: Disruption | CleanedDisruption): Dayjs | null => {
+export const getSortedDisruptionFinalEndDate = (disruption: Disruption | ApiDisruption): Dayjs | null => {
     let disruptionEndDate: Dayjs | null = null;
 
     if (!disruption.validity) {
@@ -71,4 +109,11 @@ export const getSortedDisruptionFinalEndDate = (disruption: Disruption | Cleaned
     });
 
     return disruptionEndDate;
+};
+
+export type Logger = {
+    info: (message: string) => void;
+    error: (message: string | Error) => void;
+    warn: (message: string) => void;
+    debug: (message: string) => void;
 };
