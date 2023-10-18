@@ -12,7 +12,6 @@ import { ConsequenceType } from "../schemas/type-of-consequence.schema";
 
 export const SUPPORT_EMAIL_ADDRESS = "bodshelpdesk@kpmg.co.uk";
 export const FEEDBACK_EMAIL_ADDRESS = process.env.FEEDBACK_EMAIL_ADDRESS;
-export const AWS_SES_IDENTITY_ARN = process.env.AWS_SES_IDENTITY_ARN;
 
 export const SUPPORT_PHONE_NUMBER = "0800 028 0930";
 
