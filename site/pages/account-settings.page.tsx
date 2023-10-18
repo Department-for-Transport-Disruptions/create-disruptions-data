@@ -235,7 +235,7 @@ const AccountSettings = ({
                                             key === "ferryService"
                                                 ? "Ferry"
                                                 : `${key.charAt(0).toUpperCase()}${key.slice(1, key.length)}`,
-                                        cells: [datasourceRadioButtons(key, mode[key as keyof ModeType])],
+                                        cells: [dataSourceRadioButtons(key, mode[key as keyof ModeType])],
                                     }))}
                                 />
                             </FormElementWrapper>
