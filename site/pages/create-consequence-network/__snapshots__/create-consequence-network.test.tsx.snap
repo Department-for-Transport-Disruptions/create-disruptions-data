@@ -93,7 +93,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0?template=true"
+                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -699,7 +699,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence//0?template=true"
+                    href="/type-of-consequence//0"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -1303,7 +1303,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0?template=true"
+                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}

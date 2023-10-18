@@ -124,8 +124,6 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                                             TYPE_OF_CONSEQUENCE_PAGE_PATH,
                                             pageState.disruptionId || "",
                                             pageState.consequenceIndex ?? 0,
-                                            !!returnPath,
-                                            returnPath?.includes(DISRUPTION_DETAIL_PAGE_PATH),
                                             !!isTemplate,
                                         ),
                                     ],
