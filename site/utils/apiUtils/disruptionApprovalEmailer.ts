@@ -115,12 +115,16 @@ export const sendDisruptionApprovalEmail = async (
 
         const orgAdminEmailsForStaffOrg = parsedOrgAdminsForAllOrgs.data
             .map((user) => {
-                return user.organisation === staffUserOrgId ? user.email : null;
+                return user.organisation === staffUserOrgId && user.disruptionEmailPreference === "true"
+                    ? user.email
+                    : null;
             })
             .filter(notEmpty);
 
         if (!orgAdminEmailsForStaffOrg || orgAdminEmailsForStaffOrg.length === 0) {
-            logger.error(`No organisation admins found for Org Id ${staffUserOrgId}`);
+            logger.error(
+                `No organisation admins with disruption approval email preferences turned on found for Org Id ${staffUserOrgId}`,
+            );
             return;
         }
 

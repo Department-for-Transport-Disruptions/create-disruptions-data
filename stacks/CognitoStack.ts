@@ -35,6 +35,7 @@ export const CognitoStack = ({ stack }: StackContext) => {
         userPoolName: `cdd-user-pool-${stack.stage}`,
         customAttributes: {
             orgId: new StringAttribute({ minLen: 1, mutable: true }),
+            disruptionEmailPref: new StringAttribute({ mutable: true }),
         },
         standardAttributes: {
             email: {
