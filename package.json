@@ -12,13 +12,13 @@
         "diff": "sst diff",
         "cdk": "cdk",
         "typecheck": "tsc --noEmit",
-        "lint": "eslint .",
+        "lint": "sst bind eslint .",
         "test:site": "npm -w @create-disruptions-data/site test -- run",
         "test:siri": "npm -w @create-disruptions-data/siri-sx-generator run test:unit -- run",
-        "test": "npm run test:site && npm run test:siri",
+        "test": "sst bind \"npm run test:site && npm run test:siri\"",
         "prepare": "husky install",
-        "tsc:build:site": "tsc --noemit -p site",
-        "tsc:build": "tsc --noemit && npm run tsc:build:site"
+        "tsc:build:site": "sst bind \"tsc --noemit -p site\"",
+        "tsc:build": "sst bind \"tsc --noemit && npm run tsc:build:site\""
     },
     "devDependencies": {
         "@tsconfig/node18": "^1.0.1",

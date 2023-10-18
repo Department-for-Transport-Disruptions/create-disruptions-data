@@ -9,9 +9,13 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-22.04
+    environment: DISRUPTIONS_TEST
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js and cache
         uses: actions/setup-node@v3
@@ -27,6 +31,12 @@ jobs:
 
       - name: Test TypeScript compiles
         run: npm run tsc:build
+
+      - name: Assume role using OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/cdd-github-actions-role-eu-west-2
+          aws-region: ${{ vars.AWS_DEFAULT_REGION }}
 
       - name: Test Site
         run: npm run test:site
@@ -71,7 +81,7 @@ jobs:
         run: npm rebuild
 
       - name: Assume role using OIDC
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/cdd-github-actions-role-eu-west-2
           aws-region: ${{ vars.AWS_DEFAULT_REGION }}
@@ -112,7 +122,7 @@ jobs:
         run: npm rebuild
 
       - name: Assume role using OIDC
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/cdd-github-actions-role-eu-west-2
           aws-region: ${{ vars.AWS_DEFAULT_REGION }}

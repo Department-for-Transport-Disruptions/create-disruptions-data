@@ -10,8 +10,12 @@ jobs:
     name: Build and Test PR
     if: ${{ !startsWith(github.head_ref, 'hotfix/') }}
     runs-on: ubuntu-22.04
+    environment: DISRUPTIONS_TEST
+    permissions:
+      contents: read
+      id-token: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v3
         with:
@@ -20,6 +24,12 @@ jobs:
 
       - name: Install packages
         run: npm ci
+
+      - name: Assume role using OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/cdd-github-actions-role-eu-west-2
+          aws-region: ${{ vars.AWS_DEFAULT_REGION }}
 
       - name: Lint
         run: npm run lint
