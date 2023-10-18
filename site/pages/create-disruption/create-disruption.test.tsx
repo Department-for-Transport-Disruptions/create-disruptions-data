@@ -3,7 +3,6 @@ import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import CreateDisruption, { DisruptionPageProps } from "./[disruptionId].page";
-import { DISRUPTION_DETAIL_PAGE_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
 
 const blankInputs: DisruptionPageProps = {
     errors: [],
@@ -68,7 +67,6 @@ describe("pages", () => {
         });
 
         it("should render correctly with appropriate text when redirected from template overview", () => {
-            
             const { queryAllByText, unmount } = render(<CreateDisruption {...withInputs} />);
 
             const heading = queryAllByText("Create a new disruption from template");

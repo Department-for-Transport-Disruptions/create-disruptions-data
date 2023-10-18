@@ -26,8 +26,6 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
-    VIEW_ALL_DISRUPTIONS_PAGE_PATH,
-    VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../constants";
 import { fetchOperators, fetchServices } from "../data/refDataApi";
 import { Operator, ServiceApiResponse } from "../schemas/consequence.schema";

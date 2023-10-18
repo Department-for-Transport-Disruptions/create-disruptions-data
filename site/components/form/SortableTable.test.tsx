@@ -2,7 +2,7 @@ import Link from "next/link";
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
 import SortableTable, { TableColumn } from "./SortableTable";
-import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../../constants";
+import { DISRUPTION_DETAIL_PAGE_PATH } from "../../constants";
 
 interface RandomTable {
     id: string | JSX.Element;

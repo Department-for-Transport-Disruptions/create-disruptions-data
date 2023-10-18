@@ -8,8 +8,6 @@ import {
     CREATE_CONSEQUENCE_OPERATOR_PATH,
     CREATE_CONSEQUENCE_SERVICES_PATH,
     CREATE_CONSEQUENCE_STOPS_PATH,
-    DISRUPTION_DETAIL_PAGE_PATH,
-    REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
 } from "../constants";
@@ -49,12 +47,7 @@ export const createChangeLink = (
     );
 };
 
-const getRows = (
-    consequence: Consequence,
-    disruption: Disruption,
-    isDisruptionDetail?: boolean,
-    isTemplate?: boolean,
-) => {
+const getRows = (consequence: Consequence, disruption: Disruption, isTemplate?: boolean) => {
     const rows: { header?: string | ReactNode; cells: CellProps[] }[] = [
         {
             header: "Consequence type",
@@ -71,8 +64,6 @@ const getRows = (
                         TYPE_OF_CONSEQUENCE_PAGE_PATH,
                         disruption.disruptionId,
                         consequence.consequenceIndex,
-                        true,
-                        isDisruptionDetail,
                         isTemplate,
                     ),
                     styles: {
@@ -91,8 +82,6 @@ const getRows = (
                         getConsequenceUrl(consequence.consequenceType),
                         disruption.disruptionId,
                         consequence.consequenceIndex,
-                        true,
-                        isDisruptionDetail,
                         isTemplate,
                     ),
                 },
@@ -118,8 +107,6 @@ const getRows = (
                         getConsequenceUrl(consequence.consequenceType),
                         disruption.disruptionId,
                         consequence.consequenceIndex,
-                        true,
-                        isDisruptionDetail,
                         isTemplate,
                     ),
                 },
@@ -148,8 +135,6 @@ const getRows = (
                         getConsequenceUrl(consequence.consequenceType),
                         disruption.disruptionId,
                         consequence.consequenceIndex,
-                        true,
-                        isDisruptionDetail,
                         isTemplate,
                     ),
                 },
@@ -172,8 +157,6 @@ const getRows = (
                         getConsequenceUrl(consequence.consequenceType),
                         disruption.disruptionId,
                         consequence.consequenceIndex,
-                        true,
-                        isDisruptionDetail,
                         isTemplate,
                     ),
                 },
@@ -194,8 +177,6 @@ const getRows = (
                         getConsequenceUrl(consequence.consequenceType),
                         disruption.disruptionId,
                         consequence.consequenceIndex,
-                        true,
-                        isDisruptionDetail,
                         isTemplate,
                     ),
                 },
@@ -213,8 +194,6 @@ const getRows = (
                         getConsequenceUrl(consequence.consequenceType),
                         disruption.disruptionId,
                         consequence.consequenceIndex,
-                        true,
-                        isDisruptionDetail,
                         isTemplate,
                     ),
                 },
@@ -232,8 +211,6 @@ const getRows = (
                         getConsequenceUrl(consequence.consequenceType),
                         disruption.disruptionId,
                         consequence.consequenceIndex,
-                        true,
-                        isDisruptionDetail,
                         isTemplate,
                     ),
                 },
@@ -283,7 +260,7 @@ const ReviewConsequenceTable = ({
     }
     return (
         <>
-            <Table rows={getRows(consequence, disruption, isDisruptionDetail, isTemplate)} />
+            <Table rows={getRows(consequence, disruption, isTemplate)} />
             <button
                 key={consequence.consequenceIndex}
                 className="govuk-button govuk-button--warning mt-4"
