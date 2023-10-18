@@ -1,3 +1,4 @@
+import { UserStatusType } from "@aws-sdk/client-cognito-identity-provider";
 import { Consequence, DisruptionInfo, Service } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import {
     Datasource,
@@ -1027,7 +1028,7 @@ export const mockGetUserDetails = Promise.resolve({
     body: {},
     $metadata: { httpStatusCode: 302 },
     Username: "2f99b92e-a86f-4457-a2dc-923db4781c52",
-    UserStatus: "FORCE_CHANGE_PASSWORD",
+    UserStatus: UserStatusType.FORCE_CHANGE_PASSWORD,
     UserAttributes: [
         {
             Name: "custom:orgId",
@@ -1147,7 +1148,7 @@ export const mockOrgAdmins = [
         Enabled: true,
         UserCreateDate: new Date(),
         UserLastModifiedDate: new Date(),
-        UserStatus: "CONFIRMED",
+        UserStatus: UserStatusType.CONFIRMED,
         Username: "username",
     },
     {
@@ -1163,7 +1164,7 @@ export const mockOrgAdmins = [
         Enabled: true,
         UserCreateDate: new Date(),
         UserLastModifiedDate: new Date(),
-        UserStatus: "CONFIRMED",
+        UserStatus: UserStatusType.CONFIRMED,
         Username: "username",
     },
 ];

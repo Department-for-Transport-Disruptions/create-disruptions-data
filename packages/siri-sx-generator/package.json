@@ -11,15 +11,14 @@
         "dynamo-publish-site-disruptions": "node --experimental-specifier-resolution=node --experimental-modules --no-warnings --loader ts-node/esm test/uploadTestDisruptions.ts"
     },
     "devDependencies": {
-        "@tsconfig/node18": "^1.0.1",
+        "@tsconfig/node18": "^18.2.2",
         "@types/aws-lambda": "^8.10.110",
         "@types/jstoxml": "^2.0.2",
         "@types/lambda-log": "^2.2.1",
-        "@types/node": "^18.13.0",
+        "@types/node": "^18.18.6",
         "aws-sdk-client-mock": "^3.0.0",
         "dayjs": "^1.11.7",
         "mockdate": "^3.0.5",
-        "sst": "^2.0.18",
         "ts-node": "^10.9.1"
     },
     "dependencies": {
@@ -27,7 +26,6 @@
         "@create-disruptions-data/shared-ts": "file:../../shared-ts",
         "js2xmlparser": "^5.0.0",
         "lambda-log": "^3.1.0",
-        "sst": "^2.0.18",
         "xml-formatter": "^3.3.0"
     }
 }
