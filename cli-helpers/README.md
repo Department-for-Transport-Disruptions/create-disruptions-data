@@ -59,6 +59,8 @@ _See code: [dist/cli-helpers/src/commands/create-org/index.ts](https://github.co
 
 Create user
 
+Note: If creating an org admin user in your local environment, you must add the email address associated with that org admin account as a verified identity in SES in order to test SES-based features like disruption approval emails.
+
 ```
 USAGE
   $ ./bin/run create-user --stage <value> [--orgId <value>] [--group <value>] [--email <value>] [--firstName
