@@ -63,7 +63,7 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
                 ...pageState,
                 inputs: {
                     ...pageState.inputs,
-                    operatorNocInfo: [...(pageState.inputs.operatorNocInfo ?? []), parsed.data],
+                    operatorNocCodes: [...(pageState.inputs.operatorNocCodes ?? []), parsed.data],
                 },
                 errors: [...pageState.errors.filter((err) => !Object.keys(addUserSchema.shape).includes(err.id))],
             });
@@ -73,8 +73,8 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
     const removeOperator = (e: SyntheticEvent, removedNocCode: string) => {
         e.preventDefault();
 
-        if (pageState?.inputs?.operatorNocInfo) {
-            const updatedOperatorNocInfoArray = [...pageState.inputs.operatorNocInfo].filter(
+        if (pageState?.inputs?.operatorNocCodes) {
+            const updatedoperatorNocCodesArray = [...pageState.inputs.operatorNocCodes].filter(
                 (operator) => operator.nocCode !== removedNocCode,
             );
 
@@ -82,7 +82,7 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
                 ...pageState,
                 inputs: {
                     ...pageState.inputs,
-                    operatorNocInfo: updatedOperatorNocInfoArray,
+                    operatorNocCodes: updatedoperatorNocCodesArray,
                 },
                 errors: pageState.errors,
             });
@@ -91,8 +91,8 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
     };
 
     const getOperatorRows = () => {
-        if (pageState.inputs.operatorNocInfo) {
-            return pageState.inputs.operatorNocInfo.map((operator) => ({
+        if (pageState.inputs.operatorNocCodes) {
+            return pageState.inputs.operatorNocCodes.map((operator) => ({
                 cells: [
                     `${operator.nocCode} - ${operator.operatorPublicName}`,
                     <button
@@ -176,25 +176,25 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
                         <div className={"ml-[8%]"}>
                             <SearchSelect<OperatorData>
                                 selected={selectedOperator}
-                                inputName="operatorNocInfo"
+                                inputName="operatorNocCodes"
                                 initialErrors={pageState.errors}
                                 placeholder="Select operator NOC codes"
                                 getOptionLabel={(operator) => `${operator.nocCode} - ${operator.operatorPublicName}`}
                                 options={operatorNocCodesList.filter((operatorOption) =>
-                                    pageState.inputs.operatorNocInfo
-                                        ? !pageState.inputs.operatorNocInfo.find(
+                                    pageState.inputs.operatorNocCodes
+                                        ? !pageState.inputs.operatorNocCodes.find(
                                               (selectedOperators) => selectedOperators.id === operatorOption.id,
                                           )
                                         : true,
                                 )}
                                 handleChange={handleOperatorChange}
-                                tableData={pageState?.inputs?.operatorNocInfo}
+                                tableData={pageState?.inputs?.operatorNocCodes}
                                 getRows={getOperatorRows}
                                 getOptionValue={(operator: OperatorData) => operator.id.toString()}
                                 display="NOC Codes"
                                 hint=""
                                 displaySize="s"
-                                inputId="operatorNocInfo"
+                                inputId="operatorNocCodes"
                                 isClearable
                                 inputValue={operatorSearchInput}
                                 filterOptions={createFilter(filterConfig)}

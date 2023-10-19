@@ -14,20 +14,20 @@ import {
 import { getSession } from "../../../utils/apiUtils/auth";
 
 export const formatAddUserBody = (body: object) => {
-    const operatorNocInfo = Object.entries(body)
-        .filter((item) => item.toString().startsWith("operatorNocInfo"))
+    const operatorNocCodes = Object.entries(body)
+        .filter((item) => item.toString().startsWith("operatorNocCodes"))
         .map((arr: string[]) => {
             const [, values] = arr;
             return JSON.parse(values) as OperatorData;
         });
 
     const cleansedBody = Object.fromEntries(
-        Object.entries(body).filter((item) => !item.toString().startsWith("operatorNocInfo")),
+        Object.entries(body).filter((item) => !item.toString().startsWith("operatorNocCodes")),
     );
 
     return {
         ...cleansedBody,
-        operatorNocInfo,
+        operatorNocCodes,
     };
 };
 
@@ -57,7 +57,7 @@ const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         if (validatedBody.data.group === UserGroups.operators) {
-            const nocCodes = validatedBody.data.operatorNocInfo?.map((operator) => operator.nocCode) ?? [];
+            const nocCodes = validatedBody.data.operatorNocCodes?.map((operator) => operator.nocCode) ?? [];
             await createUserWithCustomAttribute(validatedBody.data, "nocCodes", nocCodes.toString());
             destroyCookieOnResponseObject(COOKIES_ADD_USER_ERRORS, res);
             redirectTo(res, USER_MANAGEMENT_PAGE_PATH);

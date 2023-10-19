@@ -213,7 +213,6 @@ export const fetchServiceStops = async (input: FetchServiceStops) => {
 interface FetchOperatorsInput {
     adminAreaCodes: string[];
     dataSource?: Datasource;
-    mode?: Modes;
 }
 
 export const fetchOperators = async (input: FetchOperatorsInput) => {

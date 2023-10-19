@@ -16,7 +16,7 @@ export const addUserSchema = z.object({
     email: z.string(setZodDefaultError("Enter a valid email address")).email(),
     orgId: z.string().uuid(),
     group: z.nativeEnum(UserGroups, setZodDefaultError("Select which account is required")),
-    operatorNocInfo: z.array(operatorDataSchema).optional(),
+    operatorNocCodes: z.array(operatorDataSchema).optional(),
 });
 
 export const addUserSchemaRefined = z
@@ -26,13 +26,13 @@ export const addUserSchemaRefined = z
         email: z.string(setZodDefaultError("Enter a valid email address")).email(),
         orgId: z.string().uuid(),
         group: z.nativeEnum(UserGroups, setZodDefaultError("Select which account is required")),
-        operatorNocInfo: z.array(operatorDataSchema).optional(),
+        operatorNocCodes: z.array(operatorDataSchema).optional(),
     })
     .refine(
         (input) => {
-            return !(input.group === UserGroups.operators && input.operatorNocInfo?.length === 0);
+            return !(input.group === UserGroups.operators && input.operatorNocCodes?.length === 0);
         },
-        { path: ["operatorNocInfo"], message: "Select at least one NOC" },
+        { path: ["operatorNocCodes"], message: "Select at least one NOC" },
     );
 
 export type AddUserSchema = z.infer<typeof addUserSchema>;

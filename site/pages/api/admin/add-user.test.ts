@@ -30,7 +30,7 @@ describe("addUser", () => {
         vi.resetAllMocks();
     });
 
-    const defaultInput: Omit<AddUserSchema, "operatorNocInfo"> = {
+    const defaultInput: Omit<AddUserSchema, "operatorNocCodes"> = {
         givenName: "dummy",
         familyName: "user",
         email: "dummy.user@gmail.com",
@@ -87,7 +87,7 @@ describe("addUser", () => {
 
         await addUser(req, res);
 
-        const errors: ErrorInfo[] = [{ errorMessage: "Select at least one NOC", id: "operatorNocInfo" }];
+        const errors: ErrorInfo[] = [{ errorMessage: "Select at least one NOC", id: "operatorNocCodes" }];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_ADD_USER_ERRORS,
@@ -116,7 +116,7 @@ describe("addUser", () => {
             body: {
                 ...defaultInput,
                 group: UserGroups.operators,
-                operatorNocInfo: '{"id":203,"nocCode":"TEST","operatorPublicName":"Test Operator"}',
+                operatorNocCodes: '{"id":203,"nocCode":"TEST","operatorPublicName":"Test Operator"}',
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -158,7 +158,7 @@ describe("addUser", () => {
             body: {
                 ...defaultInput,
                 group: UserGroups.operators,
-                operatorNocInfo: '{"id":203,"nocCode":"TEST","operatorPublicName":"Test Operator"}',
+                operatorNocCodes: '{"id":203,"nocCode":"TEST","operatorPublicName":"Test Operator"}',
             },
             mockWriteHeadFn: writeHeadMock,
         });
