@@ -1,7 +1,8 @@
 import { UsernameExistsException } from "@aws-sdk/client-cognito-identity-provider";
+import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import { ADD_USER_PAGE_PATH, COOKIES_ADD_USER_ERRORS, USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
-import { createUser } from "../../../data/cognito";
+import { createUser, createUserWithCustomAttribute } from "../../../data/cognito";
 import { addUserSchemaRefined, OperatorData } from "../../../schemas/add-user.schema";
 import { flattenZodErrors } from "../../../utils";
 import {
@@ -55,11 +56,18 @@ const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
-        await createUser(validatedBody.data);
+        if (validatedBody.data.group === UserGroups.operators) {
+            const nocCodes = validatedBody.data.operatorNocInfo?.map((operator) => operator.nocCode) ?? [];
+            await createUserWithCustomAttribute(validatedBody.data, "nocCodes", nocCodes.toString());
+            destroyCookieOnResponseObject(COOKIES_ADD_USER_ERRORS, res);
+            redirectTo(res, USER_MANAGEMENT_PAGE_PATH);
+        } else {
+            await createUser(validatedBody.data);
 
-        destroyCookieOnResponseObject(COOKIES_ADD_USER_ERRORS, res);
-        redirectTo(res, USER_MANAGEMENT_PAGE_PATH);
-        return;
+            destroyCookieOnResponseObject(COOKIES_ADD_USER_ERRORS, res);
+            redirectTo(res, USER_MANAGEMENT_PAGE_PATH);
+            return;
+        }
     } catch (e) {
         if (e instanceof UsernameExistsException) {
             setCookieOnResponseObject(

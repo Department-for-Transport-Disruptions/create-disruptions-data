@@ -278,58 +278,92 @@ export const deleteUsersByAttribute = async (attributeName: string, attributeVal
     }
 };
 
+export const createUserWithCustomAttribute = async (
+    userData: AddUserSchema,
+    attributeName: string,
+    attributeValue: string,
+) => {
+    logger.info("", {
+        context: "data.cognito",
+        message: "Adding a new user with custom attribute",
+    });
+    const createUserResult = await cognito.send(
+        new AdminCreateUserCommand({
+            Username: userData.email,
+            UserPoolId: userPoolId,
+            TemporaryPassword: Array.from(Array(20), () => Math.floor(Math.random() * 36).toString(36)).join(""),
+            UserAttributes: [
+                {
+                    Name: "custom:orgId",
+                    Value: userData.orgId,
+                },
+                {
+                    Name: "given_name",
+                    Value: userData.givenName,
+                },
+                {
+                    Name: "family_name",
+                    Value: userData.familyName,
+                },
+                {
+                    Name: "email_verified",
+                    Value: "true",
+                },
+                {
+                    Name: "email",
+                    Value: userData.email,
+                },
+                {
+                    Name: `custom:${attributeName}`,
+                    Value: attributeValue,
+                },
+            ],
+        }),
+    );
+
+    await cognito.send(
+        new AdminAddUserToGroupCommand({
+            GroupName: userData.group,
+            Username: createUserResult.User?.Username,
+            UserPoolId: userPoolId,
+        }),
+    );
+};
+
 export const createUser = async (userData: AddUserSchema) => {
     logger.info("", {
         context: "data.cognito",
         message: "Adding a new user",
     });
-
-    const nocCodes = userData.operatorNocInfo?.map((operator) => operator.nocCode) ?? [];
-
-    const userAttributes = [
-        {
-            Name: "custom:orgId",
-            Value: userData.orgId,
-        },
-        {
-            Name: "given_name",
-            Value: userData.givenName,
-        },
-        {
-            Name: "family_name",
-            Value: userData.familyName,
-        },
-        {
-            Name: "email_verified",
-            Value: "true",
-        },
-        {
-            Name: "email",
-            Value: userData.email,
-        },
-    ];
-
-    const createUserCommand = {
-        Username: userData.email,
-        UserPoolId: userPoolId,
-        TemporaryPassword: Array.from(Array(20), () => Math.floor(Math.random() * 36).toString(36)).join(""),
-        UserAttributes: userAttributes,
-    };
-
-    const createOperatorUserCommand = {
-        ...createUserCommand,
-        UserAttributes: userAttributes.concat([
-            {
-                Name: "custom:nocCodes",
-                Value: nocCodes.toString(),
-            },
-        ]),
-    };
-
-    const createUserResult =
-        userData.group === "operators"
-            ? await cognito.send(new AdminCreateUserCommand(createOperatorUserCommand))
-            : await cognito.send(new AdminCreateUserCommand(createUserCommand));
+    const createUserResult = await cognito.send(
+        new AdminCreateUserCommand({
+            Username: userData.email,
+            UserPoolId: userPoolId,
+            TemporaryPassword: Array.from(Array(20), () => Math.floor(Math.random() * 36).toString(36)).join(""),
+            UserAttributes: [
+                {
+                    Name: "custom:orgId",
+                    Value: userData.orgId,
+                },
+                {
+                    Name: "given_name",
+                    Value: userData.givenName,
+                },
+                {
+                    Name: "family_name",
+                    Value: userData.familyName,
+                },
+                {
+                    Name: "email_verified",
+                    Value: "true",
+                },
+                {
+                    Name: "email",
+                    Value: userData.email,
+                },
+            ],
+        }),
+    );
 
     await cognito.send(
         new AdminAddUserToGroupCommand({

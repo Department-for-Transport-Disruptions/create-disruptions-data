@@ -19,9 +19,11 @@ describe("addUser", () => {
     }));
 
     const createUserSpy = vi.spyOn(cognito, "createUser");
+    const createUserWithCustomAttributeSpy = vi.spyOn(cognito, "createUserWithCustomAttribute");
 
     vi.mock("../../../data/cognito", () => ({
         createUser: vi.fn(),
+        createUserWithCustomAttribute: vi.fn(),
     }));
 
     afterEach(() => {
@@ -77,6 +79,25 @@ describe("addUser", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: ADD_USER_PAGE_PATH });
     });
 
+    it("should redirect to /add-user page with appropriate error when an operator user is created without NOC codes", async () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: { ...defaultInput, group: UserGroups.operators },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await addUser(req, res);
+
+        const errors: ErrorInfo[] = [{ errorMessage: "Select at least one NOC", id: "operatorNocInfo" }];
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_ADD_USER_ERRORS,
+            JSON.stringify({ inputs: req.body as object, errors }),
+            res,
+        );
+
+        expect(writeHeadMock).toBeCalledWith(302, { Location: ADD_USER_PAGE_PATH });
+    });
+
     it("should redirect to /user-management page when valid inputs are passed", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: defaultInput,
@@ -94,7 +115,8 @@ describe("addUser", () => {
         const { req, res } = getMockRequestAndResponse({
             body: {
                 ...defaultInput,
-                operatorNocInfo: '{"id":203,"nocCode":"GEMS","operatorPublicName":"Gemsar Travel Limited"}',
+                group: UserGroups.operators,
+                operatorNocInfo: '{"id":203,"nocCode":"TEST","operatorPublicName":"Test Operator"}',
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -113,6 +135,31 @@ describe("addUser", () => {
 
         const { req, res } = getMockRequestAndResponse({
             body: defaultInput,
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await addUser(req, res);
+
+        const errors: ErrorInfo[] = [{ errorMessage: "This email address is already in use", id: "email" }];
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_ADD_USER_ERRORS,
+            JSON.stringify({ inputs: req.body as object, errors }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: ADD_USER_PAGE_PATH });
+    });
+    it("should redirect to /add-user page with appropriate errors when creating an operator user with an email id that is already registered", async () => {
+        createUserWithCustomAttributeSpy.mockImplementation(() => {
+            throw new UsernameExistsException({ message: "Username already exists", $metadata: {} });
+        });
+
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                ...defaultInput,
+                group: UserGroups.operators,
+                operatorNocInfo: '{"id":203,"nocCode":"TEST","operatorPublicName":"Test Operator"}',
+            },
             mockWriteHeadFn: writeHeadMock,
         });
 

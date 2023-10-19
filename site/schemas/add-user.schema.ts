@@ -30,7 +30,7 @@ export const addUserSchemaRefined = z
     })
     .refine(
         (input) => {
-            return !(input.group === "operators" && input.operatorNocInfo === undefined);
+            return !(input.group === UserGroups.operators && input.operatorNocInfo?.length === 0);
         },
         { path: ["operatorNocInfo"], message: "Select at least one NOC" },
     );
