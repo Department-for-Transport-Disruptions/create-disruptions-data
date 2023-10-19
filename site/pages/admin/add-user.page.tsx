@@ -1,4 +1,4 @@
-import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
@@ -172,7 +172,7 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
                         initialErrors={pageState.errors}
                     />
 
-                    {pageState.inputs.group === "operators" && (
+                    {pageState.inputs.group === UserGroups.operators && (
                         <div className={"ml-[8%]"}>
                             <SearchSelect<OperatorData>
                                 selected={selectedOperator}
@@ -239,7 +239,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const tndsModes: string[] = [];
 
     Object.entries(session.mode).map((mode) =>
-        mode[1] === "bods"
+        mode[1] === Datasource.bods
             ? bodsModes.push(mode[0] === "ferryService" ? "ferry" : mode[0])
             : tndsModes.push(mode[0] === "ferryService" ? "ferry" : mode[0]),
     );
