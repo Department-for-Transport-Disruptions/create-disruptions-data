@@ -77,7 +77,13 @@ export function SiteStack({ stack }: StackContext) {
             }`,
         },
         customDomain: {
-            domainName: stack.stage === "prod" ? prodDomain : getDomain(stack.stage),
+            domainName:
+                stack.stage === "prod"
+                    ? prodDomain
+                    : isSandbox(stack.stage)
+                    ? `${stack.stage}.${getDomain(stack.stage)}`
+                    : getDomain(stack.stage),
+            hostedZone: stack.stage !== "prod" ? getDomain(stack.stage) : undefined,
             isExternalDomain: stack.stage === "prod",
             cdk:
                 stack.stage === "prod"
