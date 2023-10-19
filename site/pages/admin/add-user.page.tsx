@@ -17,7 +17,7 @@ import { fetchOperatorUserNocCodes } from "../../data/refDataApi";
 import { PageState } from "../../interfaces";
 import { AddUserSchema, addUserSchema, OperatorData, operatorDataSchema } from "../../schemas/add-user.schema";
 
-import { flattenZodErrors } from "../../utils";
+import { flattenZodErrors, sortOperatorByName } from "../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
 import { getStateUpdater } from "../../utils/formUtils";
@@ -92,7 +92,7 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
 
     const getOperatorRows = () => {
         if (pageState.inputs.operatorNocCodes) {
-            return pageState.inputs.operatorNocCodes.map((operator) => ({
+            return sortOperatorByName(pageState.inputs.operatorNocCodes).map((operator) => ({
                 cells: [
                     `${operator.nocCode} - ${operator.operatorPublicName}`,
                     <button
@@ -180,7 +180,7 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
                                 initialErrors={pageState.errors}
                                 placeholder="Select operator NOC codes"
                                 getOptionLabel={(operator) => `${operator.nocCode} - ${operator.operatorPublicName}`}
-                                options={operatorNocCodesList.filter((operatorOption) =>
+                                options={sortOperatorByName(operatorNocCodesList).filter((operatorOption) =>
                                     pageState.inputs.operatorNocCodes
                                         ? !pageState.inputs.operatorNocCodes.find(
                                               (selectedOperators) => selectedOperators.id === operatorOption.id,

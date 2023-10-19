@@ -16,6 +16,7 @@ import { NextApiResponse, NextPageContext } from "next";
 import { ZodError, ZodErrorMap } from "zod";
 import { ServerResponse } from "http";
 import { DisplayValuePair, ErrorInfo } from "../interfaces";
+import { Operator } from "../schemas/consequence.schema";
 import { FullDisruption } from "../schemas/disruption.schema";
 
 export type SortedDisruption = Omit<
@@ -203,3 +204,7 @@ export const sortServices = <T extends Service>(services: T[]): T[] => {
 };
 
 export const toLowerStartCase = (text: string) => startCase(text.toLowerCase());
+
+export const sortOperatorByName = (operators: Operator[]): Operator[] => {
+    return operators.sort((a, b) => (a.operatorPublicName > b.operatorPublicName ? 1 : -1));
+};
