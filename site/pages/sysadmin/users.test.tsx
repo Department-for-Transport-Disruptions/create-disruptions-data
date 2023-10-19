@@ -29,6 +29,7 @@ const withInputs: SysAdminUserManagementProps = {
             email: "dummy.user1@gmail.com",
             organisation: randomId,
             group: UserGroups.orgAdmins,
+            disruptionEmailPreference: "false",
         },
         {
             userStatus: "CONFIRMED",
@@ -38,6 +39,7 @@ const withInputs: SysAdminUserManagementProps = {
             email: "dummy.user2@gmail.com",
             organisation: randomId,
             group: UserGroups.orgAdmins,
+            disruptionEmailPreference: "false",
         },
     ],
 };

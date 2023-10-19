@@ -2,9 +2,10 @@ import { Certificate } from "aws-cdk-lib/aws-certificatemanager";
 import { AccessKey, ManagedPolicy, PolicyStatement, User } from "aws-cdk-lib/aws-iam";
 import { Secret } from "aws-cdk-lib/aws-secretsmanager";
 import { NextjsSite, StackContext, use } from "sst/constructs";
+import { getDomain, isSandbox } from "@create-disruptions-data/shared-ts/utils/domain";
 import { CognitoStack } from "./CognitoStack";
 import { DynamoDBStack } from "./DynamoDBStack";
-import { createBucket, getDomain, isSandbox } from "./utils";
+import { createBucket } from "./utils";
 
 export function SiteStack({ stack }: StackContext) {
     const { disruptionsTable, organisationsTableV2: organisationsTable, templateDisruptionsTable } = use(DynamoDBStack);

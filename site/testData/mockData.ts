@@ -1,3 +1,4 @@
+import { UserStatusType } from "@aws-sdk/client-cognito-identity-provider";
 import { Consequence, Disruption, DisruptionInfo, Service } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import {
     Datasource,
@@ -1028,7 +1029,7 @@ export const mockGetUserDetails = Promise.resolve({
     body: {},
     $metadata: { httpStatusCode: 302 },
     Username: "2f99b92e-a86f-4457-a2dc-923db4781c52",
-    UserStatus: "FORCE_CHANGE_PASSWORD",
+    UserStatus: UserStatusType.FORCE_CHANGE_PASSWORD,
     UserAttributes: [
         {
             Name: "custom:orgId",
@@ -1133,3 +1134,38 @@ export const createDisruptionWithConsquences = (consequences: Consequence[]): Fu
         template: false,
     };
 };
+
+export const mockOrgAdmins = [
+    {
+        Attributes: [
+            { Name: "sub", Value: "test-sub" },
+            { Name: "email_verified", Value: "true" },
+            { Name: "custom:orgId", Value: DEFAULT_ORG_ID },
+            { Name: "custom:disruptionEmailPref", Value: "true" },
+            { Name: "given_name", Value: "Test1" },
+            { Name: "family_name", Value: "Test1" },
+            { Name: "email", Value: "emailtoshow@test.com" },
+        ],
+        Enabled: true,
+        UserCreateDate: new Date(),
+        UserLastModifiedDate: new Date(),
+        UserStatus: UserStatusType.CONFIRMED,
+        Username: "username",
+    },
+    {
+        Attributes: [
+            { Name: "sub", Value: "test-sub" },
+            { Name: "email_verified", Value: "true" },
+            { Name: "custom:orgId", Value: "orgId To Be Omitted" },
+            { Name: "custom:disruptionEmailPref", Value: "false" },
+            { Name: "given_name", Value: "Test2" },
+            { Name: "family_name", Value: "Test2" },
+            { Name: "email", Value: "emailthatshouldnotshow@test.com" },
+        ],
+        Enabled: true,
+        UserCreateDate: new Date(),
+        UserLastModifiedDate: new Date(),
+        UserStatus: UserStatusType.CONFIRMED,
+        Username: "username",
+    },
+];

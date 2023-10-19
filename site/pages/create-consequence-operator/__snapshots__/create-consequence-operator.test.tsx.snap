@@ -14,7 +14,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"
@@ -770,7 +770,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"
@@ -1496,7 +1496,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"

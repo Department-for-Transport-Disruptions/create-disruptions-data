@@ -11,7 +11,7 @@ import {
 } from "aws-cdk-lib/aws-cognito";
 import { Function, StackContext } from "sst/constructs";
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
-import { getDomain, isSandbox } from "./utils";
+import { getDomain, isSandbox } from "@create-disruptions-data/shared-ts/utils/domain";
 
 export const CognitoStack = ({ stack }: StackContext) => {
     const domain = isSandbox(stack.stage) ? "localhost:3000" : getDomain(stack.stage);
@@ -35,6 +35,7 @@ export const CognitoStack = ({ stack }: StackContext) => {
         userPoolName: `cdd-user-pool-${stack.stage}`,
         customAttributes: {
             orgId: new StringAttribute({ minLen: 1, mutable: true }),
+            disruptionEmailPref: new StringAttribute({ mutable: true }),
         },
         standardAttributes: {
             email: {

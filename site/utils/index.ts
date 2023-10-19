@@ -53,7 +53,7 @@ export const redirectTo = (res: NextApiResponse | ServerResponse, location: stri
     res.end();
 };
 
-export const getCsrfToken = (ctx: NextPageContext | NextPageContext): string =>
+export const getCsrfToken = (ctx: NextPageContext): string =>
     ctx.res?.getHeader("x-csrf-token")?.toString() ?? "missing";
 
 export const splitCamelCaseToString = (s: string) => upperFirst(lowerCase(startCase(s)));

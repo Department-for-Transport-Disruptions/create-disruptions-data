@@ -68,7 +68,7 @@ jobs:
           cache: 'npm'
 
       - name: Rebuild npm
-        run: npm rebuild
+        run: npm rebuild --ignore-scripts
 
       - name: Assume role using OIDC
         uses: aws-actions/configure-aws-credentials@v4
@@ -109,7 +109,7 @@ jobs:
           cache: 'npm'
 
       - name: Rebuild npm
-        run: npm rebuild
+        run: npm rebuild --ignore-scripts
 
       - name: Assume role using OIDC
         uses: aws-actions/configure-aws-credentials@v4

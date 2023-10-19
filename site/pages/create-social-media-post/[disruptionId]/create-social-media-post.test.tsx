@@ -1,6 +1,6 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { render } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
+import { userEvent } from "@testing-library/user-event";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import CreateSocialMediaPost from "./[socialMediaPostIndex].page";

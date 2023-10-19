@@ -96,6 +96,16 @@ const fetchStops = async (
     return [];
 };
 
+const removeServiceForStop = (stop: Stop, removedServiceId: number) =>
+    stop.serviceIds?.includes(removedServiceId)
+        ? { ...stop, serviceIds: stop.serviceIds.filter((id) => id !== removedServiceId) }
+        : stop;
+
+const removeStopsWithNoServices = (stop: Stop) => stop.serviceIds?.length !== 0;
+
+const filterStopsWithoutServices = (stops: Stop[], removedServiceId: number) =>
+    stops.map((stop) => removeServiceForStop(stop, removedServiceId)).filter(removeStopsWithNoServices);
+
 export interface CreateConsequenceServicesProps
     extends PageState<Partial<ServicesConsequence>>,
         CreateConsequenceProps {
@@ -392,7 +402,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageState.inputs.vehicleMode]);
 
-    const removeService = async (e: SyntheticEvent, removedServiceId: number) => {
+    const removeService = (e: SyntheticEvent, removedServiceId: number) => {
         e.preventDefault();
 
         if (pageState?.inputs?.services) {
@@ -400,33 +410,20 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                 (service) => service.id !== removedServiceId,
             );
 
-            const stopsWithServiceRemoved = pageState.inputs?.stops?.map((stop) => {
-                return stop.serviceIds?.includes(removedServiceId)
-                    ? { ...stop, serviceIds: stop.serviceIds.filter((id) => id !== removedServiceId) }
-                    : stop;
-            });
-
-            const filteredStops = stopsWithServiceRemoved?.filter((stop) => stop.serviceIds?.length !== 0);
+            const filteredStopOptions = filterStopsWithoutServices(stopOptions, removedServiceId);
+            const filteredSelectedStops = filterStopsWithoutServices(pageState.inputs.stops ?? [], removedServiceId);
 
             setPageState({
                 ...pageState,
                 inputs: {
                     ...pageState.inputs,
-                    stops: filteredStops,
+                    stops: filteredSelectedStops,
                     services: updatedServicesArray,
                 },
                 errors: pageState.errors,
             });
 
-            const updatedStopOptions = (
-                await Promise.all(
-                    updatedServicesArray.map(async (service) => {
-                        return await fetchStops(service.id, pageState.inputs.vehicleMode, service.dataSource);
-                    }),
-                )
-            ).flat();
-
-            setStopOptions(sortAndFilterStops(updatedStopOptions));
+            setStopOptions(sortAndFilterStops(filteredStopOptions));
         }
 
         setSearchedOptions(searched.filter((route) => route?.serviceId !== removedServiceId) || []);
@@ -442,7 +439,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                         id={`remove-service-${service.id}`}
                         key={`remove-service-${service.id}`}
                         className="govuk-link"
-                        onClick={(e) => Promise.resolve(removeService(e, service.id))}
+                        onClick={(e) => removeService(e, service.id)}
                     >
                         Remove
                     </button>,

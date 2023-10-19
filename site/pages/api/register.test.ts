@@ -1,3 +1,4 @@
+import { ChallengeNameType } from "@aws-sdk/client-cognito-identity-provider";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import register from "./register.api";
 import { COOKIES_REGISTER_ERRORS, DASHBOARD_PAGE_PATH, ERROR_PATH, REGISTER_PAGE_PATH } from "../../constants";
@@ -64,7 +65,7 @@ describe("register", () => {
         initiateAuthSpy.mockImplementation(() =>
             Promise.resolve({
                 $metadata: {},
-                ChallengeName: "NEW_PASSWORD_REQUIRED",
+                ChallengeName: ChallengeNameType.NEW_PASSWORD_REQUIRED,
                 ChallengeParameters: {
                     userAttributes: "test",
                 },
@@ -95,7 +96,7 @@ describe("register", () => {
         initiateAuthSpy.mockImplementation(() =>
             Promise.resolve({
                 $metadata: {},
-                ChallengeName: "INVALID",
+                ChallengeName: "INVALID" as ChallengeNameType,
                 ChallengeParameters: {
                     userAttributes: "test",
                 },

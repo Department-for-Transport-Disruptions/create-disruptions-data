@@ -1,4 +1,5 @@
 import { ConsequenceOperators, Service, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Datasource } from "@create-disruptions-data/shared-ts/enums";
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import dayjs from "dayjs";
 import { SetStateAction } from "react";
@@ -87,7 +88,7 @@ export const filterServices = (servicesData?: ServiceApiResponse[]) => {
     }
 
     const services = sortServices(servicesData);
-    const filterKey = services[0].dataSource === "tnds" ? "serviceCode" : "lineId";
+    const filterKey = services[0].dataSource === Datasource.tnds ? "serviceCode" : "lineId";
 
     return removeDuplicateServicesByKey(services, filterKey);
 };
