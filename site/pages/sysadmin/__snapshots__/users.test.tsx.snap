@@ -14,7 +14,7 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"
@@ -419,7 +419,7 @@ exports[`addUser > should render correctly with inputs 1`] = `
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"

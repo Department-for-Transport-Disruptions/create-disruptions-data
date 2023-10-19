@@ -23,6 +23,7 @@ import {
     ConfirmForgotPasswordCommandInput,
     ForgotPasswordCommandInput,
     ForgotPasswordCommand,
+    AdminUpdateUserAttributesCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 
 import { createHmac } from "crypto";
@@ -414,6 +415,32 @@ export const resetUserPassword = async (key: string, newPassword: string, email:
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(`Failed to reset password: ${error.stack || ""}`);
+        }
+
+        throw error;
+    }
+};
+
+export const updateUserCustomAttribute = async (username: string, attributeName: string, attributeValue: string) => {
+    try {
+        logger.info("", {
+            context: "data.cognito",
+            message: `Updating attribute: ${attributeName} for user: ${username}`,
+        });
+        const input = {
+            UserPoolId: userPoolId,
+            Username: username,
+            UserAttributes: [
+                {
+                    Name: attributeName,
+                    Value: attributeValue,
+                },
+            ],
+        };
+        return cognito.send(new AdminUpdateUserAttributesCommand(input));
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(`Failed to update users custom attribute`);
         }
 
         throw error;

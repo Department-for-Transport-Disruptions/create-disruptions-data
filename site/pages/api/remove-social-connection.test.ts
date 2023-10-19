@@ -24,7 +24,7 @@ describe("remove-social-connection", () => {
     const getSessionSpy = vi.spyOn(session, "getSession");
 
     beforeEach(() => {
-        getSessionSpy.mockReturnValue({ ...mockSession, isOrgAdmin: true });
+        getSessionSpy.mockReturnValue({ ...mockSession, isOrgAdmin: true, isSystemAdmin: false });
     });
 
     const deleteParameterSpy = vi.spyOn(ssm, "deleteParameter");

@@ -14,7 +14,7 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"
@@ -536,7 +536,7 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"
@@ -1469,7 +1469,7 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"

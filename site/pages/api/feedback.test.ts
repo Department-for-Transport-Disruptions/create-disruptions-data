@@ -1,13 +1,21 @@
+import { SESClient } from "@aws-sdk/client-ses";
+import { mockClient } from "aws-sdk-client-mock";
 import Mail from "nodemailer/lib/mailer";
-import { describe, it, expect, afterEach, vi } from "vitest";
+import { describe, it, expect, afterEach, vi, beforeAll } from "vitest";
 import feedback, { requestIsEmpty, redactEmailAddress } from "./feedback.api";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 
+const sesMock = mockClient(SESClient);
 describe("feedback", () => {
     const writeHeadMock = vi.fn();
 
+    beforeAll(() => {
+        process.env.ROOT_DOMAIN = "test.com";
+    });
+
     afterEach(() => {
         vi.resetAllMocks();
+        sesMock.reset();
     });
 
     it("should redirect to the feedback page with query string true if feedback was submitted properly", async () => {
@@ -22,6 +30,7 @@ describe("feedback", () => {
         });
         await feedback(req, res);
 
+        expect(sesMock.send.calledOnce).toBeTruthy();
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: "/feedback?feedbackSubmitted=true",
         });

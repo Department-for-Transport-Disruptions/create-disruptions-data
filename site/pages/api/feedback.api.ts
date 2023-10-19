@@ -2,7 +2,6 @@ import { SendEmailCommand } from "@aws-sdk/client-ses";
 import { NextApiRequest, NextApiResponse } from "next";
 import Mail from "nodemailer/lib/mailer";
 import {
-    AWS_SES_IDENTITY_ARN,
     CONTACT_FEEDBACK_QUESTION,
     GENERAL_FEEDBACK_QUESTION,
     HEAR_ABOUT_US_FEEDBACK_QUESTION,
@@ -108,32 +107,19 @@ const feedback = async (req: FeedbackApiRequest, res: NextApiResponse): Promise<
         const feedback: Feedback[] = buildFeedbackForEmail(req);
         mailOptions = setFeedbackMailOptions(feedback);
 
-        if (!AWS_SES_IDENTITY_ARN) {
-            logger.info("mailOptions", {
-                context: "api.feedback",
-                mailOptions: {
-                    from: mailOptions.input.Source,
-                    to: redactEmailAddress(mailOptions.input.Destination?.ToAddresses),
-                    subject: mailOptions.input.Message?.Subject,
-                    text: mailOptions.input.Message?.Body,
-                },
-                message: "Sending of emails disabled, email not sent",
-            });
-        } else {
-            const mailTransporter = createMailTransporter();
+        const mailTransporter = createMailTransporter();
 
-            await mailTransporter.send(mailOptions);
-            logger.info({
-                context: "api.feedback",
-                mailOptions: {
-                    from: mailOptions.input.Source,
-                    to: redactEmailAddress(mailOptions.input.Destination?.ToAddresses),
-                    subject: mailOptions.input.Message?.Subject,
-                    text: mailOptions.input.Message?.Body,
-                },
-                message: "Sending of emails enabled, email sent",
-            });
-        }
+        await mailTransporter.send(mailOptions);
+        logger.info({
+            context: "api.feedback",
+            mailOptions: {
+                from: mailOptions.input.Source,
+                to: redactEmailAddress(mailOptions.input.Destination?.ToAddresses),
+                subject: mailOptions.input.Message?.Subject,
+                text: mailOptions.input.Message?.Body,
+            },
+            message: "Sending of emails enabled, email sent",
+        });
 
         redirectTo(res, "/feedback?feedbackSubmitted=true");
         return;

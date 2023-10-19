@@ -1,3 +1,4 @@
+import { routesSchema } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { serviceSchema, stopSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Datasource, Modes } from "@create-disruptions-data/shared-ts/enums";
 import { makeFilteredArraySchema } from "@create-disruptions-data/shared-ts/utils/zod";
@@ -5,7 +6,7 @@ import { Position } from "geojson";
 import { z } from "zod";
 import { API_BASE_URL } from "../constants";
 import { LargePolygonError, NoStopsError } from "../errors";
-import { Operator, operatorSchema, routesSchema, serviceByStopSchema } from "../schemas/consequence.schema";
+import { Operator, operatorSchema, serviceByStopSchema } from "../schemas/consequence.schema";
 
 interface FetchStopsInput {
     adminAreaCodes: string[];

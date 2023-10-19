@@ -16,7 +16,7 @@ import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.sche
 import { Organisation, organisationSchema } from "../schemas/organisation.schema";
 import { SocialMediaAccount, dynamoSocialAccountSchema } from "../schemas/social-media-accounts.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../schemas/social-media.schema";
-import { flattenZodErrors, notEmpty, splitCamelCaseToString } from "../utils";
+import { flattenZodErrors, getSortedDisruptionFinalEndDate, notEmpty, splitCamelCaseToString } from "../utils";
 import { isLiveDisruption, isUpcomingDisruption } from "../utils/dates";
 import logger from "../utils/logger";
 
@@ -250,9 +250,14 @@ export const getPublishedSocialMediaPosts = async (orgId: string): Promise<Socia
                     getDatetimeFromDateAndTime(period.disruptionEndDate, period.disruptionEndTime).isBefore(today),
             );
 
+            const getEndDateTime = getSortedDisruptionFinalEndDate({
+                ...disruption,
+                validity: validityPeriods,
+            });
+
             return (
                 !shouldNotDisplayDisruption &&
-                (isLiveDisruption(validityPeriods) || isUpcomingDisruption(validityPeriods, today))
+                (isLiveDisruption(validityPeriods, getEndDateTime) || isUpcomingDisruption(validityPeriods, today))
             );
         })
         .flatMap((item) => item.socialMediaPosts)

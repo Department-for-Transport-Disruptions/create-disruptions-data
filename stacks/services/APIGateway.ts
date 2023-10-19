@@ -12,7 +12,11 @@ import { DynamoDBStack } from "../DynamoDBStack";
 
 export const createSiriApi = (stack: Stack, siriSXBucket: Bucket, hostedZone: IHostedZone): void => {
     const subDomain = ["test", "preprod", "prod"].includes(stack.stage) ? "api" : `api.${stack.stage}`;
-    const { organisationsTableV2: organisationsTable } = use(DynamoDBStack);
+    const { organisationsTableV2: organisationsTable, disruptionsTable } = use(DynamoDBStack);
+
+    const apiUrl = !["preprod", "prod"].includes(stack.stage)
+        ? "https://api.test.ref-data.dft-create-data.com/v1"
+        : `https://api.${stack.stage}.ref-data.dft-create-data.com/v1`;
 
     const apiGateway = new ApiGatewayV1Api(stack, "cdd-siri-sx-api", {
         customDomain: {
@@ -31,7 +35,11 @@ export const createSiriApi = (stack: Stack, siriSXBucket: Bucket, hostedZone: IH
         defaults: {
             function: {
                 timeout: 20,
-                environment: { ORGANISATIONS_TABLE_NAME: organisationsTable.tableName },
+                environment: {
+                    ORGANISATIONS_TABLE_NAME: organisationsTable.tableName,
+                    DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
+                    API_BASE_URL: apiUrl,
+                },
                 permissions: ["dynamodb:Scan", "dynamodb:Query"],
             },
         },
@@ -42,6 +50,10 @@ export const createSiriApi = (stack: Stack, siriSXBucket: Bucket, hostedZone: IH
             },
             "GET    /organisations/{id}": {
                 function: "packages/organisations-api/get-organisation/index.main",
+                cdk: { method: { apiKeyRequired: true } },
+            },
+            "GET    /organisations/{id}/impacted/stops": {
+                function: "packages/organisations-api/get-organisation-stops/index.main",
                 cdk: { method: { apiKeyRequired: true } },
             },
         },

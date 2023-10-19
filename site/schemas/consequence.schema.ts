@@ -1,16 +1,9 @@
-import { serviceSchema, stopSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { serviceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { z } from "zod";
 
 export const duplicateConsequenceSchema = z.object({
     disruptionId: z.string().uuid(),
 });
-
-export const routesSchema = z.object({
-    inbound: z.array(stopSchema.partial()),
-    outbound: z.array(stopSchema.partial()),
-});
-
-export type Routes = z.infer<typeof routesSchema>;
 
 export const serviceByStopSchema = serviceSchema.and(
     z.object({

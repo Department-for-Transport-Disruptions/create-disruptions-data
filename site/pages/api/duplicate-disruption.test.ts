@@ -20,7 +20,8 @@ import * as session from "../../utils/apiUtils/auth";
 import { getFutureDateAsString } from "../../utils/dates";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
-const newDefaultDisruptionId = "bade070d-8c4c-4f0d-9d8a-162843c10444";
+const newDefaultDisruptionId: `${string}-${string}-${string}-${string}-${string}` =
+    "bade070d-8c4c-4f0d-9d8a-162843c10444";
 
 const defaultConsequenceIndex = "0";
 
@@ -101,6 +102,8 @@ describe("duplicate-disruption API", () => {
             defaultDisruptionId as string
         }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
     );
+
+    crypto.randomUUID();
 
     beforeEach(() => {
         getSessionSpy.mockImplementation(() => {

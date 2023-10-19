@@ -9,7 +9,7 @@ import { mockSessionWithOrgDetail } from "../../testData/mockData";
 const blankInputs: CreateConsequenceServicesProps = {
     errors: [],
     inputs: {},
-    sessionWithOrg: { ...mockSessionWithOrgDetail, isOrgStaff: true },
+    sessionWithOrg: { ...mockSessionWithOrgDetail, isOrgStaff: true, isSystemAdmin: false },
     consequenceDataSource: null,
     globalDataSource: null,
 };
@@ -18,7 +18,7 @@ const withInputs: CreateConsequenceServicesProps = {
     disruptionDescription: "A truck broke down on a bridge",
     errors: [],
     disruptionId: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
-    sessionWithOrg: { ...mockSessionWithOrgDetail, isOrgStaff: true },
+    sessionWithOrg: { ...mockSessionWithOrgDetail, isOrgStaff: true, isSystemAdmin: false },
     inputs: {
         stops: [
             {
@@ -71,7 +71,7 @@ beforeEach(() => {
 
 const withInputsAndErrors: CreateConsequenceServicesProps = {
     disruptionDescription: "A truck broke down on a bridge",
-    sessionWithOrg: { ...mockSessionWithOrgDetail, isOrgStaff: true },
+    sessionWithOrg: { ...mockSessionWithOrgDetail, isOrgStaff: true, isSystemAdmin: false },
     errors: [
         { errorMessage: "Enter a description for this disruption", id: "description" },
         { errorMessage: "Select at least one option", id: "removeFromJourneyPlanners" },
