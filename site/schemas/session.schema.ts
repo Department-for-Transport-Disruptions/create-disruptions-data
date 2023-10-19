@@ -26,7 +26,7 @@ export const sessionSchema = z
             email: item.email,
             orgId: item["custom:orgId"],
             name: item.given_name && item.family_name ? `${item.given_name} ${item.family_name}` : item.email,
-            nocCodes: item["custom:nocCodes"] ?? "",
+            nocCodes: item["custom:nocCodes"] ?? null,
             isSystemAdmin,
             isOrgAdmin,
             isOrgPublisher,
