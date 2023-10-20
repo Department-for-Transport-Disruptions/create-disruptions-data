@@ -5,7 +5,6 @@ import {
     DASHBOARD_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     ERROR_PATH,
-    VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
 import {
     deleteDisruptionsInEdit,
@@ -25,7 +24,6 @@ import {
     publishSocialMedia,
     redirectTo,
     redirectToError,
-    redirectToWithQueryParams,
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
@@ -35,7 +33,6 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const validatedBody = publishSchema.safeParse(req.body);
         const session = getSession(req);
-        const { template } = req.query;
 
         if (!validatedBody.success || !session) {
             redirectTo(res, ERROR_PATH);
@@ -43,7 +40,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         const [draftDisruption, orgInfo] = await Promise.all([
-            getDisruptionById(validatedBody.data.disruptionId, session.orgId, template === "true"),
+            getDisruptionById(validatedBody.data.disruptionId, session.orgId),
             getOrganisationInfoById(session.orgId),
         ]);
 
@@ -68,12 +65,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
                 res,
             );
 
-            redirectToWithQueryParams(
-                req,
-                res,
-                template ? ["template"] : [],
-                `${DISRUPTION_DETAIL_PAGE_PATH}/${validatedBody.data.disruptionId}`,
-            );
+            redirectTo(res, `${DISRUPTION_DETAIL_PAGE_PATH}/${validatedBody.data.disruptionId}`);
             return;
         }
 
@@ -82,57 +74,39 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             draftDisruption.publishStatus === PublishStatus.editPendingApproval;
 
         if (isEditPendingDsp) {
-            await publishEditedConsequencesAndSocialMediaPostsIntoPending(
-                draftDisruption.disruptionId,
-                session.orgId,
-                template === "true",
-            );
+            await publishEditedConsequencesAndSocialMediaPostsIntoPending(draftDisruption.disruptionId, session.orgId);
         } else {
-            await publishEditedConsequencesAndSocialMediaPosts(
-                draftDisruption.disruptionId,
-                session.orgId,
-                template === "true",
-            );
+            await publishEditedConsequencesAndSocialMediaPosts(draftDisruption.disruptionId, session.orgId);
         }
 
-        if (canPublish(session) || draftDisruption.template) {
+        if (canPublish(session)) {
             if (isEditPendingDsp)
-                await publishPendingConsequencesAndSocialMediaPosts(
-                    draftDisruption.disruptionId,
-                    session.orgId,
-                    template === "true",
-                );
+                await publishPendingConsequencesAndSocialMediaPosts(draftDisruption.disruptionId, session.orgId);
             await Promise.all([
-                deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId, template === "true"),
-                deleteDisruptionsInPending(draftDisruption.disruptionId, session.orgId, template === "true"),
+                deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId),
+                deleteDisruptionsInPending(draftDisruption.disruptionId, session.orgId),
             ]);
         } else {
-            await deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId, template === "true");
+            await deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId);
         }
 
-        draftDisruption.publishStatus === PublishStatus.pendingAndEditing &&
-        (!canPublish(session) || !draftDisruption.template)
+        draftDisruption.publishStatus === PublishStatus.pendingAndEditing && !canPublish(session)
             ? await updatePendingDisruptionStatus(
                   { ...draftDisruption, publishStatus: PublishStatus.editPendingApproval },
                   session.orgId,
-                  template === "true",
               )
             : await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
                   draftDisruption,
                   session.orgId,
-                  canPublish(session) || draftDisruption.template
-                      ? PublishStatus.published
-                      : PublishStatus.pendingApproval,
+                  canPublish(session) ? PublishStatus.published : PublishStatus.pendingApproval,
                   session.name,
                   undefined,
-                  template === "true",
               );
 
         if (
             validatedDisruptionBody.data.socialMediaPosts &&
             validatedDisruptionBody.data.socialMediaPosts.length > 0 &&
-            canPublish(session) &&
-            !draftDisruption.template
+            canPublish(session)
         ) {
             await publishSocialMedia(
                 validatedDisruptionBody.data.socialMediaPosts.filter(
@@ -145,7 +119,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         cleardownCookies(req, res);
-        redirectTo(res, template ? VIEW_ALL_TEMPLATES_PAGE_PATH : DASHBOARD_PAGE_PATH);
+        redirectTo(res, DASHBOARD_PAGE_PATH);
         return;
     } catch (e) {
         if (e instanceof Error) {

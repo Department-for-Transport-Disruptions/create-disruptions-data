@@ -681,7 +681,7 @@ const ViewAllContents = ({
             )}
             <div>
                 <Link
-                    href={`/create-disruption/${newContentId}${isTemplate ? "?template=true" : ""}`}
+                    href={`/${isTemplate ? "create-template" : "create-disruption"}/${newContentId}`}
                     role="button"
                     draggable="false"
                     className="govuk-button govuk-button--start"

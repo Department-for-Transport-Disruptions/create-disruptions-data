@@ -1,4 +1,5 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
+import cryptoRandomString from "crypto-random-string";
 import { NextApiRequest, NextApiResponse } from "next";
 import { parseCookies, setCookie } from "nookies";
 import { z } from "zod";
@@ -166,4 +167,49 @@ export const redirectToWithQueryParams = (
                 : ""
         }`,
     );
+};
+
+export const formatCreateDisruptionBody = (body: object) => {
+    const validity = Object.entries(body)
+        .filter((item) => item.toString().startsWith("validity"))
+        .map((arr: string[]) => {
+            const [, values] = arr;
+
+            return {
+                disruptionStartDate: values[0],
+                disruptionStartTime: values[1],
+                disruptionEndDate: values[2],
+                disruptionEndTime: values[3],
+                disruptionNoEndDateTime: values[4],
+                disruptionRepeats: values[5],
+                disruptionRepeatsEndDate: values[6],
+            };
+        });
+
+    const disruptionRepeatsEndDate = Object.entries(body)
+        .filter((item) => item.toString().startsWith("disruptionRepeatsEndDate"))
+        .map((arr: string[]) => {
+            const [, values] = arr;
+            let endDate = values;
+            if (Array.isArray(values)) {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                endDate = values[0] ? values[0] : values[1];
+            }
+            return endDate;
+        });
+
+    const displayId: unknown[] = Object.entries(body)
+        .filter((item) => item.includes("displayId"))
+        .flat();
+
+    const cleansedBody = Object.fromEntries(
+        Object.entries(body).filter((item) => !item.toString().startsWith("validity")),
+    );
+
+    return {
+        ...cleansedBody,
+        validity,
+        disruptionRepeatsEndDate: disruptionRepeatsEndDate ? disruptionRepeatsEndDate[0] : disruptionRepeatsEndDate,
+        displayId: displayId && displayId.length > 1 && displayId[1] ? displayId[1] : cryptoRandomString({ length: 6 }),
+    };
 };

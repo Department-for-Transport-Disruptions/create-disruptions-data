@@ -3,7 +3,6 @@ import { networkConsequenceSchema } from "@create-disruptions-data/shared-ts/dis
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
 import DeleteDisruptionButton from "../../../components/buttons/DeleteDisruptionButton";
@@ -43,14 +42,8 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
 
     const stateUpdater = getStateUpdater(setConsequenceNetworkPageState, pageState);
 
-    const queryParams = useRouter().query;
-
-    const isTemplate = queryParams["template"]?.toString() ?? "";
-
     const returnPath =
-        isTemplate || props.disruptionStatus === PublishStatus.published
-            ? DISRUPTION_DETAIL_PAGE_PATH
-            : REVIEW_DISRUPTION_PAGE_PATH;
+        props.disruptionStatus !== PublishStatus.draft ? DISRUPTION_DETAIL_PAGE_PATH : REVIEW_DISRUPTION_PAGE_PATH;
 
     const isEditing =
         props.disruptionStatus === PublishStatus.editing ||
@@ -61,11 +54,7 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
 
     return (
         <BaseLayout title={title} description={description}>
-            <CsrfForm
-                action={`/api/create-consequence-network${isTemplate ? "?template=true" : ""}`}
-                method="post"
-                csrfToken={props.csrfToken}
-            >
+            <CsrfForm action="/api/create-consequence-network" method="post" csrfToken={props.csrfToken}>
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
@@ -81,7 +70,6 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                                             TYPE_OF_CONSEQUENCE_PAGE_PATH,
                                             pageState.disruptionId || "",
                                             pageState.consequenceIndex ?? 0,
-                                            !!isTemplate,
                                         ),
                                     ],
                                 },
@@ -180,39 +168,30 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                         {displayCancelButton && pageState.disruptionId ? (
                             <Link
                                 role="button"
-                                href={
-                                    isTemplate
-                                        ? `${returnPath}/${pageState.disruptionId || ""}?template=true`
-                                        : `${returnPath}/${pageState.disruptionId || ""}`
-                                }
+                                href={`${returnPath}/${pageState.disruptionId || ""}`}
                                 className="govuk-button mt-8 ml-5 govuk-button--secondary"
                             >
                                 Cancel Changes
                             </Link>
                         ) : null}
-                        {!isTemplate && (
-                            <button
-                                className="govuk-button mt-8 ml-5 govuk-button--secondary"
-                                data-module="govuk-button"
-                                formAction={`/api${CREATE_CONSEQUENCE_NETWORK_PATH}?draft=true`}
-                            >
-                                Save as draft
-                            </button>
-                        )}
+
+                        <button
+                            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                            data-module="govuk-button"
+                            formAction={`/api${CREATE_CONSEQUENCE_NETWORK_PATH}?draft=true`}
+                        >
+                            Save as draft
+                        </button>
+
                         <DeleteDisruptionButton
                             disruptionId={props.disruptionId}
                             csrfToken={props.csrfToken}
                             buttonClasses="mt-8"
-                            isTemplate={isTemplate}
                         />
 
                         {(props.consequenceIndex || 0) <= 10 && (
                             <button
-                                formAction={`/api/create-consequence-network${
-                                    isTemplate
-                                        ? "?template=true&addAnotherConsequence=true"
-                                        : "?addAnotherConsequence=true"
-                                }`}
+                                formAction={`/api/create-consequence-network?addAnotherConsequence=true`}
                                 className="govuk-button mt-8 ml-5 govuk-button--secondary"
                                 data-module="govuk-button"
                             >
@@ -242,16 +221,12 @@ export const getServerSideProps = async (
         throw new Error("No session found");
     }
 
-    const disruption = await getDisruptionById(
-        ctx.query.disruptionId?.toString() ?? "",
-        session.orgId,
-        !!ctx.query.template,
-    );
+    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "", session.orgId);
 
     if (!disruption) {
         return {
             redirect: {
-                destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`,
+                destination: DISRUPTION_NOT_FOUND_ERROR_PAGE,
                 statusCode: 302,
             },
         };
@@ -275,7 +250,6 @@ export const getServerSideProps = async (
             ...pageState,
             consequenceIndex: index,
             disruptionDescription: disruption.description || "",
-            template: disruption.template?.toString() || "",
             disruptionStatus: disruption.publishStatus,
         },
     };

@@ -135,7 +135,6 @@ const previousDisruptionInformation: FullDisruption = {
     socialMediaPosts: previousCreateSocialMediaPostsInformation,
     displayId: "8fg3ha",
     orgId: DEFAULT_ORG_ID,
-    template: false,
 };
 
 describe("pages", () => {
@@ -227,117 +226,6 @@ describe("pages", () => {
             unmount();
         });
 
-        it("should render correctly with inputs and no errors when disruption is a template", () => {
-            const tree = renderer
-                .create(
-                    <DisruptionDetail
-                        disruption={{ ...previousDisruptionInformation, template: true }}
-                        errors={[]}
-                        canPublish
-                    />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
-        });
-
-        it("should render correctly with inputs and no errors for an edited template", () => {
-            const tree = renderer
-                .create(
-                    <DisruptionDetail
-                        disruption={{
-                            ...previousDisruptionInformation,
-                            template: true,
-                            publishStatus: PublishStatus.editing,
-                        }}
-                        errors={[]}
-                        canPublish
-                    />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
-        });
-
-        it("should render correctly with inputs and create new disruption button for published templates", () => {
-            const { queryByText, getAllByRole, unmount } = render(
-                <DisruptionDetail
-                    disruption={{ ...previousDisruptionInformation, template: true }}
-                    errors={[]}
-                    canPublish={true}
-                />,
-            );
-
-            const createDisruptionButton = queryByText("Create disruption", {
-                selector: "button",
-            });
-
-            const closeButton = getAllByRole("button", { name: "Close and Return" });
-
-            const deleteTemplateButton = queryByText("Delete template", {
-                selector: "button",
-            });
-
-            expect(createDisruptionButton).toBeTruthy();
-            expect(closeButton).toBeTruthy();
-            expect(deleteTemplateButton).toBeTruthy();
-
-            unmount();
-        });
-
-        it("should render correctly with inputs and create new disruption button for draft templates", () => {
-            const { queryByText, getAllByRole, unmount } = render(
-                <DisruptionDetail
-                    disruption={{
-                        ...previousDisruptionInformation,
-                        template: true,
-                        publishStatus: PublishStatus.draft,
-                    }}
-                    errors={[]}
-                    canPublish={true}
-                />,
-            );
-
-            const createDisruptionButton = queryByText("Create disruption", {
-                selector: "button",
-            });
-
-            const closeButton = getAllByRole("button", { name: "Close and Return" });
-
-            const deleteTemplateButton = queryByText("Delete template", {
-                selector: "button",
-            });
-
-            expect(createDisruptionButton).toBeTruthy();
-            expect(closeButton).toBeTruthy();
-            expect(deleteTemplateButton).toBeTruthy();
-
-            unmount();
-        });
-
-        it("should render correctly with inputs and create new disruption button for templates without Delete template button for staff user", () => {
-            const { queryByText, getAllByRole, unmount } = render(
-                <DisruptionDetail
-                    disruption={{ ...previousDisruptionInformation, template: true }}
-                    errors={[]}
-                    canPublish={false}
-                />,
-            );
-
-            const createDisruptionButton = queryByText("Create disruption", {
-                selector: "button",
-            });
-
-            const closeButton = getAllByRole("button", { name: "Close and Return" });
-
-            const deleteTemplateButton = queryByText("Delete template", {
-                selector: "button",
-            });
-
-            expect(createDisruptionButton).toBeTruthy();
-            expect(closeButton).toBeTruthy();
-            expect(deleteTemplateButton).toBeFalsy();
-
-            unmount();
-        });
         it("should render correctly with inputs and no errors when disruption has no consequences", () => {
             const { queryByText, unmount } = render(
                 <DisruptionDetail
@@ -350,21 +238,6 @@ describe("pages", () => {
                 selector: "a",
             });
 
-            expect(consequenceButton).toBeTruthy();
-            unmount();
-        });
-        it("should render correctly with inputs and no errors when disruption has no consequences and is template", () => {
-            const { queryByText, unmount } = render(
-                <DisruptionDetail
-                    disruption={{ ...previousDisruptionInformation, template: true, consequences: [] }}
-                    errors={[]}
-                    canPublish={false}
-                />,
-            );
-
-            const consequenceButton = queryByText("Add a consequence", {
-                selector: "a",
-            });
             expect(consequenceButton).toBeTruthy();
             unmount();
         });

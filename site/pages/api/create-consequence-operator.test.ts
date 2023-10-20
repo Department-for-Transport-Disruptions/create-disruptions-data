@@ -11,7 +11,6 @@ import {
     DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
-    VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
@@ -89,9 +88,7 @@ describe("create-consequence-operator API", () => {
     const getSessionSpy = vi.spyOn(session, "getSession");
 
     const refererPath = `${CREATE_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}?${encodeURIComponent(
-        `${DISRUPTION_DETAIL_PAGE_PATH}/${
-            defaultDisruptionId as string
-        }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
+        `${DISRUPTION_DETAIL_PAGE_PATH}/${defaultDisruptionId as string}`,
     )}`;
 
     beforeEach(() => {
@@ -239,30 +236,6 @@ describe("create-consequence-operator API", () => {
         });
     });
 
-    it("should redirect to /review-disruption when all required inputs are passed  with appropriate query params when a new disruption is created from template", async () => {
-        const { req, res } = getMockRequestAndResponse({
-            body: bodyData,
-            requestHeaders: {
-                referer: refererPath,
-            },
-            mockWriteHeadFn: writeHeadMock,
-        });
-
-        await createConsequenceOperator(req, res);
-
-        expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
-        expect(upsertConsequenceSpy).toHaveBeenCalledWith(
-            operatorToUpsert,
-            DEFAULT_ORG_ID,
-            mockSession.isOrgStaff,
-            false,
-        );
-
-        expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
-        });
-    });
-
     it("should redirect back to /create-consequence-operator when description is too long with appropriate query params", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: {
@@ -319,28 +292,6 @@ describe("create-consequence-operator API", () => {
 
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/2`,
-        });
-    });
-
-    it("should redirect to /type-of-consequence when all required inputs are passed and add another consequence is true and a template", async () => {
-        const { req, res } = getMockRequestAndResponse({
-            body: bodyData,
-            query: { addAnotherConsequence: "true", template: "true" },
-            mockWriteHeadFn: writeHeadMock,
-        });
-
-        await createConsequenceOperator(req, res);
-
-        expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
-        expect(upsertConsequenceSpy).toHaveBeenCalledWith(
-            operatorToUpsert,
-            DEFAULT_ORG_ID,
-            mockSession.isOrgStaff,
-            true,
-        );
-
-        expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/1?template=true`,
         });
     });
 

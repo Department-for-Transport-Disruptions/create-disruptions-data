@@ -550,7 +550,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
           </button>
           <a
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
-            href="/review-disruption/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+            href="/disruption-detail/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}
@@ -2042,7 +2042,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
           </button>
           <a
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
-            href="/review-disruption/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+            href="/disruption-detail/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
             onClick={[Function]}
             onMouseEnter={[Function]}
             onTouchStart={[Function]}

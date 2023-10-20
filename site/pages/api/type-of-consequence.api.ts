@@ -12,6 +12,7 @@ import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
     isDisruptionFromTemplate,
+    redirectTo,
     redirectToError,
     redirectToWithQueryParams,
     setCookieOnResponseObject,
@@ -19,7 +20,6 @@ import {
 
 const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
     try {
-        const { template } = req.query;
         const isFromTemplate = isDisruptionFromTemplate(req);
         const validatedBody = typeOfConsequenceSchema.safeParse(req.body);
 
@@ -38,13 +38,7 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
                 res,
             );
 
-            redirectToWithQueryParams(
-                req,
-                res,
-                template ? ["template"] : [],
-                `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${body.disruptionId}/${body.consequenceIndex}`,
-                [],
-            );
+            redirectTo(res, `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${body.disruptionId}/${body.consequenceIndex}`);
             return;
         }
 
@@ -73,7 +67,7 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
         redirectToWithQueryParams(
             req,
             res,
-            template ? ["template"] : [],
+            [],
             `${redirectPath}/${validatedBody.data.disruptionId}/${validatedBody.data.consequenceIndex}`,
             isFromTemplate ? ["isFromTemplate=true"] : [],
         );

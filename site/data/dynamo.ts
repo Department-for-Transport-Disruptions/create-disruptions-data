@@ -507,6 +507,10 @@ export const updatePendingDisruptionStatus = async (disruption: Disruption, id: 
     );
 };
 
+export const upsertTemplateInfo = async (templateInfo: DisruptionInfo, id: string, isUserStaff?: boolean) => {
+    return await upsertDisruptionInfo(templateInfo, id, isUserStaff, true);
+};
+
 export const upsertDisruptionInfo = async (
     disruptionInfo: DisruptionInfo,
     id: string,
@@ -709,6 +713,10 @@ export const removeSocialMediaPostFromDisruption = async (
             },
         }),
     );
+};
+
+export const getTemplateById = async (templateId: string, id: string) => {
+    return await getDisruptionById(templateId, id, true);
 };
 
 export const getDisruptionById = async (

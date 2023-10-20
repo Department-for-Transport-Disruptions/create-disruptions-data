@@ -3,7 +3,7 @@ import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import cryptoRandomString from "crypto-random-string";
 import { NextApiRequest, NextApiResponse } from "next";
 import { randomUUID } from "crypto";
-import { CREATE_DISRUPTION_PAGE_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
+import { REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
 import { getDisruptionById, upsertConsequence, upsertDisruptionInfo, upsertSocialMediaPost } from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
@@ -13,14 +13,8 @@ import { defaultDateTime } from "../../utils/dates";
 const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const { disruptionId } = req.body as { disruptionId: string };
-        const { template, templateId } = req.query;
-        const createDisruptionFromTemplate = template === "true";
 
-        if (createDisruptionFromTemplate && !templateId) {
-            throw new Error("Template id is required");
-        }
-
-        if (!createDisruptionFromTemplate && !disruptionId) {
+        if (!disruptionId) {
             throw new Error("No disruptionId found");
         }
 
@@ -30,11 +24,7 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             throw new Error("No session found");
         }
 
-        const disruptionToDuplicate = await getDisruptionById(
-            createDisruptionFromTemplate && templateId ? (templateId as string) : disruptionId,
-            session.orgId,
-            createDisruptionFromTemplate,
-        );
+        const disruptionToDuplicate = await getDisruptionById(disruptionId, session.orgId);
 
         if (!disruptionToDuplicate) {
             throw new Error("No disruption to duplicate");
@@ -73,7 +63,6 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
                       })),
                   }
                 : {}),
-            template: false,
         };
 
         if (!draftDisruption.disruptionNoEndDateTime) {
@@ -118,13 +107,9 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             );
         }
 
-        createDisruptionFromTemplate
-            ? redirectToWithQueryParams(req, res, [], `${CREATE_DISRUPTION_PAGE_PATH}/${newDisruptionId}`, [
-                  "isFromTemplate=true",
-              ])
-            : redirectToWithQueryParams(req, res, [], `${REVIEW_DISRUPTION_PAGE_PATH}/${newDisruptionId}`, [
-                  "duplicate=true",
-              ]);
+        redirectToWithQueryParams(req, res, [], `${REVIEW_DISRUPTION_PAGE_PATH}/${newDisruptionId}`, [
+            "duplicate=true",
+        ]);
 
         return;
     } catch (e) {

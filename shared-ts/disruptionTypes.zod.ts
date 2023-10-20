@@ -790,6 +790,5 @@ export const disruptionSchema = disruptionInfoSchemaRefined.and(
             })
             .optional(),
         publishStatus: z.nativeEnum(PublishStatus).default(PublishStatus.draft),
-        template: z.boolean().optional().default(false),
     }),
 );

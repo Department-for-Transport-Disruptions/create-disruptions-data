@@ -55,7 +55,7 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
         disruption.publishStatus === PublishStatus.editing ||
         disruption.publishStatus === PublishStatus.pendingAndEditing
             ? "Review your answers before submitting your changes"
-            : `${disruption.template ? "Template" : "Disruption"} Overview`;
+            : "Disruption Overview";
 
     const hiddenInputs = (index: number) => [
         {
@@ -89,7 +89,6 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                   CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                   disruption.disruptionId,
                                   post.socialMediaPostIndex,
-                                  !!disruption.template,
                               )
                             : "",
                         styles: {
@@ -122,7 +121,6 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                   CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                   disruption.disruptionId,
                                   post.socialMediaPostIndex,
-                                  !!disruption.template,
                               )
                             : "",
                     },
@@ -141,7 +139,6 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                   CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                   disruption.disruptionId,
                                   post.socialMediaPostIndex,
-                                  !!disruption.template,
                               )
                             : "",
                     },
@@ -160,7 +157,6 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                   CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                   disruption.disruptionId,
                                   post.socialMediaPostIndex,
-                                  !!disruption.template,
                               )
                             : "",
                     },
@@ -182,7 +178,6 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                   CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                   disruption.disruptionId,
                                   post.socialMediaPostIndex,
-                                  !!disruption.template,
                               )
                             : "",
                     },
@@ -201,7 +196,6 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                   CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                   disruption.disruptionId,
                                   post.socialMediaPostIndex,
-                                  !!disruption.template,
                               )
                             : "",
                     },
@@ -211,7 +205,7 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                 header: "Status",
                 cells: [
                     {
-                        value: disruption.template ? "N/A" : post.status,
+                        value: post.status,
                     },
                     {
                         value: "",
@@ -332,7 +326,7 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
             {popUpState && csrfToken ? (
                 <DeleteConfirmationPopup
                     entityName={`the ${popUpState.name}`}
-                    deleteUrl={`${deleteUrl(popUpState.name)}${disruption.template ? "?template=true" : ""}`}
+                    deleteUrl={`${deleteUrl(popUpState.name)}`}
                     cancelActionHandler={cancelActionHandler}
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
@@ -342,16 +336,14 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
             {socialMediaPostPopUpState && csrfToken ? (
                 <DeleteConfirmationPopup
                     entityName={`the ${socialMediaPostPopUpState.name}`}
-                    deleteUrl={`/api/delete-${socialMediaPostPopUpState.name}${
-                        disruption.template ? "?template=true" : ""
-                    }`}
+                    deleteUrl={`/api/delete-${socialMediaPostPopUpState.name}`}
                     cancelActionHandler={cancelActionHandlerSocialMediaPost}
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
                     hiddenInputs={socialMediaPostPopUpState.hiddenInputs}
                 />
             ) : null}
-            {duplicateDisruptionPopUpState && csrfToken && !disruption.template ? (
+            {duplicateDisruptionPopUpState && csrfToken ? (
                 <Popup
                     action="/api/duplicate-disruption"
                     cancelActionHandler={cancelActionHandlerDuplicateDisruption}
@@ -371,26 +363,14 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                     <ErrorSummary errors={errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">{title}</h1>
-                        {disruption.template &&
-                            (disruption.publishStatus === PublishStatus.published ||
-                                disruption.publishStatus === PublishStatus.draft) && (
-                                <button
-                                    key="create-disruption-from-template"
-                                    className="govuk-button"
-                                    data-module="govuk-button"
-                                    formAction={`/api/duplicate-disruption?templateId=${disruption.disruptionId}&template=true`}
-                                >
-                                    Create disruption
-                                </button>
-                            )}
-                        {!disruption.template && (
-                            <Link
-                                className="govuk-link"
-                                href={`${DISRUPTION_HISTORY_PAGE_PATH}/${disruption.disruptionId}`}
-                            >
-                                <h2 className="govuk-heading-s text-govBlue">View disruption history</h2>
-                            </Link>
-                        )}
+
+                        <Link
+                            className="govuk-link"
+                            href={`${DISRUPTION_HISTORY_PAGE_PATH}/${disruption.disruptionId}`}
+                        >
+                            <h2 className="govuk-heading-s text-govBlue">View disruption history</h2>
+                        </Link>
+
                         <br />
                         <Table
                             rows={[
@@ -437,7 +417,6 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                                 "/create-disruption",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                !!disruption.template,
                                             ),
                                         },
                                     ],
@@ -454,7 +433,6 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                                 "/create-disruption",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                disruption.template,
                                             ),
                                         },
                                     ],
@@ -471,7 +449,6 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                                 "/create-disruption",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                !!disruption.template,
                                             ),
                                         },
                                     ],
@@ -488,7 +465,6 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                                 "/create-disruption",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                !!disruption.template,
                                             ),
                                         },
                                     ],
@@ -506,7 +482,6 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                                 "/create-disruption",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                !!disruption.template,
                                             ),
                                         },
                                     ],
@@ -523,7 +498,6 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                                 "/create-disruption",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                !!disruption.template,
                                             ),
                                         },
                                     ],
@@ -540,7 +514,6 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                                 "/create-disruption",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                !!disruption.template,
                                             ),
                                         },
                                     ],
@@ -559,7 +532,6 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                                 "/create-disruption",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                !!disruption.template,
                                             ),
                                         },
                                     ],
@@ -606,7 +578,6 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                             disruption={disruption}
                                             deleteActionHandler={deleteActionHandler}
                                             isDisruptionDetail={true}
-                                            isTemplate={disruption.template}
                                         />
                                     </div>
                                 </div>
@@ -615,9 +586,6 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                         <Link
                             href={{
                                 pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${nextIndex}`,
-                                query: {
-                                    ...(disruption.template ? { template: disruption.template?.toString() } : {}),
-                                },
                             }}
                             className={`govuk-button mt-2 govuk-button--secondary ${
                                 disruption.consequences && disruption.consequences.length >= 10
@@ -681,9 +649,6 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                             }`}
                             href={{
                                 pathname: `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
-                                query: {
-                                    ...(disruption.template ? { template: disruption.template?.toString() } : {}),
-                                },
                             }}
                         >
                             {disruption.socialMediaPosts && disruption.socialMediaPosts.length > 0
@@ -699,12 +664,10 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                         disruption.publishStatus !== PublishStatus.pendingAndEditing ? (
                             <Link
                                 role="button"
-                                href={disruption.template ? VIEW_ALL_TEMPLATES_PAGE_PATH : DASHBOARD_PAGE_PATH}
+                                href={DASHBOARD_PAGE_PATH}
                                 className={`govuk-button mt-8 ${
                                     canPublish && disruption.publishStatus !== PublishStatus.published
                                         ? "govuk-button--secondary mr-5"
-                                        : disruption.template
-                                        ? "govuk-button--secondary"
                                         : ""
                                 }`}
                             >
@@ -721,10 +684,10 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                             </button>
                         ) : null}
 
-                        {(canPublish || disruption.template) && disruption.publishStatus !== PublishStatus.published ? (
+                        {canPublish && disruption.publishStatus !== PublishStatus.published ? (
                             <>
                                 <button className="govuk-button mt-8 govuk-button" data-module="govuk-button">
-                                    {disruption.template ? "Save changes" : "Publish disruption"}
+                                    Publish disruption
                                 </button>
                                 {disruption.publishStatus !== PublishStatus.editing && !disruption.template ? (
                                     <button
@@ -763,10 +726,10 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                     ]);
                                 }}
                             >
-                                {disruption.template ? "Delete template" : "Delete disruption"}
+                                Delete disruption
                             </button>
                         )}
-                        {disruption.publishStatus === PublishStatus.published && !disruption.template ? (
+                        {disruption.publishStatus === PublishStatus.published ? (
                             <button
                                 className="govuk-button govuk-button--secondary ml-5 mt-8"
                                 data-module="govuk-button"

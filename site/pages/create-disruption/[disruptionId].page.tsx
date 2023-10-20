@@ -7,7 +7,6 @@ import {
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { Fragment, ReactElement, SyntheticEvent, useEffect, useRef, useState } from "react";
 import DeleteDisruptionButton from "../../components/buttons/DeleteDisruptionButton";
@@ -24,7 +23,6 @@ import { BaseLayout } from "../../components/layout/Layout";
 import {
     DISRUPTION_REASONS,
     COOKIES_DISRUPTION_ERRORS,
-    VIEW_ALL_TEMPLATES_PAGE_PATH,
     DASHBOARD_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
@@ -64,13 +62,8 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     const [validity, setValidity] = useState<Validity>(initialValidity);
     const [addValidityClicked, setAddValidityClicked] = useState(false);
 
-    const queryParams = useRouter().query;
-    const isTemplate = queryParams["template"]?.toString() ?? "";
-
     const returnPath =
-        isTemplate || props.disruptionStatus === PublishStatus.published
-            ? DISRUPTION_DETAIL_PAGE_PATH
-            : REVIEW_DISRUPTION_PAGE_PATH;
+        props.disruptionStatus === PublishStatus.published ? DISRUPTION_DETAIL_PAGE_PATH : REVIEW_DISRUPTION_PAGE_PATH;
 
     const isEditing =
         props.disruptionStatus === PublishStatus.editing ||
@@ -266,19 +259,11 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
 
     return (
         <BaseLayout title={title} description={description} errors={props.errors}>
-            <CsrfForm
-                action={`/api/create-disruption${isTemplate === "true" ? "?template=true" : ""}`}
-                method="post"
-                csrfToken={props.csrfToken}
-            >
+            <CsrfForm action="/api/create-disruption" method="post" csrfToken={props.csrfToken}>
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
-                        <h1 className="govuk-heading-xl">
-                            {isTemplate === "true"
-                                ? "Create a new template"
-                                : `Create a new disruption${isTemplate ? " from template" : ""}`}
-                        </h1>
+                        <h1 className="govuk-heading-xl">Create a new disruption</h1>
 
                         <Radios<DisruptionInfo>
                             display="Type of disruption"
@@ -660,11 +645,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                     {displayCancelButton && pageState.disruptionId ? (
                         <Link
                             role="button"
-                            href={
-                                isTemplate === "true"
-                                    ? `${returnPath}/${pageState.disruptionId || ""}?template=true`
-                                    : `${returnPath}/${pageState.disruptionId || ""}`
-                            }
+                            href={`${returnPath}/${pageState.disruptionId || ""}`}
                             className="govuk-button ml-5 govuk-button--secondary"
                         >
                             Cancel Changes
@@ -674,7 +655,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                     {!props.disruptionExists ? (
                         <Link
                             role="button"
-                            href={isTemplate === "true" ? VIEW_ALL_TEMPLATES_PAGE_PATH : DASHBOARD_PAGE_PATH}
+                            href={DASHBOARD_PAGE_PATH}
                             className="govuk-button ml-5 govuk-button--secondary"
                         >
                             Cancel
@@ -682,11 +663,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                     ) : null}
 
                     {props.disruptionExists && (
-                        <DeleteDisruptionButton
-                            disruptionId={props.disruptionId}
-                            csrfToken={props.csrfToken}
-                            isTemplate={isTemplate}
-                        />
+                        <DeleteDisruptionButton disruptionId={props.disruptionId} csrfToken={props.csrfToken} />
                     )}
                 </>
             </CsrfForm>
@@ -709,7 +686,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     }
 
     const disruptionId = ctx.query.disruptionId?.toString() ?? "";
-    const disruption = await getDisruptionById(disruptionId, session.orgId, !!ctx.query.template);
+    const disruption = await getDisruptionById(disruptionId, session.orgId);
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, ctx.res);
 

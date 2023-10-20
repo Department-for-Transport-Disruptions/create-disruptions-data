@@ -54,7 +54,7 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
           className="govuk-button govuk-button--start"
           data-module="govuk-button"
           draggable="false"
-          href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333?template=true"
+          href="/create-template/acde070d-8c4c-4f0d-9d8a-162843c10333"
           id="create-new-button"
           onClick={[Function]}
           onMouseEnter={[Function]}
@@ -576,7 +576,7 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
           className="govuk-button govuk-button--start"
           data-module="govuk-button"
           draggable="false"
-          href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333?template=true"
+          href="/create-template/acde070d-8c4c-4f0d-9d8a-162843c10333"
           id="create-new-button"
           onClick={[Function]}
           onMouseEnter={[Function]}
@@ -1509,7 +1509,7 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
           className="govuk-button govuk-button--start"
           data-module="govuk-button"
           draggable="false"
-          href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333?template=true"
+          href="/create-template/acde070d-8c4c-4f0d-9d8a-162843c10333"
           id="create-new-button"
           onClick={[Function]}
           onMouseEnter={[Function]}
