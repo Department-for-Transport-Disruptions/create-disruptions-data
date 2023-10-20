@@ -24,6 +24,7 @@ import {
     ForgotPasswordCommandInput,
     ForgotPasswordCommand,
     AdminUpdateUserAttributesCommand,
+    AdminListGroupsForUserCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 
 import { createHmac } from "crypto";
@@ -441,6 +442,32 @@ export const updateUserCustomAttribute = async (username: string, attributeName:
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(`Failed to update users custom attribute`);
+        }
+
+        throw error;
+    }
+};
+
+export const getGroupForUser = async (username: string) => {
+    try {
+        logger.info("", {
+            context: "data.cognito",
+            message: `Retrieving group for user: ${username}`,
+        });
+        const input = {
+            UserPoolId: userPoolId,
+            Username: username,
+        };
+        const res = await cognito.send(new AdminListGroupsForUserCommand(input));
+
+        if (!res.Groups || !res.Groups[0].GroupName) {
+            return "";
+        } else {
+            return res.Groups[0].GroupName;
+        }
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(`Failed to retrieve group for user`);
         }
 
         throw error;

@@ -23,6 +23,7 @@ export const user = z
                 orgId: c.Name === "custom:orgId" ? c.Value : p.orgId,
                 disruptionEmailPreference:
                     c.Name === "custom:disruptionEmailPref" ? c.Value : p.disruptionEmailPreference,
+                nocCodes: c.Name === "custom:nocCodes" ? c.Value : p.nocCodes,
             }),
             {
                 userStatus: item.UserStatus,
@@ -33,6 +34,7 @@ export const user = z
                 email: "N/A",
                 orgId: "N/A",
                 disruptionEmailPreference: "N/A",
+                nocCodes: "N/A",
             },
         ),
     );

@@ -293,6 +293,8 @@ export const fetchOperatorUserNocCodes = async (input: FetchOperatorUserNocCodes
         };
     });
 
+    console.log(nocCodes);
+
     return nocCodes;
 };
 

@@ -5,25 +5,27 @@ import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useState } from "react";
 import { createFilter, SingleValue } from "react-select";
 import type { FilterOptionOption } from "react-select/dist/declarations/src/filters";
-import CsrfForm from "../../components/form/CsrfForm";
-import ErrorSummary from "../../components/form/ErrorSummary";
-import Radios from "../../components/form/Radios";
-import SearchSelect from "../../components/form/SearchSelect";
-import Table from "../../components/form/Table";
-import TextInput from "../../components/form/TextInput";
-import { TwoThirdsLayout } from "../../components/layout/Layout";
-import { COOKIES_ADD_USER_ERRORS } from "../../constants";
-import { fetchOperatorUserNocCodes } from "../../data/refDataApi";
-import { PageState } from "../../interfaces";
-import { AddUserSchema, addUserSchema, OperatorData, operatorDataSchema } from "../../schemas/add-user.schema";
+import CsrfForm from "../../../components/form/CsrfForm";
+import ErrorSummary from "../../../components/form/ErrorSummary";
+import Radios from "../../../components/form/Radios";
+import SearchSelect from "../../../components/form/SearchSelect";
+import Table from "../../../components/form/Table";
+import TextInput from "../../../components/form/TextInput";
+import { TwoThirdsLayout } from "../../../components/layout/Layout";
+import { COOKIES_EDIT_USER_ERRORS } from "../../../constants";
+import { getGroupForUser, getUserDetails } from "../../../data/cognito";
+import { fetchOperatorUserNocCodes } from "../../../data/refDataApi";
+import { PageState } from "../../../interfaces";
+import { AddUserSchema, addUserSchema, OperatorData, operatorDataSchema } from "../../../schemas/add-user.schema";
 
-import { flattenZodErrors, sortOperatorByName } from "../../utils";
-import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
-import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
-import { getStateUpdater } from "../../utils/formUtils";
+import { user } from "../../../schemas/user-management.schema";
+import { flattenZodErrors, sortOperatorByName } from "../../../utils";
+import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
+import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
+import { getStateUpdater } from "../../../utils/formUtils";
 
-const title = "Add User - Create Transport Disruptions Service";
-const description = "Add User page for the Create Transport Disruptions Service";
+const title = "Edit User - Create Transport Disruptions Service";
+const description = "Edit User page for the Create Transport Disruptions Service";
 
 const filterConfig = {
     ignoreCase: true,
@@ -37,7 +39,7 @@ export interface AddUserPageProps extends PageState<Partial<AddUserSchema>> {
     operatorData?: OperatorData[];
 }
 
-const AddUser = (props: AddUserPageProps): ReactElement => {
+const EditUser = (props: AddUserPageProps): ReactElement => {
     const [pageState, setPageState] = useState(props);
     const [selectedOperator, setSelectedOperator] = useState<SingleValue<OperatorData>>(null);
     const [operatorSearchInput, setOperatorsSearchInput] = useState<string>("");
@@ -111,10 +113,10 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
 
     return (
         <TwoThirdsLayout title={title} description={description} errors={pageState.errors}>
-            <CsrfForm action="/api/admin/add-user" method="post" csrfToken={pageState.csrfToken}>
+            <CsrfForm action="/api/admin/edit-user" method="post" csrfToken={pageState.csrfToken}>
                 <>
                     <ErrorSummary errors={pageState.errors} />
-                    <h1 className="govuk-heading-xl">Add new user</h1>
+                    <h1 className="govuk-heading-xl">Edit user</h1>
                     <TextInput<AddUserSchema>
                         display="First name"
                         inputName="givenName"
@@ -142,6 +144,7 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
                         schema={addUserSchema.shape.email}
                         stateUpdater={stateUpdater}
                         maxLength={100}
+                        isDisabled={true}
                     />
 
                     <Table rows={[{ header: "Organisation", cells: [pageState.sessionWithOrg?.orgName, ""] }]} />
@@ -204,7 +207,7 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
                     )}
 
                     <button className="govuk-button mt-8" data-module="govuk-button">
-                        Send invitation
+                        Save
                     </button>
                     <Link
                         role="button"
@@ -221,13 +224,13 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
 
 export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: AddUserPageProps }> => {
     const cookies = parseCookies(ctx);
-    const errorCookie = cookies[COOKIES_ADD_USER_ERRORS];
+    const errorCookie = cookies[COOKIES_EDIT_USER_ERRORS];
 
     if (!ctx.req) {
         throw new Error("No context request");
     }
 
-    if (ctx.res) destroyCookieOnResponseObject(COOKIES_ADD_USER_ERRORS, ctx.res);
+    if (ctx.res) destroyCookieOnResponseObject(COOKIES_EDIT_USER_ERRORS, ctx.res);
 
     const session = await getSessionWithOrgDetail(ctx.req);
 
@@ -250,15 +253,73 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         bodsModes: bodsModes,
     });
 
-    console.log(operatorsData);
+    if (!!ctx.query.username) {
+        const userInfo = await getUserDetails(ctx.query.username.toString());
+        const userGroup = await getGroupForUser(ctx.query.username.toString());
+        const parsedUserInfo = user.safeParse({ ...userInfo, group: userGroup });
+        // console.log(parsedUserInfo);
 
-    return {
-        props: {
-            ...getPageState(errorCookie, addUserSchema),
-            sessionWithOrg: session,
-            operatorData: operatorsData ?? [],
-        },
-    };
+        if (parsedUserInfo.success) {
+            const bodsModes: string[] = [];
+            const tndsModes: string[] = [];
+
+            const nocCodesArray = parsedUserInfo.data.nocCodes
+                .split(",")
+                .filter((nocCode) => nocCode)
+                .map((nocCode) => nocCode.trim());
+
+            Object.entries(session.mode).map((mode) =>
+                mode[1] === Datasource.bods
+                    ? bodsModes.push(mode[0] === "ferryService" ? "ferry" : mode[0])
+                    : tndsModes.push(mode[0] === "ferryService" ? "ferry" : mode[0]),
+            );
+
+            const allOperatorsData = await fetchOperatorUserNocCodes({
+                adminAreaCodes: session.adminAreaCodes ?? ["undefined"],
+                tndsModes: tndsModes,
+                bodsModes: bodsModes,
+            });
+            console.log(nocCodesArray);
+
+            const operatorUserData = allOperatorsData.filter((operator) => nocCodesArray.includes(operator.nocCode));
+
+            const operatorInfo = operatorDataSchema.safeParse(operatorUserData);
+
+            const info = {
+                givenName: parsedUserInfo.data.givenName,
+                familyName: parsedUserInfo.data.familyName,
+                email: parsedUserInfo.data.email,
+                orgId: parsedUserInfo.data.orgId,
+                group: parsedUserInfo.data.group,
+                nocCodes: operatorInfo,
+            };
+
+            const pageState = getPageState<AddUserSchema>(errorCookie, addUserSchema, "123", info);
+            return {
+                props: {
+                    ...pageState,
+                    sessionWithOrg: session,
+                    operatorData: operatorsData ?? [],
+                },
+            };
+        } else {
+            return {
+                props: {
+                    ...getPageState(errorCookie, addUserSchema),
+                    sessionWithOrg: session,
+                    operatorData: operatorsData ?? [],
+                },
+            };
+        }
+    } else {
+        return {
+            props: {
+                ...getPageState(errorCookie, addUserSchema),
+                sessionWithOrg: session,
+                operatorData: operatorsData ?? [],
+            },
+        };
+    }
 };
 
-export default AddUser;
+export default EditUser;

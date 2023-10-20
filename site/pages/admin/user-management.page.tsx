@@ -81,6 +81,10 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
                             Resend invite
                         </button>
                         <br />
+                        <Link className="govuk-link" href={`/admin/edit-user/${username}`}>
+                            Edit
+                        </Link>
+                        <br />
                         <button
                             key={`${key}${index ? `-remove-${index}` : "-remove"}`}
                             className="govuk-link"
@@ -90,13 +94,19 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
                         </button>
                     </>
                 ) : (
-                    <button
-                        key={`${key}${index ? `-${index}` : ""}`}
-                        className="govuk-link"
-                        onClick={() => removeUser(username)}
-                    >
-                        Remove
-                    </button>
+                    <>
+                        <Link className="govuk-link" href={`/admin/edit-user/${username}`}>
+                            Edit
+                        </Link>
+                        <br />
+                        <button
+                            key={`${key}${index ? `-${index}` : ""}`}
+                            className="govuk-link"
+                            onClick={() => removeUser(username)}
+                        >
+                            Remove
+                        </button>
+                    </>
                 )}
             </>
         );
