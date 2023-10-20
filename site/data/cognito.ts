@@ -24,6 +24,7 @@ import {
     ForgotPasswordCommandInput,
     ForgotPasswordCommand,
     AdminUpdateUserAttributesCommand,
+    AttributeType,
 } from "@aws-sdk/client-cognito-identity-provider";
 
 import { createHmac } from "crypto";
@@ -279,59 +280,7 @@ export const deleteUsersByAttribute = async (attributeName: string, attributeVal
     }
 };
 
-export const createUserWithCustomAttribute = async (
-    userData: AddUserSchema,
-    attributeName: string,
-    attributeValue: string,
-) => {
-    logger.info("", {
-        context: "data.cognito",
-        message: "Adding a new user with custom attribute",
-    });
-    const createUserResult = await cognito.send(
-        new AdminCreateUserCommand({
-            Username: userData.email,
-            UserPoolId: userPoolId,
-            TemporaryPassword: Array.from(Array(20), () => Math.floor(Math.random() * 36).toString(36)).join(""),
-            UserAttributes: [
-                {
-                    Name: "custom:orgId",
-                    Value: userData.orgId,
-                },
-                {
-                    Name: "given_name",
-                    Value: userData.givenName,
-                },
-                {
-                    Name: "family_name",
-                    Value: userData.familyName,
-                },
-                {
-                    Name: "email_verified",
-                    Value: "true",
-                },
-                {
-                    Name: "email",
-                    Value: userData.email,
-                },
-                {
-                    Name: `custom:${attributeName}`,
-                    Value: attributeValue,
-                },
-            ],
-        }),
-    );
-
-    await cognito.send(
-        new AdminAddUserToGroupCommand({
-            GroupName: userData.group,
-            Username: createUserResult.User?.Username,
-            UserPoolId: userPoolId,
-        }),
-    );
-};
-
-export const createUser = async (userData: AddUserSchema) => {
+export const createUser = async (userData: AddUserSchema, extraAttributes?: AttributeType[]) => {
     logger.info("", {
         context: "data.cognito",
         message: "Adding a new user",
@@ -362,6 +311,7 @@ export const createUser = async (userData: AddUserSchema) => {
                     Name: "email",
                     Value: userData.email,
                 },
+                ...(extraAttributes || []),
             ],
         }),
     );

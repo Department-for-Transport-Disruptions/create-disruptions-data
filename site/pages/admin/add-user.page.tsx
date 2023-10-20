@@ -13,7 +13,7 @@ import Table from "../../components/form/Table";
 import TextInput from "../../components/form/TextInput";
 import { TwoThirdsLayout } from "../../components/layout/Layout";
 import { COOKIES_ADD_USER_ERRORS } from "../../constants";
-import { fetchOperatorUserNocCodes } from "../../data/refDataApi";
+import { fetchOperators } from "../../data/refDataApi";
 import { PageState } from "../../interfaces";
 import { AddUserSchema, addUserSchema, OperatorData, operatorDataSchema } from "../../schemas/add-user.schema";
 
@@ -244,17 +244,28 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             : tndsModes.push(mode[0] === "ferryService" ? "ferry" : mode[0]),
     );
 
-    const operatorsData = await fetchOperatorUserNocCodes({
-        adminAreaCodes: session.adminAreaCodes ?? ["undefined"],
-        tndsModes: tndsModes,
-        bodsModes: bodsModes,
-    });
+    // const operatorsData = await fetchOperatorUserNocCodes({
+    //     adminAreaCodes: session.adminAreaCodes ?? ["undefined"],
+    //     tndsModes: tndsModes,
+    //     bodsModes: bodsModes,
+    // });
+
+    const operatorsData = await fetchOperators({ adminAreaCodes: session.adminAreaCodes ?? ["undefined"] });
+    const filteredOperatorsData = operatorsData
+        .map((operator) => {
+            return {
+                id: operator.id,
+                nocCode: operator.nocCode,
+                operatorPublicName: operator.operatorPublicName,
+            };
+        })
+        .filter((value, index, self) => index === self.findIndex((s) => s.nocCode === value.nocCode));
 
     return {
         props: {
             ...getPageState(errorCookie, addUserSchema),
             sessionWithOrg: session,
-            operatorData: operatorsData ?? [],
+            operatorData: filteredOperatorsData ?? [],
         },
     };
 };

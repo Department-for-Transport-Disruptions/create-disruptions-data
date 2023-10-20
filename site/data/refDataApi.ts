@@ -6,7 +6,7 @@ import { Position } from "geojson";
 import { z } from "zod";
 import { API_BASE_URL } from "../constants";
 import { LargePolygonError, NoStopsError } from "../errors";
-import { Operator, operatorSchema, serviceByStopSchema } from "../schemas/consequence.schema";
+import { operatorSchema, serviceByStopSchema } from "../schemas/consequence.schema";
 
 interface FetchStopsInput {
     adminAreaCodes: string[];
@@ -236,64 +236,6 @@ export const fetchOperators = async (input: FetchOperatorsInput) => {
     }
 
     return parseResult.data;
-};
-
-interface FetchOperatorUserNocCodesInput {
-    adminAreaCodes: string[];
-    bodsModes?: string[];
-    tndsModes?: string[];
-}
-
-export const fetchOperatorUserNocCodes = async (input: FetchOperatorUserNocCodesInput) => {
-    const searchApiUrl = `${API_BASE_URL}/operators`;
-    let operatorData: Operator[] = [];
-
-    if (input.bodsModes && input.bodsModes.length > 0) {
-        const queryString = `?adminAreaCodes=${input.adminAreaCodes.join(
-            ",",
-        )}&dataSource=bods&modes=${input.bodsModes.join(",")}`;
-
-        const res = await fetch(`${searchApiUrl}${queryString}`, {
-            method: "GET",
-        });
-
-        const parseResult = makeFilteredArraySchema(operatorSchema).safeParse(await res.json());
-
-        if (!parseResult.success) {
-            return [];
-        }
-
-        operatorData = parseResult.data;
-    }
-
-    if (input.tndsModes && input.tndsModes.length > 0) {
-        const queryString = `?adminAreaCodes=${input.adminAreaCodes.join(
-            ",",
-        )}&dataSource=tnds&modes=${input.tndsModes.join(",")}`;
-
-        const res = await fetch(`${searchApiUrl}${queryString}`, {
-            method: "GET",
-        });
-        const parseResult = makeFilteredArraySchema(operatorSchema).safeParse(await res.json());
-
-        if (!parseResult.success) {
-            return [];
-        }
-
-        if (operatorData.length > 0) {
-            operatorData.concat(parseResult.data);
-        } else operatorData = parseResult.data;
-    }
-
-    const nocCodes = operatorData.map((operator) => {
-        return {
-            id: operator.id,
-            nocCode: operator.nocCode,
-            operatorPublicName: operator.operatorPublicName,
-        };
-    });
-
-    return nocCodes;
 };
 
 const adminAreaSchema = z.object({
