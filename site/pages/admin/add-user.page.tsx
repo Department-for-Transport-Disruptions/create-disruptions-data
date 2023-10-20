@@ -1,4 +1,4 @@
-import { Datasource, UserGroups } from "@create-disruptions-data/shared-ts/enums";
+import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
@@ -234,21 +234,6 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     if (!session) {
         throw new Error("No session found");
     }
-
-    const bodsModes: string[] = [];
-    const tndsModes: string[] = [];
-
-    Object.entries(session.mode).map((mode) =>
-        mode[1] === Datasource.bods
-            ? bodsModes.push(mode[0] === "ferryService" ? "ferry" : mode[0])
-            : tndsModes.push(mode[0] === "ferryService" ? "ferry" : mode[0]),
-    );
-
-    // const operatorsData = await fetchOperatorUserNocCodes({
-    //     adminAreaCodes: session.adminAreaCodes ?? ["undefined"],
-    //     tndsModes: tndsModes,
-    //     bodsModes: bodsModes,
-    // });
 
     const operatorsData = await fetchOperators({ adminAreaCodes: session.adminAreaCodes ?? ["undefined"] });
     const filteredOperatorsData = operatorsData
