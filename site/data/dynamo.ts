@@ -8,6 +8,7 @@ import {
 } from "@aws-sdk/lib-dynamodb";
 import { Consequence, Disruption, DisruptionInfo, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
+import { getSortedDisruptionFinalEndDate } from "@create-disruptions-data/shared-ts/utils";
 import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { recursiveQuery } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { makeFilteredArraySchema } from "@create-disruptions-data/shared-ts/utils/zod";
@@ -16,7 +17,7 @@ import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.sche
 import { Organisation, organisationSchema } from "../schemas/organisation.schema";
 import { SocialMediaAccount, dynamoSocialAccountSchema } from "../schemas/social-media-accounts.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../schemas/social-media.schema";
-import { flattenZodErrors, getSortedDisruptionFinalEndDate, notEmpty, splitCamelCaseToString } from "../utils";
+import { flattenZodErrors, notEmpty, splitCamelCaseToString } from "../utils";
 import { isLiveDisruption, isUpcomingDisruption } from "../utils/dates";
 import logger from "../utils/logger";
 

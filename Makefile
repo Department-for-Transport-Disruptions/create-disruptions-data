@@ -14,3 +14,6 @@ kill-site:
 
 trigger-siri-generator:
 	aws lambda invoke --function-name cdd-siri-sx-generator-$(stage) --invocation-type Event /tmp/outfile.txt > /dev/null
+
+trigger-stats-generator:
+	aws lambda invoke --function-name cdd-siri-stats-generator-$(stage) --invocation-type Event /tmp/outfile.txt > /dev/null

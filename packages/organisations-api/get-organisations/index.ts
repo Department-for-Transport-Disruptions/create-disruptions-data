@@ -2,9 +2,9 @@ import { getAllOrganisationsInfoAndStats } from "@create-disruptions-data/shared
 import * as logger from "lambda-log";
 import { randomUUID } from "crypto";
 
-const getOrganisations = async () => {
+const getOrganisations = async (organisationsTableName: string) => {
     try {
-        const orgList = await getAllOrganisationsInfoAndStats(logger);
+        const orgList = await getAllOrganisationsInfoAndStats(organisationsTableName, logger);
         return orgList || [];
     } catch (e) {
         if (e instanceof Error) {
@@ -33,7 +33,7 @@ export const main = async (): Promise<{ statusCode: number; body: string }> => {
             throw new Error("Dynamo table names not set");
         }
 
-        const organisations = await getOrganisations();
+        const organisations = await getOrganisations(orgTableName);
 
         logger.info("Successfully retrieved organisations DynamoDB...");
 
