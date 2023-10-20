@@ -264,6 +264,8 @@ export const RESET_PASSWORD_CONFIRMATION_PAGE_PATH = "/reset-password-confirmati
 export const CHANGE_PASSWORD_PAGE_PATH = "/change-password";
 export const USER_MANAGEMENT_PAGE_PATH = "/admin/user-management";
 export const ADD_USER_PAGE_PATH = "/admin/add-user";
+
+export const EDIT_USER_PAGE_PATH = "/admin/edit-user";
 export const REGISTER_PAGE_PATH = "/register";
 export const EXPIRED_LINK_PAGE_PATH = "/expired-link";
 export const HOME_PAGE_PATH = "/";

@@ -51,4 +51,19 @@ describe("TextInput", () => {
             .toJSON();
         expect(tree).toMatchSnapshot();
     });
+    it("should render correctly if input is disabled", () => {
+        const tree = renderer
+            .create(
+                <TextInput<TestInputs>
+                    inputName="field1"
+                    display="Test Field"
+                    stateUpdater={vi.fn()}
+                    widthClass="w-3/4"
+                    maxLength={50}
+                    disabled={true}
+                />,
+            )
+            .toJSON();
+        expect(tree).toMatchSnapshot();
+    });
 });

@@ -35,7 +35,12 @@ export const addUserSchemaRefined = z
         { path: ["operatorNocCodes"], message: "Select at least one NOC" },
     );
 
+export const editUserSchema = addUserSchemaRefined.and(
+    z.object({ username: z.string(), initialGroup: z.nativeEnum(UserGroups) }),
+);
+
 export type AddUserSchema = z.infer<typeof addUserSchema>;
+export type EditUserSchema = z.infer<typeof editUserSchema>;
 
 export const addUsersSchema = z.array(addUserSchema);
 export type AddUsersSchema = z.infer<typeof addUsersSchema>;

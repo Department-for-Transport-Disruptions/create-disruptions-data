@@ -35,11 +35,13 @@ const filterConfig = {
     matchFrom: "any" as const,
 };
 
-export interface AddUserPageProps extends PageState<Partial<AddUserSchema>> {
+export interface EditUserPageProps extends PageState<Partial<AddUserSchema>> {
     operatorData?: OperatorData[];
+    username?: string;
+    initialGroup?: string;
 }
 
-const EditUser = (props: AddUserPageProps): ReactElement => {
+const EditUser = (props: EditUserPageProps): ReactElement => {
     const [pageState, setPageState] = useState(props);
     const [selectedOperator, setSelectedOperator] = useState<SingleValue<OperatorData>>(null);
     const [operatorSearchInput, setOperatorsSearchInput] = useState<string>("");
@@ -206,6 +208,10 @@ const EditUser = (props: AddUserPageProps): ReactElement => {
                         </div>
                     )}
 
+                    <input type="hidden" name={`email`} value={pageState.inputs.email} />
+                    <input type="hidden" name={`username`} value={props.username} />
+                    <input type="hidden" name={`initialGroup`} value={props.initialGroup} />
+
                     <button className="govuk-button mt-8" data-module="govuk-button">
                         Save
                     </button>
@@ -222,7 +228,7 @@ const EditUser = (props: AddUserPageProps): ReactElement => {
     );
 };
 
-export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: AddUserPageProps }> => {
+export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: EditUserPageProps }> => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_EDIT_USER_ERRORS];
 
@@ -253,64 +259,57 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         bodsModes: bodsModes,
     });
 
-    if (!!ctx.query.username) {
-        const userInfo = await getUserDetails(ctx.query.username.toString());
-        const userGroup = await getGroupForUser(ctx.query.username.toString());
-        const parsedUserInfo = user.safeParse({ ...userInfo, group: userGroup });
-        // console.log(parsedUserInfo);
+    if (!ctx.query.username) {
+        throw new Error("Username not provided");
+    }
 
-        if (parsedUserInfo.success) {
-            const bodsModes: string[] = [];
-            const tndsModes: string[] = [];
+    const userInfo = await getUserDetails(ctx.query.username.toString());
+    console.log(userInfo);
+    const userGroup = await getGroupForUser(ctx.query.username.toString());
+    const parsedUserInfo = user.safeParse({ ...userInfo, group: userGroup });
 
-            const nocCodesArray = parsedUserInfo.data.nocCodes
-                .split(",")
-                .filter((nocCode) => nocCode)
-                .map((nocCode) => nocCode.trim());
+    if (parsedUserInfo.success) {
+        const bodsModes: string[] = [];
+        const tndsModes: string[] = [];
 
-            Object.entries(session.mode).map((mode) =>
-                mode[1] === Datasource.bods
-                    ? bodsModes.push(mode[0] === "ferryService" ? "ferry" : mode[0])
-                    : tndsModes.push(mode[0] === "ferryService" ? "ferry" : mode[0]),
-            );
+        const nocCodesArray = parsedUserInfo.data.nocCodes
+            .split(",")
+            .filter((nocCode) => nocCode)
+            .map((nocCode) => nocCode.trim());
 
-            const allOperatorsData = await fetchOperatorUserNocCodes({
-                adminAreaCodes: session.adminAreaCodes ?? ["undefined"],
-                tndsModes: tndsModes,
-                bodsModes: bodsModes,
-            });
-            console.log(nocCodesArray);
+        Object.entries(session.mode).map((mode) =>
+            mode[1] === Datasource.bods
+                ? bodsModes.push(mode[0] === "ferryService" ? "ferry" : mode[0])
+                : tndsModes.push(mode[0] === "ferryService" ? "ferry" : mode[0]),
+        );
 
-            const operatorUserData = allOperatorsData.filter((operator) => nocCodesArray.includes(operator.nocCode));
+        const allOperatorsData = await fetchOperatorUserNocCodes({
+            adminAreaCodes: session.adminAreaCodes ?? ["undefined"],
+            tndsModes: tndsModes,
+            bodsModes: bodsModes,
+        });
 
-            const operatorInfo = operatorDataSchema.safeParse(operatorUserData);
+        const operatorUserData = allOperatorsData.filter((operator) => nocCodesArray.includes(operator.nocCode));
 
-            const info = {
-                givenName: parsedUserInfo.data.givenName,
-                familyName: parsedUserInfo.data.familyName,
-                email: parsedUserInfo.data.email,
-                orgId: parsedUserInfo.data.orgId,
-                group: parsedUserInfo.data.group,
-                nocCodes: operatorInfo,
-            };
+        const info = {
+            givenName: parsedUserInfo.data.givenName,
+            familyName: parsedUserInfo.data.familyName,
+            email: parsedUserInfo.data.email,
+            orgId: parsedUserInfo.data.orgId,
+            group: parsedUserInfo.data.group,
+            operatorNocCodes: operatorUserData,
+        };
 
-            const pageState = getPageState<AddUserSchema>(errorCookie, addUserSchema, "123", info);
-            return {
-                props: {
-                    ...pageState,
-                    sessionWithOrg: session,
-                    operatorData: operatorsData ?? [],
-                },
-            };
-        } else {
-            return {
-                props: {
-                    ...getPageState(errorCookie, addUserSchema),
-                    sessionWithOrg: session,
-                    operatorData: operatorsData ?? [],
-                },
-            };
-        }
+        const pageState = getPageState<AddUserSchema>(errorCookie, addUserSchema, "fakeId", info);
+        return {
+            props: {
+                ...pageState,
+                sessionWithOrg: session,
+                operatorData: operatorsData ?? [],
+                username: parsedUserInfo.data.username,
+                initialGroup: parsedUserInfo.data.group,
+            },
+        };
     } else {
         return {
             props: {

@@ -25,6 +25,8 @@ import {
     ForgotPasswordCommand,
     AdminUpdateUserAttributesCommand,
     AdminListGroupsForUserCommand,
+    AttributeType,
+    AdminRemoveUserFromGroupCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 
 import { createHmac } from "crypto";
@@ -448,6 +450,27 @@ export const updateUserCustomAttribute = async (username: string, attributeName:
     }
 };
 
+export const updateUserCustomAttributes = async (username: string, attributeList: AttributeType[]) => {
+    try {
+        logger.info("", {
+            context: "data.cognito",
+            message: `Updating attributes for user: ${username}`,
+        });
+        const input = {
+            UserPoolId: userPoolId,
+            Username: username,
+            UserAttributes: attributeList,
+        };
+        return cognito.send(new AdminUpdateUserAttributesCommand(input));
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(`Failed to update users custom attribute`);
+        }
+
+        throw error;
+    }
+};
+
 export const getGroupForUser = async (username: string) => {
     try {
         logger.info("", {
@@ -468,6 +491,52 @@ export const getGroupForUser = async (username: string) => {
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(`Failed to retrieve group for user`);
+        }
+
+        throw error;
+    }
+};
+
+export const removeUserFromGroup = async (username: string, group: string) => {
+    try {
+        logger.info("", {
+            context: "data.cognito",
+            message: `Removing user from group`,
+        });
+
+        return await cognito.send(
+            new AdminRemoveUserFromGroupCommand({
+                GroupName: group,
+                Username: username,
+                UserPoolId: userPoolId,
+            }),
+        );
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(`Failed to remove user from group`);
+        }
+
+        throw error;
+    }
+};
+
+export const addUserToGroup = async (username: string, group: string) => {
+    try {
+        logger.info("", {
+            context: "data.cognito",
+            message: `Adding user to group`,
+        });
+
+        return await cognito.send(
+            new AdminAddUserToGroupCommand({
+                GroupName: group,
+                Username: username,
+                UserPoolId: userPoolId,
+            }),
+        );
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new Error(`Failed to add user to group`);
         }
 
         throw error;

@@ -281,7 +281,7 @@ export const fetchOperatorUserNocCodes = async (input: FetchOperatorUserNocCodes
         }
 
         if (operatorData.length > 0) {
-            return operatorData.concat(parseResult.data);
+            operatorData.concat(parseResult.data);
         } else operatorData = parseResult.data;
     }
 
@@ -292,8 +292,6 @@ export const fetchOperatorUserNocCodes = async (input: FetchOperatorUserNocCodes
             operatorPublicName: operator.operatorPublicName,
         };
     });
-
-    console.log(nocCodes);
 
     return nocCodes;
 };
