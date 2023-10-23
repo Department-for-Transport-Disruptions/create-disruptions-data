@@ -547,10 +547,6 @@ export const upsertDisruptionInfo = async (
     );
 };
 
-const isAddingConsequence = (
-    consequence: Consequence | Pick<Consequence, "disruptionId" | "consequenceIndex">,
-): consequence is Consequence => !!(consequence as Consequence).consequenceType;
-
 export const upsertConsequence = async (
     consequence: Consequence | Pick<Consequence, "disruptionId" | "consequenceIndex">,
     id: string,
@@ -565,7 +561,7 @@ export const upsertConsequence = async (
     const currentDisruption = await getDisruptionById(consequence.disruptionId, id, isTemplate);
 
     if (
-        isAddingConsequence(consequence) &&
+        !currentDisruption?.consequences?.find((c) => c.consequenceIndex === consequence.consequenceIndex) &&
         currentDisruption?.consequences &&
         currentDisruption.consequences.length >= MAX_CONSEQUENCES
     ) {

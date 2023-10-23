@@ -23,6 +23,7 @@ import {
     DASHBOARD_PAGE_PATH,
     COOKIES_REVIEW_DISRUPTION_REFERER,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
+    DISRUPTION_DETAIL_PAGE_PATH,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
 import { getItem } from "../../data/s3";
@@ -770,6 +771,15 @@ export const getServerSideProps = async (
         return {
             redirect: {
                 destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`,
+                statusCode: 302,
+            },
+        };
+    }
+
+    if (disruption.publishStatus !== PublishStatus.draft) {
+        return {
+            redirect: {
+                destination: `${DISRUPTION_DETAIL_PAGE_PATH}/${disruption.disruptionId}`,
                 statusCode: 302,
             },
         };
