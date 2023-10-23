@@ -117,6 +117,7 @@ exports[`register > should render correctly when there are no inputs 1`] = `
                   <input
                     aria-describedby="password-hint"
                     className="govuk-input w-3/4"
+                    disabled={false}
                     id="password-input"
                     maxLength={100}
                     name="password"
@@ -144,6 +145,7 @@ exports[`register > should render correctly when there are no inputs 1`] = `
                 >
                   <input
                     className="govuk-input w-3/4"
+                    disabled={false}
                     id="confirm-password-input"
                     maxLength={100}
                     name="confirmPassword"
@@ -500,6 +502,7 @@ exports[`register > should render correctly with inputs and no errors 1`] = `
                     aria-describedby="password-hint"
                     className="govuk-input w-3/4"
                     defaultValue="dummyPassword"
+                    disabled={false}
                     id="password-input"
                     maxLength={100}
                     name="password"
@@ -528,6 +531,7 @@ exports[`register > should render correctly with inputs and no errors 1`] = `
                   <input
                     className="govuk-input w-3/4"
                     defaultValue="dummyPassword"
+                    disabled={false}
                     id="confirm-password-input"
                     maxLength={100}
                     name="confirmPassword"
@@ -915,6 +919,7 @@ exports[`register > should render correctly with inputs and with errors 1`] = `
                     aria-describedby="password-hint"
                     className="govuk-input w-3/4"
                     defaultValue="dummyPassword"
+                    disabled={false}
                     id="password-input"
                     maxLength={100}
                     name="password"
@@ -943,6 +948,7 @@ exports[`register > should render correctly with inputs and with errors 1`] = `
                   <input
                     className="govuk-input w-3/4"
                     defaultValue="dummyPassword"
+                    disabled={false}
                     id="confirm-password-input"
                     maxLength={100}
                     name="confirmPassword"

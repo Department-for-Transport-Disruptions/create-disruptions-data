@@ -416,6 +416,16 @@ exports[`userManagement > should render correctly with inputs 1`] = `
             <td
               className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
+              <a
+                className="govuk-link"
+                href="/admin/edit-user/2f99b92e-a86f-4457-a2dc-923db4781c52"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Edit
+              </a>
+              <br />
               <button
                 className="govuk-link"
                 onClick={[Function]}

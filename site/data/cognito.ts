@@ -399,7 +399,7 @@ export const updateUserCustomAttribute = async (username: string, attributeName:
     }
 };
 
-export const updateUserCustomAttributes = async (username: string, attributeList: AttributeType[]) => {
+export const updateUserAttributes = async (username: string, attributeList: AttributeType[]) => {
     try {
         logger.info("", {
             context: "data.cognito",
@@ -413,7 +413,7 @@ export const updateUserCustomAttributes = async (username: string, attributeList
         return cognito.send(new AdminUpdateUserAttributesCommand(input));
     } catch (error) {
         if (error instanceof Error) {
-            throw new Error(`Failed to update users custom attribute`);
+            throw new Error(`Failed to update users attributes`);
         }
 
         throw error;

@@ -1,16 +1,13 @@
 import { NextPageContext } from "next";
 import { parseCookies } from "nookies";
-import { ReactElement, SyntheticEvent, useState } from "react";
-import { SingleValue } from "react-select";
-import UserPageTemplate from "../../components/user-page-template";
+import { ReactElement, useState } from "react";
+import UserDetailPageTemplate from "../../components/UserDetailPageTemplate";
 import { COOKIES_ADD_USER_ERRORS } from "../../constants";
 import { fetchOperators } from "../../data/refDataApi";
 import { PageState } from "../../interfaces";
-import { AddUserSchema, addUserSchema, OperatorData, operatorDataSchema } from "../../schemas/add-user.schema";
-import { flattenZodErrors } from "../../utils";
+import { AddUserSchema, addUserSchema, OperatorData } from "../../schemas/add-user.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
-import { getStateUpdater } from "../../utils/formUtils";
 
 const title = "Add User - Create Transport Disruptions Service";
 const description = "Add User page for the Create Transport Disruptions Service";
@@ -21,70 +18,14 @@ export interface AddUserPageProps extends PageState<Partial<AddUserSchema>> {
 
 const AddUser = (props: AddUserPageProps): ReactElement => {
     const [pageState, setPageState] = useState(props);
-    const [selectedOperator, setSelectedOperator] = useState<SingleValue<OperatorData>>(null);
-    const [operatorSearchInput, setOperatorsSearchInput] = useState<string>("");
-
-    const stateUpdater = getStateUpdater(setPageState, pageState);
-
-    const operatorNocCodesList = pageState.operatorData ?? [];
-
-    const handleOperatorChange = (value: SingleValue<OperatorData>) => {
-        const parsed = operatorDataSchema.safeParse(value);
-
-        if (!parsed.success) {
-            setPageState({
-                ...pageState,
-                errors: [
-                    ...pageState.errors.filter((err) => !Object.keys(addUserSchema.shape).includes(err.id)),
-                    ...flattenZodErrors(parsed.error),
-                ],
-            });
-        } else {
-            setSelectedOperator(parsed.data);
-            setPageState({
-                ...pageState,
-                inputs: {
-                    ...pageState.inputs,
-                    operatorNocCodes: [...(pageState.inputs.operatorNocCodes ?? []), parsed.data],
-                },
-                errors: [...pageState.errors.filter((err) => !Object.keys(addUserSchema.shape).includes(err.id))],
-            });
-        }
-    };
-
-    const removeOperator = (e: SyntheticEvent, removedNocCode: string) => {
-        e.preventDefault();
-
-        if (pageState?.inputs?.operatorNocCodes) {
-            const updatedoperatorNocCodesArray = [...pageState.inputs.operatorNocCodes].filter(
-                (operator) => operator.nocCode !== removedNocCode,
-            );
-
-            setPageState({
-                ...pageState,
-                inputs: {
-                    ...pageState.inputs,
-                    operatorNocCodes: updatedoperatorNocCodesArray,
-                },
-                errors: pageState.errors,
-            });
-        }
-        setSelectedOperator(null);
-    };
 
     return (
-        <UserPageTemplate
+        <UserDetailPageTemplate
             pageType={"addUser"}
             title={title}
             description={description}
             pageState={pageState}
-            stateUpdater={stateUpdater}
-            operatorNocCodesList={operatorNocCodesList}
-            removeOperator={removeOperator}
-            selectedOperator={selectedOperator}
-            handleOperatorChange={handleOperatorChange}
-            operatorSearchInput={operatorSearchInput}
-            setOperatorsSearchInput={setOperatorsSearchInput}
+            setPageState={setPageState}
         />
     );
 };

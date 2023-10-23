@@ -82,6 +82,7 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
                 >
                   <input
                     className="govuk-input w"
+                    disabled={false}
                     id="given-name-input"
                     maxLength={100}
                     name="givenName"
@@ -109,6 +110,7 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
                 >
                   <input
                     className="govuk-input w"
+                    disabled={false}
                     id="family-name-input"
                     maxLength={100}
                     name="familyName"
@@ -136,6 +138,7 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
                 >
                   <input
                     className="govuk-input w"
+                    disabled={false}
                     id="email-input"
                     maxLength={100}
                     name="email"
@@ -577,6 +580,7 @@ exports[`addUser > should render correctly with inputs 1`] = `
                   <input
                     className="govuk-input w"
                     defaultValue="dummy"
+                    disabled={false}
                     id="given-name-input"
                     maxLength={100}
                     name="givenName"
@@ -605,6 +609,7 @@ exports[`addUser > should render correctly with inputs 1`] = `
                   <input
                     className="govuk-input w"
                     defaultValue="user"
+                    disabled={false}
                     id="family-name-input"
                     maxLength={100}
                     name="familyName"
@@ -633,6 +638,7 @@ exports[`addUser > should render correctly with inputs 1`] = `
                   <input
                     className="govuk-input w"
                     defaultValue="dummy.user@gmail.com"
+                    disabled={false}
                     id="email-input"
                     maxLength={100}
                     name="email"

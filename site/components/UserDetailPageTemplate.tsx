@@ -1,6 +1,6 @@
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import Link from "next/link";
-import { Dispatch, SetStateAction, SyntheticEvent } from "react";
+import { Dispatch, SetStateAction, SyntheticEvent, useState } from "react";
 import { createFilter, SingleValue } from "react-select";
 import type { FilterOptionOption } from "react-select/dist/declarations/src/filters";
 import CsrfForm from "./form/CsrfForm";
@@ -12,8 +12,15 @@ import TextInput from "./form/TextInput";
 import { TwoThirdsLayout } from "./layout/Layout";
 import { AddUserPageProps } from "../pages/admin/add-user.page";
 import { EditUserPageProps } from "../pages/admin/edit-user/[username].page";
-import { addUserSchema, AddUserSchema, OperatorData } from "../schemas/add-user.schema";
-import { sortOperatorByName } from "../utils";
+import {
+    addUserSchema,
+    AddUserSchema,
+    EditUserSchema,
+    OperatorData,
+    operatorDataSchema,
+} from "../schemas/add-user.schema";
+import { flattenZodErrors, sortOperatorByName } from "../utils";
+import { getStateUpdater } from "../utils/formUtils";
 
 const filterConfig = {
     ignoreCase: true,
@@ -30,33 +37,69 @@ interface Props {
     pageState: EditUserPageProps | AddUserPageProps;
     username?: string;
     initialGroup?: string;
-    stateUpdater: (
-        a: string,
-        field: "operatorNocCodes" | "email" | "orgId" | "givenName" | "familyName" | "group",
-    ) => void;
-    operatorNocCodesList: OperatorData[];
-    removeOperator: (e: SyntheticEvent, a: string) => void;
-    selectedOperator: SingleValue<OperatorData>;
-    handleOperatorChange: (value: SingleValue<OperatorData>) => void;
-    operatorSearchInput: string;
-    setOperatorsSearchInput: Dispatch<SetStateAction<string>>;
+    setPageState: Dispatch<SetStateAction<EditUserPageProps | AddUserPageProps>>;
 }
 
-const UserPageTemplate = ({
+const UserDetailPageTemplate = ({
     pageType,
     title,
     description,
     pageState,
     username,
     initialGroup,
-    stateUpdater,
-    operatorNocCodesList,
-    removeOperator,
-    selectedOperator,
-    handleOperatorChange,
-    operatorSearchInput,
-    setOperatorsSearchInput,
+    setPageState,
 }: Props) => {
+    const [selectedOperator, setSelectedOperator] = useState<SingleValue<OperatorData>>(null);
+    const [operatorSearchInput, setOperatorsSearchInput] = useState<string>("");
+
+    const stateUpdater = getStateUpdater(setPageState, pageState);
+
+    const operatorNocCodesList = pageState.operatorData ?? [];
+
+    const handleOperatorChange = (value: SingleValue<OperatorData>) => {
+        const parsed = operatorDataSchema.safeParse(value);
+
+        if (!parsed.success) {
+            setPageState({
+                ...pageState,
+                errors: [
+                    ...pageState.errors.filter((err) => !Object.keys(addUserSchema.shape).includes(err.id)),
+                    ...flattenZodErrors(parsed.error),
+                ],
+            });
+        } else {
+            setSelectedOperator(parsed.data);
+            setPageState({
+                ...pageState,
+                inputs: {
+                    ...pageState.inputs,
+                    operatorNocCodes: [...(pageState.inputs.operatorNocCodes ?? []), parsed.data],
+                },
+                errors: [...pageState.errors.filter((err) => !Object.keys(addUserSchema.shape).includes(err.id))],
+            });
+        }
+    };
+
+    const removeOperator = (e: SyntheticEvent, removedNocCode: string) => {
+        e.preventDefault();
+
+        if (pageState?.inputs?.operatorNocCodes) {
+            const updatedOperatorNocCodesArray = [...pageState.inputs.operatorNocCodes].filter(
+                (operator) => operator.nocCode !== removedNocCode,
+            );
+
+            setPageState({
+                ...pageState,
+                inputs: {
+                    ...pageState.inputs,
+                    operatorNocCodes: updatedOperatorNocCodesArray,
+                },
+                errors: pageState.errors,
+            });
+        }
+        setSelectedOperator(null);
+    };
+
     const getOperatorRows = () => {
         if (pageState.inputs.operatorNocCodes) {
             return sortOperatorByName(pageState.inputs.operatorNocCodes).map((operator) => ({
@@ -86,8 +129,8 @@ const UserPageTemplate = ({
                 >
                     <>
                         <ErrorSummary errors={pageState.errors} />
-                        <h1 className="govuk-heading-xl">{pageType === "addUser" ? "Add User" : "Edit user"}</h1>
-                        <TextInput<AddUserSchema>
+                        <h1 className="govuk-heading-xl">{pageType === "addUser" ? "Add new user" : "Edit user"}</h1>
+                        <TextInput<AddUserSchema | EditUserSchema>
                             display="First name"
                             inputName="givenName"
                             widthClass="w"
@@ -96,7 +139,7 @@ const UserPageTemplate = ({
                             stateUpdater={stateUpdater}
                             maxLength={100}
                         />
-                        <TextInput<AddUserSchema>
+                        <TextInput<AddUserSchema | EditUserSchema>
                             display="Last name"
                             inputName="familyName"
                             widthClass="w"
@@ -105,7 +148,7 @@ const UserPageTemplate = ({
                             stateUpdater={stateUpdater}
                             maxLength={100}
                         />
-                        <TextInput<AddUserSchema>
+                        <TextInput<AddUserSchema | EditUserSchema>
                             display="Email address"
                             inputName="email"
                             widthClass="w"
@@ -119,7 +162,7 @@ const UserPageTemplate = ({
 
                         <Table rows={[{ header: "Organisation", cells: [pageState.sessionWithOrg?.orgName, ""] }]} />
 
-                        <Radios<AddUserSchema>
+                        <Radios<AddUserSchema | EditUserSchema>
                             display="What account do they require?"
                             radioDetail={[
                                 {
@@ -203,4 +246,4 @@ const UserPageTemplate = ({
     );
 };
 
-export default UserPageTemplate;
+export default UserDetailPageTemplate;
