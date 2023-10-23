@@ -48,7 +48,6 @@ const editUser = async (req: NextApiRequest, res: NextApiResponse) => {
                 throw new Error("No username found");
             }
 
-            console.log(JSON.stringify(flattenZodErrors(validatedBody.error)));
             setCookieOnResponseObject(
                 COOKIES_EDIT_USER_ERRORS,
                 JSON.stringify({

@@ -21,8 +21,6 @@ export interface EditUserPageProps extends PageState<Partial<EditUserSchema>> {
 const EditUser = (props: EditUserPageProps): ReactElement => {
     const [pageState, setPageState] = useState(props);
 
-    console.log(pageState.errors);
-
     return (
         <UserDetailPageTemplate
             pageType={"editUser"}
