@@ -819,7 +819,7 @@ export const getServerSideProps = async (
     return {
         props: {
             disruption: disruptionWithURLS as FullDisruption,
-            redirect: referer || "",
+            redirect: referer || "/dashboard",
             errors,
             canPublish: canPublish(session),
         },
