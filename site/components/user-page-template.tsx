@@ -1,31 +1,19 @@
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
-import { NextPageContext } from "next";
 import Link from "next/link";
-import { parseCookies } from "nookies";
-import { ReactElement, SyntheticEvent, useState } from "react";
-import { createFilter, SingleValue } from "react-select";
+import { SyntheticEvent } from "react";
+import { createFilter } from "react-select";
 import type { FilterOptionOption } from "react-select/dist/declarations/src/filters";
-import CsrfForm from "../../../components/form/CsrfForm";
-import ErrorSummary from "../../../components/form/ErrorSummary";
-import Radios from "../../../components/form/Radios";
-import SearchSelect from "../../../components/form/SearchSelect";
-import Table from "../../../components/form/Table";
-import TextInput from "../../../components/form/TextInput";
-import { TwoThirdsLayout } from "../../../components/layout/Layout";
-import { COOKIES_EDIT_USER_ERRORS } from "../../../constants";
-import { getGroupForUser, getUserDetails } from "../../../data/cognito";
-import { fetchOperators } from "../../../data/refDataApi";
-import { PageState } from "../../../interfaces";
-import { AddUserSchema, addUserSchema, OperatorData, operatorDataSchema } from "../../../schemas/add-user.schema";
-
-import { user } from "../../../schemas/user-management.schema";
-import { flattenZodErrors, sortOperatorByName } from "../../../utils";
-import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
-import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
-import { getStateUpdater } from "../../../utils/formUtils";
-
-const title = "Edit User - Create Transport Disruptions Service";
-const description = "Edit User page for the Create Transport Disruptions Service";
+import CsrfForm from "./form/CsrfForm";
+import ErrorSummary from "./form/ErrorSummary";
+import Radios from "./form/Radios";
+import SearchSelect from "./form/SearchSelect";
+import Table from "./form/Table";
+import TextInput from "./form/TextInput";
+import TwoThirdsLayout from "./layout/Layout";
+import { AddUserPageProps } from "../pages/admin/add-user.page";
+import { EditUserPageProps } from "../pages/admin/edit-user/[username].page";
+import { addUserSchema, AddUserSchema, OperatorData } from "../schemas/add-user.schema";
+import { sortOperatorByName } from "../utils";
 
 const filterConfig = {
     ignoreCase: true,
@@ -35,65 +23,20 @@ const filterConfig = {
     matchFrom: "any" as const,
 };
 
-export interface EditUserPageProps extends PageState<Partial<AddUserSchema>> {
-    operatorData?: OperatorData[];
-    username?: string;
-    initialGroup?: string;
-}
-
-const EditUser = (props: EditUserPageProps): ReactElement => {
-    const [pageState, setPageState] = useState(props);
-    const [selectedOperator, setSelectedOperator] = useState<SingleValue<OperatorData>>(null);
-    const [operatorSearchInput, setOperatorsSearchInput] = useState<string>("");
-
-    const stateUpdater = getStateUpdater(setPageState, pageState);
-
-    const operatorNocCodesList = pageState.operatorData ?? [];
-
-    const handleOperatorChange = (value: SingleValue<OperatorData>) => {
-        const parsed = operatorDataSchema.safeParse(value);
-
-        if (!parsed.success) {
-            setPageState({
-                ...pageState,
-                errors: [
-                    ...pageState.errors.filter((err) => !Object.keys(addUserSchema.shape).includes(err.id)),
-                    ...flattenZodErrors(parsed.error),
-                ],
-            });
-        } else {
-            setSelectedOperator(parsed.data);
-            setPageState({
-                ...pageState,
-                inputs: {
-                    ...pageState.inputs,
-                    operatorNocCodes: [...(pageState.inputs.operatorNocCodes ?? []), parsed.data],
-                },
-                errors: [...pageState.errors.filter((err) => !Object.keys(addUserSchema.shape).includes(err.id))],
-            });
-        }
-    };
-
-    const removeOperator = (e: SyntheticEvent, removedNocCode: string) => {
-        e.preventDefault();
-
-        if (pageState?.inputs?.operatorNocCodes) {
-            const updatedoperatorNocCodesArray = [...pageState.inputs.operatorNocCodes].filter(
-                (operator) => operator.nocCode !== removedNocCode,
-            );
-
-            setPageState({
-                ...pageState,
-                inputs: {
-                    ...pageState.inputs,
-                    operatorNocCodes: updatedoperatorNocCodesArray,
-                },
-                errors: pageState.errors,
-            });
-        }
-        setSelectedOperator(null);
-    };
-
+export const userPageTemplate = (
+    title: string,
+    description: string,
+    pageState: EditUserPageProps | AddUserPageProps,
+    username: string,
+    initialGroup: string,
+    stateUpdater: (a: string) => void,
+    operatorNocCodesList: OperatorData[],
+    removeOperator: (e: SyntheticEvent, a: string) => void,
+    selectedOperator: OperatorData,
+    handleOperatorChange: () => void,
+    operatorSearchInput: string,
+    setOperatorsSearchInput: () => void,
+) => {
     const getOperatorRows = () => {
         if (pageState.inputs.operatorNocCodes) {
             return sortOperatorByName(pageState.inputs.operatorNocCodes).map((operator) => ({
@@ -209,8 +152,8 @@ const EditUser = (props: EditUserPageProps): ReactElement => {
                     )}
 
                     <input type="hidden" name={`email`} value={pageState.inputs.email} />
-                    <input type="hidden" name={`username`} value={props.username} />
-                    <input type="hidden" name={`initialGroup`} value={props.initialGroup} />
+                    <input type="hidden" name={`username`} value={username} />
+                    <input type="hidden" name={`initialGroup`} value={initialGroup} />
 
                     <button className="govuk-button mt-8" data-module="govuk-button">
                         Save
@@ -227,79 +170,3 @@ const EditUser = (props: EditUserPageProps): ReactElement => {
         </TwoThirdsLayout>
     );
 };
-
-export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: EditUserPageProps }> => {
-    const cookies = parseCookies(ctx);
-    const errorCookie = cookies[COOKIES_EDIT_USER_ERRORS];
-
-    if (!ctx.req) {
-        throw new Error("No context request");
-    }
-
-    if (ctx.res) destroyCookieOnResponseObject(COOKIES_EDIT_USER_ERRORS, ctx.res);
-
-    const session = await getSessionWithOrgDetail(ctx.req);
-
-    if (!session) {
-        throw new Error("No session found");
-    }
-
-    if (!ctx.query.username) {
-        throw new Error("Username not provided");
-    }
-
-    const allOperatorsData = await fetchOperators({ adminAreaCodes: session.adminAreaCodes ?? ["undefined"] });
-
-    const filteredOperatorsData = allOperatorsData
-        .map((operator) => {
-            return {
-                id: operator.id,
-                nocCode: operator.nocCode,
-                operatorPublicName: operator.operatorPublicName,
-            };
-        })
-        .filter((value, index, self) => index === self.findIndex((s) => s.nocCode === value.nocCode));
-
-    const userInfo = await getUserDetails(ctx.query.username.toString());
-    const userGroup = await getGroupForUser(ctx.query.username.toString());
-    const parsedUserInfo = user.safeParse({ ...userInfo, group: userGroup });
-
-    if (parsedUserInfo.success) {
-        const nocCodesArray = parsedUserInfo.data.nocCodes
-            .split(",")
-            .filter((nocCode) => nocCode)
-            .map((nocCode) => nocCode.trim());
-
-        const operatorUserData = filteredOperatorsData.filter((operator) => nocCodesArray.includes(operator.nocCode));
-
-        const info = {
-            givenName: parsedUserInfo.data.givenName,
-            familyName: parsedUserInfo.data.familyName,
-            email: parsedUserInfo.data.email,
-            orgId: parsedUserInfo.data.orgId,
-            group: parsedUserInfo.data.group,
-            operatorNocCodes: operatorUserData,
-        };
-
-        const pageState = getPageState<AddUserSchema>(errorCookie, addUserSchema, "fakeId", info);
-        return {
-            props: {
-                ...pageState,
-                sessionWithOrg: session,
-                operatorData: filteredOperatorsData ?? [],
-                username: parsedUserInfo.data.username,
-                initialGroup: parsedUserInfo.data.group,
-            },
-        };
-    } else {
-        return {
-            props: {
-                ...getPageState(errorCookie, addUserSchema),
-                sessionWithOrg: session,
-                operatorData: filteredOperatorsData ?? [],
-            },
-        };
-    }
-};
-
-export default EditUser;
