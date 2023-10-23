@@ -1,4 +1,4 @@
-import { Datasource, UserGroups } from "@create-disruptions-data/shared-ts/enums";
+import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
@@ -14,7 +14,7 @@ import TextInput from "../../../components/form/TextInput";
 import { TwoThirdsLayout } from "../../../components/layout/Layout";
 import { COOKIES_EDIT_USER_ERRORS } from "../../../constants";
 import { getGroupForUser, getUserDetails } from "../../../data/cognito";
-import { fetchOperatorUserNocCodes } from "../../../data/refDataApi";
+import { fetchOperators } from "../../../data/refDataApi";
 import { PageState } from "../../../interfaces";
 import { AddUserSchema, addUserSchema, OperatorData, operatorDataSchema } from "../../../schemas/add-user.schema";
 
@@ -244,50 +244,31 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("No session found");
     }
 
-    const bodsModes: string[] = [];
-    const tndsModes: string[] = [];
-
-    Object.entries(session.mode).map((mode) =>
-        mode[1] === Datasource.bods
-            ? bodsModes.push(mode[0] === "ferryService" ? "ferry" : mode[0])
-            : tndsModes.push(mode[0] === "ferryService" ? "ferry" : mode[0]),
-    );
-
-    const operatorsData = await fetchOperatorUserNocCodes({
-        adminAreaCodes: session.adminAreaCodes ?? ["undefined"],
-        tndsModes: tndsModes,
-        bodsModes: bodsModes,
-    });
-
     if (!ctx.query.username) {
         throw new Error("Username not provided");
     }
 
+    const allOperatorsData = await fetchOperators({ adminAreaCodes: session.adminAreaCodes ?? ["undefined"] });
+
+    const filteredOperatorsData = allOperatorsData
+        .map((operator) => {
+            return {
+                id: operator.id,
+                nocCode: operator.nocCode,
+                operatorPublicName: operator.operatorPublicName,
+            };
+        })
+        .filter((value, index, self) => index === self.findIndex((s) => s.nocCode === value.nocCode));
+
     const userInfo = await getUserDetails(ctx.query.username.toString());
-    console.log(userInfo);
     const userGroup = await getGroupForUser(ctx.query.username.toString());
     const parsedUserInfo = user.safeParse({ ...userInfo, group: userGroup });
 
     if (parsedUserInfo.success) {
-        const bodsModes: string[] = [];
-        const tndsModes: string[] = [];
-
         const nocCodesArray = parsedUserInfo.data.nocCodes
             .split(",")
             .filter((nocCode) => nocCode)
             .map((nocCode) => nocCode.trim());
-
-        Object.entries(session.mode).map((mode) =>
-            mode[1] === Datasource.bods
-                ? bodsModes.push(mode[0] === "ferryService" ? "ferry" : mode[0])
-                : tndsModes.push(mode[0] === "ferryService" ? "ferry" : mode[0]),
-        );
-
-        const allOperatorsData = await fetchOperatorUserNocCodes({
-            adminAreaCodes: session.adminAreaCodes ?? ["undefined"],
-            tndsModes: tndsModes,
-            bodsModes: bodsModes,
-        });
 
         const operatorUserData = allOperatorsData.filter((operator) => nocCodesArray.includes(operator.nocCode));
 
@@ -305,7 +286,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             props: {
                 ...pageState,
                 sessionWithOrg: session,
-                operatorData: operatorsData ?? [],
+                operatorData: filteredOperatorsData ?? [],
                 username: parsedUserInfo.data.username,
                 initialGroup: parsedUserInfo.data.group,
             },
@@ -315,7 +296,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             props: {
                 ...getPageState(errorCookie, addUserSchema),
                 sessionWithOrg: session,
-                operatorData: operatorsData ?? [],
+                operatorData: filteredOperatorsData ?? [],
             },
         };
     }

@@ -50,7 +50,7 @@ const editUser = async (req: NextApiRequest, res: NextApiResponse) => {
             setCookieOnResponseObject(
                 COOKIES_EDIT_USER_ERRORS,
                 JSON.stringify({
-                    inputs: req.body as object,
+                    inputs: cleansedBody as object,
                     errors: flattenZodErrors(validatedBody.error),
                 }),
                 res,
