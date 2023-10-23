@@ -1,5 +1,6 @@
 import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
-import { DOMAIN_NAME } from "../../constants";
+import { isSandbox } from "@create-disruptions-data/shared-ts/utils/domain";
+import { DOMAIN_NAME, STAGE } from "../../constants";
 import { getAllUsersInGroup } from "../../data/cognito";
 import { userManagementSchema } from "../../schemas/user-management.schema";
 import { notEmpty } from "../index";
@@ -65,6 +66,8 @@ export const createDisruptionApprovalEmail = (
 ) => {
     const domain = new URL(DOMAIN_NAME);
     const disruptionLink = `${domain.toString()}/disruption-detail/${disruptionId}`;
+    const sourceEmail = isSandbox(STAGE) ? "no-reply@sandbox.cdd.dft-create-data.com" : `no-reply@${domain.hostname}`;
+    console.log(`no-reply@${domain.hostname}`);
 
     return new SendEmailCommand({
         Destination: {
@@ -87,7 +90,7 @@ export const createDisruptionApprovalEmail = (
                 Data: "Action required for the Create Disruption Data service",
             },
         },
-        Source: `no-reply@${domain.hostname}`,
+        Source: sourceEmail,
     });
 };
 
