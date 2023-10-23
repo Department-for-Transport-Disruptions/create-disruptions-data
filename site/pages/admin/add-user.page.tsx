@@ -1,4 +1,4 @@
-import { Datasource, UserGroups } from "@create-disruptions-data/shared-ts/enums";
+import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
@@ -13,7 +13,7 @@ import Table from "../../components/form/Table";
 import TextInput from "../../components/form/TextInput";
 import { TwoThirdsLayout } from "../../components/layout/Layout";
 import { COOKIES_ADD_USER_ERRORS } from "../../constants";
-import { fetchOperatorUserNocCodes } from "../../data/refDataApi";
+import { fetchOperators } from "../../data/refDataApi";
 import { PageState } from "../../interfaces";
 import { AddUserSchema, addUserSchema, OperatorData, operatorDataSchema } from "../../schemas/add-user.schema";
 
@@ -235,20 +235,16 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("No session found");
     }
 
-    const bodsModes: string[] = [];
-    const tndsModes: string[] = [];
-
-    Object.entries(session.mode).map((mode) =>
-        mode[1] === Datasource.bods
-            ? bodsModes.push(mode[0] === "ferryService" ? "ferry" : mode[0])
-            : tndsModes.push(mode[0] === "ferryService" ? "ferry" : mode[0]),
-    );
-
-    const operatorsData = await fetchOperatorUserNocCodes({
-        adminAreaCodes: session.adminAreaCodes ?? ["undefined"],
-        tndsModes: tndsModes,
-        bodsModes: bodsModes,
-    });
+    const operatorsData = await fetchOperators({ adminAreaCodes: session.adminAreaCodes ?? ["undefined"] });
+    const filteredOperatorsData = operatorsData
+        .map((operator) => {
+            return {
+                id: operator.id,
+                nocCode: operator.nocCode,
+                operatorPublicName: operator.operatorPublicName,
+            };
+        })
+        .filter((value, index, self) => index === self.findIndex((s) => s.nocCode === value.nocCode));
 
     console.log(operatorsData);
 
@@ -256,7 +252,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         props: {
             ...getPageState(errorCookie, addUserSchema),
             sessionWithOrg: session,
-            operatorData: operatorsData ?? [],
+            operatorData: filteredOperatorsData ?? [],
         },
     };
 };

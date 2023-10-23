@@ -1,8 +1,8 @@
-import { UsernameExistsException } from "@aws-sdk/client-cognito-identity-provider";
+import { AttributeType, UsernameExistsException } from "@aws-sdk/client-cognito-identity-provider";
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import { ADD_USER_PAGE_PATH, COOKIES_ADD_USER_ERRORS, USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
-import { createUser, createUserWithCustomAttribute } from "../../../data/cognito";
+import { createUser } from "../../../data/cognito";
 import { addUserSchemaRefined, OperatorData } from "../../../schemas/add-user.schema";
 import { flattenZodErrors } from "../../../utils";
 import {
@@ -46,7 +46,7 @@ const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
             setCookieOnResponseObject(
                 COOKIES_ADD_USER_ERRORS,
                 JSON.stringify({
-                    inputs: req.body as object,
+                    inputs: cleansedBody as object,
                     errors: flattenZodErrors(validatedBody.error),
                 }),
                 res,
@@ -58,7 +58,13 @@ const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
 
         if (validatedBody.data.group === UserGroups.operators) {
             const nocCodes = validatedBody.data.operatorNocCodes?.map((operator) => operator.nocCode) ?? [];
-            await createUserWithCustomAttribute(validatedBody.data, "nocCodes", nocCodes.toString());
+            const operatorAttribute: AttributeType[] = [
+                {
+                    Name: "custom:nocCodes",
+                    Value: nocCodes.toString(),
+                },
+            ];
+            await createUser(validatedBody.data, operatorAttribute);
             destroyCookieOnResponseObject(COOKIES_ADD_USER_ERRORS, res);
             redirectTo(res, USER_MANAGEMENT_PAGE_PATH);
         } else {
