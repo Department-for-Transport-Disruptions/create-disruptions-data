@@ -67,7 +67,6 @@ export const createDisruptionApprovalEmail = (
     const domain = new URL(DOMAIN_NAME);
     const disruptionLink = `${domain.toString()}/disruption-detail/${disruptionId}`;
     const sourceEmail = isSandbox(STAGE) ? "no-reply@sandbox.cdd.dft-create-data.com" : `no-reply@${domain.hostname}`;
-    console.log(`no-reply@${domain.hostname}`);
 
     return new SendEmailCommand({
         Destination: {
