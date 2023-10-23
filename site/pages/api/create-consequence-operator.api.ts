@@ -9,11 +9,11 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
-import { upsertConsequence } from "../../data/dynamo";
+import { TooManyConsequencesError } from "../../errors";
 import { flattenZodErrors, getLargestConsequenceIndex } from "../../utils";
 import {
-    destroyCookieOnResponseObject,
     getReturnPage,
+    handleUpsertConsequence,
     isDisruptionFromTemplate,
     redirectTo,
     redirectToError,
@@ -89,13 +89,15 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
             return;
         }
 
-        const disruption = await upsertConsequence(
+        const disruption = await handleUpsertConsequence(
             validatedBody.data,
             session.orgId,
             session.isOrgStaff,
             template === "true",
+            formattedBody,
+            COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
+            res,
         );
-        destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, res);
 
         const redirectPath =
             (!isFromTemplate || template) &&
@@ -135,6 +137,21 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
         );
         return;
     } catch (e) {
+        if (e instanceof TooManyConsequencesError) {
+            const body = req.body as OperatorConsequence;
+            const queryParam = getReturnPage(req);
+
+            redirectToWithQueryParams(
+                req,
+                res,
+                isDisruptionFromTemplate(req) ? ["template"] : [],
+                `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${body.disruptionId}/${body.consequenceIndex}`,
+                queryParam ? [queryParam] : [],
+            );
+
+            return;
+        }
+
         if (e instanceof Error) {
             const message = "There was a problem adding a consequence operator.";
             redirectToError(res, message, "api.create-consequence-operator", e);

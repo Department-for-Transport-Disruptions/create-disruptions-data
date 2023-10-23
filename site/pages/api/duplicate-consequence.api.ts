@@ -1,7 +1,17 @@
+import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { NextApiRequest, NextApiResponse } from "next";
-import { getDisruptionById, upsertConsequence } from "../../data/dynamo";
+import { COOKIES_DISRUPTION_DETAIL_ERRORS, COOKIES_REVIEW_DISRUPTION_ERRORS } from "../../constants";
+import { getDisruptionById } from "../../data/dynamo";
+import { TooManyConsequencesError } from "../../errors";
 import { duplicateConsequenceSchema } from "../../schemas/consequence.schema";
-import { redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
+import { getLargestConsequenceIndex } from "../../utils";
+import {
+    getReturnPage,
+    handleUpsertConsequence,
+    isDisruptionFromTemplate,
+    redirectToError,
+    redirectToWithQueryParams,
+} from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 
 const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
@@ -47,20 +57,19 @@ const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): 
             throw new Error("No consequence found to duplicate");
         }
 
-        await upsertConsequence(
+        await handleUpsertConsequence(
             {
                 ...consequenceToDuplicate,
-                consequenceIndex:
-                    disruption.consequences && disruption.consequences.length > 0
-                        ? disruption.consequences.reduce(
-                              (max, c) => (c.consequenceIndex > max ? c.consequenceIndex : max),
-                              disruption.consequences[0].consequenceIndex,
-                          ) + 1
-                        : 0,
+                consequenceIndex: getLargestConsequenceIndex(disruption) + 1,
             },
             session.orgId,
             session.isOrgStaff,
             template === "true",
+            req.body as Consequence,
+            req.query.return.toString().includes("disruption-detail")
+                ? COOKIES_DISRUPTION_DETAIL_ERRORS
+                : COOKIES_REVIEW_DISRUPTION_ERRORS,
+            res,
         );
 
         redirectToWithQueryParams(
@@ -69,8 +78,24 @@ const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): 
             template === "true" ? ["template"] : [],
             `${req.query.return as string}/${validatedBody.data.disruptionId}`,
         );
+
         return;
     } catch (e) {
+        if (e instanceof TooManyConsequencesError) {
+            const body = req.body as Consequence;
+            const queryParam = getReturnPage(req);
+
+            redirectToWithQueryParams(
+                req,
+                res,
+                isDisruptionFromTemplate(req) ? ["template"] : [],
+                `${req.query.return as string}/${body.disruptionId}`,
+                queryParam ? [queryParam] : [],
+            );
+
+            return;
+        }
+
         if (e instanceof Error) {
             const message = "There was a problem duplicating a consequence.";
             redirectToError(res, message, "api.duplicate-consequence", e);

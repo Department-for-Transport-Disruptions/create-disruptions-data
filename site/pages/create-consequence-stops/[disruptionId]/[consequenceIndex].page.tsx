@@ -1,5 +1,9 @@
 import { Stop, StopsConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { stopSchema, stopsConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import {
+    MAX_CONSEQUENCES,
+    stopSchema,
+    stopsConsequenceSchema,
+} from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
@@ -378,7 +382,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             returnPath={returnPath}
                         />
 
-                        {(props.consequenceIndex || 0) <= 10 && (
+                        {(props.consequenceCount || 0) < MAX_CONSEQUENCES && (
                             <button
                                 formAction={`/api/create-consequence-stops${
                                     isTemplate
@@ -446,6 +450,7 @@ export const getServerSideProps = async (
         props: {
             ...pageState,
             consequenceIndex: index,
+            consequenceCount: disruption.consequences?.length ?? 0,
             sessionWithOrg: session,
             disruptionDescription: disruption.description || "",
             template: disruption.template?.toString() || "",

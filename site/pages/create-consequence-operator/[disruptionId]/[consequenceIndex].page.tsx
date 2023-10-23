@@ -1,5 +1,5 @@
 import { OperatorConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { operatorConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { MAX_CONSEQUENCES, operatorConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Datasource, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
@@ -290,7 +290,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             isTemplate={isTemplate}
                             returnPath={returnPath}
                         />
-                        {(props.consequenceIndex || 0) <= 10 && (
+                        {(props.consequenceCount || 0) < MAX_CONSEQUENCES && (
                             <button
                                 formAction={`/api/create-consequence-operator${
                                     isTemplate
@@ -373,6 +373,7 @@ export const getServerSideProps = async (
         props: {
             ...pageState,
             consequenceIndex: index,
+            consequenceCount: disruption.consequences?.length ?? 0,
             operators: uniqueOperators,
             disruptionDescription: disruption.description || "",
             sessionWithOrg: session,
