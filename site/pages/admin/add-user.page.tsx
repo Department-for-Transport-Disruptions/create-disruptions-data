@@ -1,7 +1,7 @@
 import { NextPageContext } from "next";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
-import UserDetailPageTemplate from "../../components/UserDetailPageTemplate";
+import UserDetailPageTemplate from "../../components/page-templates/UserDetailPageTemplate";
 import { COOKIES_ADD_USER_ERRORS } from "../../constants";
 import { fetchOperators } from "../../data/refDataApi";
 import { PageState } from "../../interfaces";

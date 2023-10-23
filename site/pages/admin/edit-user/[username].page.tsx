@@ -1,7 +1,7 @@
 import { NextPageContext } from "next";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
-import UserDetailPageTemplate from "../../../components/UserDetailPageTemplate";
+import UserDetailPageTemplate from "../../../components/page-templates/UserDetailPageTemplate";
 import { COOKIES_EDIT_USER_ERRORS } from "../../../constants";
 import { getGroupForUser, getUserDetails } from "../../../data/cognito";
 import { fetchOperators } from "../../../data/refDataApi";

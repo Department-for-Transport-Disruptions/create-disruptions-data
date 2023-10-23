@@ -3,24 +3,24 @@ import Link from "next/link";
 import { Dispatch, SetStateAction, SyntheticEvent, useState } from "react";
 import { createFilter, SingleValue } from "react-select";
 import type { FilterOptionOption } from "react-select/dist/declarations/src/filters";
-import CsrfForm from "./form/CsrfForm";
-import ErrorSummary from "./form/ErrorSummary";
-import Radios from "./form/Radios";
-import SearchSelect from "./form/SearchSelect";
-import Table from "./form/Table";
-import TextInput from "./form/TextInput";
-import { TwoThirdsLayout } from "./layout/Layout";
-import { AddUserPageProps } from "../pages/admin/add-user.page";
-import { EditUserPageProps } from "../pages/admin/edit-user/[username].page";
+import { AddUserPageProps } from "../../pages/admin/add-user.page";
+import { EditUserPageProps } from "../../pages/admin/edit-user/[username].page";
 import {
     addUserSchema,
     AddUserSchema,
     EditUserSchema,
     OperatorData,
     operatorDataSchema,
-} from "../schemas/add-user.schema";
-import { flattenZodErrors, sortOperatorByName } from "../utils";
-import { getStateUpdater } from "../utils/formUtils";
+} from "../../schemas/add-user.schema";
+import { flattenZodErrors, sortOperatorByName } from "../../utils";
+import { getStateUpdater } from "../../utils/formUtils";
+import CsrfForm from "../form/CsrfForm";
+import ErrorSummary from "../form/ErrorSummary";
+import Radios from "../form/Radios";
+import SearchSelect from "../form/SearchSelect";
+import Table from "../form/Table";
+import TextInput from "../form/TextInput";
+import { TwoThirdsLayout } from "../layout/Layout";
 
 const filterConfig = {
     ignoreCase: true,
