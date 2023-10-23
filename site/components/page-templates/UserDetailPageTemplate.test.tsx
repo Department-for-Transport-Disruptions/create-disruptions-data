@@ -8,14 +8,6 @@ import { EditUserPageProps } from "../../pages/admin/edit-user/[username].page";
 const editPageInputs = {
     title: "Edit User - Create Transport Disruptions Service",
     description: "Edit User page for the Create Transport Disruptions Service",
-    props: {
-        givenName: "test-given-name",
-        familyName: "test-family-name",
-        email: "test@test.com",
-        orgId: "test-org",
-        group: "org-staff",
-        username: "test-username",
-    },
 };
 
 const addUserPageState: AddUserPageProps = {

@@ -70,44 +70,36 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const userGroup = await getGroupForUser(ctx.query.username.toString());
     const parsedUserInfo = user.safeParse({ ...userDetails, group: userGroup });
 
-    if (parsedUserInfo.success) {
-        const nocCodesArray = parsedUserInfo.data.nocCodes
-            .split(",")
-            .filter((nocCode) => nocCode)
-            .map((nocCode) => nocCode.trim());
-
-        const operatorDataForUser = filteredOperatorsData.filter((operator) =>
-            nocCodesArray.includes(operator.nocCode),
-        );
-
-        const editUserPageData = {
-            givenName: parsedUserInfo.data.givenName,
-            familyName: parsedUserInfo.data.familyName,
-            email: parsedUserInfo.data.email,
-            orgId: parsedUserInfo.data.orgId,
-            group: parsedUserInfo.data.group,
-            username: parsedUserInfo.data.username,
-            initialGroup: parsedUserInfo.data.group,
-            operatorNocCodes: operatorDataForUser,
-        };
-
-        const pageState = getPageState<EditUserSchema>(errorCookie, editUserSchema, undefined, editUserPageData);
-        return {
-            props: {
-                ...pageState,
-                sessionWithOrg: session,
-                operatorData: filteredOperatorsData ?? [],
-            },
-        };
-    } else {
-        return {
-            props: {
-                ...getPageState(errorCookie, editUserSchema),
-                sessionWithOrg: session,
-                operatorData: filteredOperatorsData ?? [],
-            },
-        };
+    if (!parsedUserInfo.success) {
+        throw new Error("Unable to parse user data");
     }
+
+    const nocCodesArray = parsedUserInfo.data.nocCodes
+        .split(",")
+        .filter((nocCode) => nocCode)
+        .map((nocCode) => nocCode.trim());
+
+    const operatorDataForUser = filteredOperatorsData.filter((operator) => nocCodesArray.includes(operator.nocCode));
+
+    const editUserPageData = {
+        givenName: parsedUserInfo.data.givenName,
+        familyName: parsedUserInfo.data.familyName,
+        email: parsedUserInfo.data.email,
+        orgId: parsedUserInfo.data.orgId,
+        group: parsedUserInfo.data.group,
+        username: parsedUserInfo.data.username,
+        initialGroup: parsedUserInfo.data.group,
+        operatorNocCodes: operatorDataForUser,
+    };
+
+    const pageState = getPageState<EditUserSchema>(errorCookie, editUserSchema, undefined, editUserPageData);
+    return {
+        props: {
+            ...pageState,
+            sessionWithOrg: session,
+            operatorData: filteredOperatorsData ?? [],
+        },
+    };
 };
 
 export default EditUser;

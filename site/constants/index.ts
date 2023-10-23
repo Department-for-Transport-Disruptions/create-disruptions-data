@@ -290,7 +290,6 @@ export const COOKIES_CHANGE_PASSWORD_ERRORS = "cdd-change-password-errors";
 export const COOKIES_ADD_USER_ERRORS = "cdd-add-user-errors";
 export const COOKIES_EDIT_USER_ERRORS = "cdd-edit-user-errors";
 export const COOKIES_ADD_ADMIN_USER_ERRORS = "cdd-add-admin-user-errors";
-
 export const COOKIES_ADD_ORG_ERRORS = "cdd-add-org-errors";
 export const COOKIES_REGISTER_ERRORS = "cdd-register-errors";
 export const COOKIES_POLICY_COOKIE = "cdd-cookies-policy";
