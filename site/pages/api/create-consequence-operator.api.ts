@@ -144,7 +144,7 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
             redirectToWithQueryParams(
                 req,
                 res,
-                isDisruptionFromTemplate(req) ? ["template"] : [],
+                req.query.template === "true" ? ["template"] : [],
                 `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${body.disruptionId}/${body.consequenceIndex}`,
                 queryParam ? [queryParam] : [],
             );

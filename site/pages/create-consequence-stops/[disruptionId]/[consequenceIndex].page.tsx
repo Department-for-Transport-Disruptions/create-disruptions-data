@@ -68,6 +68,8 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
     const isTemplate = queryParams["template"]?.toString() ?? "";
     const returnPath = queryParams["return"]?.toString() ?? "";
 
+    const { consequenceCount = 0 } = props;
+
     const handleChange = (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
             addStop(value);
@@ -382,7 +384,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             returnPath={returnPath}
                         />
 
-                        {(props.consequenceCount || 0) < MAX_CONSEQUENCES && (
+                        {consequenceCount < (props.isEdit ? MAX_CONSEQUENCES : MAX_CONSEQUENCES - 1) && (
                             <button
                                 formAction={`/api/create-consequence-stops${
                                     isTemplate
@@ -454,6 +456,7 @@ export const getServerSideProps = async (
             sessionWithOrg: session,
             disruptionDescription: disruption.description || "",
             template: disruption.template?.toString() || "",
+            isEdit: !!consequence,
         },
     };
 };

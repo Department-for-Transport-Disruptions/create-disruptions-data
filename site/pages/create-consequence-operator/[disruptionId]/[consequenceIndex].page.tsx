@@ -67,6 +67,8 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
 
     const [dataSource, setDataSource] = useState<Datasource>(Datasource.bods);
 
+    const { consequenceCount = 0 } = props;
+
     useEffect(() => {
         const source = props.sessionWithOrg?.mode[pageState?.inputs?.vehicleMode as keyof ModeType];
         if (source && dataSource !== source) {
@@ -290,7 +292,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             isTemplate={isTemplate}
                             returnPath={returnPath}
                         />
-                        {(props.consequenceCount || 0) < MAX_CONSEQUENCES && (
+                        {consequenceCount < (props.isEdit ? MAX_CONSEQUENCES : MAX_CONSEQUENCES - 1) && (
                             <button
                                 formAction={`/api/create-consequence-operator${
                                     isTemplate
@@ -378,6 +380,7 @@ export const getServerSideProps = async (
             disruptionDescription: disruption.description || "",
             sessionWithOrg: session,
             template: disruption.template?.toString() || "",
+            isEdit: !!consequence,
         },
     };
 };

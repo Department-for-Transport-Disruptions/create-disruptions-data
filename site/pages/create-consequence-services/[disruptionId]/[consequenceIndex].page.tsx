@@ -127,6 +127,8 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     const [dataSource, setDataSource] = useState<Datasource>(props.consequenceDataSource || Datasource.bods);
     const [vehicleMode, setVehicleMode] = useState<VehicleMode | null>(props.inputs.vehicleMode || null);
 
+    const { consequenceCount = 0 } = props;
+
     useEffect(() => {
         const loadOptions = async () => {
             if (selectedService) {
@@ -701,7 +703,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             returnPath={returnPath}
                         />
 
-                        {(props.consequenceCount || 0) < MAX_CONSEQUENCES && (
+                        {consequenceCount < (props.isEdit ? MAX_CONSEQUENCES : MAX_CONSEQUENCES - 1) && (
                             <button
                                 formAction={`/api/create-consequence-services${
                                     isTemplate
@@ -792,6 +794,7 @@ export const getServerSideProps = async (
             template: disruption.template?.toString() || "",
             consequenceDataSource,
             globalDataSource,
+            isEdit: !!consequence,
         },
     };
 };

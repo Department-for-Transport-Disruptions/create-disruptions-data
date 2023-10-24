@@ -152,7 +152,7 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
             redirectToWithQueryParams(
                 req,
                 res,
-                isDisruptionFromTemplate(req) ? ["template"] : [],
+                req.query.template === "true" ? ["template"] : [],
                 `${CREATE_CONSEQUENCE_SERVICES_PATH}/${body.disruptionId}/${body.consequenceIndex}`,
                 queryParam ? [queryParam] : [],
             );
