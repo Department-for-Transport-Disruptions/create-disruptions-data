@@ -74,7 +74,7 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
         e.preventDefault();
 
         if (pageState?.inputs?.operatorNocCodes) {
-            const updatedoperatorNocCodesArray = [...pageState.inputs.operatorNocCodes].filter(
+            const updatedOperatorNocCodesArray = [...pageState.inputs.operatorNocCodes].filter(
                 (operator) => operator.nocCode !== removedNocCode,
             );
 
@@ -82,7 +82,7 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
                 ...pageState,
                 inputs: {
                     ...pageState.inputs,
-                    operatorNocCodes: updatedoperatorNocCodesArray,
+                    operatorNocCodes: updatedOperatorNocCodesArray,
                 },
                 errors: pageState.errors,
             });
