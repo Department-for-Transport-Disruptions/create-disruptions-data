@@ -1,5 +1,6 @@
 import { Routes, Service, ServicesConsequence, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import {
+    MAX_CONSEQUENCES,
     serviceSchema,
     servicesConsequenceSchema,
     stopSchema,
@@ -125,6 +126,8 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     const [servicesRecords, setServicesRecords] = useState<Service[]>([]);
     const [dataSource, setDataSource] = useState<Datasource>(props.consequenceDataSource || Datasource.bods);
     const [vehicleMode, setVehicleMode] = useState<VehicleMode | null>(props.inputs.vehicleMode || null);
+
+    const { consequenceCount = 0 } = props;
 
     useEffect(() => {
         const loadOptions = async () => {
@@ -255,7 +258,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                     await Promise.all(
                         servicesRoutesForMap.map(async (service) => {
                             if (service) {
-                                return await fetchStops(service.serviceId, pageState.inputs.vehicleMode, dataSource);
+                                return fetchStops(service.serviceId, pageState.inputs.vehicleMode, dataSource);
                             }
                             return [];
                         }),
@@ -700,7 +703,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             returnPath={returnPath}
                         />
 
-                        {(props.consequenceIndex || 0) <= 10 && (
+                        {consequenceCount < (props.isEdit ? MAX_CONSEQUENCES : MAX_CONSEQUENCES - 1) && (
                             <button
                                 formAction={`/api/create-consequence-services${
                                     isTemplate
@@ -767,8 +770,8 @@ export const getServerSideProps = async (
     let consequenceDataSource: Datasource | null = null;
     let globalDataSource: Datasource | null = null;
 
-    if (consequence && pageState.inputs.services) {
-        globalDataSource = session.mode[consequence.vehicleMode];
+    if (pageState.inputs.vehicleMode && pageState.inputs.services) {
+        globalDataSource = session.mode[pageState.inputs.vehicleMode];
 
         consequenceDataSource = pageState.inputs.services[0].dataSource;
 
@@ -785,11 +788,13 @@ export const getServerSideProps = async (
             ...pageState,
             initialStops: stops,
             consequenceIndex: index,
+            consequenceCount: disruption.consequences?.length ?? 0,
             sessionWithOrg: session,
             disruptionDescription: disruption.description || "",
             template: disruption.template?.toString() || "",
             consequenceDataSource,
             globalDataSource,
+            isEdit: !!consequence,
         },
     };
 };

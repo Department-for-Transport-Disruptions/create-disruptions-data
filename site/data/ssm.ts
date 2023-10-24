@@ -54,7 +54,7 @@ export const getParameter = async (name: string, withDecryption?: boolean): Prom
             WithDecryption: withDecryption ? withDecryption : true,
         };
         const command = new GetParameterCommand(input);
-        return ssm.send(command);
+        return await ssm.send(command);
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(`Failed to get parameter from ssm: ${error.stack || ""}`);
@@ -75,7 +75,7 @@ export const deleteParameter = async (name: string): Promise<DeleteParameterResu
             Name: name,
         };
         const command = new DeleteParameterCommand(input);
-        return ssm.send(command);
+        return await ssm.send(command);
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(`Failed to delete parameter from ssm: ${error.stack || ""}`);
@@ -100,7 +100,7 @@ export const getParametersByPath = async (
             WithDecryption: withDecryption ? withDecryption : true,
         };
         const command = new GetParametersByPathCommand(input);
-        return ssm.send(command);
+        return await ssm.send(command);
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(`Failed to get parameters by path from ssm: ${error.stack || ""}`);

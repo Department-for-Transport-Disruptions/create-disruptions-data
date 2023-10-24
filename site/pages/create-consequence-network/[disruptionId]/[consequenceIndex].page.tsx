@@ -1,5 +1,5 @@
 import { NetworkConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { networkConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { MAX_CONSEQUENCES, networkConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -48,6 +48,8 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
 
     const isTemplate = queryParams["template"]?.toString() ?? "";
     const returnPath = queryParams["return"]?.toString() ?? "";
+
+    const { consequenceCount = 0 } = props;
 
     return (
         <BaseLayout title={title} description={description}>
@@ -200,7 +202,7 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                             returnPath={returnPath}
                         />
 
-                        {(props.consequenceIndex || 0) <= 10 && (
+                        {consequenceCount < (props.isEdit ? MAX_CONSEQUENCES : MAX_CONSEQUENCES - 1) && (
                             <button
                                 formAction={`/api/create-consequence-network${
                                     isTemplate
@@ -268,8 +270,10 @@ export const getServerSideProps = async (
         props: {
             ...pageState,
             consequenceIndex: index,
+            consequenceCount: disruption.consequences?.length ?? 0,
             disruptionDescription: disruption.description || "",
             template: disruption.template?.toString() || "",
+            isEdit: !!consequence,
         },
     };
 };

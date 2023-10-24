@@ -108,7 +108,7 @@ export const getAuthedTwitterClient = async (orgId: string, socialId: string) =>
 
         const refreshToken = refreshTokenParam.Parameter.Value;
 
-        return refreshTwitterToken(refreshToken, orgId, socialId);
+        return await refreshTwitterToken(refreshToken, orgId, socialId);
     } catch (e) {
         return null;
     }

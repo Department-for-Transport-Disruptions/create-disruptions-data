@@ -1,5 +1,5 @@
 import { OperatorConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { operatorConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { MAX_CONSEQUENCES, operatorConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Datasource, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
@@ -66,6 +66,8 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
     const returnPath = queryParams["return"]?.toString() ?? "";
 
     const [dataSource, setDataSource] = useState<Datasource>(Datasource.bods);
+
+    const { consequenceCount = 0 } = props;
 
     useEffect(() => {
         const source = props.sessionWithOrg?.mode[pageState?.inputs?.vehicleMode as keyof ModeType];
@@ -290,7 +292,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             isTemplate={isTemplate}
                             returnPath={returnPath}
                         />
-                        {(props.consequenceIndex || 0) <= 10 && (
+                        {consequenceCount < (props.isEdit ? MAX_CONSEQUENCES : MAX_CONSEQUENCES - 1) && (
                             <button
                                 formAction={`/api/create-consequence-operator${
                                     isTemplate
@@ -373,10 +375,12 @@ export const getServerSideProps = async (
         props: {
             ...pageState,
             consequenceIndex: index,
+            consequenceCount: disruption.consequences?.length ?? 0,
             operators: uniqueOperators,
             disruptionDescription: disruption.description || "",
             sessionWithOrg: session,
             template: disruption.template?.toString() || "",
+            isEdit: !!consequence,
         },
     };
 };
