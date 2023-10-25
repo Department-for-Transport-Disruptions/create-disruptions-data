@@ -1,48 +1,122 @@
 import { S3Client } from "@aws-sdk/client-s3";
-import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { ptSituationElementSchema, siriSchema } from "@create-disruptions-data/shared-ts/siriTypes.zod";
-import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
+import { getApiDisruptions, notEmpty } from "@create-disruptions-data/shared-ts/utils";
+import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import { getPublishedDisruptionsDataFromDynamo } from "@create-disruptions-data/shared-ts/utils/dynamo";
-import { Dayjs } from "dayjs";
 import { parse } from "js2xmlparser";
 import * as logger from "lambda-log";
 import xmlFormat from "xml-formatter";
 import { randomUUID } from "crypto";
 import { getOrganisationInfoById } from "./dynamo";
-import { getDdbDocumentClient, getS3Client, uploadToS3 } from "./util/awsClient";
+import { includeDisruption, convertToCsv } from "./util";
+import { getS3Client, uploadToS3 } from "./util/awsClient";
 import { getPtSituationElementFromSiteDisruption } from "./util/siri";
 
 const s3Client = getS3Client();
-const ddbDocClient = getDdbDocumentClient();
 
-const notEmpty = <T>(value: T | null | undefined): value is T => {
-    return value !== null && value !== undefined;
+const enrichDisruptionsWithOrgInfo = async (disruptions: Disruption[], orgTableName: string) => {
+    const orgIds = disruptions
+        .map((disruption) => disruption.orgId)
+        .filter(notEmpty)
+        .filter((value, index, array) => array.indexOf(value) === index);
+
+    const orgInfo = (await Promise.all(orgIds.map(async (id) => getOrganisationInfoById(orgTableName, id)))).filter(
+        notEmpty,
+    );
+
+    const date = getDate();
+
+    return disruptions
+        .map((disruption) => {
+            if (!disruption.orgId) {
+                return null;
+            }
+
+            const org = orgInfo.find((org) => org.id === disruption.orgId);
+
+            if (!org || !includeDisruption(disruption, date)) {
+                return null;
+            }
+
+            return {
+                ...disruption,
+                organisation: {
+                    id: org.id,
+                    name: org.name,
+                },
+            };
+        })
+        .filter(notEmpty);
 };
 
-export const includeDisruption = (disruption: Disruption, currentDatetime: Dayjs) => {
-    if (disruption.publishStatus !== PublishStatus.published) {
-        return false;
-    }
+const convertJsonToSiri = (
+    disruptions: Awaited<ReturnType<typeof enrichDisruptionsWithOrgInfo>>,
+    currentTime: string,
+    responseMessageIdentifier: string,
+) => {
+    const ptSituationElements = disruptions.map((disruption) => getPtSituationElementFromSiteDisruption(disruption));
 
-    if (disruption.publishEndDate && disruption.publishEndTime) {
-        const endDatetime = getDatetimeFromDateAndTime(disruption.publishEndDate, disruption.publishEndTime);
+    const parsedPtSituationElements =
+        ptSituationElements
+            .map((item) => {
+                const parseResult = ptSituationElementSchema.safeParse(item);
 
-        if (currentDatetime.isAfter(endDatetime)) {
-            return false;
-        }
-    }
+                if (!parseResult.success) {
+                    const disruptionId = item?.SituationNumber;
+                    logger.error(`Parse failed for disruption ID: ${disruptionId || "unavailable"}`);
+                    logger.error(parseResult.error.stack || "");
+                    return null;
+                }
 
-    return true;
+                return parseResult.data;
+            })
+            .filter(notEmpty) ?? [];
+
+    const jsonToXmlObject = {
+        ServiceDelivery: {
+            ProducerRef: "DepartmentForTransport",
+            ResponseTimestamp: currentTime,
+            ResponseMessageIdentifier: responseMessageIdentifier,
+            SituationExchangeDelivery: {
+                ResponseTimestamp: currentTime,
+                Situations: {
+                    PtSituationElement: parsedPtSituationElements,
+                },
+            },
+        },
+    };
+
+    logger.info(`Verifying JSON against schema...`);
+    const verifiedObject = siriSchema.parse(jsonToXmlObject);
+
+    const completeObject = {
+        "@": {
+            version: "2.0",
+            xmlns: "http://www.siri.org.uk/siri",
+            "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+            "xsi:schemaLocation": "http://www.siri.org.uk/siri http://www.siri.org.uk/schema/2.0/xsd/siri.xsd",
+        },
+        ...verifiedObject,
+    };
+
+    return parse("Siri", completeObject, {
+        declaration: {
+            version: "1.0",
+            encoding: "UTF-8",
+            standalone: "yes",
+        },
+        useSelfClosingTagIfEmpty: true,
+    });
 };
 
 export const generateSiriSxAndUploadToS3 = async (
     s3Client: S3Client,
-    ddbDocClient: DynamoDBDocumentClient,
     disruptionsTableName: string,
     orgTableName: string,
-    bucketName: string,
+    unvalidatedSiriBucketName: string,
+    disruptionsJsonBucketName: string,
+    disruptionsCsvBucketName: string,
     responseMessageIdentifier: string,
     currentTime: string,
 ) => {
@@ -51,96 +125,31 @@ export const generateSiriSxAndUploadToS3 = async (
     try {
         const disruptions = await getPublishedDisruptionsDataFromDynamo(disruptionsTableName, logger);
 
-        const orgIds = disruptions
-            .map((disruption) => disruption.orgId)
-            .filter(notEmpty)
-            .filter((value, index, array) => array.indexOf(value) === index);
+        const disruptionsWithOrgInfo = await enrichDisruptionsWithOrgInfo(disruptions, orgTableName);
 
-        const orgInfo = (await Promise.all(orgIds.map(async (id) => getOrganisationInfoById(orgTableName, id)))).filter(
-            notEmpty,
-        );
+        const siri = convertJsonToSiri(disruptionsWithOrgInfo, currentTime, responseMessageIdentifier);
+        const apiDisruptions = getApiDisruptions(disruptionsWithOrgInfo);
+        const dataCatalogueCsv = await convertToCsv(apiDisruptions);
 
-        const date = getDate();
-
-        const ptSituationElements = disruptions
-            .map((disruption) => {
-                if (!disruption.orgId) {
-                    return null;
-                }
-
-                const orgName = orgInfo
-                    .find((org) => org.id === disruption.orgId)
-                    ?.name.replace(/[^-._:A-Za-z0-9]/g, "");
-
-                if (!orgName || !includeDisruption(disruption, date)) {
-                    return null;
-                }
-
-                return getPtSituationElementFromSiteDisruption(disruption, orgName);
-            })
-            .filter(notEmpty);
-
-        const cleanData =
-            ptSituationElements
-                .map((item) => {
-                    const parseResult = ptSituationElementSchema.safeParse(item);
-
-                    if (!parseResult.success) {
-                        const disruptionId = item?.SituationNumber;
-                        logger.error(`Parse failed for disruption ID: ${disruptionId || "unavailable"}`);
-                        logger.error(parseResult.error.stack || "");
-                        return null;
-                    }
-
-                    return parseResult.data;
-                })
-                .filter(notEmpty) ?? [];
-
-        const jsonToXmlObject = {
-            ServiceDelivery: {
-                ProducerRef: "DepartmentForTransport",
-                ResponseTimestamp: currentTime,
-                ResponseMessageIdentifier: responseMessageIdentifier,
-                SituationExchangeDelivery: {
-                    ResponseTimestamp: currentTime,
-                    Situations: {
-                        PtSituationElement: cleanData,
-                    },
-                },
-            },
-        };
-
-        logger.info(`Verifying JSON against schema...`);
-        const verifiedObject = siriSchema.parse(jsonToXmlObject);
-
-        const completeObject = {
-            "@": {
-                version: "2.0",
-                xmlns: "http://www.siri.org.uk/siri",
-                "xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
-                "xsi:schemaLocation": "http://www.siri.org.uk/siri http://www.siri.org.uk/schema/2.0/xsd/siri.xsd",
-            },
-            ...verifiedObject,
-        };
-
-        const xmlData = parse("Siri", completeObject, {
-            declaration: {
-                version: "1.0",
-                encoding: "UTF-8",
-                standalone: "yes",
-            },
-            useSelfClosingTagIfEmpty: true,
-        });
-
-        await uploadToS3(
-            s3Client,
-            xmlFormat(xmlData, {
-                collapseContent: true,
-            }),
-            `${new Date(currentTime).valueOf()}-unvalidated-siri.xml`,
-            bucketName,
-            "application/xml",
-        );
+        await Promise.all([
+            uploadToS3(
+                s3Client,
+                xmlFormat(siri, {
+                    collapseContent: true,
+                }),
+                `${new Date(currentTime).valueOf()}-unvalidated-siri.xml`,
+                unvalidatedSiriBucketName,
+                "application/xml",
+            ),
+            uploadToS3(
+                s3Client,
+                JSON.stringify(apiDisruptions),
+                "disruptions.json",
+                disruptionsJsonBucketName,
+                "application/json",
+            ),
+            uploadToS3(s3Client, dataCatalogueCsv, "disruptions.csv", disruptionsCsvBucketName, "text/csv"),
+        ]);
     } catch (e) {
         throw e;
     }
@@ -161,14 +170,16 @@ export const main = async (): Promise<void> => {
             DISRUPTIONS_TABLE_NAME: disruptionsTableName,
             ORGANISATIONS_TABLE_NAME: orgTableName,
             SIRI_SX_UNVALIDATED_BUCKET_NAME: unvalidatedBucketName,
+            DISRUPTIONS_JSON_BUCKET_NAME: disruptionsJsonBucketName,
+            DISRUPTIONS_CSV_BUCKET_NAME: disruptionsCsvBucketName,
         } = process.env;
 
         if (!disruptionsTableName || !orgTableName) {
             throw new Error("Dynamo table names not set");
         }
 
-        if (!unvalidatedBucketName) {
-            throw new Error("SIRI_SX_UNVALIDATED_BUCKET_NAME not set");
+        if (!unvalidatedBucketName || !disruptionsJsonBucketName || !disruptionsCsvBucketName) {
+            throw new Error("Bucket names not set");
         }
 
         const responseMessageIdentifier = randomUUID();
@@ -176,15 +187,16 @@ export const main = async (): Promise<void> => {
 
         await generateSiriSxAndUploadToS3(
             s3Client,
-            ddbDocClient,
             disruptionsTableName,
             orgTableName,
             unvalidatedBucketName,
+            disruptionsJsonBucketName,
+            disruptionsCsvBucketName,
             responseMessageIdentifier,
             currentTime.toISOString(),
         );
 
-        logger.info("Unvalidated SIRI-SX XML created and published to S3");
+        logger.info("Unvalidated SIRI-SX XML and Disruptions JSON/CSV created and published to S3");
     } catch (e) {
         if (e instanceof Error) {
             logger.error(e);

@@ -1,5 +1,6 @@
-import { Service, ServicesConsequence, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Routes, Service, ServicesConsequence, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import {
+    MAX_CONSEQUENCES,
     serviceSchema,
     servicesConsequenceSchema,
     stopSchema,
@@ -38,7 +39,6 @@ import {
 import { getDisruptionById } from "../../../data/dynamo";
 import { fetchServiceRoutes, fetchServices, fetchServicesByStops, fetchServiceStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import { Routes } from "../../../schemas/consequence.schema";
 import { flattenZodErrors, getServiceLabel, isServicesConsequence, sortServices } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
@@ -96,6 +96,16 @@ const fetchStops = async (
     return [];
 };
 
+const removeServiceForStop = (stop: Stop, removedServiceId: number) =>
+    stop.serviceIds?.includes(removedServiceId)
+        ? { ...stop, serviceIds: stop.serviceIds.filter((id) => id !== removedServiceId) }
+        : stop;
+
+const removeStopsWithNoServices = (stop: Stop) => stop.serviceIds?.length !== 0;
+
+const filterStopsWithoutServices = (stops: Stop[], removedServiceId: number) =>
+    stops.map((stop) => removeServiceForStop(stop, removedServiceId)).filter(removeStopsWithNoServices);
+
 export interface CreateConsequenceServicesProps
     extends PageState<Partial<ServicesConsequence>>,
         CreateConsequenceProps {
@@ -115,6 +125,8 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     const [servicesRecords, setServicesRecords] = useState<Service[]>([]);
     const [dataSource, setDataSource] = useState<Datasource>(props.consequenceDataSource || Datasource.bods);
     const [vehicleMode, setVehicleMode] = useState<VehicleMode | null>(props.inputs.vehicleMode || null);
+
+    const { consequenceCount = 0 } = props;
 
     useEffect(() => {
         const loadOptions = async () => {
@@ -253,7 +265,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                     await Promise.all(
                         servicesRoutesForMap.map(async (service) => {
                             if (service) {
-                                return await fetchStops(service.serviceId, pageState.inputs.vehicleMode, dataSource);
+                                return fetchStops(service.serviceId, pageState.inputs.vehicleMode, dataSource);
                             }
                             return [];
                         }),
@@ -400,7 +412,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageState.inputs.vehicleMode]);
 
-    const removeService = async (e: SyntheticEvent, removedServiceId: number) => {
+    const removeService = (e: SyntheticEvent, removedServiceId: number) => {
         e.preventDefault();
 
         if (pageState?.inputs?.services) {
@@ -408,33 +420,20 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                 (service) => service.id !== removedServiceId,
             );
 
-            const stopsWithServiceRemoved = pageState.inputs?.stops?.map((stop) => {
-                return stop.serviceIds?.includes(removedServiceId)
-                    ? { ...stop, serviceIds: stop.serviceIds.filter((id) => id !== removedServiceId) }
-                    : stop;
-            });
-
-            const filteredStops = stopsWithServiceRemoved?.filter((stop) => stop.serviceIds?.length !== 0);
+            const filteredStopOptions = filterStopsWithoutServices(stopOptions, removedServiceId);
+            const filteredSelectedStops = filterStopsWithoutServices(pageState.inputs.stops ?? [], removedServiceId);
 
             setPageState({
                 ...pageState,
                 inputs: {
                     ...pageState.inputs,
-                    stops: filteredStops,
+                    stops: filteredSelectedStops,
                     services: updatedServicesArray,
                 },
                 errors: pageState.errors,
             });
 
-            const updatedStopOptions = (
-                await Promise.all(
-                    updatedServicesArray.map(async (service) => {
-                        return await fetchStops(service.id, pageState.inputs.vehicleMode, service.dataSource);
-                    }),
-                )
-            ).flat();
-
-            setStopOptions(sortAndFilterStops(updatedStopOptions));
+            setStopOptions(sortAndFilterStops(filteredStopOptions));
         }
 
         setSearchedOptions(searched.filter((route) => route?.serviceId !== removedServiceId) || []);
@@ -450,7 +449,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                         id={`remove-service-${service.id}`}
                         key={`remove-service-${service.id}`}
                         className="govuk-link"
-                        onClick={(e) => Promise.resolve(removeService(e, service.id))}
+                        onClick={(e) => removeService(e, service.id)}
                     >
                         Remove
                     </button>,
@@ -707,7 +706,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             isTemplate={isTemplate}
                         />
 
-                        {(props.consequenceIndex || 0) <= 10 && (
+                        {consequenceCount < (props.isEdit ? MAX_CONSEQUENCES : MAX_CONSEQUENCES - 1) && (
                             <button
                                 formAction={`/api/create-consequence-services${
                                     isTemplate
@@ -774,8 +773,8 @@ export const getServerSideProps = async (
     let consequenceDataSource: Datasource | null = null;
     let globalDataSource: Datasource | null = null;
 
-    if (consequence && pageState.inputs.services) {
-        globalDataSource = session.mode[consequence.vehicleMode];
+    if (pageState.inputs.vehicleMode && pageState.inputs.services) {
+        globalDataSource = session.mode[pageState.inputs.vehicleMode];
 
         consequenceDataSource = pageState.inputs.services[0].dataSource;
 
@@ -792,12 +791,13 @@ export const getServerSideProps = async (
             ...pageState,
             initialStops: stops,
             consequenceIndex: index,
+            consequenceCount: disruption.consequences?.length ?? 0,
             sessionWithOrg: session,
             disruptionDescription: disruption.description || "",
-            template: disruption.template?.toString() || "",
             consequenceDataSource,
             globalDataSource,
             disruptionStatus: disruption.publishStatus,
+            isEdit: !!consequence,
         },
     };
 };

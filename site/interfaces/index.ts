@@ -74,6 +74,8 @@ export interface CreateConsequenceProps {
     initialStops?: Stop[];
     disruptionDescription?: string;
     template?: string;
+    consequenceCount?: number;
+    isEdit?: boolean;
 }
 
 export interface DisruptionDetailCookie {

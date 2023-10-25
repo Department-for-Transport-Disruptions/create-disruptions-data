@@ -1,3 +1,4 @@
+import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { ReactElement, ReactNode, useState } from "react";
@@ -37,7 +38,7 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
                     `${getAccountType(user.group)}`,
                     user.email,
                     user.userStatus === "CONFIRMED" ? "Active" : "Pending invite",
-                    user.group !== "system-admins"
+                    user.group !== UserGroups.systemAdmins
                         ? createLink("user-action", index, user.username, user.group, user.userStatus !== "CONFIRMED")
                         : "",
                 ],

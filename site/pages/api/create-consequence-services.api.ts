@@ -10,10 +10,11 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
-import { upsertConsequence } from "../../data/dynamo";
+import { TooManyConsequencesError } from "../../errors";
 import { flattenZodErrors, getLargestConsequenceIndex } from "../../utils";
 import {
     destroyCookieOnResponseObject,
+    handleUpsertConsequence,
     isDisruptionFromTemplate,
     redirectTo,
     redirectToError,
@@ -56,7 +57,9 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
 
         const { template, addAnotherConsequence } = req.query;
 
-        const formattedBody = formatCreateConsequenceStopsServicesBody(req.body as object);
+        const body = req.body as ServicesConsequence;
+
+        const formattedBody = formatCreateConsequenceStopsServicesBody(body);
 
         const validatedBody = servicesConsequenceSchema.safeParse(formattedBody);
 
@@ -69,8 +72,6 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
         }
 
         if (!validatedBody.success) {
-            const body = req.body as ServicesConsequence;
-
             if (!body.disruptionId || !body.consequenceIndex) {
                 throw new Error("No disruptionId or consequenceIndex found");
             }
@@ -94,11 +95,14 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
             return;
         }
 
-        const disruption = await upsertConsequence(
+        const disruption = await handleUpsertConsequence(
             validatedBody.data,
             session.orgId,
             session.isOrgStaff,
             template === "true",
+            formattedBody,
+            COOKIES_CONSEQUENCE_SERVICES_ERRORS,
+            res,
         );
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_SERVICES_ERRORS, res);
 
@@ -138,6 +142,20 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
         );
         return;
     } catch (e) {
+        if (e instanceof TooManyConsequencesError) {
+            const body = req.body as ServicesConsequence;
+
+            redirectToWithQueryParams(
+                req,
+                res,
+                req.query.template === "true" ? ["template"] : [],
+                `${CREATE_CONSEQUENCE_SERVICES_PATH}/${body.disruptionId}/${body.consequenceIndex}`,
+                [],
+            );
+
+            return;
+        }
+
         if (e instanceof Error) {
             const message = "There was a problem adding a consequence services.";
             redirectToError(res, message, "api.create-consequence-services", e);

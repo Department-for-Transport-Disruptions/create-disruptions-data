@@ -1,5 +1,9 @@
 import { Stop, StopsConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { stopSchema, stopsConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import {
+    stopSchema,
+    stopsConsequenceSchema,
+    MAX_CONSEQUENCES,
+} from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Modes, PublishStatus, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
@@ -64,6 +68,8 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
         props.disruptionStatus === PublishStatus.pendingAndEditing;
 
     const displayCancelButton = isEditing || props.inputs.description;
+
+    const { consequenceCount = 0 } = props;
 
     const handleChange = (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
@@ -375,7 +381,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             isTemplate={isTemplate}
                         />
 
-                        {(props.consequenceIndex || 0) <= 10 && (
+                        {consequenceCount < (props.isEdit ? MAX_CONSEQUENCES : MAX_CONSEQUENCES - 1) && (
                             <button
                                 formAction={`/api/create-consequence-stops${
                                     isTemplate
@@ -443,10 +449,11 @@ export const getServerSideProps = async (
         props: {
             ...pageState,
             consequenceIndex: index,
+            consequenceCount: disruption.consequences?.length ?? 0,
             sessionWithOrg: session,
             disruptionDescription: disruption.description || "",
-            template: disruption.template?.toString() || "",
             disruptionStatus: disruption.publishStatus,
+            isEdit: !!consequence,
         },
     };
 };

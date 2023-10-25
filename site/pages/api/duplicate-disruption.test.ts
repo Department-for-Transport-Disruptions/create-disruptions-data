@@ -14,7 +14,8 @@ import * as session from "../../utils/apiUtils/auth";
 import { getFutureDateAsString } from "../../utils/dates";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
-const newDefaultDisruptionId = "bade070d-8c4c-4f0d-9d8a-162843c10444";
+const newDefaultDisruptionId: `${string}-${string}-${string}-${string}-${string}` =
+    "bade070d-8c4c-4f0d-9d8a-162843c10444";
 
 const defaultConsequenceIndex = "0";
 
@@ -89,6 +90,8 @@ describe("duplicate-disruption API", () => {
     const getDisruptionByIdSpy = vi.spyOn(dynamo, "getDisruptionById");
 
     const randomUUIDSpy = vi.spyOn(crypto, "randomUUID");
+
+    crypto.randomUUID();
 
     beforeEach(() => {
         getSessionSpy.mockImplementation(() => {

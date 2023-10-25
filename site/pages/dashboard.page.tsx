@@ -1,4 +1,5 @@
 import { Disruption, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { sortDisruptionsByStartDate, getSortedDisruptionFinalEndDate } from "@create-disruptions-data/shared-ts/utils";
 import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { NextPageContext } from "next";
 import Link from "next/link";
@@ -10,7 +11,7 @@ import PageNumbers from "../components/layout/PageNumbers";
 import Tabs from "../components/layout/Tabs";
 import { VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../constants";
 import { getPendingDisruptionsIdsFromDynamo, getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
-import { getSortedDisruptionFinalEndDate, reduceStringWithEllipsis, sortDisruptionsByStartDate } from "../utils";
+import { reduceStringWithEllipsis } from "../utils";
 import { canPublish, getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 import { convertDateTimeToFormat, isLiveDisruption, isUpcomingDisruption } from "../utils/dates";
 
@@ -322,26 +323,27 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                         getDatetimeFromDateAndTime(period.disruptionEndDate, period.disruptionEndTime).isBefore(today),
                 );
 
+                const getEndDateTime = getSortedDisruptionFinalEndDate({
+                    ...disruption,
+                    validity: validityPeriods,
+                });
+
                 if (!shouldNotDisplayDisruption) {
-                    // as long as start time is NOT after today AND (end time is TODAY or AFTER TODAY) OR (no end time) --> LIVE
-                    const isLive = isLiveDisruption(validityPeriods);
+                    // Between when the first validity period has started and the last validity has yet to end
+                    const isLive = isLiveDisruption(validityPeriods, getEndDateTime);
 
                     if (isLive) {
                         liveDisruptions.push(disruption);
                     }
 
-                    // start time after today --> upcoming
+                    // Prior to the first validity period starting
                     const isUpcoming = isUpcomingDisruption(validityPeriods, today);
 
                     if (isUpcoming) {
                         upcomingDisruptions.push(disruption);
                     }
                 } else {
-                    const getEndDateTime = getSortedDisruptionFinalEndDate({
-                        ...disruption,
-                        validity: validityPeriods,
-                    });
-
+                    // Up to 7 days after the last validity period has ended
                     const isRecentlyClosed = !!getEndDateTime && getEndDateTime.isAfter(today.subtract(7, "day"));
 
                     if (isRecentlyClosed) recentlyClosedDisruptions.push(disruption);

@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Node.js and cache
         uses: actions/setup-node@v3
@@ -68,10 +68,10 @@ jobs:
           cache: 'npm'
 
       - name: Rebuild npm
-        run: npm rebuild
+        run: npm rebuild --ignore-scripts
 
       - name: Assume role using OIDC
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/cdd-github-actions-role-eu-west-2
           aws-region: ${{ vars.AWS_DEFAULT_REGION }}
@@ -109,10 +109,10 @@ jobs:
           cache: 'npm'
 
       - name: Rebuild npm
-        run: npm rebuild
+        run: npm rebuild --ignore-scripts
 
       - name: Assume role using OIDC
-        uses: aws-actions/configure-aws-credentials@v2
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/cdd-github-actions-role-eu-west-2
           aws-region: ${{ vars.AWS_DEFAULT_REGION }}

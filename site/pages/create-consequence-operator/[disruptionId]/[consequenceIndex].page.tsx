@@ -1,5 +1,5 @@
 import { OperatorConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { operatorConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { operatorConsequenceSchema, MAX_CONSEQUENCES } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Datasource, PublishStatus, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
@@ -70,6 +70,8 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
 
     const [dataSource, setDataSource] = useState<Datasource>(Datasource.bods);
 
+    const { consequenceCount = 0 } = props;
+
     useEffect(() => {
         const source = props.sessionWithOrg?.mode[pageState?.inputs?.vehicleMode as keyof ModeType];
         if (source && dataSource !== source) {
@@ -84,16 +86,16 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
             operator.dataSource === dataSource.toString();
 
         if (
-            pageState.inputs?.vehicleMode === VehicleMode.bus.toString() &&
+            pageState.inputs?.vehicleMode === VehicleMode.bus &&
             (operator.mode === VehicleMode.bus.toString() || operator.mode === "")
         ) {
             return display;
         } else if (
-            pageState.inputs?.vehicleMode === VehicleMode.tram.toString() &&
+            pageState.inputs?.vehicleMode === VehicleMode.tram &&
             (operator.mode === VehicleMode.tram.toString() || operator.mode === "metro")
         ) {
             return display;
-        } else if (pageState.inputs?.vehicleMode === VehicleMode.ferryService.toString() && operator.mode === "ferry") {
+        } else if (pageState.inputs?.vehicleMode === VehicleMode.ferryService && operator.mode === "ferry") {
             return display;
         } else if (pageState.inputs?.vehicleMode === operator.mode) {
             return display;
@@ -289,7 +291,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             buttonClasses="mt-8"
                             isTemplate={isTemplate}
                         />
-                        {(props.consequenceIndex || 0) <= 10 && (
+                        {consequenceCount < (props.isEdit ? MAX_CONSEQUENCES : MAX_CONSEQUENCES - 1) && (
                             <button
                                 formAction={`/api/create-consequence-operator${
                                     isTemplate
@@ -372,11 +374,12 @@ export const getServerSideProps = async (
         props: {
             ...pageState,
             consequenceIndex: index,
+            consequenceCount: disruption.consequences?.length ?? 0,
             operators: uniqueOperators,
             disruptionDescription: disruption.description || "",
             sessionWithOrg: session,
-            template: disruption.template?.toString() || "",
             disruptionStatus: disruption.publishStatus,
+            isEdit: !!consequence,
         },
     };
 };

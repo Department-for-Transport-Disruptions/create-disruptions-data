@@ -1,4 +1,5 @@
-import { Consequence, DisruptionInfo, Service } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { UserStatusType } from "@aws-sdk/client-cognito-identity-provider";
+import { Consequence, Disruption, DisruptionInfo, Service } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import {
     Datasource,
     DayType,
@@ -23,7 +24,6 @@ import { Operator, ServiceApiResponse } from "../schemas/consequence.schema";
 import { ExportDisruptions, FullDisruption } from "../schemas/disruption.schema";
 import { Session } from "../schemas/session.schema";
 import { HootsuitePost } from "../schemas/social-media.schema";
-import { SortedDisruption } from "../utils";
 import { getFutureDateAsString } from "../utils/dates";
 
 export const DEFAULT_ORG_ID = "35bae327-4af0-4bbf-8bfa-2c085f214483";
@@ -706,7 +706,7 @@ export const exportDisruption: ExportDisruptions = [
     },
 ];
 
-export const sortedDisruption: SortedDisruption = {
+export const sortedDisruption: Disruption = {
     publishStatus: PublishStatus.draft,
     disruptionId: "test",
     description: "Test description",
@@ -718,6 +718,8 @@ export const sortedDisruption: SortedDisruption = {
     publishStartTime: "1200",
     displayId: "8fg3ha",
     orgId: DEFAULT_ORG_ID,
+    disruptionStartDate: "25/03/2021",
+    disruptionStartTime: "1123",
     consequences: [
         {
             consequenceIndex: 0,
@@ -778,15 +780,15 @@ export const sortedDisruption: SortedDisruption = {
             disruptionEndTime: "1123",
         },
         {
-            disruptionStartDate: "25/12/2022",
+            disruptionStartDate: "25/12/2025",
             disruptionStartTime: "1123",
-            disruptionEndDate: "30/12/2022",
+            disruptionEndDate: "30/12/2025",
             disruptionEndTime: "1123",
         },
         {
-            disruptionStartDate: "25/03/2024",
+            disruptionStartDate: "25/03/2030",
             disruptionStartTime: "1123",
-            disruptionEndDate: "30/03/2024",
+            disruptionEndDate: "30/03/2030",
             disruptionEndTime: "1123",
         },
     ],
@@ -1027,7 +1029,7 @@ export const mockGetUserDetails = Promise.resolve({
     body: {},
     $metadata: { httpStatusCode: 302 },
     Username: "2f99b92e-a86f-4457-a2dc-923db4781c52",
-    UserStatus: "FORCE_CHANGE_PASSWORD",
+    UserStatus: UserStatusType.FORCE_CHANGE_PASSWORD,
     UserAttributes: [
         {
             Name: "custom:orgId",
@@ -1132,3 +1134,38 @@ export const createDisruptionWithConsquences = (consequences: Consequence[]): Fu
         template: false,
     };
 };
+
+export const mockOrgAdmins = [
+    {
+        Attributes: [
+            { Name: "sub", Value: "test-sub" },
+            { Name: "email_verified", Value: "true" },
+            { Name: "custom:orgId", Value: DEFAULT_ORG_ID },
+            { Name: "custom:disruptionEmailPref", Value: "true" },
+            { Name: "given_name", Value: "Test1" },
+            { Name: "family_name", Value: "Test1" },
+            { Name: "email", Value: "emailtoshow@test.com" },
+        ],
+        Enabled: true,
+        UserCreateDate: new Date(),
+        UserLastModifiedDate: new Date(),
+        UserStatus: UserStatusType.CONFIRMED,
+        Username: "username",
+    },
+    {
+        Attributes: [
+            { Name: "sub", Value: "test-sub" },
+            { Name: "email_verified", Value: "true" },
+            { Name: "custom:orgId", Value: "orgId To Be Omitted" },
+            { Name: "custom:disruptionEmailPref", Value: "false" },
+            { Name: "given_name", Value: "Test2" },
+            { Name: "family_name", Value: "Test2" },
+            { Name: "email", Value: "emailthatshouldnotshow@test.com" },
+        ],
+        Enabled: true,
+        UserCreateDate: new Date(),
+        UserLastModifiedDate: new Date(),
+        UserStatus: UserStatusType.CONFIRMED,
+        Username: "username",
+    },
+];

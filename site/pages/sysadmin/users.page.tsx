@@ -48,14 +48,14 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
                     user.familyName,
                     user.email,
                     `${getAccountType(user.group)}`,
-                    user.group !== "system-admins"
+                    user.group !== UserGroups.systemAdmins
                         ? createLink(
                               "user-action",
                               index,
                               user.username,
                               user.group,
                               user.organisation,
-                              user.userStatus !== "CONFIRMED" && user.group == "org-admins",
+                              user.userStatus !== "CONFIRMED" && user.group == UserGroups.orgAdmins,
                           )
                         : "",
                     user.userStatus === "FORCE_CHANGE_PASSWORD" ? "Unregistered" : "Registered",

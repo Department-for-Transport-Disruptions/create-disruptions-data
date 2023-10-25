@@ -14,7 +14,7 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"
@@ -536,7 +536,7 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"
@@ -1469,7 +1469,7 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"

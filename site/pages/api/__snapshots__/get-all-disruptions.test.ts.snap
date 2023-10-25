@@ -5,7 +5,7 @@ exports[`getAllDisruptions > formatSortedDisruptions > correctly formats disrupt
   "consequenceLength": 3,
   "displayId": "8fg3ha",
   "id": "test",
-  "isLive": false,
+  "isLive": true,
   "isNetworkWideCq": true,
   "isOperatorWideCq": true,
   "modes": [
@@ -29,12 +29,12 @@ exports[`getAllDisruptions > formatSortedDisruptions > correctly formats disrupt
       "startTime": "2021-03-25T11:23:00.000Z",
     },
     {
-      "endTime": "2022-12-30T11:23:00.000Z",
-      "startTime": "2022-12-25T11:23:00.000Z",
+      "endTime": "2025-12-30T11:23:00.000Z",
+      "startTime": "2025-12-25T11:23:00.000Z",
     },
     {
-      "endTime": "2024-03-30T11:23:00.000Z",
-      "startTime": "2024-03-25T11:23:00.000Z",
+      "endTime": "2030-03-30T11:23:00.000Z",
+      "startTime": "2030-03-25T11:23:00.000Z",
     },
   ],
 }
