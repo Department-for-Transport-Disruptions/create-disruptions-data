@@ -17,6 +17,7 @@ import {
 import { getAccessToken, publishToHootsuite } from "../../data/hootsuite";
 import { getAuthedTwitterClient, sendTweet } from "../../data/twitter";
 import { PageState } from "../../interfaces";
+import { OperatorData } from "../../schemas/add-user.schema";
 import { SocialMediaPost } from "../../schemas/social-media.schema";
 import logger from "../logger";
 
@@ -194,4 +195,22 @@ export const redirectToWithQueryParams = (
                 : ""
         }`,
     );
+};
+
+export const formatAddOrEditUserBody = (body: object) => {
+    const operatorNocCodes = Object.entries(body)
+        .filter((item) => item[0].startsWith("operatorNocCodes"))
+        .map((arr: string[]) => {
+            const [, values] = arr;
+            return JSON.parse(values) as OperatorData;
+        });
+
+    const cleansedBody = Object.fromEntries(
+        Object.entries(body).filter((item) => !item[0].startsWith("operatorNocCodes")),
+    );
+
+    return {
+        ...cleansedBody,
+        operatorNocCodes,
+    };
 };

@@ -1,5 +1,6 @@
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { z } from "zod";
+import { MAX_OPERATOR_NOC_CODES } from "../constants";
 import { setZodDefaultError } from "../utils";
 
 export const operatorDataSchema = z.object({
@@ -28,9 +29,12 @@ export const addUserSchemaRefined = addUserSchema
     )
     .refine(
         (input) => {
-            return !(input.operatorNocCodes !== undefined && input.operatorNocCodes.length > 5);
+            return !(input.operatorNocCodes !== undefined && input.operatorNocCodes.length > MAX_OPERATOR_NOC_CODES);
         },
-        { path: ["operatorNocCodes"], message: "Maximum of 5 NOC codes permitted per operator user" },
+        {
+            path: ["operatorNocCodes"],
+            message: `Maximum of ${MAX_OPERATOR_NOC_CODES} NOC codes permitted per operator user`,
+        },
     );
 
 export const editUserSchema = addUserSchemaRefined.and(

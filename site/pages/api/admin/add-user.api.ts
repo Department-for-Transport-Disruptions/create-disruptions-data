@@ -3,33 +3,16 @@ import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import { ADD_USER_PAGE_PATH, COOKIES_ADD_USER_ERRORS, USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
 import { createUser } from "../../../data/cognito";
-import { addUserSchemaRefined, OperatorData } from "../../../schemas/add-user.schema";
+import { addUserSchemaRefined } from "../../../schemas/add-user.schema";
 import { flattenZodErrors } from "../../../utils";
 import {
     redirectToError,
     setCookieOnResponseObject,
     redirectTo,
     destroyCookieOnResponseObject,
+    formatAddOrEditUserBody,
 } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
-
-export const formatAddUserBody = (body: object) => {
-    const operatorNocCodes = Object.entries(body)
-        .filter((item) => item.toString().startsWith("operatorNocCodes"))
-        .map((arr: string[]) => {
-            const [, values] = arr;
-            return JSON.parse(values) as OperatorData;
-        });
-
-    const cleansedBody = Object.fromEntries(
-        Object.entries(body).filter((item) => !item.toString().startsWith("operatorNocCodes")),
-    );
-
-    return {
-        ...cleansedBody,
-        operatorNocCodes,
-    };
-};
 
 const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
@@ -39,7 +22,7 @@ const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
             throw new Error("No session found");
         }
 
-        const cleansedBody = formatAddUserBody(req.body as object);
+        const cleansedBody = formatAddOrEditUserBody(req.body as object);
 
         const validatedBody = addUserSchemaRefined.safeParse({ ...cleansedBody, orgId: session.orgId });
         if (!validatedBody.success) {
@@ -61,7 +44,7 @@ const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
             const operatorAttribute: AttributeType[] = [
                 {
                     Name: "custom:nocCodes",
-                    Value: nocCodes.toString(),
+                    Value: nocCodes.join(","),
                 },
             ];
             await createUser(validatedBody.data, operatorAttribute);
