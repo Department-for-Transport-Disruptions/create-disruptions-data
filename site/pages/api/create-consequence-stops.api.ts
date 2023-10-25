@@ -56,6 +56,10 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
             throw new Error("No session found");
         }
 
+        if (session.isOperatorUser) {
+            throw new Error("Operator users are not permitted to create stop type consequences");
+        }
+
         if (!validatedBody.success) {
             const body = req.body as StopsConsequence;
 

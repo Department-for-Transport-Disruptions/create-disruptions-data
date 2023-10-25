@@ -31,7 +31,7 @@ import { fetchOperators } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { Operator } from "../../../schemas/consequence.schema";
 import { ModeType } from "../../../schemas/organisation.schema";
-import { isOperatorConsequence } from "../../../utils";
+import { convertStringListToArray, isOperatorConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import {
@@ -369,11 +369,18 @@ export const getServerSideProps = async (
         }
     });
 
+    const operatorUserNocCodes =
+        session.isOperatorUser && session.nocCodes ? convertStringListToArray(session.nocCodes) : [];
+
     return {
         props: {
             ...pageState,
             consequenceIndex: index,
-            operators: uniqueOperators,
+            operators: session.isOperatorUser
+                ? uniqueOperators.filter((operator) => {
+                      return operatorUserNocCodes.includes(operator.nocCode);
+                  })
+                : uniqueOperators,
             disruptionDescription: disruption.description || "",
             sessionWithOrg: session,
             template: disruption.template?.toString() || "",

@@ -208,3 +208,10 @@ export const toLowerStartCase = (text: string) => startCase(text.toLowerCase());
 export const sortOperatorByName = (operators: Operator[]): Operator[] => {
     return operators.sort((a, b) => (a.operatorPublicName > b.operatorPublicName ? 1 : -1));
 };
+
+export const convertStringListToArray = (stringList: string) => {
+    return stringList
+        .split(",")
+        .filter((value) => value)
+        .map((value) => value.trim());
+};

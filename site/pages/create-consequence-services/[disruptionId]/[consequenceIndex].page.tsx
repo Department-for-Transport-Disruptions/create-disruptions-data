@@ -37,7 +37,13 @@ import {
 import { getDisruptionById } from "../../../data/dynamo";
 import { fetchServiceRoutes, fetchServices, fetchServicesByStops, fetchServiceStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import { flattenZodErrors, getServiceLabel, isServicesConsequence, sortServices } from "../../../utils";
+import {
+    convertStringListToArray,
+    flattenZodErrors,
+    getServiceLabel,
+    isServicesConsequence,
+    sortServices,
+} from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import {
@@ -93,6 +99,8 @@ export interface CreateConsequenceServicesProps
         CreateConsequenceProps {
     consequenceDataSource: Datasource | null;
     globalDataSource: Datasource | null;
+    isOperatorUser?: boolean;
+    operatorUserNocCodes?: string[];
 }
 
 const CreateConsequenceServices = (props: CreateConsequenceServicesProps): ReactElement => {
@@ -350,7 +358,12 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
         const filteredData = filterServices(serviceData);
 
-        setServicesRecords(filteredData);
+        if (props.isOperatorUser) {
+            const filteredDataForOperatorUser = filteredData.filter((service) => {
+                return props.operatorUserNocCodes?.includes(service.nocCode);
+            });
+            setServicesRecords(filteredDataForOperatorUser);
+        } else setServicesRecords(filteredData);
     };
 
     useEffect(() => {
@@ -792,6 +805,8 @@ export const getServerSideProps = async (
             template: disruption.template?.toString() || "",
             consequenceDataSource,
             globalDataSource,
+            isOperatorUser: session.isOperatorUser,
+            operatorUserNocCodes: convertStringListToArray(session.nocCodes ?? ""),
         },
     };
 };

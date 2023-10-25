@@ -10,7 +10,7 @@ import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
 import { upsertConsequence } from "../../data/dynamo";
-import { flattenZodErrors, getLargestConsequenceIndex } from "../../utils";
+import { convertStringListToArray, flattenZodErrors, getLargestConsequenceIndex } from "../../utils";
 import {
     destroyCookieOnResponseObject,
     getReturnPage,
@@ -53,14 +53,48 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
         const queryParam = getReturnPage(req);
         const isFromTemplate = isDisruptionFromTemplate(req);
         const session = getSession(req);
-        const { template, addAnotherConsequence } = req.query;
-
-        const { draft } = req.query;
+        const { template, addAnotherConsequence, draft } = req.query;
 
         const formattedBody = formatCreateConsequenceBody(req.body) as OperatorConsequence;
 
         if (!session) {
             throw new Error("No session found");
+        }
+
+        if (session.isOperatorUser) {
+            const operatorUserNocCodes = convertStringListToArray(session.nocCodes ?? "");
+
+            const consequenceOperatorIncludesOperatorUserNocCode = formattedBody.consequenceOperators.map(
+                (operator) => {
+                    return operatorUserNocCodes.includes(operator.operatorNoc);
+                },
+            );
+
+            if (consequenceOperatorIncludesOperatorUserNocCode.includes(false)) {
+                setCookieOnResponseObject(
+                    COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
+                    JSON.stringify({
+                        inputs: formattedBody,
+                        errors: [
+                            {
+                                errorMessage:
+                                    "Operator user can only create operator type consequence for their own NOC codes.",
+                                id: "",
+                            },
+                        ],
+                    }),
+                    res,
+                );
+
+                redirectToWithQueryParams(
+                    req,
+                    res,
+                    template ? ["template"] : [],
+                    `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${formattedBody.disruptionId}/${formattedBody.consequenceIndex}`,
+                    queryParam ? [queryParam] : [],
+                );
+                return;
+            }
         }
 
         const validatedBody = operatorConsequenceSchema.safeParse(formattedBody);
