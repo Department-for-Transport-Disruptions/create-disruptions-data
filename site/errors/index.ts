@@ -11,3 +11,10 @@ export class NoStopsError extends Error {
         Object.setPrototypeOf(this, NoStopsError.prototype);
     }
 }
+
+export class TooManyConsequencesError extends Error {
+    constructor() {
+        super();
+        Object.setPrototypeOf(this, TooManyConsequencesError.prototype);
+    }
+}

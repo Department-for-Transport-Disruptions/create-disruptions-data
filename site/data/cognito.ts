@@ -102,7 +102,7 @@ export const initiateAuth = async (username: string, password: string): Promise<
             },
         };
 
-        return cognito.send(new AdminInitiateAuthCommand(params));
+        return await cognito.send(new AdminInitiateAuthCommand(params));
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(`Failed to authenticate user: ${error.stack || ""}`);
@@ -337,7 +337,7 @@ export const initiateResetPassword = async (email: string) => {
             ClientId: cognitoClientId,
             SecretHash: calculateSecretHash(email),
         };
-        return cognito.send(new ForgotPasswordCommand(params));
+        return await cognito.send(new ForgotPasswordCommand(params));
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(`Failed to initiate reset password flow: ${error.stack || ""}`);
@@ -361,7 +361,7 @@ export const resetUserPassword = async (key: string, newPassword: string, email:
             Username: email,
             SecretHash: calculateSecretHash(email),
         };
-        return cognito.send(new ConfirmForgotPasswordCommand(params));
+        return await cognito.send(new ConfirmForgotPasswordCommand(params));
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(`Failed to reset password: ${error.stack || ""}`);
@@ -387,7 +387,7 @@ export const updateUserCustomAttribute = async (username: string, attributeName:
                 },
             ],
         };
-        return cognito.send(new AdminUpdateUserAttributesCommand(input));
+        return await cognito.send(new AdminUpdateUserAttributesCommand(input));
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(`Failed to update users custom attribute`);

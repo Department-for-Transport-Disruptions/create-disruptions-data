@@ -1,4 +1,8 @@
-import { consequenceSchema, disruptionInfoSchemaRefined } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import {
+    MAX_CONSEQUENCES,
+    consequenceSchema,
+    disruptionInfoSchemaRefined,
+} from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { z } from "zod";
 import { socialMediaPostSchema } from "./social-media.schema";
 
@@ -13,8 +17,8 @@ export const publishDisruptionSchema = disruptionInfoSchemaRefined.and(
             .min(1, {
                 message: "You must create a consequence before publishing the disruption",
             })
-            .max(10, {
-                message: "Only up to 10 consequences can be added",
+            .max(MAX_CONSEQUENCES, {
+                message: `Only up to ${MAX_CONSEQUENCES} consequences can be added`,
             }),
         socialMediaPosts: z
             .array(socialMediaPostSchema)

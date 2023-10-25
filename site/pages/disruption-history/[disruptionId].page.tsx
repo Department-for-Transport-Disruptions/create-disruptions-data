@@ -1,4 +1,5 @@
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
+import { getSortedDisruptionFinalEndDate, sortDisruptionsByStartDate } from "@create-disruptions-data/shared-ts/utils";
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import { NextPageContext } from "next";
 import Link from "next/link";
@@ -9,7 +10,7 @@ import { DISRUPTION_DETAIL_PAGE_PATH } from "../../constants/index";
 import { getDisruptionById } from "../../data/dynamo";
 import { DisplayValuePair } from "../../interfaces";
 import { History } from "../../schemas/disruption.schema";
-import { getDisplayByValue, getSortedDisruptionFinalEndDate, sortDisruptionsByStartDate } from "../../utils";
+import { getDisplayByValue } from "../../utils";
 import { getSession } from "../../utils/apiUtils/auth";
 import { convertDateTimeToFormat, getDaysInPast } from "../../utils/dates";
 

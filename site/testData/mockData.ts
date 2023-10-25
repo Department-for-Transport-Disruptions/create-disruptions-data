@@ -1,5 +1,5 @@
 import { UserStatusType } from "@aws-sdk/client-cognito-identity-provider";
-import { Consequence, DisruptionInfo, Service } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Consequence, Disruption, DisruptionInfo, Service } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import {
     Datasource,
     DayType,
@@ -25,7 +25,6 @@ import { ExportDisruptions, FullDisruption } from "../schemas/disruption.schema"
 import { defaultModes } from "../schemas/organisation.schema";
 import { Session, SessionWithOrgDetail } from "../schemas/session.schema";
 import { HootsuitePost } from "../schemas/social-media.schema";
-import { SortedDisruption } from "../utils";
 import { getFutureDateAsString } from "../utils/dates";
 
 export const DEFAULT_ORG_ID = "35bae327-4af0-4bbf-8bfa-2c085f214483";
@@ -708,7 +707,7 @@ export const exportDisruption: ExportDisruptions = [
     },
 ];
 
-export const sortedDisruption: SortedDisruption = {
+export const sortedDisruption: Disruption = {
     publishStatus: PublishStatus.draft,
     disruptionId: "test",
     description: "Test description",
@@ -720,6 +719,8 @@ export const sortedDisruption: SortedDisruption = {
     publishStartTime: "1200",
     displayId: "8fg3ha",
     orgId: DEFAULT_ORG_ID,
+    disruptionStartDate: "25/03/2021",
+    disruptionStartTime: "1123",
     consequences: [
         {
             consequenceIndex: 0,

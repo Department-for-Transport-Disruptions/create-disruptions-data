@@ -1,11 +1,217 @@
-import { StackContext, use } from "sst/constructs";
+import { AuthorizationType, AwsIntegration, MethodOptions, PassthroughBehavior } from "aws-cdk-lib/aws-apigateway";
+import { PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
+import { ApiGatewayV1Api, StackContext, use } from "sst/constructs";
 import { DnsStack } from "./DnsStack";
-import { createSiriApi } from "./services/APIGateway";
+import { DynamoDBStack } from "./DynamoDBStack";
 import { SiriGeneratorStack } from "./SiriGeneratorStack";
 
 export function SiriAPIStack({ stack }: StackContext) {
-    const { siriSXBucket } = use(SiriGeneratorStack);
+    const { siriSXBucket, disruptionsJsonBucket, disruptionsCsvBucket } = use(SiriGeneratorStack);
     const { hostedZone } = use(DnsStack);
+    const { disruptionsTable, organisationsTableV2: organisationsTable } = use(DynamoDBStack);
 
-    createSiriApi(stack, siriSXBucket, hostedZone);
+    const apiUrl = !["preprod", "prod"].includes(stack.stage)
+        ? "https://api.test.ref-data.dft-create-data.com/v1"
+        : `https://api.${stack.stage}.ref-data.dft-create-data.com/v1`;
+
+    const subDomain = ["test", "preprod", "prod"].includes(stack.stage) ? "api" : `api.${stack.stage}`;
+
+    const apiGateway = new ApiGatewayV1Api(stack, "cdd-siri-sx-api", {
+        customDomain: {
+            domainName: `${subDomain}.${hostedZone.zoneName}`,
+            hostedZone: hostedZone.zoneName,
+            path: "v1",
+            securityPolicy: "TLS 1.2",
+            endpointType: "edge",
+        },
+        cdk: {
+            restApi: {
+                restApiName: `cdd-siri-sx-api-${stack.stage}`,
+                description: "API to retrieve Siri SX XML data and includes statistics about this data",
+            },
+        },
+        defaults: {
+            function: {
+                timeout: 20,
+                runtime: "nodejs18.x",
+            },
+        },
+        routes: {
+            "GET    /organisations": {
+                function: {
+                    handler: "packages/organisations-api/get-organisations/index.main",
+                    permissions: [
+                        new PolicyStatement({
+                            resources: [organisationsTable.tableArn],
+                            actions: ["dynamodb:Scan"],
+                        }),
+                    ],
+                    environment: {
+                        ORGANISATIONS_TABLE_NAME: organisationsTable.tableName,
+                    },
+                },
+                cdk: { method: { apiKeyRequired: true } },
+            },
+            "GET    /organisations/{id}": {
+                function: {
+                    handler: "packages/organisations-api/get-organisation/index.main",
+                    permissions: [
+                        new PolicyStatement({
+                            resources: [organisationsTable.tableArn],
+                            actions: ["dynamodb:Query"],
+                        }),
+                    ],
+                    environment: {
+                        ORGANISATIONS_TABLE_NAME: organisationsTable.tableName,
+                    },
+                },
+                cdk: { method: { apiKeyRequired: true } },
+            },
+            "GET    /organisations/{id}/impacted/stops": {
+                function: {
+                    handler: "packages/organisations-api/get-organisation-stops/index.main",
+                    permissions: [
+                        new PolicyStatement({
+                            resources: [disruptionsTable.tableArn],
+                            actions: ["dynamodb:Query"],
+                        }),
+                    ],
+                    environment: {
+                        DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
+                        API_BASE_URL: apiUrl,
+                    },
+                },
+                cdk: { method: { apiKeyRequired: true } },
+            },
+        },
+    });
+
+    const siriResource = apiGateway.cdk.restApi.root.addResource("siri-sx");
+    const disruptionsResource = apiGateway.cdk.restApi.root.addResource("disruptions");
+    const dataCatalogueResource = apiGateway.cdk.restApi.root.addResource("data-catalogue");
+
+    const getSiriRole = new Role(stack, "cdd-siri-sx-api-gateway-s3-integration-role", {
+        assumedBy: new ServicePrincipal("apigateway.amazonaws.com"),
+        roleName: `cdd-siri-sx-api-gateway-s3-integration-role-${stack.stage}`,
+    });
+
+    getSiriRole.addToPolicy(
+        new PolicyStatement({
+            resources: [`${siriSXBucket.bucketArn}/*`],
+            actions: ["s3:GetObject"],
+        }),
+    );
+
+    const getDisruptionsRole = new Role(stack, "cdd-disruptions-api-gateway-s3-integration-role", {
+        assumedBy: new ServicePrincipal("apigateway.amazonaws.com"),
+        roleName: `cdd-disruptions-api-gateway-s3-integration-role-${stack.stage}`,
+    });
+
+    getDisruptionsRole.addToPolicy(
+        new PolicyStatement({
+            resources: [`${disruptionsJsonBucket.bucketArn}/*`],
+            actions: ["s3:GetObject"],
+        }),
+    );
+
+    const getDataCatalogueRole = new Role(stack, "cdd-data-catalogue-api-gateway-s3-integration-role", {
+        assumedBy: new ServicePrincipal("apigateway.amazonaws.com"),
+        roleName: `cdd-data-catalogue-api-gateway-s3-integration-role-${stack.stage}`,
+    });
+
+    getDataCatalogueRole.addToPolicy(
+        new PolicyStatement({
+            resources: [`${disruptionsCsvBucket.bucketArn}/*`],
+            actions: ["s3:GetObject"],
+        }),
+    );
+
+    const siriS3Integration = new AwsIntegration({
+        service: "s3",
+        region: "eu-west-2",
+        integrationHttpMethod: "GET",
+        path: `${siriSXBucket.bucketName}/SIRI-SX.xml`,
+        options: {
+            credentialsRole: getSiriRole,
+            passthroughBehavior: PassthroughBehavior.WHEN_NO_MATCH,
+            integrationResponses: [
+                {
+                    statusCode: "200",
+                    responseParameters: {
+                        "method.response.header.Content-Type": "integration.response.header.Content-Type",
+                    },
+                },
+            ],
+        },
+    });
+
+    const disruptionsS3Integration = new AwsIntegration({
+        service: "s3",
+        region: "eu-west-2",
+        integrationHttpMethod: "GET",
+        path: `${disruptionsJsonBucket.bucketName}/disruptions.json`,
+        options: {
+            credentialsRole: getDisruptionsRole,
+            passthroughBehavior: PassthroughBehavior.WHEN_NO_MATCH,
+            integrationResponses: [
+                {
+                    statusCode: "200",
+                    responseParameters: {
+                        "method.response.header.Content-Type": "integration.response.header.Content-Type",
+                    },
+                },
+            ],
+        },
+    });
+
+    const dataCatalogueS3Integration = new AwsIntegration({
+        service: "s3",
+        region: "eu-west-2",
+        integrationHttpMethod: "GET",
+        path: `${disruptionsCsvBucket.bucketName}/disruptions.csv`,
+        options: {
+            credentialsRole: getDataCatalogueRole,
+            passthroughBehavior: PassthroughBehavior.WHEN_NO_MATCH,
+            integrationResponses: [
+                {
+                    statusCode: "200",
+                    responseParameters: {
+                        "method.response.header.Content-Type": "integration.response.header.Content-Type",
+                    },
+                },
+            ],
+        },
+    });
+
+    const s3ObjectMethod: MethodOptions = {
+        // Protected by API Key
+        authorizationType: AuthorizationType.NONE,
+        // Require the API Key on all requests
+        apiKeyRequired: true,
+
+        methodResponses: [
+            {
+                statusCode: "200",
+                responseParameters: {
+                    "method.response.header.Content-Type": true,
+                },
+            },
+        ],
+    };
+
+    siriResource.addMethod("GET", siriS3Integration, s3ObjectMethod);
+    disruptionsResource.addMethod("GET", disruptionsS3Integration, s3ObjectMethod);
+    dataCatalogueResource.addMethod("GET", dataCatalogueS3Integration, s3ObjectMethod);
+
+    const plan = apiGateway.cdk.restApi.addUsagePlan("UsagePlan", {
+        throttle: {
+            rateLimit: 50,
+            burstLimit: 10,
+        },
+        apiStages: [{ api: apiGateway.cdk.restApi, stage: apiGateway.cdk.restApi.deploymentStage }],
+    });
+
+    const key = apiGateway.cdk.restApi.addApiKey("ApiKey");
+
+    plan.addApiKey(key);
 }

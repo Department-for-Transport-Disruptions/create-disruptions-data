@@ -12,7 +12,7 @@ const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "e
 
 const publishStatsToDynamo = async (orgTableName: string, siriStats: Record<string, SiriStats>) => {
     try {
-        const orgList = await getOrganisationsInfo(logger);
+        const orgList = await getOrganisationsInfo(orgTableName, logger);
         if (!!orgList) {
             const orgPutRequest = orgList.map((org) => {
                 const orgId = org.id;

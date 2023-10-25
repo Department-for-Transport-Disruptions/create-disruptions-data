@@ -7,16 +7,19 @@ import {
     GetCommand,
 } from "@aws-sdk/lib-dynamodb";
 import { Consequence, Disruption, DisruptionInfo, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { MAX_CONSEQUENCES } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
+import { getSortedDisruptionFinalEndDate } from "@create-disruptions-data/shared-ts/utils";
 import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { recursiveQuery } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { makeFilteredArraySchema } from "@create-disruptions-data/shared-ts/utils/zod";
 import { inspect } from "util";
+import { TooManyConsequencesError } from "../errors";
 import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.schema";
 import { Organisation, organisationSchema } from "../schemas/organisation.schema";
 import { SocialMediaAccount, dynamoSocialAccountSchema } from "../schemas/social-media-accounts.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../schemas/social-media.schema";
-import { flattenZodErrors, getSortedDisruptionFinalEndDate, notEmpty, splitCamelCaseToString } from "../utils";
+import { flattenZodErrors, notEmpty, splitCamelCaseToString } from "../utils";
 import { isLiveDisruption, isUpcomingDisruption } from "../utils/dates";
 import logger from "../utils/logger";
 
@@ -556,6 +559,15 @@ export const upsertConsequence = async (
         }) from DynamoDB table (${getTableName(!!isTemplate)})...`,
     );
     const currentDisruption = await getDisruptionById(consequence.disruptionId, id, isTemplate);
+
+    if (
+        !currentDisruption?.consequences?.find((c) => c.consequenceIndex === consequence.consequenceIndex) &&
+        currentDisruption?.consequences &&
+        currentDisruption.consequences.length >= MAX_CONSEQUENCES
+    ) {
+        throw new TooManyConsequencesError();
+    }
+
     const isPending =
         isUserStaff &&
         !isTemplate &&
@@ -590,7 +602,7 @@ export const upsertSocialMediaPost = async (
     logger.info(
         `Updating socialMediaPost index ${
             socialMediaPost.socialMediaPostIndex
-        } in disruption (${id})from DynamoDB table (${getTableName(!!isTemplate)})...`,
+        } in disruption (${id}) from DynamoDB table (${getTableName(!!isTemplate)})...`,
     );
 
     const currentDisruption = await getDisruptionById(socialMediaPost.disruptionId, id, isTemplate);

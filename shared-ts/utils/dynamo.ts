@@ -6,6 +6,7 @@ import {
     ScanCommand,
     ScanCommandInput,
 } from "@aws-sdk/lib-dynamodb";
+import { getDate, getDatetimeFromDateAndTime } from "./dates";
 import { makeZodArray } from "./zod";
 import { Disruption } from "../disruptionTypes";
 import { disruptionSchema } from "../disruptionTypes.zod";
@@ -17,8 +18,6 @@ import {
     OrganisationWithStats,
 } from "../organisationTypes";
 import { Logger, notEmpty } from "./index";
-
-const organisationsTableName = process.env.ORGANISATIONS_TABLE_NAME as string;
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
 
@@ -121,25 +120,33 @@ export const getPublishedDisruptionsDataFromDynamo = async (
 ): Promise<Disruption[]> => {
     logger.info("Getting disruptions data from DynamoDB table...");
 
-    const disruptions = await recursiveScan(
-        orgId
-            ? {
-                  TableName: tableName,
-                  FilterExpression: "publishStatus = :1 AND PK = :2",
-                  ExpressionAttributeValues: {
-                      ":1": PublishStatus.published,
-                      ":2": orgId,
-                  },
-              }
-            : {
-                  TableName: tableName,
-                  FilterExpression: "publishStatus = :1",
-                  ExpressionAttributeValues: {
-                      ":1": PublishStatus.published,
-                  },
-              },
-        logger,
-    );
+    let disruptions: Record<string, unknown>[] = [];
+
+    if (orgId) {
+        disruptions = await recursiveQuery(
+            {
+                TableName: tableName,
+                KeyConditionExpression: "PK = :1",
+                FilterExpression: "publishStatus = :2",
+                ExpressionAttributeValues: {
+                    ":1": orgId,
+                    ":2": PublishStatus.published,
+                },
+            },
+            logger,
+        );
+    } else {
+        disruptions = await recursiveScan(
+            {
+                TableName: tableName,
+                FilterExpression: "publishStatus = :1",
+                ExpressionAttributeValues: {
+                    ":1": PublishStatus.published,
+                },
+            },
+            logger,
+        );
+    }
 
     const disruptionIds = disruptions
         .map((item) => (item as Disruption).disruptionId)
@@ -148,7 +155,28 @@ export const getPublishedDisruptionsDataFromDynamo = async (
     return disruptionIds?.map((id) => collectDisruptionsData(disruptions || [], id, logger)).filter(notEmpty) ?? [];
 };
 
-export const getOrganisationsInfo = async (logger: Logger): Promise<Organisation[] | null> => {
+export const getCurrentAndFutureDisruptions = async (tableName: string, logger: Logger): Promise<Disruption[]> => {
+    const disruptions = await getPublishedDisruptionsDataFromDynamo(tableName, logger);
+
+    const currentDatetime = getDate();
+
+    return disruptions.filter((disruption) => {
+        if (disruption.publishEndDate && disruption.publishEndTime) {
+            const endDatetime = getDatetimeFromDateAndTime(disruption.publishEndDate, disruption.publishEndTime);
+
+            if (currentDatetime.isAfter(endDatetime)) {
+                return false;
+            }
+        }
+
+        return true;
+    });
+};
+
+export const getOrganisationsInfo = async (
+    organisationsTableName: string,
+    logger: Logger,
+): Promise<Organisation[] | null> => {
     logger.info(`Getting all organisations from DynamoDB table...`);
     try {
         const dbData = await recursiveScan(
@@ -180,7 +208,10 @@ export const getOrganisationsInfo = async (logger: Logger): Promise<Organisation
     }
 };
 
-export const getAllOrganisationsInfoAndStats = async (logger: Logger): Promise<OrganisationWithStats[] | null> => {
+export const getAllOrganisationsInfoAndStats = async (
+    organisationsTableName: string,
+    logger: Logger,
+): Promise<OrganisationWithStats[] | null> => {
     logger.info(`Getting all organisations with stats from DynamoDB table...`);
     try {
         const dbDataInfo = await recursiveScan(
@@ -227,6 +258,7 @@ export const getAllOrganisationsInfoAndStats = async (logger: Logger): Promise<O
 
 export const getOrganisationInfoAndStats = async (
     orgId: string,
+    organisationsTableName: string,
     logger: Logger,
 ): Promise<OrganisationWithStats | null> => {
     logger.info(`Getting organisation ${orgId} with stats from DynamoDB table...`);

@@ -25,6 +25,7 @@
         "@aws-sdk/client-s3": "^3.388.0",
         "@create-disruptions-data/shared-ts": "file:../../shared-ts",
         "js2xmlparser": "^5.0.0",
+        "json-2-csv": "^4.1.0",
         "lambda-log": "^3.1.0",
         "xml-formatter": "^3.3.0"
     }

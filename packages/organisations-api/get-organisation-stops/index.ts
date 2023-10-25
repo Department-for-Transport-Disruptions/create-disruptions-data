@@ -182,12 +182,6 @@ export const main = async (event: APIGatewayEvent): Promise<{ statusCode: number
         };
         logger.info("Starting get organisation stops data and routes for services data...");
 
-        const { ORGANISATIONS_TABLE_NAME: orgTableName } = process.env;
-
-        if (!orgTableName) {
-            throw new Error("Dynamo table names not set");
-        }
-
         const orgId = event?.pathParameters?.id;
 
         if (!orgId) {
