@@ -79,7 +79,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
 
         draft
             ? redirectTo(res, DASHBOARD_PAGE_PATH)
-            : redirectPath && currentDisruption?.consequences
+            : redirectPath && currentDisruption?.consequences && !isFromTemplate
             ? redirectToWithQueryParams(
                   req,
                   res,

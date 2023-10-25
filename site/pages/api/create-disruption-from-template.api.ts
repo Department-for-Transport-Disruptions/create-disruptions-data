@@ -3,10 +3,10 @@ import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import cryptoRandomString from "crypto-random-string";
 import { NextApiRequest, NextApiResponse } from "next";
 import { randomUUID } from "crypto";
-import { CREATE_DISRUPTION_PAGE_PATH, CREATE_TEMPLATE_PAGE_PATH } from "../../constants";
+import { CREATE_DISRUPTION_PAGE_PATH } from "../../constants";
 import { getTemplateById, upsertConsequence, upsertDisruptionInfo, upsertSocialMediaPost } from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
-import { redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
+import { redirectTo, redirectToError } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 import { defaultDateTime } from "../../utils/dates";
 
@@ -107,9 +107,7 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             );
         }
 
-        redirectToWithQueryParams(req, res, [], `${CREATE_DISRUPTION_PAGE_PATH}/${newDisruptionId}`, [
-            "isFromTemplate=true",
-        ]);
+        redirectTo(res, `${CREATE_DISRUPTION_PAGE_PATH}/${newDisruptionId}?isFromTemplate=true`);
 
         return;
     } catch (e) {
