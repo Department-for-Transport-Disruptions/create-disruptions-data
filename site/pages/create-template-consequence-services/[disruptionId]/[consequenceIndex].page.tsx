@@ -1,4 +1,4 @@
-import { Service, ServicesConsequence, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Routes, Service, ServicesConsequence, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import {
     serviceSchema,
     servicesConsequenceSchema,
@@ -36,7 +36,6 @@ import {
 import { getTemplateById } from "../../../data/dynamo";
 import { fetchServiceRoutes, fetchServices, fetchServicesByStops, fetchServiceStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import { Routes } from "../../../schemas/consequence.schema";
 import { flattenZodErrors, getServiceLabel, isServicesConsequence, sortServices } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
@@ -245,7 +244,7 @@ const CreateTemplateConsequenceServices = (props: CreateConsequenceServicesProps
                     await Promise.all(
                         servicesRoutesForMap.map(async (service) => {
                             if (service) {
-                                return await fetchStops(service.serviceId, pageState.inputs.vehicleMode, dataSource);
+                                return fetchStops(service.serviceId, pageState.inputs.vehicleMode, dataSource);
                             }
                             return [];
                         }),
@@ -421,7 +420,7 @@ const CreateTemplateConsequenceServices = (props: CreateConsequenceServicesProps
             const updatedStopOptions = (
                 await Promise.all(
                     updatedServicesArray.map(async (service) => {
-                        return await fetchStops(service.id, pageState.inputs.vehicleMode, service.dataSource);
+                        return fetchStops(service.id, pageState.inputs.vehicleMode, service.dataSource);
                     }),
                 )
             ).flat();

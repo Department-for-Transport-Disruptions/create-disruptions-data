@@ -119,7 +119,7 @@ export const getDisruptionData = async (isTemplate?: boolean) => {
         },
     };
 
-    const res = await fetch(`/api/get-all-disruptions${isTemplate ? "?template=true" : ""}`, options);
+    const res = await fetch(isTemplate ? "/api/get-all-templates" : "/api/get-all-disruptions", options);
 
     const parseResult = makeFilteredArraySchema(disruptionsTableSchema).safeParse(await res.json());
     if (!parseResult.success) {

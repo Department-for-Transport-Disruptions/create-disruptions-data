@@ -770,7 +770,6 @@ export const sortedDisruption: Disruption = {
             vehicleMode: VehicleMode.rail,
         },
     ],
-    template: false,
     validity: [
         {
             disruptionStartDate: "25/03/2021",

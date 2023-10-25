@@ -205,6 +205,10 @@ export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise
     return disruptionIds?.map((id) => collectDisruptionsData(dbData || [], id)).filter(notEmpty) ?? [];
 };
 
+export const getTemplatesDataFromDynamo = async (id: string): Promise<FullDisruption[]> => {
+    return getDisruptionsDataFromDynamo(id, true);
+};
+
 export const getDisruptionsDataFromDynamo = async (id: string, isTemplate?: boolean): Promise<FullDisruption[]> => {
     logger.info("Getting disruptions data from DynamoDB table...");
 
@@ -516,7 +520,7 @@ export const updatePendingDisruptionStatus = async (disruption: Disruption, id: 
 };
 
 export const upsertTemplateInfo = async (templateInfo: DisruptionInfo, id: string, isUserStaff?: boolean) => {
-    return await upsertDisruptionInfo(templateInfo, id, isUserStaff, true);
+    return upsertDisruptionInfo(templateInfo, id, isUserStaff, true);
 };
 
 export const upsertDisruptionInfo = async (
@@ -733,7 +737,7 @@ export const removeSocialMediaPostFromDisruption = async (
 };
 
 export const getTemplateById = async (templateId: string, id: string) => {
-    return await getDisruptionById(templateId, id, true);
+    return getDisruptionById(templateId, id, true);
 };
 
 export const getDisruptionById = async (

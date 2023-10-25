@@ -94,11 +94,7 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
                                 <></>
                             )}
 
-                            <DeleteDisruptionButton
-                                disruptionId={props.disruptionId}
-                                csrfToken={props.csrfToken}
-                                isTemplate={isTemplate}
-                            />
+                            <DeleteDisruptionButton disruptionId={props.disruptionId} csrfToken={props.csrfToken} />
                         </div>
                     </div>
                 </>

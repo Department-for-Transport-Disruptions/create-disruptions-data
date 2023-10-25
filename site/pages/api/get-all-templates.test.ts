@@ -3,20 +3,20 @@ import * as sharedUtils from "@create-disruptions-data/shared-ts/utils";
 import MockDate from "mockdate";
 import { describe, it, expect, afterEach, beforeEach, vi, afterAll } from "vitest";
 import { randomUUID } from "crypto";
-import getAllDisruptions, { formatSortedDisruption } from "./get-all-disruptions.api";
+import getAllTemplates, { formatSortedTemplate } from "./get-all-templates.api";
 import * as dynamo from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { getMockRequestAndResponse, mockSession, sortedDisruption } from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
 
-describe("getAllDisruptions", () => {
+describe("getAllTemplates", () => {
     const writeHeadMock = vi.fn();
 
     vi.mock("../../data/dynamo", () => ({
-        getDisruptionsDataFromDynamo: vi.fn(),
+        getTemplatesDataFromDynamo: vi.fn(),
     }));
 
-    const getDisruptionsDataFromDynamoSpy = vi.spyOn(dynamo, "getDisruptionsDataFromDynamo");
+    const getTemplatesDataFromDynamoSpy = vi.spyOn(dynamo, "getTemplatesDataFromDynamo");
     const sortDisruptionsByStartDateSpy = vi.spyOn(sharedUtils, "sortDisruptionsByStartDate");
     const getSessionSpy = vi.spyOn(session, "getSession");
 
@@ -100,7 +100,7 @@ describe("getAllDisruptions", () => {
     ];
 
     it("should be successful when session is set", async () => {
-        getDisruptionsDataFromDynamoSpy.mockResolvedValue(disruptions);
+        getTemplatesDataFromDynamoSpy.mockResolvedValue(disruptions);
 
         const { req, res } = getMockRequestAndResponse({
             query: {
@@ -113,9 +113,9 @@ describe("getAllDisruptions", () => {
             json: vi.fn(),
         }));
 
-        await getAllDisruptions(req, res);
+        await getAllTemplates(req, res);
 
-        expect(getDisruptionsDataFromDynamoSpy).toHaveBeenCalledOnce();
+        expect(getTemplatesDataFromDynamoSpy).toHaveBeenCalledOnce();
         expect(sortDisruptionsByStartDateSpy).toHaveBeenCalledOnce();
 
         expect(res.status).toHaveBeenCalledWith(200);
@@ -133,24 +133,24 @@ describe("getAllDisruptions", () => {
             json: vi.fn(),
         }));
 
-        await getAllDisruptions(req, res);
+        await getAllTemplates(req, res);
 
-        expect(getDisruptionsDataFromDynamoSpy).not.toHaveBeenCalledOnce();
+        expect(getTemplatesDataFromDynamoSpy).not.toHaveBeenCalledOnce();
         expect(sortDisruptionsByStartDateSpy).not.toHaveBeenCalledOnce();
 
         expect(res.status).toHaveBeenCalledWith(403);
     });
 
-    describe("formatSortedDisruptions", () => {
+    describe("formatSortedTemplates", () => {
         MockDate.set("2023-10-18");
 
         it("correctly formats disruptions", () => {
-            const formatted = formatSortedDisruption(sortedDisruption);
+            const formatted = formatSortedTemplate(sortedDisruption);
             expect(formatted).toMatchSnapshot();
         });
 
         it("correctly formats disruptions to live", () => {
-            const formatted = formatSortedDisruption({
+            const formatted = formatSortedTemplate({
                 ...sortedDisruption,
                 validity: [
                     {
@@ -177,7 +177,7 @@ describe("getAllDisruptions", () => {
             expect(formatted.isLive).toEqual(true);
         });
         it("correctly formats disruptions to upcoming", () => {
-            const formatted = formatSortedDisruption({
+            const formatted = formatSortedTemplate({
                 ...sortedDisruption,
                 validity: [
                     {
@@ -197,7 +197,7 @@ describe("getAllDisruptions", () => {
             expect(formatted.isLive).toEqual(false);
         });
         it("correctly formats disruptions to recently closed", () => {
-            const formatted = formatSortedDisruption({
+            const formatted = formatSortedTemplate({
                 ...sortedDisruption,
                 validity: [
                     {

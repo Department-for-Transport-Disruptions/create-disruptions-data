@@ -1,11 +1,13 @@
 import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Progress, PublishStatus, Severity } from "@create-disruptions-data/shared-ts/enums";
-import { getSortedDisruptionFinalEndDate, sortDisruptionsByStartDate } from "@create-disruptions-data/shared-ts/utils";
-import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
+import {
+    getSortedDisruptionFinalEndDate,
+    sortDisruptionsByStartDate as sortTemplatesByStartDate,
+} from "@create-disruptions-data/shared-ts/utils";
 import { Dayjs } from "dayjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import { VEHICLE_MODES } from "../../constants";
-import { getDisruptionsDataFromDynamo } from "../../data/dynamo";
+import { getTemplatesDataFromDynamo } from "../../data/dynamo";
 import { getDisplayByValue, mapValidityPeriods, reduceStringWithEllipsis } from "../../utils";
 import { getSession } from "../../utils/apiUtils/auth";
 import { isLiveDisruption } from "../../utils/dates";
@@ -17,7 +19,7 @@ export interface GetDisruptionsApiRequest extends NextApiRequest {
     };
 }
 
-export const getDisruptionStatus = (disruption: Disruption): Progress => {
+export const getTemplateStatus = (disruption: Disruption): Progress => {
     if (disruption.publishStatus === PublishStatus.draft) {
         return Progress.draft;
     }
@@ -35,17 +37,6 @@ export const getDisruptionStatus = (disruption: Disruption): Progress => {
         disruption.publishStatus === PublishStatus.pendingAndEditing
     ) {
         return Progress.editPendingApproval;
-    }
-
-    if (!disruption.validity) {
-        return Progress.closed;
-    }
-
-    const today = getDate();
-    const disruptionEndDate = getSortedDisruptionFinalEndDate(disruption);
-
-    if (!!disruptionEndDate) {
-        return isClosingOrClosed(disruptionEndDate, today);
     }
 
     return Progress.open;
@@ -84,7 +75,7 @@ export const getWorstSeverity = (severitys: Severity[]): Severity => {
     return worstSeverity;
 };
 
-export const formatSortedDisruption = (disruption: Disruption) => {
+export const formatSortedTemplate = (disruption: Disruption) => {
     const modes: string[] = [];
     const severitys: Severity[] = [];
     const serviceIds: string[] = [];
@@ -145,7 +136,7 @@ export const formatSortedDisruption = (disruption: Disruption) => {
         });
     }
 
-    const status = getDisruptionStatus(disruption);
+    const status = getTemplateStatus(disruption);
 
     return {
         displayId: disruption.displayId,
@@ -165,7 +156,7 @@ export const formatSortedDisruption = (disruption: Disruption) => {
     };
 };
 
-const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResponse) => {
+const getAllTemplates = async (req: GetDisruptionsApiRequest, res: NextApiResponse) => {
     const session = getSession(req);
 
     if (!session) {
@@ -175,10 +166,10 @@ const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResp
 
     const { orgId } = session;
 
-    let disruptionsData = await getDisruptionsDataFromDynamo(orgId);
+    let templateData = await getTemplatesDataFromDynamo(orgId);
 
-    if (disruptionsData) {
-        disruptionsData = disruptionsData.filter(
+    if (templateData) {
+        templateData = templateData.filter(
             (item) =>
                 item.publishStatus === PublishStatus.published ||
                 item.publishStatus === PublishStatus.draft ||
@@ -186,9 +177,9 @@ const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResp
                 item.publishStatus === PublishStatus.editPendingApproval ||
                 item.publishStatus === PublishStatus.rejected,
         );
-        const sortedDisruptions = sortDisruptionsByStartDate(disruptionsData);
+        const sortedTemplates = sortTemplatesByStartDate(templateData);
 
-        const shortenedData = sortedDisruptions.map(formatSortedDisruption);
+        const shortenedData = sortedTemplates.map(formatSortedTemplate);
 
         res.status(200).json(shortenedData);
     } else {
@@ -196,4 +187,4 @@ const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResp
     }
 };
 
-export default getAllDisruptions;
+export default getAllTemplates;

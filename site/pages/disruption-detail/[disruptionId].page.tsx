@@ -303,7 +303,6 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                         "/create-disruption",
                         disruption.disruptionId,
                         undefined,
-                        !!disruption.template,
                     ),
                 ],
             };
@@ -355,11 +354,7 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                     questionText="Are you sure you wish to duplicate the disruption?"
                 />
             ) : null}
-            <CsrfForm
-                action={`/api/publish-edit${disruption.template ? "?template=true" : ""}`}
-                method="post"
-                csrfToken={csrfToken}
-            >
+            <CsrfForm action="/api/publish-edit" method="post" csrfToken={csrfToken}>
                 <>
                     <ErrorSummary errors={errors} />
                     <div className="govuk-form-group">
@@ -398,7 +393,6 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                                 "/create-disruption",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                !!disruption.template,
                                             ),
                                             styles: {
                                                 width: "w-1/10",
@@ -677,7 +671,6 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                         ) : null}
 
                         {!canPublish &&
-                        !disruption.template &&
                         (disruption.publishStatus === PublishStatus.editing ||
                             disruption.publishStatus === PublishStatus.pendingAndEditing) ? (
                             <button className="govuk-button mt-8" data-module="govuk-button">
@@ -690,7 +683,7 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                 <button className="govuk-button mt-8 govuk-button" data-module="govuk-button">
                                     Publish disruption
                                 </button>
-                                {disruption.publishStatus !== PublishStatus.editing && !disruption.template ? (
+                                {disruption.publishStatus !== PublishStatus.editing ? (
                                     <button
                                         className="govuk-button mt-8 govuk-button--secondary ml-5"
                                         data-module="govuk-button"

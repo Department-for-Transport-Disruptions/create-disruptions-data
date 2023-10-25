@@ -94,6 +94,5 @@ exports[`publish > should write the correct disruptions data to dynamoDB 1`] = `
   "PUBLISHED",
   "test@example.com",
   "Disruption created and published",
-  false,
 ]
 `;

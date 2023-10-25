@@ -27,7 +27,7 @@ import {
     TEMPLATE_OVERVIEW_PAGE_PATH,
     COOKIES_TEMPLATE_CONSEQUENCE_STOPS_ERRORS,
 } from "../../../constants";
-import { getDisruptionById, getTemplateById } from "../../../data/dynamo";
+import {  getTemplateById } from "../../../data/dynamo";
 import { fetchStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { flattenZodErrors, isStopsConsequence } from "../../../utils";

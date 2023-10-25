@@ -76,21 +76,15 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
         await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
             draftDisruption,
             session.orgId,
-            canPublish(session) || draftDisruption.template ? PublishStatus.published : PublishStatus.pendingApproval,
+            canPublish(session) ? PublishStatus.published : PublishStatus.pendingApproval,
             session.name,
-            draftDisruption.template
-                ? undefined
-                : canPublish(session)
-                ? "Disruption created and published"
-                : "Disruption submitted for review",
-            template === "true",
+            canPublish(session) ? "Disruption created and published" : "Disruption submitted for review",
         );
 
         if (
             validatedDisruptionBody.data.socialMediaPosts &&
             validatedDisruptionBody.data.socialMediaPosts.length > 0 &&
-            canPublish(session) &&
-            !draftDisruption.template
+            canPublish(session)
         ) {
             await publishSocialMedia(
                 validatedDisruptionBody.data.socialMediaPosts.filter(

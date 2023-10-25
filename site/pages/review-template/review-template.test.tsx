@@ -11,7 +11,6 @@ import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import ReviewTemplate from "./[disruptionId].page";
-import { DISRUPTION_DETAIL_PAGE_PATH, TEMPLATE_OVERVIEW_PAGE_PATH } from "../../constants";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { SocialMediaPost } from "../../schemas/social-media.schema";
 import { DEFAULT_ORG_ID } from "../../testData/mockData";

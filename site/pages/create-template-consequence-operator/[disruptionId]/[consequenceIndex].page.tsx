@@ -343,7 +343,6 @@ export const getServerSideProps = async (
             operators: uniqueOperators,
             disruptionDescription: disruption.description || "",
             sessionWithOrg: session,
-            template: disruption.template?.toString() || "",
             disruptionStatus: disruption.publishStatus,
         },
     };

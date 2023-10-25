@@ -2,7 +2,7 @@ import { ConsequenceOperators } from "@create-disruptions-data/shared-ts/disrupt
 import { Severity } from "@create-disruptions-data/shared-ts/enums";
 import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect } from "vitest";
 import CreateConsequenceOperator, { CreateConsequenceOperatorProps } from "./[disruptionId]/[consequenceIndex].page";
 import { mockOperators } from "../../testData/mockData";
 
