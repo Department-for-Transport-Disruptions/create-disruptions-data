@@ -2,13 +2,17 @@ import { UsernameExistsException } from "@aws-sdk/client-cognito-identity-provid
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import { randomUUID } from "crypto";
-import addUser, { formatAddUserBody } from "./add-user.api";
+import addUser from "./add-user.api";
 import { ADD_USER_PAGE_PATH, COOKIES_ADD_USER_ERRORS, USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
 import * as cognito from "../../../data/cognito";
 import { ErrorInfo } from "../../../interfaces";
 import { AddUserSchema } from "../../../schemas/add-user.schema";
 import { getMockRequestAndResponse } from "../../../testData/mockData";
-import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../../utils/apiUtils";
+import {
+    destroyCookieOnResponseObject,
+    formatAddOrEditUserBody,
+    setCookieOnResponseObject,
+} from "../../../utils/apiUtils";
 
 describe("addUser", () => {
     const writeHeadMock = vi.fn();
@@ -53,7 +57,7 @@ describe("addUser", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_ADD_USER_ERRORS,
-            JSON.stringify({ inputs: formatAddUserBody(req.body as object), errors }),
+            JSON.stringify({ inputs: formatAddOrEditUserBody(req.body as object), errors }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: ADD_USER_PAGE_PATH });
@@ -71,7 +75,7 @@ describe("addUser", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_ADD_USER_ERRORS,
-            JSON.stringify({ inputs: formatAddUserBody(req.body as object), errors }),
+            JSON.stringify({ inputs: formatAddOrEditUserBody(req.body as object), errors }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: ADD_USER_PAGE_PATH });
@@ -89,7 +93,7 @@ describe("addUser", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_ADD_USER_ERRORS,
-            JSON.stringify({ inputs: formatAddUserBody(req.body as object), errors }),
+            JSON.stringify({ inputs: formatAddOrEditUserBody(req.body as object), errors }),
             res,
         );
 
@@ -119,7 +123,7 @@ describe("addUser", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_ADD_USER_ERRORS,
-            JSON.stringify({ inputs: formatAddUserBody(req.body as object), errors }),
+            JSON.stringify({ inputs: formatAddOrEditUserBody(req.body as object), errors }),
             res,
         );
 
