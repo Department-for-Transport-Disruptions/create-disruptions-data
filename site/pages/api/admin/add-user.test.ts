@@ -10,7 +10,7 @@ import { AddUserSchema } from "../../../schemas/add-user.schema";
 import { getMockRequestAndResponse } from "../../../testData/mockData";
 import {
     destroyCookieOnResponseObject,
-    formatAddOrEditUserBody,
+    formatOperatorNocCodesInBody,
     setCookieOnResponseObject,
 } from "../../../utils/apiUtils";
 
@@ -57,7 +57,7 @@ describe("addUser", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_ADD_USER_ERRORS,
-            JSON.stringify({ inputs: formatAddOrEditUserBody(req.body as object), errors }),
+            JSON.stringify({ inputs: formatOperatorNocCodesInBody(req.body as object), errors }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: ADD_USER_PAGE_PATH });
@@ -75,7 +75,7 @@ describe("addUser", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_ADD_USER_ERRORS,
-            JSON.stringify({ inputs: formatAddOrEditUserBody(req.body as object), errors }),
+            JSON.stringify({ inputs: formatOperatorNocCodesInBody(req.body as object), errors }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: ADD_USER_PAGE_PATH });
@@ -93,7 +93,7 @@ describe("addUser", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_ADD_USER_ERRORS,
-            JSON.stringify({ inputs: formatAddOrEditUserBody(req.body as object), errors }),
+            JSON.stringify({ inputs: formatOperatorNocCodesInBody(req.body as object), errors }),
             res,
         );
 
@@ -123,7 +123,7 @@ describe("addUser", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_ADD_USER_ERRORS,
-            JSON.stringify({ inputs: formatAddOrEditUserBody(req.body as object), errors }),
+            JSON.stringify({ inputs: formatOperatorNocCodesInBody(req.body as object), errors }),
             res,
         );
 

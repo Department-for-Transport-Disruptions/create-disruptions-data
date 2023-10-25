@@ -9,7 +9,7 @@ import {
     setCookieOnResponseObject,
     redirectTo,
     destroyCookieOnResponseObject,
-    formatAddOrEditUserBody,
+    formatOperatorNocCodesInBody,
 } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
 
@@ -21,7 +21,7 @@ const editUser = async (req: NextApiRequest, res: NextApiResponse) => {
             throw new Error("No session found");
         }
 
-        const cleansedBody = formatAddOrEditUserBody(req.body as object);
+        const cleansedBody = formatOperatorNocCodesInBody(req.body as object);
 
         const validatedBody = editUserSchema.safeParse({ ...cleansedBody, orgId: session.orgId });
         if (!validatedBody.success) {

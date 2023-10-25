@@ -7,7 +7,7 @@ import { ErrorInfo } from "../../../interfaces";
 import { getMockRequestAndResponse } from "../../../testData/mockData";
 import {
     destroyCookieOnResponseObject,
-    formatAddOrEditUserBody,
+    formatOperatorNocCodesInBody,
     setCookieOnResponseObject,
 } from "../../../utils/apiUtils";
 
@@ -50,7 +50,7 @@ describe("editUser", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_EDIT_USER_ERRORS,
-            JSON.stringify({ inputs: formatAddOrEditUserBody(req.body as object), errors }),
+            JSON.stringify({ inputs: formatOperatorNocCodesInBody(req.body as object), errors }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: `${EDIT_USER_PAGE_PATH}/test-username` });
@@ -68,7 +68,7 @@ describe("editUser", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_EDIT_USER_ERRORS,
-            JSON.stringify({ inputs: formatAddOrEditUserBody(req.body as object), errors }),
+            JSON.stringify({ inputs: formatOperatorNocCodesInBody(req.body as object), errors }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: `${EDIT_USER_PAGE_PATH}/test-username` });
@@ -97,7 +97,7 @@ describe("editUser", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_EDIT_USER_ERRORS,
-            JSON.stringify({ inputs: formatAddOrEditUserBody(req.body as object), errors }),
+            JSON.stringify({ inputs: formatOperatorNocCodesInBody(req.body as object), errors }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: `${EDIT_USER_PAGE_PATH}/test-username` });

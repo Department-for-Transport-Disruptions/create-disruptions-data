@@ -197,7 +197,7 @@ export const redirectToWithQueryParams = (
     );
 };
 
-export const formatAddOrEditUserBody = (body: object) => {
+export const formatOperatorNocCodesInBody = (body: object) => {
     const operatorNocCodes = Object.entries(body)
         .filter((item) => item[0].startsWith("operatorNocCodes"))
         .map((arr: string[]) => {
