@@ -4,6 +4,7 @@ import { ReactElement, useEffect, useState } from "react";
 import Select, { ControlProps, GroupBase, OptionProps } from "react-select";
 import { ErrorInfo } from "../../interfaces";
 import { Operator } from "../../schemas/consequence.schema";
+import { sortOperatorByName } from "../../utils";
 import FormElementWrapper, { FormGroupWrapper } from "../form/FormElementWrapper";
 
 interface OperatorSearchProps<T> {
@@ -16,10 +17,6 @@ interface OperatorSearchProps<T> {
     inputName: Extract<keyof T, string>;
     initialErrors?: ErrorInfo[];
 }
-
-export const sortOperatorByName = (operators: Operator[]): Operator[] => {
-    return operators.sort((a, b) => (a.operatorPublicName > b.operatorPublicName ? 1 : -1));
-};
 
 const handleChange = <T,>(
     input: ConsequenceOperators[],

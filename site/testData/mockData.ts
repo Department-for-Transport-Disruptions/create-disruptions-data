@@ -22,7 +22,8 @@ import { ParsedUrlQuery } from "querystring";
 import { COOKIES_ID_TOKEN, COOKIES_POLICY_COOKIE } from "../constants";
 import { Operator, ServiceApiResponse } from "../schemas/consequence.schema";
 import { ExportDisruptions, FullDisruption } from "../schemas/disruption.schema";
-import { Session } from "../schemas/session.schema";
+import { defaultModes } from "../schemas/organisation.schema";
+import { Session, SessionWithOrgDetail } from "../schemas/session.schema";
 import { HootsuitePost } from "../schemas/social-media.schema";
 import { SortedDisruption } from "../utils";
 import { getFutureDateAsString } from "../utils/dates";
@@ -1018,10 +1019,28 @@ export const mockSession: Session = {
     isOrgAdmin: false,
     isOrgPublisher: false,
     isOrgStaff: false,
+    isOperatorUser: false,
     isSystemAdmin: true,
     orgId: DEFAULT_ORG_ID,
     username: "test@example.com",
     name: "Test User",
+    nocCodes: null,
+};
+
+export const mockSessionWithOrgDetail: SessionWithOrgDetail = {
+    email: "test@example.com",
+    isOrgAdmin: false,
+    isOrgPublisher: false,
+    isOrgStaff: false,
+    isOperatorUser: false,
+    isSystemAdmin: true,
+    orgId: DEFAULT_ORG_ID,
+    username: "test@example.com",
+    name: "Test User",
+    orgName: "Nexus",
+    adminAreaCodes: ["A", "B", "C"],
+    mode: defaultModes,
+    nocCodes: null,
 };
 
 export const mockGetUserDetails = Promise.resolve({

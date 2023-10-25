@@ -55,14 +55,6 @@ import {
 const title = "Create Consequence Services";
 const description = "Create Consequence Services page for the Create Transport Disruptions Service";
 
-const filterConfig = {
-    ignoreCase: true,
-    ignoreAccents: false,
-    stringify: <Option extends object>(option: FilterOptionOption<Option>) => `${option.label}`,
-    trim: true,
-    matchFrom: "any" as const,
-};
-
 const fetchStops = async (
     serviceId: number,
     vehicleMode?: VehicleMode | Modes,
@@ -525,7 +517,14 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             isClearable
                             inputValue={servicesSearchInput}
                             setSearchInput={setServicesSearchInput}
-                            filterOptions={createFilter(filterConfig)}
+                            filterOptions={createFilter({
+                                ignoreCase: true,
+                                ignoreAccents: false,
+                                stringify: <Option extends object>(option: FilterOptionOption<Option>) =>
+                                    `${option.label}`,
+                                trim: true,
+                                matchFrom: "any" as const,
+                            })}
                         />
 
                         <SearchSelect<Stop>

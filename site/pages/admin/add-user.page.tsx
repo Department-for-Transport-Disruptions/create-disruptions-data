@@ -2,16 +2,21 @@ import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
-import { ReactElement, useState } from "react";
+import { ReactElement, SyntheticEvent, useState } from "react";
+import { SingleValue } from "react-select";
 import CsrfForm from "../../components/form/CsrfForm";
 import ErrorSummary from "../../components/form/ErrorSummary";
 import Radios from "../../components/form/Radios";
+import SearchSelect from "../../components/form/SearchSelect";
 import Table from "../../components/form/Table";
 import TextInput from "../../components/form/TextInput";
 import { TwoThirdsLayout } from "../../components/layout/Layout";
 import { COOKIES_ADD_USER_ERRORS } from "../../constants";
+import { fetchOperators } from "../../data/refDataApi";
 import { PageState } from "../../interfaces";
-import { AddUserSchema, addUserSchema } from "../../schemas/add-user.schema";
+import { AddUserSchema, addUserSchema, OperatorData, operatorDataSchema } from "../../schemas/add-user.schema";
+
+import { flattenZodErrors, sortOperatorByName } from "../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
 import { getStateUpdater } from "../../utils/formUtils";
@@ -19,12 +24,81 @@ import { getStateUpdater } from "../../utils/formUtils";
 const title = "Add User - Create Transport Disruptions Service";
 const description = "Add User page for the Create Transport Disruptions Service";
 
-export interface AddUserPageProps extends PageState<Partial<AddUserSchema>> {}
+export interface AddUserPageProps extends PageState<Partial<AddUserSchema>> {
+    operatorData?: OperatorData[];
+}
 
 const AddUser = (props: AddUserPageProps): ReactElement => {
     const [pageState, setPageState] = useState(props);
+    const [selectedOperator, setSelectedOperator] = useState<SingleValue<OperatorData>>(null);
+    const [operatorSearchInput, setOperatorsSearchInput] = useState<string>("");
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
+
+    const operatorNocCodesList = pageState.operatorData ?? [];
+
+    const handleOperatorChange = (value: SingleValue<OperatorData>) => {
+        const parsed = operatorDataSchema.safeParse(value);
+
+        if (!parsed.success) {
+            setPageState({
+                ...pageState,
+                errors: [
+                    ...pageState.errors.filter((err) => !Object.keys(addUserSchema.shape).includes(err.id)),
+                    ...flattenZodErrors(parsed.error),
+                ],
+            });
+        } else {
+            setSelectedOperator(parsed.data);
+            setPageState({
+                ...pageState,
+                inputs: {
+                    ...pageState.inputs,
+                    operatorNocCodes: [...(pageState.inputs.operatorNocCodes ?? []), parsed.data],
+                },
+                errors: [...pageState.errors.filter((err) => !Object.keys(addUserSchema.shape).includes(err.id))],
+            });
+        }
+    };
+
+    const removeOperator = (e: SyntheticEvent, removedNocCode: string) => {
+        e.preventDefault();
+
+        if (pageState?.inputs?.operatorNocCodes) {
+            const updatedOperatorNocCodesArray = [...pageState.inputs.operatorNocCodes].filter(
+                (operator) => operator.nocCode !== removedNocCode,
+            );
+
+            setPageState({
+                ...pageState,
+                inputs: {
+                    ...pageState.inputs,
+                    operatorNocCodes: updatedOperatorNocCodesArray,
+                },
+                errors: pageState.errors,
+            });
+        }
+        setSelectedOperator(null);
+    };
+
+    const getOperatorRows = () => {
+        if (pageState.inputs.operatorNocCodes) {
+            return sortOperatorByName(pageState.inputs.operatorNocCodes).map((operator) => ({
+                cells: [
+                    `${operator.nocCode} - ${operator.operatorPublicName}`,
+                    <button
+                        id={`remove-service-${operator.nocCode}`}
+                        key={`remove-service-${operator.nocCode}`}
+                        className="govuk-link"
+                        onClick={(e) => removeOperator(e, operator.nocCode)}
+                    >
+                        Remove
+                    </button>,
+                ],
+            }));
+        }
+        return [];
+    };
 
     return (
         <TwoThirdsLayout title={title} description={description} errors={pageState.errors}>
@@ -78,12 +152,46 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
                                 value: UserGroups.orgStaff,
                                 display: "Staff",
                             },
+                            {
+                                value: UserGroups.operators,
+                                display: "Operator",
+                            },
                         ]}
                         inputName="group"
                         stateUpdater={stateUpdater}
                         value={pageState.inputs.group?.toString()}
                         initialErrors={pageState.errors}
                     />
+
+                    {pageState.inputs.group === UserGroups.operators && (
+                        <div className={"ml-[8%]"}>
+                            <SearchSelect<OperatorData>
+                                selected={selectedOperator}
+                                inputName="operatorNocCodes"
+                                initialErrors={pageState.errors}
+                                placeholder="Select operator NOC codes"
+                                getOptionLabel={(operator) => `${operator.nocCode} - ${operator.operatorPublicName}`}
+                                options={sortOperatorByName(operatorNocCodesList).filter((operatorOption) =>
+                                    pageState.inputs.operatorNocCodes
+                                        ? !pageState.inputs.operatorNocCodes.find(
+                                              (selectedOperators) => selectedOperators.id === operatorOption.id,
+                                          )
+                                        : true,
+                                )}
+                                handleChange={handleOperatorChange}
+                                tableData={pageState?.inputs?.operatorNocCodes}
+                                getRows={getOperatorRows}
+                                getOptionValue={(operator: OperatorData) => operator.id.toString()}
+                                display="NOC Codes"
+                                hint=""
+                                displaySize="s"
+                                inputId="operatorNocCodes"
+                                isClearable
+                                inputValue={operatorSearchInput}
+                                setSearchInput={setOperatorsSearchInput}
+                            />
+                        </div>
+                    )}
 
                     <button className="govuk-button mt-8" data-module="govuk-button">
                         Send invitation
@@ -117,10 +225,22 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("No session found");
     }
 
+    const operatorsData = await fetchOperators({ adminAreaCodes: session.adminAreaCodes ?? ["undefined"] });
+    const filteredOperatorsData = operatorsData
+        .map((operator) => {
+            return {
+                id: operator.id,
+                nocCode: operator.nocCode,
+                operatorPublicName: operator.operatorPublicName,
+            };
+        })
+        .filter((value, index, self) => index === self.findIndex((s) => s.nocCode === value.nocCode));
+
     return {
         props: {
             ...getPageState(errorCookie, addUserSchema),
             sessionWithOrg: session,
+            operatorData: filteredOperatorsData ?? [],
         },
     };
 };

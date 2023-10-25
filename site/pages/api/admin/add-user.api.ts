@@ -1,8 +1,9 @@
-import { UsernameExistsException } from "@aws-sdk/client-cognito-identity-provider";
+import { AttributeType, UsernameExistsException } from "@aws-sdk/client-cognito-identity-provider";
+import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import { ADD_USER_PAGE_PATH, COOKIES_ADD_USER_ERRORS, USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
 import { createUser } from "../../../data/cognito";
-import { addUserSchema } from "../../../schemas/add-user.schema";
+import { addUserSchemaRefined, OperatorData } from "../../../schemas/add-user.schema";
 import { flattenZodErrors } from "../../../utils";
 import {
     redirectToError,
@@ -12,6 +13,24 @@ import {
 } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
 
+export const formatAddUserBody = (body: object) => {
+    const operatorNocCodes = Object.entries(body)
+        .filter((item) => item[0].startsWith("operatorNocCodes"))
+        .map((arr: string[]) => {
+            const [, values] = arr;
+            return JSON.parse(values) as OperatorData;
+        });
+
+    const cleansedBody = Object.fromEntries(
+        Object.entries(body).filter((item) => !item[0].startsWith("operatorNocCodes")),
+    );
+
+    return {
+        ...cleansedBody,
+        operatorNocCodes,
+    };
+};
+
 const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const session = getSession(req);
@@ -20,12 +39,14 @@ const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
             throw new Error("No session found");
         }
 
-        const validatedBody = addUserSchema.safeParse({ ...req.body, orgId: session.orgId });
+        const cleansedBody = formatAddUserBody(req.body as object);
+
+        const validatedBody = addUserSchemaRefined.safeParse({ ...cleansedBody, orgId: session.orgId });
         if (!validatedBody.success) {
             setCookieOnResponseObject(
                 COOKIES_ADD_USER_ERRORS,
                 JSON.stringify({
-                    inputs: req.body as object,
+                    inputs: cleansedBody as object,
                     errors: flattenZodErrors(validatedBody.error),
                 }),
                 res,
@@ -35,11 +56,24 @@ const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
-        await createUser(validatedBody.data);
+        if (validatedBody.data.group === UserGroups.operators) {
+            const nocCodes = validatedBody.data.operatorNocCodes?.map((operator) => operator.nocCode) ?? [];
+            const operatorAttribute: AttributeType[] = [
+                {
+                    Name: "custom:nocCodes",
+                    Value: nocCodes.join(","),
+                },
+            ];
+            await createUser(validatedBody.data, operatorAttribute);
+            destroyCookieOnResponseObject(COOKIES_ADD_USER_ERRORS, res);
+            redirectTo(res, USER_MANAGEMENT_PAGE_PATH);
+        } else {
+            await createUser(validatedBody.data);
 
-        destroyCookieOnResponseObject(COOKIES_ADD_USER_ERRORS, res);
-        redirectTo(res, USER_MANAGEMENT_PAGE_PATH);
-        return;
+            destroyCookieOnResponseObject(COOKIES_ADD_USER_ERRORS, res);
+            redirectTo(res, USER_MANAGEMENT_PAGE_PATH);
+            return;
+        }
     } catch (e) {
         if (e instanceof UsernameExistsException) {
             setCookieOnResponseObject(

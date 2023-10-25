@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`accountSettings > should render correctly for organisation admin 1`] = `
+exports[`accountSettings > should render correctly for org admin user 1`] = `
 [
   <div
     className="app-phase-banner__wrapper"
@@ -136,7 +136,7 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
                   <td
                     className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
-                    Test Org
+                    Nexus
                   </td>
                   <td
                     className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
@@ -153,7 +153,9 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
                   </th>
                   <td
                     className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                  />
+                  >
+                    A, B, C
+                  </td>
                   <td
                     className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
@@ -815,7 +817,7 @@ exports[`accountSettings > should render correctly for staff or publisher user 1
                   <td
                     className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
-                    Test Org
+                    Nexus
                   </td>
                   <td
                     className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
@@ -832,7 +834,9 @@ exports[`accountSettings > should render correctly for staff or publisher user 1
                   </th>
                   <td
                     className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                  />
+                  >
+                    A, B, C
+                  </td>
                   <td
                     className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />

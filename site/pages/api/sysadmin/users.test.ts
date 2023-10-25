@@ -30,7 +30,7 @@ describe("createAdminUser", () => {
 
     const randomId = randomUUID();
 
-    const defaultInput: AddUserSchema = {
+    const defaultInput: Omit<AddUserSchema, "operatorNocCodes"> = {
         givenName: "dummy",
         familyName: "user",
         email: "dummy.user@gmail.com",
