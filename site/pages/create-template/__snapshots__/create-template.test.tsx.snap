@@ -14,7 +14,7 @@ exports[`pages > CreateTemplate > should render correctly with inputs 1`] = `
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"
@@ -1681,7 +1681,7 @@ exports[`pages > CreateTemplate > should render correctly with no inputs 1`] = `
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"
@@ -3254,7 +3254,7 @@ exports[`pages > CreateTemplate > should render correctly with query params 1`] 
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"

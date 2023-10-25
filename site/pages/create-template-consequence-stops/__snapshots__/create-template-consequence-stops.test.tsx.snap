@@ -14,7 +14,7 @@ exports[`pages > CreateTemplateConsequenceStops > should render correctly with e
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"
@@ -853,7 +853,7 @@ exports[`pages > CreateTemplateConsequenceStops > should render correctly with i
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"
@@ -1634,7 +1634,7 @@ exports[`pages > CreateTemplateConsequenceStops > should render correctly with n
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"
@@ -2362,7 +2362,7 @@ exports[`pages > CreateTemplateConsequenceStops > should render correctly with q
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"

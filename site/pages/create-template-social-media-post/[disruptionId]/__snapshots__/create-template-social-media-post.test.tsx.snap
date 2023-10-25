@@ -14,7 +14,7 @@ exports[`pages > CreateTemplateSocialMediaPost > should render correctly with in
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"
@@ -371,7 +371,7 @@ exports[`pages > CreateTemplateSocialMediaPost > should render correctly with no
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"
