@@ -6,7 +6,7 @@ import * as cryptoRandomString from "crypto-random-string";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import * as crypto from "crypto";
 import createDisruptionFromTemplate from "./create-disruption-from-template.api";
-import { CREATE_TEMPLATE_PAGE_PATH } from "../../constants";
+import { CREATE_DISRUPTION_PAGE_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession } from "../../testData/mockData";
@@ -132,7 +132,7 @@ describe("create-disruption-from-template API", () => {
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${CREATE_TEMPLATE_PAGE_PATH}/${newDefaultDisruptionId}?isFromTemplate=true`,
+            Location: `${CREATE_DISRUPTION_PAGE_PATH}/${newDefaultDisruptionId}?isFromTemplate=true`,
         });
     });
 });

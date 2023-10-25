@@ -3,7 +3,7 @@ import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import cryptoRandomString from "crypto-random-string";
 import { NextApiRequest, NextApiResponse } from "next";
 import { randomUUID } from "crypto";
-import { CREATE_TEMPLATE_PAGE_PATH } from "../../constants";
+import { CREATE_DISRUPTION_PAGE_PATH, CREATE_TEMPLATE_PAGE_PATH } from "../../constants";
 import { getTemplateById, upsertConsequence, upsertDisruptionInfo, upsertSocialMediaPost } from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
@@ -107,7 +107,7 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             );
         }
 
-        redirectToWithQueryParams(req, res, [], `${CREATE_TEMPLATE_PAGE_PATH}/${newDisruptionId}`, [
+        redirectToWithQueryParams(req, res, [], `${CREATE_DISRUPTION_PAGE_PATH}/${newDisruptionId}`, [
             "isFromTemplate=true",
         ]);
 
