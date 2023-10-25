@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import cancelTemplateChanges from "./cancel-template-changes.api";
-import { DISRUPTION_DETAIL_PAGE_PATH, ERROR_PATH, TEMPLATE_OVERVIEW_PAGE_PATH } from "../../constants";
+import { ERROR_PATH, TEMPLATE_OVERVIEW_PAGE_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { getMockRequestAndResponse, mockSession } from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
@@ -73,7 +73,7 @@ describe("cancelTemplateChanges", () => {
         expect(dynamo.deleteDisruptionsInPending).toBeCalledTimes(1);
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${DISRUPTION_DETAIL_PAGE_PATH}/${defaultDisruptionId}`,
+            Location: `${TEMPLATE_OVERVIEW_PAGE_PATH}/${defaultDisruptionId}`,
         });
     });
 

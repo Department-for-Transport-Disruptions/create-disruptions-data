@@ -75,7 +75,7 @@ describe("create-disruption-from-template API", () => {
     vi.mock("../../data/dynamo", () => ({
         upsertConsequence: vi.fn(),
         upsertDisruptionInfo: vi.fn(),
-        getDisruptionById: vi.fn(),
+        getTemplateById: vi.fn(),
     }));
 
     afterEach(() => {
@@ -85,7 +85,7 @@ describe("create-disruption-from-template API", () => {
     const cryptoRandomStringSpy = vi.spyOn(cryptoRandomString, "default");
     const getSessionSpy = vi.spyOn(session, "getSession");
 
-    const getDisruptionByIdSpy = vi.spyOn(dynamo, "getDisruptionById");
+    const getTemplateByIdSpy = vi.spyOn(dynamo, "getTemplateById");
 
     const randomUUIDSpy = vi.spyOn(crypto, "randomUUID");
 
@@ -110,7 +110,7 @@ describe("create-disruption-from-template API", () => {
             mockWriteHeadFn: writeHeadMock,
         });
 
-        getDisruptionByIdSpy.mockResolvedValue(disruption);
+        getTemplateByIdSpy.mockResolvedValue(disruption);
         await createDisruptionFromTemplate(req, res);
 
         expect(upsertDisruptionInfoSpy).toHaveBeenCalledTimes(1);

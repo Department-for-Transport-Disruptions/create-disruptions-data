@@ -188,9 +188,7 @@ describe("pages", () => {
             const deleteTemplateButton = queryByText("Delete template", {
                 selector: "button",
             });
-            const deleteButton = queryByText("Delete disruption", {
-                selector: "button",
-            });
+
             const cancelButton = queryByText("Cancel all changes", {
                 selector: "button",
             });
@@ -198,7 +196,6 @@ describe("pages", () => {
             const header = queryByText("Review your answers before submitting the template");
 
             expect(deleteTemplateButton).toBeTruthy();
-            expect(deleteButton).toBeFalsy();
             expect(header).toBeTruthy();
             expect(cancelButton).toBeFalsy();
 

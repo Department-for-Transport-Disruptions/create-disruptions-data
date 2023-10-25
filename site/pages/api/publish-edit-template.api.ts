@@ -1,7 +1,7 @@
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
-    COOKIES_DISRUPTION_DETAIL_ERRORS,
+    COOKIES_TEMPLATE_OVERVIEW_ERRORS,
     ERROR_PATH,
     TEMPLATE_OVERVIEW_PAGE_PATH,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
@@ -23,7 +23,7 @@ import { cleardownCookies, redirectTo, redirectToError, setCookieOnResponseObjec
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import logger from "../../utils/logger";
 
-const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
+const publishEditTemplate = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const validatedBody = publishSchema.safeParse(req.body);
         const session = getSession(req);
@@ -33,7 +33,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
-        const [draftTemplate, orgInfo] = await Promise.all([
+        const [draftDisruption, orgInfo] = await Promise.all([
             getDisruptionById(validatedBody.data.disruptionId, session.orgId, true),
             getOrganisationInfoById(session.orgId),
         ]);
@@ -43,18 +43,18 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             redirectTo(res, ERROR_PATH);
             return;
         }
-        if (!draftTemplate || Object.keys(draftTemplate).length === 0) {
-            logger.error(`Template ${validatedBody.data.disruptionId} not found to publish`);
+        if (!draftDisruption || Object.keys(draftDisruption).length === 0) {
+            logger.error(`Disruption ${validatedBody.data.disruptionId} not found to publish`);
             redirectTo(res, ERROR_PATH);
 
             return;
         }
 
-        const validatedDisruptionBody = publishDisruptionSchema.safeParse(draftTemplate);
+        const validatedDisruptionBody = publishDisruptionSchema.safeParse(draftDisruption);
 
         if (!validatedDisruptionBody.success) {
             setCookieOnResponseObject(
-                COOKIES_DISRUPTION_DETAIL_ERRORS,
+                COOKIES_TEMPLATE_OVERVIEW_ERRORS,
                 JSON.stringify(flattenZodErrors(validatedDisruptionBody.error)),
                 res,
             );
@@ -64,34 +64,38 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         const isEditPendingDsp =
-            draftTemplate.publishStatus === PublishStatus.pendingAndEditing ||
-            draftTemplate.publishStatus === PublishStatus.editPendingApproval;
+            draftDisruption.publishStatus === PublishStatus.pendingAndEditing ||
+            draftDisruption.publishStatus === PublishStatus.editPendingApproval;
 
         if (isEditPendingDsp) {
             await publishEditedConsequencesAndSocialMediaPostsIntoPending(
-                draftTemplate.disruptionId,
+                draftDisruption.disruptionId,
                 session.orgId,
                 true,
             );
         } else {
-            await publishEditedConsequencesAndSocialMediaPosts(draftTemplate.disruptionId, session.orgId, true);
+            await publishEditedConsequencesAndSocialMediaPosts(draftDisruption.disruptionId, session.orgId, true);
         }
 
-        if (isEditPendingDsp)
-            await publishPendingConsequencesAndSocialMediaPosts(draftTemplate.disruptionId, session.orgId, true);
-        await Promise.all([
-            deleteDisruptionsInEdit(draftTemplate.disruptionId, session.orgId, true),
-            deleteDisruptionsInPending(draftTemplate.disruptionId, session.orgId, true),
-        ]);
+        if (canPublish(session)) {
+            if (isEditPendingDsp)
+                await publishPendingConsequencesAndSocialMediaPosts(draftDisruption.disruptionId, session.orgId, true);
+            await Promise.all([
+                deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId, true),
+                deleteDisruptionsInPending(draftDisruption.disruptionId, session.orgId, true),
+            ]);
+        } else {
+            await deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId, true);
+        }
 
-        draftTemplate.publishStatus === PublishStatus.pendingAndEditing && !canPublish(session)
+        draftDisruption.publishStatus === PublishStatus.pendingAndEditing && !canPublish(session)
             ? await updatePendingDisruptionStatus(
-                  { ...draftTemplate, publishStatus: PublishStatus.editPendingApproval },
+                  { ...draftDisruption, publishStatus: PublishStatus.editPendingApproval },
                   session.orgId,
                   true,
               )
             : await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
-                  draftTemplate,
+                  draftDisruption,
                   session.orgId,
                   canPublish(session) ? PublishStatus.published : PublishStatus.pendingApproval,
                   session.name,
@@ -100,12 +104,13 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
               );
 
         cleardownCookies(req, res);
+
         redirectTo(res, VIEW_ALL_TEMPLATES_PAGE_PATH);
         return;
     } catch (e) {
         if (e instanceof Error) {
-            const message = "There was a problem publishing the edited disruption.";
-            redirectToError(res, message, "api.publish-edit", e);
+            const message = "There was a problem publishing the edited template.";
+            redirectToError(res, message, "api.publish-edit-template", e);
             return;
         }
 
@@ -114,4 +119,4 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
     }
 };
 
-export default publishEdit;
+export default publishEditTemplate;

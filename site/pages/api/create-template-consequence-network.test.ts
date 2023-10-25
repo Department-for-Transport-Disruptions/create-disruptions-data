@@ -201,7 +201,7 @@ describe("create-consequence-network API", () => {
             networkToUpsert,
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
-            false,
+            true,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -240,27 +240,6 @@ describe("create-consequence-network API", () => {
         });
     });
 
-    it("should redirect to /type-of-consequence-template when all required inputs are passed and add another consequence is true", async () => {
-        const { req, res } = getMockRequestAndResponse({
-            body: { ...defaultNetworkData, consequenceIndex: "1" },
-            query: { addAnotherConsequence: "true" },
-            mockWriteHeadFn: writeHeadMock,
-        });
-
-        await createTemplateConsequenceNetwork(req, res);
-
-        expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
-        expect(upsertConsequenceSpy).toHaveBeenCalledWith(
-            { ...networkToUpsert, consequenceIndex: 1 },
-            DEFAULT_ORG_ID,
-            mockSession.isOrgStaff,
-            false,
-        );
-
-        expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/2`,
-        });
-    });
     it("should redirect to /type-of-consequence-template when all required inputs are passed and add another consequence is true and a template", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: { ...defaultNetworkData },
@@ -279,7 +258,7 @@ describe("create-consequence-network API", () => {
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH}/${defaultDisruptionId}/1?template=true`,
+            Location: `${TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH}/${defaultDisruptionId}/1`,
         });
     });
 
@@ -298,7 +277,7 @@ describe("create-consequence-network API", () => {
             { ...networkToUpsert, consequenceIndex: 2 },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
-            false,
+            true,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {

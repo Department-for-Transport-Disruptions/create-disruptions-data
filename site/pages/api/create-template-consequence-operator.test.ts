@@ -8,7 +8,7 @@ import {
     CREATE_TEMPLATE_CONSEQUENCE_OPERATOR_PATH,
     CREATE_TEMPLATE_PAGE_PATH,
     DASHBOARD_PAGE_PATH,
-    REVIEW_DISRUPTION_PAGE_PATH,
+    REVIEW_TEMPLATE_PAGE_PATH,
     TEMPLATE_OVERVIEW_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH,
 } from "../../constants";
@@ -108,11 +108,11 @@ describe("create-template-consequence-operator API", () => {
             operatorToUpsert,
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
-            false,
+            true,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
+            Location: `${REVIEW_TEMPLATE_PAGE_PATH}/${defaultDisruptionId}`,
         });
     });
 
@@ -228,7 +228,7 @@ describe("create-template-consequence-operator API", () => {
             operatorToUpsert,
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
-            false,
+            true,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -273,28 +273,6 @@ describe("create-template-consequence-operator API", () => {
         });
     });
 
-    it("should redirect to /type-of-consequence-template when all required inputs are passed and add another consequence is true", async () => {
-        const { req, res } = getMockRequestAndResponse({
-            body: { ...bodyData, consequenceIndex: "1" },
-            query: { addAnotherConsequence: "true" },
-            mockWriteHeadFn: writeHeadMock,
-        });
-
-        await createTemplateConsequenceOperator(req, res);
-
-        expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
-        expect(upsertConsequenceSpy).toHaveBeenCalledWith(
-            { ...operatorToUpsert, consequenceIndex: 1 },
-            DEFAULT_ORG_ID,
-            mockSession.isOrgStaff,
-            false,
-        );
-
-        expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH}/${defaultDisruptionId}/2`,
-        });
-    });
-
     it("should redirect to /type-of-consequence-template when all required inputs are passed and add another consequence is true and a template", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: bodyData,
@@ -313,7 +291,7 @@ describe("create-template-consequence-operator API", () => {
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH}/${defaultDisruptionId}/1?template=true`,
+            Location: `${TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH}/${defaultDisruptionId}/1`,
         });
     });
 
@@ -332,7 +310,7 @@ describe("create-template-consequence-operator API", () => {
             { ...operatorToUpsert, consequenceIndex: 2 },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
-            false,
+            true,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {

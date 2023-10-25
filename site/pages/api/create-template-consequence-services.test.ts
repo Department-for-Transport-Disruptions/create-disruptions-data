@@ -2,6 +2,7 @@
 import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Datasource, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
+import { formatCreateConsequenceStopsServicesBody } from "./create-consequence-services.api";
 import createConsequenceServices from "./create-template-consequence-services.api";
 import {
     COOKIES_CONSEQUENCE_SERVICES_ERRORS,
@@ -25,7 +26,6 @@ import {
 } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import * as session from "../../utils/apiUtils/auth";
-import { formatCreateConsequenceStopsServicesBody } from "./create-consequence-services.api";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 const defaultConsequenceIndex = "0";
@@ -159,7 +159,7 @@ describe("create-template-consequence-services API", () => {
             },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
-            false,
+            true,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -240,7 +240,7 @@ describe("create-template-consequence-services API", () => {
             },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
-            false,
+            true,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -338,7 +338,7 @@ describe("create-template-consequence-services API", () => {
             servicesDataToUpsert,
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
-            false,
+            true,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -362,7 +362,7 @@ describe("create-template-consequence-services API", () => {
             servicesDataToUpsert,
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
-            false,
+            true,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -419,7 +419,7 @@ describe("create-template-consequence-services API", () => {
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH}/${defaultDisruptionId}/1?template=true`,
+            Location: `${TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH}/${defaultDisruptionId}/1`,
         });
     });
 
@@ -438,7 +438,7 @@ describe("create-template-consequence-services API", () => {
             { ...servicesDataToUpsert, consequenceIndex: 2 },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
-            false,
+            true,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {

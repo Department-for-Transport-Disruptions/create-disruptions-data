@@ -146,7 +146,6 @@ const previousDisruptionInformation: FullDisruption = {
     socialMediaPosts: previousCreateSocialMediaPostsInformation,
     displayId: "8fg3ha",
     orgId: DEFAULT_ORG_ID,
-    template: false,
 };
 
 describe("pages", () => {
@@ -206,57 +205,13 @@ describe("pages", () => {
             expect(tree).toMatchSnapshot();
         });
 
-        it("should render correctly with inputs and no errors when disruption is a template", () => {
-            const tree = renderer
-                .create(
-                    <ReviewDisruption
-                        disruption={{ ...previousDisruptionInformation, template: true }}
-                        errors={[]}
-                        canPublish
-                        redirect=""
-                    />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
-        });
-
-        it("should render correctly with inputs and no errors when disruption is a template with appropriate buttons", () => {
-            const { queryByText, unmount } = render(
-                <ReviewDisruption
-                    disruption={{ ...previousDisruptionInformation, template: true }}
-                    errors={[]}
-                    canPublish
-                    redirect=""
-                />,
-            );
-
-            const deleteTemplateButton = queryByText("Delete template", {
-                selector: "button",
-            });
-            const deleteButton = queryByText("Delete disruption", {
-                selector: "button",
-            });
-            const cancelButton = queryByText("Cancel all changes", {
-                selector: "button",
-            });
-
-            const header = queryByText("Review your answers before submitting the template");
-
-            expect(deleteTemplateButton).toBeTruthy();
-            expect(deleteButton).toBeFalsy();
-            expect(header).toBeTruthy();
-            expect(cancelButton).toBeFalsy();
-
-            unmount();
-        });
-
         it("should render correctly with appropriate buttons", () => {
             const { queryByText, unmount } = render(
                 <ReviewDisruption
                     disruption={previousDisruptionInformation}
                     errors={[]}
                     canPublish
-                    redirect={`${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true`}
+                    redirect={`${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee`}
                 />,
             );
 
@@ -269,9 +224,7 @@ describe("pages", () => {
             const deleteButton = queryByText("Delete disruption", {
                 selector: "button",
             });
-            const deleteTemplateButton = queryByText("Delete template", {
-                selector: "button",
-            });
+
             const cancelButton = queryByText("Cancel all changes", {
                 selector: "button",
             });
@@ -282,7 +235,6 @@ describe("pages", () => {
             expect(draftButton).toBeTruthy();
             expect(deleteButton).toBeTruthy();
             expect(header).toBeTruthy();
-            expect(deleteTemplateButton).toBeFalsy();
             expect(cancelButton).toBeFalsy();
 
             unmount();
@@ -294,7 +246,7 @@ describe("pages", () => {
                     disruption={previousDisruptionInformation}
                     errors={[]}
                     canPublish={false}
-                    redirect={`${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true`}
+                    redirect={`${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee`}
                 />,
             );
 
@@ -307,9 +259,7 @@ describe("pages", () => {
             const deleteButton = queryByText("Delete disruption", {
                 selector: "button",
             });
-            const deleteTemplateButton = queryByText("Delete template", {
-                selector: "button",
-            });
+
             const cancelButton = queryByText("Cancel all changes", {
                 selector: "button",
             });
@@ -320,7 +270,6 @@ describe("pages", () => {
             expect(reviewButton).toBeTruthy();
             expect(deleteButton).toBeTruthy();
             expect(header).toBeTruthy();
-            expect(deleteTemplateButton).toBeFalsy();
             expect(cancelButton).toBeFalsy();
 
             unmount();

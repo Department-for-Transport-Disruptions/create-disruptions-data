@@ -24,7 +24,7 @@ describe("deleteTemplate", () => {
 
     vi.mock("../../data/dynamo", () => ({
         deletePublishedDisruption: vi.fn(),
-        getDisruptionById: vi.fn(),
+        getTemplateById: vi.fn(),
     }));
 
     vi.mock("crypto", () => ({
@@ -34,7 +34,7 @@ describe("deleteTemplate", () => {
     MockDate.set("2023-03-03");
 
     const deleteDisruptionSpy = vi.spyOn(dynamo, "deletePublishedDisruption");
-    const getDisruptionSpy = vi.spyOn(dynamo, "getDisruptionById");
+    const getTemplateSpy = vi.spyOn(dynamo, "getTemplateById");
 
     afterEach(() => {
         vi.resetAllMocks();
@@ -45,13 +45,10 @@ describe("deleteTemplate", () => {
     });
 
     it("should retrieve valid data from cookies, write to dynamo and redirect to view all templates if deleting a template", async () => {
-        getDisruptionSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
+        getTemplateSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
         const { req, res } = getMockRequestAndResponse({
             body: {
                 id: defaultDisruptionId,
-            },
-            query: {
-                template: "true",
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -69,7 +66,7 @@ describe("deleteTemplate", () => {
     });
 
     it("should redirect to error page if disruptionId not passed", async () => {
-        getDisruptionSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
+        getTemplateSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
         const { req, res } = getMockRequestAndResponse({
             mockWriteHeadFn: writeHeadMock,
         });
@@ -81,7 +78,7 @@ describe("deleteTemplate", () => {
     });
 
     it("should redirect to error page if disruption is invalid", async () => {
-        getDisruptionSpy.mockResolvedValue({} as FullDisruption);
+        getTemplateSpy.mockResolvedValue({} as FullDisruption);
         const { req, res } = getMockRequestAndResponse({
             body: {
                 id: "",
@@ -98,7 +95,7 @@ describe("deleteTemplate", () => {
     it.each([[disruptionWithConsequencesAndSocialMediaPosts], [disruptionWithNoConsequences]])(
         "should write the correct disruptions data to dynamoDB",
         async (disruption) => {
-            getDisruptionSpy.mockResolvedValue(disruption);
+            getTemplateSpy.mockResolvedValue(disruption);
             const { req, res } = getMockRequestAndResponse({
                 body: {
                     id: disruption.disruptionId,

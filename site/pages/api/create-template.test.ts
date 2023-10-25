@@ -6,6 +6,7 @@ import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import createTemplate from "./create-template.api";
 import {
     COOKIES_DISRUPTION_ERRORS,
+    COOKIES_TEMPLATE_ERRORS,
     CREATE_DISRUPTION_PAGE_PATH,
     DASHBOARD_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
@@ -57,9 +58,9 @@ describe("create-template API", () => {
         destroyCookieOnResponseObject: vi.fn(),
     }));
 
-    const upsertDisruptionSpy = vi.spyOn(dynamo, "upsertDisruptionInfo");
+    const upsertTemplateSpy = vi.spyOn(dynamo, "upsertTemplateInfo");
     vi.mock("../../data/dynamo", () => ({
-        upsertDisruptionInfo: vi.fn(),
+        upsertTemplateInfo: vi.fn(),
     }));
 
     vi.mock("crypto-random-string", () => ({
@@ -82,7 +83,7 @@ describe("create-template API", () => {
         });
     });
 
-    it("should redirect to /type-of-consequence when all required inputs are passed expect displayId for new disruptions", async () => {
+    it("should redirect to /type-of-consequence-template when all required inputs are passed expect displayId for new disruptions", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             publishStartTime: "0900",
@@ -112,8 +113,8 @@ describe("create-template API", () => {
 
         await createTemplate(req, res);
 
-        expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
-        expect(upsertDisruptionSpy).toHaveBeenCalledWith(
+        expect(upsertTemplateSpy).toHaveBeenCalledTimes(1);
+        expect(upsertTemplateSpy).toHaveBeenCalledWith(
             {
                 disruptionId: defaultDisruptionId,
                 disruptionType: "unplanned",
@@ -131,6 +132,7 @@ describe("create-template API", () => {
                 disruptionStartTime: "1200",
                 disruptionEndDate: "",
                 disruptionEndTime: "",
+                disruptionRepeatsEndDate: undefined,
                 disruptionNoEndDateTime: "true",
                 displayId: "8fg3ha",
                 validity: [
@@ -156,12 +158,13 @@ describe("create-template API", () => {
             },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
-            false,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: `/type-of-consequence/${defaultDisruptionId}/0` });
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `/type-of-consequence-template/${defaultDisruptionId}/0`,
+        });
     });
 
-    it("should redirect to /type-of-consequence when all required inputs are passed", async () => {
+    it("should redirect to /type-of-consequence-template when all required inputs are passed", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             publishStartTime: "0900",
@@ -190,8 +193,8 @@ describe("create-template API", () => {
 
         await createTemplate(req, res);
 
-        expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
-        expect(upsertDisruptionSpy).toHaveBeenCalledWith(
+        expect(upsertTemplateSpy).toHaveBeenCalledTimes(1);
+        expect(upsertTemplateSpy).toHaveBeenCalledWith(
             {
                 disruptionId: defaultDisruptionId,
                 disruptionType: "unplanned",
@@ -202,6 +205,7 @@ describe("create-template API", () => {
                 associatedLink: "",
                 disruptionReason: MiscellaneousReason.roadworks,
                 publishStartDate: defaultPublishStartDate,
+                disruptionRepeatsEndDate: undefined,
                 publishStartTime: "0900",
                 publishEndDate: "",
                 publishEndTime: "",
@@ -234,12 +238,13 @@ describe("create-template API", () => {
             },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
-            false,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: `/type-of-consequence/${defaultDisruptionId}/0` });
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `/type-of-consequence-template/${defaultDisruptionId}/0`,
+        });
     });
 
-    it("should redirect to /create-disruption when disruptionNoEndDateTime is false and there is no publish end date/time", async () => {
+    it("should redirect to /create-template when disruptionNoEndDateTime is false and there is no publish end date/time", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             disruptionNoEndDateTime: "",
@@ -264,10 +269,10 @@ describe("create-template API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-template/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when no form inputs are passed to the API", async () => {
+    it("should redirect back to /create-template when no form inputs are passed to the API", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: { disruptionId: defaultDisruptionId },
             mockWriteHeadFn: writeHeadMock,
@@ -293,10 +298,10 @@ describe("create-template API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-template/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when summary or description are too long", async () => {
+    it("should redirect back to /create-template when summary or description are too long", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             summary:
@@ -322,10 +327,10 @@ describe("create-template API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-template/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when invalid reason passed", async () => {
+    it("should redirect back to /create-template when invalid reason passed", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             disruptionReason: "Incorrect Value",
@@ -344,10 +349,10 @@ describe("create-template API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-template/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when invalid URL passed for associated link", async () => {
+    it("should redirect back to /create-template when invalid URL passed for associated link", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             associatedLink: "http://google.com<>/",
@@ -366,10 +371,10 @@ describe("create-template API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-template/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when validity has duplicates/overlaps", async () => {
+    it("should redirect back to /create-template when validity has duplicates/overlaps", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             validity2: [defaultDisruptionStartDate, "1100", defaultDisruptionEndDate, "1000", ""],
@@ -388,10 +393,10 @@ describe("create-template API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-template/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when validity has an overlapping row", async () => {
+    it("should redirect back to /create-template when validity has an overlapping row", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             publishStartTime: "0900",
@@ -420,10 +425,10 @@ describe("create-template API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-template/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when publishing window doesn't encompass disruption window", async () => {
+    it("should redirect back to /create-template when publishing window doesn't encompass disruption window", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             publishStartTime: "0900",
@@ -472,10 +477,10 @@ describe("create-template API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-template/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when validity has end date/time empty not in the last position", async () => {
+    it("should redirect back to /create-template when validity has end date/time empty not in the last position", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             validity1: [getFutureDateAsString(10), "1200", "", "", "true"],
@@ -497,10 +502,10 @@ describe("create-template API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-template/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when disruption repeats daily but no ending on date is provided", async () => {
+    it("should redirect back to /create-template when disruption repeats daily but no ending on date is provided", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             disruptionEndDate: defaultDisruptionEndDate,
@@ -529,10 +534,10 @@ describe("create-template API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-template/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when disruption repeats weekly but no ending on date is provided", async () => {
+    it("should redirect back to /create-template when disruption repeats weekly but no ending on date is provided", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             disruptionEndDate: defaultDisruptionEndDate,
@@ -560,10 +565,10 @@ describe("create-template API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-template/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when disruption repeats daily and the ending on date is before the disruption end date", async () => {
+    it("should redirect back to /create-template when disruption repeats daily and the ending on date is before the disruption end date", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             disruptionEndDate: defaultDisruptionEndDate,
@@ -592,10 +597,10 @@ describe("create-template API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-template/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when disruption repeats weekly and the ending on date is before the disruption end date", async () => {
+    it("should redirect back to /create-template when disruption repeats weekly and the ending on date is before the disruption end date", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             disruptionEndDate: defaultDisruptionEndDate,
@@ -624,10 +629,10 @@ describe("create-template API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-template/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when disruption repeats daily and the ending on date is more than 365 days of start date", async () => {
+    it("should redirect back to /create-template when disruption repeats daily and the ending on date is more than 365 days of start date", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             disruptionEndDate: defaultDisruptionEndDate,
@@ -656,10 +661,10 @@ describe("create-template API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-template/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when disruption repeats weekly and the ending on date is more than 365 days of start date", async () => {
+    it("should redirect back to /create-template when disruption repeats weekly and the ending on date is more than 365 days of start date", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             disruptionEndDate: defaultDisruptionEndDate,
@@ -688,10 +693,10 @@ describe("create-template API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-template/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when disruption repeats daily and the end date is more than 24 hours of start date", async () => {
+    it("should redirect back to /create-template when disruption repeats daily and the end date is more than 24 hours of start date", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             disruptionEndDate: getFutureDateAsString(7),
@@ -721,10 +726,10 @@ describe("create-template API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-template/${defaultDisruptionId}` });
     });
 
-    it("should redirect back to /create-disruption when disruption repeats weekly and the end date is more than 7 days of start date", async () => {
+    it("should redirect back to /create-template when disruption repeats weekly and the end date is more than 7 days of start date", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             disruptionEndDate: getFutureDateAsString(14),
@@ -753,7 +758,7 @@ describe("create-template API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-template/${defaultDisruptionId}` });
     });
 
     it("should redirect to /dashboard when all required inputs are passed and the disruption is saved as draft", async () => {
@@ -807,6 +812,7 @@ describe("create-template API", () => {
             disruptionEndDate: "",
             disruptionEndTime: "",
             disruptionNoEndDateTime: "true",
+            disruptionRepeatsEndDate: undefined,
             displayId: "8fg3ha",
             validity: [
                 {
@@ -829,18 +835,13 @@ describe("create-template API", () => {
                 },
             ],
         } as Disruption;
-        upsertDisruptionSpy.mockResolvedValue(returnedDisruption);
-        expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
-        expect(upsertDisruptionSpy).toHaveBeenCalledWith(
-            returnedDisruption,
-            DEFAULT_ORG_ID,
-            mockSession.isOrgStaff,
-            false,
-        );
+        upsertTemplateSpy.mockResolvedValue(returnedDisruption);
+        expect(upsertTemplateSpy).toHaveBeenCalledTimes(1);
+        expect(upsertTemplateSpy).toHaveBeenCalledWith(returnedDisruption, DEFAULT_ORG_ID, mockSession.isOrgStaff);
         expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
     });
 
-    it("should redirect back to /create-disruption when invalid reason passed with the expected query param value", async () => {
+    it("should redirect back to /create-template when invalid reason passed with the expected query param value", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             disruptionReason: "Incorrect Value",
@@ -861,12 +862,12 @@ describe("create-template API", () => {
 
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
-            COOKIES_DISRUPTION_ERRORS,
+            COOKIES_TEMPLATE_ERRORS,
             JSON.stringify({ inputs, errors }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `/create-disruption/${defaultDisruptionId}`,
+            Location: `/create-template/${defaultDisruptionId}`,
         });
     });
 });

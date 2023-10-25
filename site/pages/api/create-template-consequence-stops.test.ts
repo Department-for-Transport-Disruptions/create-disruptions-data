@@ -134,7 +134,7 @@ describe("create-template-consequence-stops API", () => {
             stopDataToUpsert,
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
-            false,
+            true,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -231,7 +231,7 @@ describe("create-template-consequence-stops API", () => {
             stopDataToUpsert,
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
-            false,
+            true,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -307,7 +307,7 @@ describe("create-template-consequence-stops API", () => {
             { ...stopDataToUpsert, consequenceIndex: 2 },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
-            false,
+            true,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {

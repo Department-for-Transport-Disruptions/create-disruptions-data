@@ -129,6 +129,7 @@ describe("create-disruption API", () => {
                 publishEndTime: "",
                 disruptionStartDate: getFutureDateAsString(40),
                 disruptionStartTime: "1200",
+                disruptionRepeatsEndDate: undefined,
                 disruptionEndDate: "",
                 disruptionEndTime: "",
                 disruptionNoEndDateTime: "true",
@@ -156,7 +157,6 @@ describe("create-disruption API", () => {
             },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
-            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: `/type-of-consequence/${defaultDisruptionId}/0` });
     });
@@ -205,6 +205,7 @@ describe("create-disruption API", () => {
                 publishStartTime: "0900",
                 publishEndDate: "",
                 publishEndTime: "",
+                disruptionRepeatsEndDate: undefined,
                 disruptionStartDate: getFutureDateAsString(40),
                 disruptionStartTime: "1200",
                 disruptionEndDate: "",
@@ -234,7 +235,6 @@ describe("create-disruption API", () => {
             },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
-            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: `/type-of-consequence/${defaultDisruptionId}/0` });
     });
@@ -807,6 +807,7 @@ describe("create-disruption API", () => {
             disruptionEndDate: "",
             disruptionEndTime: "",
             disruptionNoEndDateTime: "true",
+            disruptionRepeatsEndDate: undefined,
             displayId: "8fg3ha",
             validity: [
                 {
@@ -831,12 +832,7 @@ describe("create-disruption API", () => {
         } as Disruption;
         upsertDisruptionSpy.mockResolvedValue(returnedDisruption);
         expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
-        expect(upsertDisruptionSpy).toHaveBeenCalledWith(
-            returnedDisruption,
-            DEFAULT_ORG_ID,
-            mockSession.isOrgStaff,
-            false,
-        );
+        expect(upsertDisruptionSpy).toHaveBeenCalledWith(returnedDisruption, DEFAULT_ORG_ID, mockSession.isOrgStaff);
         expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
     });
 

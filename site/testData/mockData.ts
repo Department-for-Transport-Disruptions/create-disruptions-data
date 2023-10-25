@@ -355,7 +355,6 @@ export const disruptionWithNoConsequences: FullDisruption = {
     consequences: [],
     displayId: "8fg3ha",
     orgId: DEFAULT_ORG_ID,
-    template: false,
 };
 
 export const consequenceInfoOperatorTest: Consequence = {

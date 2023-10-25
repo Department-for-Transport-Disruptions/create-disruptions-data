@@ -2,11 +2,10 @@
 import formidable from "formidable";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import * as fs from "fs/promises";
-import createSocialMediaPost from "./create-social-media-post.api";
+import createTemplateSocialMediaPost from "./create-template-social-media-post.api";
 import {
     COOKIES_TEMPLATE_SOCIAL_MEDIA_ERRORS,
     CREATE_TEMPLATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-    REVIEW_DISRUPTION_PAGE_PATH,
     REVIEW_TEMPLATE_PAGE_PATH,
 } from "../../constants";
 import * as dynamo from "../../data/dynamo";
@@ -93,36 +92,6 @@ describe("create-template-social-media-post API", () => {
         readFile: vi.fn(),
     }));
 
-    it("should redirect to /review-disruption when all required inputs are passed", async () => {
-        const { req, res } = getMockRequestAndResponse({
-            body: { ...previousCreateSocialMediaPostInformation },
-            mockWriteHeadFn: writeHeadMock,
-        });
-
-        formParseSpy.mockResolvedValue({
-            fields: previousCreateSocialMediaPostInformation,
-            files: [],
-        });
-
-        await createSocialMediaPost(req, res);
-
-        expect(s3Spy).not.toHaveBeenCalledTimes(1);
-        expect(upsertSocialMediaPostSpy).toHaveBeenCalledTimes(1);
-        expect(upsertSocialMediaPostSpy).toHaveBeenCalledWith(
-            {
-                ...previousCreateSocialMediaPostInformation,
-                socialMediaPostIndex: 0,
-            },
-            DEFAULT_ORG_ID,
-            false,
-            false,
-            false,
-        );
-        expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
-        });
-    });
-
     it("should redirect to /review-template when all required inputs are passed and social media post is a template", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: { ...previousCreateSocialMediaPostInformation, publishDate: "", publishTime: "" },
@@ -135,7 +104,7 @@ describe("create-template-social-media-post API", () => {
             files: [],
         });
 
-        await createSocialMediaPost(req, res);
+        await createTemplateSocialMediaPost(req, res);
 
         expect(s3Spy).not.toHaveBeenCalledTimes(1);
         expect(upsertSocialMediaPostSpy).toHaveBeenCalledTimes(1);
@@ -152,7 +121,7 @@ describe("create-template-social-media-post API", () => {
             true,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${REVIEW_TEMPLATE_PAGE_PATH}/${defaultDisruptionId}?template=true`,
+            Location: `${REVIEW_TEMPLATE_PAGE_PATH}/${defaultDisruptionId}`,
         });
     });
 
@@ -176,7 +145,7 @@ describe("create-template-social-media-post API", () => {
             ],
         });
         const buffer = Buffer.from("testFile", "base64");
-        await createSocialMediaPost(req, res);
+        await createTemplateSocialMediaPost(req, res);
         readFileSpy.mockResolvedValue(buffer);
         expect(s3Spy).toHaveBeenCalledTimes(1);
         s3Spy.mockResolvedValue();
@@ -192,52 +161,16 @@ describe("create-template-social-media-post API", () => {
                     originalFilename: "blah.jpg",
                     size: 1000,
                 },
+                publishDate: "",
+                publishTime: "",
             },
             DEFAULT_ORG_ID,
             false,
             false,
-            false,
+            true,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${REVIEW_TEMPLATE_PAGE_PATH}/${defaultDisruptionId}`,
-        });
-    });
-
-    it("should redirect to /review-disruption when all required inputs are passed and an image is size 0", async () => {
-        const { req, res } = getMockRequestAndResponse({
-            body: { ...previousCreateSocialMediaPostInformation },
-            mockWriteHeadFn: writeHeadMock,
-        });
-        formParseSpy.mockResolvedValue({
-            fields: previousCreateSocialMediaPostInformation,
-
-            files: [
-                {
-                    size: 0,
-                    filepath: "/testPath",
-                    newFilename: "testFile",
-                    mimetype: "application/octet-stream",
-                    mtime: null,
-                    originalFilename: "",
-                } as formidable.File,
-            ],
-        });
-        await createSocialMediaPost(req, res);
-
-        expect(s3Spy).not.toHaveBeenCalledTimes(1);
-        expect(upsertSocialMediaPostSpy).toHaveBeenCalledTimes(1);
-        expect(upsertSocialMediaPostSpy).toHaveBeenCalledWith(
-            {
-                ...previousCreateSocialMediaPostInformation,
-                socialMediaPostIndex: 0,
-            },
-            DEFAULT_ORG_ID,
-            false,
-            false,
-            false,
-        );
-        expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
         });
     });
 
@@ -260,7 +193,7 @@ describe("create-template-social-media-post API", () => {
                 } as formidable.File,
             ],
         });
-        await createSocialMediaPost(req, res);
+        await createTemplateSocialMediaPost(req, res);
 
         expect(s3Spy).not.toHaveBeenCalledTimes(1);
         expect(upsertSocialMediaPostSpy).not.toHaveBeenCalledTimes(1);
@@ -302,7 +235,7 @@ describe("create-template-social-media-post API", () => {
                 } as formidable.File,
             ],
         });
-        await createSocialMediaPost(req, res);
+        await createTemplateSocialMediaPost(req, res);
 
         expect(s3Spy).not.toHaveBeenCalledTimes(1);
         expect(upsertSocialMediaPostSpy).not.toHaveBeenCalledTimes(1);
@@ -336,7 +269,7 @@ describe("create-template-social-media-post API", () => {
             files: [],
         });
 
-        await createSocialMediaPost(req, res);
+        await createTemplateSocialMediaPost(req, res);
 
         expect(s3Spy).not.toHaveBeenCalledTimes(1);
         expect(upsertSocialMediaPostSpy).not.toHaveBeenCalledTimes(1);

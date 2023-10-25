@@ -96,7 +96,6 @@ describe("publishEdit", () => {
             PublishStatus.published,
             "Test User",
             undefined,
-            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
@@ -133,7 +132,6 @@ describe("publishEdit", () => {
             PublishStatus.published,
             "Test User",
             undefined,
-            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
@@ -162,7 +160,6 @@ describe("publishEdit", () => {
             PublishStatus.pendingApproval,
             "Test User",
             undefined,
-            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
@@ -189,7 +186,6 @@ describe("publishEdit", () => {
             PublishStatus.published,
             "Test User",
             undefined,
-            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
@@ -218,7 +214,6 @@ describe("publishEdit", () => {
             PublishStatus.pendingApproval,
             "Test User",
             undefined,
-            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });

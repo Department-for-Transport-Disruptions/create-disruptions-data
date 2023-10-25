@@ -2,11 +2,7 @@ import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import MockDate from "mockdate";
 import { describe, it, expect, afterEach, vi, afterAll, beforeEach } from "vitest";
 import publishTemplate from "./publish-template.api";
-import {
-    ERROR_PATH,
-    REVIEW_TEMPLATE_PAGE_PATH,
-    VIEW_ALL_TEMPLATES_PAGE_PATH,
-} from "../../constants/index";
+import { ERROR_PATH, REVIEW_TEMPLATE_PAGE_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants/index";
 import * as dynamo from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { Organisation, defaultModes } from "../../schemas/organisation.schema";

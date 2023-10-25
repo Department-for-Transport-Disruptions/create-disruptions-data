@@ -81,7 +81,6 @@ exports[`publish-template > should write the correct disruptions data to dynamoD
       },
     ],
     "summary": "Some summary",
-    "template": false,
     "validity": [
       {
         "disruptionEndDate": "17/03/2023",

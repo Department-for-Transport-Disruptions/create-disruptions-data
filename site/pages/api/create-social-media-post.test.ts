@@ -115,43 +115,9 @@ describe("create-social-media-post API", () => {
             DEFAULT_ORG_ID,
             false,
             false,
-            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
-        });
-    });
-
-    it("should redirect to /review-disruption when all required inputs are passed and social media post is a template", async () => {
-        const { req, res } = getMockRequestAndResponse({
-            body: { ...previousCreateSocialMediaPostInformation, publishDate: "", publishTime: "" },
-            query: { template: "true" },
-            mockWriteHeadFn: writeHeadMock,
-        });
-
-        formParseSpy.mockResolvedValue({
-            fields: { ...previousCreateSocialMediaPostInformation, publishDate: "", publishTime: "" },
-            files: [],
-        });
-
-        await createSocialMediaPost(req, res);
-
-        expect(s3Spy).not.toHaveBeenCalledTimes(1);
-        expect(upsertSocialMediaPostSpy).toHaveBeenCalledTimes(1);
-        expect(upsertSocialMediaPostSpy).toHaveBeenCalledWith(
-            {
-                ...previousCreateSocialMediaPostInformation,
-                publishDate: "",
-                publishTime: "",
-                socialMediaPostIndex: 0,
-            },
-            DEFAULT_ORG_ID,
-            false,
-            false,
-            true,
-        );
-        expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}?template=true`,
         });
     });
 
@@ -195,7 +161,6 @@ describe("create-social-media-post API", () => {
             DEFAULT_ORG_ID,
             false,
             false,
-            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
@@ -231,7 +196,6 @@ describe("create-social-media-post API", () => {
                 socialMediaPostIndex: 0,
             },
             DEFAULT_ORG_ID,
-            false,
             false,
             false,
         );

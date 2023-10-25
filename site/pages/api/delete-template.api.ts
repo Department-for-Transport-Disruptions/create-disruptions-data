@@ -1,7 +1,7 @@
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import { ERROR_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
-import { deletePublishedDisruption, getDisruptionById, getTemplateById } from "../../data/dynamo";
+import { deletePublishedDisruption, getTemplateById } from "../../data/dynamo";
 import { redirectTo, redirectToError } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import logger from "../../utils/logger";
