@@ -100,7 +100,7 @@ const UserDetailPageTemplate = ({
                         id={`remove-service-${operator.nocCode}`}
                         key={`remove-service-${operator.nocCode}`}
                         className="govuk-link"
-                        onClick={(e) => Promise.resolve(removeOperator(e, operator.nocCode))}
+                        onClick={(e) => removeOperator(e, operator.nocCode)}
                     >
                         Remove
                     </button>,
