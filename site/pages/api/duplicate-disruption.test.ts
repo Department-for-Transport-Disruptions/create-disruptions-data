@@ -6,7 +6,7 @@ import * as cryptoRandomString from "crypto-random-string";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import * as crypto from "crypto";
 import duplicateDisruption from "./duplicate-disruption.api";
-import { CREATE_DISRUPTION_PAGE_PATH, ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
+import { ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession } from "../../testData/mockData";

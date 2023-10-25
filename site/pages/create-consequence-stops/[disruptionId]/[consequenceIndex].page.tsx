@@ -7,7 +7,6 @@ import {
 import { Modes, PublishStatus, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import { SingleValue } from "react-select";

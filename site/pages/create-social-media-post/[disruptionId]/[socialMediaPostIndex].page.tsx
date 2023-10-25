@@ -274,7 +274,6 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             disruptionDescription: disruption?.description || "",
             socialMediaPostIndex: index,
             socialAccounts: [...hootsuiteAccounts, ...twitterAccounts],
-            template: disruption?.template?.toString() || "",
             disruptionStatus: disruption?.publishStatus,
         },
     };

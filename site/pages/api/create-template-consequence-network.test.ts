@@ -11,7 +11,6 @@ import {
     DASHBOARD_PAGE_PATH,
     TEMPLATE_OVERVIEW_PAGE_PATH,
     REVIEW_TEMPLATE_PAGE_PATH,
-    TYPE_OF_CONSEQUENCE_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH,
 } from "../../constants";
 import * as dynamo from "../../data/dynamo";

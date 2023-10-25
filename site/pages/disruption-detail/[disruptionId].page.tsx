@@ -21,7 +21,6 @@ import {
     DISRUPTION_HISTORY_PAGE_PATH,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
-    VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
 import { getItem } from "../../data/s3";

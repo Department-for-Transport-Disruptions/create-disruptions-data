@@ -77,16 +77,16 @@ const CreateTemplateConsequenceOperator = (props: CreateConsequenceOperatorProps
             operator.dataSource === dataSource.toString();
 
         if (
-            pageState.inputs?.vehicleMode === VehicleMode.bus.toString() &&
+            pageState.inputs?.vehicleMode === VehicleMode.bus &&
             (operator.mode === VehicleMode.bus.toString() || operator.mode === "")
         ) {
             return display;
         } else if (
-            pageState.inputs?.vehicleMode === VehicleMode.tram.toString() &&
+            pageState.inputs?.vehicleMode === VehicleMode.tram &&
             (operator.mode === VehicleMode.tram.toString() || operator.mode === "metro")
         ) {
             return display;
-        } else if (pageState.inputs?.vehicleMode === VehicleMode.ferryService.toString() && operator.mode === "ferry") {
+        } else if (pageState.inputs?.vehicleMode === VehicleMode.ferryService && operator.mode === "ferry") {
             return display;
         } else if (pageState.inputs?.vehicleMode === operator.mode) {
             return display;

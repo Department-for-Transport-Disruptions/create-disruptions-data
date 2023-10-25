@@ -3,14 +3,8 @@ import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import cryptoRandomString from "crypto-random-string";
 import { NextApiRequest, NextApiResponse } from "next";
 import { randomUUID } from "crypto";
-import { CREATE_DISRUPTION_PAGE_PATH, CREATE_TEMPLATE_PAGE_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
-import {
-    getDisruptionById,
-    getTemplateById,
-    upsertConsequence,
-    upsertDisruptionInfo,
-    upsertSocialMediaPost,
-} from "../../data/dynamo";
+import { CREATE_TEMPLATE_PAGE_PATH } from "../../constants";
+import { getTemplateById, upsertConsequence, upsertDisruptionInfo, upsertSocialMediaPost } from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";

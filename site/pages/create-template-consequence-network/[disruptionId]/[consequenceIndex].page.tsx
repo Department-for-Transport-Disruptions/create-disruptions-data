@@ -241,7 +241,6 @@ export const getServerSideProps = async (
             ...pageState,
             consequenceIndex: index,
             disruptionDescription: template.description || "",
-            template: template.template?.toString() || "",
             disruptionStatus: template.publishStatus,
         },
     };

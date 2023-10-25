@@ -1,7 +1,7 @@
 import MockDate from "mockdate";
 import { describe, it, expect, afterEach, vi, afterAll } from "vitest";
 import deleteDisruption from "./delete-disruption.api";
-import { DASHBOARD_PAGE_PATH, ERROR_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants/index";
+import { ERROR_PATH } from "../../constants/index";
 import * as dynamo from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import {

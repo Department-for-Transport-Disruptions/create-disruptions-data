@@ -17,7 +17,6 @@ export const getApiValidityPeriods = (validityPeriods: Validity[]) =>
 export const getApiDisruptions = (disruptions: (Disruption & { organisation: { id: string; name: string } })[]) =>
     sortDisruptionsByStartDate(disruptions).map(
         ({
-            template,
             orgId,
             publishStatus,
             consequences,
