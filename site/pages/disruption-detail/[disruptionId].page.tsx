@@ -1,4 +1,5 @@
 import { Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { MAX_CONSEQUENCES } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { PublishStatus, SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import startCase from "lodash/startCase";
 import { NextPageContext, Redirect } from "next";
@@ -24,7 +25,7 @@ import {
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
 import { getItem } from "../../data/s3";
-import { ErrorInfo } from "../../interfaces";
+import { ErrorInfo, PageState } from "../../interfaces";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../../schemas/social-media.schema";
 import { getLargestConsequenceIndex, splitCamelCaseToString } from "../../utils";
@@ -588,7 +589,7 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                 pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${nextIndex}`,
                             }}
                             className={`govuk-button mt-2 govuk-button--secondary ${
-                                disruption.consequences && disruption.consequences.length >= 10
+                                disruption.consequences && disruption.consequences.length >= MAX_CONSEQUENCES
                                     ? "pointer-events-none govuk-button--disabled"
                                     : ""
                             }`}
@@ -779,7 +780,7 @@ export const getServerSideProps = async (
 
     let errors: ErrorInfo[] = [];
     if (errorCookie) {
-        errors = JSON.parse(errorCookie) as ErrorInfo[];
+        errors = (JSON.parse(errorCookie) as PageState<DisruptionDetailProps>).errors;
     }
 
     if (!disruption) {

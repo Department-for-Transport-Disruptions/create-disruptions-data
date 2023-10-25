@@ -2,7 +2,7 @@ import { PublishStatus, SocialMediaPostStatus } from "@create-disruptions-data/s
 import MockDate from "mockdate";
 import { describe, it, expect, afterEach, vi, afterAll, beforeEach } from "vitest";
 import publishEdit from "./publish-edit.api";
-import { ERROR_PATH } from "../../constants";
+import { DASHBOARD_PAGE_PATH, ERROR_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { Organisation, defaultModes } from "../../schemas/organisation.schema";
@@ -16,6 +16,7 @@ import {
 } from "../../testData/mockData";
 import * as apiUtils from "../../utils/apiUtils";
 import * as session from "../../utils/apiUtils/auth";
+import * as disruptionApprovalEmailer from "../../utils/apiUtils/disruptionApprovalEmailer";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 const orgInfo: Organisation = {
@@ -46,6 +47,10 @@ describe("publishEdit", () => {
         getOrganisationInfoById: vi.fn(),
     }));
 
+    vi.mock("../../utils/apiUtils/disruptionApprovalEmailer", () => ({
+        sendDisruptionApprovalEmail: vi.fn(),
+    }));
+
     vi.mock("crypto", () => ({
         randomUUID: () => "id",
     }));
@@ -56,6 +61,15 @@ describe("publishEdit", () => {
     const getDisruptionSpy = vi.spyOn(dynamo, "getDisruptionById");
     const publishSocialMediaSpy = vi.spyOn(apiUtils, "publishSocialMedia");
     const getOrganisationInfoByIdSpy = vi.spyOn(dynamo, "getOrganisationInfoById");
+    const getSessionSpy = vi.spyOn(session, "getSession");
+    const sendDisruptionApprovalEmailSpy = vi.spyOn(disruptionApprovalEmailer, "sendDisruptionApprovalEmail");
+
+    beforeEach(() => {
+        getSessionSpy.mockImplementation(() => {
+            return mockSession;
+        });
+        getOrganisationInfoByIdSpy.mockResolvedValue(orgInfo);
+    });
 
     afterEach(() => {
         vi.resetAllMocks();
@@ -63,15 +77,6 @@ describe("publishEdit", () => {
 
     afterAll(() => {
         MockDate.reset();
-    });
-
-    const getSessionSpy = vi.spyOn(session, "getSession");
-
-    beforeEach(() => {
-        getSessionSpy.mockImplementation(() => {
-            return mockSession;
-        });
-        getOrganisationInfoByIdSpy.mockResolvedValue(orgInfo);
     });
 
     it("should retrieve valid data from cookies, write to dynamo and redirect for admin user", async () => {
@@ -97,7 +102,7 @@ describe("publishEdit", () => {
             "Test User",
             undefined,
         );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
+        expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
     });
 
     it("should retrieve valid data from cookies, write to dynamo and redirect for admin user with social media", async () => {
@@ -267,4 +272,28 @@ describe("publishEdit", () => {
             expect(insertDisruptionSpy.mock.calls[0]).toMatchSnapshot();
         },
     );
+
+    it("should call sendDisruptionApprovalEmail method when an org staff creates a disruption", async () => {
+        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
+        getSessionSpy.mockImplementation(() => ({ ...mockSession, isOrgStaff: true, isSystemAdmin: false }));
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                disruptionId: defaultDisruptionId,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await publishEdit(req, res);
+
+        expect(sendDisruptionApprovalEmailSpy).toBeCalledWith(
+            mockSession.orgId,
+            disruptionWithConsequences.summary,
+            disruptionWithConsequences.description,
+            mockSession.name,
+            disruptionWithConsequences.disruptionId,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: DASHBOARD_PAGE_PATH,
+        });
+    });
 });

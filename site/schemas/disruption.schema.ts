@@ -1,5 +1,5 @@
 import { disruptionSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
-import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
+import { Progress, PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { z } from "zod";
 import { socialMediaPostSchema } from "./social-media.schema";
 import { setZodDefaultError, splitCamelCaseToString } from "../utils";
@@ -93,7 +93,7 @@ export const disruptionsTableSchema = z.object({
         }),
     ),
     severity: z.string(),
-    status: z.string(),
+    status: z.nativeEnum(Progress),
     serviceIds: z.array(z.string()),
     operators: z.array(z.string()),
     isOperatorWideCq: z.boolean(),

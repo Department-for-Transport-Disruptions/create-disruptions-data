@@ -14,7 +14,7 @@ exports[`pages > feedback > should render correctly after feedback has been succ
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"
@@ -461,7 +461,7 @@ exports[`pages > feedback > should render correctly after the user tries to subm
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"
@@ -908,7 +908,7 @@ exports[`pages > feedback > should render correctly when the page is first visit
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          alpha
+          beta
         </strong>
         <span
           className="govuk-phase-banner__text"

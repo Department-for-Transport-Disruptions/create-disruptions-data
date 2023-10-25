@@ -781,12 +781,14 @@ export const consequenceSchema = z.discriminatedUnion("consequenceType", [
     servicesConsequenceSchema,
 ]);
 
+export const MAX_CONSEQUENCES = 15;
+
 export const disruptionSchema = disruptionInfoSchemaRefined.and(
     z.object({
         consequences: z
             .array(consequenceSchema)
-            .max(10, {
-                message: "Only up to 10 consequences can be added",
+            .max(MAX_CONSEQUENCES, {
+                message: `Only up to ${MAX_CONSEQUENCES} consequences can be added`,
             })
             .optional(),
         publishStatus: z.nativeEnum(PublishStatus).default(PublishStatus.draft),

@@ -1,4 +1,5 @@
 import { Consequence, Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { MAX_CONSEQUENCES } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import Link from "next/link";
 import { ReactElement, ReactNode } from "react";
 import Table, { CellProps } from "./form/Table";
@@ -274,7 +275,11 @@ const ReviewConsequenceTable = ({
             </button>
             <button
                 key={`duplicate-${consequence.consequenceIndex}`}
-                className="govuk-button govuk-button--secondary mt-4 ml-4"
+                className={`govuk-button govuk-button--secondary mt-4 ml-4${
+                    disruption.consequences && disruption.consequences.length >= MAX_CONSEQUENCES
+                        ? " pointer-events-none govuk-button--disabled"
+                        : ""
+                }`}
                 data-module="govuk-button"
                 formAction={`/api/duplicate-consequence?consequenceId=${consequence.consequenceIndex}${
                     isTemplate ? "&template=true" : ""

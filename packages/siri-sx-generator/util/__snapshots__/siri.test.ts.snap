@@ -1,0 +1,95 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`siri tests > should return expected periods for daily validity 1`] = `
+[
+  {
+    "EndTime": "2023-10-14T06:00:00.000Z",
+    "StartTime": "2023-10-13T18:00:00.000Z",
+  },
+  {
+    "EndTime": "2023-10-15T06:00:00.000Z",
+    "StartTime": "2023-10-14T18:00:00.000Z",
+  },
+]
+`;
+
+exports[`siri tests > should return expected periods for non repeating validity with end date and time 1`] = `
+[
+  {
+    "EndTime": "2023-07-23T09:00:00.000Z",
+    "StartTime": "2023-05-15T09:00:00.000Z",
+  },
+]
+`;
+
+exports[`siri tests > should return expected periods for non repeating validity without end date 1`] = `
+[
+  {
+    "StartTime": "2023-05-15T09:00:00.000Z",
+  },
+]
+`;
+
+exports[`siri tests > should return expected periods for weekly validity when repeating end date day is between the end date and start date day 1`] = `
+[
+  {
+    "EndTime": "2023-05-07T09:00:00.000Z",
+    "StartTime": "2023-05-02T08:00:00.000Z",
+  },
+  {
+    "EndTime": "2023-05-14T09:00:00.000Z",
+    "StartTime": "2023-05-09T08:00:00.000Z",
+  },
+  {
+    "EndTime": "2023-05-21T09:00:00.000Z",
+    "StartTime": "2023-05-16T08:00:00.000Z",
+  },
+]
+`;
+
+exports[`siri tests > should return expected periods for weekly validity when repeating end date day is in between the start date and end date days 1`] = `
+[
+  {
+    "EndTime": "2023-05-07T09:00:00.000Z",
+    "StartTime": "2023-05-02T08:00:00.000Z",
+  },
+  {
+    "EndTime": "2023-05-14T09:00:00.000Z",
+    "StartTime": "2023-05-09T08:00:00.000Z",
+  },
+]
+`;
+
+exports[`siri tests > should return expected periods for weekly validity when repeating end date day is on the same day as the end date day 1`] = `
+[
+  {
+    "EndTime": "2023-05-07T09:00:00.000Z",
+    "StartTime": "2023-05-02T08:00:00.000Z",
+  },
+  {
+    "EndTime": "2023-05-14T09:00:00.000Z",
+    "StartTime": "2023-05-09T08:00:00.000Z",
+  },
+  {
+    "EndTime": "2023-05-21T09:00:00.000Z",
+    "StartTime": "2023-05-16T08:00:00.000Z",
+  },
+]
+`;
+
+exports[`siri tests > should return expected periods for weekly validity when repeating end date day is on the same day as the start date day 1`] = `
+[
+  {
+    "EndTime": "2023-05-07T09:00:00.000Z",
+    "StartTime": "2023-05-02T08:00:00.000Z",
+  },
+  {
+    "EndTime": "2023-05-14T09:00:00.000Z",
+    "StartTime": "2023-05-09T08:00:00.000Z",
+  },
+  {
+    "EndTime": "2023-05-21T09:00:00.000Z",
+    "StartTime": "2023-05-16T08:00:00.000Z",
+  },
+]
+`;

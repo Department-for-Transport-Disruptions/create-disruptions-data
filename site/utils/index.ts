@@ -1,14 +1,13 @@
 import {
     Consequence,
+    Disruption,
     NetworkConsequence,
     OperatorConsequence,
     Service,
     ServicesConsequence,
     StopsConsequence,
-    Validity,
 } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { getDatetimeFromDateAndTime, getFormattedDate } from "@create-disruptions-data/shared-ts/utils/dates";
-import { Dayjs } from "dayjs";
+import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import lowerCase from "lodash/lowerCase";
 import startCase from "lodash/startCase";
 import upperFirst from "lodash/upperFirst";
@@ -18,82 +17,7 @@ import { ServerResponse } from "http";
 import { DisplayValuePair, ErrorInfo } from "../interfaces";
 import { FullDisruption } from "../schemas/disruption.schema";
 
-export type SortedDisruption = Omit<
-    FullDisruption,
-    | "disruptionStartDate"
-    | "disruptionStartTime"
-    | "disruptionEndDate"
-    | "disruptionEndTime"
-    | "disruptionNoEndDateTime"
->;
-
-export const getSortedDisruptionFinalEndDate = (disruption: SortedDisruption | FullDisruption): Dayjs | null => {
-    let disruptionEndDate: Dayjs | null = null;
-
-    if (!disruption.validity) {
-        throw new Error("Validity missing");
-    }
-
-    let noEndDatesFound = false;
-
-    disruption.validity.forEach((validity) => {
-        if (!noEndDatesFound) {
-            const repeatsEndDate =
-                (validity.disruptionRepeats === "daily" || validity.disruptionRepeats === "weekly") &&
-                validity.disruptionRepeatsEndDate
-                    ? getFormattedDate(validity.disruptionRepeatsEndDate)
-                    : validity.disruptionEndDate && validity.disruptionEndTime
-                    ? getDatetimeFromDateAndTime(validity.disruptionEndDate, validity.disruptionEndTime)
-                    : null;
-
-            if (repeatsEndDate && (repeatsEndDate.isAfter(disruptionEndDate) || disruptionEndDate === null)) {
-                disruptionEndDate = repeatsEndDate;
-            } else if (!repeatsEndDate) {
-                disruptionEndDate = null;
-                noEndDatesFound = true;
-            }
-        }
-    });
-
-    return disruptionEndDate;
-};
-
-export const sortDisruptionsByStartDate = (disruptions: FullDisruption[]): SortedDisruption[] => {
-    const sortEarliestDate = (firstDate: Dayjs, secondDate: Dayjs) => (firstDate.isBefore(secondDate) ? -1 : 1);
-
-    const disruptionsWithSortedValidityPeriods = disruptions.map((disruption) => {
-        const validityPeriods: Validity[] = [
-            ...(disruption.validity ?? []),
-            {
-                disruptionStartDate: disruption.disruptionStartDate,
-                disruptionStartTime: disruption.disruptionStartTime,
-                disruptionEndDate: disruption.disruptionEndDate,
-                disruptionEndTime: disruption.disruptionEndTime,
-                disruptionNoEndDateTime: disruption.disruptionNoEndDateTime,
-                disruptionRepeats: disruption.disruptionRepeats,
-                disruptionRepeatsEndDate: disruption.disruptionRepeatsEndDate,
-            },
-        ];
-
-        const sortedValidityPeriods = validityPeriods.sort((a, b) => {
-            return sortEarliestDate(
-                getDatetimeFromDateAndTime(a.disruptionStartDate, a.disruptionStartTime),
-                getDatetimeFromDateAndTime(b.disruptionStartDate, b.disruptionStartTime),
-            );
-        });
-
-        return { ...disruption, validity: sortedValidityPeriods };
-    });
-
-    return disruptionsWithSortedValidityPeriods.sort((a, b) => {
-        const aTime = getDatetimeFromDateAndTime(a.validity[0].disruptionStartDate, a.validity[0].disruptionStartTime);
-        const bTime = getDatetimeFromDateAndTime(b.validity[0].disruptionStartDate, b.validity[0].disruptionStartTime);
-
-        return sortEarliestDate(aTime, bTime);
-    });
-};
-
-export const mapValidityPeriods = (disruption: SortedDisruption) =>
+export const mapValidityPeriods = (disruption: Disruption) =>
     disruption.validity?.map((period) => ({
         startTime: getDatetimeFromDateAndTime(period.disruptionStartDate, period.disruptionStartTime).toISOString(),
         endTime:
@@ -129,7 +53,7 @@ export const redirectTo = (res: NextApiResponse | ServerResponse, location: stri
     res.end();
 };
 
-export const getCsrfToken = (ctx: NextPageContext | NextPageContext): string =>
+export const getCsrfToken = (ctx: NextPageContext): string =>
     ctx.res?.getHeader("x-csrf-token")?.toString() ?? "missing";
 
 export const splitCamelCaseToString = (s: string) => upperFirst(lowerCase(startCase(s)));

@@ -27,6 +27,7 @@ import {
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
+import { sendDisruptionApprovalEmail } from "../../utils/apiUtils/disruptionApprovalEmailer";
 import logger from "../../utils/logger";
 
 const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -119,6 +120,17 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         cleardownCookies(req, res);
+
+        if (session.isOrgStaff) {
+            void sendDisruptionApprovalEmail(
+                session.orgId,
+                validatedDisruptionBody.data.summary,
+                validatedDisruptionBody.data.description,
+                session.name,
+                validatedDisruptionBody.data.disruptionId,
+            );
+        }
+
         redirectTo(res, DASHBOARD_PAGE_PATH);
         return;
     } catch (e) {

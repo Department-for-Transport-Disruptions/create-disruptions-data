@@ -1,17 +1,12 @@
+import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Progress, PublishStatus, Severity } from "@create-disruptions-data/shared-ts/enums";
+import { getSortedDisruptionFinalEndDate, sortDisruptionsByStartDate } from "@create-disruptions-data/shared-ts/utils";
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import { Dayjs } from "dayjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import { VEHICLE_MODES } from "../../constants";
 import { getDisruptionsDataFromDynamo } from "../../data/dynamo";
-import {
-    SortedDisruption,
-    getDisplayByValue,
-    getSortedDisruptionFinalEndDate,
-    mapValidityPeriods,
-    reduceStringWithEllipsis,
-    sortDisruptionsByStartDate,
-} from "../../utils";
+import { getDisplayByValue, mapValidityPeriods, reduceStringWithEllipsis } from "../../utils";
 import { getSession } from "../../utils/apiUtils/auth";
 import { isLiveDisruption } from "../../utils/dates";
 
@@ -22,7 +17,7 @@ export interface GetDisruptionsApiRequest extends NextApiRequest {
     };
 }
 
-export const getDisruptionStatus = (disruption: SortedDisruption): Progress => {
+export const getDisruptionStatus = (disruption: Disruption): Progress => {
     if (disruption.publishStatus === PublishStatus.draft) {
         return Progress.draft;
     }
@@ -89,7 +84,7 @@ export const getWorstSeverity = (severitys: Severity[]): Severity => {
     return worstSeverity;
 };
 
-export const formatSortedDisruption = (disruption: SortedDisruption) => {
+export const formatSortedDisruption = (disruption: Disruption) => {
     const modes: string[] = [];
     const severitys: Severity[] = [];
     const serviceIds: string[] = [];
@@ -100,7 +95,9 @@ export const formatSortedDisruption = (disruption: SortedDisruption) => {
     let isNetworkWideCq = false;
     let stopsAffectedCount = 0;
 
-    const isLive = disruption.validity ? isLiveDisruption(disruption.validity) : false;
+    const getEndDateTime = getSortedDisruptionFinalEndDate(disruption);
+
+    const isLive = disruption.validity ? isLiveDisruption(disruption.validity, getEndDateTime) : false;
 
     if (disruption.consequences) {
         disruption.consequences.forEach((consequence) => {

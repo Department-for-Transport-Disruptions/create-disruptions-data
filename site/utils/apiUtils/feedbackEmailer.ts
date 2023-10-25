@@ -1,5 +1,6 @@
 import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
-import { AWS_SES_IDENTITY_ARN, FEEDBACK_EMAIL_ADDRESS, STAGE } from "../../constants";
+import { getDomain } from "@create-disruptions-data/shared-ts/utils/domain";
+import { FEEDBACK_EMAIL_ADDRESS, STAGE } from "../../constants";
 import { Feedback } from "../../interfaces";
 
 export const buildFeedbackContent = (feedbackQuestions: Feedback[]): string => {
@@ -32,11 +33,10 @@ export const setFeedbackMailOptions = (feedback: Feedback[]): SendEmailCommand =
                 Data: subject,
             },
         },
-        Source: FEEDBACK_EMAIL_ADDRESS,
-        SourceArn: AWS_SES_IDENTITY_ARN,
+        Source: `no-reply@${getDomain(STAGE)}`,
     });
 };
 
 export const createMailTransporter = (): SESClient => {
-    return new SESClient({ region: "us-east-1" });
+    return new SESClient({ region: "eu-west-2" });
 };

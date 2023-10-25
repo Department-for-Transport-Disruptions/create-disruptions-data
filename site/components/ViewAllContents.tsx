@@ -55,7 +55,7 @@ export interface Filter {
         endTime: string;
     };
     severity?: string;
-    status?: string;
+    status?: Progress | "any";
     operators: FilterOperator[];
     mode?: string;
     searchText?: string;
@@ -76,7 +76,7 @@ export interface TableContents {
         endTime: string | null;
     }[];
     severity: string;
-    status: string;
+    status: Progress;
     serviceIds: string[];
     operators: string[];
     isOperatorWideCq: boolean;

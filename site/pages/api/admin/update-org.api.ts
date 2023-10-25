@@ -17,7 +17,7 @@ const updateOrg = async (req: NextApiRequest, res: NextApiResponse) => {
         const validatedBody = organisationSchema.safeParse(req.body);
 
         if (validatedBody.success) {
-            if (!validatedBody.data.PK) throw new Error("Orgnaisation ID not passed");
+            if (!validatedBody.data.PK) throw new Error("Organisation ID not passed");
             await upsertOrganisation(validatedBody.data.PK, validatedBody.data);
 
             res.status(200).json({ success: true });

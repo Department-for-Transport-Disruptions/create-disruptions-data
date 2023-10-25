@@ -1,11 +1,25 @@
 import { render, screen } from "@testing-library/react";
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import AccountSettings from "./account-settings.page";
 import { defaultModes } from "../schemas/organisation.schema";
+import * as user from "../utils/user";
 
 describe("accountSettings", () => {
-    it("should render correctly", () => {
+    vi.mock("../utils/user", () => ({
+        getDisruptionEmailPreference: vi.fn(),
+    }));
+
+    beforeEach(() => {
+        getDisruptionEmailPreferenceSpy.mockResolvedValue(false);
+    });
+
+    afterEach(() => {
+        vi.resetAllMocks();
+    });
+
+    const getDisruptionEmailPreferenceSpy = vi.spyOn(user, "getDisruptionEmailPreference");
+    it("should render correctly for organisation admin", () => {
         const tree = renderer
             .create(
                 <AccountSettings
@@ -16,9 +30,9 @@ describe("accountSettings", () => {
                         adminAreaCodes: [],
                         orgName: "Test Org",
                         isOrgAdmin: true,
-                        isOrgPublisher: true,
-                        isOrgStaff: true,
-                        isSystemAdmin: true,
+                        isOrgPublisher: false,
+                        isOrgStaff: false,
+                        isSystemAdmin: false,
                         name: "Test User",
                         mode: defaultModes,
                     }}
@@ -51,5 +65,28 @@ describe("accountSettings", () => {
         expect(buttonElement).toBeDefined();
 
         unmount();
+    });
+
+    it("should render correctly for staff or publisher user", () => {
+        const tree = renderer
+            .create(
+                <AccountSettings
+                    sessionWithOrg={{
+                        email: "test@example.com",
+                        username: "Test",
+                        orgId: "org",
+                        adminAreaCodes: [],
+                        orgName: "Test Org",
+                        isOrgAdmin: false,
+                        isOrgPublisher: true,
+                        isOrgStaff: true,
+                        isSystemAdmin: false,
+                        name: "Test User",
+                        mode: defaultModes,
+                    }}
+                />,
+            )
+            .toJSON();
+        expect(tree).toMatchSnapshot();
     });
 });

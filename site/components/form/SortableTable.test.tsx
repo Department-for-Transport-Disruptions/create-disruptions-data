@@ -98,11 +98,9 @@ const defaultData: RandomTable[] = [
     },
 ];
 
-const defaultSortFunction = (rows: RandomTable[], sortField: keyof RandomTable) => {
-    return rows.sort((a, b) => {
-        return a[sortField].toString().localeCompare(b[sortField].toString());
-    });
-};
+const defaultSortFunction = (rows: RandomTable[], sortField: keyof RandomTable) =>
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string
+    rows.sort((a, b) => a[sortField].toString().localeCompare(b[sortField].toString()));
 
 describe("SortableTable", () => {
     it("should render correctly", () => {

@@ -10,10 +10,11 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
-import { upsertConsequence } from "../../data/dynamo";
+import { TooManyConsequencesError } from "../../errors";
 import { flattenZodErrors, getLargestConsequenceIndex } from "../../utils";
 import {
     destroyCookieOnResponseObject,
+    handleUpsertConsequence,
     isDisruptionFromTemplate,
     redirectTo,
     redirectToError,
@@ -26,7 +27,8 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
     try {
         const isFromTemplate = isDisruptionFromTemplate(req);
         const { template, addAnotherConsequence } = req.query;
-        const validatedBody = networkConsequenceSchema.safeParse(req.body);
+        const body = req.body as NetworkConsequence;
+        const validatedBody = networkConsequenceSchema.safeParse(body);
         const session = getSession(req);
 
         const { draft } = req.query;
@@ -36,8 +38,6 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
         }
 
         if (!validatedBody.success) {
-            const body = req.body as NetworkConsequence;
-
             if (!body.disruptionId || !body.consequenceIndex) {
                 throw new Error("No disruptionId or consequenceIndex found");
             }
@@ -61,12 +61,16 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
             return;
         }
 
-        const disruption = await upsertConsequence(
+        const disruption = await handleUpsertConsequence(
             validatedBody.data,
             session.orgId,
             session.isOrgStaff,
             template === "true",
+            body,
+            COOKIES_CONSEQUENCE_NETWORK_ERRORS,
+            res,
         );
+
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_NETWORK_ERRORS, res);
 
         const redirectPath =
@@ -106,6 +110,20 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
         );
         return;
     } catch (e) {
+        if (e instanceof TooManyConsequencesError) {
+            const body = req.body as NetworkConsequence;
+
+            redirectToWithQueryParams(
+                req,
+                res,
+                req.query.template === "true" ? ["template"] : [],
+                `${CREATE_CONSEQUENCE_NETWORK_PATH}/${body.disruptionId}/${body.consequenceIndex}`,
+                [],
+            );
+
+            return;
+        }
+
         if (e instanceof Error) {
             const message = "There was a problem adding a consequence network.";
             redirectToError(res, message, "api.create-consequence-network", e);

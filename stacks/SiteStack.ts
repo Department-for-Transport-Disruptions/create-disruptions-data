@@ -2,10 +2,10 @@ import { Certificate } from "aws-cdk-lib/aws-certificatemanager";
 import { AccessKey, ManagedPolicy, PolicyStatement, User } from "aws-cdk-lib/aws-iam";
 import { Secret } from "aws-cdk-lib/aws-secretsmanager";
 import { NextjsSite, StackContext, use } from "sst/constructs";
+import { getDomain, isSandbox } from "@create-disruptions-data/shared-ts/utils/domain";
 import { CognitoStack } from "./CognitoStack";
 import { DynamoDBStack } from "./DynamoDBStack";
-import { createBucket } from "./services/Buckets";
-import { getDomain, isSandbox } from "./utils";
+import { createBucket } from "./utils";
 
 export function SiteStack({ stack }: StackContext) {
     const { disruptionsTable, organisationsTableV2: organisationsTable, templateDisruptionsTable } = use(DynamoDBStack);
@@ -78,7 +78,13 @@ export function SiteStack({ stack }: StackContext) {
             }`,
         },
         customDomain: {
-            domainName: stack.stage === "prod" ? prodDomain : getDomain(stack.stage),
+            domainName:
+                stack.stage === "prod"
+                    ? prodDomain
+                    : isSandbox(stack.stage)
+                    ? `${stack.stage}.${getDomain(stack.stage)}`
+                    : getDomain(stack.stage),
+            hostedZone: stack.stage !== "prod" ? getDomain(stack.stage) : undefined,
             isExternalDomain: stack.stage === "prod",
             cdk:
                 stack.stage === "prod"

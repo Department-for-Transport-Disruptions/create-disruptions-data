@@ -10,10 +10,11 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
-import { upsertConsequence } from "../../data/dynamo";
+import { TooManyConsequencesError } from "../../errors";
 import { flattenZodErrors, getLargestConsequenceIndex } from "../../utils";
 import {
     destroyCookieOnResponseObject,
+    handleUpsertConsequence,
     isDisruptionFromTemplate,
     redirectTo,
     redirectToError,
@@ -43,7 +44,9 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
 
         const { template, addAnotherConsequence } = req.query;
 
-        const formattedBody = formatCreateConsequenceStopsBody(req.body as object);
+        const body = req.body as StopsConsequence;
+
+        const formattedBody = formatCreateConsequenceStopsBody(body);
 
         const validatedBody = stopsConsequenceSchema.safeParse(formattedBody);
 
@@ -56,8 +59,6 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
         }
 
         if (!validatedBody.success) {
-            const body = req.body as StopsConsequence;
-
             if (!body.disruptionId || !body.consequenceIndex) {
                 throw new Error("No disruptionId or consequenceIndex found");
             }
@@ -81,11 +82,14 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
             return;
         }
 
-        const disruption = await upsertConsequence(
+        const disruption = await handleUpsertConsequence(
             validatedBody.data,
             session.orgId,
             session.isOrgStaff,
             template === "true",
+            formattedBody,
+            COOKIES_CONSEQUENCE_STOPS_ERRORS,
+            res,
         );
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_STOPS_ERRORS, res);
 
@@ -125,6 +129,20 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
         );
         return;
     } catch (e) {
+        if (e instanceof TooManyConsequencesError) {
+            const body = req.body as StopsConsequence;
+
+            redirectToWithQueryParams(
+                req,
+                res,
+                req.query.template === "true" ? ["template"] : [],
+                `${CREATE_CONSEQUENCE_STOPS_PATH}/${body.disruptionId}/${body.consequenceIndex}`,
+                [],
+            );
+
+            return;
+        }
+
         if (e instanceof Error) {
             const message = "There was a problem adding a consequence stops.";
             redirectToError(res, message, "api.create-consequence-stops", e);

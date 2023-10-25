@@ -6,7 +6,6 @@ import { getParameter, putParameter } from "./ssm";
 import { COOKIES_TWITTER_CODE_VERIFIER, COOKIES_TWITTER_STATE } from "../constants";
 import { SocialMediaAccount } from "../schemas/social-media-accounts.schema";
 import { TwitterPost } from "../schemas/social-media.schema";
-import { notEmpty } from "../utils";
 import { setCookieOnResponseObject } from "../utils/apiUtils";
 import logger from "../utils/logger";
 
@@ -109,16 +108,20 @@ export const getAuthedTwitterClient = async (orgId: string, socialId: string) =>
 
         const refreshToken = refreshTokenParam.Parameter.Value;
 
-        return refreshTwitterToken(refreshToken, orgId, socialId);
+        return await refreshTwitterToken(refreshToken, orgId, socialId);
     } catch (e) {
         return null;
     }
 };
 
-export const sendTweet = async (orgId: string, post: TwitterPost, isUserStaff: boolean, canPublish: boolean) => {
+export const sendTweet = async (
+    orgId: string,
+    post: TwitterPost,
+    isUserStaff: boolean,
+    canPublish: boolean,
+    authedClient: TwitterApi | null,
+) => {
     try {
-        const authedClient = await getAuthedTwitterClient(orgId, post.socialAccount);
-
         if (!authedClient) {
             throw new Error("Not authenticated to twitter");
         }
@@ -160,17 +163,11 @@ export const getTwitterAccountList = async (orgId: string): Promise<SocialMediaA
     const socialAccounts = await getOrgSocialAccounts(orgId);
 
     const twitterDetail = socialAccounts
-        .map((account): SocialMediaAccount | null => {
-            if (account.accountType !== "Twitter") {
-                return null;
-            }
-
-            return {
-                ...account,
-                expiresIn: "Never",
-            };
-        })
-        .filter(notEmpty);
+        .filter((account) => account.accountType === "Twitter")
+        .map((account) => ({
+            ...account,
+            expiresIn: "Never",
+        }));
 
     return twitterDetail;
 };

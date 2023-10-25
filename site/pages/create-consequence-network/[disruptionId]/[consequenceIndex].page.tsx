@@ -1,5 +1,5 @@
 import { NetworkConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { networkConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { networkConsequenceSchema, MAX_CONSEQUENCES } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
@@ -51,6 +51,8 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
         props.disruptionStatus === PublishStatus.pendingAndEditing;
 
     const displayCancelButton = isEditing || props.inputs.description;
+
+    const { consequenceCount = 0 } = props;
 
     return (
         <BaseLayout title={title} description={description}>
@@ -189,7 +191,7 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                             buttonClasses="mt-8"
                         />
 
-                        {(props.consequenceIndex || 0) <= 10 && (
+                        {consequenceCount < (props.isEdit ? MAX_CONSEQUENCES : MAX_CONSEQUENCES - 1) && (
                             <button
                                 formAction={`/api/create-consequence-network?addAnotherConsequence=true`}
                                 className="govuk-button mt-8 ml-5 govuk-button--secondary"
@@ -249,8 +251,10 @@ export const getServerSideProps = async (
         props: {
             ...pageState,
             consequenceIndex: index,
+            consequenceCount: disruption.consequences?.length ?? 0,
             disruptionDescription: disruption.description || "",
             disruptionStatus: disruption.publishStatus,
+            isEdit: !!consequence,
         },
     };
 };
