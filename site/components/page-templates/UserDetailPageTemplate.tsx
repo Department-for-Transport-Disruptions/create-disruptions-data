@@ -1,8 +1,7 @@
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import Link from "next/link";
 import { Dispatch, SetStateAction, SyntheticEvent, useState } from "react";
-import { createFilter, SingleValue } from "react-select";
-import type { FilterOptionOption } from "react-select/dist/declarations/src/filters";
+import { SingleValue } from "react-select";
 import { AddUserPageProps } from "../../pages/admin/add-user.page";
 import { EditUserPageProps } from "../../pages/admin/edit-user/[username].page";
 import {
@@ -21,14 +20,6 @@ import SearchSelect from "../form/SearchSelect";
 import Table from "../form/Table";
 import TextInput from "../form/TextInput";
 import { TwoThirdsLayout } from "../layout/Layout";
-
-const filterConfig = {
-    ignoreCase: true,
-    ignoreAccents: false,
-    stringify: <Option extends object>(option: FilterOptionOption<Option>) => `${option.label}`,
-    trim: true,
-    matchFrom: "any" as const,
-};
 
 interface Props {
     pageType: "editUser" | "addUser";
@@ -215,7 +206,6 @@ const UserDetailPageTemplate = ({
                                     inputId="operatorNocCodes"
                                     isClearable
                                     inputValue={operatorSearchInput}
-                                    filterOptions={createFilter(filterConfig)}
                                     setSearchInput={setOperatorsSearchInput}
                                 />
                             </div>
