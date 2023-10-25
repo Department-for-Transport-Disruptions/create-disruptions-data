@@ -20,11 +20,11 @@ import ExportPopUp from "./popup/ExportPopup";
 import OperatorSearch from "./search/OperatorSearch";
 import ServiceSearch from "./search/ServiceSearch";
 import {
-    DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_SEVERITIES,
     DISRUPTION_STATUSES,
-    REVIEW_DISRUPTION_PAGE_PATH,
-    TYPE_OF_CONSEQUENCE_PAGE_PATH,
+    REVIEW_TEMPLATE_PAGE_PATH,
+    TEMPLATE_OVERVIEW_PAGE_PATH,
+    TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH,
     VEHICLE_MODES,
 } from "../constants";
 import { fetchOperators, fetchServices } from "../data/refDataApi";
@@ -39,7 +39,7 @@ import {
 import { getExportSchema } from "../utils/exportUtils";
 import { filterServices } from "../utils/formUtils";
 
-export interface ViewAllContentProps {
+export interface ViewAllTemplatesProps {
     adminAreaCodes: string[];
     newContentId: string;
     csrfToken?: string;
@@ -110,7 +110,7 @@ const sortFunction = (contents: ContentTable[], sortField: keyof ContentTable, s
     });
 };
 
-export const getDisruptionData = async () => {
+export const getTemplateData = async () => {
     const options: RequestInit = {
         method: "GET",
         headers: {
@@ -118,7 +118,7 @@ export const getDisruptionData = async () => {
         },
     };
 
-    const res = await fetch("/api/get-all-disruptions", options);
+    const res = await fetch("/api/get-all-templates", options);
 
     const parseResult = makeFilteredArraySchema(disruptionsTableSchema).safeParse(await res.json());
     if (!parseResult.success) {
@@ -358,13 +358,13 @@ const formatContentsIntoRows = (contents: TableContents[]): ContentTable[] => {
                         content.status === Progress.draft
                             ? content.consequenceLength && content.consequenceLength > 0
                                 ? {
-                                      pathname: `${REVIEW_DISRUPTION_PAGE_PATH}/${content.id}`,
+                                      pathname: `${REVIEW_TEMPLATE_PAGE_PATH}/${content.id}`,
                                   }
                                 : {
-                                      pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${content.id}/0`,
+                                      pathname: `${TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH}/${content.id}/0`,
                                   }
                             : {
-                                  pathname: `${DISRUPTION_DETAIL_PAGE_PATH}/${content.id}`,
+                                  pathname: `${TEMPLATE_OVERVIEW_PAGE_PATH}/${content.id}`,
                               }
                     }
                     key={content.id}
@@ -434,12 +434,12 @@ const setInitialFilters = (
     }
 };
 
-const ViewAllContents = ({
+const ViewAllTemplates = ({
     newContentId,
     adminAreaCodes,
     filterStatus,
     enableLoadingSpinnerOnPageLoad = true,
-}: ViewAllContentProps): ReactElement => {
+}: ViewAllTemplatesProps): ReactElement => {
     const [selectedServices, setSelectedServices] = useState<Service[]>([]);
     const [selectedOperators, setSelectedOperators] = useState<ConsequenceOperators[]>([]);
 
@@ -476,7 +476,7 @@ const ViewAllContents = ({
         const fetchData = async () => {
             setLoadPage(true);
 
-            const data = await getDisruptionData();
+            const data = await getTemplateData();
             setInitialFilters(filter, setContentsToDisplay, data);
             setContents(data);
             setLoadPage(false);
@@ -628,7 +628,7 @@ const ViewAllContents = ({
 
         const blob = new Blob([csvData], { type: "text/csv;charset=utf-8" });
 
-        saveAs(blob, "Disruptions_list.csv");
+        saveAs(blob, "Templates_list.csv");
     };
 
     const generateExcel = async () => {
@@ -640,7 +640,7 @@ const ViewAllContents = ({
 
         await writeXlsxFile(data, {
             schema: exportSchema,
-            fileName: "Disruptions_list.xlsx",
+            fileName: "Templates_list.xlsx",
         });
     };
 
@@ -668,18 +668,18 @@ const ViewAllContents = ({
         <>
             {popUpState ? <ExportPopUp confirmHandler={exportHandler} closePopUp={cancelActionHandler} /> : null}
 
-            <h1 className="govuk-heading-xl">View all disruptions</h1>
+            <h1 className="govuk-heading-xl">Templates</h1>
 
             <div>
                 <Link
-                    href={`/create-disruption/${newContentId}`}
+                    href={`/create-template/${newContentId}`}
                     role="button"
                     draggable="false"
                     className="govuk-button govuk-button--start"
                     data-module="govuk-button"
                     id="create-new-button"
                 >
-                    Create new disruption
+                    Create new template
                     <svg
                         className="govuk-button__start-icon"
                         xmlns="http://www.w3.org/2000/svg"
@@ -947,4 +947,4 @@ const ViewAllContents = ({
     );
 };
 
-export default memo(ViewAllContents);
+export default memo(ViewAllTemplates);
