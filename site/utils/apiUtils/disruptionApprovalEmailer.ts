@@ -1,6 +1,6 @@
 import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
-import { getDomain, isSandbox } from "@create-disruptions-data/shared-ts/utils/domain";
-import { STAGE } from "../../constants";
+import { isSandbox } from "@create-disruptions-data/shared-ts/utils/domain";
+import { DOMAIN_NAME, STAGE } from "../../constants";
 import { getAllUsersInGroup } from "../../data/cognito";
 import { userManagementSchema } from "../../schemas/user-management.schema";
 import { notEmpty } from "../index";
@@ -64,9 +64,9 @@ export const createDisruptionApprovalEmail = (
     disruptionId: string,
     orgAdminEmails: string[],
 ) => {
-    const disruptionLink = isSandbox(STAGE)
-        ? `http://www.localhost:3000/disruption-detail/${disruptionId}`
-        : `${getDomain(STAGE)}`;
+    const domain = new URL(DOMAIN_NAME);
+    const disruptionLink = `${domain.toString()}/disruption-detail/${disruptionId}`;
+    const sourceEmail = isSandbox(STAGE) ? "no-reply@sandbox.cdd.dft-create-data.com" : `no-reply@${domain.hostname}`;
 
     return new SendEmailCommand({
         Destination: {
@@ -89,7 +89,7 @@ export const createDisruptionApprovalEmail = (
                 Data: "Action required for the Create Disruption Data service",
             },
         },
-        Source: `no-reply@${getDomain(STAGE)}`,
+        Source: sourceEmail,
     });
 };
 
@@ -139,7 +139,10 @@ export const sendDisruptionApprovalEmail = async (
         await sesClient.send(disruptionApprovalEmail);
     } catch (e) {
         if (e instanceof Error) {
-            logger.error(`There was a problem sending the disruption approval email.`);
+            logger.error(`There was a problem sending the disruption approval email.`, {
+                context: "disruptionApprovalEmailer",
+                error: e.stack,
+            });
             return;
         }
     }

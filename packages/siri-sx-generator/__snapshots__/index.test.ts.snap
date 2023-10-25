@@ -1,5 +1,64 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`SIRI-SX Generator > correctly generates Disruptions CSV 1`] = `
+"Organisation,ID,Validity start,Validity end,Publication start,Publication end,Reason,Planned,Modes affected,Operators affected,Services affected,Stops affected
+Test Org,acde070d-8c4c-4f0d-9d8a-162843c10333,2023-03-10T12:00:00.000Z,,2023-03-10T12:00:00.000Z,,staffInWrongPlace,true,bus;tram,FSYO,,"
+`;
+
+exports[`SIRI-SX Generator > correctly generates Disruptions JSON 1`] = `
+[
+  {
+    "consequences": [
+      {
+        "consequenceOperators": [
+          {
+            "operatorNoc": "FSYO",
+            "operatorPublicName": "Operator Name",
+          },
+        ],
+        "consequenceType": "operatorWide",
+        "description": "Some consequence description",
+        "disruptionDelay": "40",
+        "disruptionSeverity": "severe",
+        "removeFromJourneyPlanners": "yes",
+        "vehicleMode": "bus",
+      },
+      {
+        "consequenceType": "networkWide",
+        "description": "Some consequence description",
+        "disruptionSeverity": "slight",
+        "removeFromJourneyPlanners": "no",
+        "vehicleMode": "tram",
+      },
+    ],
+    "description": "Test description",
+    "displayId": "8fg3ha",
+    "disruptionId": "acde070d-8c4c-4f0d-9d8a-162843c10333",
+    "disruptionReason": "staffInWrongPlace",
+    "disruptionType": "planned",
+    "organisation": {
+      "id": "6f6435e3-a485-4c8c-8c29-e121b1e76802",
+      "name": "Test Org",
+    },
+    "publishStartDate": "10/03/2023",
+    "publishStartTime": "1200",
+    "summary": "Some summary",
+    "validity": [
+      {
+        "disruptionEndDate": "17/03/2023",
+        "disruptionEndTime": "1700",
+        "disruptionStartDate": "10/03/2023",
+        "disruptionStartTime": "1200",
+      },
+      {
+        "disruptionStartDate": "18/03/2023",
+        "disruptionStartTime": "1200",
+      },
+    ],
+  },
+]
+`;
+
 exports[`SIRI-SX Generator > correctly generates SIRI-SX XML 1`] = `
 "<?xml version=\\"1.0\\" encoding=\\"UTF-8\\" standalone=\\"yes\\"?>
 <Siri version=\\"2.0\\" xmlns=\\"http://www.siri.org.uk/siri\\" xmlns:xsi=\\"http://www.w3.org/2001/XMLSchema-instance\\" xsi:schemaLocation=\\"http://www.siri.org.uk/siri http://www.siri.org.uk/schema/2.0/xsd/siri.xsd\\">

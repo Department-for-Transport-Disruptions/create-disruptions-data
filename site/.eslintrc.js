@@ -36,6 +36,8 @@ module.exports = {
         "@typescript-eslint/triple-slash-reference": 0,
         "no-console": "error",
         "@typescript-eslint/no-empty-interface": 0,
+        "no-return-await": "off",
+        "@typescript-eslint/return-await": "error",
         indent: [
             0,
             4,

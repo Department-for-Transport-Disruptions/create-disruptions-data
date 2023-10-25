@@ -1,3 +1,5 @@
+import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { MAX_CONSEQUENCES } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import { parseCookies, setCookie } from "nookies";
@@ -14,8 +16,10 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
     COOKIES_REFRESH_TOKEN,
 } from "../../constants";
+import { upsertConsequence } from "../../data/dynamo";
 import { getAccessToken, publishToHootsuite } from "../../data/hootsuite";
 import { getAuthedTwitterClient, sendTweet } from "../../data/twitter";
+import { TooManyConsequencesError } from "../../errors";
 import { PageState } from "../../interfaces";
 import { OperatorData } from "../../schemas/add-user.schema";
 import { SocialMediaPost } from "../../schemas/social-media.schema";
@@ -213,4 +217,36 @@ export const formatOperatorNocCodesInBody = (body: object) => {
         ...cleansedBody,
         operatorNocCodes,
     };
+};
+
+export const handleUpsertConsequence = async (
+    consequence: Consequence | Pick<Consequence, "disruptionId" | "consequenceIndex">,
+    orgId: string,
+    isOrgStaff: boolean,
+    isTemplate: boolean,
+    inputs: unknown,
+    errorCookie: string,
+    res: NextApiResponse,
+) => {
+    try {
+        return await upsertConsequence(consequence, orgId, isOrgStaff, isTemplate);
+    } catch (e) {
+        if (e instanceof TooManyConsequencesError) {
+            setCookieOnResponseObject(
+                errorCookie,
+                JSON.stringify({
+                    inputs,
+                    errors: [
+                        {
+                            id: "",
+                            errorMessage: `Max consequence limit of ${MAX_CONSEQUENCES} has been reached`,
+                        },
+                    ],
+                }),
+                res,
+            );
+        }
+
+        throw e;
+    }
 };

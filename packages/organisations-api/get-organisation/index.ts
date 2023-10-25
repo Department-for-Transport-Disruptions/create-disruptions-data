@@ -3,9 +3,9 @@ import { APIGatewayEvent } from "aws-lambda";
 import * as logger from "lambda-log";
 import { randomUUID } from "crypto";
 
-const getOrganisation = async (orgId: string) => {
+const getOrganisation = async (orgId: string, organisationsTableName: string) => {
     try {
-        const org = await getOrganisationInfoAndStats(orgId, logger);
+        const org = await getOrganisationInfoAndStats(orgId, organisationsTableName, logger);
         if (!org) {
             throw new Error(`No valid organisation found for ID: ${orgId}`);
         }
@@ -43,7 +43,7 @@ export const main = async (event: APIGatewayEvent): Promise<{ statusCode: number
             throw new Error("An organisation ID must be provided");
         }
 
-        const organisation = await getOrganisation(orgId);
+        const organisation = await getOrganisation(orgId, orgTableName);
 
         logger.info(`Successfully retrieved organisation ${orgId} DynamoDB...`);
 
