@@ -3,8 +3,7 @@ import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useState } from "react";
-import { createFilter, SingleValue } from "react-select";
-import type { FilterOptionOption } from "react-select/dist/declarations/src/filters";
+import { SingleValue } from "react-select";
 import CsrfForm from "../../components/form/CsrfForm";
 import ErrorSummary from "../../components/form/ErrorSummary";
 import Radios from "../../components/form/Radios";
@@ -24,14 +23,6 @@ import { getStateUpdater } from "../../utils/formUtils";
 
 const title = "Add User - Create Transport Disruptions Service";
 const description = "Add User page for the Create Transport Disruptions Service";
-
-const filterConfig = {
-    ignoreCase: true,
-    ignoreAccents: false,
-    stringify: <Option extends object>(option: FilterOptionOption<Option>) => `${option.label}`,
-    trim: true,
-    matchFrom: "any" as const,
-};
 
 export interface AddUserPageProps extends PageState<Partial<AddUserSchema>> {
     operatorData?: OperatorData[];
@@ -99,7 +90,7 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
                         id={`remove-service-${operator.nocCode}`}
                         key={`remove-service-${operator.nocCode}`}
                         className="govuk-link"
-                        onClick={(e) => Promise.resolve(removeOperator(e, operator.nocCode))}
+                        onClick={(e) => removeOperator(e, operator.nocCode)}
                     >
                         Remove
                     </button>,
@@ -197,7 +188,6 @@ const AddUser = (props: AddUserPageProps): ReactElement => {
                                 inputId="operatorNocCodes"
                                 isClearable
                                 inputValue={operatorSearchInput}
-                                filterOptions={createFilter(filterConfig)}
                                 setSearchInput={setOperatorsSearchInput}
                             />
                         </div>

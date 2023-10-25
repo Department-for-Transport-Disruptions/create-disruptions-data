@@ -15,14 +15,14 @@ import { getSession } from "../../../utils/apiUtils/auth";
 
 export const formatAddUserBody = (body: object) => {
     const operatorNocCodes = Object.entries(body)
-        .filter((item) => item.toString().startsWith("operatorNocCodes"))
+        .filter((item) => item[0].startsWith("operatorNocCodes"))
         .map((arr: string[]) => {
             const [, values] = arr;
             return JSON.parse(values) as OperatorData;
         });
 
     const cleansedBody = Object.fromEntries(
-        Object.entries(body).filter((item) => !item.toString().startsWith("operatorNocCodes")),
+        Object.entries(body).filter((item) => !item[0].startsWith("operatorNocCodes")),
     );
 
     return {
@@ -61,7 +61,7 @@ const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
             const operatorAttribute: AttributeType[] = [
                 {
                     Name: "custom:nocCodes",
-                    Value: nocCodes.toString(),
+                    Value: nocCodes.join(","),
                 },
             ];
             await createUser(validatedBody.data, operatorAttribute);
