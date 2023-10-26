@@ -1,5 +1,13 @@
+import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
-import { COOKIES_EDIT_USER_ERRORS, EDIT_USER_PAGE_PATH, USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
+import {
+    COOKIES_EDIT_USER_ERRORS,
+    COOKIES_ID_TOKEN,
+    COOKIES_REFRESH_TOKEN,
+    EDIT_USER_PAGE_PATH,
+    LOGIN_PAGE_PATH,
+    USER_MANAGEMENT_PAGE_PATH,
+} from "../../../constants";
 import { addUserToGroup, removeUserFromGroup, updateUserAttributes } from "../../../data/cognito";
 import { EditUserSchema, editUserSchema } from "../../../schemas/add-user.schema";
 import { flattenZodErrors } from "../../../utils";
@@ -49,6 +57,16 @@ const editUser = async (req: NextApiRequest, res: NextApiResponse) => {
         if (validatedBody.data.initialGroup !== validatedBody.data.group) {
             await removeUserFromGroup(validatedBody.data.username, validatedBody.data.initialGroup);
             await addUserToGroup(validatedBody.data.username, validatedBody.data.group);
+        }
+
+        if (
+            session.username === validatedBody.data.username &&
+            validatedBody.data.initialGroup === UserGroups.orgAdmins
+        ) {
+            destroyCookieOnResponseObject(COOKIES_ID_TOKEN, res);
+            destroyCookieOnResponseObject(COOKIES_REFRESH_TOKEN, res);
+            redirectTo(res, LOGIN_PAGE_PATH);
+            return;
         }
 
         destroyCookieOnResponseObject(COOKIES_EDIT_USER_ERRORS, res);
