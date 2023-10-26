@@ -61,6 +61,7 @@ const editUser = async (req: NextApiRequest, res: NextApiResponse) => {
 
         if (
             session.username === validatedBody.data.username &&
+            validatedBody.data.initialGroup !== validatedBody.data.group &&
             validatedBody.data.initialGroup === UserGroups.orgAdmins
         ) {
             destroyCookieOnResponseObject(COOKIES_ID_TOKEN, res);
