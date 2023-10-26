@@ -48,7 +48,7 @@ const disruption: FullDisruption = {
     orgId: DEFAULT_ORG_ID,
 };
 
-describe("duplicate-consequence API", () => {
+describe("duplicate-consequence-template API", () => {
     const writeHeadMock = vi.fn();
     vi.mock("../../utils/apiUtils", async () => ({
         ...(await vi.importActual<object>("../../utils/apiUtils")),
@@ -101,7 +101,7 @@ describe("duplicate-consequence API", () => {
             },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
-            false,
+            true,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -134,7 +134,7 @@ describe("duplicate-consequence API", () => {
             },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
-            false,
+            true,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {

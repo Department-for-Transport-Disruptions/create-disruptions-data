@@ -55,7 +55,7 @@ const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): 
             },
             session.orgId,
             session.isOrgStaff,
-            false,
+            true,
             req.body as Consequence,
             template.publishStatus !== PublishStatus.draft
                 ? COOKIES_TEMPLATE_OVERVIEW_ERRORS
