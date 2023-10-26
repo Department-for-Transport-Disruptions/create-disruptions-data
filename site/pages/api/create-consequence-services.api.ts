@@ -51,6 +51,25 @@ export const formatCreateConsequenceStopsServicesBody = (body: object) => {
     };
 };
 
+const getBasicServiceInfo = (disruptionWithServices: ServicesConsequence) => {
+    return {
+        ...disruptionWithServices,
+        services: disruptionWithServices.services.map((service) => ({
+            id: service.id,
+            lineName: service.lineName,
+            operatorShortName: service.operatorShortName,
+            destination: service.destination,
+            origin: service.origin,
+            nocCode: service.nocCode,
+            dataSource: service.dataSource,
+            startDate: service.startDate,
+            endDate: service.endDate,
+            serviceCode: service.serviceCode,
+            lineId: service.lineId,
+        })),
+    };
+};
+
 const createConsequenceServices = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const queryParam = getReturnPage(req);
@@ -80,7 +99,7 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
             setCookieOnResponseObject(
                 COOKIES_CONSEQUENCE_SERVICES_ERRORS,
                 JSON.stringify({
-                    inputs: formattedBody,
+                    inputs: getBasicServiceInfo(formattedBody as ServicesConsequence),
                     errors: flattenZodErrors(validatedBody.error),
                 }),
                 res,

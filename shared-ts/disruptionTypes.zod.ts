@@ -774,6 +774,8 @@ export const servicesConsequenceSchema = z.object({
     ),
 });
 
+export type ServicesConsequence = z.infer<typeof servicesConsequenceSchema>;
+
 export const consequenceSchema = z.discriminatedUnion("consequenceType", [
     networkConsequenceSchema,
     operatorConsequenceSchema,
