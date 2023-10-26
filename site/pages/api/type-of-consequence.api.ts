@@ -11,7 +11,6 @@ import { ConsequenceType, typeOfConsequenceSchema } from "../../schemas/type-of-
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
-    isDisruptionFromTemplate,
     redirectTo,
     redirectToError,
     redirectToWithQueryParams,
@@ -20,7 +19,7 @@ import {
 
 const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
     try {
-        const isFromTemplate = isDisruptionFromTemplate(req);
+        const { isFromTemplate } = req.query;
         const validatedBody = typeOfConsequenceSchema.safeParse(req.body);
 
         if (!validatedBody.success) {

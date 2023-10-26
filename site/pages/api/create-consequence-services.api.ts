@@ -15,7 +15,6 @@ import { flattenZodErrors, getLargestConsequenceIndex } from "../../utils";
 import {
     destroyCookieOnResponseObject,
     handleUpsertConsequence,
-    isDisruptionFromTemplate,
     redirectTo,
     redirectToError,
     redirectToWithQueryParams,
@@ -53,9 +52,7 @@ export const formatCreateConsequenceStopsServicesBody = (body: object) => {
 
 const createConsequenceServices = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const isFromTemplate = isDisruptionFromTemplate(req);
-
-        const { template, addAnotherConsequence } = req.query;
+        const { template, addAnotherConsequence, draft, isFromTemplate } = req.query;
 
         const body = req.body as ServicesConsequence;
 
@@ -64,8 +61,6 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
         const validatedBody = servicesConsequenceSchema.safeParse(formattedBody);
 
         const session = getSession(req);
-
-        const { draft } = req.query;
 
         if (!session) {
             throw new Error("No session found");

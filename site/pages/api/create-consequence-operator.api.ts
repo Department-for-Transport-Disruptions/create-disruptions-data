@@ -14,7 +14,6 @@ import { TooManyConsequencesError } from "../../errors";
 import { flattenZodErrors, getLargestConsequenceIndex } from "../../utils";
 import {
     handleUpsertConsequence,
-    isDisruptionFromTemplate,
     redirectTo,
     redirectToError,
     redirectToWithQueryParams,
@@ -50,11 +49,10 @@ export const formatCreateConsequenceBody = (body: object) => {
 
 const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const isFromTemplate = isDisruptionFromTemplate(req);
         const session = getSession(req);
         const { template, addAnotherConsequence } = req.query;
 
-        const { draft } = req.query;
+        const { draft, isFromTemplate } = req.query;
 
         const formattedBody = formatCreateConsequenceBody(req.body) as OperatorConsequence;
 

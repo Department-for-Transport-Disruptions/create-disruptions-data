@@ -15,7 +15,6 @@ import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
     formatCreateDisruptionBody,
-    isDisruptionFromTemplate,
     redirectTo,
     redirectToError,
     redirectToWithQueryParams,
@@ -25,9 +24,7 @@ import { getSession } from "../../utils/apiUtils/auth";
 
 const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const isFromTemplate = isDisruptionFromTemplate(req);
-
-        const { draft } = req.query;
+        const { draft, isFromTemplate } = req.query;
         const body = req.body as DisruptionInfo & { consequenceIndex: number | undefined };
 
         const consequenceIndex = body.consequenceIndex || 0;

@@ -281,9 +281,11 @@ const ReviewConsequenceTable = ({
                         : ""
                 }`}
                 data-module="govuk-button"
-                formAction={`/api/duplicate-consequence?consequenceId=${consequence.consequenceIndex}${
-                    isTemplate ? "&template=true" : ""
-                }`}
+                formAction={
+                    isTemplate
+                        ? `/api/duplicate-consequence-template?consequenceId=${consequence.consequenceIndex}`
+                        : `/api/duplicate-consequence?consequenceId=${consequence.consequenceIndex}`
+                }
             >
                 Duplicate consequence
             </button>

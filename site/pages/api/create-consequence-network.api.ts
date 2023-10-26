@@ -15,7 +15,6 @@ import { flattenZodErrors, getLargestConsequenceIndex } from "../../utils";
 import {
     destroyCookieOnResponseObject,
     handleUpsertConsequence,
-    isDisruptionFromTemplate,
     redirectTo,
     redirectToError,
     redirectToWithQueryParams,
@@ -25,13 +24,12 @@ import { getSession } from "../../utils/apiUtils/auth";
 
 const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const isFromTemplate = isDisruptionFromTemplate(req);
         const { template, addAnotherConsequence } = req.query;
         const body = req.body as NetworkConsequence;
         const validatedBody = networkConsequenceSchema.safeParse(body);
         const session = getSession(req);
 
-        const { draft } = req.query;
+        const { draft, isFromTemplate } = req.query;
 
         if (!session) {
             throw new Error("No session found");

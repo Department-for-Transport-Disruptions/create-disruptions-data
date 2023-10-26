@@ -2,12 +2,12 @@ import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes"
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
-    COOKIES_DISRUPTION_DETAIL_ERRORS,
-    COOKIES_REVIEW_DISRUPTION_ERRORS,
-    DISRUPTION_DETAIL_PAGE_PATH,
-    REVIEW_DISRUPTION_PAGE_PATH,
+    COOKIES_REVIEW_TEMPLATE_ERRORS,
+    COOKIES_TEMPLATE_OVERVIEW_ERRORS,
+    REVIEW_TEMPLATE_PAGE_PATH,
+    TEMPLATE_OVERVIEW_PAGE_PATH,
 } from "../../constants";
-import { getDisruptionById } from "../../data/dynamo";
+import { getTemplateById } from "../../data/dynamo";
 import { TooManyConsequencesError } from "../../errors";
 import { duplicateConsequenceSchema } from "../../schemas/consequence.schema";
 import { getLargestConsequenceIndex } from "../../utils";
@@ -34,17 +34,13 @@ const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): 
             throw new Error("disruptionId is required to duplicate a consequence");
         }
 
-        const disruption = await getDisruptionById(
-            validatedBody.data.disruptionId,
-            session.orgId,
-            !!req.query?.template,
-        );
+        const template = await getTemplateById(validatedBody.data.disruptionId, session.orgId);
 
-        if (!disruption || !disruption.consequences) {
-            throw new Error("No disruption / disruption with consequences found");
+        if (!template || !template.consequences) {
+            throw new Error("No template / template with consequences found");
         }
 
-        const consequenceToDuplicate = disruption.consequences.find(
+        const consequenceToDuplicate = template.consequences.find(
             (consequence) => consequence.consequenceIndex === Number(consequenceId),
         );
 
@@ -55,15 +51,15 @@ const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): 
         await handleUpsertConsequence(
             {
                 ...consequenceToDuplicate,
-                consequenceIndex: getLargestConsequenceIndex(disruption) + 1,
+                consequenceIndex: getLargestConsequenceIndex(template) + 1,
             },
             session.orgId,
             session.isOrgStaff,
             false,
             req.body as Consequence,
-            disruption.publishStatus !== PublishStatus.draft
-                ? COOKIES_DISRUPTION_DETAIL_ERRORS
-                : COOKIES_REVIEW_DISRUPTION_ERRORS,
+            template.publishStatus !== PublishStatus.draft
+                ? COOKIES_TEMPLATE_OVERVIEW_ERRORS
+                : COOKIES_REVIEW_TEMPLATE_ERRORS,
             res,
         );
 
@@ -72,9 +68,7 @@ const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): 
             res,
             [],
             `${
-                disruption.publishStatus === PublishStatus.draft
-                    ? REVIEW_DISRUPTION_PAGE_PATH
-                    : DISRUPTION_DETAIL_PAGE_PATH
+                template.publishStatus === PublishStatus.draft ? REVIEW_TEMPLATE_PAGE_PATH : TEMPLATE_OVERVIEW_PAGE_PATH
             }/${validatedBody.data.disruptionId}`,
             isFromTemplate ? ["isFromTemplate=true"] : [],
         );

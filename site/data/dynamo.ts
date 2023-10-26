@@ -736,7 +736,7 @@ export const removeSocialMediaPostFromDisruption = async (
     );
 };
 
-export const getTemplateById = async (templateId: string, id: string) => {
+export const getTemplateById = async (templateId: string, id: string): Promise<FullDisruption | null> => {
     return getDisruptionById(templateId, id, true);
 };
 
