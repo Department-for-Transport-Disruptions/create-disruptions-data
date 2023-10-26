@@ -51,7 +51,7 @@ export const formatCreateConsequenceStopsServicesBody = (body: object) => {
     };
 };
 
-const getBasicServiceInfo = (disruptionWithServices: ServicesConsequence) => {
+export const getBasicServiceInfo = (disruptionWithServices: ServicesConsequence) => {
     return {
         ...disruptionWithServices,
         services: disruptionWithServices.services.map((service) => ({

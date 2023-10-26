@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment  */
-import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Consequence, ServicesConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Datasource, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
-import createConsequenceServices, { formatCreateConsequenceStopsServicesBody } from "./create-consequence-services.api";
+import createConsequenceServices, {
+    formatCreateConsequenceStopsServicesBody,
+    getBasicServiceInfo,
+} from "./create-consequence-services.api";
 import {
     COOKIES_CONSEQUENCE_SERVICES_ERRORS,
     CREATE_CONSEQUENCE_SERVICES_PATH,
@@ -397,7 +400,10 @@ describe("create-consequence-services API", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CONSEQUENCE_SERVICES_ERRORS,
-            JSON.stringify({ inputs: formatCreateConsequenceStopsServicesBody(req.body), errors }),
+            JSON.stringify({
+                inputs: getBasicServiceInfo(formatCreateConsequenceStopsServicesBody(req.body) as ServicesConsequence),
+                errors,
+            }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
