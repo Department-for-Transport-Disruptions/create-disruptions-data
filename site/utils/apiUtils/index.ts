@@ -13,8 +13,6 @@ import {
     COOKIE_CSRF,
     COOKIES_ID_TOKEN,
     COOKIE_PREFERENCES_COOKIE,
-    DISRUPTION_DETAIL_PAGE_PATH,
-    REVIEW_DISRUPTION_PAGE_PATH,
     COOKIES_REFRESH_TOKEN,
 } from "../../constants";
 import { upsertConsequence } from "../../data/dynamo";
