@@ -274,7 +274,10 @@ describe("create-consequence-services API", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CONSEQUENCE_SERVICES_ERRORS,
-            JSON.stringify({ inputs: formatCreateConsequenceStopsServicesBody(req.body), errors }),
+            JSON.stringify({
+                inputs: getBasicServiceInfo(formatCreateConsequenceStopsServicesBody(req.body) as ServicesConsequence),
+                errors,
+            }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -299,7 +302,10 @@ describe("create-consequence-services API", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CONSEQUENCE_SERVICES_ERRORS,
-            JSON.stringify({ inputs: formatCreateConsequenceStopsServicesBody(req.body), errors }),
+            JSON.stringify({
+                inputs: getBasicServiceInfo(formatCreateConsequenceStopsServicesBody(req.body) as ServicesConsequence),
+                errors,
+            }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -323,7 +329,10 @@ describe("create-consequence-services API", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CONSEQUENCE_SERVICES_ERRORS,
-            JSON.stringify({ inputs: formatCreateConsequenceStopsServicesBody(req.body), errors }),
+            JSON.stringify({
+                inputs: getBasicServiceInfo(formatCreateConsequenceStopsServicesBody(req.body) as ServicesConsequence),
+                errors,
+            }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
