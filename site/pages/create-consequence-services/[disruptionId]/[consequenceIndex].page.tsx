@@ -224,6 +224,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                     atcoCodes: [stopToAdd.atcoCode],
                     includeRoutes: true,
                     dataSource: dataSource,
+                    nocCodes: props.isOperatorUser && props.operatorUserNocCodes ? props.operatorUserNocCodes : [],
                 });
 
                 stopToAdd["serviceIds"] = servicesForGivenStop.map((service) => service.id);
@@ -354,16 +355,12 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             adminAreaCodes: props.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
             dataSource: source,
             modes: mode,
+            nocCodes: props.isOperatorUser && props.operatorUserNocCodes ? props.operatorUserNocCodes : [],
         });
 
         const filteredData = filterServices(serviceData);
 
-        if (props.isOperatorUser) {
-            const filteredDataForOperatorUser = filteredData.filter((service) => {
-                return props.operatorUserNocCodes?.includes(service.nocCode);
-            });
-            setServicesRecords(filteredDataForOperatorUser);
-        } else setServicesRecords(filteredData);
+        setServicesRecords(filteredData);
     };
 
     useEffect(() => {
