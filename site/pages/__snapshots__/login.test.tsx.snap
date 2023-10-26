@@ -87,6 +87,7 @@ exports[`login > should render correctly when there are no inputs 1`] = `
                 >
                   <input
                     className="govuk-input w-3/4"
+                    disabled={false}
                     id="email-input"
                     maxLength={100}
                     name="email"
@@ -114,6 +115,7 @@ exports[`login > should render correctly when there are no inputs 1`] = `
                 >
                   <input
                     className="govuk-input w-3/4"
+                    disabled={false}
                     id="password-input"
                     maxLength={100}
                     name="password"
@@ -428,6 +430,7 @@ exports[`login > should render correctly with inputs and no errors 1`] = `
                   <input
                     className="govuk-input w-3/4"
                     defaultValue="dummyUser@gmail.com"
+                    disabled={false}
                     id="email-input"
                     maxLength={100}
                     name="email"
@@ -456,6 +459,7 @@ exports[`login > should render correctly with inputs and no errors 1`] = `
                   <input
                     className="govuk-input w-3/4"
                     defaultValue="dummyPassword"
+                    disabled={false}
                     id="password-input"
                     maxLength={100}
                     name="password"
@@ -811,6 +815,7 @@ exports[`login > should render correctly with inputs and with errors 1`] = `
                     aria-describedby="email-error"
                     className="govuk-input w-3/4 govuk-input--error"
                     defaultValue="dummyUser@gmail.com"
+                    disabled={false}
                     id="email-input"
                     maxLength={100}
                     name="email"
@@ -839,6 +844,7 @@ exports[`login > should render correctly with inputs and with errors 1`] = `
                   <input
                     className="govuk-input w-3/4"
                     defaultValue="dummyPassword"
+                    disabled={false}
                     id="password-input"
                     maxLength={100}
                     name="password"

@@ -10,7 +10,12 @@ export const addUserSchema = z.object({
     group: z.nativeEnum(UserGroups, setZodDefaultError("Select which account is required")),
 });
 
+export const editUserSchema = addUserSchema.and(
+    z.object({ username: z.string(), initialGroup: z.nativeEnum(UserGroups) }),
+);
+
 export type AddUserSchema = z.infer<typeof addUserSchema>;
+export type EditUserSchema = z.infer<typeof editUserSchema>;
 
 export const addUsersSchema = z.array(addUserSchema);
 export type AddUsersSchema = z.infer<typeof addUsersSchema>;

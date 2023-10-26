@@ -30,6 +30,37 @@ exports[`TextInput > should render correctly as a text area with rows 1`] = `
 </div>
 `;
 
+exports[`TextInput > should render correctly if input is disabled 1`] = `
+<div
+  className="govuk-form-group"
+>
+  <div
+    className="govuk-form-group"
+    id="field-1"
+  >
+    <label
+      className="govuk-label govuk-label--s"
+      htmlFor="field-1-input"
+    >
+      Test Field
+    </label>
+    <div
+      className=""
+    >
+      <input
+        className="govuk-input w-3/4"
+        disabled={false}
+        id="field-1-input"
+        maxLength={50}
+        name="field1"
+        onChange={[Function]}
+        type="text"
+      />
+    </div>
+  </div>
+</div>
+`;
+
 exports[`TextInput > should render correctly with errors 1`] = `
 <div
   className="govuk-form-group"
@@ -49,6 +80,7 @@ exports[`TextInput > should render correctly with errors 1`] = `
     >
       <input
         className="govuk-input w-3/4"
+        disabled={false}
         id="field-1-input"
         maxLength={50}
         name="field1"
@@ -79,6 +111,7 @@ exports[`TextInput > should render correctly with no errors 1`] = `
     >
       <input
         className="govuk-input w-3/4"
+        disabled={false}
         id="field-1-input"
         maxLength={50}
         name="field1"
