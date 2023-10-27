@@ -63,23 +63,9 @@ const publishEditTemplate = async (req: NextApiRequest, res: NextApiResponse) =>
             return;
         }
 
-        const isEditPendingDsp =
-            draftDisruption.publishStatus === PublishStatus.pendingAndEditing ||
-            draftDisruption.publishStatus === PublishStatus.editPendingApproval;
-
-        if (isEditPendingDsp) {
-            await publishEditedConsequencesAndSocialMediaPostsIntoPending(
-                draftDisruption.disruptionId,
-                session.orgId,
-                true,
-            );
-        } else {
-            await publishEditedConsequencesAndSocialMediaPosts(draftDisruption.disruptionId, session.orgId, true);
-        }
+        await publishEditedConsequencesAndSocialMediaPosts(draftDisruption.disruptionId, session.orgId, true);
 
         if (canPublish(session)) {
-            if (isEditPendingDsp)
-                await publishPendingConsequencesAndSocialMediaPosts(draftDisruption.disruptionId, session.orgId, true);
             await Promise.all([
                 deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId, true),
                 deleteDisruptionsInPending(draftDisruption.disruptionId, session.orgId, true),
@@ -88,20 +74,22 @@ const publishEditTemplate = async (req: NextApiRequest, res: NextApiResponse) =>
             await deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId, true);
         }
 
-        draftDisruption.publishStatus === PublishStatus.pendingAndEditing && !canPublish(session)
-            ? await updatePendingDisruptionStatus(
-                  { ...draftDisruption, publishStatus: PublishStatus.editPendingApproval },
-                  session.orgId,
-                  true,
-              )
-            : await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
-                  draftDisruption,
-                  session.orgId,
-                  canPublish(session) ? PublishStatus.published : PublishStatus.pendingApproval,
-                  session.name,
-                  undefined,
-                  true,
-              );
+        if (!canPublish(session)) {
+            await updatePendingDisruptionStatus(
+                { ...draftDisruption, publishStatus: PublishStatus.editPendingApproval },
+                session.orgId,
+                true,
+            );
+        } else {
+            await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
+                draftDisruption,
+                session.orgId,
+                canPublish(session) ? PublishStatus.published : PublishStatus.pendingApproval,
+                session.name,
+                undefined,
+                true,
+            );
+        }
 
         cleardownCookies(req, res);
 

@@ -22,24 +22,7 @@ export interface GetDisruptionsApiRequest extends NextApiRequest {
 export const getTemplateStatus = (disruption: Disruption): Progress => {
     if (disruption.publishStatus === PublishStatus.draft) {
         return Progress.draft;
-    }
-
-    if (disruption.publishStatus === PublishStatus.rejected) {
-        return Progress.rejected;
-    }
-
-    if (disruption.publishStatus === PublishStatus.pendingApproval) {
-        return Progress.draftPendingApproval;
-    }
-
-    if (
-        disruption.publishStatus === PublishStatus.editPendingApproval ||
-        disruption.publishStatus === PublishStatus.pendingAndEditing
-    ) {
-        return Progress.editPendingApproval;
-    }
-
-    return Progress.open;
+    } else return Progress.open;
 };
 
 export const isClosingOrClosed = (endDate: Dayjs, today: Dayjs): Progress => {
@@ -170,12 +153,7 @@ const getAllTemplates = async (req: GetDisruptionsApiRequest, res: NextApiRespon
 
     if (templateData) {
         templateData = templateData.filter(
-            (item) =>
-                item.publishStatus === PublishStatus.published ||
-                item.publishStatus === PublishStatus.draft ||
-                item.publishStatus === PublishStatus.pendingApproval ||
-                item.publishStatus === PublishStatus.editPendingApproval ||
-                item.publishStatus === PublishStatus.rejected,
+            (item) => item.publishStatus === PublishStatus.published || item.publishStatus === PublishStatus.draft,
         );
         const sortedTemplates = sortTemplatesByStartDate(templateData);
 
