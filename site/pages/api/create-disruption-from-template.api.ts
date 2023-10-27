@@ -27,7 +27,7 @@ const createDisruptionFromTemplate = async (req: NextApiRequest, res: NextApiRes
         const templateToMakeDisruption = await getTemplateById(templateId as string, session.orgId);
 
         if (!templateToMakeDisruption) {
-            throw new Error("No disruption to duplicate");
+            throw new Error("No template found to create a disruption from.");
         }
 
         const validatedDisruptionBody = disruptionInfoSchemaRefined.safeParse({
