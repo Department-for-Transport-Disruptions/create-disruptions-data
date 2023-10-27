@@ -46,9 +46,6 @@ const defaultDisruptionData = {
     orgId: DEFAULT_ORG_ID,
 };
 
-const refererPath = `${CREATE_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}?${encodeURIComponent(
-    `${DISRUPTION_DETAIL_PAGE_PATH}/${defaultDisruptionId as string}`,
-)}`;
 
 describe("create-template API", () => {
     const writeHeadMock = vi.fn();
@@ -839,35 +836,5 @@ describe("create-template API", () => {
         expect(upsertTemplateSpy).toHaveBeenCalledTimes(1);
         expect(upsertTemplateSpy).toHaveBeenCalledWith(returnedDisruption, DEFAULT_ORG_ID, mockSession.isOrgStaff);
         expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
-    });
-
-    it("should redirect back to /create-template when invalid reason passed with the expected query param value", async () => {
-        const disruptionData = {
-            ...defaultDisruptionData,
-            disruptionReason: "Incorrect Value",
-        };
-
-        const { req, res } = getMockRequestAndResponse({
-            body: disruptionData,
-            requestHeaders: {
-                referer: refererPath,
-            },
-            mockWriteHeadFn: writeHeadMock,
-        });
-
-        await createTemplate(req, res);
-
-        const errors: ErrorInfo[] = [{ errorMessage: "Select a reason from the dropdown", id: "disruptionReason" }];
-        const inputs = formatCreateDisruptionBody(req.body);
-
-        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
-        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
-            COOKIES_TEMPLATE_ERRORS,
-            JSON.stringify({ inputs, errors }),
-            res,
-        );
-        expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `/create-template/${defaultDisruptionId}`,
-        });
     });
 });

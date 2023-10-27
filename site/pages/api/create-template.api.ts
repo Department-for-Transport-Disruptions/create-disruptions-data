@@ -1,10 +1,12 @@
 import { DisruptionInfo as TemplateInfo } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { disruptionInfoSchemaRefined as templateInfoSchemaRefined } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_TEMPLATE_ERRORS,
     CREATE_TEMPLATE_PAGE_PATH,
     DASHBOARD_PAGE_PATH,
+    REVIEW_TEMPLATE_PAGE_PATH,
     TEMPLATE_OVERVIEW_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH,
 } from "../../constants/index";
@@ -66,13 +68,18 @@ const createTemplate = async (req: NextApiRequest, res: NextApiResponse): Promis
 
         destroyCookieOnResponseObject(COOKIES_TEMPLATE_ERRORS, res);
 
+        const redirectPath =
+            currentTemplate?.publishStatus !== PublishStatus.draft
+                ? TEMPLATE_OVERVIEW_PAGE_PATH
+                : REVIEW_TEMPLATE_PAGE_PATH;
+
         if (draft) {
             redirectTo(res, DASHBOARD_PAGE_PATH);
             return;
         }
 
-        if (currentTemplate?.consequences) {
-            redirectTo(res, `${TEMPLATE_OVERVIEW_PAGE_PATH}/${validatedBody.data.disruptionId}`);
+        if (redirectPath && currentTemplate?.consequences) {
+            redirectTo(res, `${redirectPath}/${validatedBody.data.disruptionId}`);
             return;
         } else {
             redirectTo(
@@ -81,8 +88,6 @@ const createTemplate = async (req: NextApiRequest, res: NextApiResponse): Promis
             );
             return;
         }
-
-        return;
     } catch (e) {
         if (e instanceof Error) {
             const message = "There was a problem creating a template.";
