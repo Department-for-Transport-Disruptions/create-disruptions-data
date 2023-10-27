@@ -55,7 +55,7 @@ describe("deleteTemplateConsequence", () => {
         });
     });
 
-    it("should redirect to /dashboard page after updating consequence when invoked from disruption details page", async () => {
+    it("should redirect to /template-overview page after updating consequence when template is inEdit mode", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: {
                 id: defaultConsequenceId,
