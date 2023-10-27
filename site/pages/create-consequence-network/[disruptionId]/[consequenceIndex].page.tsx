@@ -3,6 +3,7 @@ import { networkConsequenceSchema, MAX_CONSEQUENCES } from "@create-disruptions-
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
 import DeleteDisruptionButton from "../../../components/buttons/DeleteDisruptionButton";
@@ -50,7 +51,8 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
         props.disruptionStatus === PublishStatus.editPendingApproval ||
         props.disruptionStatus === PublishStatus.pendingAndEditing;
 
-    const displayCancelButton = isEditing || props.inputs.description;
+    const isFromTemplate = useRouter().query["isFromTemplate"] === "true" ? true : false;
+    const displayCancelButton = (isEditing || !!props.inputs.description) && !isFromTemplate;
 
     const { consequenceCount = 0 } = props;
 

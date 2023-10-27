@@ -39,6 +39,7 @@ import { flattenZodErrors, isStopsConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import { getStateUpdater, getStopLabel, getStopValue, isSelectedStopInDropdown } from "../../../utils/formUtils";
+import { useRouter } from "next/router";
 
 const title = "Create Consequence Stops";
 const description = "Create Consequence Stops page for the Create Transport Disruptions Service";
@@ -61,7 +62,8 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
         props.disruptionStatus === PublishStatus.editPendingApproval ||
         props.disruptionStatus === PublishStatus.pendingAndEditing;
 
-    const displayCancelButton = isEditing || props.inputs.description;
+    const isFromTemplate = useRouter().query["isFromTemplate"] === "true" ? true : false;
+    const displayCancelButton = (isEditing || !!props.inputs.description) && !isFromTemplate;
 
     const { consequenceCount = 0 } = props;
 

@@ -1,6 +1,7 @@
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
 import ErrorSummary from "../../../components/form/ErrorSummary";
@@ -46,7 +47,8 @@ const CreateTemplateSocialMediaPost = (props: CreateSocialMediaPostPageProps): R
         props.disruptionStatus === PublishStatus.editPendingApproval ||
         props.disruptionStatus === PublishStatus.pendingAndEditing;
 
-    const displayCancelButton = isEditing || props.inputs.socialAccount;
+    const isFromTemplate = useRouter().query["isFromTemplate"] === "true" ? true : false;
+    const displayCancelButton = (isEditing || !!props.inputs.socialAccount) && !isFromTemplate;
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
 

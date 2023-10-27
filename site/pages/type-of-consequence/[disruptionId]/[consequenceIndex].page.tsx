@@ -33,28 +33,20 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
 
-    const queryParams = useRouter().query;
-    const isTemplate = queryParams["template"]?.toString() ?? "";
-
     const returnPath =
-        isTemplate || props.disruptionStatus === PublishStatus.published
-            ? DISRUPTION_DETAIL_PAGE_PATH
-            : REVIEW_DISRUPTION_PAGE_PATH;
+        props.disruptionStatus === PublishStatus.published ? DISRUPTION_DETAIL_PAGE_PATH : REVIEW_DISRUPTION_PAGE_PATH;
 
     const isEditing =
         props.disruptionStatus === PublishStatus.editing ||
         props.disruptionStatus === PublishStatus.editPendingApproval ||
         props.disruptionStatus === PublishStatus.pendingAndEditing;
 
-    const displayCancelButton = isEditing || props.inputs.consequenceType;
+    const isFromTemplate = useRouter().query["isFromTemplate"] === "true" ? true : false;
+    const displayCancelButton = (isEditing || !!props.inputs.consequenceType) && !isFromTemplate;
 
     return (
         <TwoThirdsLayout title={title} description={description} errors={props.errors}>
-            <CsrfForm
-                action={`/api/type-of-consequence${isTemplate ? "?template=true" : ""}`}
-                method="post"
-                csrfToken={props.csrfToken}
-            >
+            <CsrfForm action="/api/type-of-consequence" method="post" csrfToken={props.csrfToken}>
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
@@ -81,11 +73,7 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
                             {displayCancelButton ? (
                                 <Link
                                     role="button"
-                                    href={
-                                        isTemplate
-                                            ? `${returnPath}/${pageState.disruptionId || ""}?template=true`
-                                            : `${returnPath}/${pageState.disruptionId || ""}`
-                                    }
+                                    href={`${returnPath}/${pageState.disruptionId || ""}`}
                                     className="govuk-button mt-8 ml-1 govuk-button--secondary"
                                 >
                                     Cancel Changes
@@ -119,16 +107,12 @@ export const getServerSideProps = async (
         throw new Error("No session found");
     }
 
-    const disruption = await getDisruptionById(
-        ctx.query.disruptionId?.toString() ?? "",
-        session.orgId,
-        !!ctx.query.template,
-    );
+    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "", session.orgId);
 
     if (!disruption) {
         return {
             redirect: {
-                destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`,
+                destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}`,
                 statusCode: 302,
             },
         };

@@ -2,7 +2,7 @@ import { ConsequenceOperators } from "@create-disruptions-data/shared-ts/disrupt
 import { Severity } from "@create-disruptions-data/shared-ts/enums";
 import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import CreateConsequenceOperator, { CreateConsequenceOperatorProps } from "./[disruptionId]/[consequenceIndex].page";
 import { mockOperators } from "../../testData/mockData";
 
@@ -32,6 +32,14 @@ const withInputs: CreateConsequenceOperatorProps = {
     disruptionId: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
     disruptionDescription: "A truck broke down on a bridge",
 };
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const useRouter = vi.spyOn(require("next/router"), "useRouter");
+beforeEach(() => {
+    useRouter.mockImplementation(() => ({
+        query: "",
+    }));
+});
 
 describe("pages", () => {
     describe("CreateConsequenceOperator", () => {

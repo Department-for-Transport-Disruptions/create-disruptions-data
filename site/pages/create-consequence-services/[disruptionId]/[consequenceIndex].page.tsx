@@ -50,6 +50,7 @@ import {
     isSelectedStopInDropdown,
     sortAndFilterStops,
 } from "../../../utils/formUtils";
+import { useRouter } from "next/router";
 
 const title = "Create Consequence Services";
 const description = "Create Consequence Services page for the Create Transport Disruptions Service";
@@ -171,7 +172,8 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         props.disruptionStatus === PublishStatus.editPendingApproval ||
         props.disruptionStatus === PublishStatus.pendingAndEditing;
 
-    const displayCancelButton = isEditing || props.inputs.description;
+    const isFromTemplate = useRouter().query["isFromTemplate"] === "true" ? true : false;
+    const displayCancelButton = (isEditing || !!props.inputs.description) && !isFromTemplate;
 
     const handleStopChange = async (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {

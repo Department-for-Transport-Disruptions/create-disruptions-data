@@ -1,7 +1,7 @@
 import { Severity } from "@create-disruptions-data/shared-ts/enums";
 import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeEach, vi } from "vitest";
 import CreateTemplateConsequenceNetwork, {
     CreateConsequenceNetworkProps,
 } from "./[disruptionId]/[consequenceIndex].page";
@@ -22,6 +22,14 @@ const withInputs: CreateConsequenceNetworkProps = {
     disruptionId: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
     disruptionDescription: "A truck broke down on a bridge",
 };
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const useRouter = vi.spyOn(require("next/router"), "useRouter");
+beforeEach(() => {
+    useRouter.mockImplementation(() => ({
+        query: "",
+    }));
+});
 
 describe("pages", () => {
     describe("CreateTemplateConsequenceNetwork", () => {

@@ -35,6 +35,7 @@ import { isOperatorConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import { getStateUpdater, operatorStateUpdater } from "../../../utils/formUtils";
+import { useRouter } from "next/router";
 
 const title = "Create Consequence Operator";
 const description = "Create Consequence Operator page for the Create Transport Disruptions Service";
@@ -60,7 +61,8 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
         props.disruptionStatus === PublishStatus.editPendingApproval ||
         props.disruptionStatus === PublishStatus.pendingAndEditing;
 
-    const displayCancelButton = isEditing || props.inputs.description;
+    const isFromTemplate = useRouter().query["isFromTemplate"] === "true" ? true : false;
+    const displayCancelButton = (isEditing || !!props.inputs.description) && !isFromTemplate;
 
     const [dataSource, setDataSource] = useState<Datasource>(Datasource.bods);
 

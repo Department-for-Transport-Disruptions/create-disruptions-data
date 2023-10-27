@@ -1,7 +1,7 @@
 import { Severity } from "@create-disruptions-data/shared-ts/enums";
 import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import CreateTemplateConsequenceStops, { CreateConsequenceStopsProps } from "./[disruptionId]/[consequenceIndex].page";
 import { defaultModes } from "../../schemas/organisation.schema";
 
@@ -90,6 +90,14 @@ const withInputsAndErrors: CreateConsequenceStopsProps = {
         mode: defaultModes,
     },
 };
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const useRouter = vi.spyOn(require("next/router"), "useRouter");
+beforeEach(() => {
+    useRouter.mockImplementation(() => ({
+        query: "",
+    }));
+});
 
 describe("pages", () => {
     describe("CreateTemplateConsequenceStops", () => {
