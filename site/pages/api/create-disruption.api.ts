@@ -74,23 +74,24 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
                 ? DISRUPTION_DETAIL_PAGE_PATH
                 : REVIEW_DISRUPTION_PAGE_PATH;
 
-        draft
-            ? redirectTo(res, DASHBOARD_PAGE_PATH)
-            : redirectPath && currentDisruption?.consequences && !isFromTemplate
-            ? redirectToWithQueryParams(
-                  req,
-                  res,
-                  [],
-                  `${redirectPath}/${validatedBody.data.disruptionId}`,
-                  isFromTemplate ? ["isFromTemplate=true"] : [],
-              )
-            : redirectToWithQueryParams(
-                  req,
-                  res,
-                  [],
-                  `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/${consequenceIndex}`,
-                  isFromTemplate ? ["isFromTemplate=true"] : [],
-              );
+        if (draft) {
+            redirectTo(res, DASHBOARD_PAGE_PATH);
+            return;
+        }
+
+        if (redirectPath && currentDisruption?.consequences && !isFromTemplate) {
+            redirectTo(res, `${redirectPath}/${validatedBody.data.disruptionId}`);
+            return;
+        } else {
+            redirectToWithQueryParams(
+                req,
+                res,
+                [],
+                `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/${consequenceIndex}`,
+                isFromTemplate ? ["isFromTemplate=true"] : [],
+            );
+            return;
+        }
 
         return;
     } catch (e) {

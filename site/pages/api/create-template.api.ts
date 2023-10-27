@@ -62,18 +62,25 @@ const createTemplate = async (req: NextApiRequest, res: NextApiResponse): Promis
             validatedBody.data.disruptionNoEndDateTime = "";
         }
 
-        const currentDisruption = await upsertTemplateInfo(validatedBody.data, session.orgId, session.isOrgStaff);
+        const currentTemplate = await upsertTemplateInfo(validatedBody.data, session.orgId, session.isOrgStaff);
 
         destroyCookieOnResponseObject(COOKIES_TEMPLATE_ERRORS, res);
 
-        draft
-            ? redirectTo(res, DASHBOARD_PAGE_PATH)
-            : currentDisruption?.consequences
-            ? redirectTo(res, `${TEMPLATE_OVERVIEW_PAGE_PATH}/${validatedBody.data.disruptionId}`)
-            : redirectTo(
-                  res,
-                  `${TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH}/${validatedBody.data.disruptionId}/${consequenceIndex}`,
-              );
+        if (draft) {
+            redirectTo(res, DASHBOARD_PAGE_PATH);
+            return;
+        }
+
+        if (currentTemplate?.consequences) {
+            redirectTo(res, `${TEMPLATE_OVERVIEW_PAGE_PATH}/${validatedBody.data.disruptionId}`);
+            return;
+        } else {
+            redirectTo(
+                res,
+                `${TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH}/${validatedBody.data.disruptionId}/${consequenceIndex}`,
+            );
+            return;
+        }
 
         return;
     } catch (e) {
