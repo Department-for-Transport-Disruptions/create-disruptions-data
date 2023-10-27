@@ -21,11 +21,12 @@ import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 import {
     DISRUPTION_SEVERITIES,
     VEHICLE_MODES,
-    TYPE_OF_CONSEQUENCE_PAGE_PATH,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
     REVIEW_TEMPLATE_PAGE_PATH,
     TEMPLATE_OVERVIEW_PAGE_PATH,
     COOKIES_TEMPLATE_CONSEQUENCE_STOPS_ERRORS,
+    TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH,
+    CREATE_TEMPLATE_CONSEQUENCE_STOPS_PATH,
 } from "../../../constants";
 import { getTemplateById } from "../../../data/dynamo";
 import { fetchStops } from "../../../data/refDataApi";
@@ -194,10 +195,9 @@ const CreateTemplateConsequenceStops = (props: CreateConsequenceStopsProps): Rea
                                         "Stops",
                                         createChangeLink(
                                             "consequence-type",
-                                            TYPE_OF_CONSEQUENCE_PAGE_PATH,
+                                            TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH,
                                             pageState.disruptionId || "",
                                             pageState.consequenceIndex ?? 0,
-                                            true,
                                         ),
                                     ],
                                 },
@@ -353,7 +353,7 @@ const CreateTemplateConsequenceStops = (props: CreateConsequenceStopsProps): Rea
 
                         {(props.consequenceIndex || 0) <= 10 && (
                             <button
-                                formAction="/api/create-consequence-stops?addAnotherConsequence=true"
+                                formAction={`/api/${CREATE_TEMPLATE_CONSEQUENCE_STOPS_PATH}?addAnotherConsequence=true`}
                                 className="govuk-button mt-8 ml-5 govuk-button--secondary"
                                 data-module="govuk-button"
                             >

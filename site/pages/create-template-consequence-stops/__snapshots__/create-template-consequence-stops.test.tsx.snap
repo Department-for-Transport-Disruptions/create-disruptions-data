@@ -129,7 +129,7 @@ exports[`pages > CreateTemplateConsequenceStops > should render correctly with e
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence//0?template=true"
+                    href="/type-of-consequence-template//0"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -641,7 +641,7 @@ exports[`pages > CreateTemplateConsequenceStops > should render correctly with e
           <button
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api/create-consequence-stops?addAnotherConsequence=true"
+            formAction="/api//create-template-consequence-stops?addAnotherConsequence=true"
           >
             Add another consequence
           </button>
@@ -932,7 +932,7 @@ exports[`pages > CreateTemplateConsequenceStops > should render correctly with i
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0?template=true"
+                    href="/type-of-consequence-template/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -1422,7 +1422,7 @@ exports[`pages > CreateTemplateConsequenceStops > should render correctly with i
           <button
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api/create-consequence-stops?addAnotherConsequence=true"
+            formAction="/api//create-template-consequence-stops?addAnotherConsequence=true"
           >
             Add another consequence
           </button>
@@ -1713,7 +1713,7 @@ exports[`pages > CreateTemplateConsequenceStops > should render correctly with n
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence//0?template=true"
+                    href="/type-of-consequence-template//0"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -2150,7 +2150,7 @@ exports[`pages > CreateTemplateConsequenceStops > should render correctly with n
           <button
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api/create-consequence-stops?addAnotherConsequence=true"
+            formAction="/api//create-template-consequence-stops?addAnotherConsequence=true"
           >
             Add another consequence
           </button>
@@ -2441,7 +2441,7 @@ exports[`pages > CreateTemplateConsequenceStops > should render correctly with q
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0?template=true"
+                    href="/type-of-consequence-template/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -2931,7 +2931,7 @@ exports[`pages > CreateTemplateConsequenceStops > should render correctly with q
           <button
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api/create-consequence-stops?addAnotherConsequence=true"
+            formAction="/api//create-template-consequence-stops?addAnotherConsequence=true"
           >
             Add another consequence
           </button>

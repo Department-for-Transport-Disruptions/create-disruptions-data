@@ -82,7 +82,6 @@ const TemplateOverview = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                   CREATE_TEMPLATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                   disruption.disruptionId,
                                   post.socialMediaPostIndex,
-                                  true,
                               )
                             : "",
                         styles: {
@@ -115,7 +114,6 @@ const TemplateOverview = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                   CREATE_TEMPLATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                   disruption.disruptionId,
                                   post.socialMediaPostIndex,
-                                  true,
                               )
                             : "",
                     },
@@ -134,7 +132,6 @@ const TemplateOverview = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                   CREATE_TEMPLATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                   disruption.disruptionId,
                                   post.socialMediaPostIndex,
-                                  true,
                               )
                             : "",
                     },
@@ -153,7 +150,6 @@ const TemplateOverview = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                   CREATE_TEMPLATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                   disruption.disruptionId,
                                   post.socialMediaPostIndex,
-                                  true,
                               )
                             : "",
                     },
@@ -175,7 +171,6 @@ const TemplateOverview = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                   CREATE_TEMPLATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                   disruption.disruptionId,
                                   post.socialMediaPostIndex,
-                                  true,
                               )
                             : "",
                     },
@@ -194,7 +189,6 @@ const TemplateOverview = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                   CREATE_TEMPLATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                   disruption.disruptionId,
                                   post.socialMediaPostIndex,
-                                  true,
                               )
                             : "",
                     },
@@ -297,7 +291,6 @@ const TemplateOverview = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                         "/create-template",
                         disruption.disruptionId,
                         undefined,
-                        true,
                     ),
                 ],
             };
@@ -380,7 +373,6 @@ const TemplateOverview = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                                 "/create-template",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                true,
                                             ),
                                             styles: {
                                                 width: "w-1/10",
@@ -400,7 +392,6 @@ const TemplateOverview = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                                 "/create-template",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                true,
                                             ),
                                         },
                                     ],
@@ -417,7 +408,6 @@ const TemplateOverview = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                                 "/create-template",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                true,
                                             ),
                                         },
                                     ],
@@ -434,7 +424,6 @@ const TemplateOverview = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                                 "/create-template",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                true,
                                             ),
                                         },
                                     ],
@@ -451,7 +440,6 @@ const TemplateOverview = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                                 "/create-template",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                true,
                                             ),
                                         },
                                     ],
@@ -469,7 +457,6 @@ const TemplateOverview = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                                 "/create-template",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                true,
                                             ),
                                         },
                                     ],
@@ -486,7 +473,6 @@ const TemplateOverview = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                                 "/create-template",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                true,
                                             ),
                                         },
                                     ],
@@ -503,7 +489,6 @@ const TemplateOverview = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                                 "/create-template",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                true,
                                             ),
                                         },
                                     ],
@@ -522,7 +507,6 @@ const TemplateOverview = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                                 "/create-template",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                true,
                                             ),
                                         },
                                     ],

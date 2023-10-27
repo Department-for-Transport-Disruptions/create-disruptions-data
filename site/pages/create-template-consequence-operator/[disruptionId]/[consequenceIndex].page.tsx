@@ -22,8 +22,9 @@ import {
     DISRUPTION_SEVERITIES,
     TEMPLATE_OVERVIEW_PAGE_PATH,
     REVIEW_TEMPLATE_PAGE_PATH,
-    TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
+    TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH,
+    CREATE_TEMPLATE_CONSEQUENCE_OPERATOR_PATH,
 } from "../../../constants";
 import { getTemplateById } from "../../../data/dynamo";
 import { fetchOperators } from "../../../data/refDataApi";
@@ -110,10 +111,9 @@ const CreateTemplateConsequenceOperator = (props: CreateConsequenceOperatorProps
                                         "Operator wide",
                                         createChangeLink(
                                             "consequence-type",
-                                            TYPE_OF_CONSEQUENCE_PAGE_PATH,
+                                            TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH,
                                             pageState.disruptionId || "",
                                             pageState.consequenceIndex ?? 0,
-                                            true,
                                         ),
                                     ],
                                 },
@@ -267,7 +267,7 @@ const CreateTemplateConsequenceOperator = (props: CreateConsequenceOperatorProps
                         />
                         {(props.consequenceIndex || 0) <= 10 && (
                             <button
-                                formAction="/api/create-template-consequence-operator?addAnotherConsequence=true"
+                                formAction={`/api/${CREATE_TEMPLATE_CONSEQUENCE_OPERATOR_PATH}?addAnotherConsequence=true`}
                                 className="govuk-button mt-8 ml-5 govuk-button--secondary"
                                 data-module="govuk-button"
                             >

@@ -21,8 +21,9 @@ import {
     DISRUPTION_SEVERITIES,
     TEMPLATE_OVERVIEW_PAGE_PATH,
     REVIEW_TEMPLATE_PAGE_PATH,
-    TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
+    TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH,
+    CREATE_TEMPLATE_CONSEQUENCE_NETWORK_PATH,
 } from "../../../constants";
 import { getTemplateById } from "../../../data/dynamo";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
@@ -65,10 +66,9 @@ const CreateTemplateConsequenceNetwork = (props: CreateConsequenceNetworkProps):
                                         "Network wide",
                                         createChangeLink(
                                             "consequence-type",
-                                            TYPE_OF_CONSEQUENCE_PAGE_PATH,
+                                            TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH,
                                             pageState.disruptionId || "",
                                             pageState.consequenceIndex ?? 0,
-                                            true,
                                         ),
                                     ],
                                 },
@@ -182,7 +182,7 @@ const CreateTemplateConsequenceNetwork = (props: CreateConsequenceNetworkProps):
 
                         {(props.consequenceIndex || 0) <= 10 && (
                             <button
-                                formAction="/api/create-consequence-network?addAnotherConsequence=true"
+                                formAction={`/api/${CREATE_TEMPLATE_CONSEQUENCE_NETWORK_PATH}?addAnotherConsequence=true`}
                                 className="govuk-button mt-8 ml-5 govuk-button--secondary"
                                 data-module="govuk-button"
                             >

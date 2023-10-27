@@ -70,7 +70,6 @@ const ReviewTemplate = ({
                                   CREATE_TEMPLATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                   disruption.disruptionId,
                                   post.socialMediaPostIndex,
-                                  true,
                               )
                             : "",
                         styles: {
@@ -103,7 +102,6 @@ const ReviewTemplate = ({
                                   CREATE_TEMPLATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                   disruption.disruptionId,
                                   post.socialMediaPostIndex,
-                                  true,
                               )
                             : "",
                     },
@@ -122,7 +120,6 @@ const ReviewTemplate = ({
                                   CREATE_TEMPLATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                   disruption.disruptionId,
                                   post.socialMediaPostIndex,
-                                  true,
                               )
                             : "",
                     },
@@ -141,7 +138,6 @@ const ReviewTemplate = ({
                                   CREATE_TEMPLATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                   disruption.disruptionId,
                                   post.socialMediaPostIndex,
-                                  true,
                               )
                             : "",
                     },
@@ -163,7 +159,6 @@ const ReviewTemplate = ({
                                   CREATE_TEMPLATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                   disruption.disruptionId,
                                   post.socialMediaPostIndex,
-                                  true,
                               )
                             : "",
                     },
@@ -182,7 +177,6 @@ const ReviewTemplate = ({
                                   CREATE_TEMPLATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                   disruption.disruptionId,
                                   post.socialMediaPostIndex,
-                                  true,
                               )
                             : "",
                     },
@@ -291,13 +285,12 @@ const ReviewTemplate = ({
                     ),
                     createChangeLink(
                         `validity-period-${i + 1}`,
-                        "/create-disruption",
+                        "/create-template",
                         disruption.disruptionId,
                         undefined,
-                        true,
                     ),
                     false,
-                    true,
+
                     ,
                 ],
             };
@@ -365,10 +358,9 @@ const ReviewTemplate = ({
                                         {
                                             value: createChangeLink(
                                                 "type-of-disruption",
-                                                "/create-disruption",
+                                                "/create-template",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                true,
                                             ),
                                             styles: {
                                                 width: "w-1/10",
@@ -385,10 +377,9 @@ const ReviewTemplate = ({
                                         {
                                             value: createChangeLink(
                                                 "summary",
-                                                "/create-disruption",
+                                                "/create-template",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                true,
                                             ),
                                         },
                                     ],
@@ -402,10 +393,9 @@ const ReviewTemplate = ({
                                         {
                                             value: createChangeLink(
                                                 "description",
-                                                "/create-disruption",
+                                                "/create-template",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                true,
                                             ),
                                         },
                                     ],
@@ -419,10 +409,9 @@ const ReviewTemplate = ({
                                         {
                                             value: createChangeLink(
                                                 "associated-link",
-                                                "/create-disruption",
+                                                "/create-template",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                true,
                                             ),
                                         },
                                     ],
@@ -436,10 +425,9 @@ const ReviewTemplate = ({
                                         {
                                             value: createChangeLink(
                                                 "disruption-reason",
-                                                "/create-disruption",
+                                                "/create-template",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                true,
                                             ),
                                         },
                                     ],
@@ -454,10 +442,9 @@ const ReviewTemplate = ({
                                         {
                                             value: createChangeLink(
                                                 "publish-start-date",
-                                                "/create-disruption",
+                                                "/create-template",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                true,
                                             ),
                                         },
                                     ],
@@ -471,10 +458,9 @@ const ReviewTemplate = ({
                                         {
                                             value: createChangeLink(
                                                 "publish-start-time",
-                                                "/create-disruption",
+                                                "/create-template",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                true,
                                             ),
                                         },
                                     ],
@@ -488,10 +474,9 @@ const ReviewTemplate = ({
                                         {
                                             value: createChangeLink(
                                                 "publish-end-date",
-                                                "/create-disruption",
+                                                "/create-template",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                true,
                                             ),
                                         },
                                     ],
@@ -507,10 +492,9 @@ const ReviewTemplate = ({
                                         {
                                             value: createChangeLink(
                                                 "publish-end-time",
-                                                "/create-disruption",
+                                                "/create-template",
                                                 disruption.disruptionId,
                                                 undefined,
-                                                true,
                                             ),
                                         },
                                     ],
