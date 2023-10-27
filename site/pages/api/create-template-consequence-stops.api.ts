@@ -23,15 +23,13 @@ import { getSession } from "../../utils/apiUtils/auth";
 
 const createTemplateConsequenceStops = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const { addAnotherConsequence } = req.query;
+        const { addAnotherConsequence, draft } = req.query;
 
         const formattedBody = formatCreateConsequenceStopsBody(req.body as object);
 
         const validatedBody = stopsConsequenceSchema.safeParse(formattedBody);
 
         const session = getSession(req);
-
-        const { draft } = req.query;
 
         if (!session) {
             throw new Error("No session found");

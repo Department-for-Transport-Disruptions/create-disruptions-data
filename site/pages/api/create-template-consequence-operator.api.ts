@@ -33,9 +33,7 @@ const createTemplateConsequenceOperator = async (
 ): Promise<void> => {
     try {
         const session = getSession(req);
-        const { addAnotherConsequence } = req.query;
-
-        const { draft } = req.query;
+        const { addAnotherConsequence, draft } = req.query;
 
         const formattedBody = formatCreateConsequenceBody(req.body) as OperatorConsequence;
 
