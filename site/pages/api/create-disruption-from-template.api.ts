@@ -10,7 +10,7 @@ import { redirectTo, redirectToError } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 import { defaultDateTime } from "../../utils/dates";
 
-const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+const createDisruptionFromTemplate = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const { templateId } = req.query;
 
@@ -122,4 +122,4 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
     }
 };
 
-export default duplicateDisruption;
+export default createDisruptionFromTemplate;

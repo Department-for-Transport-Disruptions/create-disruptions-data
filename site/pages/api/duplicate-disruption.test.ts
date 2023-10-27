@@ -5,7 +5,7 @@ import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@crea
 import * as cryptoRandomString from "crypto-random-string";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import * as crypto from "crypto";
-import duplicateDisruption from "./duplicate-disruption.api";
+import createDisruptionFromTemplate from "./duplicate-disruption.api";
 import { ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
@@ -111,7 +111,7 @@ describe("duplicate-disruption API", () => {
         });
 
         getDisruptionByIdSpy.mockResolvedValue(disruption);
-        await duplicateDisruption(req, res);
+        await createDisruptionFromTemplate(req, res);
 
         expect(upsertDisruptionInfoSpy).toHaveBeenCalledTimes(1);
         expect(upsertDisruptionInfoSpy).toHaveBeenCalledWith(
@@ -142,7 +142,7 @@ describe("duplicate-disruption API", () => {
             mockWriteHeadFn: writeHeadMock,
         });
 
-        await duplicateDisruption(req, res);
+        await createDisruptionFromTemplate(req, res);
 
         expect(getDisruptionByIdSpy).not.toHaveBeenCalled();
         expect(upsertDisruptionInfoSpy).not.toHaveBeenCalled();
@@ -161,7 +161,7 @@ describe("duplicate-disruption API", () => {
         });
 
         getDisruptionByIdSpy.mockResolvedValue(null);
-        await duplicateDisruption(req, res);
+        await createDisruptionFromTemplate(req, res);
 
         expect(upsertDisruptionInfoSpy).not.toHaveBeenCalled();
         expect(upsertConsequenceSpy).not.toHaveBeenCalled();
