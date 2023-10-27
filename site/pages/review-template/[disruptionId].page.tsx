@@ -28,7 +28,7 @@ import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import { formatTime, getEndingOnDateText } from "../../utils/dates";
 
-const title = "Review Templte";
+const title = "Review Template";
 const description = "Review Template page for the Create Transport Disruptions Service";
 
 interface ReviewDisruptionProps {
@@ -631,7 +631,7 @@ const ReviewTemplate = ({
                             data-module="govuk-button"
                             onClick={(e) => {
                                 e.preventDefault();
-                                deleteActionHandler("disruption", [
+                                deleteActionHandler("template", [
                                     {
                                         name: "id",
                                         value: disruption.disruptionId,
