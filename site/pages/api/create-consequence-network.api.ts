@@ -24,12 +24,11 @@ import { getSession } from "../../utils/apiUtils/auth";
 
 const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const { template, addAnotherConsequence } = req.query;
         const body = req.body as NetworkConsequence;
         const validatedBody = networkConsequenceSchema.safeParse(body);
         const session = getSession(req);
 
-        const { draft, isFromTemplate } = req.query;
+        const { draft, isFromTemplate, addAnotherConsequence } = req.query;
 
         if (!session) {
             throw new Error("No session found");
@@ -52,7 +51,7 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
             redirectToWithQueryParams(
                 req,
                 res,
-                template ? ["template"] : [],
+                [],
                 `${CREATE_CONSEQUENCE_NETWORK_PATH}/${body.disruptionId}/${body.consequenceIndex}`,
                 isFromTemplate ? ["isFromTemplate=true"] : [],
             );
@@ -63,7 +62,7 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
             validatedBody.data,
             session.orgId,
             session.isOrgStaff,
-            template === "true",
+            false,
             body,
             COOKIES_CONSEQUENCE_NETWORK_ERRORS,
             res,
@@ -72,7 +71,7 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_NETWORK_ERRORS, res);
 
         const redirectPath =
-            (!isFromTemplate || template) && disruption?.publishStatus !== PublishStatus.draft
+            !isFromTemplate && disruption?.publishStatus !== PublishStatus.draft
                 ? DISRUPTION_DETAIL_PAGE_PATH
                 : REVIEW_DISRUPTION_PAGE_PATH;
 
@@ -87,7 +86,7 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
             redirectToWithQueryParams(
                 req,
                 res,
-                template ? ["template"] : [],
+                [],
                 `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/${nextIndex}`,
                 isFromTemplate ? ["isFromTemplate=true"] : [],
             );
@@ -102,7 +101,7 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
         redirectToWithQueryParams(
             req,
             res,
-            template ? ["template"] : [],
+            [],
             `${redirectPath}/${validatedBody.data.disruptionId}`,
             isFromTemplate ? ["isFromTemplate=true"] : [],
         );

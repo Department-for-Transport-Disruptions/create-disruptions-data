@@ -15,6 +15,7 @@ import { handleUpsertConsequence, redirectToError, redirectToWithQueryParams } f
 import { getSession } from "../../utils/apiUtils/auth";
 
 const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+    let publishStatus = null;
     try {
         const { consequenceId, isFromTemplate } = req.query;
 
@@ -43,6 +44,8 @@ const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): 
         if (!disruption || !disruption.consequences) {
             throw new Error("No disruption / disruption with consequences found");
         }
+
+        publishStatus = disruption.publishStatus;
 
         const consequenceToDuplicate = disruption.consequences.find(
             (consequence) => consequence.consequenceIndex === Number(consequenceId),
@@ -90,7 +93,9 @@ const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): 
                 req,
                 res,
                 [],
-                `${req.query.return as string}/${body.disruptionId}`,
+                `${publishStatus === PublishStatus.draft ? REVIEW_DISRUPTION_PAGE_PATH : DISRUPTION_DETAIL_PAGE_PATH}/${
+                    body.disruptionId
+                }`,
                 isFromTemplate ? ["isFromTemplate=true"] : [],
             );
 

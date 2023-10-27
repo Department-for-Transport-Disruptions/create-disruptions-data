@@ -50,9 +50,8 @@ export const formatCreateConsequenceBody = (body: object) => {
 const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: NextApiResponse): Promise<void> => {
     try {
         const session = getSession(req);
-        const { template, addAnotherConsequence } = req.query;
 
-        const { draft, isFromTemplate } = req.query;
+        const { draft, isFromTemplate, addAnotherConsequence } = req.query;
 
         const formattedBody = formatCreateConsequenceBody(req.body) as OperatorConsequence;
 
@@ -79,7 +78,7 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
             redirectToWithQueryParams(
                 req,
                 res,
-                template ? ["template"] : [],
+                [],
                 `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${formattedBody.disruptionId}/${formattedBody.consequenceIndex}`,
                 isFromTemplate ? ["isFromTemplate=true"] : [],
             );
@@ -90,14 +89,14 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
             validatedBody.data,
             session.orgId,
             session.isOrgStaff,
-            template === "true",
+            false,
             formattedBody,
             COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
             res,
         );
 
         const redirectPath =
-            (!isFromTemplate || template) && disruption?.publishStatus !== PublishStatus.draft
+            !isFromTemplate && disruption?.publishStatus !== PublishStatus.draft
                 ? DISRUPTION_DETAIL_PAGE_PATH
                 : REVIEW_DISRUPTION_PAGE_PATH;
 
@@ -112,7 +111,7 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
             redirectToWithQueryParams(
                 req,
                 res,
-                template ? ["template"] : [],
+                [],
                 `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/${nextIndex}`,
                 isFromTemplate ? ["isFromTemplate=true"] : [],
             );
@@ -126,7 +125,7 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
         redirectToWithQueryParams(
             req,
             res,
-            template ? ["template"] : [],
+            [],
             `${redirectPath}/${validatedBody.data.disruptionId}`,
             isFromTemplate ? ["isFromTemplate=true"] : [],
         );

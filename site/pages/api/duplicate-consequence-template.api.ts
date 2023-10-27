@@ -15,6 +15,7 @@ import { handleUpsertConsequence, redirectToError, redirectToWithQueryParams } f
 import { getSession } from "../../utils/apiUtils/auth";
 
 const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+    let publishStatus = null;
     try {
         const { consequenceId, isFromTemplate } = req.query;
 
@@ -39,6 +40,8 @@ const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): 
         if (!template || !template.consequences) {
             throw new Error("No template / template with consequences found");
         }
+
+        publishStatus = template.publishStatus;
 
         const consequenceToDuplicate = template.consequences.find(
             (consequence) => consequence.consequenceIndex === Number(consequenceId),
@@ -84,7 +87,9 @@ const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): 
                 req,
                 res,
                 [],
-                `${req.query.return as string}/${body.disruptionId}`,
+                `${publishStatus === PublishStatus.draft ? REVIEW_TEMPLATE_PAGE_PATH : TEMPLATE_OVERVIEW_PAGE_PATH}/${
+                    body.disruptionId
+                }`,
                 isFromTemplate ? ["isFromTemplate=true"] : [],
             );
 
