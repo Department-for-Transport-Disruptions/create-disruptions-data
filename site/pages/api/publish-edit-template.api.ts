@@ -65,31 +65,19 @@ const publishEditTemplate = async (req: NextApiRequest, res: NextApiResponse) =>
 
         await publishEditedConsequencesAndSocialMediaPosts(draftDisruption.disruptionId, session.orgId, true);
 
-        if (canPublish(session)) {
-            await Promise.all([
-                deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId, true),
-                deleteDisruptionsInPending(draftDisruption.disruptionId, session.orgId, true),
-            ]);
-        } else {
-            await deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId, true);
-        }
+        await Promise.all([
+            deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId, true),
+            deleteDisruptionsInPending(draftDisruption.disruptionId, session.orgId, true),
+        ]);
 
-        if (!canPublish(session)) {
-            await updatePendingDisruptionStatus(
-                { ...draftDisruption, publishStatus: PublishStatus.editPendingApproval },
-                session.orgId,
-                true,
-            );
-        } else {
-            await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
-                draftDisruption,
-                session.orgId,
-                canPublish(session) ? PublishStatus.published : PublishStatus.pendingApproval,
-                session.name,
-                undefined,
-                true,
-            );
-        }
+        await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
+            draftDisruption,
+            session.orgId,
+            canPublish(session) ? PublishStatus.published : PublishStatus.pendingApproval,
+            session.name,
+            undefined,
+            true,
+        );
 
         cleardownCookies(req, res);
 
