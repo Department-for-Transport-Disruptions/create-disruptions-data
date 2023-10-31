@@ -502,7 +502,7 @@ describe("create-consequence-services API", () => {
         });
     });
 
-    it("should redirect to /review-disruption when all required inputs are passed", async () => {
+    it("should redirect to /review-disruption when operator user creates consequence and all required inputs are passed", async () => {
         getSessionSpy.mockImplementation(() => {
             return { ...mockSession, isSystemAdmin: false, isOperatorUser: true, nocCodes: "TEST" };
         });
