@@ -48,14 +48,12 @@ describe("sortDisruptionsByStartDate", () => {
                     disruptionEndTime: "1123",
                 },
             ],
-            template: false,
         },
         {
             ...disruptionInfo,
             publishStatus: PublishStatus.draft,
             disruptionStartDate: "21/03/2025",
             disruptionStartTime: "1123",
-            template: false,
         },
         {
             ...disruptionInfo,
@@ -70,7 +68,6 @@ describe("sortDisruptionsByStartDate", () => {
                     disruptionEndTime: "1123",
                 },
             ],
-            template: false,
         },
     ];
 
@@ -226,7 +223,6 @@ describe("getSortedDisruptionFinalEndDate", () => {
                     disruptionEndTime: "1123",
                 },
             ],
-            template: false,
         };
 
         const result = getSortedDisruptionFinalEndDate(disruption);
@@ -271,7 +267,6 @@ describe("getSortedDisruptionFinalEndDate", () => {
                     disruptionRepeatsEndDate: "22/05/2023",
                 },
             ],
-            template: false,
         };
 
         const result = getSortedDisruptionFinalEndDate(disruption);
