@@ -81,7 +81,7 @@ export const fetchServices = async (input: FetchServicesInput) => {
     }
 
     if (input.nocCodes && input.nocCodes.length > 0) {
-        queryStringItems.push(`dataSource=${input.nocCodes.join(",")}`);
+        queryStringItems.push(`nocCodes=${input.nocCodes.join(",")}`);
     }
 
     if (input.modes && input.modes.length > 0) {
