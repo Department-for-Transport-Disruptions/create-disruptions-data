@@ -35,7 +35,7 @@ export const putParameter = async (
         await ssm.send(command);
     } catch (error) {
         if (error instanceof Error) {
-            throw new Error(`Failed to put parameter into ssm: ${error.stack || ""}`);
+            logger.error(`Failed to put parameter into ssm: ${error.stack || ""}`);
         }
 
         throw error;
@@ -57,7 +57,7 @@ export const getParameter = async (name: string, withDecryption?: boolean): Prom
         return await ssm.send(command);
     } catch (error) {
         if (error instanceof Error) {
-            throw new Error(`Failed to get parameter from ssm: ${error.stack || ""}`);
+            logger.error(`Failed to get parameter from ssm: ${error.stack || ""}`);
         }
 
         throw error;
@@ -78,7 +78,7 @@ export const deleteParameter = async (name: string): Promise<DeleteParameterResu
         return await ssm.send(command);
     } catch (error) {
         if (error instanceof Error) {
-            throw new Error(`Failed to delete parameter from ssm: ${error.stack || ""}`);
+            logger.error(`Failed to delete parameter from ssm: ${error.stack || ""}`);
         }
 
         throw error;
@@ -103,7 +103,7 @@ export const getParametersByPath = async (
         return await ssm.send(command);
     } catch (error) {
         if (error instanceof Error) {
-            throw new Error(`Failed to get parameters by path from ssm: ${error.stack || ""}`);
+            logger.error(`Failed to get parameters by path from ssm: ${error.stack || ""}`);
         }
 
         throw error;
