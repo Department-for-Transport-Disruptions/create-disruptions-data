@@ -9,6 +9,7 @@ import {
     CREATE_DISRUPTION_PAGE_PATH,
     DASHBOARD_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
+    ERROR_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
@@ -361,6 +362,20 @@ describe("create-consequence-stops API", () => {
 
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/3`,
+        });
+    });
+
+    it("should throw an error when an operator user tries to create a stop consequence", async () => {
+        getSessionSpy.mockImplementation(() => {
+            return { ...mockSession, isSystemAdmin: false, isOperatorUser: true };
+        });
+        const { req, res } = getMockRequestAndResponse({ body: defaultStopsData, mockWriteHeadFn: writeHeadMock });
+
+        await createConsequenceStops(req, res);
+
+        expect(upsertConsequenceSpy).not.toHaveBeenCalled();
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: ERROR_PATH,
         });
     });
 });
