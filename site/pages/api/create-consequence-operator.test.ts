@@ -369,4 +369,60 @@ describe("create-consequence-operator API", () => {
             Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/3`,
         });
     });
+
+    it("should redirect back to /create-consequence-operator when an operator user creates a consequence with a NOC code that is not their own", async () => {
+        getSessionSpy.mockImplementation(() => {
+            return { ...mockSession, isOperatorUser: true, nocCodes: "TEST,TEST" };
+        });
+        upsertConsequenceSpy.mockResolvedValue(disruptionWithConsequences);
+        const { req, res } = getMockRequestAndResponse({
+            body: { ...bodyData },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await createConsequenceOperator(req, res);
+
+        const errors: ErrorInfo[] = [
+            {
+                errorMessage: "Operator user can only create operator type consequence for their own NOC codes.",
+                id: "",
+            },
+        ];
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
+            JSON.stringify({
+                inputs: {
+                    ...bodyData,
+                    consequenceOperators: defaultConsequenceOperators,
+                },
+                errors,
+            }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}`,
+        });
+    });
+
+    it("should redirect to /review-disruption when operator user creates consequence and all required inputs are passed", async () => {
+        getSessionSpy.mockImplementation(() => {
+            return { ...mockSession, isOperatorUser: true, nocCodes: defaultConsequenceOperators[0].operatorNoc };
+        });
+        const { req, res } = getMockRequestAndResponse({ body: bodyData, mockWriteHeadFn: writeHeadMock });
+
+        await createConsequenceOperator(req, res);
+
+        expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
+        expect(upsertConsequenceSpy).toHaveBeenCalledWith(
+            operatorToUpsert,
+            DEFAULT_ORG_ID,
+            mockSession.isOperatorUser,
+            false,
+        );
+
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
+        });
+    });
 });

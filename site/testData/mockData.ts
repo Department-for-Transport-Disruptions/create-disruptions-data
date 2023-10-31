@@ -1023,6 +1023,8 @@ export const mockSession: Session = {
     orgId: DEFAULT_ORG_ID,
     username: "test@example.com",
     name: "Test User",
+    isOperatorUser: false,
+    nocCodes: null,
 };
 
 export const mockGetUserDetails = Promise.resolve({

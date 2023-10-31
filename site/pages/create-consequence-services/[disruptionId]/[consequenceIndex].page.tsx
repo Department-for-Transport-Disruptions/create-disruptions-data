@@ -38,7 +38,13 @@ import {
 import { getDisruptionById } from "../../../data/dynamo";
 import { fetchServiceRoutes, fetchServices, fetchServicesByStops, fetchServiceStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import { flattenZodErrors, getServiceLabel, isServicesConsequence, sortServices } from "../../../utils";
+import {
+    convertStringListToArray,
+    flattenZodErrors,
+    getServiceLabel,
+    isServicesConsequence,
+    sortServices,
+} from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import {
@@ -112,6 +118,8 @@ export interface CreateConsequenceServicesProps
         CreateConsequenceProps {
     consequenceDataSource: Datasource | null;
     globalDataSource: Datasource | null;
+    isOperatorUser?: boolean;
+    operatorUserNocCodes?: string[];
 }
 
 const CreateConsequenceServices = (props: CreateConsequenceServicesProps): ReactElement => {
@@ -237,6 +245,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                     atcoCodes: [stopToAdd.atcoCode],
                     includeRoutes: true,
                     dataSource: dataSource,
+                    nocCodes: props.isOperatorUser && props.operatorUserNocCodes ? props.operatorUserNocCodes : [],
                 });
 
                 stopToAdd["serviceIds"] = servicesForGivenStop.map((service) => service.id);
@@ -367,6 +376,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             adminAreaCodes: props.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
             dataSource: source,
             modes: mode,
+            nocCodes: props.isOperatorUser && props.operatorUserNocCodes ? props.operatorUserNocCodes : [],
         });
 
         const filteredData = filterServices(serviceData);
@@ -795,6 +805,8 @@ export const getServerSideProps = async (
             consequenceDataSource,
             globalDataSource,
             isEdit: !!consequence,
+            isOperatorUser: session.isOperatorUser,
+            operatorUserNocCodes: convertStringListToArray(session.nocCodes ?? ""),
         },
     };
 };

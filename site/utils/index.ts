@@ -127,3 +127,10 @@ export const sortServices = <T extends Service>(services: T[]): T[] => {
 };
 
 export const toLowerStartCase = (text: string) => startCase(text.toLowerCase());
+
+export const convertStringListToArray = (stringList: string) => {
+    return stringList
+        .split(",")
+        .filter((value) => value)
+        .map((value) => value.trim());
+};

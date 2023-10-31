@@ -232,6 +232,17 @@ export const CONSEQUENCE_TYPES: DisplayValuePair<ConsequenceType["consequenceTyp
     },
 ];
 
+export const OPERATOR_USER_CONSEQUENCE_TYPES: DisplayValuePair<ConsequenceType["consequenceType"]>[] = [
+    {
+        value: "services",
+        display: "Services",
+    },
+    {
+        value: "operatorWide",
+        display: "Operator wide",
+    },
+];
+
 export const CD_DATE_FORMAT = "DD/MM/YYYY";
 export const CONTACT_FEEDBACK_QUESTION = "Did you contact us for assistance at any point?";
 export const SOLVE_FEEDBACK_QUESTION = "Did we solve your problem?";

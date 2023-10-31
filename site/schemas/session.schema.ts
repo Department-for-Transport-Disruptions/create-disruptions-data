@@ -12,22 +12,26 @@ export const sessionSchema = z
         family_name: z.string().optional(),
         "custom:orgId": z.string().uuid(),
         "cognito:groups": z.array(z.nativeEnum(UserGroups)).optional(),
+        "custom:nocCodes": z.string().optional(),
     })
     .transform((item) => {
         const isSystemAdmin = item["cognito:groups"]?.includes(UserGroups.systemAdmins) ?? false;
         const isOrgAdmin = item["cognito:groups"]?.includes(UserGroups.orgAdmins) ?? false;
         const isOrgPublisher = item["cognito:groups"]?.includes(UserGroups.orgPublishers) ?? false;
         const isOrgStaff = item["cognito:groups"]?.includes(UserGroups.orgStaff) ?? false;
+        const isOperatorUser = item["cognito:groups"]?.includes(UserGroups.operators) ?? false;
 
         return {
             username: item.sub,
             email: item.email,
             orgId: item["custom:orgId"],
             name: item.given_name && item.family_name ? `${item.given_name} ${item.family_name}` : item.email,
+            nocCodes: item["custom:nocCodes"] ?? null,
             isSystemAdmin,
             isOrgAdmin,
             isOrgPublisher,
             isOrgStaff,
+            isOperatorUser,
         };
     });
 

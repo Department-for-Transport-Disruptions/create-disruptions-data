@@ -10,7 +10,7 @@ import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
 import { TooManyConsequencesError } from "../../errors";
-import { flattenZodErrors, getLargestConsequenceIndex } from "../../utils";
+import { convertStringListToArray, flattenZodErrors, getLargestConsequenceIndex } from "../../utils";
 import {
     destroyCookieOnResponseObject,
     getReturnPage,
@@ -94,6 +94,40 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
                 queryParam ? [queryParam] : [],
             );
             return;
+        }
+
+        if (session.isOperatorUser) {
+            const operatorUserNocCodes = convertStringListToArray(session.nocCodes ?? "");
+
+            const serviceConsequenceIncludesOperatorUserNocCode = validatedBody.data.services.map((service) => {
+                return operatorUserNocCodes.includes(service.nocCode);
+            });
+
+            if (serviceConsequenceIncludesOperatorUserNocCode.includes(false)) {
+                setCookieOnResponseObject(
+                    COOKIES_CONSEQUENCE_SERVICES_ERRORS,
+                    JSON.stringify({
+                        inputs: formattedBody,
+                        errors: [
+                            {
+                                errorMessage:
+                                    "Operator user can only create service type consequence for services that contain their own NOC codes.",
+                                id: "",
+                            },
+                        ],
+                    }),
+                    res,
+                );
+
+                redirectToWithQueryParams(
+                    req,
+                    res,
+                    template ? ["template"] : [],
+                    `${CREATE_CONSEQUENCE_SERVICES_PATH}/${validatedBody.data.disruptionId}/${validatedBody.data.consequenceIndex}`,
+                    queryParam ? [queryParam] : [],
+                );
+                return;
+            }
         }
 
         const disruption = await handleUpsertConsequence(
