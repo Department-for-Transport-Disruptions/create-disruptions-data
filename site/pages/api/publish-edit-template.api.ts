@@ -11,10 +11,7 @@ import {
     getDisruptionById,
     insertPublishedDisruptionIntoDynamoAndUpdateDraft,
     publishEditedConsequencesAndSocialMediaPosts,
-    publishEditedConsequencesAndSocialMediaPostsIntoPending,
-    publishPendingConsequencesAndSocialMediaPosts,
     deleteDisruptionsInPending,
-    updatePendingDisruptionStatus,
     getOrganisationInfoById,
 } from "../../data/dynamo";
 import { publishDisruptionSchema, publishSchema } from "../../schemas/publish.schema";

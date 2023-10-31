@@ -24,7 +24,6 @@ import {
     DISRUPTION_STATUSES,
     REVIEW_TEMPLATE_PAGE_PATH,
     TEMPLATE_OVERVIEW_PAGE_PATH,
-    TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH,
     VEHICLE_MODES,
 } from "../constants";
 import { fetchOperators, fetchServices } from "../data/refDataApi";
@@ -336,12 +335,6 @@ export const handleDateFilterUpdate = (dateFilterProps: HandleDateFilterProps) =
     }
 };
 
-export const getContentPage = (pageNumber: number, contents: TableContents[]): TableContents[] => {
-    const startPoint = (pageNumber - 1) * 10;
-    const endPoint = pageNumber * 10;
-    return contents.slice(startPoint, endPoint);
-};
-
 const formatContentsIntoRows = (contents: TableContents[]): ContentTable[] => {
     return contents.map((content) => {
         const earliestPeriod: {
@@ -356,13 +349,9 @@ const formatContentsIntoRows = (contents: TableContents[]): ContentTable[] => {
                     className="govuk-link"
                     href={
                         content.status === Progress.draft
-                            ? content.consequenceLength && content.consequenceLength > 0
-                                ? {
-                                      pathname: `${REVIEW_TEMPLATE_PAGE_PATH}/${content.id}`,
-                                  }
-                                : {
-                                      pathname: `${TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH}/${content.id}/0`,
-                                  }
+                            ? {
+                                  pathname: `${REVIEW_TEMPLATE_PAGE_PATH}/${content.id}`,
+                              }
                             : {
                                   pathname: `${TEMPLATE_OVERVIEW_PAGE_PATH}/${content.id}`,
                               }
@@ -434,7 +423,7 @@ const setInitialFilters = (
     }
 };
 
-const ViewAllTemplates = ({
+const ViewAllTemplateContents = ({
     newContentId,
     adminAreaCodes,
     filterStatus,
@@ -947,4 +936,4 @@ const ViewAllTemplates = ({
     );
 };
 
-export default memo(ViewAllTemplates);
+export default memo(ViewAllTemplateContents);

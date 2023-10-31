@@ -54,8 +54,8 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
         props.disruptionStatus === PublishStatus.editPendingApproval ||
         props.disruptionStatus === PublishStatus.pendingAndEditing;
 
-        const isFromTemplate = useRouter().query["isFromTemplate"] === "true" ? true : false;
-        const displayCancelButton = (isEditing || !!props.inputs.socialAccount) && !isFromTemplate;
+    const isFromTemplate = useRouter().query["isFromTemplate"] === "true" ? true : false;
+    const displayCancelButton = (isEditing || !!props.inputs.socialAccount) && !isFromTemplate;
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
 

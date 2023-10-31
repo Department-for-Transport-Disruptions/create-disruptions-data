@@ -58,7 +58,11 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
 
     return (
         <BaseLayout title={title} description={description}>
-            <CsrfForm action="/api/create-consequence-network" method="post" csrfToken={props.csrfToken}>
+            <CsrfForm
+                action={`/api/create-consequence-network${isFromTemplate ? "?isFromTemplate=true" : ""}`}
+                method="post"
+                csrfToken={props.csrfToken}
+            >
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
@@ -74,6 +78,7 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                                             TYPE_OF_CONSEQUENCE_PAGE_PATH,
                                             pageState.disruptionId || "",
                                             pageState.consequenceIndex ?? 0,
+                                            isFromTemplate ? "isFromTemplate=true" : undefined,
                                         ),
                                     ],
                                 },

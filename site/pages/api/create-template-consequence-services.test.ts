@@ -6,7 +6,6 @@ import { formatCreateConsequenceStopsServicesBody } from "./create-consequence-s
 import createConsequenceServices from "./create-template-consequence-services.api";
 import {
     COOKIES_CONSEQUENCE_SERVICES_ERRORS,
-    COOKIES_TEMPLATE_CONSEQUENCE_SERVICES_ERRORS,
     CREATE_TEMPLATE_CONSEQUENCE_SERVICES_PATH,
     CREATE_TEMPLATE_PAGE_PATH,
     DASHBOARD_PAGE_PATH,

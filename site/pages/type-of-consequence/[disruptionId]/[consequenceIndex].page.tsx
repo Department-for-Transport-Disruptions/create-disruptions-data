@@ -46,7 +46,11 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
 
     return (
         <TwoThirdsLayout title={title} description={description} errors={props.errors}>
-            <CsrfForm action="/api/type-of-consequence" method="post" csrfToken={props.csrfToken}>
+            <CsrfForm
+                action={`/api/type-of-consequence${isFromTemplate ? "?isFromTemplate=true" : ""}`}
+                method="post"
+                csrfToken={props.csrfToken}
+            >
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">

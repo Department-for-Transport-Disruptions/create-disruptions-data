@@ -7,9 +7,7 @@ import {
     COOKIES_CONSEQUENCE_NETWORK_ERRORS,
     COOKIES_TEMPLATE_CONSEQUENCE_NETWORK_ERRORS,
     CREATE_TEMPLATE_CONSEQUENCE_NETWORK_PATH,
-    CREATE_TEMPLATE_PAGE_PATH,
     DASHBOARD_PAGE_PATH,
-    TEMPLATE_OVERVIEW_PAGE_PATH,
     REVIEW_TEMPLATE_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH,
 } from "../../constants";
@@ -78,10 +76,6 @@ describe("create-consequence-network API", () => {
     });
 
     const getSessionSpy = vi.spyOn(session, "getSession");
-
-    const refererPath = `${CREATE_TEMPLATE_PAGE_PATH}/${defaultDisruptionId}?${encodeURIComponent(
-        `${TEMPLATE_OVERVIEW_PAGE_PATH}/${defaultDisruptionId as string}`,
-    )}`;
 
     beforeEach(() => {
         getSessionSpy.mockImplementation(() => {

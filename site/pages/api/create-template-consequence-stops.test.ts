@@ -6,11 +6,8 @@ import { formatCreateConsequenceStopsBody } from "./create-consequence-stops.api
 import createTemplateConsequenceStops from "./create-template-consequence-stops.api";
 import {
     COOKIES_CONSEQUENCE_STOPS_ERRORS,
-    COOKIES_TEMPLATE_CONSEQUENCE_STOPS_ERRORS,
     CREATE_TEMPLATE_CONSEQUENCE_STOPS_PATH,
-    CREATE_TEMPLATE_PAGE_PATH,
     DASHBOARD_PAGE_PATH,
-    TEMPLATE_OVERVIEW_PAGE_PATH,
     REVIEW_TEMPLATE_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH,
 } from "../../constants";
@@ -112,10 +109,6 @@ describe("create-template-consequence-stops API", () => {
     });
 
     const getSessionSpy = vi.spyOn(session, "getSession");
-
-    const refererPath = `${CREATE_TEMPLATE_PAGE_PATH}/${defaultDisruptionId}?${encodeURIComponent(
-        `${TEMPLATE_OVERVIEW_PAGE_PATH}/${defaultDisruptionId as string}`,
-    )}`;
 
     beforeEach(() => {
         getSessionSpy.mockImplementation(() => {
@@ -239,7 +232,6 @@ describe("create-template-consequence-stops API", () => {
         });
     });
 
-    
     it("should redirect to /type-of-consequence-template when all required inputs are passed and add another consequence is true and a template", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: { ...defaultStopsData },

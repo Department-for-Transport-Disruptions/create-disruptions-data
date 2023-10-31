@@ -3,7 +3,6 @@ import { operatorConsequenceSchema } from "@create-disruptions-data/shared-ts/di
 import { Datasource, PublishStatus, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, useEffect, useState } from "react";
 import DeleteTemplateButton from "../../../components/buttons/DeleteTemplateButton";
@@ -61,8 +60,7 @@ const CreateTemplateConsequenceOperator = (props: CreateConsequenceOperatorProps
         props.disruptionStatus === PublishStatus.editPendingApproval ||
         props.disruptionStatus === PublishStatus.pendingAndEditing;
 
-    const isFromTemplate = useRouter().query["isFromTemplate"] === "true" ? true : false;
-    const displayCancelButton = (isEditing || !!props.inputs.description) && !isFromTemplate;
+    const displayCancelButton = isEditing || !!props.inputs.description;
 
     const [dataSource, setDataSource] = useState<Datasource>(Datasource.bods);
 
@@ -100,7 +98,7 @@ const CreateTemplateConsequenceOperator = (props: CreateConsequenceOperatorProps
 
     return (
         <BaseLayout title={title} description={description}>
-            <CsrfForm action="/api/create-template-consequence-operator" method="post" csrfToken={props.csrfToken}>
+            <CsrfForm action={`/api/create-template-consequence-operator`} method="post" csrfToken={props.csrfToken}>
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">

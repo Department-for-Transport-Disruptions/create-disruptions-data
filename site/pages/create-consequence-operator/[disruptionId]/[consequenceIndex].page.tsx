@@ -3,6 +3,7 @@ import { operatorConsequenceSchema, MAX_CONSEQUENCES } from "@create-disruptions
 import { Datasource, PublishStatus, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, useEffect, useState } from "react";
 import DeleteDisruptionButton from "../../../components/buttons/DeleteDisruptionButton";
@@ -35,7 +36,6 @@ import { isOperatorConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import { getStateUpdater, operatorStateUpdater } from "../../../utils/formUtils";
-import { useRouter } from "next/router";
 
 const title = "Create Consequence Operator";
 const description = "Create Consequence Operator page for the Create Transport Disruptions Service";
@@ -102,7 +102,11 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
 
     return (
         <BaseLayout title={title} description={description}>
-            <CsrfForm action="/api/create-consequence-operator" method="post" csrfToken={props.csrfToken}>
+            <CsrfForm
+                action={`/api/create-consequence-operator${isFromTemplate ? "?isFromTemplate=true" : ""}`}
+                method="post"
+                csrfToken={props.csrfToken}
+            >
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
@@ -118,6 +122,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                                             TYPE_OF_CONSEQUENCE_PAGE_PATH,
                                             pageState.disruptionId || "",
                                             pageState.consequenceIndex ?? 0,
+                                            isFromTemplate ? "isFromTemplate=true" : undefined,
                                         ),
                                     ],
                                 },

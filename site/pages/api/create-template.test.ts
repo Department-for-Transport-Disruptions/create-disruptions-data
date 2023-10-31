@@ -4,13 +4,7 @@ import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
 import * as cryptoRandomString from "crypto-random-string";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import createTemplate from "./create-template.api";
-import {
-    COOKIES_DISRUPTION_ERRORS,
-    COOKIES_TEMPLATE_ERRORS,
-    CREATE_DISRUPTION_PAGE_PATH,
-    DASHBOARD_PAGE_PATH,
-    DISRUPTION_DETAIL_PAGE_PATH,
-} from "../../constants";
+import { COOKIES_DISRUPTION_ERRORS, DASHBOARD_PAGE_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
 import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession } from "../../testData/mockData";
@@ -45,7 +39,6 @@ const defaultDisruptionData = {
     displayId: "8fg3ha",
     orgId: DEFAULT_ORG_ID,
 };
-
 
 describe("create-template API", () => {
     const writeHeadMock = vi.fn();

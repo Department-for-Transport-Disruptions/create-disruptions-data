@@ -35,7 +35,6 @@ import { flattenZodErrors, isStopsConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import { getStateUpdater, getStopLabel, getStopValue, isSelectedStopInDropdown } from "../../../utils/formUtils";
-import { useRouter } from "next/router";
 
 const title = "Create Template Consequence Stops";
 const description = "Create Template Consequence Stops page for the Create Transport Disruptions Service";
@@ -58,8 +57,7 @@ const CreateTemplateConsequenceStops = (props: CreateConsequenceStopsProps): Rea
         props.disruptionStatus === PublishStatus.editPendingApproval ||
         props.disruptionStatus === PublishStatus.pendingAndEditing;
 
-    const isFromTemplate = useRouter().query["isFromTemplate"] === "true" ? true : false;
-    const displayCancelButton = (isEditing || !!props.inputs.description) && !isFromTemplate;
+    const displayCancelButton = isEditing || !!props.inputs.description;
 
     const handleChange = (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
@@ -184,7 +182,7 @@ const CreateTemplateConsequenceStops = (props: CreateConsequenceStopsProps): Rea
 
     return (
         <BaseLayout title={title} description={description}>
-            <CsrfForm action="/api/create-template-consequence-stops" method="post" csrfToken={props.csrfToken}>
+            <CsrfForm action={`/api/create-template-consequence-stops`} method="post" csrfToken={props.csrfToken}>
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">

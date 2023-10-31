@@ -7,6 +7,7 @@ import {
 import { Modes, PublishStatus, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import { SingleValue } from "react-select";
@@ -39,7 +40,6 @@ import { flattenZodErrors, isStopsConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import { getStateUpdater, getStopLabel, getStopValue, isSelectedStopInDropdown } from "../../../utils/formUtils";
-import { useRouter } from "next/router";
 
 const title = "Create Consequence Stops";
 const description = "Create Consequence Stops page for the Create Transport Disruptions Service";
@@ -190,7 +190,11 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
 
     return (
         <BaseLayout title={title} description={description}>
-            <CsrfForm action="/api/create-consequence-stops" method="post" csrfToken={props.csrfToken}>
+            <CsrfForm
+                action={`/api/create-consequence-stops${isFromTemplate ? "?isFromTemplate=true" : ""}`}
+                method="post"
+                csrfToken={props.csrfToken}
+            >
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
@@ -206,6 +210,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                                             TYPE_OF_CONSEQUENCE_PAGE_PATH,
                                             pageState.disruptionId || "",
                                             pageState.consequenceIndex ?? 0,
+                                            isFromTemplate ? "isFromTemplate=true" : undefined,
                                         ),
                                     ],
                                 },

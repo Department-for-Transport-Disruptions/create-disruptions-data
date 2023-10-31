@@ -699,7 +699,7 @@ const DisruptionDetail = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                             <button
                                 className="govuk-button govuk-button--secondary mt-8 ml-5"
                                 data-module="govuk-button"
-                                formAction={`/api/cancel-changes${queryParams["template"] ? "?template=true" : ""}`}
+                                formAction={`/api/cancel-changes`}
                             >
                                 Cancel all changes
                             </button>

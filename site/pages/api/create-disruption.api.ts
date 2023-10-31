@@ -56,7 +56,13 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
                 res,
             );
 
-            redirectToWithQueryParams(req, res, [], `${CREATE_DISRUPTION_PAGE_PATH}/${body.disruptionId}`);
+            redirectToWithQueryParams(
+                req,
+                res,
+                [],
+                `${CREATE_DISRUPTION_PAGE_PATH}/${body.disruptionId}`,
+                isFromTemplate ? ["isFromTemplate=true"] : [],
+            );
 
             return;
         }

@@ -8,6 +8,7 @@ import {
 import { Datasource, Modes, PublishStatus, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import { createFilter, SingleValue } from "react-select";
@@ -50,7 +51,6 @@ import {
     isSelectedStopInDropdown,
     sortAndFilterStops,
 } from "../../../utils/formUtils";
-import { useRouter } from "next/router";
 
 const title = "Create Consequence Services";
 const description = "Create Consequence Services page for the Create Transport Disruptions Service";
@@ -456,7 +456,11 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
     return (
         <BaseLayout title={title} description={description}>
-            <CsrfForm action="/api/create-consequence-services" method="post" csrfToken={props.csrfToken}>
+            <CsrfForm
+                action={`/api/create-consequence-services${isFromTemplate ? "?isFromTemplate=true" : ""}`}
+                method="post"
+                csrfToken={props.csrfToken}
+            >
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
@@ -472,6 +476,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                                             TYPE_OF_CONSEQUENCE_PAGE_PATH,
                                             pageState.disruptionId || "",
                                             pageState.consequenceIndex ?? 0,
+                                            isFromTemplate ? "isFromTemplate=true" : undefined,
                                         ),
                                     ],
                                 },

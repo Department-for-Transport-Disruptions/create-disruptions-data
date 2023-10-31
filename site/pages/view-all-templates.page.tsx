@@ -3,7 +3,7 @@ import { NextPageContext } from "next";
 import { ReactElement } from "react";
 import { randomUUID } from "crypto";
 import { BaseLayout } from "../components/layout/Layout";
-import ViewAllContents, { ViewAllTemplatesProps } from "../components/ViewAllTemplates";
+import ViewAllTemplateContents, { ViewAllTemplatesProps } from "../components/ViewAllTemplates";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 
 const title = "Templates";
@@ -17,7 +17,7 @@ const ViewAllTemplates = ({
 }: ViewAllTemplatesProps): ReactElement => {
     return (
         <BaseLayout title={title} description={description}>
-            <ViewAllContents
+            <ViewAllTemplateContents
                 newContentId={newContentId}
                 adminAreaCodes={adminAreaCodes}
                 filterStatus={filterStatus}

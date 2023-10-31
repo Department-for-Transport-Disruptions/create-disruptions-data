@@ -7,6 +7,7 @@ import {
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { Fragment, ReactElement, SyntheticEvent, useEffect, useRef, useState } from "react";
 import DeleteDisruptionButton from "../../components/buttons/DeleteDisruptionButton";
@@ -64,6 +65,8 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
 
     const returnPath =
         props.disruptionStatus === PublishStatus.published ? DISRUPTION_DETAIL_PAGE_PATH : REVIEW_DISRUPTION_PAGE_PATH;
+
+    const isFromTemplate = useRouter().query["isFromTemplate"] === "true" ? true : false;
 
     const isEditing =
         props.disruptionStatus === PublishStatus.editing ||
@@ -259,7 +262,11 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
 
     return (
         <BaseLayout title={title} description={description} errors={props.errors}>
-            <CsrfForm action="/api/create-disruption" method="post" csrfToken={props.csrfToken}>
+            <CsrfForm
+                action={`/api/create-disruption${isFromTemplate ? "?isFromTemplate=true" : ""}`}
+                method="post"
+                csrfToken={props.csrfToken}
+            >
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">

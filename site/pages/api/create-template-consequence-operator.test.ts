@@ -6,10 +6,8 @@ import createTemplateConsequenceOperator from "./create-template-consequence-ope
 import {
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
     CREATE_TEMPLATE_CONSEQUENCE_OPERATOR_PATH,
-    CREATE_TEMPLATE_PAGE_PATH,
     DASHBOARD_PAGE_PATH,
     REVIEW_TEMPLATE_PAGE_PATH,
-    TEMPLATE_OVERVIEW_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH,
 } from "../../constants";
 import * as dynamo from "../../data/dynamo";
@@ -86,10 +84,6 @@ describe("create-template-consequence-operator API", () => {
     });
 
     const getSessionSpy = vi.spyOn(session, "getSession");
-
-    const refererPath = `${CREATE_TEMPLATE_PAGE_PATH}/${defaultDisruptionId}?${encodeURIComponent(
-        `${TEMPLATE_OVERVIEW_PAGE_PATH}/${defaultDisruptionId as string}`,
-    )}`;
 
     beforeEach(() => {
         getSessionSpy.mockImplementation(() => {

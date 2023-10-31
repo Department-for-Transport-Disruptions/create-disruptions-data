@@ -4,12 +4,7 @@ import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
 import * as cryptoRandomString from "crypto-random-string";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import createDisruption from "./create-disruption.api";
-import {
-    COOKIES_DISRUPTION_ERRORS,
-    CREATE_DISRUPTION_PAGE_PATH,
-    DASHBOARD_PAGE_PATH,
-    DISRUPTION_DETAIL_PAGE_PATH,
-} from "../../constants";
+import { COOKIES_DISRUPTION_ERRORS, DASHBOARD_PAGE_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
 import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession } from "../../testData/mockData";
@@ -44,10 +39,6 @@ const defaultDisruptionData = {
     displayId: "8fg3ha",
     orgId: DEFAULT_ORG_ID,
 };
-
-const refererPath = `${CREATE_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}?${encodeURIComponent(
-    `${DISRUPTION_DETAIL_PAGE_PATH}/${defaultDisruptionId as string}`,
-)}`;
 
 describe("create-disruption API", () => {
     const writeHeadMock = vi.fn();
@@ -834,35 +825,5 @@ describe("create-disruption API", () => {
         expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
         expect(upsertDisruptionSpy).toHaveBeenCalledWith(returnedDisruption, DEFAULT_ORG_ID, mockSession.isOrgStaff);
         expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
-    });
-
-    it("should redirect back to /create-disruption when invalid reason passed with the expected query param value", async () => {
-        const disruptionData = {
-            ...defaultDisruptionData,
-            disruptionReason: "Incorrect Value",
-        };
-
-        const { req, res } = getMockRequestAndResponse({
-            body: disruptionData,
-            requestHeaders: {
-                referer: refererPath,
-            },
-            mockWriteHeadFn: writeHeadMock,
-        });
-
-        await createDisruption(req, res);
-
-        const errors: ErrorInfo[] = [{ errorMessage: "Select a reason from the dropdown", id: "disruptionReason" }];
-        const inputs = formatCreateDisruptionBody(req.body);
-
-        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
-        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
-            COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify({ inputs, errors }),
-            res,
-        );
-        expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `/create-disruption/${defaultDisruptionId}`,
-        });
     });
 });

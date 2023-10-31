@@ -32,13 +32,20 @@ const getConsequenceUrl = (type: Consequence["consequenceType"], isTemplate?: bo
     }
 };
 
-export const createChangeLink = (key: string, href: string, disruptionId: string, index?: number) => {
+export const createChangeLink = (
+    key: string,
+    href: string,
+    disruptionId: string,
+    index?: number,
+    queryParam?: string,
+) => {
     return (
         <Link
             key={key}
             className="govuk-link"
             href={{
                 pathname: `${href}/${disruptionId}${index !== undefined ? `/${index}` : ""}`,
+                query: `${queryParam !== undefined ? queryParam : ""}`,
             }}
         >
             Change
@@ -171,7 +178,6 @@ const getRows = (consequence: Consequence, disruption: Disruption, isTemplate?: 
                         getConsequenceUrl(consequence.consequenceType, isTemplate),
                         disruption.disruptionId,
                         consequence.consequenceIndex,
-
                     ),
                 },
             ],

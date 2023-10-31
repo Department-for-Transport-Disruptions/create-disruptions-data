@@ -289,7 +289,7 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
             >
               <a
                 className="govuk-link"
-                href="/type-of-consequence-template/dfd19560-99c1-4da6-8a73-de1220f37056/0"
+                href="/review-template/dfd19560-99c1-4da6-8a73-de1220f37056"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -811,7 +811,7 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
             >
               <a
                 className="govuk-link"
-                href="/type-of-consequence-template/dfd19560-99c1-4da6-8a73-de1220f37056/0"
+                href="/review-template/dfd19560-99c1-4da6-8a73-de1220f37056"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -952,7 +952,7 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
             >
               <a
                 className="govuk-link"
-                href="/type-of-consequence-template/dfd19560-99c1-4da6-8a73-de1220f37056/0"
+                href="/review-template/dfd19560-99c1-4da6-8a73-de1220f37056"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}
@@ -1093,7 +1093,7 @@ exports[`ViewAllTemplates > viewAllTemplates > should render correctly when ther
             >
               <a
                 className="govuk-link"
-                href="/type-of-consequence-template/dfd19560-99c1-4da6-8a73-de1220f37056/0"
+                href="/review-template/dfd19560-99c1-4da6-8a73-de1220f37056"
                 onClick={[Function]}
                 onMouseEnter={[Function]}
                 onTouchStart={[Function]}

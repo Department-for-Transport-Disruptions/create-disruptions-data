@@ -49,7 +49,6 @@ import {
     isSelectedStopInDropdown,
     sortAndFilterStops,
 } from "../../../utils/formUtils";
-import { useRouter } from "next/router";
 
 const title = "Create Consequence Services";
 const description = "Create Consequence Services page for the Create Transport Disruptions Service";
@@ -159,8 +158,7 @@ const CreateTemplateConsequenceServices = (props: CreateConsequenceServicesProps
         props.disruptionStatus === PublishStatus.editPendingApproval ||
         props.disruptionStatus === PublishStatus.pendingAndEditing;
 
-    const isFromTemplate = useRouter().query["isFromTemplate"] === "true" ? true : false;
-    const displayCancelButton = (isEditing || !!props.inputs.description) && !isFromTemplate;
+    const displayCancelButton = isEditing || !!props.inputs.description;
 
     const handleStopChange = async (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
@@ -456,7 +454,7 @@ const CreateTemplateConsequenceServices = (props: CreateConsequenceServicesProps
 
     return (
         <BaseLayout title={title} description={description}>
-            <CsrfForm action="/api/create-template-consequence-services" method="post" csrfToken={props.csrfToken}>
+            <CsrfForm action={`/api/create-template-consequence-services`} method="post" csrfToken={props.csrfToken}>
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
