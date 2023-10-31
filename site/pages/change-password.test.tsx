@@ -1,7 +1,7 @@
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import ChangePassword, { ChangePasswordPageProps } from "./change-password.page";
-import { defaultModes } from "../schemas/organisation.schema";
+import { mockSessionWithOrgDetail } from "../testData/mockData";
 
 const blankInputs: ChangePasswordPageProps = {
     errors: [],
@@ -15,19 +15,7 @@ const withInputsAndNoErrors: ChangePasswordPageProps = {
         newPassword: "dummyPassword",
         confirmPassword: "dummyPassword",
     },
-    sessionWithOrg: {
-        email: "test@example.com",
-        orgId: "test",
-        orgName: "Test Org",
-        username: "test",
-        adminAreaCodes: [],
-        isOrgAdmin: true,
-        isOrgPublisher: true,
-        isOrgStaff: true,
-        isSystemAdmin: true,
-        name: "Test User",
-        mode: defaultModes,
-    },
+    sessionWithOrg: mockSessionWithOrgDetail,
 };
 
 const withInputsAndErrors: ChangePasswordPageProps = {

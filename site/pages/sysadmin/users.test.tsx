@@ -2,8 +2,7 @@ import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
 import SysAdminUserManagement, { SysAdminUserManagementProps } from "./users.page";
-import { defaultModes } from "../../schemas/organisation.schema";
-import { SessionWithOrgDetail } from "../../schemas/session.schema";
+import { mockSessionWithOrgDetail } from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
 
 const blankInputs: SysAdminUserManagementProps = {
@@ -44,20 +43,6 @@ const withInputs: SysAdminUserManagementProps = {
     ],
 };
 
-const defaultSession: SessionWithOrgDetail = {
-    email: "test@example.com",
-    isOrgAdmin: false,
-    isOrgPublisher: false,
-    isOrgStaff: false,
-    isSystemAdmin: true,
-    orgId: randomId,
-    username: "test@example.com",
-    name: "Test User",
-    orgName: "Nexus",
-    adminAreaCodes: ["A", "B", "C"],
-    mode: defaultModes,
-};
-
 const getSessionWithOrgDetailSpy = vi.spyOn(session, "getSessionWithOrgDetail");
 
 describe("addUser", () => {
@@ -73,7 +58,7 @@ describe("addUser", () => {
     const useRouter = vi.spyOn(require("next/router"), "useRouter");
 
     beforeEach(() => {
-        getSessionWithOrgDetailSpy.mockResolvedValue(defaultSession);
+        getSessionWithOrgDetailSpy.mockResolvedValue(mockSessionWithOrgDetail);
         useRouter.mockImplementation(() => ({
             query: { orgId: randomId },
         }));
