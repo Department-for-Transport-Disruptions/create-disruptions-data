@@ -3,10 +3,12 @@ import { EventType, Bucket as S3Bucket } from "aws-cdk-lib/aws-s3";
 import { LambdaDestination } from "aws-cdk-lib/aws-s3-notifications";
 import { Cron, Function, StackContext, use } from "sst/constructs";
 import { DynamoDBStack } from "./DynamoDBStack";
+import { MonitoringStack } from "./MonitoringStack";
 import { createBucket } from "./utils";
 
-export function SiriGeneratorStack({ stack }: StackContext) {
+export const SiriGeneratorStack = ({ stack }: StackContext) => {
     const { disruptionsTable, organisationsTableV2: organisationsTable } = use(DynamoDBStack);
+    const { siriGeneratorNamespace, siriPublishSuccessMetric, siriValidationFailureMetric } = use(MonitoringStack);
 
     const siriSXBucket = createBucket(stack, "cdd-siri-sx", true);
 
@@ -83,16 +85,22 @@ export function SiriGeneratorStack({ stack }: StackContext) {
         environment: {
             SIRI_SX_BUCKET_NAME: siriSXBucket.bucketName,
             SIRI_SX_UNVALIDATED_BUCKET_NAME: siriSXUnvalidatedBucket.bucketName,
+            METRIC_NAMESPACE: siriGeneratorNamespace,
+            VALIDATION_FAILURE_METRIC: siriValidationFailureMetric.metricName,
+            SIRI_PUBLISH_METRIC: siriPublishSuccessMetric.metricName,
         },
         permissions: [
             new PolicyStatement({
                 resources: [`${siriSXUnvalidatedBucket.bucketArn}/*`],
                 actions: ["s3:GetObject"],
             }),
-
             new PolicyStatement({
                 resources: [`${siriSXBucket.bucketArn}/*`],
                 actions: ["s3:PutObject"],
+            }),
+            new PolicyStatement({
+                resources: ["*"],
+                actions: ["cloudwatch:PutMetricData"],
             }),
         ],
         handler: "packages/siri-sx-validator/index.main",
@@ -115,4 +123,4 @@ export function SiriGeneratorStack({ stack }: StackContext) {
         disruptionsJsonBucket,
         disruptionsCsvBucket,
     };
-}
+};
