@@ -24,6 +24,9 @@ import {
     ForgotPasswordCommandInput,
     ForgotPasswordCommand,
     AdminUpdateUserAttributesCommand,
+    AdminRemoveUserFromGroupCommand,
+    AdminListGroupsForUserCommand,
+    AttributeType,
 } from "@aws-sdk/client-cognito-identity-provider";
 
 import { createHmac } from "crypto";
@@ -46,32 +49,32 @@ const cognito = new CognitoIdentityProviderClient({
     region: "eu-west-2",
 });
 
-export const deleteUser = (username: string) => {
+export const deleteUser = async (username: string) => {
     try {
         const params: AdminDeleteUserCommandInput = {
             UserPoolId: userPoolId,
             Username: username,
         };
-        return cognito.send(new AdminDeleteUserCommand(params));
+        return await cognito.send(new AdminDeleteUserCommand(params));
     } catch (error) {
         if (error instanceof Error) {
-            throw new Error(`Failed to delete user: ${error.stack || ""}`);
+            logger.error(`Failed to delete user: ${error.stack || ""}`);
         }
 
         throw error;
     }
 };
 
-export const getUserDetails = (username: string) => {
+export const getUserDetails = async (username: string) => {
     try {
         const params: AdminGetUserCommandInput = {
             UserPoolId: userPoolId,
             Username: username,
         };
-        return cognito.send(new AdminGetUserCommand(params));
+        return await cognito.send(new AdminGetUserCommand(params));
     } catch (error) {
         if (error instanceof Error) {
-            throw new Error(`Failed to get user details by username: ${error.stack || ""}`);
+            logger.error(`Failed to get user details by username: ${error.stack || ""}`);
         }
 
         throw error;
@@ -104,7 +107,7 @@ export const initiateAuth = async (username: string, password: string): Promise<
         return await cognito.send(new AdminInitiateAuthCommand(params));
     } catch (error) {
         if (error instanceof Error) {
-            throw new Error(`Failed to authenticate user: ${error.stack || ""}`);
+            logger.error(`Failed to authenticate user: ${error.stack || ""}`);
         }
 
         throw error;
@@ -137,7 +140,7 @@ export const respondToNewPasswordChallenge = async (
         await cognito.send(new AdminRespondToAuthChallengeCommand(params));
     } catch (error) {
         if (error instanceof Error) {
-            throw new Error(`Failed to respond to password challenge: ${error.stack || ""}`);
+            logger.error(`Failed to respond to password challenge: ${error.stack || ""}`);
         }
 
         throw error;
@@ -159,7 +162,7 @@ export const globalSignOut = async (username: string): Promise<void> => {
         await cognito.send(new AdminUserGlobalSignOutCommand(params));
     } catch (error) {
         if (error instanceof Error) {
-            throw new Error(`Failed to perform global sign out: ${error.stack || ""}`);
+            logger.error(`Failed to perform global sign out: ${error.stack || ""}`);
         }
 
         throw error;
@@ -183,7 +186,7 @@ export const updateUserPassword = async (newPassword: string, username: string):
         await cognito.send(new AdminSetUserPasswordCommand(params));
     } catch (error) {
         if (error instanceof Error) {
-            throw new Error(`Failed to update user password: ${error.stack || ""}`);
+            logger.error(`Failed to update user password: ${error.stack || ""}`);
         }
 
         throw error;
@@ -236,7 +239,7 @@ export const listUsersWithGroups = async () => {
         return parsedUsers.data;
     } catch (error) {
         if (error instanceof Error) {
-            throw new Error(`Failed to list cognito users: ${error.stack || ""}`);
+            logger.error(`Failed to list cognito users: ${error.stack || ""}`);
         }
 
         throw error;
@@ -268,7 +271,7 @@ export const deleteUsersByAttribute = async (attributeName: string, attributeVal
         await Promise.all(deletePromises ?? []);
     } catch (error) {
         if (error instanceof Error) {
-            throw new Error(
+            logger.error(
                 `Failed to list cognito users based on attribute ${attributeName} with value ${attributeValue}: ${
                     error.stack || ""
                 }`,
@@ -284,6 +287,7 @@ export const createUser = async (userData: AddUserSchema) => {
         context: "data.cognito",
         message: "Adding a new user",
     });
+
     const createUserResult = await cognito.send(
         new AdminCreateUserCommand({
             Username: userData.email,
@@ -338,7 +342,7 @@ export const initiateResetPassword = async (email: string) => {
         return await cognito.send(new ForgotPasswordCommand(params));
     } catch (error) {
         if (error instanceof Error) {
-            throw new Error(`Failed to initiate reset password flow: ${error.stack || ""}`);
+            logger.error(`Failed to initiate reset password flow: ${error.stack || ""}`);
         }
 
         throw error;
@@ -362,7 +366,7 @@ export const resetUserPassword = async (key: string, newPassword: string, email:
         return await cognito.send(new ConfirmForgotPasswordCommand(params));
     } catch (error) {
         if (error instanceof Error) {
-            throw new Error(`Failed to reset password: ${error.stack || ""}`);
+            logger.error(`Failed to reset password: ${error.stack || ""}`);
         }
 
         throw error;
@@ -388,7 +392,100 @@ export const updateUserCustomAttribute = async (username: string, attributeName:
         return await cognito.send(new AdminUpdateUserAttributesCommand(input));
     } catch (error) {
         if (error instanceof Error) {
-            throw new Error(`Failed to update users custom attribute`);
+            logger.error(`Failed to update users custom attribute`);
+        }
+
+        throw error;
+    }
+};
+
+export const updateUserAttributes = async (username: string, attributeList: AttributeType[]) => {
+    try {
+        logger.info("", {
+            context: "data.cognito",
+            message: `Updating attributes for user: ${username}`,
+        });
+        const input = {
+            UserPoolId: userPoolId,
+            Username: username,
+            UserAttributes: attributeList,
+        };
+        return await cognito.send(new AdminUpdateUserAttributesCommand(input));
+    } catch (error) {
+        if (error instanceof Error) {
+            logger.error(`Failed to update users attributes`);
+        }
+
+        throw error;
+    }
+};
+
+export const getGroupForUser = async (username: string) => {
+    try {
+        logger.info("", {
+            context: "data.cognito",
+            message: `Retrieving group for user: ${username}`,
+        });
+        const input = {
+            UserPoolId: userPoolId,
+            Username: username,
+        };
+        const res = await cognito.send(new AdminListGroupsForUserCommand(input));
+
+        if (!res.Groups || !res.Groups[0].GroupName) {
+            return "";
+        } else {
+            return res.Groups[0].GroupName;
+        }
+    } catch (error) {
+        if (error instanceof Error) {
+            logger.error(`Failed to retrieve group for user`);
+        }
+
+        throw error;
+    }
+};
+
+export const removeUserFromGroup = async (username: string, group: string) => {
+    try {
+        logger.info("", {
+            context: "data.cognito",
+            message: `Removing user from group`,
+        });
+
+        return await cognito.send(
+            new AdminRemoveUserFromGroupCommand({
+                GroupName: group,
+                Username: username,
+                UserPoolId: userPoolId,
+            }),
+        );
+    } catch (error) {
+        if (error instanceof Error) {
+            logger.error(`Failed to remove user from group`);
+        }
+
+        throw error;
+    }
+};
+
+export const addUserToGroup = async (username: string, group: string) => {
+    try {
+        logger.info("", {
+            context: "data.cognito",
+            message: `Adding user to group`,
+        });
+
+        return await cognito.send(
+            new AdminAddUserToGroupCommand({
+                GroupName: group,
+                Username: username,
+                UserPoolId: userPoolId,
+            }),
+        );
+    } catch (error) {
+        if (error instanceof Error) {
+            logger.error(`Failed to add user to group`);
         }
 
         throw error;
