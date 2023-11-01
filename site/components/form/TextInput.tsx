@@ -11,6 +11,7 @@ interface TextInputProps<T> extends FormBase<T> {
     hint?: string;
     isPassword?: boolean;
     resetError?: boolean;
+    isDisabled?: boolean;
 }
 
 const TextInput = <T extends object>({
@@ -27,6 +28,7 @@ const TextInput = <T extends object>({
     stateUpdater,
     isPassword,
     resetError = false,
+    isDisabled = false,
 }: TextInputProps<T>): ReactElement => {
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const inputId = kebabCase(inputName);
@@ -82,6 +84,7 @@ const TextInput = <T extends object>({
                             onChange={(e) => stateUpdater(e.target.value, inputName)}
                             aria-describedby={!!hint ? `${inputId}-hint` : undefined}
                             ref={inputRef}
+                            disabled={isDisabled}
                         />
                     )}
                 </FormElementWrapper>

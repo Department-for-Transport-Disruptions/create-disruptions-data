@@ -98,7 +98,7 @@ export const getPageState = <T>(errorCookie: string, schemaObject: z.ZodType<T>,
         return { ...(JSON.parse(errorCookie) as PageState<Partial<T>>), disruptionId: disruptionId || "" };
     }
 
-    if (disruptionId) {
+    if (disruptionId || !!data) {
         const parsedData = schemaObject.safeParse(data);
 
         if (parsedData.success) {
