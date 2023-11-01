@@ -24,7 +24,7 @@ const title = "Add Operator - Create Transport Disruptions Service";
 const description = "Add Operator page for the Create Transport Disruptions Service";
 
 export interface AddOperatorPageProps extends PageState<Partial<AddOperatorSchema>> {
-    allOperatorsData?: Operator[];
+    allOperatorsData?: Partial<Operator>[];
 }
 
 const AddOperator = (props: AddOperatorPageProps): ReactElement => {
@@ -180,11 +180,21 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     const allOperatorsData = await fetchOperators({ adminAreaCodes: session.adminAreaCodes ?? ["undefined"] });
 
+    const filteredOperatorsData = allOperatorsData
+        .map((operator) => {
+            return {
+                id: operator.id,
+                nocCode: operator.nocCode,
+                operatorPublicName: operator.operatorPublicName,
+            };
+        })
+        .filter((value, index, self) => index === self.findIndex((s) => s.nocCode === value.nocCode));
+
     return {
         props: {
             ...getPageState(errorCookie, addOperatorSchema),
             sessionWithOrg: session,
-            allOperatorsData: allOperatorsData ?? [],
+            allOperatorsData: filteredOperatorsData ?? [],
         },
     };
 };
