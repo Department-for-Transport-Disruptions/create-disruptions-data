@@ -2,14 +2,13 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { DISRUPTION_DETAIL_PAGE_PATH, ERROR_PATH } from "../../constants";
 import { deleteDisruptionsInEdit, deleteDisruptionsInPending, isDisruptionInEdit } from "../../data/dynamo";
 import { publishSchema } from "../../schemas/publish.schema";
-import { redirectTo, redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
+import { redirectTo, redirectToError } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
 
 const cancelChanges = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const validatedBody = publishSchema.safeParse(req.body);
         const session = getSession(req);
-        const { template } = req.query;
 
         if (!validatedBody.success || !session) {
             redirectTo(res, ERROR_PATH);
@@ -17,23 +16,18 @@ const cancelChanges = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         const disruptionId = validatedBody.data.disruptionId;
-        const isEdited = await isDisruptionInEdit(disruptionId, session.orgId, template === "true");
+        const isEdited = await isDisruptionInEdit(disruptionId, session.orgId);
 
         if (!canPublish(session) && !isEdited) {
             await Promise.all([
-                deleteDisruptionsInEdit(disruptionId, session.orgId, template === "true"),
-                deleteDisruptionsInPending(disruptionId, session.orgId, template === "true"),
+                deleteDisruptionsInEdit(disruptionId, session.orgId),
+                deleteDisruptionsInPending(disruptionId, session.orgId),
             ]);
         } else {
-            await deleteDisruptionsInEdit(disruptionId, session.orgId, template === "true");
+            await deleteDisruptionsInEdit(disruptionId, session.orgId);
         }
 
-        redirectToWithQueryParams(
-            req,
-            res,
-            template ? ["template"] : [],
-            `${DISRUPTION_DETAIL_PAGE_PATH}/${disruptionId}`,
-        );
+        redirectTo(res, `${DISRUPTION_DETAIL_PAGE_PATH}/${disruptionId}`);
         return;
     } catch (e) {
         if (e instanceof Error) {

@@ -45,7 +45,6 @@ export interface ViewAllContentProps {
     csrfToken?: string;
     filterStatus?: Progress | null;
     enableLoadingSpinnerOnPageLoad?: boolean;
-    isTemplate?: boolean;
 }
 
 export interface Filter {
@@ -111,7 +110,7 @@ const sortFunction = (contents: ContentTable[], sortField: keyof ContentTable, s
     });
 };
 
-export const getDisruptionData = async (isTemplate?: boolean) => {
+export const getDisruptionData = async () => {
     const options: RequestInit = {
         method: "GET",
         headers: {
@@ -119,7 +118,7 @@ export const getDisruptionData = async (isTemplate?: boolean) => {
         },
     };
 
-    const res = await fetch(`/api/get-all-disruptions${isTemplate ? "?template=true" : ""}`, options);
+    const res = await fetch("/api/get-all-disruptions", options);
 
     const parseResult = makeFilteredArraySchema(disruptionsTableSchema).safeParse(await res.json());
     if (!parseResult.success) {
@@ -343,7 +342,7 @@ export const getContentPage = (pageNumber: number, contents: TableContents[]): T
     return contents.slice(startPoint, endPoint);
 };
 
-const formatContentsIntoRows = (contents: TableContents[], isTemplate: boolean): ContentTable[] => {
+const formatContentsIntoRows = (contents: TableContents[]): ContentTable[] => {
     return contents.map((content) => {
         const earliestPeriod: {
             startTime: string;
@@ -356,7 +355,7 @@ const formatContentsIntoRows = (contents: TableContents[], isTemplate: boolean):
                 <Link
                     className="govuk-link"
                     href={
-                        content.status === Progress.draft && !isTemplate
+                        content.status === Progress.draft
                             ? content.consequenceLength && content.consequenceLength > 0
                                 ? {
                                       pathname: `${REVIEW_DISRUPTION_PAGE_PATH}/${content.id}`,
@@ -366,11 +365,6 @@ const formatContentsIntoRows = (contents: TableContents[], isTemplate: boolean):
                                   }
                             : {
                                   pathname: `${DISRUPTION_DETAIL_PAGE_PATH}/${content.id}`,
-                                  query: isTemplate
-                                      ? {
-                                            template: "true",
-                                        }
-                                      : {},
                               }
                     }
                     key={content.id}
@@ -445,7 +439,6 @@ const ViewAllContents = ({
     adminAreaCodes,
     filterStatus,
     enableLoadingSpinnerOnPageLoad = true,
-    isTemplate = false,
 }: ViewAllContentProps): ReactElement => {
     const [selectedServices, setSelectedServices] = useState<Service[]>([]);
     const [selectedOperators, setSelectedOperators] = useState<ConsequenceOperators[]>([]);
@@ -483,7 +476,7 @@ const ViewAllContents = ({
         const fetchData = async () => {
             setLoadPage(true);
 
-            const data = await getDisruptionData(isTemplate);
+            const data = await getDisruptionData();
             setInitialFilters(filter, setContentsToDisplay, data);
             setContents(data);
             setLoadPage(false);
@@ -674,21 +667,19 @@ const ViewAllContents = ({
     return (
         <>
             {popUpState ? <ExportPopUp confirmHandler={exportHandler} closePopUp={cancelActionHandler} /> : null}
-            {isTemplate ? (
-                <h1 className="govuk-heading-xl">Templates</h1>
-            ) : (
-                <h1 className="govuk-heading-xl">View all disruptions</h1>
-            )}
+
+            <h1 className="govuk-heading-xl">View all disruptions</h1>
+
             <div>
                 <Link
-                    href={`/create-disruption/${newContentId}${isTemplate ? "?template=true" : ""}`}
+                    href={`/create-disruption/${newContentId}`}
                     role="button"
                     draggable="false"
                     className="govuk-button govuk-button--start"
                     data-module="govuk-button"
                     id="create-new-button"
                 >
-                    {isTemplate ? "Create new template" : "Create new disruption"}
+                    Create new disruption
                     <svg
                         className="govuk-button__start-icon"
                         xmlns="http://www.w3.org/2000/svg"
@@ -941,14 +932,14 @@ const ViewAllContents = ({
                 <LoadingBox loading={loadPage}>
                     <SortableTable
                         columns={columns}
-                        rows={formatContentsIntoRows(contentsToDisplay, isTemplate)}
+                        rows={formatContentsIntoRows(contentsToDisplay)}
                         sortFunction={sortFunction}
                     />
                 </LoadingBox>
             ) : (
                 <SortableTable
                     columns={columns}
-                    rows={formatContentsIntoRows(contentsToDisplay, isTemplate)}
+                    rows={formatContentsIntoRows(contentsToDisplay)}
                     sortFunction={sortFunction}
                 />
             )}

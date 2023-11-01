@@ -65,7 +65,6 @@ describe("getAllDisruptions", () => {
             socialMediaPosts: [],
             summary: "testpending81",
             validity: [],
-            template: false,
         },
         {
             associatedLink: "",
@@ -97,7 +96,6 @@ describe("getAllDisruptions", () => {
             socialMediaPosts: [],
             summary: "testfilter3",
             validity: [],
-            template: false,
         },
     ];
 

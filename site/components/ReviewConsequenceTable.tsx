@@ -9,21 +9,26 @@ import {
     CREATE_CONSEQUENCE_OPERATOR_PATH,
     CREATE_CONSEQUENCE_SERVICES_PATH,
     CREATE_CONSEQUENCE_STOPS_PATH,
+    CREATE_TEMPLATE_CONSEQUENCE_NETWORK_PATH,
+    CREATE_TEMPLATE_CONSEQUENCE_OPERATOR_PATH,
+    CREATE_TEMPLATE_CONSEQUENCE_SERVICES_PATH,
+    CREATE_TEMPLATE_CONSEQUENCE_STOPS_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
+    TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH,
     VEHICLE_MODES,
 } from "../constants";
 import { getDisplayByValue, splitCamelCaseToString } from "../utils";
 
-const getConsequenceUrl = (type: Consequence["consequenceType"]) => {
+const getConsequenceUrl = (type: Consequence["consequenceType"], isTemplate?: boolean): string => {
     switch (type) {
         case "networkWide":
-            return CREATE_CONSEQUENCE_NETWORK_PATH;
+            return isTemplate ? CREATE_TEMPLATE_CONSEQUENCE_NETWORK_PATH : CREATE_CONSEQUENCE_NETWORK_PATH;
         case "operatorWide":
-            return CREATE_CONSEQUENCE_OPERATOR_PATH;
+            return isTemplate ? CREATE_TEMPLATE_CONSEQUENCE_OPERATOR_PATH : CREATE_CONSEQUENCE_OPERATOR_PATH;
         case "stops":
-            return CREATE_CONSEQUENCE_STOPS_PATH;
+            return isTemplate ? CREATE_TEMPLATE_CONSEQUENCE_STOPS_PATH : CREATE_CONSEQUENCE_STOPS_PATH;
         case "services":
-            return CREATE_CONSEQUENCE_SERVICES_PATH;
+            return isTemplate ? CREATE_TEMPLATE_CONSEQUENCE_SERVICES_PATH : CREATE_CONSEQUENCE_SERVICES_PATH;
     }
 };
 
@@ -32,7 +37,7 @@ export const createChangeLink = (
     href: string,
     disruptionId: string,
     index?: number,
-    isTemplate?: boolean,
+    queryParam?: string,
 ) => {
     return (
         <Link
@@ -40,7 +45,7 @@ export const createChangeLink = (
             className="govuk-link"
             href={{
                 pathname: `${href}/${disruptionId}${index !== undefined ? `/${index}` : ""}`,
-                query: isTemplate ? { template: isTemplate.toString() } : null,
+                query: `${queryParam !== undefined ? queryParam : ""}`,
             }}
         >
             Change
@@ -62,10 +67,9 @@ const getRows = (consequence: Consequence, disruption: Disruption, isTemplate?: 
                 {
                     value: createChangeLink(
                         "consequence-type",
-                        TYPE_OF_CONSEQUENCE_PAGE_PATH,
+                        isTemplate ? TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH : TYPE_OF_CONSEQUENCE_PAGE_PATH,
                         disruption.disruptionId,
                         consequence.consequenceIndex,
-                        isTemplate,
                     ),
                     styles: {
                         width: "w-1/10",
@@ -80,10 +84,9 @@ const getRows = (consequence: Consequence, disruption: Disruption, isTemplate?: 
                 {
                     value: createChangeLink(
                         "vehicle-mode",
-                        getConsequenceUrl(consequence.consequenceType),
+                        getConsequenceUrl(consequence.consequenceType, isTemplate),
                         disruption.disruptionId,
                         consequence.consequenceIndex,
-                        isTemplate,
                     ),
                 },
             ],
@@ -105,10 +108,9 @@ const getRows = (consequence: Consequence, disruption: Disruption, isTemplate?: 
                 {
                     value: createChangeLink(
                         "service",
-                        getConsequenceUrl(consequence.consequenceType),
+                        getConsequenceUrl(consequence.consequenceType, isTemplate),
                         disruption.disruptionId,
                         consequence.consequenceIndex,
-                        isTemplate,
                     ),
                 },
             ],
@@ -133,10 +135,9 @@ const getRows = (consequence: Consequence, disruption: Disruption, isTemplate?: 
                 {
                     value: createChangeLink(
                         "stops-affected",
-                        getConsequenceUrl(consequence.consequenceType),
+                        getConsequenceUrl(consequence.consequenceType, isTemplate),
                         disruption.disruptionId,
                         consequence.consequenceIndex,
-                        isTemplate,
                     ),
                 },
             ],
@@ -155,10 +156,9 @@ const getRows = (consequence: Consequence, disruption: Disruption, isTemplate?: 
                 {
                     value: createChangeLink(
                         "operators-affected",
-                        getConsequenceUrl(consequence.consequenceType),
+                        getConsequenceUrl(consequence.consequenceType, isTemplate),
                         disruption.disruptionId,
                         consequence.consequenceIndex,
-                        isTemplate,
                     ),
                 },
             ],
@@ -175,10 +175,9 @@ const getRows = (consequence: Consequence, disruption: Disruption, isTemplate?: 
                 {
                     value: createChangeLink(
                         "advice-to-display",
-                        getConsequenceUrl(consequence.consequenceType),
+                        getConsequenceUrl(consequence.consequenceType, isTemplate),
                         disruption.disruptionId,
                         consequence.consequenceIndex,
-                        isTemplate,
                     ),
                 },
             ],
@@ -192,10 +191,9 @@ const getRows = (consequence: Consequence, disruption: Disruption, isTemplate?: 
                 {
                     value: createChangeLink(
                         "remove-from-journey-planners",
-                        getConsequenceUrl(consequence.consequenceType),
+                        getConsequenceUrl(consequence.consequenceType, isTemplate),
                         disruption.disruptionId,
                         consequence.consequenceIndex,
-                        isTemplate,
                     ),
                 },
             ],
@@ -209,10 +207,9 @@ const getRows = (consequence: Consequence, disruption: Disruption, isTemplate?: 
                 {
                     value: createChangeLink(
                         "disruption-delay",
-                        getConsequenceUrl(consequence.consequenceType),
+                        getConsequenceUrl(consequence.consequenceType, isTemplate),
                         disruption.disruptionId,
                         consequence.consequenceIndex,
-                        isTemplate,
                     ),
                 },
             ],
@@ -281,9 +278,11 @@ const ReviewConsequenceTable = ({
                         : ""
                 }`}
                 data-module="govuk-button"
-                formAction={`/api/duplicate-consequence?consequenceId=${consequence.consequenceIndex}${
-                    isTemplate ? "&template=true" : ""
-                }`}
+                formAction={
+                    isTemplate
+                        ? `/api/duplicate-consequence-template?consequenceId=${consequence.consequenceIndex}`
+                        : `/api/duplicate-consequence?consequenceId=${consequence.consequenceIndex}`
+                }
             >
                 Duplicate consequence
             </button>

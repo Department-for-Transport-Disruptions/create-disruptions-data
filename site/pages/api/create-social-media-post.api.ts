@@ -13,8 +13,8 @@ import { refineImageSchema } from "../../schemas/social-media.schema";
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
+    redirectTo,
     redirectToError,
-    redirectToWithQueryParams,
     setCookieOnResponseObject,
 } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
@@ -22,8 +22,6 @@ import { formParse } from "../../utils/apiUtils/fileUpload";
 
 const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const { template } = req.query;
-
         const session = getSession(req);
 
         if (!session) {
@@ -74,10 +72,8 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
                 res,
             );
 
-            redirectToWithQueryParams(
-                req,
+            redirectTo(
                 res,
-                template ? ["template"] : [],
                 `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${fields.disruptionId as string}/${
                     fields.socialMediaPostIndex as string
                 }`,
@@ -93,7 +89,7 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
 
         // publishTime and publishDate set to blank to prevent error when creating a disruption (as templates prior had these populated)
         const socialMediaToUpsert =
-            template === "true" || validatedBody.data.accountType === "Twitter"
+            validatedBody.data.accountType === "Twitter"
                 ? {
                       ...validatedBody.data,
                       publishTime: "",
@@ -111,13 +107,7 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
                               : SocialMediaPostStatus.rejected,
                   };
 
-        const disruption = await upsertSocialMediaPost(
-            socialMediaToUpsert,
-            session.orgId,
-            session.isOrgStaff,
-            false,
-            template === "true",
-        );
+        const disruption = await upsertSocialMediaPost(socialMediaToUpsert, session.orgId, session.isOrgStaff, false);
 
         destroyCookieOnResponseObject(COOKIES_SOCIAL_MEDIA_ERRORS, res);
 
@@ -126,12 +116,7 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
                 ? DISRUPTION_DETAIL_PAGE_PATH
                 : REVIEW_DISRUPTION_PAGE_PATH;
 
-        redirectToWithQueryParams(
-            req,
-            res,
-            template ? ["template"] : [],
-            `${redirectPath}/${validatedBody.data.disruptionId}`,
-        );
+        redirectTo(res, `${redirectPath}/${validatedBody.data.disruptionId}`);
 
         return;
     } catch (e) {

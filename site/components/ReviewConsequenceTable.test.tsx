@@ -46,7 +46,6 @@ const previousDisruptionInformation: Disruption = {
     publishStatus: PublishStatus.draft,
     displayId: "8fg3ha",
     orgId: DEFAULT_ORG_ID,
-    template: false,
 };
 
 describe("ReviewConsequenceTable", () => {

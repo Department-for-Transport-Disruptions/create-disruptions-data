@@ -68,6 +68,7 @@ export interface PageState<T> {
     session?: Session | null;
     sessionWithOrg?: SessionWithOrgDetail | null;
     disruptionStatus?: PublishStatus;
+    disruptionDescription?: string;
 }
 
 export interface CreateConsequenceProps {

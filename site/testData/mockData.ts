@@ -355,7 +355,6 @@ export const disruptionWithNoConsequences: FullDisruption = {
     consequences: [],
     displayId: "8fg3ha",
     orgId: DEFAULT_ORG_ID,
-    template: false,
 };
 
 export const consequenceInfoOperatorTest: Consequence = {
@@ -771,7 +770,6 @@ export const sortedDisruption: Disruption = {
             vehicleMode: VehicleMode.rail,
         },
     ],
-    template: false,
     validity: [
         {
             disruptionStartDate: "25/03/2021",
@@ -1131,7 +1129,6 @@ export const createDisruptionWithConsquences = (consequences: Consequence[]): Fu
         consequences: consequences,
         displayId: "8fg3ha",
         orgId: DEFAULT_ORG_ID,
-        template: false,
     };
 };
 

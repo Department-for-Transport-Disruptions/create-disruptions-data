@@ -54,7 +54,8 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
         props.disruptionStatus === PublishStatus.editPendingApproval ||
         props.disruptionStatus === PublishStatus.pendingAndEditing;
 
-    const displayCancelButton = isEditing || props.inputs.socialAccount;
+    const isFromTemplate = useRouter().query["isFromTemplate"] === "true" ? true : false;
+    const displayCancelButton = (isEditing || !!props.inputs.socialAccount) && !isFromTemplate;
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
 
@@ -274,7 +275,6 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             disruptionDescription: disruption?.description || "",
             socialMediaPostIndex: index,
             socialAccounts: [...hootsuiteAccounts, ...twitterAccounts],
-            template: disruption?.template?.toString() || "",
             disruptionStatus: disruption?.publishStatus,
         },
     };

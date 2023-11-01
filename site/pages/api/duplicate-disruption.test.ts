@@ -5,8 +5,8 @@ import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@crea
 import * as cryptoRandomString from "crypto-random-string";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import * as crypto from "crypto";
-import duplicateDisruption from "./duplicate-disruption.api";
-import { CREATE_DISRUPTION_PAGE_PATH, ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
+import createDisruptionFromTemplate from "./duplicate-disruption.api";
+import { ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession } from "../../testData/mockData";
@@ -53,7 +53,6 @@ const disruption: FullDisruption = {
     consequences: [defaultNetworkData],
     displayId: "8fg3ha",
     orgId: DEFAULT_ORG_ID,
-    template: false,
 };
 
 describe("duplicate-disruption API", () => {
@@ -112,7 +111,7 @@ describe("duplicate-disruption API", () => {
         });
 
         getDisruptionByIdSpy.mockResolvedValue(disruption);
-        await duplicateDisruption(req, res);
+        await createDisruptionFromTemplate(req, res);
 
         expect(upsertDisruptionInfoSpy).toHaveBeenCalledTimes(1);
         expect(upsertDisruptionInfoSpy).toHaveBeenCalledWith(
@@ -143,7 +142,7 @@ describe("duplicate-disruption API", () => {
             mockWriteHeadFn: writeHeadMock,
         });
 
-        await duplicateDisruption(req, res);
+        await createDisruptionFromTemplate(req, res);
 
         expect(getDisruptionByIdSpy).not.toHaveBeenCalled();
         expect(upsertDisruptionInfoSpy).not.toHaveBeenCalled();
@@ -162,49 +161,13 @@ describe("duplicate-disruption API", () => {
         });
 
         getDisruptionByIdSpy.mockResolvedValue(null);
-        await duplicateDisruption(req, res);
+        await createDisruptionFromTemplate(req, res);
 
         expect(upsertDisruptionInfoSpy).not.toHaveBeenCalled();
         expect(upsertConsequenceSpy).not.toHaveBeenCalled();
 
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: ERROR_PATH,
-        });
-    });
-
-    it("should redirect to /create-disruption when new disruption is required from templates", async () => {
-        const { req, res } = getMockRequestAndResponse({
-            body: {},
-            query: {
-                template: "true",
-                templateId: defaultDisruptionId,
-            },
-            mockWriteHeadFn: writeHeadMock,
-        });
-
-        getDisruptionByIdSpy.mockResolvedValue(disruption);
-        await duplicateDisruption(req, res);
-
-        expect(upsertDisruptionInfoSpy).toHaveBeenCalledTimes(1);
-        expect(upsertDisruptionInfoSpy).toHaveBeenCalledWith(
-            {
-                ...disruptionInfoSchemaRefined.parse(disruption),
-                disruptionId: newDefaultDisruptionId,
-                displayId: "9fg4gc",
-            },
-            DEFAULT_ORG_ID,
-            mockSession.isOrgStaff,
-        );
-
-        expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
-        expect(upsertConsequenceSpy).toHaveBeenCalledWith(
-            { ...defaultNetworkData, disruptionId: newDefaultDisruptionId },
-            DEFAULT_ORG_ID,
-            mockSession.isOrgStaff,
-        );
-
-        expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${CREATE_DISRUPTION_PAGE_PATH}/${newDefaultDisruptionId}?isFromTemplate=true`,
         });
     });
 });

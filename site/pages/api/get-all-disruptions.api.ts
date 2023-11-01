@@ -37,14 +37,14 @@ export const getDisruptionStatus = (disruption: Disruption): Progress => {
         return Progress.editPendingApproval;
     }
 
-    if (!disruption.validity && !disruption.template) {
+    if (!disruption.validity) {
         return Progress.closed;
     }
 
     const today = getDate();
     const disruptionEndDate = getSortedDisruptionFinalEndDate(disruption);
 
-    if (!!disruptionEndDate && !disruption.template) {
+    if (!!disruptionEndDate) {
         return isClosingOrClosed(disruptionEndDate, today);
     }
 
@@ -168,8 +168,6 @@ export const formatSortedDisruption = (disruption: Disruption) => {
 const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResponse) => {
     const session = getSession(req);
 
-    const { template } = req.query;
-
     if (!session) {
         res.status(403);
         return;
@@ -177,7 +175,7 @@ const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResp
 
     const { orgId } = session;
 
-    let disruptionsData = await getDisruptionsDataFromDynamo(orgId, template === "true");
+    let disruptionsData = await getDisruptionsDataFromDynamo(orgId);
 
     if (disruptionsData) {
         disruptionsData = disruptionsData.filter(
@@ -186,8 +184,7 @@ const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResp
                 item.publishStatus === PublishStatus.draft ||
                 item.publishStatus === PublishStatus.pendingApproval ||
                 item.publishStatus === PublishStatus.editPendingApproval ||
-                item.publishStatus === PublishStatus.rejected ||
-                !item.template,
+                item.publishStatus === PublishStatus.rejected,
         );
         const sortedDisruptions = sortDisruptionsByStartDate(disruptionsData);
 

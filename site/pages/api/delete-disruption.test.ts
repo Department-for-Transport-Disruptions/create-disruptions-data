@@ -1,7 +1,7 @@
 import MockDate from "mockdate";
 import { describe, it, expect, afterEach, vi, afterAll } from "vitest";
 import deleteDisruption from "./delete-disruption.api";
-import { DASHBOARD_PAGE_PATH, ERROR_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants/index";
+import { ERROR_PATH } from "../../constants/index";
 import * as dynamo from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import {
@@ -63,53 +63,6 @@ describe("deleteDisruption", () => {
             false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
-    });
-
-    it("should retrieve valid data from cookies, write to dynamo and redirect to view all templates if deleting a template", async () => {
-        getDisruptionSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
-        const { req, res } = getMockRequestAndResponse({
-            body: {
-                id: defaultDisruptionId,
-            },
-            query: {
-                template: "true",
-            },
-            mockWriteHeadFn: writeHeadMock,
-        });
-
-        await deleteDisruption(req, res);
-
-        expect(dynamo.deletePublishedDisruption).toBeCalledTimes(1);
-        expect(dynamo.deletePublishedDisruption).toBeCalledWith(
-            disruptionWithConsequencesAndSocialMediaPosts,
-            defaultDisruptionId,
-            DEFAULT_ORG_ID,
-            true,
-        );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: VIEW_ALL_TEMPLATES_PAGE_PATH });
-    });
-
-    it("should retrieve valid data from cookies, write to dynamo and redirect to template overview if deleting a disruption created from a template", async () => {
-        getDisruptionSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
-        const { req, res } = getMockRequestAndResponse({
-            body: {
-                id: defaultDisruptionId,
-            },
-            mockWriteHeadFn: writeHeadMock,
-        });
-
-        await deleteDisruption(req, res);
-
-        expect(dynamo.deletePublishedDisruption).toBeCalledTimes(1);
-        expect(dynamo.deletePublishedDisruption).toBeCalledWith(
-            disruptionWithConsequencesAndSocialMediaPosts,
-            defaultDisruptionId,
-            DEFAULT_ORG_ID,
-            false,
-        );
-        expect(writeHeadMock).toBeCalledWith(302, {
-            Location: DASHBOARD_PAGE_PATH,
-        });
     });
 
     it("should redirect to error page if disruptionId not passed", async () => {

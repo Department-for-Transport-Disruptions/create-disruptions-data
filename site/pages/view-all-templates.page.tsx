@@ -3,7 +3,7 @@ import { NextPageContext } from "next";
 import { ReactElement } from "react";
 import { randomUUID } from "crypto";
 import { BaseLayout } from "../components/layout/Layout";
-import ViewAllContents, { ViewAllContentProps } from "../components/ViewAllContents";
+import ViewAllTemplateContents, { ViewAllTemplatesProps } from "../components/ViewAllTemplates";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 
 const title = "Templates";
@@ -14,21 +14,20 @@ const ViewAllTemplates = ({
     adminAreaCodes,
     filterStatus,
     enableLoadingSpinnerOnPageLoad = true,
-}: ViewAllContentProps): ReactElement => {
+}: ViewAllTemplatesProps): ReactElement => {
     return (
         <BaseLayout title={title} description={description}>
-            <ViewAllContents
+            <ViewAllTemplateContents
                 newContentId={newContentId}
                 adminAreaCodes={adminAreaCodes}
                 filterStatus={filterStatus}
                 enableLoadingSpinnerOnPageLoad={enableLoadingSpinnerOnPageLoad}
-                isTemplate={true}
             />
         </BaseLayout>
     );
 };
 
-export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: ViewAllContentProps }> => {
+export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: ViewAllTemplatesProps }> => {
     const baseProps = {
         props: {
             newContentId: randomUUID(),

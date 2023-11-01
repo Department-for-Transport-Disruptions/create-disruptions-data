@@ -11,19 +11,14 @@ import { getDisruptionById } from "../../data/dynamo";
 import { TooManyConsequencesError } from "../../errors";
 import { duplicateConsequenceSchema } from "../../schemas/consequence.schema";
 import { getLargestConsequenceIndex } from "../../utils";
-import {
-    handleUpsertConsequence,
-    isDisruptionFromTemplate,
-    redirectToError,
-    redirectToWithQueryParams,
-} from "../../utils/apiUtils";
+import { handleUpsertConsequence, redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 
 const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+    let publishStatus = null;
     try {
-        const { consequenceId } = req.query;
+        const { consequenceId, isFromTemplate } = req.query;
 
-        const { template } = req.query;
         const validatedBody = duplicateConsequenceSchema.safeParse(req.body);
 
         if (!consequenceId) {
@@ -50,6 +45,8 @@ const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): 
             throw new Error("No disruption / disruption with consequences found");
         }
 
+        publishStatus = disruption.publishStatus;
+
         const consequenceToDuplicate = disruption.consequences.find(
             (consequence) => consequence.consequenceIndex === Number(consequenceId),
         );
@@ -65,7 +62,7 @@ const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): 
             },
             session.orgId,
             session.isOrgStaff,
-            template === "true",
+            false,
             req.body as Consequence,
             disruption.publishStatus !== PublishStatus.draft
                 ? COOKIES_DISRUPTION_DETAIL_ERRORS
@@ -76,12 +73,13 @@ const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): 
         redirectToWithQueryParams(
             req,
             res,
-            template === "true" ? ["template"] : [],
+            [],
             `${
                 disruption.publishStatus === PublishStatus.draft
                     ? REVIEW_DISRUPTION_PAGE_PATH
                     : DISRUPTION_DETAIL_PAGE_PATH
             }/${validatedBody.data.disruptionId}`,
+            isFromTemplate ? ["isFromTemplate=true"] : [],
         );
 
         return;
@@ -89,12 +87,16 @@ const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): 
         if (e instanceof TooManyConsequencesError) {
             const body = req.body as Consequence;
 
+            const { isFromTemplate } = req.query;
+
             redirectToWithQueryParams(
                 req,
                 res,
-                isDisruptionFromTemplate(req) ? ["template"] : [],
-                `${req.query.return as string}/${body.disruptionId}`,
                 [],
+                `${publishStatus === PublishStatus.draft ? REVIEW_DISRUPTION_PAGE_PATH : DISRUPTION_DETAIL_PAGE_PATH}/${
+                    body.disruptionId
+                }`,
+                isFromTemplate ? ["isFromTemplate=true"] : [],
             );
 
             return;
