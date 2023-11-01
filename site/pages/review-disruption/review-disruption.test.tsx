@@ -225,17 +225,12 @@ describe("pages", () => {
                 selector: "button",
             });
 
-            const cancelButton = queryByText("Cancel all changes", {
-                selector: "button",
-            });
-
             const header = queryByText("Review your answers before submitting the disruption");
 
             expect(publishButton).toBeTruthy();
             expect(draftButton).toBeTruthy();
             expect(deleteButton).toBeTruthy();
             expect(header).toBeTruthy();
-            expect(cancelButton).toBeFalsy();
 
             unmount();
         });
@@ -260,17 +255,12 @@ describe("pages", () => {
                 selector: "button",
             });
 
-            const cancelButton = queryByText("Cancel all changes", {
-                selector: "button",
-            });
-
             const header = queryByText("Review your answers before submitting the disruption");
 
             expect(draftButton).toBeTruthy();
             expect(reviewButton).toBeTruthy();
             expect(deleteButton).toBeTruthy();
             expect(header).toBeTruthy();
-            expect(cancelButton).toBeFalsy();
 
             unmount();
         });

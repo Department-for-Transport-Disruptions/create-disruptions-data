@@ -20,7 +20,6 @@ import {
     COOKIES_REVIEW_DISRUPTION_ERRORS,
     CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
     DASHBOARD_PAGE_PATH,
-    COOKIES_REVIEW_DISRUPTION_REFERER,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
     DISRUPTION_DETAIL_PAGE_PATH,
 } from "../../constants";
@@ -30,7 +29,7 @@ import { ErrorInfo, PageState } from "../../interfaces";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../../schemas/social-media.schema";
 import { getLargestConsequenceIndex, splitCamelCaseToString } from "../../utils";
-import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
+import { destroyCookieOnResponseObject } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import { formatTime, getEndingOnDateText } from "../../utils/dates";
 
@@ -42,16 +41,9 @@ interface ReviewDisruptionProps {
     csrfToken?: string;
     errors: ErrorInfo[];
     canPublish: boolean;
-    redirect: string;
 }
 
-const ReviewDisruption = ({
-    disruption,
-    csrfToken,
-    errors,
-    canPublish,
-    redirect,
-}: ReviewDisruptionProps): ReactElement => {
+const ReviewDisruption = ({ disruption, csrfToken, errors, canPublish }: ReviewDisruptionProps): ReactElement => {
     const hasInitialised = useRef(false);
     const [popUpState, setPopUpState] = useState<{ name: string; hiddenInputs: { name: string; value: string }[] }>();
     const [socialMediaPostPopUpState, setSocialMediaPostPopUpState] = useState<{
@@ -659,17 +651,6 @@ const ReviewDisruption = ({
                         >
                             Save as draft
                         </Link>
-
-                        {disruption.publishStatus === PublishStatus.editing ||
-                        disruption.publishStatus === PublishStatus.pendingAndEditing ? (
-                            <button
-                                className="govuk-button govuk-button--secondary mt-8 ml-5"
-                                data-module="govuk-button"
-                                formAction={redirect}
-                            >
-                                Cancel all changes
-                            </button>
-                        ) : null}
                     </div>
                 </>
             </CsrfForm>
@@ -713,12 +694,6 @@ export const getServerSideProps = async (
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_REVIEW_DISRUPTION_ERRORS];
 
-    const referer = (ctx.query.return as string) || cookies[COOKIES_REVIEW_DISRUPTION_REFERER];
-
-    if (ctx.res && ctx.query.return) {
-        setCookieOnResponseObject(COOKIES_REVIEW_DISRUPTION_REFERER, referer, ctx.res);
-    }
-
     let socialMediaWithImageLinks: SocialMediaPost[] = [];
     if (disruption?.socialMediaPosts && process.env.IMAGE_BUCKET_NAME) {
         socialMediaWithImageLinks = await Promise.all(
@@ -755,7 +730,6 @@ export const getServerSideProps = async (
     return {
         props: {
             disruption: disruptionWithURLS as FullDisruption,
-            redirect: referer || "/dashboard",
             errors,
             canPublish: canPublish(session),
         },

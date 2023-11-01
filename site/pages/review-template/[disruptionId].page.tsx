@@ -1,5 +1,5 @@
 import { Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { PublishStatus, SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
+import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import startCase from "lodash/startCase";
 import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
@@ -12,7 +12,6 @@ import { BaseLayout } from "../../components/layout/Layout";
 import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPopup";
 import ReviewConsequenceTable, { createChangeLink } from "../../components/ReviewConsequenceTable";
 import {
-    COOKIES_REVIEW_DISRUPTION_REFERER,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
     TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH,
     CREATE_TEMPLATE_SOCIAL_MEDIA_POST_PAGE_PATH,
@@ -24,7 +23,7 @@ import { ErrorInfo } from "../../interfaces";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../../schemas/social-media.schema";
 import { getLargestConsequenceIndex, splitCamelCaseToString } from "../../utils";
-import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
+import { destroyCookieOnResponseObject } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import { formatTime, getEndingOnDateText } from "../../utils/dates";
 
@@ -36,16 +35,9 @@ interface ReviewDisruptionProps {
     csrfToken?: string;
     errors: ErrorInfo[];
     canPublish: boolean;
-    redirect: string;
 }
 
-const ReviewTemplate = ({
-    disruption,
-    csrfToken,
-    errors,
-    canPublish,
-    redirect,
-}: ReviewDisruptionProps): ReactElement => {
+const ReviewTemplate = ({ disruption, csrfToken, errors, canPublish }: ReviewDisruptionProps): ReactElement => {
     const hasInitialised = useRef(false);
     const [popUpState, setPopUpState] = useState<{ name: string; hiddenInputs: { name: string; value: string }[] }>();
     const [socialMediaPostPopUpState, setSocialMediaPostPopUpState] = useState<{
@@ -641,17 +633,6 @@ const ReviewTemplate = ({
                         >
                             Delete template
                         </button>
-
-                        {disruption.publishStatus === PublishStatus.editing ||
-                        disruption.publishStatus === PublishStatus.pendingAndEditing ? (
-                            <button
-                                className="govuk-button govuk-button--secondary mt-8 ml-5"
-                                data-module="govuk-button"
-                                formAction={redirect}
-                            >
-                                Cancel all changes
-                            </button>
-                        ) : null}
                     </div>
                 </>
             </CsrfForm>
@@ -685,12 +666,6 @@ export const getServerSideProps = async (
 
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_REVIEW_TEMPLATE_ERRORS];
-
-    const referer = (ctx.query.return as string) || cookies[COOKIES_REVIEW_DISRUPTION_REFERER];
-
-    if (ctx.res && ctx.query.return) {
-        setCookieOnResponseObject(COOKIES_REVIEW_DISRUPTION_REFERER, referer, ctx.res);
-    }
 
     let socialMediaWithImageLinks: SocialMediaPost[] = [];
     if (template?.socialMediaPosts && process.env.IMAGE_BUCKET_NAME) {
@@ -728,7 +703,6 @@ export const getServerSideProps = async (
     return {
         props: {
             disruption: templateWithURLS as FullDisruption,
-            redirect: referer || "",
             errors,
             canPublish: canPublish(session),
         },

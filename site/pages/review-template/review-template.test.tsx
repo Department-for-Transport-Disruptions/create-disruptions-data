@@ -188,15 +188,10 @@ describe("pages", () => {
                 selector: "button",
             });
 
-            const cancelButton = queryByText("Cancel all changes", {
-                selector: "button",
-            });
-
             const header = queryByText("Review your answers before submitting the template");
 
             expect(deleteTemplateButton).toBeTruthy();
             expect(header).toBeTruthy();
-            expect(cancelButton).toBeFalsy();
 
             unmount();
         });
