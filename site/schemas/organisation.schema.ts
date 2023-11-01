@@ -33,3 +33,19 @@ export const areaCodeSchema = z.string().transform((item) => ({
 }));
 
 export type AreaCodeValuePair = z.infer<typeof areaCodeSchema>;
+
+export const subOrganisationSchema = z.object({
+    name: z.string(),
+    PK: z.string().optional(),
+    nocCodes: z.array(z.string()),
+});
+
+export type SubOrganisation = z.infer<typeof subOrganisationSchema>;
+
+export const subOrganisationsSchema = z.array(
+    z.object({
+        name: z.string(),
+        PK: z.string().optional(),
+        nocCodes: z.array(z.string()),
+    }),
+);

@@ -10,7 +10,7 @@ import Table from "../../components/form/Table";
 import TextInput from "../../components/form/TextInput";
 import TwoThirdsLayout from "../../components/layout/Layout";
 import { sortOperatorByName } from "../../components/search/OperatorSearch";
-import { COOKIES_ADD_USER_ERRORS } from "../../constants";
+import { COOKIES_ADD_OPERATOR_ERRORS } from "../../constants";
 import { fetchOperators } from "../../data/refDataApi";
 import { PageState } from "../../interfaces";
 import { addOperatorSchema, AddOperatorSchema } from "../../schemas/add-operator.schema";
@@ -121,7 +121,7 @@ const AddOperator = (props: AddOperatorPageProps): ReactElement => {
 
                         <SearchSelect<Operator>
                             selected={selectedOperator}
-                            inputName="operatorNocCodes"
+                            inputName="nocCodes"
                             initialErrors={pageState.errors}
                             placeholder="Select operator NOC codes"
                             getOptionLabel={(operator) => `${operator.nocCode} - ${operator.operatorPublicName}`}
@@ -139,7 +139,7 @@ const AddOperator = (props: AddOperatorPageProps): ReactElement => {
                             display="NOC Code"
                             hint=""
                             displaySize="s"
-                            inputId="operatorNocCodes"
+                            inputId="nocCodes"
                             isClearable
                             inputValue={operatorSearchInput}
                             setSearchInput={setOperatorsSearchInput}
@@ -164,13 +164,13 @@ const AddOperator = (props: AddOperatorPageProps): ReactElement => {
 
 export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: AddOperatorPageProps }> => {
     const cookies = parseCookies(ctx);
-    const errorCookie = cookies[COOKIES_ADD_USER_ERRORS];
+    const errorCookie = cookies[COOKIES_ADD_OPERATOR_ERRORS];
 
     if (!ctx.req) {
         throw new Error("No context request");
     }
 
-    if (ctx.res) destroyCookieOnResponseObject(COOKIES_ADD_USER_ERRORS, ctx.res);
+    if (ctx.res) destroyCookieOnResponseObject(COOKIES_ADD_OPERATOR_ERRORS, ctx.res);
 
     const session = await getSessionWithOrgDetail(ctx.req);
 
