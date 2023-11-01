@@ -198,12 +198,7 @@ describe("pages", () => {
 
         it("should render correctly with appropriate buttons", () => {
             const { queryByText, unmount } = render(
-                <ReviewDisruption
-                    disruption={previousDisruptionInformation}
-                    errors={[]}
-                    canPublish
-                    redirect={`${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee`}
-                />,
+                <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish />,
             );
 
             const publishButton = queryByText("Publish disruption", {

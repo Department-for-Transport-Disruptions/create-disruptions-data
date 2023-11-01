@@ -94,7 +94,7 @@ describe("create-disruption-from-template API", () => {
             return mockSession;
         });
         randomUUIDSpy.mockImplementation(() => {
-            return newDefaultDisruptionId;
+            return newDefaultDisruptionId as `${string}-${string}-${string}-${string}-${string}`;
         });
         cryptoRandomStringSpy.mockImplementation(() => {
             return "9fg4gc";
