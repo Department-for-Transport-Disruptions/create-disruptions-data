@@ -1,5 +1,5 @@
-import { describe, expect, it } from "vitest";
 import renderer from "react-test-renderer";
+import { describe, expect, it } from "vitest";
 import AddOperator, { AddOperatorPageProps } from "./add-operator.page";
 
 const blankInputs: AddOperatorPageProps = {
@@ -10,7 +10,7 @@ const blankInputs: AddOperatorPageProps = {
 const withInputs: AddOperatorPageProps = {
     inputs: {
         operatorName: "dummy",
-      nocCodes:
+        nocCodes: [{ id: 1, operatorPublicName: "Test Operator", nocCode: "TEST" }],
     },
     errors: [],
 };

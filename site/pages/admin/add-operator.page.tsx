@@ -13,7 +13,7 @@ import { sortOperatorByName } from "../../components/search/OperatorSearch";
 import { COOKIES_ADD_USER_ERRORS } from "../../constants";
 import { fetchOperators } from "../../data/refDataApi";
 import { PageState } from "../../interfaces";
-import { addOperatorSchema, AddOperatorSchema } from "../../schemas/add-user.schema";
+import { addOperatorSchema, AddOperatorSchema } from "../../schemas/add-operator.schema";
 import { Operator, operatorSchema } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
@@ -24,7 +24,7 @@ const title = "Add Operator - Create Transport Disruptions Service";
 const description = "Add Operator page for the Create Transport Disruptions Service";
 
 export interface AddOperatorPageProps extends PageState<Partial<AddOperatorSchema>> {
-    allOperatorsData?: Partial<Operator>[];
+    allOperatorsData?: Pick<Operator, "id" | "operatorPublicName" | "nocCode">[];
 }
 
 const AddOperator = (props: AddOperatorPageProps): ReactElement => {
@@ -178,7 +178,9 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("No session found");
     }
 
-    const allOperatorsData = await fetchOperators({ adminAreaCodes: session.adminAreaCodes ?? ["undefined"] });
+    const allOperatorsData: Operator[] = await fetchOperators({
+        adminAreaCodes: session.adminAreaCodes ?? ["undefined"],
+    });
 
     const filteredOperatorsData = allOperatorsData
         .map((operator) => {
