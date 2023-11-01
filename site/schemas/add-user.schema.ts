@@ -1,5 +1,6 @@
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { z } from "zod";
+import { operatorSchema } from "./consequence.schema";
 import { setZodDefaultError } from "../utils";
 
 export const addUserSchema = z.object({
@@ -19,3 +20,11 @@ export type EditUserSchema = z.infer<typeof editUserSchema>;
 
 export const addUsersSchema = z.array(addUserSchema);
 export type AddUsersSchema = z.infer<typeof addUsersSchema>;
+
+export const addOperatorSchema = z.object({
+    operatorName: z.string(setZodDefaultError("Enter a first name")).min(1),
+    nocCodes: z.array(operatorSchema),
+    orgId: z.string().uuid(),
+});
+
+export type AddOperatorSchema = z.infer<typeof addOperatorSchema>;

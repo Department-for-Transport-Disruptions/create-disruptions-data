@@ -106,13 +106,13 @@ const UserDetailPageTemplate = ({
                             </>
                         )}
 
-                        <button className="govuk-button mt-8" data-module="govuk-button">
+                        <button className="govuk-button mt-8 mr-5" data-module="govuk-button">
                             {pageType === "addUser" ? "Send invitation" : "Save"}
                         </button>
                         <Link
                             role="button"
                             href="/admin/user-management"
-                            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                            className="govuk-button mt-8 govuk-button--secondary"
                         >
                             Cancel
                         </Link>
