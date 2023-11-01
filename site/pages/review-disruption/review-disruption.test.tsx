@@ -159,21 +159,14 @@ describe("pages", () => {
         });
         it("should render correctly with inputs and no errors", () => {
             const tree = renderer
-                .create(
-                    <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish redirect="" />,
-                )
+                .create(<ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish />)
                 .toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly with inputs and display Send to review button for staff user role", () => {
             const { getAllByRole, unmount } = render(
-                <ReviewDisruption
-                    disruption={previousDisruptionInformation}
-                    errors={[]}
-                    canPublish={false}
-                    redirect=""
-                />,
+                <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish={false} />,
             );
 
             const sendToReviewButton = getAllByRole("button", { name: "Send to review" });
@@ -184,7 +177,7 @@ describe("pages", () => {
 
         it("should render correctly with inputs and display Publish disruption button for admin user role", () => {
             const { getAllByRole, unmount } = render(
-                <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish redirect="" />,
+                <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish />,
             );
 
             const publishButton = getAllByRole("button", { name: "Publish disruption" });
@@ -198,9 +191,7 @@ describe("pages", () => {
                 query: { duplicate: true },
             }));
             const tree = renderer
-                .create(
-                    <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish redirect="" />,
-                )
+                .create(<ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish />)
                 .toJSON();
             expect(tree).toMatchSnapshot();
         });
@@ -237,12 +228,7 @@ describe("pages", () => {
 
         it("should render correctly with appropriate buttons for staff user", () => {
             const { queryByText, unmount } = render(
-                <ReviewDisruption
-                    disruption={previousDisruptionInformation}
-                    errors={[]}
-                    canPublish={false}
-                    redirect={`${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee`}
-                />,
+                <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish={false} />,
             );
 
             const draftButton = queryByText("Save as draft");
@@ -271,7 +257,6 @@ describe("pages", () => {
                     disruption={{ ...previousDisruptionInformation, consequences: [] }}
                     errors={[]}
                     canPublish
-                    redirect=""
                 />,
             );
             const consequenceButton = queryByText("Add a consequence", {

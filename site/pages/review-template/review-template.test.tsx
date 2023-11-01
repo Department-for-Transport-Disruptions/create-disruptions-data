@@ -158,30 +158,21 @@ describe("pages", () => {
         });
         it("should render correctly with inputs and no errors", () => {
             const tree = renderer
-                .create(
-                    <ReviewTemplate disruption={previousDisruptionInformation} errors={[]} canPublish redirect="" />,
-                )
+                .create(<ReviewTemplate disruption={previousDisruptionInformation} errors={[]} canPublish />)
                 .toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly with inputs and no errors when disruption is a template", () => {
             const tree = renderer
-                .create(
-                    <ReviewTemplate
-                        disruption={{ ...previousDisruptionInformation }}
-                        errors={[]}
-                        canPublish
-                        redirect=""
-                    />,
-                )
+                .create(<ReviewTemplate disruption={{ ...previousDisruptionInformation }} errors={[]} canPublish />)
                 .toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly with inputs and no errors when disruption is a template with appropriate buttons", () => {
             const { queryByText, unmount } = render(
-                <ReviewTemplate disruption={{ ...previousDisruptionInformation }} errors={[]} canPublish redirect="" />,
+                <ReviewTemplate disruption={{ ...previousDisruptionInformation }} errors={[]} canPublish />,
             );
 
             const deleteTemplateButton = queryByText("Delete template", {
@@ -202,7 +193,6 @@ describe("pages", () => {
                     disruption={{ ...previousDisruptionInformation, consequences: [] }}
                     errors={[]}
                     canPublish
-                    redirect=""
                 />,
             );
             const consequenceButton = queryByText("Add a consequence", {
