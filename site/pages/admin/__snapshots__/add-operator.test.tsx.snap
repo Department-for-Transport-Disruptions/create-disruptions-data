@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`addUser > should render correctly when there are no inputs 1`] = `
+exports[`addOperator > should render correctly when there are no inputs 1`] = `
 [
   <div
     className="app-phase-banner__wrapper"
@@ -136,7 +136,7 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
               >
                 <label
                   className="govuk-label govuk-label--s"
-                  htmlFor="operatorNocCodes-input"
+                  htmlFor="nocCodes-input"
                 >
                   NOC Code
                 </label>
@@ -145,12 +145,12 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
                 >
                   <div
                     className=" css-b62m3t-container"
-                    id="operatorNocCodes"
+                    id="nocCodes"
                     onKeyDown={[Function]}
                   >
                     <span
                       className="css-1f43avz-a11yText-A11yText"
-                      id="react-select-dropdown-operatorNocCodes-live-region"
+                      id="react-select-dropdown-nocCodes-live-region"
                     />
                     <span
                       aria-atomic="false"
@@ -168,7 +168,7 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
                       >
                         <div
                           className=" css-1jqq78o-placeholder"
-                          id="react-select-dropdown-operatorNocCodes-placeholder"
+                          id="react-select-dropdown-nocCodes-placeholder"
                         >
                           Select operator NOC codes
                         </div>
@@ -178,7 +178,7 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
                         >
                           <input
                             aria-autocomplete="list"
-                            aria-describedby="react-select-dropdown-operatorNocCodes-placeholder"
+                            aria-describedby="react-select-dropdown-nocCodes-placeholder"
                             aria-expanded={false}
                             aria-haspopup={true}
                             autoCapitalize="none"
@@ -186,7 +186,7 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
                             autoCorrect="off"
                             className=""
                             disabled={false}
-                            id="operatorNocCodes-input"
+                            id="nocCodes-input"
                             onBlur={[Function]}
                             onChange={[Function]}
                             onFocus={[Function]}
@@ -470,7 +470,7 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
 ]
 `;
 
-exports[`addUser > should render correctly with inputs 1`] = `
+exports[`addOperator > should render correctly with inputs 1`] = `
 [
   <div
     className="app-phase-banner__wrapper"
@@ -607,7 +607,7 @@ exports[`addUser > should render correctly with inputs 1`] = `
               >
                 <label
                   className="govuk-label govuk-label--s"
-                  htmlFor="operatorNocCodes-input"
+                  htmlFor="nocCodes-input"
                 >
                   NOC Code
                 </label>
@@ -616,12 +616,12 @@ exports[`addUser > should render correctly with inputs 1`] = `
                 >
                   <div
                     className=" css-b62m3t-container"
-                    id="operatorNocCodes"
+                    id="nocCodes"
                     onKeyDown={[Function]}
                   >
                     <span
                       className="css-1f43avz-a11yText-A11yText"
-                      id="react-select-dropdown-operatorNocCodes-live-region"
+                      id="react-select-dropdown-nocCodes-live-region"
                     />
                     <span
                       aria-atomic="false"
@@ -639,7 +639,7 @@ exports[`addUser > should render correctly with inputs 1`] = `
                       >
                         <div
                           className=" css-1jqq78o-placeholder"
-                          id="react-select-dropdown-operatorNocCodes-placeholder"
+                          id="react-select-dropdown-nocCodes-placeholder"
                         >
                           Select operator NOC codes
                         </div>
@@ -649,7 +649,7 @@ exports[`addUser > should render correctly with inputs 1`] = `
                         >
                           <input
                             aria-autocomplete="list"
-                            aria-describedby="react-select-dropdown-operatorNocCodes-placeholder"
+                            aria-describedby="react-select-dropdown-nocCodes-placeholder"
                             aria-expanded={false}
                             aria-haspopup={true}
                             autoCapitalize="none"
@@ -657,7 +657,7 @@ exports[`addUser > should render correctly with inputs 1`] = `
                             autoCorrect="off"
                             className=""
                             disabled={false}
-                            id="operatorNocCodes-input"
+                            id="nocCodes-input"
                             onBlur={[Function]}
                             onChange={[Function]}
                             onFocus={[Function]}
@@ -750,7 +750,7 @@ exports[`addUser > should render correctly with inputs 1`] = `
                   </tbody>
                 </table>
                 <input
-                  name="operatorNocCodes1"
+                  name="nocCodes1"
                   type="hidden"
                   value="{\\"id\\":1,\\"operatorPublicName\\":\\"Test Operator\\",\\"nocCode\\":\\"TEST\\"}"
                 />

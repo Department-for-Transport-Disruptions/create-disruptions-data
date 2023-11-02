@@ -15,7 +15,7 @@ const withInputs: AddOperatorPageProps = {
     errors: [],
 };
 
-describe("addUser", () => {
+describe("addOperator", () => {
     it("should render correctly when there are no inputs", () => {
         const tree = renderer.create(<AddOperator {...blankInputs} />).toJSON();
         expect(tree).toMatchSnapshot();

@@ -267,13 +267,13 @@ exports[`UserDetailPageTemplate > should render the add-user page correctly 1`] 
               </fieldset>
             </div>
             <button
-              className="govuk-button mt-8"
+              className="govuk-button mt-8 mr-5"
               data-module="govuk-button"
             >
               Send invitation
             </button>
             <a
-              className="govuk-button mt-8 ml-5 govuk-button--secondary"
+              className="govuk-button mt-8 govuk-button--secondary"
               href="/admin/user-management"
               onClick={[Function]}
               onMouseEnter={[Function]}
@@ -760,13 +760,13 @@ exports[`UserDetailPageTemplate > should render the edit-user page correctly 1`]
               type="hidden"
             />
             <button
-              className="govuk-button mt-8"
+              className="govuk-button mt-8 mr-5"
               data-module="govuk-button"
             >
               Save
             </button>
             <a
-              className="govuk-button mt-8 ml-5 govuk-button--secondary"
+              className="govuk-button mt-8 govuk-button--secondary"
               href="/admin/user-management"
               onClick={[Function]}
               onMouseEnter={[Function]}

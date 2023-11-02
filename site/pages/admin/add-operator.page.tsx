@@ -8,7 +8,7 @@ import ErrorSummary from "../../components/form/ErrorSummary";
 import SearchSelect from "../../components/form/SearchSelect";
 import Table from "../../components/form/Table";
 import TextInput from "../../components/form/TextInput";
-import TwoThirdsLayout from "../../components/layout/Layout";
+import { TwoThirdsLayout } from "../../components/layout/Layout";
 import { sortOperatorByName } from "../../components/search/OperatorSearch";
 import { COOKIES_ADD_OPERATOR_ERRORS } from "../../constants";
 import { fetchOperators } from "../../data/refDataApi";

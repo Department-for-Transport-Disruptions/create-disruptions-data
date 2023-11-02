@@ -56,7 +56,7 @@ const addOperator = async (req: NextApiRequest, res: NextApiResponse) => {
         const existingOperators = await listOperatorsForOrg(validatedBody.data.orgId);
         if (existingOperators && existingOperators?.length > 0) {
             const operatorAlreadyExists = existingOperators.some(
-                (operator) => operator.name === validatedBody.data.operatorName,
+                (operator) => operator.name.toLowerCase() === validatedBody.data.operatorName.toLowerCase(),
             );
             if (operatorAlreadyExists) {
                 setCookieOnResponseObject(
