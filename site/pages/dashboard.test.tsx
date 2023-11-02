@@ -9,6 +9,7 @@ import { defaultModes } from "../schemas/organisation.schema";
 import { SessionWithOrgDetail } from "../schemas/session.schema";
 import { disruptionArray, disruptionWithConsequencesAndSocialMediaPosts, getMockContext } from "../testData/mockData";
 import * as session from "../utils/apiUtils/auth";
+import { formatDate } from "../utils/dates";
 
 const getDisruptionsSpy = vi.spyOn(dynamo, "getPublishedDisruptionsDataFromDynamo");
 const getPendingDisruptionsSpy = vi.spyOn(dynamo, "getPendingDisruptionsIdsFromDynamo");
@@ -292,7 +293,7 @@ describe("pages", () => {
                             validityPeriods: [
                                 {
                                     startTime: "2023-02-12T13:00:00.000Z",
-                                    endTime: `${isoRecentlyClosedDate}T12:00:00.000Z`,
+                                    endTime: formatDate(recentlyClosedDate, "1300"),
                                 },
                             ],
                             displayId: "8fg3ha",
