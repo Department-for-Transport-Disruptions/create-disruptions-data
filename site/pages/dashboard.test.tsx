@@ -27,7 +27,6 @@ beforeEach(() => {
 const defaultNewDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
 const recentlyClosedDate = getDate().subtract(4, "day").format(CD_DATE_FORMAT);
-const isoRecentlyClosedDate = getDate().subtract(4, "day").format("YYYY-MM-DD");
 
 const defaultSession: SessionWithOrgDetail = {
     email: "test@example.com",
