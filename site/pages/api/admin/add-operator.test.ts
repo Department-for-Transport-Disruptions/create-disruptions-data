@@ -39,6 +39,7 @@ describe("add-operator", () => {
         vi.resetAllMocks();
         listOperatorsForOrgSpy.mockResolvedValue([]);
     });
+
     it("should add an operator when valid inputs are passed", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: defaultInput,
@@ -52,9 +53,9 @@ describe("add-operator", () => {
             "TEST",
         ]);
         expect(destroyCookieOnResponseObject).toHaveBeenCalledTimes(1);
-
         expect(writeHeadMock).toBeCalledWith(302, { Location: USER_MANAGEMENT_PAGE_PATH });
     });
+
     it("should redirect to /add-operator with appropriate errors when no inputs are passed", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: { defaultInput },
@@ -76,6 +77,7 @@ describe("add-operator", () => {
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: ADD_OPERATOR_PAGE_PATH });
     });
+
     it("should redirect to /add-operator with appropriate errors when more then 5 NOC codes are assigned to an operator", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: {

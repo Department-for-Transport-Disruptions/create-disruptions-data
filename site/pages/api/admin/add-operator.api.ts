@@ -54,28 +54,31 @@ const addOperator = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         const existingOperators = await listOperatorsForOrg(validatedBody.data.orgId);
-        if (existingOperators && existingOperators?.length > 0) {
-            const operatorAlreadyExists = existingOperators.some(
-                (operator) => operator.name.toLowerCase() === validatedBody.data.operatorName.toLowerCase(),
-            );
-            if (operatorAlreadyExists) {
-                setCookieOnResponseObject(
-                    COOKIES_ADD_OPERATOR_ERRORS,
-                    JSON.stringify({
-                        inputs: cleansedBody as object,
-                        errors: [
-                            {
-                                errorMessage: "An operator with this name already exists.",
-                                id: "operatorName",
-                            },
-                        ],
-                    }),
-                    res,
-                );
 
-                redirectTo(res, ADD_OPERATOR_PAGE_PATH);
-                return;
-            }
+        const operatorAlreadyExists =
+            existingOperators && existingOperators?.length > 0
+                ? existingOperators.some(
+                      (operator) => operator.name.toLowerCase() === validatedBody.data.operatorName.toLowerCase(),
+                  )
+                : false;
+
+        if (operatorAlreadyExists) {
+            setCookieOnResponseObject(
+                COOKIES_ADD_OPERATOR_ERRORS,
+                JSON.stringify({
+                    inputs: cleansedBody as object,
+                    errors: [
+                        {
+                            errorMessage: "An operator with this name already exists.",
+                            id: "operatorName",
+                        },
+                    ],
+                }),
+                res,
+            );
+
+            redirectTo(res, ADD_OPERATOR_PAGE_PATH);
+            return;
         }
 
         const nocCodesList = validatedBody.data.nocCodes.map((operator) => {
