@@ -18,3 +18,10 @@ export class TooManyConsequencesError extends Error {
         Object.setPrototypeOf(this, TooManyConsequencesError.prototype);
     }
 }
+
+export class NoStateOrCodeHootsuiteError extends Error {
+    constructor() {
+        super();
+        Object.setPrototypeOf(this, NoStateOrCodeHootsuiteError.prototype);
+    }
+}
