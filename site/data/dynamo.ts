@@ -16,8 +16,8 @@ import { makeFilteredArraySchema } from "@create-disruptions-data/shared-ts/util
 import { randomUUID } from "crypto";
 import { inspect } from "util";
 import { TooManyConsequencesError } from "../errors";
-import { addOperatorSchema } from "../schemas/add-operator.schema";
 import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.schema";
+import { operatorOrgSchema } from "../schemas/operator.schema";
 import {
     Organisation,
     organisationSchema,
@@ -736,7 +736,7 @@ export const getOperatorByOrgIdAndOperatorOrgId = async (orgId: string, operator
         }),
     );
 
-    const parsedOperator = addOperatorSchema.safeParse(operator.Item);
+    const parsedOperator = operatorOrgSchema.safeParse(operator.Item);
 
     if (!parsedOperator.success) {
         return null;
