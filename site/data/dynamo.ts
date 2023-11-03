@@ -16,6 +16,7 @@ import { makeFilteredArraySchema } from "@create-disruptions-data/shared-ts/util
 import { randomUUID } from "crypto";
 import { inspect } from "util";
 import { TooManyConsequencesError } from "../errors";
+import { addOperatorSchema } from "../schemas/add-operator.schema";
 import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.schema";
 import {
     Organisation,
@@ -719,6 +720,26 @@ export const createOperatorSubOrganisation = async (orgId: string, operatorName:
             },
         }),
     );
+};
+
+export const getOperatorByOrgIdAndOperatorOrgId = async (orgId: string, operatorOrgId: string) => {
+    const operator = await ddbDocClient.send(
+        new GetCommand({
+            TableName: organisationsTableName,
+            Key: {
+                PK: orgId,
+                SK: `OPERATOR#${operatorOrgId}`,
+            },
+        }),
+    );
+
+    const parsedOperator = addOperatorSchema.safeParse(operator.Item);
+
+    if (!parsedOperator.success) {
+        return null;
+    }
+
+    return parsedOperator.data;
 };
 
 export const listOperatorsForOrg = async (orgId: string) => {

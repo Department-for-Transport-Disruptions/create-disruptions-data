@@ -159,6 +159,7 @@ export enum UserGroups {
     orgAdmins = "org-admins",
     orgPublishers = "org-publishers",
     orgStaff = "org-staff",
+    operators = "operators",
 }
 
 export enum PublishStatus {

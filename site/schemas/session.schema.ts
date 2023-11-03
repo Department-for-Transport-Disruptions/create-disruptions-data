@@ -11,6 +11,7 @@ export const sessionSchema = z
         given_name: z.string().optional(),
         family_name: z.string().optional(),
         "custom:orgId": z.string().uuid(),
+        "custom:operatorOrgId": z.string().uuid().optional(),
         "cognito:groups": z.array(z.nativeEnum(UserGroups)).optional(),
     })
     .transform((item) => {
@@ -18,12 +19,15 @@ export const sessionSchema = z
         const isOrgAdmin = item["cognito:groups"]?.includes(UserGroups.orgAdmins) ?? false;
         const isOrgPublisher = item["cognito:groups"]?.includes(UserGroups.orgPublishers) ?? false;
         const isOrgStaff = item["cognito:groups"]?.includes(UserGroups.orgStaff) ?? false;
+        const isOperatorUser = item["cognito:groups"]?.includes(UserGroups.operators) ?? false;
 
         return {
             username: item.sub,
             email: item.email,
             orgId: item["custom:orgId"],
+            operatorOrgId: item["custom:operatorOrgId"] || null,
             name: item.given_name && item.family_name ? `${item.given_name} ${item.family_name}` : item.email,
+            isOperatorUser,
             isSystemAdmin,
             isOrgAdmin,
             isOrgPublisher,
