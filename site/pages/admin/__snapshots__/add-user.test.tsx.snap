@@ -267,13 +267,13 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
               </fieldset>
             </div>
             <button
-              className="govuk-button mt-8"
+              className="govuk-button mt-8 mr-5"
               data-module="govuk-button"
             >
               Send invitation
             </button>
             <a
-              className="govuk-button mt-8 ml-5 govuk-button--secondary"
+              className="govuk-button mt-8 govuk-button--secondary"
               href="/admin/user-management"
               onClick={[Function]}
               onMouseEnter={[Function]}
@@ -747,13 +747,13 @@ exports[`addUser > should render correctly with inputs 1`] = `
               </fieldset>
             </div>
             <button
-              className="govuk-button mt-8"
+              className="govuk-button mt-8 mr-5"
               data-module="govuk-button"
             >
               Send invitation
             </button>
             <a
-              className="govuk-button mt-8 ml-5 govuk-button--secondary"
+              className="govuk-button mt-8 govuk-button--secondary"
               href="/admin/user-management"
               onClick={[Function]}
               onMouseEnter={[Function]}
