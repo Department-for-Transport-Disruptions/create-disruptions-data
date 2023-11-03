@@ -1,3 +1,4 @@
+import { BackupPlan, BackupPlanRule, BackupResource, BackupVault } from "aws-cdk-lib/aws-backup";
 import { BillingMode } from "aws-cdk-lib/aws-dynamodb";
 import { StackContext, Table } from "sst/constructs";
 
@@ -16,6 +17,7 @@ export const DynamoDBStack = ({ stack }: StackContext) => {
                 tableName: `cdd-disruptions-table-${stack.stage}`,
                 billingMode: BillingMode.PAY_PER_REQUEST,
                 pointInTimeRecovery: stack.stage === "prod",
+                deletionProtection: stack.stage === "prod",
             },
         },
     });
@@ -32,22 +34,6 @@ export const DynamoDBStack = ({ stack }: StackContext) => {
         cdk: {
             table: {
                 tableName: `cdd-template-disruptions-table-${stack.stage}`,
-                billingMode: BillingMode.PAY_PER_REQUEST,
-                pointInTimeRecovery: stack.stage === "prod",
-            },
-        },
-    });
-
-    const organisationsTable = new Table(stack, "cdd-dynamodb-organisations-table", {
-        fields: {
-            PK: "string",
-        },
-        primaryIndex: {
-            partitionKey: "PK",
-        },
-        cdk: {
-            table: {
-                tableName: `cdd-organisations-table-${stack.stage}`,
                 billingMode: BillingMode.PAY_PER_REQUEST,
                 pointInTimeRecovery: stack.stage === "prod",
             },
@@ -72,9 +58,27 @@ export const DynamoDBStack = ({ stack }: StackContext) => {
         },
     });
 
+    if (stack.stage === "prod") {
+        const backupVault = new BackupVault(stack, "cdd-dynamodb-backup-vault", {
+            backupVaultName: `cdd-dynamodb-backup-vault-${stack.stage}`,
+        });
+
+        const backupPlan = new BackupPlan(stack, "cdd-dynamodb-backup-plan", {
+            backupPlanName: `cdd-dynamodb-backup-plan-${stack.stage}`,
+            backupPlanRules: [BackupPlanRule.daily(backupVault), BackupPlanRule.monthly5Year(backupVault)],
+        });
+
+        backupPlan.addSelection("cdd-dynamodb-backup-selection", {
+            resources: [
+                BackupResource.fromArn(disruptionsTable.tableArn),
+                BackupResource.fromArn(templateDisruptionsTable.tableArn),
+                BackupResource.fromArn(organisationsTableV2.tableArn),
+            ],
+        });
+    }
+
     return {
         disruptionsTable,
-        organisationsTable,
         organisationsTableV2,
         templateDisruptionsTable,
     };
