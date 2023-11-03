@@ -723,6 +723,9 @@ export const createOperatorSubOrganisation = async (orgId: string, operatorName:
 };
 
 export const getOperatorByOrgIdAndOperatorOrgId = async (orgId: string, operatorOrgId: string) => {
+    logger.info(
+        `Getting operator: by orgId (${orgId}) and operatorOrgId orgId (${operatorOrgId}) from organisations DynamoDB table...`,
+    );
     const operator = await ddbDocClient.send(
         new GetCommand({
             TableName: organisationsTableName,
