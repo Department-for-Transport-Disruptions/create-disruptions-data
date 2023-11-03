@@ -41,8 +41,7 @@
     "overrides": {
         "react": "18.2.0",
         "react-dom": "18.2.0",
-        "jszip": "3.8.0",
-        "crypto-js": "4.2.0"
+        "jszip": "3.8.0"
     },
     "workspaces": [
         "packages/*",
