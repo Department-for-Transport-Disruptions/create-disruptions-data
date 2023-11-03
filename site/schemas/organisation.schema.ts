@@ -42,10 +42,4 @@ export const subOrganisationSchema = z.object({
 
 export type SubOrganisation = z.infer<typeof subOrganisationSchema>;
 
-export const subOrganisationsSchema = z.array(
-    z.object({
-        name: z.string(),
-        PK: z.string().optional(),
-        nocCodes: z.array(z.string()),
-    }),
-);
+export const subOrganisationsSchema = z.array(subOrganisationSchema);
