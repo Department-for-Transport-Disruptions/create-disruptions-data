@@ -66,7 +66,7 @@ export const getPtSituationElementFromSiteDisruption = (
 
     const reason = disruption.disruptionReason;
 
-    const participantRef = disruption.organisation.name.replace(/\s+/g, "");
+    const participantRef = disruption.organisation.name.replace(/[^-._:A-Za-z0-9]/g, "");
 
     const validityPeriod = getValidityPeriod({
         disruptionStartDate: disruption.disruptionStartDate,
