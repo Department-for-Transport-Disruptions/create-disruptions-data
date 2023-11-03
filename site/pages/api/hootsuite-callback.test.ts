@@ -85,7 +85,7 @@ describe("hootsuite-callback", () => {
         expect(addHootsuiteAccount).not.toHaveBeenCalled();
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: ERROR_PATH,
+            Location: SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH,
         });
     });
 

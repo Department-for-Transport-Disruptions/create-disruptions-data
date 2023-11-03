@@ -5,7 +5,7 @@ import { DnsStack } from "./DnsStack";
 import { DynamoDBStack } from "./DynamoDBStack";
 import { SiriGeneratorStack } from "./SiriGeneratorStack";
 
-export function SiriAPIStack({ stack }: StackContext) {
+export const SiriAPIStack = ({ stack }: StackContext) => {
     const { siriSXBucket, disruptionsJsonBucket, disruptionsCsvBucket } = use(SiriGeneratorStack);
     const { hostedZone } = use(DnsStack);
     const { disruptionsTable, organisationsTableV2: organisationsTable } = use(DynamoDBStack);
@@ -214,4 +214,4 @@ export function SiriAPIStack({ stack }: StackContext) {
     const key = apiGateway.cdk.restApi.addApiKey("ApiKey");
 
     plan.addApiKey(key);
-}
+};
