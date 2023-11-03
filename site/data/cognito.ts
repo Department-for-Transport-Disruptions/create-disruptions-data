@@ -282,7 +282,7 @@ export const deleteUsersByAttribute = async (attributeName: string, attributeVal
     }
 };
 
-export const createUser = async (userData: AddUserSchema) => {
+export const createUser = async (userData: AddUserSchema, extraAttributes?: AttributeType[]) => {
     logger.info("", {
         context: "data.cognito",
         message: "Adding a new user",
@@ -313,6 +313,7 @@ export const createUser = async (userData: AddUserSchema) => {
                     Name: "email",
                     Value: userData.email,
                 },
+                ...(extraAttributes || []),
             ],
         }),
     );

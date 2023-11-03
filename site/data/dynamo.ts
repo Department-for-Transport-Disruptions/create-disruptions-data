@@ -742,6 +742,7 @@ export const listOperatorsForOrg = async (orgId: string) => {
         orgId: (item as SubOrganisation).PK,
         name: (item as SubOrganisation).name,
         nocCodes: (item as SubOrganisation).nocCodes,
+        SK: (item as SubOrganisation).SK?.slice(9),
     }));
 
     const parsedOperators = subOrganisationsSchema.safeParse(operators);

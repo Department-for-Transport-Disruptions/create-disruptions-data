@@ -1,8 +1,9 @@
-import { UsernameExistsException } from "@aws-sdk/client-cognito-identity-provider";
+import { AttributeType, UsernameExistsException } from "@aws-sdk/client-cognito-identity-provider";
+import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import { ADD_USER_PAGE_PATH, COOKIES_ADD_USER_ERRORS, USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
 import { createUser } from "../../../data/cognito";
-import { addUserSchema } from "../../../schemas/add-user.schema";
+import { addUserSchemaRefined } from "../../../schemas/add-user.schema";
 import { flattenZodErrors } from "../../../utils";
 import {
     redirectToError,
@@ -16,11 +17,13 @@ const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const session = getSession(req);
 
+        console.log(req.body);
+
         if (!session) {
             throw new Error("No session found");
         }
 
-        const validatedBody = addUserSchema.safeParse({ ...req.body, orgId: session.orgId });
+        const validatedBody = addUserSchemaRefined.safeParse({ ...req.body, orgId: session.orgId });
         if (!validatedBody.success) {
             setCookieOnResponseObject(
                 COOKIES_ADD_USER_ERRORS,
@@ -33,6 +36,18 @@ const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
 
             redirectTo(res, ADD_USER_PAGE_PATH);
             return;
+        }
+
+        if (validatedBody.data.group === UserGroups.operators) {
+            const operatorAttribute: AttributeType[] = [
+                {
+                    Name: "custom:operatorOrgId",
+                    Value: validatedBody.data.operatorOrg?.SK ?? "",
+                },
+            ];
+            await createUser(validatedBody.data, operatorAttribute);
+            destroyCookieOnResponseObject(COOKIES_ADD_USER_ERRORS, res);
+            redirectTo(res, USER_MANAGEMENT_PAGE_PATH);
         }
 
         await createUser(validatedBody.data);
