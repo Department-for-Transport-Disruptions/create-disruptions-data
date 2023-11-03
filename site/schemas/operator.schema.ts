@@ -9,7 +9,7 @@ export const operatorOrgSchema = z
     })
     .transform((data) => ({
         orgId: data.PK,
-        operatorOrgId: data.SK,
+        operatorOrgId: data.SK.replace("OPERATOR#", ""),
         operatorName: data.name,
         nocCodes: data.nocCodes,
     }));

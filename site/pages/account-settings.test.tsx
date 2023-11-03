@@ -3,6 +3,7 @@ import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import AccountSettings from "./account-settings.page";
 import { defaultModes } from "../schemas/organisation.schema";
+import { DEFAULT_OPERATOR_ORG_ID, DEFAULT_ORG_ID } from "../testData/mockData";
 import * as user from "../utils/user";
 
 describe("accountSettings", () => {
@@ -83,6 +84,36 @@ describe("accountSettings", () => {
                         isSystemAdmin: false,
                         name: "Test User",
                         mode: defaultModes,
+                    }}
+                />,
+            )
+            .toJSON();
+        expect(tree).toMatchSnapshot();
+    });
+
+    it("should render correctly for operator", () => {
+        const tree = renderer
+            .create(
+                <AccountSettings
+                    sessionWithOrg={{
+                        email: "test@example.com",
+                        username: "Test",
+                        orgId: "org",
+                        adminAreaCodes: [],
+                        orgName: "Test Org",
+                        isOrgAdmin: false,
+                        isOrgPublisher: false,
+                        isOrgStaff: false,
+                        isSystemAdmin: false,
+                        name: "Test User",
+                        mode: defaultModes,
+                        isOperatorUser: true,
+                    }}
+                    operator={{
+                        nocCodes: ["WRAY", "CPTR", "MOXN"],
+                        operatorOrgId: DEFAULT_OPERATOR_ORG_ID,
+                        orgId: DEFAULT_ORG_ID,
+                        operatorName: "add-op",
                     }}
                 />,
             )
