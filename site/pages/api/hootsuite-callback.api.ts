@@ -31,9 +31,14 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         return;
     } catch (e) {
         if (e instanceof Error) {
-            const message = "There was a problem with hootsuite.";
-            redirectToError(res, message, "api.hootsuiteCallback", e);
-            return;
+            if (e.message === "State and code must be provided") {
+                redirectTo(res, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH);
+                return;
+            } else {
+                const message = "There was a problem with hootsuite.";
+                redirectToError(res, message, "api.hootsuiteCallback", e);
+                return;
+            }
         }
 
         redirectToError(res);
