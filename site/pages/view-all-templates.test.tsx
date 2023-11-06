@@ -2,7 +2,7 @@ import renderer, { act } from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import ViewAllTemplates from "./view-all-templates.page";
 import { TableContents } from "../components/ViewAllContents";
-import { mockViewAllData } from "../testData/mockData";
+import { DEFAULT_ORG_ID, mockViewAllData } from "../testData/mockData";
 
 type Renderer = {
     toJSON: () => void;
@@ -40,7 +40,7 @@ describe("ViewAllTemplates", () => {
     describe("viewAllTemplates", () => {
         it("should render correctly when there are no templates", async () => {
             fetchSpy.mockResolvedValue({
-                json: vi.fn().mockResolvedValue([]),
+                json: vi.fn().mockResolvedValue({ disruptions: [] }),
             } as unknown as Response);
 
             let component: Renderer = defaultRenderer;
@@ -51,6 +51,7 @@ describe("ViewAllTemplates", () => {
                         newContentId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
                         enableLoadingSpinnerOnPageLoad={false}
+                        orgId={DEFAULT_ORG_ID}
                     />,
                 );
             });
@@ -60,7 +61,7 @@ describe("ViewAllTemplates", () => {
 
         it("should render correctly when there are enough disruptions for no pagination", async () => {
             fetchSpy.mockResolvedValue({
-                json: vi.fn().mockResolvedValue(templates),
+                json: vi.fn().mockResolvedValue({ disruptions: templates }),
             } as unknown as Response);
 
             let component: Renderer = defaultRenderer;
@@ -71,6 +72,7 @@ describe("ViewAllTemplates", () => {
                         newContentId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
                         enableLoadingSpinnerOnPageLoad={false}
+                        orgId={DEFAULT_ORG_ID}
                     />,
                 );
             });
@@ -80,7 +82,14 @@ describe("ViewAllTemplates", () => {
 
         it("should render correctly when there are enough templates for pagination", async () => {
             fetchSpy.mockResolvedValue({
-                json: vi.fn().mockResolvedValue([...templates, ...templates, ...templates, ...templates]),
+                json: vi.fn().mockResolvedValue({
+                    disruptions: [
+                        ...templates,
+                        ...templates.map((t) => ({ ...t, id: `${t.id}1` })),
+                        ...templates.map((t) => ({ ...t, id: `${t.id}2` })),
+                        ...templates.map((t) => ({ ...t, id: `${t.id}3` })),
+                    ],
+                }),
             } as unknown as Response);
 
             let component: Renderer = defaultRenderer;
@@ -91,6 +100,7 @@ describe("ViewAllTemplates", () => {
                         newContentId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
                         enableLoadingSpinnerOnPageLoad={false}
+                        orgId={DEFAULT_ORG_ID}
                     />,
                 );
             });
