@@ -4,11 +4,12 @@ import { getSortedDisruptionFinalEndDate, sortDisruptionsByStartDate } from "@cr
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import { Dayjs } from "dayjs";
 import { NextApiRequest, NextApiResponse } from "next";
-import { VEHICLE_MODES } from "../../constants";
-import { getDisruptionsDataFromDynamo } from "../../data/dynamo";
-import { getDisplayByValue, mapValidityPeriods, reduceStringWithEllipsis } from "../../utils";
-import { getSession } from "../../utils/apiUtils/auth";
-import { isLiveDisruption } from "../../utils/dates";
+import { z } from "zod";
+import { VEHICLE_MODES } from "../../../constants";
+import { getDisruptionsDataFromDynamo } from "../../../data/dynamo";
+import { getDisplayByValue, mapValidityPeriods, reduceStringWithEllipsis } from "../../../utils";
+import { getSession } from "../../../utils/apiUtils/auth";
+import { isLiveDisruption } from "../../../utils/dates";
 
 export interface GetDisruptionsApiRequest extends NextApiRequest {
     body: {
@@ -171,16 +172,37 @@ const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResp
     const { template } = req.query;
 
     if (!session) {
-        res.status(403);
+        res.status(403).json({});
         return;
     }
 
-    const { orgId } = session;
+    const { orgId: sessionOrgId } = session;
 
-    let disruptionsData = await getDisruptionsDataFromDynamo(orgId, template === "true");
+    const reqOrgId = req.query.organisationId;
 
-    if (disruptionsData) {
-        disruptionsData = disruptionsData.filter(
+    if (reqOrgId !== sessionOrgId) {
+        res.status(403).json({});
+        return;
+    }
+
+    const nextKeyParsed = z
+        .object({ PK: z.string(), SK: z.string() })
+        .safeParse(req.query.nextKey ? JSON.parse(decodeURIComponent(req.query.nextKey.toString())) : undefined);
+
+    let nextKey: Record<string, unknown> | undefined = undefined;
+
+    if (nextKeyParsed.success) {
+        nextKey = nextKeyParsed.data;
+    }
+
+    const { disruptions, nextKey: newNextKey } = await getDisruptionsDataFromDynamo(
+        sessionOrgId,
+        template === "true",
+        nextKey,
+    );
+
+    if (disruptions) {
+        const filteredDisruptions = disruptions.filter(
             (item) =>
                 item.publishStatus === PublishStatus.published ||
                 item.publishStatus === PublishStatus.draft ||
@@ -189,11 +211,11 @@ const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResp
                 item.publishStatus === PublishStatus.rejected ||
                 !item.template,
         );
-        const sortedDisruptions = sortDisruptionsByStartDate(disruptionsData);
+        const sortedDisruptions = sortDisruptionsByStartDate(filteredDisruptions);
 
         const shortenedData = sortedDisruptions.map(formatSortedDisruption);
 
-        res.status(200).json(shortenedData);
+        res.status(200).json({ disruptions: shortenedData, nextKey: newNextKey });
     } else {
         res.status(200).json({});
     }
