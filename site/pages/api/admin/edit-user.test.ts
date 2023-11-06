@@ -72,7 +72,7 @@ describe("editUser", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: `${EDIT_USER_PAGE_PATH}/test-username` });
     });
 
-    it("should redirect to /edit-user page when user is added to operator group without selecting any NOC codes", async () => {
+    it("should redirect to /edit-user page when user is added to operator group without selecting an operator org", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: { ...mockInput, group: "operators" },
             mockWriteHeadFn: writeHeadMock,

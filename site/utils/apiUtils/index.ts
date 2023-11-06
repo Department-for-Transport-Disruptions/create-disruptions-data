@@ -241,6 +241,6 @@ export const formatAddOrEditUserBody = (body: object) => {
 
     return {
         ...cleansedBody,
-        operatorOrg: operatorOrg?.[1] ? (JSON.parse(operatorOrg[1] as string) as object) : undefined,
+        operatorOrg: operatorOrg[1] ? (JSON.parse(operatorOrg[1] as string) as object) : undefined,
     };
 };
