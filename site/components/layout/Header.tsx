@@ -15,7 +15,6 @@ interface HeaderProps {
 const Header = ({ session, csrfToken }: HeaderProps): ReactElement => {
     const { buttonProps, itemProps, isOpen, setIsOpen } = useDropdownMenu(session?.isOrgAdmin ? 4 : 2);
 
-    console.log(session);
     return (
         <header className="govuk-header border-b-10 border-govBlue" role="banner" data-module="govuk-header">
             <div className="govuk-header__container mb-0 border-b-0 govuk-width-container">
