@@ -6,7 +6,7 @@ import { COOKIES_ADD_USER_ERRORS } from "../../constants";
 import { listOperatorsForOrg } from "../../data/dynamo";
 import { PageState } from "../../interfaces";
 import { AddUserSchema, addUserSchema } from "../../schemas/add-user.schema";
-import { SubOrganisation } from "../../schemas/organisation.schema";
+import { OperatorOrgSchema } from "../../schemas/organisation.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
 
@@ -14,7 +14,7 @@ const title = "Add User - Create Transport Disruptions Service";
 const description = "Add User page for the Create Transport Disruptions Service";
 
 export interface AddUserPageProps extends PageState<Partial<AddUserSchema>> {
-    operatorsForOrg?: SubOrganisation[];
+    operatorsForOrg?: OperatorOrgSchema[];
 }
 
 const AddUser = (props: AddUserPageProps): ReactElement => {

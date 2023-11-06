@@ -5,7 +5,7 @@ import { SingleValue } from "react-select";
 import { AddUserPageProps } from "../../pages/admin/add-user.page";
 import { EditUserPageProps } from "../../pages/admin/edit-user/[username].page";
 import { addUserSchema, AddUserSchema, EditUserSchema } from "../../schemas/add-user.schema";
-import { SubOrganisation, subOrganisationSchema } from "../../schemas/organisation.schema";
+import { OperatorOrgSchema, operatorOrgSchema } from "../../schemas/organisation.schema";
 import { flattenZodErrors } from "../../utils";
 import { getStateUpdater } from "../../utils/formUtils";
 import CsrfForm from "../form/CsrfForm";
@@ -36,15 +36,15 @@ const UserDetailPageTemplate = ({
     setPageState,
 }: Props) => {
     const stateUpdater = getStateUpdater(setPageState, pageState);
-    const [selectedOperator, setSelectedOperator] = useState<SingleValue<SubOrganisation>>(
+    const [selectedOperator, setSelectedOperator] = useState<SingleValue<OperatorOrgSchema>>(
         pageState.inputs.operatorOrg ?? null,
     );
     const [operatorSearchInput, setOperatorsSearchInput] = useState<string>("");
 
     const operatorsListForOrg = pageState.operatorsForOrg ?? [];
 
-    const handleOperatorChange = (value: SingleValue<SubOrganisation>) => {
-        const parsed = subOrganisationSchema.safeParse(value);
+    const handleOperatorChange = (value: SingleValue<OperatorOrgSchema>) => {
+        const parsed = operatorOrgSchema.safeParse(value);
 
         if (!parsed.success) {
             setPageState({
@@ -83,7 +83,7 @@ const UserDetailPageTemplate = ({
 
     const getOperatorRows = () => {
         if (pageState.inputs.operatorOrg) {
-            return [pageState.inputs.operatorOrg].map((operator: SubOrganisation) => ({
+            return [pageState.inputs.operatorOrg].map((operator: OperatorOrgSchema) => ({
                 cells: [
                     `${operator.name}`,
                     <button
@@ -172,7 +172,7 @@ const UserDetailPageTemplate = ({
                         {pageState.inputs.group === UserGroups.operators && (
                             <>
                                 <div className={"ml-[8%]"}>
-                                    <SearchSelect<SubOrganisation>
+                                    <SearchSelect<OperatorOrgSchema>
                                         selected={selectedOperator}
                                         inputName="operatorOrg"
                                         initialErrors={pageState.errors}
@@ -184,7 +184,7 @@ const UserDetailPageTemplate = ({
                                         handleChange={handleOperatorChange}
                                         tableData={undefined}
                                         getRows={getOperatorRows}
-                                        getOptionValue={(operator: SubOrganisation) => operator.name}
+                                        getOptionValue={(operator: OperatorOrgSchema) => operator.name}
                                         display=""
                                         hint=""
                                         displaySize="s"

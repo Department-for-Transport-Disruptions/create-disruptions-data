@@ -1,6 +1,6 @@
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { z } from "zod";
-import { subOrganisationSchema } from "./organisation.schema";
+import { operatorOrgSchema } from "./organisation.schema";
 import { setZodDefaultError } from "../utils";
 
 export const addUserSchema = z.object({
@@ -9,7 +9,16 @@ export const addUserSchema = z.object({
     email: z.string(setZodDefaultError("Enter a valid email address")).email(),
     orgId: z.string().uuid(),
     group: z.nativeEnum(UserGroups, setZodDefaultError("Select which account is required")),
-    operatorOrg: subOrganisationSchema.optional().nullable(),
+    operatorOrg: operatorOrgSchema.optional().nullable(),
+    // operatorOrg: z
+    //     .object({
+    //         name: z.string(),
+    //         orgId: z.string(),
+    //         nocCodes: z.array(z.string()),
+    //         operatorOrgId: z.string(),
+    //     })
+    //     .optional()
+    //     .nullable(),
 });
 
 export const addUserSchemaRefined = addUserSchema.refine(

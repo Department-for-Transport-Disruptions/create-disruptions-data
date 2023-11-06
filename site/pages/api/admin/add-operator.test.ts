@@ -112,7 +112,8 @@ describe("add-operator", () => {
     it("should redirect to /add-operator with appropriate errors when an operator is created with a name that already exists", async () => {
         listOperatorsForOrgSpy.mockResolvedValue([
             {
-                PK: DEFAULT_ORG_ID,
+                orgId: DEFAULT_ORG_ID,
+                operatorOrgId: DEFAULT_ORG_ID,
                 name: defaultOperator.operatorPublicName.toUpperCase(),
                 nocCodes: [defaultOperator.nocCode],
             },

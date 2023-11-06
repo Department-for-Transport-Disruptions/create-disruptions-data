@@ -54,7 +54,7 @@ const editUser = async (req: NextApiRequest, res: NextApiResponse) => {
         const attributesList = [
             { Name: "given_name", Value: validatedBody.data.givenName },
             { Name: "family_name", Value: validatedBody.data.familyName },
-            { Name: "custom:operatorOrgId", Value: validatedBody.data.operatorOrg?.SK ?? "" },
+            { Name: "custom:operatorOrgId", Value: validatedBody.data.operatorOrg?.operatorOrgId ?? "" },
         ];
 
         await updateUserAttributes(validatedBody.data.username, attributesList);

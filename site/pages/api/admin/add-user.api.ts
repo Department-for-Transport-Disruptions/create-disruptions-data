@@ -45,7 +45,7 @@ const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
             const operatorAttribute: AttributeType[] = [
                 {
                     Name: "custom:operatorOrgId",
-                    Value: validatedBody.data.operatorOrg?.SK ?? "",
+                    Value: validatedBody.data.operatorOrg?.operatorOrgId ?? "",
                 },
             ];
             await createUser(validatedBody.data, operatorAttribute);

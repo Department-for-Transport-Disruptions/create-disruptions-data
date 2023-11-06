@@ -8,7 +8,7 @@ import { getGroupForUser, getUserDetails } from "../../../data/cognito";
 import { listOperatorsForOrg } from "../../../data/dynamo";
 import { PageState } from "../../../interfaces";
 import { EditUserSchema, editUserSchema } from "../../../schemas/add-user.schema";
-import { SubOrganisation } from "../../../schemas/organisation.schema";
+import { OperatorOrgSchema } from "../../../schemas/organisation.schema";
 import { user } from "../../../schemas/user-management.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
@@ -17,7 +17,7 @@ const title = "Edit User - Create Transport Disruptions Service";
 const description = "Edit User page for the Create Transport Disruptions Service";
 
 export interface EditUserPageProps extends PageState<Partial<EditUserSchema>> {
-    operatorsForOrg?: SubOrganisation[];
+    operatorsForOrg?: OperatorOrgSchema[];
 }
 
 const EditUser = (props: EditUserPageProps): ReactElement => {
@@ -68,7 +68,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     const selectedOperator =
         parsedUserInfo.data.group === UserGroups.operators
-            ? operatorForOrg?.find((operator) => operator.SK === parsedUserInfo.data.operatorOrgId)
+            ? operatorForOrg?.find((operator) => operator.operatorOrgId === parsedUserInfo.data.operatorOrgId)
             : null;
 
     const editUserPageData = {

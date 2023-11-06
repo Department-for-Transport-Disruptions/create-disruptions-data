@@ -18,10 +18,10 @@ import { inspect } from "util";
 import { TooManyConsequencesError } from "../errors";
 import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.schema";
 import {
+    operatorOrgListSchema,
     Organisation,
     organisationSchema,
     SubOrganisation,
-    subOrganisationsSchema,
 } from "../schemas/organisation.schema";
 import { SocialMediaAccount, dynamoSocialAccountSchema } from "../schemas/social-media-accounts.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../schemas/social-media.schema";
@@ -745,7 +745,7 @@ export const listOperatorsForOrg = async (orgId: string) => {
         SK: (item as SubOrganisation).SK?.slice(9),
     }));
 
-    const parsedOperators = subOrganisationsSchema.safeParse(operators);
+    const parsedOperators = operatorOrgListSchema.safeParse(operators);
 
     if (!parsedOperators.success) {
         logger.warn(`Invalid operators found for organisation: ${operators[0].orgId} in DynamoDB`);
