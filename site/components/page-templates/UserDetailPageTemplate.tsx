@@ -36,7 +36,9 @@ const UserDetailPageTemplate = ({
     setPageState,
 }: Props) => {
     const stateUpdater = getStateUpdater(setPageState, pageState);
-    const [selectedOperator, setSelectedOperator] = useState<SingleValue<SubOrganisation>>(null);
+    const [selectedOperator, setSelectedOperator] = useState<SingleValue<SubOrganisation>>(
+        pageState.inputs.operatorOrg ?? null,
+    );
     const [operatorSearchInput, setOperatorsSearchInput] = useState<string>("");
 
     const operatorsListForOrg = pageState.operatorsForOrg ?? [];
@@ -68,20 +70,6 @@ const UserDetailPageTemplate = ({
     const removeOperator = (e: SyntheticEvent) => {
         e.preventDefault();
 
-        // if (pageState?.inputs?.operatorNocCodes) {
-        //     const updatedOperatorNocCodesArray = [...pageState.inputs.operatorNocCodes].filter(
-        //         (operator) => operator.nocCode !== removedNocCode,
-        //     );
-        //
-        //     setPageState({
-        //         ...pageState,
-        //         inputs: {
-        //             ...pageState.inputs,
-        //             operatorNocCodes: updatedOperatorNocCodesArray,
-        //         },
-        //         errors: pageState.errors,
-        //     });
-        // }
         setPageState({
             ...pageState,
             inputs: {
@@ -182,29 +170,37 @@ const UserDetailPageTemplate = ({
                         />
 
                         {pageState.inputs.group === UserGroups.operators && (
-                            <div className={"ml-[8%]"}>
-                                <SearchSelect<SubOrganisation>
-                                    selected={selectedOperator}
-                                    inputName="operatorOrg"
-                                    initialErrors={pageState.errors}
-                                    placeholder="Select operator to assign to user"
-                                    getOptionLabel={(operator) => `${operator.name}`}
-                                    options={operatorsListForOrg
-                                        .filter((operatorOption) => selectedOperator?.name !== operatorOption.name)
-                                        .sort((a, b) => a.name.localeCompare(b.name))}
-                                    handleChange={handleOperatorChange}
-                                    tableData={undefined}
-                                    getRows={getOperatorRows}
-                                    getOptionValue={(operator: SubOrganisation) => operator.name}
-                                    display=""
-                                    hint=""
-                                    displaySize="s"
-                                    inputId="operatorNocCodes"
-                                    isClearable={false}
-                                    inputValue={operatorSearchInput}
-                                    setSearchInput={setOperatorsSearchInput}
+                            <>
+                                <div className={"ml-[8%]"}>
+                                    <SearchSelect<SubOrganisation>
+                                        selected={selectedOperator}
+                                        inputName="operatorOrg"
+                                        initialErrors={pageState.errors}
+                                        placeholder="Select operator to assign to user"
+                                        getOptionLabel={(operator) => `${operator.name}`}
+                                        options={operatorsListForOrg
+                                            .filter((operatorOption) => selectedOperator?.name !== operatorOption.name)
+                                            .sort((a, b) => a.name.localeCompare(b.name))}
+                                        handleChange={handleOperatorChange}
+                                        tableData={undefined}
+                                        getRows={getOperatorRows}
+                                        getOptionValue={(operator: SubOrganisation) => operator.name}
+                                        display=""
+                                        hint=""
+                                        displaySize="s"
+                                        inputId="operatorOrg"
+                                        isClearable={false}
+                                        inputValue={operatorSearchInput}
+                                        setSearchInput={setOperatorsSearchInput}
+                                    />
+                                </div>
+
+                                <input
+                                    type="hidden"
+                                    name="operatorOrg"
+                                    value={JSON.stringify(pageState.inputs.operatorOrg) ?? undefined}
                                 />
-                            </div>
+                            </>
                         )}
 
                         {pageType === "editUser" && (

@@ -1,3 +1,4 @@
+import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
@@ -65,6 +66,11 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     const operatorForOrg = await listOperatorsForOrg(session.orgId);
 
+    const selectedOperator =
+        parsedUserInfo.data.group === UserGroups.operators
+            ? operatorForOrg?.find((operator) => operator.SK === parsedUserInfo.data.operatorOrgId)
+            : null;
+
     const editUserPageData = {
         givenName: parsedUserInfo.data.givenName,
         familyName: parsedUserInfo.data.familyName,
@@ -73,9 +79,11 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         group: parsedUserInfo.data.group,
         username: parsedUserInfo.data.username,
         initialGroup: parsedUserInfo.data.group,
+        operatorOrg: selectedOperator ?? null,
     };
 
     const pageState = getPageState<EditUserSchema>(errorCookie, editUserSchema, undefined, editUserPageData);
+
     return {
         props: {
             ...pageState,

@@ -10,6 +10,7 @@ import {
     setCookieOnResponseObject,
     redirectTo,
     destroyCookieOnResponseObject,
+    formatAddOrEditUserBody,
 } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
 
@@ -17,13 +18,15 @@ const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const session = getSession(req);
 
-        console.log(req.body);
-
         if (!session) {
             throw new Error("No session found");
         }
 
-        const validatedBody = addUserSchemaRefined.safeParse({ ...req.body, orgId: session.orgId });
+        const formattedBody = formatAddOrEditUserBody(req.body as object);
+        const validatedBody = addUserSchemaRefined.safeParse({
+            ...formattedBody,
+            orgId: session.orgId,
+        });
         if (!validatedBody.success) {
             setCookieOnResponseObject(
                 COOKIES_ADD_USER_ERRORS,
@@ -46,15 +49,19 @@ const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
                 },
             ];
             await createUser(validatedBody.data, operatorAttribute);
+
             destroyCookieOnResponseObject(COOKIES_ADD_USER_ERRORS, res);
             redirectTo(res, USER_MANAGEMENT_PAGE_PATH);
+
+            return;
+        } else {
+            await createUser(validatedBody.data);
+
+            destroyCookieOnResponseObject(COOKIES_ADD_USER_ERRORS, res);
+            redirectTo(res, USER_MANAGEMENT_PAGE_PATH);
+
+            return;
         }
-
-        await createUser(validatedBody.data);
-
-        destroyCookieOnResponseObject(COOKIES_ADD_USER_ERRORS, res);
-        redirectTo(res, USER_MANAGEMENT_PAGE_PATH);
-        return;
     } catch (e) {
         if (e instanceof UsernameExistsException) {
             setCookieOnResponseObject(

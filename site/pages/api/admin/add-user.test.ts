@@ -1,14 +1,16 @@
 import { UsernameExistsException } from "@aws-sdk/client-cognito-identity-provider";
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi } from "vitest";
-import { randomUUID } from "crypto";
 import addUser from "./add-user.api";
 import { ADD_USER_PAGE_PATH, COOKIES_ADD_USER_ERRORS, USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
 import * as cognito from "../../../data/cognito";
 import { ErrorInfo } from "../../../interfaces";
-import { AddUserSchema } from "../../../schemas/add-user.schema";
-import { getMockRequestAndResponse } from "../../../testData/mockData";
-import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../../utils/apiUtils";
+import { DEFAULT_ORG_ID, getMockRequestAndResponse } from "../../../testData/mockData";
+import {
+    destroyCookieOnResponseObject,
+    formatAddOrEditUserBody,
+    setCookieOnResponseObject,
+} from "../../../utils/apiUtils";
 
 describe("addUser", () => {
     const writeHeadMock = vi.fn();
@@ -28,11 +30,11 @@ describe("addUser", () => {
         vi.resetAllMocks();
     });
 
-    const defaultInput: AddUserSchema = {
+    const defaultInput = {
         givenName: "dummy",
         familyName: "user",
         email: "dummy.user@gmail.com",
-        orgId: randomUUID(),
+        orgId: DEFAULT_ORG_ID,
         group: UserGroups.orgAdmins,
     };
 
@@ -53,10 +55,11 @@ describe("addUser", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_ADD_USER_ERRORS,
-            JSON.stringify({ inputs: req.body as object, errors }),
+            JSON.stringify({ inputs: formatAddOrEditUserBody(req.body as object), errors }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: ADD_USER_PAGE_PATH });
+        expect(createUserSpy).not.toHaveBeenCalled();
     });
 
     it("should redirect to /add-user page with appropriate errors when invalid email is entered", async () => {
@@ -71,10 +74,11 @@ describe("addUser", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_ADD_USER_ERRORS,
-            JSON.stringify({ inputs: req.body as object, errors }),
+            JSON.stringify({ inputs: formatAddOrEditUserBody(req.body as object), errors }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: ADD_USER_PAGE_PATH });
+        expect(createUserSpy).not.toHaveBeenCalled();
     });
 
     it("should redirect to /user-management page when valid inputs are passed", async () => {
@@ -88,9 +92,34 @@ describe("addUser", () => {
         expect(destroyCookieOnResponseObject).toHaveBeenCalledTimes(1);
 
         expect(writeHeadMock).toBeCalledWith(302, { Location: USER_MANAGEMENT_PAGE_PATH });
+        expect(createUserSpy).toHaveBeenCalled();
     });
 
-    it("should redirect to /add-user page with appropriate errors when emmail id that is already registered is passed", async () => {
+    it("should redirect to /user-management page when valid inputs are passed for an operator user", async () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                ...defaultInput,
+                group: UserGroups.operators,
+                operatorOrg:
+                    '{"name":"Test Operator","nocCodes":["TEST","TEST"],"SK":"61b6aff2-0f93-4f22-b814-94173b9f47e6"}',
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await addUser(req, res);
+
+        expect(destroyCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(createUserSpy).toHaveBeenCalledWith(formatAddOrEditUserBody(req.body as object), [
+            {
+                Name: "custom:operatorOrgId",
+                Value: "61b6aff2-0f93-4f22-b814-94173b9f47e6",
+            },
+        ]);
+
+        expect(writeHeadMock).toBeCalledWith(302, { Location: USER_MANAGEMENT_PAGE_PATH });
+    });
+
+    it("should redirect to /add-user page with appropriate errors when email id that is already registered is passed", async () => {
         createUserSpy.mockImplementation(() => {
             throw new UsernameExistsException({ message: "Username already exists", $metadata: {} });
         });
@@ -106,9 +135,28 @@ describe("addUser", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_ADD_USER_ERRORS,
-            JSON.stringify({ inputs: req.body as object, errors }),
+            JSON.stringify({ inputs: formatAddOrEditUserBody(req.body as object), errors }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: ADD_USER_PAGE_PATH });
+    });
+
+    it("should redirect to /add-user page with appropriate errors when creating an operator user and not selecting an operator sub org", async () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: { ...defaultInput, group: UserGroups.operators },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await addUser(req, res);
+
+        const errors: ErrorInfo[] = [{ errorMessage: "Select at least one operator", id: "operatorOrg" }];
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_ADD_USER_ERRORS,
+            JSON.stringify({ inputs: formatAddOrEditUserBody(req.body as object), errors }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: ADD_USER_PAGE_PATH });
+        expect(createUserSpy).not.toHaveBeenCalled();
     });
 });

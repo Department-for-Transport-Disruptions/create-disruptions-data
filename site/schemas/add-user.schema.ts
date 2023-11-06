@@ -9,17 +9,17 @@ export const addUserSchema = z.object({
     email: z.string(setZodDefaultError("Enter a valid email address")).email(),
     orgId: z.string().uuid(),
     group: z.nativeEnum(UserGroups, setZodDefaultError("Select which account is required")),
-    operatorOrg: subOrganisationSchema.optional(),
+    operatorOrg: subOrganisationSchema.optional().nullable(),
 });
 
 export const addUserSchemaRefined = addUserSchema.refine(
     (input) => {
-        return !(input.group === UserGroups.operators && input.operatorOrg === undefined);
+        return !(input.group === UserGroups.operators && !input.operatorOrg);
     },
-    { path: ["operatorNocCodes"], message: "Select at least one operator" },
+    { path: ["operatorOrg"], message: "Select at least one operator" },
 );
 
-export const editUserSchema = addUserSchema.and(
+export const editUserSchema = addUserSchemaRefined.and(
     z.object({ username: z.string(), initialGroup: z.nativeEnum(UserGroups) }),
 );
 

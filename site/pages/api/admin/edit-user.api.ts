@@ -16,6 +16,7 @@ import {
     setCookieOnResponseObject,
     redirectTo,
     destroyCookieOnResponseObject,
+    formatAddOrEditUserBody,
 } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
 
@@ -27,7 +28,9 @@ const editUser = async (req: NextApiRequest, res: NextApiResponse) => {
             throw new Error("No session found");
         }
 
-        const validatedBody = editUserSchema.safeParse({ ...req.body, orgId: session.orgId });
+        const cleansedBody = formatAddOrEditUserBody(req.body as object);
+
+        const validatedBody = editUserSchema.safeParse({ ...cleansedBody, orgId: session.orgId });
         if (!validatedBody.success) {
             const body = req.body as EditUserSchema;
 
@@ -38,7 +41,7 @@ const editUser = async (req: NextApiRequest, res: NextApiResponse) => {
             setCookieOnResponseObject(
                 COOKIES_EDIT_USER_ERRORS,
                 JSON.stringify({
-                    inputs: req.body as object,
+                    inputs: cleansedBody as object,
                     errors: flattenZodErrors(validatedBody.error),
                 }),
                 res,
@@ -51,7 +54,9 @@ const editUser = async (req: NextApiRequest, res: NextApiResponse) => {
         const attributesList = [
             { Name: "given_name", Value: validatedBody.data.givenName },
             { Name: "family_name", Value: validatedBody.data.familyName },
+            { Name: "custom:operatorOrgId", Value: validatedBody.data.operatorOrg?.SK ?? "" },
         ];
+
         await updateUserAttributes(validatedBody.data.username, attributesList);
 
         if (validatedBody.data.initialGroup !== validatedBody.data.group) {
