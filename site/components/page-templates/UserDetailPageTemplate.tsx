@@ -110,7 +110,7 @@ const UserDetailPageTemplate = ({
                 >
                     <>
                         <ErrorSummary errors={pageState.errors} />
-                        <h1 className="govuk-heading-xl">{pageType === "addUser" ? "Add new user" : "Edit user"}</h1>
+                        <h1 className="govuk-heading-xl">{pageType === "addUser" ? "Add new user" : "Edit a user"}</h1>
                         <TextInput<AddUserSchema | EditUserSchema>
                             display="First name"
                             inputName="givenName"
@@ -152,7 +152,7 @@ const UserDetailPageTemplate = ({
                                 },
                                 {
                                     value: UserGroups.orgPublishers,
-                                    display: "Publishing",
+                                    display: "Publisher",
                                 },
                                 {
                                     value: UserGroups.orgStaff,
