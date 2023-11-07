@@ -44,6 +44,7 @@ import { filterServices } from "../utils/formUtils";
 export interface ViewAllContentProps {
     adminAreaCodes: string[];
     newContentId: string;
+    orgId: string;
     csrfToken?: string;
     filterStatus?: Progress | null;
     enableLoadingSpinnerOnPageLoad?: boolean;
@@ -113,21 +114,48 @@ const sortFunction = (contents: ContentTable[], sortField: keyof ContentTable, s
     });
 };
 
-export const getDisruptionData = async (isTemplate?: boolean) => {
+export const getDisruptionData = async (
+    orgId: string,
+    isTemplate?: boolean,
+    nextKey?: string,
+): Promise<TableContents[]> => {
     const options: RequestInit = {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
+            NextKey: nextKey || "",
         },
     };
 
-    const res = await fetch(`/api/get-all-disruptions${isTemplate ? "?template=true" : ""}`, options);
+    const queryParams = [];
 
-    const parseResult = makeFilteredArraySchema(disruptionsTableSchema).safeParse(await res.json());
-    if (!parseResult.success) {
+    if (isTemplate) {
+        queryParams.push("template=true");
+    }
+
+    if (nextKey) {
+        queryParams.push(`nextKey=${encodeURIComponent(nextKey)}`);
+    }
+
+    const res = await fetch(
+        `/api/get-all-disruptions/${orgId}${queryParams.length > 0 ? `?${queryParams.join("&")}` : ""}`,
+        options,
+    );
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const { disruptions, nextKey: newNextKey } = await res.json();
+
+    const parsedDisruptions = makeFilteredArraySchema(disruptionsTableSchema).safeParse(disruptions);
+
+    if (!parsedDisruptions.success) {
         return [];
     }
-    return parseResult.data;
+
+    if (newNextKey) {
+        return [...parsedDisruptions.data, ...(await getDisruptionData(orgId, isTemplate, newNextKey as string))];
+    }
+
+    return parsedDisruptions.data;
 };
 
 export const filterContents = (contents: TableContents[], filter: Filter): TableContents[] => {
@@ -228,7 +256,11 @@ export const applyFiltersToContents = (
 ): void => {
     const disruptionsToDisplay = filterContents(disruptions, filter);
 
-    setContentsToDisplay(disruptionsToDisplay);
+    setContentsToDisplay(
+        disruptionsToDisplay.filter(
+            (disruption, index, self) => index === self.findIndex((val) => val.id === disruption.id),
+        ),
+    );
 };
 
 export const filterIsEmpty = (filter: Filter): boolean =>
@@ -457,6 +489,7 @@ const ViewAllContents = ({
     filterStatus,
     enableLoadingSpinnerOnPageLoad = true,
     isTemplate = false,
+    orgId,
 }: ViewAllContentProps): ReactElement => {
     const [selectedServices, setSelectedServices] = useState<Service[]>([]);
     const [selectedOperators, setSelectedOperators] = useState<ConsequenceOperators[]>([]);
@@ -494,7 +527,8 @@ const ViewAllContents = ({
         const fetchData = async () => {
             setLoadPage(true);
 
-            const data = await getDisruptionData(isTemplate);
+            const data = await getDisruptionData(orgId, isTemplate);
+
             setInitialFilters(filter, setContentsToDisplay, data);
             setContents(data);
             setLoadPage(false);

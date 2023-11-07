@@ -2,7 +2,7 @@ import renderer, { act } from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import ViewAllDisruptions from "./view-all-disruptions.page";
 import { TableContents } from "../components/ViewAllContents";
-import { mockViewAllData } from "../testData/mockData";
+import { DEFAULT_ORG_ID, mockViewAllData } from "../testData/mockData";
 
 type Renderer = {
     toJSON: () => void;
@@ -40,7 +40,7 @@ describe("ViewAllDisruption", () => {
     describe("viewAllDisruptions", () => {
         it("should render correctly when there are no disruptions", async () => {
             fetchSpy.mockResolvedValue({
-                json: vi.fn().mockResolvedValue([]),
+                json: vi.fn().mockResolvedValue({ disruptions: [] }),
             } as unknown as Response);
 
             let component: Renderer = defaultRenderer;
@@ -51,6 +51,7 @@ describe("ViewAllDisruption", () => {
                         newContentId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
                         enableLoadingSpinnerOnPageLoad={false}
+                        orgId={DEFAULT_ORG_ID}
                     />,
                 );
             });
@@ -60,7 +61,7 @@ describe("ViewAllDisruption", () => {
 
         it("should render correctly when there are enough disruptions for no pagination", async () => {
             fetchSpy.mockResolvedValue({
-                json: vi.fn().mockResolvedValue(disruptions),
+                json: vi.fn().mockResolvedValue({ disruptions }),
             } as unknown as Response);
 
             let component: Renderer = defaultRenderer;
@@ -71,6 +72,7 @@ describe("ViewAllDisruption", () => {
                         newContentId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
                         enableLoadingSpinnerOnPageLoad={false}
+                        orgId={DEFAULT_ORG_ID}
                     />,
                 );
             });
@@ -80,7 +82,14 @@ describe("ViewAllDisruption", () => {
 
         it("should render correctly when there are enough disruptions for pagination", async () => {
             fetchSpy.mockResolvedValue({
-                json: vi.fn().mockResolvedValue([...disruptions, ...disruptions, ...disruptions, ...disruptions]),
+                json: vi.fn().mockResolvedValue({
+                    disruptions: [
+                        ...disruptions,
+                        ...disruptions.map((d) => ({ ...d, id: `${d.id}1` })),
+                        ...disruptions.map((d) => ({ ...d, id: `${d.id}2` })),
+                        ...disruptions.map((d) => ({ ...d, id: `${d.id}3` })),
+                    ],
+                }),
             } as unknown as Response);
 
             let component: Renderer = defaultRenderer;
@@ -91,6 +100,7 @@ describe("ViewAllDisruption", () => {
                         newContentId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
                         enableLoadingSpinnerOnPageLoad={false}
+                        orgId={DEFAULT_ORG_ID}
                     />,
                 );
             });

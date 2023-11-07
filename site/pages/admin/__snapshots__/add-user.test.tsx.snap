@@ -239,7 +239,7 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
                         className="govuk-label govuk-radios__label"
                         htmlFor="group-org-publishers"
                       >
-                        Publishing
+                        Publisher
                       </label>
                     </div>
                     <div
@@ -719,7 +719,7 @@ exports[`addUser > should render correctly with inputs 1`] = `
                         className="govuk-label govuk-radios__label"
                         htmlFor="group-org-publishers"
                       >
-                        Publishing
+                        Publisher
                       </label>
                     </div>
                     <div

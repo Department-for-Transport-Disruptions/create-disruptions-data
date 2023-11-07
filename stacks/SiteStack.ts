@@ -7,7 +7,7 @@ import { CognitoStack } from "./CognitoStack";
 import { DynamoDBStack } from "./DynamoDBStack";
 import { createBucket } from "./utils";
 
-export function SiteStack({ stack }: StackContext) {
+export const SiteStack = ({ stack }: StackContext) => {
     const { disruptionsTable, organisationsTableV2: organisationsTable, templateDisruptionsTable } = use(DynamoDBStack);
     const { clientId, clientSecret, cognitoIssuer, userPoolId, userPoolArn } = use(CognitoStack);
 
@@ -146,6 +146,8 @@ export function SiteStack({ stack }: StackContext) {
                     "cognito-idp:AdminDeleteUser",
                     "cognito-idp:AdminCreateUser",
                     "cognito-idp:ListUsersInGroup",
+                    "cognito-idp:AdminListGroupsForUser",
+                    "cognito-idp:AdminRemoveUserFromGroup",
                 ],
             }),
         ],
@@ -154,4 +156,4 @@ export function SiteStack({ stack }: StackContext) {
     stack.addOutputs({
         URL: site.url || "",
     });
-}
+};
