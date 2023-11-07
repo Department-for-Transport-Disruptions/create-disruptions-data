@@ -26,7 +26,7 @@ import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
 } from "../../../constants";
-import { getDisruptionById } from "../../../data/dynamo";
+import { getDisruptionById, getNocCodesForOperatorOrg, getOperatorByOrgIdAndOperatorOrgId } from "../../../data/dynamo";
 import { fetchOperators } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { Operator } from "../../../schemas/consequence.schema";
@@ -372,7 +372,9 @@ export const getServerSideProps = async (
     });
 
     const operatorUserNocCodes =
-        session.isOperatorUser && session.nocCodes ? convertStringListToArray(session.nocCodes) : [];
+        session.isOperatorUser && session.operatorOrgId
+            ? await getNocCodesForOperatorOrg(session.orgId, session.operatorOrgId)
+            : [];
 
     return {
         props: {
