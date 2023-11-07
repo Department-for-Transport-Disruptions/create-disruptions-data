@@ -64,11 +64,11 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("Unable to parse user data");
     }
 
-    const operatorForOrg = await listOperatorsForOrg(session.orgId);
+    const operatorsForOrg = await listOperatorsForOrg(session.orgId);
 
     const selectedOperator =
         parsedUserInfo.data.group === UserGroups.operators
-            ? operatorForOrg?.find((operator) => operator.operatorOrgId === parsedUserInfo.data.operatorOrgId)
+            ? operatorsForOrg?.find((operator) => operator.operatorOrgId === parsedUserInfo.data.operatorOrgId)
             : null;
 
     const editUserPageData = {
@@ -88,7 +88,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         props: {
             ...pageState,
             sessionWithOrg: session,
-            operatorsForOrg: operatorForOrg ?? [],
+            operatorsForOrg: operatorsForOrg ?? [],
         },
     };
 };

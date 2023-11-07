@@ -243,20 +243,6 @@ exports[`addOperator > should render correctly when there are no inputs 1`] = `
                     </div>
                   </div>
                 </div>
-                <table
-                  className="govuk-table"
-                >
-                  <thead
-                    className="govuk-table__head"
-                  >
-                    <tr
-                      className="govuk-table__row"
-                    />
-                  </thead>
-                  <tbody
-                    className="govuk-table__body"
-                  />
-                </table>
               </div>
             </div>
             <button

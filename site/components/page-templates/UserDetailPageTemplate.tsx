@@ -1,6 +1,6 @@
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import Link from "next/link";
-import { Dispatch, SetStateAction, SyntheticEvent, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { SingleValue } from "react-select";
 import { AddUserPageProps } from "../../pages/admin/add-user.page";
 import { EditUserPageProps } from "../../pages/admin/edit-user/[username].page";
@@ -39,7 +39,7 @@ const UserDetailPageTemplate = ({
     const [selectedOperator, setSelectedOperator] = useState<SingleValue<OperatorOrgSchema>>(
         pageState.inputs.operatorOrg ?? null,
     );
-    const [operatorSearchInput, setOperatorsSearchInput] = useState<string>("");
+    const [operatorSearchInput, setOperatorsSearchInput] = useState("");
 
     const operatorsListForOrg = pageState.operatorsForOrg ?? [];
 
@@ -65,39 +65,6 @@ const UserDetailPageTemplate = ({
                 errors: [...pageState.errors.filter((err) => !Object.keys(addUserSchema.shape).includes(err.id))],
             });
         }
-    };
-
-    const removeOperator = (e: SyntheticEvent) => {
-        e.preventDefault();
-
-        setPageState({
-            ...pageState,
-            inputs: {
-                ...pageState.inputs,
-                operatorOrg: undefined,
-            },
-            errors: pageState.errors,
-        });
-        setSelectedOperator(null);
-    };
-
-    const getOperatorRows = () => {
-        if (pageState.inputs.operatorOrg) {
-            return [pageState.inputs.operatorOrg].map((operator: OperatorOrgSchema) => ({
-                cells: [
-                    `${operator.name}`,
-                    <button
-                        id={`remove-service-${operator.name}`}
-                        key={`remove-service-${operator.name}`}
-                        className="govuk-link"
-                        onClick={(e) => removeOperator(e)}
-                    >
-                        Remove
-                    </button>,
-                ],
-            }));
-        }
-        return [];
     };
 
     return (
@@ -183,7 +150,7 @@ const UserDetailPageTemplate = ({
                                             .sort((a, b) => a.name.localeCompare(b.name))}
                                         handleChange={handleOperatorChange}
                                         tableData={undefined}
-                                        getRows={getOperatorRows}
+                                        getRows={() => undefined}
                                         getOptionValue={(operator: OperatorOrgSchema) => operator.name}
                                         display=""
                                         hint=""

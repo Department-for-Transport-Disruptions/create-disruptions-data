@@ -48,20 +48,16 @@ const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
                     Value: validatedBody.data.operatorOrg?.operatorOrgId ?? "",
                 },
             ];
+
             await createUser(validatedBody.data, operatorAttribute);
-
-            destroyCookieOnResponseObject(COOKIES_ADD_USER_ERRORS, res);
-            redirectTo(res, USER_MANAGEMENT_PAGE_PATH);
-
-            return;
         } else {
             await createUser(validatedBody.data);
-
-            destroyCookieOnResponseObject(COOKIES_ADD_USER_ERRORS, res);
-            redirectTo(res, USER_MANAGEMENT_PAGE_PATH);
-
-            return;
         }
+
+        destroyCookieOnResponseObject(COOKIES_ADD_USER_ERRORS, res);
+        redirectTo(res, USER_MANAGEMENT_PAGE_PATH);
+
+        return;
     } catch (e) {
         if (e instanceof UsernameExistsException) {
             setCookieOnResponseObject(
