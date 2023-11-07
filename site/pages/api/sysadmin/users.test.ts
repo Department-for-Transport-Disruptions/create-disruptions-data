@@ -6,7 +6,6 @@ import createAdminUser from "./users.api";
 import { COOKIES_ADD_ADMIN_USER_ERRORS, SYSADMIN_ADD_USERS_PAGE_PATH } from "../../../constants";
 import * as cognito from "../../../data/cognito";
 import { ErrorInfo } from "../../../interfaces";
-import { AddUserSchema } from "../../../schemas/add-user.schema";
 import { getMockRequestAndResponse } from "../../../testData/mockData";
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../../utils/apiUtils";
 
@@ -30,7 +29,7 @@ describe("createAdminUser", () => {
 
     const randomId = randomUUID();
 
-    const defaultInput: AddUserSchema = {
+    const defaultInput = {
         givenName: "dummy",
         familyName: "user",
         email: "dummy.user@gmail.com",

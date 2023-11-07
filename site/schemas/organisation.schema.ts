@@ -33,3 +33,23 @@ export const areaCodeSchema = z.string().transform((item) => ({
 }));
 
 export type AreaCodeValuePair = z.infer<typeof areaCodeSchema>;
+
+export const subOrganisationSchema = z.object({
+    name: z.string(),
+    PK: z.string(),
+    nocCodes: z.array(z.string()),
+    SK: z.string(),
+});
+
+export type SubOrganisation = z.infer<typeof subOrganisationSchema>;
+
+export const operatorOrgSchema = subOrganisationSchema.transform((data) => ({
+    orgId: data.PK,
+    operatorOrgId: data.SK.replace("OPERATOR#", ""),
+    name: data.name,
+    nocCodes: data.nocCodes,
+}));
+
+export type OperatorOrgSchema = z.infer<typeof operatorOrgSchema>;
+
+export const operatorOrgListSchema = z.array(operatorOrgSchema);

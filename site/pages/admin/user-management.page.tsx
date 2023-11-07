@@ -157,8 +157,11 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
                     columns={["Account type", "User email", "Status", "Action"]}
                     rows={getRows()}
                 ></Table>
-                <Link role="button" href={"/admin/add-user"} className="govuk-button--secondary govuk-button mt-5">
+                <Link role="button" href={"/admin/add-user"} className="govuk-button--secondary govuk-button mt-5 mr-5">
                     Add new user
+                </Link>
+                <Link role="button" href={"/admin/add-operator"} className="govuk-button--secondary govuk-button mt-5">
+                    Add new Operator
                 </Link>
                 <PageNumbers
                     numberOfPages={numberOfUserPages}

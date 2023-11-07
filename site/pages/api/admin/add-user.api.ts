@@ -1,14 +1,16 @@
-import { UsernameExistsException } from "@aws-sdk/client-cognito-identity-provider";
+import { AttributeType, UsernameExistsException } from "@aws-sdk/client-cognito-identity-provider";
+import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import { ADD_USER_PAGE_PATH, COOKIES_ADD_USER_ERRORS, USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
 import { createUser } from "../../../data/cognito";
-import { addUserSchema } from "../../../schemas/add-user.schema";
+import { addUserSchemaRefined } from "../../../schemas/add-user.schema";
 import { flattenZodErrors } from "../../../utils";
 import {
     redirectToError,
     setCookieOnResponseObject,
     redirectTo,
     destroyCookieOnResponseObject,
+    formatAddOrEditUserBody,
 } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
 
@@ -20,7 +22,11 @@ const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
             throw new Error("No session found");
         }
 
-        const validatedBody = addUserSchema.safeParse({ ...req.body, orgId: session.orgId });
+        const formattedBody = formatAddOrEditUserBody(req.body as object);
+        const validatedBody = addUserSchemaRefined.safeParse({
+            ...formattedBody,
+            orgId: session.orgId,
+        });
         if (!validatedBody.success) {
             setCookieOnResponseObject(
                 COOKIES_ADD_USER_ERRORS,
@@ -35,11 +41,27 @@ const addUser = async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
-        await createUser(validatedBody.data);
+        if (validatedBody.data.group === UserGroups.operators) {
+            const operatorAttribute: AttributeType[] = [
+                {
+                    Name: "custom:operatorOrgId",
+                    Value: validatedBody.data.operatorOrg?.operatorOrgId ?? "",
+                },
+            ];
+            await createUser(validatedBody.data, operatorAttribute);
 
-        destroyCookieOnResponseObject(COOKIES_ADD_USER_ERRORS, res);
-        redirectTo(res, USER_MANAGEMENT_PAGE_PATH);
-        return;
+            destroyCookieOnResponseObject(COOKIES_ADD_USER_ERRORS, res);
+            redirectTo(res, USER_MANAGEMENT_PAGE_PATH);
+
+            return;
+        } else {
+            await createUser(validatedBody.data);
+
+            destroyCookieOnResponseObject(COOKIES_ADD_USER_ERRORS, res);
+            redirectTo(res, USER_MANAGEMENT_PAGE_PATH);
+
+            return;
+        }
     } catch (e) {
         if (e instanceof UsernameExistsException) {
             setCookieOnResponseObject(

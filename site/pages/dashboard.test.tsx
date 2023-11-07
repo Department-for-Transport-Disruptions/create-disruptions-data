@@ -11,6 +11,7 @@ import {
     mockSessionWithOrgDetail,
 } from "../testData/mockData";
 import * as session from "../utils/apiUtils/auth";
+import { formatDate } from "../utils/dates";
 
 const getDisruptionsSpy = vi.spyOn(dynamo, "getPublishedDisruptionsDataFromDynamo");
 const getPendingDisruptionsSpy = vi.spyOn(dynamo, "getPendingDisruptionsIdsFromDynamo");
@@ -28,7 +29,6 @@ beforeEach(() => {
 const defaultNewDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
 const recentlyClosedDate = getDate().subtract(4, "day").format(CD_DATE_FORMAT);
-const isoRecentlyClosedDate = getDate().subtract(4, "day").format("YYYY-MM-DD");
 
 const disruptions: DashboardDisruption[] = [
     {
@@ -280,7 +280,7 @@ describe("pages", () => {
                             validityPeriods: [
                                 {
                                     startTime: "2023-02-12T13:00:00.000Z",
-                                    endTime: `${isoRecentlyClosedDate}T12:00:00.000Z`,
+                                    endTime: formatDate(recentlyClosedDate, "1300"),
                                 },
                             ],
                             displayId: "8fg3ha",

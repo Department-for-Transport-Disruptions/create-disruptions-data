@@ -29,6 +29,7 @@ const withInputs: SysAdminUserManagementProps = {
             organisation: randomId,
             group: UserGroups.orgAdmins,
             disruptionEmailPreference: "false",
+            operatorOrgId: "N/A",
         },
         {
             userStatus: "CONFIRMED",
@@ -39,6 +40,7 @@ const withInputs: SysAdminUserManagementProps = {
             organisation: randomId,
             group: UserGroups.orgAdmins,
             disruptionEmailPreference: "false",
+            operatorOrgId: "N/A",
         },
     ],
 };

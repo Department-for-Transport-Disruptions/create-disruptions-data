@@ -16,6 +16,17 @@ xsd_path = (
 )
 
 s3_client = boto3.client("s3")
+cloudwatch_resource = boto3.resource("cloudwatch")
+
+metric_namespace = os.getenv("METRIC_NAMESPACE")
+
+
+def put_cloudwatch_metric(metric_name, metric_value):
+    metric = cloudwatch_resource.Metric(metric_namespace, metric_name)
+    metric.put_data(
+        Namespace=metric_namespace,
+        MetricData=[{"MetricName": metric_name, "Value": metric_value}],
+    )
 
 
 def read_xsd(schema_path):
@@ -92,11 +103,15 @@ def main(event, context):
                 download_path,
                 os.getenv("SIRI_SX_BUCKET_NAME"),
                 "SIRI-SX.xml",
-                ExtraArgs={'ContentType': "application/xml"}
+                ExtraArgs={"ContentType": "application/xml"},
             )
+
+            put_cloudwatch_metric(os.getenv("SIRI_PUBLISH_METRIC"), 1)
 
         except Exception as e:
             logger.error(
                 f"There was an error when validating Siri SX file: \
                     {key}, error: {e}"
             )
+
+            put_cloudwatch_metric(os.getenv("VALIDATION_FAILURE_METRIC"), 1)

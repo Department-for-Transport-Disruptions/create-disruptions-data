@@ -13,10 +13,16 @@ import { getSortedDisruptionFinalEndDate } from "@create-disruptions-data/shared
 import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { recursiveQuery } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { makeFilteredArraySchema } from "@create-disruptions-data/shared-ts/utils/zod";
+import { randomUUID } from "crypto";
 import { inspect } from "util";
 import { TooManyConsequencesError } from "../errors";
 import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.schema";
-import { Organisation, organisationSchema } from "../schemas/organisation.schema";
+import {
+    operatorOrgListSchema,
+    Organisation,
+    organisationSchema,
+    SubOrganisation,
+} from "../schemas/organisation.schema";
 import { SocialMediaAccount, dynamoSocialAccountSchema } from "../schemas/social-media-accounts.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../schemas/social-media.schema";
 import { flattenZodErrors, notEmpty, splitCamelCaseToString } from "../utils";
@@ -695,6 +701,60 @@ export const removeOrganisation = async (orgId: string) => {
             })),
         }),
     );
+};
+
+export const createOperatorSubOrganisation = async (orgId: string, operatorName: string, nocCodes: string[]) => {
+    logger.info(`Adding operator: ${operatorName} to (${orgId}) in organisations DynamoDB table...`);
+
+    const uuid = randomUUID();
+
+    await ddbDocClient.send(
+        new PutCommand({
+            TableName: organisationsTableName,
+            Item: {
+                PK: orgId,
+                SK: `OPERATOR#${uuid}`,
+                name: operatorName,
+                nocCodes: nocCodes,
+            },
+        }),
+    );
+};
+
+export const listOperatorsForOrg = async (orgId: string) => {
+    logger.info(`Retrieving operators for org: (${orgId}) in DynamoDB table...`);
+
+    let dbData: Record<string, unknown>[] = [];
+
+    dbData = await recursiveQuery(
+        {
+            TableName: organisationsTableName,
+            KeyConditionExpression: "PK = :1 AND begins_with(SK, :2)",
+            ExpressionAttributeValues: {
+                ":1": orgId,
+                ":2": "OPERATOR",
+            },
+        },
+        logger,
+    );
+
+    const operators = dbData.map((item) => ({
+        orgId: (item as SubOrganisation).PK,
+        name: (item as SubOrganisation).name,
+        nocCodes: (item as SubOrganisation).nocCodes,
+        SK: (item as SubOrganisation).SK?.slice(9),
+    }));
+
+    const parsedOperators = operatorOrgListSchema.safeParse(operators);
+
+    if (!parsedOperators.success) {
+        logger.warn(`Invalid operators found for organisation: ${operators[0].orgId} in DynamoDB`);
+        logger.warn(parsedOperators.error.toString());
+
+        return null;
+    }
+
+    return parsedOperators.data;
 };
 
 export const removeSocialMediaPostFromDisruption = async (

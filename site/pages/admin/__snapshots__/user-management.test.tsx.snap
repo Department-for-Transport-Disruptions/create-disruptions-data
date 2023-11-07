@@ -98,7 +98,7 @@ exports[`userManagement > should render correctly when there are no inputs 1`] =
         />
       </table>
       <a
-        className="govuk-button--secondary govuk-button mt-5"
+        className="govuk-button--secondary govuk-button mt-5 mr-5"
         href="/admin/add-user"
         onClick={[Function]}
         onMouseEnter={[Function]}
@@ -106,6 +106,16 @@ exports[`userManagement > should render correctly when there are no inputs 1`] =
         role="button"
       >
         Add new user
+      </a>
+      <a
+        className="govuk-button--secondary govuk-button mt-5"
+        href="/admin/add-operator"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
+      >
+        Add new Operator
       </a>
     </main>
     <div>
@@ -437,7 +447,7 @@ exports[`userManagement > should render correctly with inputs 1`] = `
         </tbody>
       </table>
       <a
-        className="govuk-button--secondary govuk-button mt-5"
+        className="govuk-button--secondary govuk-button mt-5 mr-5"
         href="/admin/add-user"
         onClick={[Function]}
         onMouseEnter={[Function]}
@@ -445,6 +455,16 @@ exports[`userManagement > should render correctly with inputs 1`] = `
         role="button"
       >
         Add new user
+      </a>
+      <a
+        className="govuk-button--secondary govuk-button mt-5"
+        href="/admin/add-operator"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+        role="button"
+      >
+        Add new Operator
       </a>
     </main>
     <div>

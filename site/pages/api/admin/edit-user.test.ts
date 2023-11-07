@@ -11,7 +11,11 @@ import {
 import * as cognito from "../../../data/cognito";
 import { ErrorInfo } from "../../../interfaces";
 import { getMockRequestAndResponse, mockSession } from "../../../testData/mockData";
-import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../../utils/apiUtils";
+import {
+    destroyCookieOnResponseObject,
+    formatAddOrEditUserBody,
+    setCookieOnResponseObject,
+} from "../../../utils/apiUtils";
 import * as session from "../../../utils/apiUtils/auth";
 
 const baseInput = { initialGroup: "org-staff", email: "test@test.com", username: "test-username", group: "org-staff" };
@@ -68,6 +72,24 @@ describe("editUser", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: `${EDIT_USER_PAGE_PATH}/test-username` });
     });
 
+    it("should redirect to /edit-user page when user is added to operator group without selecting an operator org", async () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: { ...mockInput, group: "operators" },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await editUser(req, res);
+
+        const errors: ErrorInfo[] = [{ errorMessage: "Select at least one operator", id: "operatorOrg" }];
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_EDIT_USER_ERRORS,
+            JSON.stringify({ inputs: formatAddOrEditUserBody(req.body as object), errors }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `${EDIT_USER_PAGE_PATH}/test-username` });
+    });
+
     it("should redirect to /user-management page and update user attributes when valid inputs passed", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: { ...mockInput, group: "org-staff" },
@@ -85,6 +107,10 @@ describe("editUser", () => {
             {
                 Name: "family_name",
                 Value: "test",
+            },
+            {
+                Name: "custom:operatorOrgId",
+                Value: "",
             },
         ];
 
@@ -132,5 +158,45 @@ describe("editUser", () => {
 
         expect(destroyCookieOnResponseObject).toHaveBeenCalledTimes(2);
         expect(writeHeadMock).toBeCalledWith(302, { Location: LOGIN_PAGE_PATH });
+    });
+
+    it("should redirect to /user-management page and add operator org ID to the attributesList when changing to operator user", async () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                ...mockInput,
+                group: "operators",
+                operatorOrg:
+                    '{"name":"Test Operator","nocCodes":["TEST","TEST"],"operatorOrgId":"61b6aff2-0f93-4f22-b814-94173b9f47e6", "orgId":"61b6aff2-0f93-4f22-b814-94173b9f47e6"}',
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await editUser(req, res);
+
+        expect(removeUserFromGroupSpy).toHaveBeenCalledOnce();
+        expect(removeUserFromGroupSpy).toHaveBeenCalledWith(mockInput.username, mockInput.initialGroup);
+
+        expect(addUserToGroupSpy).toHaveBeenCalledOnce();
+        expect(addUserToGroupSpy).toHaveBeenCalledWith(mockInput.username, "operators");
+
+        const expectedAttributeList: AttributeType[] = [
+            {
+                Name: "given_name",
+                Value: "test",
+            },
+            {
+                Name: "family_name",
+                Value: "test",
+            },
+            {
+                Name: "custom:operatorOrgId",
+                Value: "61b6aff2-0f93-4f22-b814-94173b9f47e6",
+            },
+        ];
+
+        expect(updateUserAttributesSpy).toHaveBeenCalledOnce();
+        expect(updateUserAttributesSpy).toHaveBeenCalledWith("test-username", expectedAttributeList);
+        expect(destroyCookieOnResponseObject).toHaveBeenCalledOnce();
+        expect(writeHeadMock).toBeCalledWith(302, { Location: USER_MANAGEMENT_PAGE_PATH });
     });
 });
