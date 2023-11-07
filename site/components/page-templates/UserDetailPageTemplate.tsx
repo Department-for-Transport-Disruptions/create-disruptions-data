@@ -5,8 +5,7 @@ import { SingleValue } from "react-select";
 import { AddUserPageProps } from "../../pages/admin/add-user.page";
 import { EditUserPageProps } from "../../pages/admin/edit-user/[username].page";
 import { addUserSchema, AddUserSchema, EditUserSchema } from "../../schemas/add-user.schema";
-import { OperatorOrgSchema, operatorOrgSchema } from "../../schemas/organisation.schema";
-import { flattenZodErrors } from "../../utils";
+import { OperatorOrgSchema } from "../../schemas/organisation.schema";
 import { getStateUpdater } from "../../utils/formUtils";
 import CsrfForm from "../form/CsrfForm";
 import ErrorSummary from "../form/ErrorSummary";
@@ -44,27 +43,15 @@ const UserDetailPageTemplate = ({
     const operatorsListForOrg = pageState.operatorsForOrg ?? [];
 
     const handleOperatorChange = (value: SingleValue<OperatorOrgSchema>) => {
-        const parsed = operatorOrgSchema.safeParse(value);
-
-        if (!parsed.success) {
-            setPageState({
-                ...pageState,
-                errors: [
-                    ...pageState.errors.filter((err) => !Object.keys(addUserSchema.shape).includes(err.id)),
-                    ...flattenZodErrors(parsed.error),
-                ],
-            });
-        } else {
-            setSelectedOperator(parsed.data);
-            setPageState({
-                ...pageState,
-                inputs: {
-                    ...pageState.inputs,
-                    operatorOrg: parsed.data,
-                },
-                errors: [...pageState.errors.filter((err) => !Object.keys(addUserSchema.shape).includes(err.id))],
-            });
-        }
+        setSelectedOperator(value);
+        setPageState({
+            ...pageState,
+            inputs: {
+                ...pageState.inputs,
+                operatorOrg: value,
+            },
+            errors: [...pageState.errors.filter((err) => !Object.keys(addUserSchema.shape).includes(err.id))],
+        });
     };
 
     return (
