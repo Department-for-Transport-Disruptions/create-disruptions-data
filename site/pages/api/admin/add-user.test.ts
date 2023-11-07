@@ -101,7 +101,7 @@ describe("addUser", () => {
                 ...defaultInput,
                 group: UserGroups.operators,
                 operatorOrg:
-                    '{"name":"Test Operator","nocCodes":["TEST","TEST"],"SK":"61b6aff2-0f93-4f22-b814-94173b9f47e6"}',
+                    '{"name":"Test Operator","nocCodes":["TEST","TEST"],"operatorOrgId":"61b6aff2-0f93-4f22-b814-94173b9f47e6", "orgId":"61b6aff2-0f93-4f22-b814-94173b9f47e6"}',
             },
             mockWriteHeadFn: writeHeadMock,
         });
