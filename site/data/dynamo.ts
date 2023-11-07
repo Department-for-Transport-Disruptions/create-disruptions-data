@@ -769,7 +769,7 @@ export const listOperatorsForOrg = async (orgId: string) => {
     );
 
     const operators = dbData.map((item) => ({
-        orgId: (item as SubOrganisation).PK,
+        PK: (item as SubOrganisation).PK,
         name: (item as SubOrganisation).name,
         nocCodes: (item as SubOrganisation).nocCodes,
         SK: (item as SubOrganisation).SK?.slice(9),
@@ -778,7 +778,7 @@ export const listOperatorsForOrg = async (orgId: string) => {
     const parsedOperators = operatorOrgListSchema.safeParse(operators);
 
     if (!parsedOperators.success) {
-        logger.warn(`Invalid operators found for organisation: ${operators[0].orgId} in DynamoDB`);
+        logger.warn(`Invalid operators found for organisation: ${operators[0].PK} in DynamoDB`);
         logger.warn(parsedOperators.error.toString());
 
         return null;

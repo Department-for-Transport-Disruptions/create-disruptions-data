@@ -1,12 +1,11 @@
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import Link from "next/link";
-import { Dispatch, SetStateAction, SyntheticEvent, useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { SingleValue } from "react-select";
 import { AddUserPageProps } from "../../pages/admin/add-user.page";
 import { EditUserPageProps } from "../../pages/admin/edit-user/[username].page";
 import { addUserSchema, AddUserSchema, EditUserSchema } from "../../schemas/add-user.schema";
-import { OperatorOrgSchema, operatorOrgSchema } from "../../schemas/organisation.schema";
-import { flattenZodErrors } from "../../utils";
+import { OperatorOrgSchema } from "../../schemas/organisation.schema";
 import { getStateUpdater } from "../../utils/formUtils";
 import CsrfForm from "../form/CsrfForm";
 import ErrorSummary from "../form/ErrorSummary";
@@ -39,65 +38,20 @@ const UserDetailPageTemplate = ({
     const [selectedOperator, setSelectedOperator] = useState<SingleValue<OperatorOrgSchema>>(
         pageState.inputs.operatorOrg ?? null,
     );
-    const [operatorSearchInput, setOperatorsSearchInput] = useState<string>("");
+    const [operatorSearchInput, setOperatorsSearchInput] = useState("");
 
     const operatorsListForOrg = pageState.operatorsForOrg ?? [];
 
     const handleOperatorChange = (value: SingleValue<OperatorOrgSchema>) => {
-        const parsed = operatorOrgSchema.safeParse(value);
-
-        if (!parsed.success) {
-            setPageState({
-                ...pageState,
-                errors: [
-                    ...pageState.errors.filter((err) => !Object.keys(addUserSchema.shape).includes(err.id)),
-                    ...flattenZodErrors(parsed.error),
-                ],
-            });
-        } else {
-            setSelectedOperator(parsed.data);
-            setPageState({
-                ...pageState,
-                inputs: {
-                    ...pageState.inputs,
-                    operatorOrg: parsed.data,
-                },
-                errors: [...pageState.errors.filter((err) => !Object.keys(addUserSchema.shape).includes(err.id))],
-            });
-        }
-    };
-
-    const removeOperator = (e: SyntheticEvent) => {
-        e.preventDefault();
-
+        setSelectedOperator(value);
         setPageState({
             ...pageState,
             inputs: {
                 ...pageState.inputs,
-                operatorOrg: undefined,
+                operatorOrg: value,
             },
-            errors: pageState.errors,
+            errors: [...pageState.errors.filter((err) => !Object.keys(addUserSchema.shape).includes(err.id))],
         });
-        setSelectedOperator(null);
-    };
-
-    const getOperatorRows = () => {
-        if (pageState.inputs.operatorOrg) {
-            return [pageState.inputs.operatorOrg].map((operator: OperatorOrgSchema) => ({
-                cells: [
-                    `${operator.name}`,
-                    <button
-                        id={`remove-service-${operator.name}`}
-                        key={`remove-service-${operator.name}`}
-                        className="govuk-link"
-                        onClick={(e) => removeOperator(e)}
-                    >
-                        Remove
-                    </button>,
-                ],
-            }));
-        }
-        return [];
     };
 
     return (
@@ -183,7 +137,7 @@ const UserDetailPageTemplate = ({
                                             .sort((a, b) => a.name.localeCompare(b.name))}
                                         handleChange={handleOperatorChange}
                                         tableData={undefined}
-                                        getRows={getOperatorRows}
+                                        getRows={() => undefined}
                                         getOptionValue={(operator: OperatorOrgSchema) => operator.name}
                                         display=""
                                         hint=""
@@ -198,7 +152,7 @@ const UserDetailPageTemplate = ({
                                 <input
                                     type="hidden"
                                     name="operatorOrg"
-                                    value={JSON.stringify(pageState.inputs.operatorOrg) ?? undefined}
+                                    value={JSON.stringify(pageState.inputs.operatorOrg)}
                                 />
                             </>
                         )}

@@ -80,7 +80,7 @@ describe("editUser", () => {
 
         await editUser(req, res);
 
-        const errors: ErrorInfo[] = [{ errorMessage: "Select at least one operator", id: "operatorOrg" }];
+        const errors: ErrorInfo[] = [{ errorMessage: "Select an operator", id: "operatorOrg" }];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_EDIT_USER_ERRORS,
@@ -173,12 +173,6 @@ describe("editUser", () => {
 
         await editUser(req, res);
 
-        expect(removeUserFromGroupSpy).toHaveBeenCalledOnce();
-        expect(removeUserFromGroupSpy).toHaveBeenCalledWith(mockInput.username, mockInput.initialGroup);
-
-        expect(addUserToGroupSpy).toHaveBeenCalledOnce();
-        expect(addUserToGroupSpy).toHaveBeenCalledWith(mockInput.username, "operators");
-
         const expectedAttributeList: AttributeType[] = [
             {
                 Name: "given_name",
@@ -193,6 +187,12 @@ describe("editUser", () => {
                 Value: "61b6aff2-0f93-4f22-b814-94173b9f47e6",
             },
         ];
+
+        expect(removeUserFromGroupSpy).toHaveBeenCalledOnce();
+        expect(removeUserFromGroupSpy).toHaveBeenCalledWith(mockInput.username, mockInput.initialGroup);
+
+        expect(addUserToGroupSpy).toHaveBeenCalledOnce();
+        expect(addUserToGroupSpy).toHaveBeenCalledWith(mockInput.username, "operators");
 
         expect(updateUserAttributesSpy).toHaveBeenCalledOnce();
         expect(updateUserAttributesSpy).toHaveBeenCalledWith("test-username", expectedAttributeList);

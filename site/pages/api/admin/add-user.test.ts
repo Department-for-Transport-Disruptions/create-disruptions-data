@@ -149,7 +149,7 @@ describe("addUser", () => {
 
         await addUser(req, res);
 
-        const errors: ErrorInfo[] = [{ errorMessage: "Select at least one operator", id: "operatorOrg" }];
+        const errors: ErrorInfo[] = [{ errorMessage: "Select an operator", id: "operatorOrg" }];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_ADD_USER_ERRORS,

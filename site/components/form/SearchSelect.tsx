@@ -12,10 +12,12 @@ interface SearchSelectProps<T> {
     getOptionLabel?: (value: T) => string;
     handleChange: (value: SingleValue<T>) => void;
     tableData: T[] | undefined;
-    getRows: () => {
-        header?: string;
-        cells: (string | JSX.Element)[];
-    }[];
+    getRows: () =>
+        | {
+              header?: string;
+              cells: (string | JSX.Element)[];
+          }[]
+        | undefined;
     selected: SingleValue<T>;
     getOptionValue?: (value: T) => string;
     display: string;
@@ -123,7 +125,8 @@ const SearchSelect = <T extends object>({
                     />
                 </FormElementWrapper>
 
-                <Table rows={tableData ? getRows() : []} />
+                {tableData && <Table rows={getRows() ?? []} />}
+
                 {(tableData || []).map((element, index) => (
                     <Fragment key={`${inputName}-${index}`}>
                         <input type="hidden" name={`${inputName}${index + 1}`} value={JSON.stringify(element)} />

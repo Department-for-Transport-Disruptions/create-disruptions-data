@@ -23,7 +23,7 @@ export const addUserSchemaRefined = addUserSchema.refine(
     (input) => {
         return !(input.group === UserGroups.operators && !input.operatorOrg);
     },
-    { path: ["operatorOrg"], message: "Select at least one operator" },
+    { path: ["operatorOrg"], message: "Select an operator" },
 );
 
 export const editUserSchema = addUserSchemaRefined.and(
