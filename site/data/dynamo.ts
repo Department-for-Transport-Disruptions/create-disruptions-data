@@ -745,8 +745,6 @@ export const listOperatorsForOrg = async (orgId: string) => {
         SK: (item as SubOrganisation).SK?.slice(9),
     }));
 
-    logger.info(JSON.stringify(operators));
-
     const parsedOperators = operatorOrgListSchema.safeParse(operators);
 
     if (!parsedOperators.success) {
