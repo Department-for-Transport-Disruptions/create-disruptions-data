@@ -243,7 +243,7 @@ exports[`UserDetailPageTemplate > should render the add-user page correctly 1`] 
                       </label>
                     </div>
                     <div
-                      className="govuk-radios__item"
+                      className="govuk-radios__item govuk-!-margin-bottom-1"
                     >
                       <input
                         className="govuk-radios__input"
@@ -260,6 +260,26 @@ exports[`UserDetailPageTemplate > should render the add-user page correctly 1`] 
                         htmlFor="group-org-staff"
                       >
                         Staff
+                      </label>
+                    </div>
+                    <div
+                      className="govuk-radios__item"
+                    >
+                      <input
+                        className="govuk-radios__input"
+                        data-aria-controls="group-operators-conditional"
+                        defaultChecked={false}
+                        id="group-operators"
+                        name="group"
+                        onChange={[Function]}
+                        type="radio"
+                        value="operators"
+                      />
+                      <label
+                        className="govuk-label govuk-radios__label"
+                        htmlFor="group-operators"
+                      >
+                        Operator
                       </label>
                     </div>
                   </div>
@@ -723,7 +743,7 @@ exports[`UserDetailPageTemplate > should render the edit-user page correctly 1`]
                       </label>
                     </div>
                     <div
-                      className="govuk-radios__item"
+                      className="govuk-radios__item govuk-!-margin-bottom-1"
                     >
                       <input
                         className="govuk-radios__input"
@@ -740,6 +760,26 @@ exports[`UserDetailPageTemplate > should render the edit-user page correctly 1`]
                         htmlFor="group-org-staff"
                       >
                         Staff
+                      </label>
+                    </div>
+                    <div
+                      className="govuk-radios__item"
+                    >
+                      <input
+                        className="govuk-radios__input"
+                        data-aria-controls="group-operators-conditional"
+                        defaultChecked={false}
+                        id="group-operators"
+                        name="group"
+                        onChange={[Function]}
+                        type="radio"
+                        value="operators"
+                      />
+                      <label
+                        className="govuk-label govuk-radios__label"
+                        htmlFor="group-operators"
+                      >
+                        Operator
                       </label>
                     </div>
                   </div>
