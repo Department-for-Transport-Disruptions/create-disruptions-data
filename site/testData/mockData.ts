@@ -1025,7 +1025,7 @@ export const mockSession: Session = {
     username: "test@example.com",
     name: "Test User",
     isOperatorUser: false,
-    nocCodes: null,
+    operatorOrgId: null,
 };
 
 export const mockSessionWithOrgDetail: SessionWithOrgDetail = {
@@ -1041,7 +1041,7 @@ export const mockSessionWithOrgDetail: SessionWithOrgDetail = {
     name: "Test User",
     mode: defaultModes,
     isOperatorUser: false,
-    nocCodes: null,
+    operatorOrgId: null,
 };
 
 export const mockGetUserDetails = Promise.resolve({

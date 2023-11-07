@@ -81,7 +81,7 @@ describe("login", () => {
             isOrgPublisher: true,
             isOrgStaff: false,
             isOperatorUser: false,
-            nocCodes: null,
+            operatorOrgId: null,
         }));
 
         const { req, res } = getMockRequestAndResponse({
@@ -120,7 +120,7 @@ describe("login", () => {
             isOrgPublisher: false,
             isOrgStaff: false,
             isOperatorUser: false,
-            nocCodes: null,
+            operatorOrgId: null,
         }));
 
         const { req, res } = getMockRequestAndResponse({
@@ -232,7 +232,7 @@ describe("login", () => {
             isOrgPublisher: true,
             isOrgStaff: false,
             isOperatorUser: false,
-            nocCodes: null,
+            operatorOrgId: null,
         }));
 
         const redirectUrl = "https://test-redirect.example.com";

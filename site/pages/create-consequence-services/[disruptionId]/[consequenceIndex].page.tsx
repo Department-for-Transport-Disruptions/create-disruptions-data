@@ -35,16 +35,10 @@ import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
 } from "../../../constants";
-import { getDisruptionById } from "../../../data/dynamo";
+import { getDisruptionById, getNocCodesForOperatorOrg } from "../../../data/dynamo";
 import { fetchServiceRoutes, fetchServices, fetchServicesByStops, fetchServiceStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import {
-    convertStringListToArray,
-    flattenZodErrors,
-    getServiceLabel,
-    isServicesConsequence,
-    sortServices,
-} from "../../../utils";
+import { flattenZodErrors, getServiceLabel, isServicesConsequence, sortServices } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import {
@@ -793,6 +787,11 @@ export const getServerSideProps = async (
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_SERVICES_ERRORS, ctx.res);
 
+    const operatorUserNocCodes =
+        session.isOperatorUser && session.operatorOrgId
+            ? await getNocCodesForOperatorOrg(session.orgId, session.operatorOrgId)
+            : [];
+
     return {
         props: {
             ...pageState,
@@ -806,7 +805,7 @@ export const getServerSideProps = async (
             globalDataSource,
             isEdit: !!consequence,
             isOperatorUser: session.isOperatorUser,
-            operatorUserNocCodes: convertStringListToArray(session.nocCodes ?? ""),
+            operatorUserNocCodes: operatorUserNocCodes,
         },
     };
 };

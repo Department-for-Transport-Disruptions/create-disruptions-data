@@ -527,6 +527,7 @@ export const upsertDisruptionInfo = async (
     id: string,
     isUserStaff?: boolean,
     isTemplate?: boolean,
+    operatorOrgId?: string | null,
 ) => {
     logger.info(
         `Updating draft disruption (${disruptionInfo.disruptionId}) from DynamoDB table (${getTableName(
@@ -549,6 +550,7 @@ export const upsertDisruptionInfo = async (
                 SK: `${disruptionInfo.disruptionId}#INFO${isPending ? "#PENDING" : isEditing ? "#EDIT" : ""}`,
                 ...disruptionInfo,
                 ...(isTemplate ? { template: isTemplate } : {}),
+                ...(operatorOrgId ? { createdByOperatorOrgId: operatorOrgId } : {}),
             },
         }),
     );

@@ -9,8 +9,9 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
+import { getNocCodesForOperatorOrg } from "../../data/dynamo";
 import { TooManyConsequencesError } from "../../errors";
-import { convertStringListToArray, flattenZodErrors, getLargestConsequenceIndex } from "../../utils";
+import { flattenZodErrors, getLargestConsequenceIndex } from "../../utils";
 import {
     destroyCookieOnResponseObject,
     getReturnPage,
@@ -96,8 +97,8 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
             return;
         }
 
-        if (session.isOperatorUser) {
-            const operatorUserNocCodes = convertStringListToArray(session.nocCodes ?? "");
+        if (session.isOperatorUser && session.operatorOrgId) {
+            const operatorUserNocCodes = await getNocCodesForOperatorOrg(session.orgId, session.operatorOrgId);
 
             const serviceConsequenceIncludesOperatorUserNocCode = validatedBody.data.services.map((service) => {
                 return operatorUserNocCodes.includes(service.nocCode);

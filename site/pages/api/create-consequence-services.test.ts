@@ -97,8 +97,11 @@ describe("create-consequence-services API", () => {
     }));
 
     const upsertConsequenceSpy = vi.spyOn(dynamo, "upsertConsequence");
+    const getNocCodesForOperatorOrgSpy = vi.spyOn(dynamo, "getNocCodesForOperatorOrg");
+
     vi.mock("../../data/dynamo", () => ({
         upsertConsequence: vi.fn(),
+        getNocCodesForOperatorOrg: vi.fn(),
     }));
 
     afterEach(() => {
@@ -473,9 +476,10 @@ describe("create-consequence-services API", () => {
 
     it("should redirect back to /create-consequence-services when operator user tries to create a consequence for service that does not contain their NOC code", async () => {
         getSessionSpy.mockImplementation(() => {
-            return { ...mockSession, isSystemAdmin: false, isOperatorUser: true, nocCodes: "TESTING,TESTING" };
+            return { ...mockSession, isSystemAdmin: false, isOperatorUser: true, operatorOrgId: "test-org-id" };
         });
         upsertConsequenceSpy.mockResolvedValue(disruptionWithConsequences);
+        getNocCodesForOperatorOrgSpy.mockResolvedValue(["TESTING, TESTING"]);
 
         const { req, res } = getMockRequestAndResponse({
             body: { ...defaultServicesData },
@@ -504,8 +508,9 @@ describe("create-consequence-services API", () => {
 
     it("should redirect to /review-disruption when operator user creates consequence and all required inputs are passed", async () => {
         getSessionSpy.mockImplementation(() => {
-            return { ...mockSession, isSystemAdmin: false, isOperatorUser: true, nocCodes: "TEST" };
+            return { ...mockSession, isSystemAdmin: false, isOperatorUser: true, operatorOrgId: "test-org-id" };
         });
+        getNocCodesForOperatorOrgSpy.mockResolvedValue(["TEST"]);
         const { req, res } = getMockRequestAndResponse({ body: defaultServicesData, mockWriteHeadFn: writeHeadMock });
 
         await createConsequenceServices(req, res);

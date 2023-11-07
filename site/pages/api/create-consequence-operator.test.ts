@@ -75,8 +75,11 @@ describe("create-consequence-operator API", () => {
     }));
 
     const upsertConsequenceSpy = vi.spyOn(dynamo, "upsertConsequence");
+    const getNocCodesForOperatorOrgSpy = vi.spyOn(dynamo, "getNocCodesForOperatorOrg");
+
     vi.mock("../../data/dynamo", () => ({
         upsertConsequence: vi.fn(),
+        getNocCodesForOperatorOrg: vi.fn(),
     }));
 
     afterEach(() => {
@@ -372,9 +375,11 @@ describe("create-consequence-operator API", () => {
 
     it("should redirect back to /create-consequence-operator when an operator user creates a consequence with a NOC code that is not their own", async () => {
         getSessionSpy.mockImplementation(() => {
-            return { ...mockSession, isOperatorUser: true, nocCodes: "TEST,TEST" };
+            return { ...mockSession, isOperatorUser: true, operatorOrgId: "test-org-id" };
         });
         upsertConsequenceSpy.mockResolvedValue(disruptionWithConsequences);
+        getNocCodesForOperatorOrgSpy.mockResolvedValue(["TESTING", "TEST"]);
+
         const { req, res } = getMockRequestAndResponse({
             body: { ...bodyData },
             mockWriteHeadFn: writeHeadMock,
@@ -407,8 +412,10 @@ describe("create-consequence-operator API", () => {
 
     it("should redirect to /review-disruption when operator user creates consequence and all required inputs are passed", async () => {
         getSessionSpy.mockImplementation(() => {
-            return { ...mockSession, isOperatorUser: true, nocCodes: defaultConsequenceOperators[0].operatorNoc };
+            return { ...mockSession, isOperatorUser: true, operatorOrgId: "test-org-id" };
         });
+        getNocCodesForOperatorOrgSpy.mockResolvedValue([defaultConsequenceOperators[0].operatorNoc]);
+
         const { req, res } = getMockRequestAndResponse({ body: bodyData, mockWriteHeadFn: writeHeadMock });
 
         await createConsequenceOperator(req, res);

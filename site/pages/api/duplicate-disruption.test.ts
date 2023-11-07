@@ -135,6 +135,8 @@ describe("duplicate-disruption API", () => {
             },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
+            false,
+            null,
         );
 
         expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
@@ -206,6 +208,8 @@ describe("duplicate-disruption API", () => {
             },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,
+            true,
+            null,
         );
 
         expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);

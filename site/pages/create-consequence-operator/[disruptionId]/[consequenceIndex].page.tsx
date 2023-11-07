@@ -26,12 +26,12 @@ import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
 } from "../../../constants";
-import { getDisruptionById, getNocCodesForOperatorOrg, getOperatorByOrgIdAndOperatorOrgId } from "../../../data/dynamo";
+import { getDisruptionById, getNocCodesForOperatorOrg } from "../../../data/dynamo";
 import { fetchOperators } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { Operator } from "../../../schemas/consequence.schema";
 import { ModeType } from "../../../schemas/organisation.schema";
-import { convertStringListToArray, isOperatorConsequence } from "../../../utils";
+import { isOperatorConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import {
@@ -147,7 +147,11 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                         <OperatorSearch<OperatorConsequence>
                             display="Operators impacted"
                             displaySize="l"
-                            operators={props.operators.filter((op) => filterOperators(op))}
+                            operators={
+                                props.session?.isOperatorUser
+                                    ? props.operators
+                                    : props.operators.filter((op) => filterOperators(op))
+                            }
                             selectedOperators={pageState.inputs?.consequenceOperators ?? []}
                             stateUpdater={operatorStateUpdate}
                             initialErrors={pageState.inputs.consequenceOperators?.length === 0 ? pageState.errors : []}
