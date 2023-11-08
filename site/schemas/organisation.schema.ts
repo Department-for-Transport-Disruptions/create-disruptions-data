@@ -37,8 +37,8 @@ export type AreaCodeValuePair = z.infer<typeof areaCodeSchema>;
 export const subOrganisationSchema = z.object({
     name: z.string(),
     PK: z.string().optional(),
-    SK: z.string().optional(),
     nocCodes: z.array(z.string()),
+    SK: z.string(),
 });
 
 export type SubOrganisation = z.infer<typeof subOrganisationSchema>;
@@ -47,7 +47,7 @@ export const subOrganisationsSchema = z.array(subOrganisationSchema);
 
 export const operatorOrgSchema = subOrganisationSchema.transform((data) => ({
     orgId: data.PK,
-    operatorOrgId: data.SK?.replace("OPERATOR#", ""),
+    operatorOrgId: data.SK.replace("OPERATOR#", ""),
     name: data.name,
     nocCodes: data.nocCodes,
 }));

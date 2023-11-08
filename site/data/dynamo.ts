@@ -19,10 +19,10 @@ import { TooManyConsequencesError } from "../errors";
 import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.schema";
 import {
     operatorOrgSchema,
+    operatorOrgListSchema,
     Organisation,
     organisationSchema,
     SubOrganisation,
-    subOrganisationsSchema,
 } from "../schemas/organisation.schema";
 import { SocialMediaAccount, dynamoSocialAccountSchema } from "../schemas/social-media-accounts.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../schemas/social-media.schema";
@@ -763,15 +763,16 @@ export const listOperatorsForOrg = async (orgId: string) => {
     );
 
     const operators = dbData.map((item) => ({
-        orgId: (item as SubOrganisation).PK,
+        PK: (item as SubOrganisation).PK,
         name: (item as SubOrganisation).name,
         nocCodes: (item as SubOrganisation).nocCodes,
+        SK: (item as SubOrganisation).SK?.slice(9),
     }));
 
-    const parsedOperators = subOrganisationsSchema.safeParse(operators);
+    const parsedOperators = operatorOrgListSchema.safeParse(operators);
 
     if (!parsedOperators.success) {
-        logger.warn(`Invalid operators found for organisation: ${operators[0].orgId} in DynamoDB`);
+        logger.warn(`Invalid operators found for organisation: ${operators[0].PK} in DynamoDB`);
         logger.warn(parsedOperators.error.toString());
 
         return null;

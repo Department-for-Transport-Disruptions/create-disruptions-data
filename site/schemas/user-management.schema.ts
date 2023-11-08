@@ -21,6 +21,7 @@ export const user = z
                 familyName: c.Name === "family_name" ? c.Value : p.familyName,
                 email: c.Name === "email" ? c.Value : p.email,
                 orgId: c.Name === "custom:orgId" ? c.Value : p.orgId,
+                operatorOrgId: c.Name === "custom:operatorOrgId" ? c.Value : p.operatorOrgId,
                 disruptionEmailPreference:
                     c.Name === "custom:disruptionEmailPref" ? c.Value : p.disruptionEmailPreference,
             }),
@@ -32,6 +33,7 @@ export const user = z
                 familyName: "N/A",
                 email: "N/A",
                 orgId: "N/A",
+                operatorOrgId: "N/A",
                 disruptionEmailPreference: "N/A",
             },
         ),
@@ -81,6 +83,7 @@ export const userManagementSchema = z.array(
                     familyName: c.Name === "family_name" ? c.Value : p.familyName,
                     email: c.Name === "email" ? c.Value : p.email,
                     organisation: c.Name === "custom:orgId" ? c.Value : p.organisation,
+                    operatorOrgId: c.Name === "custom:operatorOrgId" ? c.Value : p.operatorOrgId,
                     disruptionEmailPreference:
                         c.Name === "custom:disruptionEmailPref" ? c.Value : p.disruptionEmailPreference,
                 }),
@@ -92,6 +95,7 @@ export const userManagementSchema = z.array(
                     familyName: "N/A",
                     email: "N/A",
                     organisation: "N/A",
+                    operatorOrgId: "N/A",
                     disruptionEmailPreference: "N/A",
                 },
             ),
