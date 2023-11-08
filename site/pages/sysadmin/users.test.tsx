@@ -58,6 +58,8 @@ const defaultSession: SessionWithOrgDetail = {
     orgName: "Nexus",
     adminAreaCodes: ["A", "B", "C"],
     mode: defaultModes,
+    isOperatorUser: false,
+    operatorOrgId: null,
 };
 
 const getSessionWithOrgDetailSpy = vi.spyOn(session, "getSessionWithOrgDetail");
