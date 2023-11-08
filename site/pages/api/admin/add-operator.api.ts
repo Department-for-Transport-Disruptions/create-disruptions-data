@@ -58,7 +58,7 @@ const addOperator = async (req: NextApiRequest, res: NextApiResponse) => {
         const operatorAlreadyExists =
             existingOperators && existingOperators?.length > 0
                 ? existingOperators.some(
-                      (operator) => operator.operatorName.toLowerCase() === validatedBody.data.operatorName.toLowerCase(),
+                      (operator) => operator.name.toLowerCase() === validatedBody.data.operatorName.toLowerCase(),
                   )
                 : false;
 
