@@ -62,6 +62,7 @@ export const createChangeLink = (
 const getRows = (
     consequence: Consequence,
     disruption: Disruption,
+    showChangeLink: boolean,
     isDisruptionDetail?: boolean,
     isTemplate?: boolean,
 ) => {
@@ -76,15 +77,17 @@ const getRows = (
                     },
                 },
                 {
-                    value: createChangeLink(
-                        "consequence-type",
-                        TYPE_OF_CONSEQUENCE_PAGE_PATH,
-                        disruption.disruptionId,
-                        consequence.consequenceIndex,
-                        true,
-                        isDisruptionDetail,
-                        isTemplate,
-                    ),
+                    value:
+                        showChangeLink &&
+                        createChangeLink(
+                            "consequence-type",
+                            TYPE_OF_CONSEQUENCE_PAGE_PATH,
+                            disruption.disruptionId,
+                            consequence.consequenceIndex,
+                            true,
+                            isDisruptionDetail,
+                            isTemplate,
+                        ),
                     styles: {
                         width: "w-1/10",
                     },
@@ -96,15 +99,17 @@ const getRows = (
             cells: [
                 { value: getDisplayByValue(VEHICLE_MODES, consequence.vehicleMode) },
                 {
-                    value: createChangeLink(
-                        "vehicle-mode",
-                        getConsequenceUrl(consequence.consequenceType),
-                        disruption.disruptionId,
-                        consequence.consequenceIndex,
-                        true,
-                        isDisruptionDetail,
-                        isTemplate,
-                    ),
+                    value:
+                        showChangeLink &&
+                        createChangeLink(
+                            "vehicle-mode",
+                            getConsequenceUrl(consequence.consequenceType),
+                            disruption.disruptionId,
+                            consequence.consequenceIndex,
+                            true,
+                            isDisruptionDetail,
+                            isTemplate,
+                        ),
                 },
             ],
         },
@@ -123,15 +128,17 @@ const getRows = (
                         .join(", "),
                 },
                 {
-                    value: createChangeLink(
-                        "service",
-                        getConsequenceUrl(consequence.consequenceType),
-                        disruption.disruptionId,
-                        consequence.consequenceIndex,
-                        true,
-                        isDisruptionDetail,
-                        isTemplate,
-                    ),
+                    value:
+                        showChangeLink &&
+                        createChangeLink(
+                            "service",
+                            getConsequenceUrl(consequence.consequenceType),
+                            disruption.disruptionId,
+                            consequence.consequenceIndex,
+                            true,
+                            isDisruptionDetail,
+                            isTemplate,
+                        ),
                 },
             ],
         });
@@ -153,15 +160,17 @@ const getRows = (
                         : "N/A",
                 },
                 {
-                    value: createChangeLink(
-                        "stops-affected",
-                        getConsequenceUrl(consequence.consequenceType),
-                        disruption.disruptionId,
-                        consequence.consequenceIndex,
-                        true,
-                        isDisruptionDetail,
-                        isTemplate,
-                    ),
+                    value:
+                        showChangeLink &&
+                        createChangeLink(
+                            "stops-affected",
+                            getConsequenceUrl(consequence.consequenceType),
+                            disruption.disruptionId,
+                            consequence.consequenceIndex,
+                            true,
+                            isDisruptionDetail,
+                            isTemplate,
+                        ),
                 },
             ],
         });
@@ -177,15 +186,17 @@ const getRows = (
                         : "N/A",
                 },
                 {
-                    value: createChangeLink(
-                        "operators-affected",
-                        getConsequenceUrl(consequence.consequenceType),
-                        disruption.disruptionId,
-                        consequence.consequenceIndex,
-                        true,
-                        isDisruptionDetail,
-                        isTemplate,
-                    ),
+                    value:
+                        showChangeLink &&
+                        createChangeLink(
+                            "operators-affected",
+                            getConsequenceUrl(consequence.consequenceType),
+                            disruption.disruptionId,
+                            consequence.consequenceIndex,
+                            true,
+                            isDisruptionDetail,
+                            isTemplate,
+                        ),
                 },
             ],
         });
@@ -199,15 +210,17 @@ const getRows = (
                     value: consequence.description,
                 },
                 {
-                    value: createChangeLink(
-                        "advice-to-display",
-                        getConsequenceUrl(consequence.consequenceType),
-                        disruption.disruptionId,
-                        consequence.consequenceIndex,
-                        true,
-                        isDisruptionDetail,
-                        isTemplate,
-                    ),
+                    value:
+                        showChangeLink &&
+                        createChangeLink(
+                            "advice-to-display",
+                            getConsequenceUrl(consequence.consequenceType),
+                            disruption.disruptionId,
+                            consequence.consequenceIndex,
+                            true,
+                            isDisruptionDetail,
+                            isTemplate,
+                        ),
                 },
             ],
         },
@@ -218,15 +231,17 @@ const getRows = (
                     value: splitCamelCaseToString(consequence.removeFromJourneyPlanners),
                 },
                 {
-                    value: createChangeLink(
-                        "remove-from-journey-planners",
-                        getConsequenceUrl(consequence.consequenceType),
-                        disruption.disruptionId,
-                        consequence.consequenceIndex,
-                        true,
-                        isDisruptionDetail,
-                        isTemplate,
-                    ),
+                    value:
+                        showChangeLink &&
+                        createChangeLink(
+                            "remove-from-journey-planners",
+                            getConsequenceUrl(consequence.consequenceType),
+                            disruption.disruptionId,
+                            consequence.consequenceIndex,
+                            true,
+                            isDisruptionDetail,
+                            isTemplate,
+                        ),
                 },
             ],
         },
@@ -237,15 +252,17 @@ const getRows = (
                     value: consequence.disruptionDelay ? `${consequence.disruptionDelay} minutes` : "N/A",
                 },
                 {
-                    value: createChangeLink(
-                        "disruption-delay",
-                        getConsequenceUrl(consequence.consequenceType),
-                        disruption.disruptionId,
-                        consequence.consequenceIndex,
-                        true,
-                        isDisruptionDetail,
-                        isTemplate,
-                    ),
+                    value:
+                        showChangeLink &&
+                        createChangeLink(
+                            "disruption-delay",
+                            getConsequenceUrl(consequence.consequenceType),
+                            disruption.disruptionId,
+                            consequence.consequenceIndex,
+                            true,
+                            isDisruptionDetail,
+                            isTemplate,
+                        ),
                 },
             ],
         },
@@ -265,6 +282,7 @@ interface ReviewConsequenceTableProps {
     ) => void;
     isDisruptionDetail?: boolean;
     isTemplate?: boolean;
+    showChangeLink: boolean;
 }
 
 const ReviewConsequenceTable = ({
@@ -273,6 +291,7 @@ const ReviewConsequenceTable = ({
     deleteActionHandler,
     isDisruptionDetail,
     isTemplate,
+    showChangeLink,
 }: ReviewConsequenceTableProps): ReactElement => {
     const hiddenInputs = [
         {
@@ -293,32 +312,36 @@ const ReviewConsequenceTable = ({
     }
     return (
         <>
-            <Table rows={getRows(consequence, disruption, isDisruptionDetail, isTemplate)} />
-            <button
-                key={consequence.consequenceIndex}
-                className="govuk-button govuk-button--warning mt-4"
-                data-module="govuk-button"
-                onClick={(e) => {
-                    e.preventDefault();
-                    deleteActionHandler("consequence", hiddenInputs);
-                }}
-            >
-                Delete consequence
-            </button>
-            <button
-                key={`duplicate-${consequence.consequenceIndex}`}
-                className={`govuk-button govuk-button--secondary mt-4 ml-4${
-                    disruption.consequences && disruption.consequences.length >= MAX_CONSEQUENCES
-                        ? " pointer-events-none govuk-button--disabled"
-                        : ""
-                }`}
-                data-module="govuk-button"
-                formAction={`/api/duplicate-consequence?consequenceId=${consequence.consequenceIndex}&return=${
-                    isDisruptionDetail ? DISRUPTION_DETAIL_PAGE_PATH : REVIEW_DISRUPTION_PAGE_PATH
-                }${isTemplate ? "&template=true" : ""}`}
-            >
-                Duplicate consequence
-            </button>
+            <Table rows={getRows(consequence, disruption, showChangeLink, isDisruptionDetail, isTemplate)} />
+            {showChangeLink && (
+                <>
+                    <button
+                        key={consequence.consequenceIndex}
+                        className="govuk-button govuk-button--warning mt-4"
+                        data-module="govuk-button"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            deleteActionHandler("consequence", hiddenInputs);
+                        }}
+                    >
+                        Delete consequence
+                    </button>
+                    <button
+                        key={`duplicate-${consequence.consequenceIndex}`}
+                        className={`govuk-button govuk-button--secondary mt-4 ml-4${
+                            disruption.consequences && disruption.consequences.length >= MAX_CONSEQUENCES
+                                ? " pointer-events-none govuk-button--disabled"
+                                : ""
+                        }`}
+                        data-module="govuk-button"
+                        formAction={`/api/duplicate-consequence?consequenceId=${consequence.consequenceIndex}&return=${
+                            isDisruptionDetail ? DISRUPTION_DETAIL_PAGE_PATH : REVIEW_DISRUPTION_PAGE_PATH
+                        }${isTemplate ? "&template=true" : ""}`}
+                    >
+                        Duplicate consequence
+                    </button>
+                </>
+            )}
         </>
     );
 };
