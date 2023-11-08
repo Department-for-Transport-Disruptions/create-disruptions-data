@@ -3,7 +3,6 @@ import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import ManageOrganisations, { ManageOrganisationsProps } from "./manage-organisations.page";
 import { defaultModes } from "../../schemas/organisation.schema";
 import { SessionWithOrgDetail } from "../../schemas/session.schema";
-import { DEFAULT_OPERATOR_ORG_ID } from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
 
 const blankInputs: ManageOrganisationsProps = {
