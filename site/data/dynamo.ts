@@ -19,6 +19,7 @@ import { TooManyConsequencesError } from "../errors";
 import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.schema";
 import {
     operatorOrgListSchema,
+    operatorOrgSchema,
     Organisation,
     organisationSchema,
     SubOrganisation,
@@ -526,6 +527,7 @@ export const upsertDisruptionInfo = async (
     id: string,
     isUserStaff?: boolean,
     isTemplate?: boolean,
+    operatorOrgId?: string | null,
 ) => {
     logger.info(
         `Updating draft disruption (${disruptionInfo.disruptionId}) from DynamoDB table (${getTableName(
@@ -548,6 +550,7 @@ export const upsertDisruptionInfo = async (
                 SK: `${disruptionInfo.disruptionId}#INFO${isPending ? "#PENDING" : isEditing ? "#EDIT" : ""}`,
                 ...disruptionInfo,
                 ...(isTemplate ? { template: isTemplate } : {}),
+                ...(operatorOrgId ? { createdByOperatorOrgId: operatorOrgId } : {}),
             },
         }),
     );
@@ -719,6 +722,35 @@ export const createOperatorSubOrganisation = async (orgId: string, operatorName:
             },
         }),
     );
+};
+
+export const getOperatorByOrgIdAndOperatorOrgId = async (orgId: string, operatorOrgId: string) => {
+    logger.info(
+        `Getting operator: by orgId (${orgId}) and operatorOrgId orgId (${operatorOrgId}) from organisations DynamoDB table...`,
+    );
+    const operator = await ddbDocClient.send(
+        new GetCommand({
+            TableName: organisationsTableName,
+            Key: {
+                PK: orgId,
+                SK: `OPERATOR#${operatorOrgId}`,
+            },
+        }),
+    );
+
+    const parsedOperator = operatorOrgSchema.safeParse(operator.Item);
+
+    if (!parsedOperator.success) {
+        return null;
+    }
+
+    return parsedOperator.data;
+};
+
+export const getNocCodesForOperatorOrg = async (orgId: string, operatorOrgId: string) => {
+    logger.info(`Getting NOC codes associated with operatorOrgId (${operatorOrgId})`);
+    const operatorDetails = await getOperatorByOrgIdAndOperatorOrgId(orgId, operatorOrgId);
+    return operatorDetails ? operatorDetails.nocCodes : [];
 };
 
 export const listOperatorsForOrg = async (orgId: string) => {

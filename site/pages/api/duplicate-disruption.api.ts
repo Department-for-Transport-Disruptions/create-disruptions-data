@@ -93,6 +93,8 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             },
             session.orgId,
             session.isOrgStaff,
+            template === "true",
+            session.isOperatorUser ? session.operatorOrgId : null,
         );
 
         if (draftDisruption.consequences) {

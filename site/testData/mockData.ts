@@ -22,11 +22,13 @@ import { ParsedUrlQuery } from "querystring";
 import { COOKIES_ID_TOKEN, COOKIES_POLICY_COOKIE } from "../constants";
 import { Operator, ServiceApiResponse } from "../schemas/consequence.schema";
 import { ExportDisruptions, FullDisruption } from "../schemas/disruption.schema";
-import { Session } from "../schemas/session.schema";
+import { defaultModes } from "../schemas/organisation.schema";
+import { Session, SessionWithOrgDetail } from "../schemas/session.schema";
 import { HootsuitePost } from "../schemas/social-media.schema";
 import { getFutureDateAsString } from "../utils/dates";
 
 export const DEFAULT_ORG_ID = "35bae327-4af0-4bbf-8bfa-2c085f214483";
+export const DEFAULT_OPERATOR_ORG_ID = "e18499ff-779c-4e74-b5cb-623be0adf24f";
 export const DEFAULT_DISRUPTION_ID = "8befe1e9-e317-45af-825a-e0254fabf49d";
 
 export const DEFAULT_IMAGE_BUCKET_NAME = "cdd-image-bucket";
@@ -1023,6 +1025,24 @@ export const mockSession: Session = {
     orgId: DEFAULT_ORG_ID,
     username: "test@example.com",
     name: "Test User",
+    isOperatorUser: false,
+    operatorOrgId: null,
+};
+
+export const mockSessionWithOrgDetail: SessionWithOrgDetail = {
+    email: "test@example.com",
+    username: "test@example.com",
+    orgId: DEFAULT_ORG_ID,
+    adminAreaCodes: [],
+    orgName: "Test Org",
+    isOrgAdmin: true,
+    isOrgPublisher: false,
+    isOrgStaff: false,
+    isSystemAdmin: false,
+    name: "Test User",
+    mode: defaultModes,
+    isOperatorUser: false,
+    operatorOrgId: null,
 };
 
 export const mockGetUserDetails = Promise.resolve({

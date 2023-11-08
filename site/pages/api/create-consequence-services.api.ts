@@ -9,6 +9,7 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
+import { getNocCodesForOperatorOrg } from "../../data/dynamo";
 import { TooManyConsequencesError } from "../../errors";
 import { flattenZodErrors, getLargestConsequenceIndex } from "../../utils";
 import {
@@ -94,6 +95,40 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
                 queryParam ? [queryParam] : [],
             );
             return;
+        }
+
+        if (session.isOperatorUser && session.operatorOrgId) {
+            const operatorUserNocCodes = await getNocCodesForOperatorOrg(session.orgId, session.operatorOrgId);
+
+            const consequenceIncludesOperatorUserNocCode = validatedBody.data.services.map((service) => {
+                return operatorUserNocCodes.includes(service.nocCode);
+            });
+
+            if (consequenceIncludesOperatorUserNocCode.includes(false)) {
+                setCookieOnResponseObject(
+                    COOKIES_CONSEQUENCE_SERVICES_ERRORS,
+                    JSON.stringify({
+                        inputs: formattedBody,
+                        errors: [
+                            {
+                                errorMessage:
+                                    "Operator user can only create service type consequence for services that contain their own NOC codes.",
+                                id: "",
+                            },
+                        ],
+                    }),
+                    res,
+                );
+
+                redirectToWithQueryParams(
+                    req,
+                    res,
+                    template ? ["template"] : [],
+                    `${CREATE_CONSEQUENCE_SERVICES_PATH}/${validatedBody.data.disruptionId}/${validatedBody.data.consequenceIndex}`,
+                    queryParam ? [queryParam] : [],
+                );
+                return;
+            }
         }
 
         const disruption = await handleUpsertConsequence(

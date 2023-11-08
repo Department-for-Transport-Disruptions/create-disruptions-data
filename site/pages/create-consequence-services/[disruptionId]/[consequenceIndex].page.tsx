@@ -35,7 +35,7 @@ import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
 } from "../../../constants";
-import { getDisruptionById } from "../../../data/dynamo";
+import { getDisruptionById, getNocCodesForOperatorOrg } from "../../../data/dynamo";
 import { fetchServiceRoutes, fetchServices, fetchServicesByStops, fetchServiceStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { flattenZodErrors, getServiceLabel, isServicesConsequence, sortServices } from "../../../utils";
@@ -112,6 +112,8 @@ export interface CreateConsequenceServicesProps
         CreateConsequenceProps {
     consequenceDataSource: Datasource | null;
     globalDataSource: Datasource | null;
+    isOperatorUser?: boolean;
+    operatorUserNocCodes?: string[];
 }
 
 const CreateConsequenceServices = (props: CreateConsequenceServicesProps): ReactElement => {
@@ -237,6 +239,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                     atcoCodes: [stopToAdd.atcoCode],
                     includeRoutes: true,
                     dataSource: dataSource,
+                    nocCodes: props.isOperatorUser && props.operatorUserNocCodes ? props.operatorUserNocCodes : [],
                 });
 
                 stopToAdd["serviceIds"] = servicesForGivenStop.map((service) => service.id);
@@ -367,6 +370,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             adminAreaCodes: props.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
             dataSource: source,
             modes: mode,
+            nocCodes: props.isOperatorUser && props.operatorUserNocCodes ? props.operatorUserNocCodes : [],
         });
 
         const filteredData = filterServices(serviceData);
@@ -783,6 +787,11 @@ export const getServerSideProps = async (
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_SERVICES_ERRORS, ctx.res);
 
+    const operatorUserNocCodes =
+        session.isOperatorUser && session.operatorOrgId
+            ? await getNocCodesForOperatorOrg(session.orgId, session.operatorOrgId)
+            : [];
+
     return {
         props: {
             ...pageState,
@@ -795,6 +804,8 @@ export const getServerSideProps = async (
             consequenceDataSource,
             globalDataSource,
             isEdit: !!consequence,
+            isOperatorUser: session.isOperatorUser,
+            operatorUserNocCodes: operatorUserNocCodes,
         },
     };
 };
