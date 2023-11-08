@@ -36,6 +36,8 @@ describe("accountSettings", () => {
                         isSystemAdmin: false,
                         name: "Test User",
                         mode: defaultModes,
+                        isOperatorUser: false,
+                        operatorOrgId: null,
                     }}
                 />,
             )
@@ -84,7 +86,8 @@ describe("accountSettings", () => {
                         isSystemAdmin: false,
                         name: "Test User",
                         mode: defaultModes,
-                        operatorOrgId: DEFAULT_OPERATOR_ORG_ID,
+                        isOperatorUser: false,
+                        operatorOrgId: null,
                     }}
                 />,
             )

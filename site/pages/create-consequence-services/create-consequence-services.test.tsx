@@ -5,6 +5,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import CreateConsequenceServices, { CreateConsequenceServicesProps } from "./[disruptionId]/[consequenceIndex].page";
 import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
 import { defaultModes } from "../../schemas/organisation.schema";
+import { DEFAULT_OPERATOR_ORG_ID } from "../../testData/mockData";
 
 const blankInputs: CreateConsequenceServicesProps = {
     errors: [],
@@ -21,6 +22,8 @@ const blankInputs: CreateConsequenceServicesProps = {
         isSystemAdmin: true,
         name: "Test User",
         mode: defaultModes,
+        isOperatorUser: false,
+        operatorOrgId: null,
     },
     consequenceDataSource: null,
     globalDataSource: null,
@@ -42,6 +45,8 @@ const withInputs: CreateConsequenceServicesProps = {
         isSystemAdmin: true,
         name: "Test User",
         mode: defaultModes,
+        isOperatorUser: false,
+        operatorOrgId: null,
     },
     inputs: {
         stops: [
@@ -107,6 +112,8 @@ const withInputsAndErrors: CreateConsequenceServicesProps = {
         isSystemAdmin: true,
         name: "Test User",
         mode: defaultModes,
+        isOperatorUser: false,
+        operatorOrgId: null,
     },
     errors: [
         { errorMessage: "Enter a description for this disruption", id: "description" },

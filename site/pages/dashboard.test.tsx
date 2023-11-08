@@ -7,7 +7,12 @@ import { CD_DATE_FORMAT } from "../constants";
 import * as dynamo from "../data/dynamo";
 import { defaultModes } from "../schemas/organisation.schema";
 import { SessionWithOrgDetail } from "../schemas/session.schema";
-import { disruptionArray, disruptionWithConsequencesAndSocialMediaPosts, getMockContext } from "../testData/mockData";
+import {
+    DEFAULT_OPERATOR_ORG_ID,
+    disruptionArray,
+    disruptionWithConsequencesAndSocialMediaPosts,
+    getMockContext,
+} from "../testData/mockData";
 import * as session from "../utils/apiUtils/auth";
 import { formatDate } from "../utils/dates";
 
@@ -40,6 +45,8 @@ const defaultSession: SessionWithOrgDetail = {
     orgName: "Nexus",
     adminAreaCodes: ["A", "B", "C"],
     mode: defaultModes,
+    isOperatorUser: false,
+    operatorOrgId: null,
 };
 
 const disruptions: DashboardDisruption[] = [

@@ -21,6 +21,8 @@ describe("Header", () => {
                         isOrgStaff: true,
                         isSystemAdmin: true,
                         name: "Test User",
+                        isOperatorUser: false,
+                        operatorOrgId: null,
                     }}
                     csrfToken=""
                 />,

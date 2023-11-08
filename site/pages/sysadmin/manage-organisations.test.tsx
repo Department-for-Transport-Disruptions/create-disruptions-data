@@ -3,6 +3,7 @@ import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import ManageOrganisations, { ManageOrganisationsProps } from "./manage-organisations.page";
 import { defaultModes } from "../../schemas/organisation.schema";
 import { SessionWithOrgDetail } from "../../schemas/session.schema";
+import { DEFAULT_OPERATOR_ORG_ID } from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
 
 const blankInputs: ManageOrganisationsProps = {
@@ -32,12 +33,14 @@ const defaultSession: SessionWithOrgDetail = {
     isOrgPublisher: false,
     isOrgStaff: false,
     isSystemAdmin: true,
+    isOperatorUser: false,
     orgId: randomID,
     username: "test@example.com",
     name: "Test User",
     orgName: "Nexus",
     adminAreaCodes: ["A", "B", "C"],
     mode: defaultModes,
+    operatorOrgId: null,
 };
 
 const getSessionWithOrgDetailSpy = vi.spyOn(session, "getSessionWithOrgDetail");
