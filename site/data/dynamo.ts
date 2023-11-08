@@ -20,7 +20,6 @@ import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.sche
 import {
     operatorOrgSchema,
     operatorOrgListSchema,
-    operatorOrgSchema,
     Organisation,
     organisationSchema,
     SubOrganisation,
