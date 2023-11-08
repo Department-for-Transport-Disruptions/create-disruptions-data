@@ -17,8 +17,8 @@ import { randomUUID } from "crypto";
 import { inspect } from "util";
 import { TooManyConsequencesError } from "../errors";
 import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.schema";
-import { operatorOrgSchema } from "../schemas/operator.schema";
 import {
+    operatorOrgSchema,
     Organisation,
     organisationSchema,
     SubOrganisation,

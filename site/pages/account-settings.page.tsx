@@ -9,8 +9,7 @@ import { TwoThirdsLayout } from "../components/layout/Layout";
 import { SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH } from "../constants";
 import { getOperatorByOrgIdAndOperatorOrgId } from "../data/dynamo";
 import { ErrorInfo } from "../interfaces";
-import { OperatorSchema } from "../schemas/operator.schema";
-import { ModeType } from "../schemas/organisation.schema";
+import { OperatorOrgSchema, ModeType } from "../schemas/organisation.schema";
 import { SessionWithOrgDetail } from "../schemas/session.schema";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 import { getDisruptionEmailPreference } from "../utils/user";
@@ -22,7 +21,7 @@ interface AccountSettingsProps {
     sessionWithOrg: SessionWithOrgDetail;
     csrfToken?: string;
     disruptionEmailPreference?: boolean;
-    operator?: OperatorSchema | null;
+    operator?: OperatorOrgSchema | null;
 }
 
 const AccountSettings = ({

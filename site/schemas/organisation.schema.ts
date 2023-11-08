@@ -43,3 +43,14 @@ export const subOrganisationSchema = z.object({
 export type SubOrganisation = z.infer<typeof subOrganisationSchema>;
 
 export const subOrganisationsSchema = z.array(subOrganisationSchema);
+
+export const operatorOrgSchema = subOrganisationSchema.transform((data) => ({
+    orgId: data.PK,
+    operatorOrgId: data.SK.replace("OPERATOR#", ""),
+    name: data.name,
+    nocCodes: data.nocCodes,
+}));
+
+export type OperatorOrgSchema = z.infer<typeof operatorOrgSchema>;
+
+export const operatorOrgListSchema = z.array(operatorOrgSchema);
