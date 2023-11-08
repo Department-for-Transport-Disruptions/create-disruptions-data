@@ -28,6 +28,7 @@ import { HootsuitePost } from "../schemas/social-media.schema";
 import { getFutureDateAsString } from "../utils/dates";
 
 export const DEFAULT_ORG_ID = "35bae327-4af0-4bbf-8bfa-2c085f214483";
+export const DEFAULT_OPERATOR_ORG_ID = "e18499ff-779c-4e74-b5cb-623be0adf24f";
 export const DEFAULT_DISRUPTION_ID = "8befe1e9-e317-45af-825a-e0254fabf49d";
 
 export const DEFAULT_IMAGE_BUCKET_NAME = "cdd-image-bucket";

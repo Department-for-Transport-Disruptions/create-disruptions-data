@@ -65,13 +65,11 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
         if (session.isOperatorUser && session.operatorOrgId) {
             const operatorUserNocCodes = await getNocCodesForOperatorOrg(session.orgId, session.operatorOrgId);
 
-            const consequenceOperatorIncludesOperatorUserNocCode = formattedBody.consequenceOperators.map(
-                (operator) => {
-                    return operatorUserNocCodes.includes(operator.operatorNoc);
-                },
-            );
+            const consequenceIncludesOperatorUserNocCode = formattedBody.consequenceOperators.map((operator) => {
+                return operatorUserNocCodes.includes(operator.operatorNoc);
+            });
 
-            if (consequenceOperatorIncludesOperatorUserNocCode.includes(false)) {
+            if (consequenceIncludesOperatorUserNocCode.includes(false)) {
                 setCookieOnResponseObject(
                     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
                     JSON.stringify({

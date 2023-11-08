@@ -15,7 +15,12 @@ import {
 } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
-import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession } from "../../testData/mockData";
+import {
+    DEFAULT_OPERATOR_ORG_ID,
+    DEFAULT_ORG_ID,
+    getMockRequestAndResponse,
+    mockSession,
+} from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
 import { getFutureDateAsString } from "../../utils/dates";
 
@@ -221,6 +226,44 @@ describe("duplicate-disruption API", () => {
 
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${CREATE_DISRUPTION_PAGE_PATH}/${newDefaultDisruptionId}?return=${returnPath}`,
+        });
+    });
+
+    it("should redirect to /review-disruption when an operator duplicated a disruption and all required inputs are passed", async () => {
+        getSessionSpy.mockImplementation(() => {
+            return { ...mockSession, isOperatorUser: true, operatorOrgId: DEFAULT_OPERATOR_ORG_ID };
+        });
+
+        const { req, res } = getMockRequestAndResponse({
+            body: { disruptionId: defaultDisruptionId },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        getDisruptionByIdSpy.mockResolvedValue(disruption);
+        await duplicateDisruption(req, res);
+
+        expect(upsertDisruptionInfoSpy).toHaveBeenCalledTimes(1);
+        expect(upsertDisruptionInfoSpy).toHaveBeenCalledWith(
+            {
+                ...disruptionInfoSchemaRefined.parse(disruption),
+                disruptionId: newDefaultDisruptionId,
+                displayId: "9fg4gc",
+            },
+            DEFAULT_ORG_ID,
+            mockSession.isOrgStaff,
+            false,
+            DEFAULT_OPERATOR_ORG_ID,
+        );
+
+        expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
+        expect(upsertConsequenceSpy).toHaveBeenCalledWith(
+            { ...defaultNetworkData, disruptionId: newDefaultDisruptionId },
+            DEFAULT_ORG_ID,
+            mockSession.isOrgStaff,
+        );
+
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${newDefaultDisruptionId}?duplicate=true`,
         });
     });
 });

@@ -100,11 +100,11 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
         if (session.isOperatorUser && session.operatorOrgId) {
             const operatorUserNocCodes = await getNocCodesForOperatorOrg(session.orgId, session.operatorOrgId);
 
-            const serviceConsequenceIncludesOperatorUserNocCode = validatedBody.data.services.map((service) => {
+            const consequenceIncludesOperatorUserNocCode = validatedBody.data.services.map((service) => {
                 return operatorUserNocCodes.includes(service.nocCode);
             });
 
-            if (serviceConsequenceIncludesOperatorUserNocCode.includes(false)) {
+            if (consequenceIncludesOperatorUserNocCode.includes(false)) {
                 setCookieOnResponseObject(
                     COOKIES_CONSEQUENCE_SERVICES_ERRORS,
                     JSON.stringify({
