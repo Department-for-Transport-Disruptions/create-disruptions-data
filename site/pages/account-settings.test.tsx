@@ -84,6 +84,7 @@ describe("accountSettings", () => {
                         isSystemAdmin: false,
                         name: "Test User",
                         mode: defaultModes,
+                        operatorOrgId: DEFAULT_OPERATOR_ORG_ID,
                     }}
                 />,
             )
@@ -108,12 +109,13 @@ describe("accountSettings", () => {
                         name: "Test User",
                         mode: defaultModes,
                         isOperatorUser: true,
+                        operatorOrgId: DEFAULT_OPERATOR_ORG_ID,
                     }}
                     operator={{
                         nocCodes: ["WRAY", "CPTR", "MOXN"],
                         operatorOrgId: DEFAULT_OPERATOR_ORG_ID,
                         orgId: DEFAULT_ORG_ID,
-                        operatorName: "add-op",
+                        name: "add-op",
                     }}
                 />,
             )
