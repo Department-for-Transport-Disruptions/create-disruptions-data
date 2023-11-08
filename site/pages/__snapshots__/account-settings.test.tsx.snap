@@ -720,7 +720,7 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
                             className="govuk-radios__item"
                           >
                             <input
-                              checked={false}
+                              checked={true}
                               className="govuk-radios__input"
                               id="tram-tnds"
                               name="tram-group"
@@ -739,7 +739,7 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
                             className="govuk-radios__item"
                           >
                             <input
-                              checked={true}
+                              checked={false}
                               className="govuk-radios__input"
                               id="tram-bods"
                               name="tram-group"
@@ -777,7 +777,7 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
                             className="govuk-radios__item"
                           >
                             <input
-                              checked={false}
+                              checked={true}
                               className="govuk-radios__input"
                               id="ferryService-tnds"
                               name="ferryService-group"
@@ -796,7 +796,7 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
                             className="govuk-radios__item"
                           >
                             <input
-                              checked={true}
+                              checked={false}
                               className="govuk-radios__input"
                               id="ferryService-bods"
                               name="ferryService-group"
@@ -834,7 +834,7 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
                             className="govuk-radios__item"
                           >
                             <input
-                              checked={false}
+                              checked={true}
                               className="govuk-radios__input"
                               id="rail-tnds"
                               name="rail-group"
@@ -853,7 +853,7 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
                             className="govuk-radios__item"
                           >
                             <input
-                              checked={true}
+                              checked={false}
                               className="govuk-radios__input"
                               id="rail-bods"
                               name="rail-group"
