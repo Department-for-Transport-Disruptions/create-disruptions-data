@@ -60,6 +60,8 @@ describe("accountSettings", () => {
                     isSystemAdmin: true,
                     name: "Test User",
                     mode: defaultModes,
+                    isOperatorUser: false,
+                    operatorOrgId: null,
                 }}
             />,
         );

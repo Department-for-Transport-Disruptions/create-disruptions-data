@@ -5,7 +5,6 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import CreateConsequenceServices, { CreateConsequenceServicesProps } from "./[disruptionId]/[consequenceIndex].page";
 import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
 import { defaultModes } from "../../schemas/organisation.schema";
-import { DEFAULT_OPERATOR_ORG_ID } from "../../testData/mockData";
 
 const blankInputs: CreateConsequenceServicesProps = {
     errors: [],

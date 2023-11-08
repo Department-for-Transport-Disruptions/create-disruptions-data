@@ -2,7 +2,6 @@ import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import ChangePassword, { ChangePasswordPageProps } from "./change-password.page";
 import { defaultModes } from "../schemas/organisation.schema";
-import { DEFAULT_OPERATOR_ORG_ID } from "../testData/mockData";
 
 const blankInputs: ChangePasswordPageProps = {
     errors: [],
