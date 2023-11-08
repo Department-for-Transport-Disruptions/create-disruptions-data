@@ -181,7 +181,7 @@ const AccountSettings = ({
                                       ? [
                                             {
                                                 header: "Operator name",
-                                                cells: [operator.name, ""],
+                                                cells: [operator.operatorName, ""],
                                             },
                                         ]
                                       : []),

@@ -48,7 +48,7 @@ export const subOrganisationsSchema = z.array(subOrganisationSchema);
 export const operatorOrgSchema = subOrganisationSchema.transform((data) => ({
     orgId: data.PK,
     operatorOrgId: data.SK?.replace("OPERATOR#", ""),
-    name: data.name,
+    operatorName: data.name,
     nocCodes: data.nocCodes,
 }));
 

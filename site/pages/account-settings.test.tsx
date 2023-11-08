@@ -120,7 +120,7 @@ describe("accountSettings", () => {
                         nocCodes: ["WRAY", "CPTR", "MOXN"],
                         operatorOrgId: DEFAULT_OPERATOR_ORG_ID,
                         orgId: DEFAULT_ORG_ID,
-                        name: "add-op",
+                        operatorName: "add-op",
                     }}
                 />,
             )
