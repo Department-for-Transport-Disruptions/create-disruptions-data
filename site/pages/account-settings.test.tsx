@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import AccountSettings from "./account-settings.page";
-import { mockSessionWithOrgDetail } from "../testData/mockData";
+import { DEFAULT_OPERATOR_ORG_ID, DEFAULT_ORG_ID, mockSessionWithOrgDetail } from "../testData/mockData";
 import * as user from "../utils/user";
 
 describe("accountSettings", () => {
@@ -49,6 +49,27 @@ describe("accountSettings", () => {
                         ...mockSessionWithOrgDetail,
                         isOrgAdmin: false,
                         isOrgPublisher: true,
+                    }}
+                />,
+            )
+            .toJSON();
+        expect(tree).toMatchSnapshot();
+    });
+
+    it("should render correctly for operator", () => {
+        const tree = renderer
+            .create(
+                <AccountSettings
+                    sessionWithOrg={{
+                        ...mockSessionWithOrgDetail,
+                        isOperatorUser: true,
+                        operatorOrgId: DEFAULT_OPERATOR_ORG_ID,
+                    }}
+                    operator={{
+                        nocCodes: ["WRAY", "CPTR", "MOXN"],
+                        operatorOrgId: DEFAULT_OPERATOR_ORG_ID,
+                        orgId: DEFAULT_ORG_ID,
+                        name: "add-op",
                     }}
                 />,
             )

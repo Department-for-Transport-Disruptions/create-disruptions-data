@@ -11,7 +11,16 @@ describe("Header", () => {
 
     it("should render correctly with a session", () => {
         const tree = renderer
-            .create(<Header session={{ ...mockSession, isSystemAdmin: false, isOrgPublisher: true }} csrfToken="" />)
+            .create(
+                <Header
+                    session={{
+                        ...mockSession,
+                        isSystemAdmin: false,
+                        isOrgPublisher: true,
+                    }}
+                    csrfToken=""
+                />,
+            )
             .toJSON();
         expect(tree).toMatchSnapshot();
     });

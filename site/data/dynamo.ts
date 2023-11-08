@@ -18,8 +18,8 @@ import { inspect } from "util";
 import { TooManyConsequencesError } from "../errors";
 import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.schema";
 import {
-    operatorOrgListSchema,
     operatorOrgSchema,
+    operatorOrgListSchema,
     Organisation,
     organisationSchema,
     SubOrganisation,

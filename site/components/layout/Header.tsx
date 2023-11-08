@@ -83,7 +83,7 @@ const Header = ({ session, csrfToken }: HeaderProps): ReactElement => {
                                             User management
                                         </Link>
                                     )}
-                                    {session?.isOrgAdmin && (
+                                    {(session?.isOrgAdmin || session?.isOperatorUser) && (
                                         <Link
                                             className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
                                             href={SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH}

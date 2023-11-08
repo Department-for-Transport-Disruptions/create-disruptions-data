@@ -1022,10 +1022,10 @@ export const mockSession: Session = {
     isOrgPublisher: false,
     isOrgStaff: false,
     isSystemAdmin: true,
+    isOperatorUser: false,
     orgId: DEFAULT_ORG_ID,
     username: "test@example.com",
     name: "Test User",
-    isOperatorUser: false,
     operatorOrgId: null,
 };
 

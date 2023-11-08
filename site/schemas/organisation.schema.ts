@@ -13,9 +13,9 @@ export type ModeType = z.infer<typeof modeSchema>;
 
 export const defaultModes: ModeType = {
     bus: Datasource.bods,
-    tram: Datasource.bods,
-    ferryService: Datasource.bods,
-    rail: Datasource.bods,
+    tram: Datasource.tnds,
+    ferryService: Datasource.tnds,
+    rail: Datasource.tnds,
 };
 
 export const organisationSchema = z.object({
@@ -42,6 +42,8 @@ export const subOrganisationSchema = z.object({
 });
 
 export type SubOrganisation = z.infer<typeof subOrganisationSchema>;
+
+export const subOrganisationsSchema = z.array(subOrganisationSchema);
 
 export const operatorOrgSchema = subOrganisationSchema.transform((data) => ({
     orgId: data.PK,
