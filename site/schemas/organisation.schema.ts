@@ -36,7 +36,7 @@ export type AreaCodeValuePair = z.infer<typeof areaCodeSchema>;
 
 export const subOrganisationSchema = z.object({
     name: z.string(),
-    PK: z.string().optional(),
+    PK: z.string(),
     nocCodes: z.array(z.string()),
     SK: z.string(),
 });
