@@ -22,7 +22,8 @@ import { ParsedUrlQuery } from "querystring";
 import { COOKIES_ID_TOKEN, COOKIES_POLICY_COOKIE } from "../constants";
 import { Operator, ServiceApiResponse } from "../schemas/consequence.schema";
 import { ExportDisruptions, FullDisruption } from "../schemas/disruption.schema";
-import { Session } from "../schemas/session.schema";
+import { defaultModes } from "../schemas/organisation.schema";
+import { Session, SessionWithOrgDetail } from "../schemas/session.schema";
 import { HootsuitePost } from "../schemas/social-media.schema";
 import { getFutureDateAsString } from "../utils/dates";
 
@@ -1025,6 +1026,22 @@ export const mockSession: Session = {
     orgId: DEFAULT_ORG_ID,
     username: "test@example.com",
     name: "Test User",
+    operatorOrgId: null,
+};
+
+export const mockSessionWithOrgDetail: SessionWithOrgDetail = {
+    email: "test@example.com",
+    username: "test@example.com",
+    orgId: DEFAULT_ORG_ID,
+    adminAreaCodes: [],
+    orgName: "Test Org",
+    isOrgAdmin: true,
+    isOrgPublisher: false,
+    isOrgStaff: false,
+    isSystemAdmin: false,
+    name: "Test User",
+    mode: defaultModes,
+    isOperatorUser: false,
     operatorOrgId: null,
 };
 

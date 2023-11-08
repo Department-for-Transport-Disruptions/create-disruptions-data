@@ -20,6 +20,7 @@ import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.sche
 import {
     operatorOrgSchema,
     operatorOrgListSchema,
+    operatorOrgSchema,
     Organisation,
     organisationSchema,
     SubOrganisation,
@@ -527,6 +528,7 @@ export const upsertDisruptionInfo = async (
     id: string,
     isUserStaff?: boolean,
     isTemplate?: boolean,
+    operatorOrgId?: string | null,
 ) => {
     logger.info(
         `Updating draft disruption (${disruptionInfo.disruptionId}) from DynamoDB table (${getTableName(
@@ -549,6 +551,7 @@ export const upsertDisruptionInfo = async (
                 SK: `${disruptionInfo.disruptionId}#INFO${isPending ? "#PENDING" : isEditing ? "#EDIT" : ""}`,
                 ...disruptionInfo,
                 ...(isTemplate ? { template: isTemplate } : {}),
+                ...(operatorOrgId ? { createdByOperatorOrgId: operatorOrgId } : {}),
             },
         }),
     );
@@ -743,6 +746,12 @@ export const getOperatorByOrgIdAndOperatorOrgId = async (orgId: string, operator
     }
 
     return parsedOperator.data;
+};
+
+export const getNocCodesForOperatorOrg = async (orgId: string, operatorOrgId: string) => {
+    logger.info(`Getting NOC codes associated with operatorOrgId (${operatorOrgId})`);
+    const operatorDetails = await getOperatorByOrgIdAndOperatorOrgId(orgId, operatorOrgId);
+    return operatorDetails ? operatorDetails.nocCodes : [];
 };
 
 export const listOperatorsForOrg = async (orgId: string) => {

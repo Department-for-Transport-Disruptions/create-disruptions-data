@@ -4,7 +4,7 @@ import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import CreateConsequenceStops, { CreateConsequenceStopsProps } from "./[disruptionId]/[consequenceIndex].page";
 import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
-import { defaultModes } from "../../schemas/organisation.schema";
+import { mockSessionWithOrgDetail } from "../../testData/mockData";
 
 const blankInputs: CreateConsequenceStopsProps = {
     errors: [],
@@ -36,21 +36,7 @@ const withInputs: CreateConsequenceStopsProps = {
         disruptionDelay: "45",
         disruptionSeverity: Severity.severe,
     },
-    sessionWithOrg: {
-        email: "test@example.com",
-        username: "Test",
-        orgId: "org",
-        adminAreaCodes: [],
-        orgName: "Test Org",
-        isOrgAdmin: true,
-        isOrgPublisher: true,
-        isOrgStaff: true,
-        isSystemAdmin: true,
-        name: "Test User",
-        mode: defaultModes,
-        isOperatorUser: false,
-        operatorOrgId: null,
-    },
+    sessionWithOrg: mockSessionWithOrgDetail,
     disruptionDescription: "A truck broke down on a bridge",
 };
 
@@ -79,21 +65,7 @@ const withInputsAndErrors: CreateConsequenceStopsProps = {
         disruptionDelay: "45",
         disruptionSeverity: Severity.severe,
     },
-    sessionWithOrg: {
-        email: "test@example.com",
-        username: "Test",
-        orgId: "org",
-        adminAreaCodes: [],
-        orgName: "Test Org",
-        isOrgAdmin: true,
-        isOrgPublisher: true,
-        isOrgStaff: true,
-        isSystemAdmin: true,
-        name: "Test User",
-        mode: defaultModes,
-        isOperatorUser: false,
-        operatorOrgId: null,
-    },
+    sessionWithOrg: mockSessionWithOrgDetail,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires

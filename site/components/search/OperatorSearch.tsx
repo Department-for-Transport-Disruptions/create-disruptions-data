@@ -82,7 +82,7 @@ const OperatorSearch = <T extends object>({
                             }),
                         }}
                         placeholder="Select operators"
-                        getOptionLabel={(operator: Operator) => operator.operatorPublicName}
+                        getOptionLabel={(operator: Operator) => `${operator.nocCode} - ${operator.operatorPublicName}`}
                         getOptionValue={(operator: Operator) => operator.nocCode}
                         options={sortOperatorByName(operators)}
                         onInputChange={(text) => {

@@ -43,6 +43,13 @@ describe("pages", () => {
             expect(tree).toMatchSnapshot();
         });
 
+        it("should render correctly for operator user with inputs and without errors", () => {
+            const tree = renderer
+                .create(<TypeOfConsequence errors={noErrors} inputs={withInputs} isOperatorUser={true} />)
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+
         it("should render correctly with query params", () => {
             useRouter.mockImplementation(() => ({
                 query: { return: "/review-disruption" },

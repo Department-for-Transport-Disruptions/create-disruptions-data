@@ -128,30 +128,6 @@ exports[`Header > should render correctly with a session 1`] = `
           >
             Account settings
           </a>
-          <a
-            className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
-            href="/admin/user-management"
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
-            role="menuitem"
-            tabIndex={-1}
-          >
-            User management
-          </a>
-          <a
-            className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
-            href="/admin/social-media-accounts"
-            onClick={[Function]}
-            onKeyDown={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
-            role="menuitem"
-            tabIndex={-1}
-          >
-            Social media
-          </a>
           <form
             action="/api/sign-out"
             method="post"

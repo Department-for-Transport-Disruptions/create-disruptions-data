@@ -1,6 +1,7 @@
 import renderer from "react-test-renderer";
 import { describe, it, expect } from "vitest";
 import Header from "./Header";
+import { mockSession } from "../../testData/mockData";
 
 describe("Header", () => {
     it("should render correctly without a session", () => {
@@ -13,16 +14,9 @@ describe("Header", () => {
             .create(
                 <Header
                     session={{
-                        email: "test@example.com",
-                        username: "test",
-                        orgId: "org",
-                        isOrgAdmin: true,
+                        ...mockSession,
+                        isSystemAdmin: false,
                         isOrgPublisher: true,
-                        isOrgStaff: true,
-                        isSystemAdmin: true,
-                        name: "Test User",
-                        isOperatorUser: false,
-                        operatorOrgId: null,
                     }}
                     csrfToken=""
                 />,

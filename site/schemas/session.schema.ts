@@ -25,13 +25,13 @@ export const sessionSchema = z
             username: item.sub,
             email: item.email,
             orgId: item["custom:orgId"],
-            operatorOrgId: item["custom:operatorOrgId"] || null,
             name: item.given_name && item.family_name ? `${item.given_name} ${item.family_name}` : item.email,
-            isOperatorUser,
+            operatorOrgId: item["custom:operatorOrgId"] ?? null,
             isSystemAdmin,
             isOrgAdmin,
             isOrgPublisher,
             isOrgStaff,
+            isOperatorUser,
         };
     });
 
