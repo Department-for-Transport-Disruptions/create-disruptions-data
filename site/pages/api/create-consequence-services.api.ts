@@ -1,4 +1,4 @@
-import { Service, ServicesConsequence, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Routes, Service, ServicesConsequence, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { servicesConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
@@ -51,24 +51,11 @@ export const formatCreateConsequenceStopsServicesBody = (body: object) => {
     };
 };
 
-export const getBasicServiceInfo = (disruptionWithServices: ServicesConsequence) => {
-    return {
-        ...disruptionWithServices,
-        services: disruptionWithServices.services.map((service) => ({
-            id: service.id,
-            lineName: service.lineName,
-            operatorShortName: service.operatorShortName,
-            destination: service.destination,
-            origin: service.origin,
-            nocCode: service.nocCode,
-            dataSource: service.dataSource,
-            startDate: service.startDate,
-            endDate: service.endDate,
-            serviceCode: service.serviceCode,
-            lineId: service.lineId,
-        })),
-    };
-};
+type ServiceWithRoutes = Service & { routes: Routes };
+
+export const getBasicServiceInfo = (services: ServiceWithRoutes[]) =>
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    services.map(({ routes, ...service }) => service);
 
 const createConsequenceServices = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
@@ -99,7 +86,14 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
             setCookieOnResponseObject(
                 COOKIES_CONSEQUENCE_SERVICES_ERRORS,
                 JSON.stringify({
-                    inputs: getBasicServiceInfo(formattedBody as ServicesConsequence),
+                    inputs: {
+                        ...formattedBody,
+                        services:
+                            formattedBody.services.length <= 3
+                                ? getBasicServiceInfo(formattedBody.services as ServiceWithRoutes[])
+                                : [],
+                        stops: formattedBody.stops.length <= 3 ? formattedBody.stops : [],
+                    },
                     errors: flattenZodErrors(validatedBody.error),
                 }),
                 res,

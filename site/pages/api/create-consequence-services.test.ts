@@ -275,7 +275,11 @@ describe("create-consequence-services API", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CONSEQUENCE_SERVICES_ERRORS,
             JSON.stringify({
-                inputs: getBasicServiceInfo(formatCreateConsequenceStopsServicesBody(req.body) as ServicesConsequence),
+                inputs: {
+                    ...(formatCreateConsequenceStopsServicesBody(req.body) as ServicesConsequence),
+                    services: [],
+                    stops: [],
+                },
                 errors,
             }),
             res,
@@ -299,11 +303,18 @@ describe("create-consequence-services API", () => {
         const errors: ErrorInfo[] = [
             { errorMessage: "Description must not exceed 1000 characters", id: "description" },
         ];
+
+        const formattedBody = formatCreateConsequenceStopsServicesBody(req.body) as ServicesConsequence;
+
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CONSEQUENCE_SERVICES_ERRORS,
             JSON.stringify({
-                inputs: getBasicServiceInfo(formatCreateConsequenceStopsServicesBody(req.body) as ServicesConsequence),
+                inputs: {
+                    ...formattedBody,
+                    services: getBasicServiceInfo(formattedBody.services as never[]),
+                    stops: [],
+                },
                 errors,
             }),
             res,
@@ -326,11 +337,17 @@ describe("create-consequence-services API", () => {
         const errors: ErrorInfo[] = [
             { errorMessage: "Enter a number between 0 to 999 for disruption delay", id: "disruptionDelay" },
         ];
+
+        const formattedBody = formatCreateConsequenceStopsServicesBody(req.body) as ServicesConsequence;
+
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CONSEQUENCE_SERVICES_ERRORS,
             JSON.stringify({
-                inputs: getBasicServiceInfo(formatCreateConsequenceStopsServicesBody(req.body) as ServicesConsequence),
+                inputs: {
+                    ...formattedBody,
+                    services: getBasicServiceInfo(formattedBody.services as never[]),
+                },
                 errors,
             }),
             res,
@@ -406,11 +423,17 @@ describe("create-consequence-services API", () => {
         const errors: ErrorInfo[] = [
             { errorMessage: "Description must not exceed 1000 characters", id: "description" },
         ];
+
+        const formattedBody = formatCreateConsequenceStopsServicesBody(req.body) as ServicesConsequence;
+
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CONSEQUENCE_SERVICES_ERRORS,
             JSON.stringify({
-                inputs: getBasicServiceInfo(formatCreateConsequenceStopsServicesBody(req.body) as ServicesConsequence),
+                inputs: {
+                    ...formattedBody,
+                    services: getBasicServiceInfo(formattedBody.services as never[]),
+                },
                 errors,
             }),
             res,

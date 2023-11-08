@@ -112,6 +112,7 @@ export interface CreateConsequenceServicesProps
         CreateConsequenceProps {
     consequenceDataSource: Datasource | null;
     globalDataSource: Datasource | null;
+    initialStops: Stop[];
 }
 
 const CreateConsequenceServices = (props: CreateConsequenceServicesProps): ReactElement => {
@@ -353,7 +354,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageState?.inputs?.services]);
 
-    const fetchData = async (source: Datasource, vehicleMode: string) => {
+    const getServices = async (source: Datasource, vehicleMode: string) => {
         let mode: Modes[] = [];
         if (vehicleMode === VehicleMode.ferryService.toString()) {
             mode = [Modes.ferry];
@@ -378,11 +379,11 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         if (pageState.inputs.vehicleMode) {
             const source =
                 props.inputs.vehicleMode === pageState.inputs.vehicleMode
-                    ? props.consequenceDataSource
+                    ? props.consequenceDataSource || props.globalDataSource
                     : props.sessionWithOrg?.mode[pageState.inputs.vehicleMode];
 
             if (source) {
-                fetchData(source, pageState.inputs.vehicleMode)
+                getServices(source, pageState.inputs.vehicleMode)
                     .then(() => {
                         if (vehicleMode !== pageState.inputs.vehicleMode) {
                             setDataSource(source);
@@ -770,15 +771,17 @@ export const getServerSideProps = async (
     let consequenceDataSource: Datasource | null = null;
     let globalDataSource: Datasource | null = null;
 
-    if (pageState.inputs.vehicleMode && pageState.inputs.services) {
+    if (pageState.inputs.vehicleMode) {
         globalDataSource = session.mode[pageState.inputs.vehicleMode];
 
-        consequenceDataSource = pageState.inputs.services[0].dataSource;
+        if (pageState.inputs.services?.length) {
+            consequenceDataSource = pageState.inputs.services[0].dataSource;
 
-        const stopPromises = pageState.inputs.services.map((service) =>
-            fetchStops(service.id, pageState.inputs.vehicleMode, service.dataSource),
-        );
-        stops = (await Promise.all(stopPromises)).flat();
+            const stopPromises = pageState.inputs.services.map((service) =>
+                fetchStops(service.id, pageState.inputs.vehicleMode, service.dataSource),
+            );
+            stops = (await Promise.all(stopPromises)).flat();
+        }
     }
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_SERVICES_ERRORS, ctx.res);
