@@ -41,7 +41,7 @@ export const addTwitterAccount = async (
     codeVerifier: string,
     orgId: string,
     addedBy: string,
-    createdByOperatorOrgId?: string,
+    createdByOperatorOrgId?: string | null,
 ) => {
     const twitterClient = await getTwitterClient();
 
