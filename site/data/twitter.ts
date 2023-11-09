@@ -36,7 +36,13 @@ export const twitterRedirectUri = `${process.env.DOMAIN_NAME as string}/api/twit
 
 const getSsmKey = (orgId: string, id: string) => `/social/${orgId}/twitter/${id}/refresh_token`;
 
-export const addTwitterAccount = async (code: string, codeVerifier: string, orgId: string, addedBy: string) => {
+export const addTwitterAccount = async (
+    code: string,
+    codeVerifier: string,
+    orgId: string,
+    addedBy: string,
+    createdByOperatorOrgId?: string,
+) => {
     const twitterClient = await getTwitterClient();
 
     const { refreshToken, client } = await twitterClient.loginWithOAuth2({
@@ -58,7 +64,14 @@ export const addTwitterAccount = async (code: string, codeVerifier: string, orgI
         throw new Error("Twitter auth failed");
     }
 
-    await addSocialAccountToOrg(orgId, twitterDetails.data.id, twitterDetails.data.name, addedBy, "Twitter");
+    await addSocialAccountToOrg(
+        orgId,
+        twitterDetails.data.id,
+        twitterDetails.data.name,
+        addedBy,
+        "Twitter",
+        createdByOperatorOrgId,
+    );
 
     await putParameter(getSsmKey(orgId, twitterDetails.data.id), refreshToken, "SecureString", true);
 };
@@ -159,7 +172,7 @@ export type TwitterDetails = {
     accountName: string;
 };
 
-export const getTwitterAccountList = async (orgId: string): Promise<SocialMediaAccount[]> => {
+export const getTwitterAccountList = async (orgId: string, operatorOrgId?: string): Promise<SocialMediaAccount[]> => {
     const socialAccounts = await getOrgSocialAccounts(orgId);
 
     const twitterDetail = socialAccounts
@@ -167,7 +180,10 @@ export const getTwitterAccountList = async (orgId: string): Promise<SocialMediaA
         .map((account) => ({
             ...account,
             expiresIn: "Never",
-        }));
+        }))
+        .filter((item) =>
+            operatorOrgId ? operatorOrgId === item.createdByOperatorOrgId : !item.createdByOperatorOrgId,
+        );
 
     return twitterDetail;
 };

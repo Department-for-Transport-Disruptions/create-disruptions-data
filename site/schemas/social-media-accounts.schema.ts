@@ -9,6 +9,7 @@ export const dynamoSocialAccountSchema = z.object({
     display: z.string(),
     accountType,
     addedBy: z.string(),
+    createdByOperatorOrgId: z.string().uuid().optional(),
 });
 
 export const socialMediaAccountSchema = dynamoSocialAccountSchema.and(
