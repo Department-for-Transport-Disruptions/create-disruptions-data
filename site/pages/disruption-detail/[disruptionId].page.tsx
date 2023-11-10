@@ -82,9 +82,9 @@ const DisruptionDetail = ({
         },
     ];
 
-    const showChangeLink = operatorOrgId ? disruption.createdByOperatorOrgId === operatorOrgId : true;
+    const isEditingAllowed = operatorOrgId ? disruption.createdByOperatorOrgId === operatorOrgId : true;
     const displaySendToReview = redirect.includes(DISRUPTION_DETAIL_PAGE_PATH) && redirect.includes("template=true");
-    const getSocialMediaRows = (post: SocialMediaPostTransformed, showChangeLink?: boolean) => {
+    const getSocialMediaRows = (post: SocialMediaPostTransformed, isEditingAllowed?: boolean) => {
         const isPendingOrRejected =
             post.status === SocialMediaPostStatus.pending || post.status === SocialMediaPostStatus.rejected;
         const socialMediaTableRows: { header?: string | ReactNode; cells: CellProps[] }[] = [
@@ -96,7 +96,7 @@ const DisruptionDetail = ({
                     },
                     {
                         value:
-                            isPendingOrRejected && showChangeLink
+                            isPendingOrRejected && isEditingAllowed
                                 ? createChangeLink(
                                       "message-to-appear",
                                       CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
@@ -132,7 +132,7 @@ const DisruptionDetail = ({
                     },
                     {
                         value:
-                            isPendingOrRejected && showChangeLink
+                            isPendingOrRejected && isEditingAllowed
                                 ? createChangeLink(
                                       "hootsuite-profile",
                                       CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
@@ -154,7 +154,7 @@ const DisruptionDetail = ({
                     },
                     {
                         value:
-                            isPendingOrRejected && showChangeLink
+                            isPendingOrRejected && isEditingAllowed
                                 ? createChangeLink(
                                       "publish-date",
                                       CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
@@ -176,7 +176,7 @@ const DisruptionDetail = ({
                     },
                     {
                         value:
-                            isPendingOrRejected && showChangeLink
+                            isPendingOrRejected && isEditingAllowed
                                 ? createChangeLink(
                                       "publish-time",
                                       CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
@@ -201,7 +201,7 @@ const DisruptionDetail = ({
                     },
                     {
                         value:
-                            isPendingOrRejected && showChangeLink
+                            isPendingOrRejected && isEditingAllowed
                                 ? createChangeLink(
                                       "account-to-publish",
                                       CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
@@ -223,7 +223,7 @@ const DisruptionDetail = ({
                     },
                     {
                         value:
-                            isPendingOrRejected && showChangeLink
+                            isPendingOrRejected && isEditingAllowed
                                 ? createChangeLink(
                                       "hootsuite-profile",
                                       CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
@@ -332,7 +332,7 @@ const DisruptionDetail = ({
                     ) : (
                         `${validity.disruptionStartDate} ${validity.disruptionStartTime} - No end date/time`
                     ),
-                    showChangeLink &&
+                    isEditingAllowed &&
                         createChangeLink(
                             `validity-period-${i + 1}`,
                             "/create-disruption",
@@ -445,7 +445,7 @@ const DisruptionDetail = ({
                                         },
                                         {
                                             value:
-                                                showChangeLink &&
+                                                isEditingAllowed &&
                                                 createChangeLink(
                                                     "type-of-disruption",
                                                     "/create-disruption",
@@ -469,7 +469,7 @@ const DisruptionDetail = ({
                                         },
                                         {
                                             value:
-                                                showChangeLink &&
+                                                isEditingAllowed &&
                                                 createChangeLink(
                                                     "summary",
                                                     "/create-disruption",
@@ -490,7 +490,7 @@ const DisruptionDetail = ({
                                         },
                                         {
                                             value:
-                                                showChangeLink &&
+                                                isEditingAllowed &&
                                                 createChangeLink(
                                                     "description",
                                                     "/create-disruption",
@@ -511,7 +511,7 @@ const DisruptionDetail = ({
                                         },
                                         {
                                             value:
-                                                showChangeLink &&
+                                                isEditingAllowed &&
                                                 createChangeLink(
                                                     "associated-link",
                                                     "/create-disruption",
@@ -532,7 +532,7 @@ const DisruptionDetail = ({
                                         },
                                         {
                                             value:
-                                                showChangeLink &&
+                                                isEditingAllowed &&
                                                 createChangeLink(
                                                     "disruption-reason",
                                                     "/create-disruption",
@@ -554,7 +554,7 @@ const DisruptionDetail = ({
                                         },
                                         {
                                             value:
-                                                showChangeLink &&
+                                                isEditingAllowed &&
                                                 createChangeLink(
                                                     "publish-start-date",
                                                     "/create-disruption",
@@ -575,7 +575,7 @@ const DisruptionDetail = ({
                                         },
                                         {
                                             value:
-                                                showChangeLink &&
+                                                isEditingAllowed &&
                                                 createChangeLink(
                                                     "publish-start-time",
                                                     "/create-disruption",
@@ -596,7 +596,7 @@ const DisruptionDetail = ({
                                         },
                                         {
                                             value:
-                                                showChangeLink &&
+                                                isEditingAllowed &&
                                                 createChangeLink(
                                                     "publish-end-date",
                                                     "/create-disruption",
@@ -619,7 +619,7 @@ const DisruptionDetail = ({
                                         },
                                         {
                                             value:
-                                                showChangeLink &&
+                                                isEditingAllowed &&
                                                 createChangeLink(
                                                     "publish-end-time",
                                                     "/create-disruption",
@@ -675,13 +675,13 @@ const DisruptionDetail = ({
                                             deleteActionHandler={deleteActionHandler}
                                             isDisruptionDetail={true}
                                             isTemplate={disruption.template}
-                                            showChangeLink={showChangeLink}
+                                            isEditingAllowed={isEditingAllowed}
                                         />
                                     </div>
                                 </div>
                             ))}
                         </div>
-                        {showChangeLink && (
+                        {isEditingAllowed && (
                             <Link
                                 href={{
                                     pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${nextIndex}`,
@@ -724,10 +724,10 @@ const DisruptionDetail = ({
                                         className="govuk-accordion__section-content"
                                         aria-labelledby={`accordion-default-heading-${i + 1}`}
                                     >
-                                        <Table rows={getSocialMediaRows(post, showChangeLink)} />
+                                        <Table rows={getSocialMediaRows(post, isEditingAllowed)} />
                                         {(post.status === SocialMediaPostStatus.pending ||
                                             post.status === SocialMediaPostStatus.rejected) &&
-                                        showChangeLink ? (
+                                        isEditingAllowed ? (
                                             <button
                                                 key={post.socialMediaPostIndex}
                                                 className="govuk-button govuk-button--warning mt-4"
@@ -747,7 +747,7 @@ const DisruptionDetail = ({
                                 </div>
                             ))}
                         </div>
-                        {showChangeLink && (
+                        {isEditingAllowed && (
                             <Link
                                 className={`govuk-button mt-2 govuk-button--secondary ${
                                     disruption.socialMediaPosts && disruption.socialMediaPosts.length >= 5
@@ -789,7 +789,7 @@ const DisruptionDetail = ({
                         ) : null}
 
                         {!canPublish &&
-                        showChangeLink &&
+                        isEditingAllowed &&
                         !disruption.template &&
                         (disruption.publishStatus === PublishStatus.editing ||
                             disruption.publishStatus === PublishStatus.pendingAndEditing) ? (
@@ -817,7 +817,7 @@ const DisruptionDetail = ({
 
                         {(disruption.publishStatus === PublishStatus.editing ||
                             disruption.publishStatus === PublishStatus.pendingAndEditing) &&
-                        showChangeLink ? (
+                        isEditingAllowed ? (
                             <button
                                 className="govuk-button govuk-button--secondary mt-8 ml-5"
                                 data-module="govuk-button"
@@ -827,7 +827,7 @@ const DisruptionDetail = ({
                             </button>
                         ) : null}
 
-                        {canPublish && showChangeLink && (
+                        {canPublish && isEditingAllowed && (
                             <button
                                 className="govuk-button govuk-button--warning ml-5 mt-8"
                                 data-module="govuk-button"
@@ -846,7 +846,7 @@ const DisruptionDetail = ({
                         )}
                         {disruption.publishStatus === PublishStatus.published &&
                         !disruption.template &&
-                        showChangeLink ? (
+                        isEditingAllowed ? (
                             <button
                                 className="govuk-button govuk-button--secondary ml-5 mt-8"
                                 data-module="govuk-button"

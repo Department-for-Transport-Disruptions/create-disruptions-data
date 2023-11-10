@@ -62,7 +62,7 @@ export const createChangeLink = (
 const getRows = (
     consequence: Consequence,
     disruption: Disruption,
-    showChangeLink: boolean,
+    isEditingAllowed: boolean,
     isDisruptionDetail?: boolean,
     isTemplate?: boolean,
 ) => {
@@ -78,7 +78,7 @@ const getRows = (
                 },
                 {
                     value:
-                        showChangeLink &&
+                        isEditingAllowed &&
                         createChangeLink(
                             "consequence-type",
                             TYPE_OF_CONSEQUENCE_PAGE_PATH,
@@ -100,7 +100,7 @@ const getRows = (
                 { value: getDisplayByValue(VEHICLE_MODES, consequence.vehicleMode) },
                 {
                     value:
-                        showChangeLink &&
+                        isEditingAllowed &&
                         createChangeLink(
                             "vehicle-mode",
                             getConsequenceUrl(consequence.consequenceType),
@@ -129,7 +129,7 @@ const getRows = (
                 },
                 {
                     value:
-                        showChangeLink &&
+                        isEditingAllowed &&
                         createChangeLink(
                             "service",
                             getConsequenceUrl(consequence.consequenceType),
@@ -161,7 +161,7 @@ const getRows = (
                 },
                 {
                     value:
-                        showChangeLink &&
+                        isEditingAllowed &&
                         createChangeLink(
                             "stops-affected",
                             getConsequenceUrl(consequence.consequenceType),
@@ -187,7 +187,7 @@ const getRows = (
                 },
                 {
                     value:
-                        showChangeLink &&
+                        isEditingAllowed &&
                         createChangeLink(
                             "operators-affected",
                             getConsequenceUrl(consequence.consequenceType),
@@ -211,7 +211,7 @@ const getRows = (
                 },
                 {
                     value:
-                        showChangeLink &&
+                        isEditingAllowed &&
                         createChangeLink(
                             "advice-to-display",
                             getConsequenceUrl(consequence.consequenceType),
@@ -232,7 +232,7 @@ const getRows = (
                 },
                 {
                     value:
-                        showChangeLink &&
+                        isEditingAllowed &&
                         createChangeLink(
                             "remove-from-journey-planners",
                             getConsequenceUrl(consequence.consequenceType),
@@ -253,7 +253,7 @@ const getRows = (
                 },
                 {
                     value:
-                        showChangeLink &&
+                        isEditingAllowed &&
                         createChangeLink(
                             "disruption-delay",
                             getConsequenceUrl(consequence.consequenceType),
@@ -282,7 +282,7 @@ interface ReviewConsequenceTableProps {
     ) => void;
     isDisruptionDetail?: boolean;
     isTemplate?: boolean;
-    showChangeLink: boolean;
+    isEditingAllowed: boolean;
 }
 
 const ReviewConsequenceTable = ({
@@ -291,7 +291,7 @@ const ReviewConsequenceTable = ({
     deleteActionHandler,
     isDisruptionDetail,
     isTemplate,
-    showChangeLink,
+    isEditingAllowed,
 }: ReviewConsequenceTableProps): ReactElement => {
     const hiddenInputs = [
         {
@@ -312,8 +312,8 @@ const ReviewConsequenceTable = ({
     }
     return (
         <>
-            <Table rows={getRows(consequence, disruption, showChangeLink, isDisruptionDetail, isTemplate)} />
-            {showChangeLink && (
+            <Table rows={getRows(consequence, disruption, isEditingAllowed, isDisruptionDetail, isTemplate)} />
+            {isEditingAllowed && (
                 <>
                     <button
                         key={consequence.consequenceIndex}

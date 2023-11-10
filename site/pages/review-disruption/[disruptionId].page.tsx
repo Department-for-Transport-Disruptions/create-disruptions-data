@@ -609,7 +609,7 @@ const ReviewDisruption = ({
                                             disruption={disruption}
                                             deleteActionHandler={deleteActionHandler}
                                             isTemplate={disruption.template}
-                                            showChangeLink={true}
+                                            isEditingAllowed={true}
                                         />
                                     </div>
                                 </div>
