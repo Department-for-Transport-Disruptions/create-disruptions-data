@@ -80,7 +80,13 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
             setCookieOnResponseObject(
                 COOKIES_CONSEQUENCE_SERVICES_ERRORS,
                 JSON.stringify({
-                    inputs: formattedBody,
+                    inputs: {
+                        ...formattedBody,
+                        services: [],
+                        stops: [],
+                        serviceIds: formattedBody.services.map((service) => service.id),
+                        stopIds: formattedBody.stops.map((stop) => stop.atcoCode),
+                    },
                     errors: flattenZodErrors(validatedBody.error),
                 }),
                 res,

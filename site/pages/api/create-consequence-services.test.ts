@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment  */
-import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Consequence, ServicesConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Datasource, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import createConsequenceServices, { formatCreateConsequenceStopsServicesBody } from "./create-consequence-services.api";
@@ -271,7 +271,16 @@ describe("create-consequence-services API", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CONSEQUENCE_SERVICES_ERRORS,
-            JSON.stringify({ inputs: formatCreateConsequenceStopsServicesBody(req.body), errors }),
+            JSON.stringify({
+                inputs: {
+                    ...(formatCreateConsequenceStopsServicesBody(req.body) as ServicesConsequence),
+                    services: [],
+                    stops: [],
+                    serviceIds: [],
+                    stopIds: [],
+                },
+                errors,
+            }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -293,10 +302,22 @@ describe("create-consequence-services API", () => {
         const errors: ErrorInfo[] = [
             { errorMessage: "Description must not exceed 1000 characters", id: "description" },
         ];
+
+        const formattedBody = formatCreateConsequenceStopsServicesBody(req.body) as ServicesConsequence;
+
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CONSEQUENCE_SERVICES_ERRORS,
-            JSON.stringify({ inputs: formatCreateConsequenceStopsServicesBody(req.body), errors }),
+            JSON.stringify({
+                inputs: {
+                    ...formattedBody,
+                    services: [],
+                    stops: [],
+                    serviceIds: [23127],
+                    stopIds: [],
+                },
+                errors,
+            }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -317,10 +338,22 @@ describe("create-consequence-services API", () => {
         const errors: ErrorInfo[] = [
             { errorMessage: "Enter a number between 0 to 999 for disruption delay", id: "disruptionDelay" },
         ];
+
+        const formattedBody = formatCreateConsequenceStopsServicesBody(req.body) as ServicesConsequence;
+
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CONSEQUENCE_SERVICES_ERRORS,
-            JSON.stringify({ inputs: formatCreateConsequenceStopsServicesBody(req.body), errors }),
+            JSON.stringify({
+                inputs: {
+                    ...formattedBody,
+                    services: [],
+                    stops: [],
+                    serviceIds: [23127],
+                    stopIds: [],
+                },
+                errors,
+            }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -394,10 +427,22 @@ describe("create-consequence-services API", () => {
         const errors: ErrorInfo[] = [
             { errorMessage: "Description must not exceed 1000 characters", id: "description" },
         ];
+
+        const formattedBody = formatCreateConsequenceStopsServicesBody(req.body) as ServicesConsequence;
+
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CONSEQUENCE_SERVICES_ERRORS,
-            JSON.stringify({ inputs: formatCreateConsequenceStopsServicesBody(req.body), errors }),
+            JSON.stringify({
+                inputs: {
+                    ...formattedBody,
+                    services: [],
+                    stops: [],
+                    serviceIds: [23127],
+                    stopIds: [],
+                },
+                errors,
+            }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
