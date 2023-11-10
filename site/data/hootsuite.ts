@@ -226,6 +226,7 @@ export const getHootsuiteAccountList = async (orgId: string, operatorOrgId?: str
                 display: account.display,
                 expiresIn: "N/A",
                 id: account.id,
+                createdByOperatorOrgId: account.createdByOperatorOrgId,
             };
 
             return defaultAccount;
