@@ -180,6 +180,7 @@ export const getHootsuiteDetails = async (
     orgId: string,
     socialId: string,
     addedBy: string,
+    createdByOperatorOrgId?: string,
 ): Promise<SocialMediaAccount | null> => {
     try {
         const hootsuiteAccessToken = await getAccessToken(orgId, socialId);
@@ -196,6 +197,7 @@ export const getHootsuiteDetails = async (
             id: socialId,
             expiresIn: "Never",
             hootsuiteProfiles,
+            ...(createdByOperatorOrgId ? { createdByOperatorOrgId: createdByOperatorOrgId } : {}),
         };
     } catch (e) {
         logger.error(e);
@@ -209,7 +211,9 @@ export const getHootsuiteAccountList = async (orgId: string, operatorOrgId?: str
     const hootsuiteAccounts = socialAccounts.filter((account) => account.accountType === "Hootsuite");
 
     const hootsuiteDetail = await Promise.all(
-        hootsuiteAccounts.map(async (account) => getHootsuiteDetails(orgId, account.id, account.addedBy)),
+        hootsuiteAccounts.map(async (account) =>
+            getHootsuiteDetails(orgId, account.id, account.addedBy, account.createdByOperatorOrgId),
+        ),
     );
 
     return hootsuiteAccounts
