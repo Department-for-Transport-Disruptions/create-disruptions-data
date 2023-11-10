@@ -1,4 +1,4 @@
-import { Routes, Service, ServicesConsequence, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Service, ServicesConsequence, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { servicesConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
@@ -51,12 +51,6 @@ export const formatCreateConsequenceStopsServicesBody = (body: object) => {
     };
 };
 
-type ServiceWithRoutes = Service & { routes: Routes };
-
-export const getBasicServiceInfo = (services: ServiceWithRoutes[]) =>
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    services.map(({ routes, ...service }) => service);
-
 const createConsequenceServices = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
         const queryParam = getReturnPage(req);
@@ -88,11 +82,10 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
                 JSON.stringify({
                     inputs: {
                         ...formattedBody,
-                        services:
-                            formattedBody.services.length <= 3
-                                ? getBasicServiceInfo(formattedBody.services as ServiceWithRoutes[])
-                                : [],
-                        stops: formattedBody.stops.length <= 3 ? formattedBody.stops : [],
+                        services: [],
+                        stops: [],
+                        serviceIds: formattedBody.services.map((service) => service.id),
+                        stopIds: formattedBody.stops.map((stop) => stop.atcoCode),
                     },
                     errors: flattenZodErrors(validatedBody.error),
                 }),

@@ -97,7 +97,8 @@ export const fetchServices = async (input: FetchServicesInput) => {
 };
 
 interface FetchServicesByStopsInput {
-    atcoCodes?: string[];
+    atcoCodes: string[];
+    adminAreaCodes?: string[];
     includeRoutes?: boolean;
     dataSource?: Datasource;
 }
@@ -117,6 +118,10 @@ export const fetchServicesByStops = async (input: FetchServicesByStopsInput) => 
 
     if (input.dataSource) {
         queryStringItems.push(`dataSource=${input.dataSource}`);
+    }
+
+    if (input.adminAreaCodes && input.adminAreaCodes.length > 0) {
+        queryStringItems.push(`adminAreaCodes=${input.adminAreaCodes.join(",")}`);
     }
 
     const res = await fetch(`${searchApiUrl}${queryStringItems.length > 0 ? `?${queryStringItems.join("&")}` : ""}`, {

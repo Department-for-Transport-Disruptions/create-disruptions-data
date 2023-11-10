@@ -2,10 +2,7 @@
 import { Consequence, ServicesConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Datasource, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
-import createConsequenceServices, {
-    formatCreateConsequenceStopsServicesBody,
-    getBasicServiceInfo,
-} from "./create-consequence-services.api";
+import createConsequenceServices, { formatCreateConsequenceStopsServicesBody } from "./create-consequence-services.api";
 import {
     COOKIES_CONSEQUENCE_SERVICES_ERRORS,
     CREATE_CONSEQUENCE_SERVICES_PATH,
@@ -279,6 +276,8 @@ describe("create-consequence-services API", () => {
                     ...(formatCreateConsequenceStopsServicesBody(req.body) as ServicesConsequence),
                     services: [],
                     stops: [],
+                    serviceIds: [],
+                    stopIds: [],
                 },
                 errors,
             }),
@@ -312,8 +311,10 @@ describe("create-consequence-services API", () => {
             JSON.stringify({
                 inputs: {
                     ...formattedBody,
-                    services: getBasicServiceInfo(formattedBody.services as never[]),
+                    services: [],
                     stops: [],
+                    serviceIds: [23127],
+                    stopIds: [],
                 },
                 errors,
             }),
@@ -346,7 +347,10 @@ describe("create-consequence-services API", () => {
             JSON.stringify({
                 inputs: {
                     ...formattedBody,
-                    services: getBasicServiceInfo(formattedBody.services as never[]),
+                    services: [],
+                    stops: [],
+                    serviceIds: [23127],
+                    stopIds: [],
                 },
                 errors,
             }),
@@ -432,7 +436,10 @@ describe("create-consequence-services API", () => {
             JSON.stringify({
                 inputs: {
                     ...formattedBody,
-                    services: getBasicServiceInfo(formattedBody.services as never[]),
+                    services: [],
+                    stops: [],
+                    serviceIds: [23127],
+                    stopIds: [],
                 },
                 errors,
             }),
