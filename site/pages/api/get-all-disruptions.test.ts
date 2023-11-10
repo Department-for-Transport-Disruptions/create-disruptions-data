@@ -2,11 +2,11 @@ import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@crea
 import * as sharedUtils from "@create-disruptions-data/shared-ts/utils";
 import MockDate from "mockdate";
 import { describe, it, expect, afterEach, beforeEach, vi, afterAll } from "vitest";
-import { randomUUID } from "crypto";
 import getAllDisruptions, { formatSortedDisruption } from "./get-all-disruptions.api";
 import * as dynamo from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
-import { getMockRequestAndResponse, mockSession, sortedDisruption } from "../../testData/mockData";
+import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession, sortedDisruption } from "../../testData/mockData";
+import * as utils from "../../utils";
 import * as session from "../../utils/apiUtils/auth";
 
 describe("getAllDisruptions", () => {
@@ -16,9 +16,15 @@ describe("getAllDisruptions", () => {
         getDisruptionsDataFromDynamo: vi.fn(),
     }));
 
+    vi.mock("../../utils", async () => ({
+        ...(await vi.importActual<object>("../../utils")),
+        filterDisruptionsForOperatorUser: vi.fn(),
+    }));
+
     const getDisruptionsDataFromDynamoSpy = vi.spyOn(dynamo, "getDisruptionsDataFromDynamo");
     const sortDisruptionsByStartDateSpy = vi.spyOn(sharedUtils, "sortDisruptionsByStartDate");
     const getSessionSpy = vi.spyOn(session, "getSession");
+    const filterDisruptionsForOperatorUserSpy = vi.spyOn(utils, "filterDisruptionsForOperatorUser");
 
     beforeEach(() => {
         getSessionSpy.mockImplementation(() => {
@@ -106,7 +112,7 @@ describe("getAllDisruptions", () => {
 
         const { req, res } = getMockRequestAndResponse({
             query: {
-                orgId: randomUUID(),
+                orgId: DEFAULT_ORG_ID,
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -141,6 +147,43 @@ describe("getAllDisruptions", () => {
         expect(sortDisruptionsByStartDateSpy).not.toHaveBeenCalledOnce();
 
         expect(res.status).toHaveBeenCalledWith(403);
+    });
+
+    it("should call filterDisruptionsForOperatorUser for operator users", async () => {
+        getSessionSpy.mockImplementation(() => {
+            return { ...mockSession, isOperatorUser: true, operatorOrgId: "test-operator" };
+        });
+
+        const operatorDisruptions = disruptions.map((disruption) => {
+            return { ...disruption, createdByOperatorOrgId: "test-operator" };
+        });
+
+        const disruptionsWithOperatorDisruptions = [...operatorDisruptions, ...disruptions];
+
+        filterDisruptionsForOperatorUserSpy.mockImplementation(() => {
+            return operatorDisruptions;
+        });
+
+        getDisruptionsDataFromDynamoSpy.mockResolvedValue(disruptionsWithOperatorDisruptions);
+
+        const { req, res } = getMockRequestAndResponse({
+            query: {
+                orgId: DEFAULT_ORG_ID,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        res.status = vi.fn().mockImplementation(() => ({
+            json: vi.fn(),
+        }));
+
+        await getAllDisruptions(req, res);
+
+        expect(getDisruptionsDataFromDynamoSpy).toHaveBeenCalledOnce();
+        expect(sortDisruptionsByStartDateSpy).toHaveBeenCalledOnce();
+
+        expect(filterDisruptionsForOperatorUserSpy).toHaveBeenCalledOnce();
+        expect(res.status).toHaveBeenCalledWith(200);
     });
 
     describe("formatSortedDisruptions", () => {

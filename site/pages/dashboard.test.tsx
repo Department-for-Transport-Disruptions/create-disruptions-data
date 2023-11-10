@@ -1,3 +1,4 @@
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
@@ -97,6 +98,7 @@ describe("pages", () => {
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
                         orgName="Test Org"
+                        isOperatorUser={false}
                     />,
                 )
                 .toJSON();
@@ -113,6 +115,7 @@ describe("pages", () => {
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
                         orgName="Test Org"
+                        isOperatorUser={false}
                     />,
                 )
                 .toJSON();
@@ -129,6 +132,7 @@ describe("pages", () => {
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
                         orgName="Test Org"
+                        isOperatorUser={false}
                     />,
                 )
                 .toJSON();
@@ -145,6 +149,7 @@ describe("pages", () => {
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
                         orgName="Test Org"
+                        isOperatorUser={false}
                     />,
                 )
                 .toJSON();
@@ -161,6 +166,7 @@ describe("pages", () => {
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
                         orgName="Test Org"
+                        isOperatorUser={false}
                     />,
                 )
                 .toJSON();
@@ -190,6 +196,7 @@ describe("pages", () => {
                     pendingApprovalCount: 0,
                     canPublish: true,
                     orgName: "Test Org",
+                    isOperatorUser: false,
                 });
             });
 
@@ -219,6 +226,7 @@ describe("pages", () => {
                     pendingApprovalCount: 0,
                     canPublish: true,
                     orgName: "Test Org",
+                    isOperatorUser: false,
                 });
             });
 
@@ -251,6 +259,7 @@ describe("pages", () => {
                     pendingApprovalCount: 0,
                     canPublish: true,
                     orgName: "Test Org",
+                    isOperatorUser: false,
                 });
             });
 
@@ -291,6 +300,7 @@ describe("pages", () => {
                     pendingApprovalCount: 0,
                     canPublish: true,
                     orgName: "Test Org",
+                    isOperatorUser: false,
                 });
             });
 
@@ -355,6 +365,80 @@ describe("pages", () => {
                     pendingApprovalCount: 0,
                     canPublish: true,
                     orgName: "Test Org",
+                    isOperatorUser: false,
+                });
+            });
+
+            it("should filter disruptions for operator user", async () => {
+                getDisruptionsSpy.mockResolvedValue([
+                    {
+                        ...disruptionArray[0],
+                        publishStatus: PublishStatus.published,
+                        createdByOperatorOrgId: undefined,
+                    },
+                    {
+                        ...disruptionArray[0],
+                        displayId: "show this disruption",
+                        publishStatus: PublishStatus.published,
+                        createdByOperatorOrgId: "test-operator",
+                    },
+                    {
+                        ...disruptionArray[0],
+                        displayId: "don't show this disruption",
+                        publishStatus: PublishStatus.published,
+                        createdByOperatorOrgId: "a-different-operator",
+                    },
+                ]);
+
+                getSessionWithOrgDetailSpy.mockResolvedValue({
+                    ...mockSessionWithOrgDetail,
+                    isOperatorUser: true,
+                    operatorOrgId: "test-operator",
+                });
+                const ctx = getMockContext();
+
+                const actualProps = await getServerSideProps(ctx);
+
+                expect(actualProps.props).toStrictEqual({
+                    canPublish: true,
+                    isOperatorUser: true,
+                    liveDisruptions: [
+                        {
+                            displayId: "8fg3ha",
+                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                            summary: "Some summary",
+                            validityPeriods: [
+                                {
+                                    endTime: null,
+                                    startTime: "2023-03-10T12:00:00.000Z",
+                                },
+                                {
+                                    endTime: null,
+                                    startTime: "2023-03-18T12:00:00.000Z",
+                                },
+                            ],
+                        },
+                        {
+                            displayId: "show this disruption",
+                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                            summary: "Some summary",
+                            validityPeriods: [
+                                {
+                                    endTime: null,
+                                    startTime: "2023-03-10T12:00:00.000Z",
+                                },
+                                {
+                                    endTime: null,
+                                    startTime: "2023-03-18T12:00:00.000Z",
+                                },
+                            ],
+                        },
+                    ],
+                    newDisruptionId: expect.any(String) as string,
+                    orgName: "Test Org",
+                    pendingApprovalCount: 0,
+                    recentlyClosedDisruptions: [],
+                    upcomingDisruptions: [],
                 });
             });
         });

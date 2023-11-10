@@ -6,7 +6,12 @@ import { Dayjs } from "dayjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import { VEHICLE_MODES } from "../../constants";
 import { getDisruptionsDataFromDynamo } from "../../data/dynamo";
-import { getDisplayByValue, mapValidityPeriods, reduceStringWithEllipsis } from "../../utils";
+import {
+    filterDisruptionsForOperatorUser,
+    getDisplayByValue,
+    mapValidityPeriods,
+    reduceStringWithEllipsis,
+} from "../../utils";
 import { getSession } from "../../utils/apiUtils/auth";
 import { isLiveDisruption } from "../../utils/dates";
 
@@ -189,6 +194,11 @@ const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResp
                 item.publishStatus === PublishStatus.rejected ||
                 !item.template,
         );
+
+        if (session.isOperatorUser) {
+            disruptionsData = filterDisruptionsForOperatorUser(disruptionsData, session.operatorOrgId);
+        }
+
         const sortedDisruptions = sortDisruptionsByStartDate(disruptionsData);
 
         const shortenedData = sortedDisruptions.map(formatSortedDisruption);
