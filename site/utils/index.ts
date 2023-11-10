@@ -133,6 +133,6 @@ export const filterDisruptionsForOperatorUser = (disruptions: Disruption[], oper
     return disruptions.filter(
         (disruption) =>
             disruption.createdByOperatorOrgId === operatorOrgId ||
-            (disruption.createdByOperatorOrgId === undefined && disruption.publishStatus === PublishStatus.published),
+            (!disruption.createdByOperatorOrgId && disruption.publishStatus === PublishStatus.published),
     );
 };
