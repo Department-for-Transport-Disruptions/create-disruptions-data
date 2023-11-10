@@ -1,9 +1,11 @@
 import { Progress } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
+import { redirect } from "next/navigation";
 import { ReactElement } from "react";
 import { randomUUID } from "crypto";
 import { BaseLayout } from "../components/layout/Layout";
 import ViewAllContents, { ViewAllContentProps } from "../components/ViewAllContents";
+import { ERROR_PATH } from "../constants";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 
 const title = "Templates";
@@ -45,6 +47,10 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     if (!session) {
         return baseProps;
+    }
+
+    if (session.isOperatorUser) {
+        redirect(ERROR_PATH);
     }
 
     const showPending = ctx.query.pending?.toString() === "true";

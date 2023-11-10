@@ -48,6 +48,7 @@ export interface ViewAllContentProps {
     filterStatus?: Progress | null;
     enableLoadingSpinnerOnPageLoad?: boolean;
     isTemplate?: boolean;
+    isOperatorUser?: boolean;
 }
 
 export interface Filter {

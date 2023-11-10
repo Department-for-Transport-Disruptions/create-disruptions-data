@@ -180,6 +180,11 @@ const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResp
         return;
     }
 
+    if (session.isOperatorUser && template) {
+        res.status(403);
+        return;
+    }
+
     const { orgId } = session;
 
     let disruptionsData = await getDisruptionsDataFromDynamo(orgId, template === "true");
