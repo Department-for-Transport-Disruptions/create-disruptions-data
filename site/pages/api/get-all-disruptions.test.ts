@@ -16,13 +16,10 @@ describe("getAllDisruptions", () => {
         getDisruptionsDataFromDynamo: vi.fn(),
     }));
 
-    vi.mock("../../utils", async () => {
-        const actual: object = await vi.importActual("../../utils");
-        return {
-            ...actual,
-            filterDisruptionsForOperatorUser: vi.fn(),
-        };
-    });
+    vi.mock("../../utils", async () => ({
+        ...(await vi.importActual<object>("../../utils")),
+        filterDisruptionsForOperatorUser: vi.fn(),
+    }));
 
     const getDisruptionsDataFromDynamoSpy = vi.spyOn(dynamo, "getDisruptionsDataFromDynamo");
     const sortDisruptionsByStartDateSpy = vi.spyOn(sharedUtils, "sortDisruptionsByStartDate");
@@ -152,7 +149,7 @@ describe("getAllDisruptions", () => {
         expect(res.status).toHaveBeenCalledWith(403);
     });
 
-    it("should filter out disruptions that an operator user shouldn't be able to view", async () => {
+    it("should call filterDisruptionsForOperatorUser for operator users", async () => {
         getSessionSpy.mockImplementation(() => {
             return { ...mockSession, isOperatorUser: true, operatorOrgId: "test-operator" };
         });
@@ -179,6 +176,7 @@ describe("getAllDisruptions", () => {
         res.status = vi.fn().mockImplementation(() => ({
             json: vi.fn(),
         }));
+
         await getAllDisruptions(req, res);
 
         expect(getDisruptionsDataFromDynamoSpy).toHaveBeenCalledOnce();

@@ -95,6 +95,11 @@ describe("filterDisruptionsForOperatorUser", () => {
                 publishStatus: PublishStatus.published,
                 createdByOperatorOrgId: "a different operator",
             },
+            {
+                ...disruptionWithNoConsequences,
+                publishStatus: PublishStatus.draft,
+                createdByOperatorOrgId: "a different operator",
+            },
         ];
 
         const result = filterDisruptionsForOperatorUser(disruptionsArray, "test operator");
@@ -120,21 +125,6 @@ describe("filterDisruptionsForOperatorUser", () => {
     it("should retain disruptions created by the LTA org that are in a published state", () => {
         const disruptionsArray = [
             ...baseOperatorInput,
-            { ...disruptionWithNoConsequences, publishStatus: PublishStatus.published },
-        ];
-
-        const result = filterDisruptionsForOperatorUser(disruptionsArray, "test operator");
-
-        expect(result).toEqual(disruptionsArray);
-    });
-
-    it("should retain disruptions created by the LTA org that are in a published state", () => {
-        const disruptionsArray = [
-            {
-                ...disruptionWithNoConsequences,
-                publishStatus: PublishStatus.published,
-                createdByOperatorOrgId: "test operator",
-            },
             { ...disruptionWithNoConsequences, publishStatus: PublishStatus.published },
         ];
 

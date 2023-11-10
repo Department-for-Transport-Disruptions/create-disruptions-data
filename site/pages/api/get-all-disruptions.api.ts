@@ -188,7 +188,7 @@ const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResp
         disruptionsData = disruptionsData.filter(
             (item) =>
                 item.publishStatus === PublishStatus.published ||
-                (item.publishStatus === PublishStatus.draft && item.createdByOperatorOrgId === undefined) ||
+                item.publishStatus === PublishStatus.draft ||
                 item.publishStatus === PublishStatus.pendingApproval ||
                 item.publishStatus === PublishStatus.editPendingApproval ||
                 item.publishStatus === PublishStatus.rejected ||
