@@ -613,7 +613,7 @@ const ReviewDisruption = ({
                                             disruption={disruption}
                                             deleteActionHandler={deleteActionHandler}
                                             isTemplate={disruption.template}
-                                            isEditingAllowed={true}
+                                            isEditingAllowed={isEditingAllowed}
                                         />
                                     </div>
                                 </div>
