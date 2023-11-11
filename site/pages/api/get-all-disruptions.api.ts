@@ -175,12 +175,7 @@ const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResp
 
     const { template } = req.query;
 
-    if (!session) {
-        res.status(403);
-        return;
-    }
-
-    if (session.isOperatorUser && template) {
+    if (!session || (session.isOperatorUser && template)) {
         res.status(403);
         return;
     }
