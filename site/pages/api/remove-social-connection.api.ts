@@ -17,7 +17,7 @@ const removeHootsuiteConnection = async (req: RemoveHootsuiteConnectionApiReques
         const { profileId, type } = req.body;
         const session = getSession(req);
 
-        if (!session || !session.isOrgAdmin) {
+        if (!session || (!session.isOrgAdmin && !session.isOperatorUser)) {
             throw new Error("Not authorised");
         }
 
