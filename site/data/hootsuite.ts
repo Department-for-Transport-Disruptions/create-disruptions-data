@@ -380,6 +380,7 @@ export const publishToHootsuite = async (
             orgId,
             isUserStaff,
             canPublish,
+            undefined,
         );
     } catch (e) {
         logger.error(e);

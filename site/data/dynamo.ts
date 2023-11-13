@@ -607,7 +607,6 @@ export const upsertSocialMediaPost = async (
     isUserStaff?: boolean,
     forcePublish?: boolean,
     isTemplate?: boolean,
-    operatorOrgId?: string | null,
 ) => {
     logger.info(
         `Updating socialMediaPost index ${
@@ -631,7 +630,6 @@ export const upsertSocialMediaPost = async (
                     forcePublish ? "" : isPending ? "#PENDING" : isEditing ? "#EDIT" : ""
                 }`,
                 ...socialMediaPost,
-                createdByOperatorOrgId: operatorOrgId ? operatorOrgId : null,
             },
         }),
     );

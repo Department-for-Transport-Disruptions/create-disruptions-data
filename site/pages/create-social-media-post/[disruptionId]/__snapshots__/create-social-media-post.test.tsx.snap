@@ -158,6 +158,10 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
           type="hidden"
           value={0}
         />
+        <input
+          name="createdByOperatorOrgId"
+          type="hidden"
+        />
         <button
           className="govuk-button mt-8"
           data-module="govuk-button"
@@ -519,6 +523,10 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
           name="socialMediaPostIndex"
           type="hidden"
           value={0}
+        />
+        <input
+          name="createdByOperatorOrgId"
+          type="hidden"
         />
         <button
           className="govuk-button mt-8"

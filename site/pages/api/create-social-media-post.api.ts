@@ -115,14 +115,7 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
                               : SocialMediaPostStatus.rejected,
                   };
 
-        await upsertSocialMediaPost(
-            socialMediaToUpsert,
-            session.orgId,
-            session.isOrgStaff,
-            false,
-            template === "true",
-            session.operatorOrgId ? session.operatorOrgId : null,
-        );
+        await upsertSocialMediaPost(socialMediaToUpsert, session.orgId, session.isOrgStaff, false, template === "true");
 
         destroyCookieOnResponseObject(COOKIES_SOCIAL_MEDIA_ERRORS, res);
 
