@@ -10,7 +10,7 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const session = getSession(req);
 
-        if (!session || !session.isOrgAdmin) {
+        if (!session || !(session.isOrgAdmin || session.isOperatorUser)) {
             throw new Error("Session data not found");
         }
 
@@ -26,7 +26,7 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
             throw new Error("States do not match");
         }
 
-        await addHootsuiteAccount(code.toString(), session.orgId, session.name);
+        await addHootsuiteAccount(code.toString(), session.orgId, session.name, session.operatorOrgId);
 
         redirectTo(res, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH);
         return;

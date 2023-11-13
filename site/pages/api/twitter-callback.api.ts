@@ -9,7 +9,7 @@ const twitterCallback = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
         const session = getSession(req);
 
-        if (!session || !session.isOrgAdmin) {
+        if (!session || !(session.isOrgAdmin || session.isOperatorUser)) {
             throw new Error("Not authorised");
         }
 
@@ -27,7 +27,7 @@ const twitterCallback = async (req: NextApiRequest, res: NextApiResponse) => {
             throw new Error("States do not match");
         }
 
-        await addTwitterAccount(code.toString(), codeVerifier, session.orgId, session.name);
+        await addTwitterAccount(code.toString(), codeVerifier, session.orgId, session.name, session.operatorOrgId);
 
         redirectTo(res, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH);
         return;
