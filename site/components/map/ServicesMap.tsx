@@ -115,7 +115,7 @@ const Map = ({
     const [markerData, setMarkerData] = useState<Stop[]>([]);
     const [showSelectAllText, setShowSelectAllText] = useState<boolean>(true);
     const [warningMessage, setWarningMessage] = useState<string>("");
-    const [selectAllClicked, setSelectAllClicked] = useState<boolean>(false);
+    const [disableSelectAllButton, setDisableSelectAllButton] = useState<boolean>(true);
     const [popupInfo, setPopupInfo] = useState<Partial<Stop>>({});
     const [hoverInfo, setHoverInfo] = useState<{ longitude: number; latitude: number; serviceId: number }>(
         initialHoverState,
@@ -269,14 +269,14 @@ const Map = ({
     );
 
     useEffect(() => {
-        if (selectAllClicked && selectedStops.length === 100) {
+        if (selectedStops.length === 100) {
             setWarningMessage(warningMessageText(selectedStops.length).maxStopLimitReached);
         } else {
             setWarningMessage("");
-            setSelectAllClicked(false);
+            setDisableSelectAllButton(false);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedStops, selectAllClicked]);
+    }, [selectedStops]);
 
     useEffect(() => {
         if (features && Object.values(features).length > 0) {
@@ -300,6 +300,8 @@ const Map = ({
                             ? { stopTypes: ["RLY"] }
                             : { stopTypes: ["undefined"] }),
                     });
+
+                    console.log(stopsData);
 
                     if (stopsData) {
                         setMarkerData(stopsData);
@@ -352,6 +354,10 @@ const Map = ({
         setPopupInfo({});
     }, []);
 
+    useEffect(() => {
+        setShowSelectAllText(true);
+    }, [searchedRoutes]);
+
     const addSelectedStopsAndServices = async () => {
         const parsed = z.array(stopSchema).safeParse(stopOptions);
         if (!parsed.success) {
@@ -373,48 +379,54 @@ const Map = ({
 
                 const servicesStopsInPolygon = servicesInPolygon.flatMap((service) => service.stops);
 
+                const servicesWithoutDuplicates: ServiceByStop[] = filterServices(servicesInPolygon);
+
+                const servicesRoutesForGivenStop = servicesWithoutDuplicates.map((service) => ({
+                    inbound: service.routes.inbound,
+                    outbound: service.routes.outbound,
+                    serviceId: service.id,
+                }));
+
+                const servicesRoutesForMap = [...searchedRoutes, ...servicesRoutesForGivenStop].filter(
+                    (value, index, self) =>
+                        index === self.findIndex((service) => service?.serviceId === value?.serviceId),
+                );
+
+                const stopsForServicesRoutes = (
+                    await Promise.all(
+                        servicesRoutesForMap.map(async (service) => {
+                            if (service) {
+                                return getStops(service.serviceId, state.inputs.vehicleMode, dataSource);
+                            }
+                            return [];
+                        }),
+                    )
+                ).flat();
+
+                const stopsForMap = [...stopOptions, ...stopsForServicesRoutes].filter(
+                    (value, index, self) => index === self.findIndex((stop) => stop?.atcoCode === value?.atcoCode),
+                );
+
+                setStopOptions(stopsForMap);
+                setSelectedServices(servicesRoutesForMap);
+                setSearchedRoutes(servicesRoutesForMap);
+                setServices(filterServices([...services, ...servicesInPolygon]));
+
                 const markerDataInAService =
                     !!markerData && markerData.length > 0
                         ? getMarkerDataInAService(markerData, servicesStopsInPolygon, servicesInPolygon)
                         : [];
 
-                setSelectedServices(
-                    [
-                        ...(selectedServices ?? []),
-                        ...(!!markerData && markerData.length > 0
-                            ? servicesInPolygon.map((service) => ({
-                                  serviceId: service.id,
-                                  inbound: service.routes.inbound,
-                                  outbound: service.routes.outbound,
-                              }))
-                            : []),
-                    ].filter(
-                        (value, index, self) => index === self.findIndex((s) => s?.serviceId === value?.serviceId),
-                    ),
-                );
-
-                const stops =
-                    !!markerData && markerData.length > 0
-                        ? [
-                              ...(state.inputs.stops ?? []),
-                              ...markerDataInAService,
-                              ...(stopOptions.length > 0 ? stopOptions : []),
-                          ]
-                              .filter(
-                                  (value, index, self) =>
-                                      index === self.findIndex((s) => s.atcoCode === value.atcoCode),
-                              )
-                              .splice(0, 100)
-                        : [
-                              ...(state.inputs.stops ?? []),
-                              ...markerDataInAService,
-                              ...(stopOptions.length > 0 ? stopOptions : []),
-                          ].filter(
-                              (value, index, self) => index === self.findIndex((s) => s.atcoCode === value.atcoCode),
-                          );
+                const stops = [
+                    ...(state.inputs.stops ?? []),
+                    ...markerDataInAService,
+                    ...(stopOptions.length > 0 ? stopOptions : []),
+                ]
+                    .filter((value, index, self) => index === self.findIndex((s) => s.atcoCode === value.atcoCode))
+                    .splice(0, 100);
 
                 if (!!markerData && markerData.length && stops.length === 100) {
-                    setSelectAllClicked(true);
+                    setDisableSelectAllButton(true);
                 }
 
                 stateUpdater({
@@ -589,6 +601,7 @@ const Map = ({
                     onClick={selectAllStops}
                     disabled={
                         loading ||
+                        disableSelectAllButton ||
                         !(
                             (features && Object.values(features).length > 0) ||
                             markerData.length > 0 ||

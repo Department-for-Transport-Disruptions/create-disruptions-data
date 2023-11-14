@@ -214,15 +214,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         return [];
     };
 
-    // const getRoutesForServices = (services: Service[]) => {
-    //     return services.map((service)=> {
-    //                 return {
-    //                     inbound: service.routes.inbound,
-    //                     outbound: service.routes.outbound,
-    //                     serviceId: service.id,
-    //                 })
-    // }
-
     const addStop = async (stopToAdd: SingleValue<Stop>) => {
         const parsed = stopSchema.safeParse(stopToAdd);
 
