@@ -6,7 +6,7 @@ import { SetStateAction } from "react";
 import { ParsedUrlQuery } from "querystring";
 import { DISRUPTION_DETAIL_PAGE_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../constants";
 import { PageState } from "../interfaces";
-import { ServiceApiResponse } from "../schemas/consequence.schema";
+import { ServiceApiResponse, ServiceByStop } from "../schemas/consequence.schema";
 import { sortServices } from ".";
 
 export const getStateUpdater =
@@ -82,7 +82,9 @@ export const getStopType = (stopType: string | undefined) => {
     }
 };
 
-export const filterServices = (servicesData?: ServiceApiResponse[]) => {
+export const filterServices = (
+    servicesData?: ServiceApiResponse[] | ServiceByStop[],
+): ServiceApiResponse[] | ServiceByStop[] => {
     if (!servicesData?.length) {
         return [];
     }
@@ -93,9 +95,12 @@ export const filterServices = (servicesData?: ServiceApiResponse[]) => {
     return removeDuplicateServicesByKey(services, filterKey);
 };
 
-export const removeDuplicateServicesByKey = (services: ServiceApiResponse[], filterKey: "serviceCode" | "lineId") => {
+export const removeDuplicateServicesByKey = <T extends ServiceApiResponse>(
+    services: T[],
+    filterKey: "serviceCode" | "lineId",
+) => {
     const setOfServiceIds = new Set();
-    const filteredServices: ServiceApiResponse[] = [];
+    const filteredServices: T[] = [];
     const currentDate = getDate();
 
     services.forEach((currentService) => {

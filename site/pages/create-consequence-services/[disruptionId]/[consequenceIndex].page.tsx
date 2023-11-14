@@ -64,7 +64,7 @@ const filterConfig = {
     matchFrom: "any" as const,
 };
 
-const getStops = async (
+export const getStops = async (
     serviceId: number,
     vehicleMode?: VehicleMode | Modes,
     dataSource?: Datasource,
@@ -149,7 +149,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     const [stopOptions, setStopOptions] = useState<Stop[]>(props.initialStops || []);
     const [servicesSearchInput, setServicesSearchInput] = useState<string>("");
     const [stopsSearchInput, setStopsSearchInput] = useState<string>("");
-    const [searched, setSearchedOptions] = useState<Partial<(Routes & { serviceId: number })[]>>([]);
+    const [searchedRoutes, setSearchedRoutes] = useState<Partial<(Routes & { serviceId: number })[]>>([]);
     const [servicesRecords, setServicesRecords] = useState<Service[]>([]);
     const [dataSource, setDataSource] = useState<Datasource>(props.consequenceDataSource || Datasource.bods);
     const [vehicleMode, setVehicleMode] = useState<VehicleMode | null>(props.inputs.vehicleMode || null);
@@ -175,13 +175,13 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
                 if (serviceRoutesData) {
                     const notSelected =
-                        searched.length > 0
-                            ? !searched.map((service) => service?.serviceId).includes(selectedService.id)
+                        searchedRoutes.length > 0
+                            ? !searchedRoutes.map((service) => service?.serviceId).includes(selectedService.id)
                             : true;
                     if (notSelected)
-                        setSearchedOptions([...searched, { ...serviceRoutesData, serviceId: selectedService.id }]);
+                        setSearchedRoutes([...searchedRoutes, { ...serviceRoutesData, serviceId: selectedService.id }]);
                 } else {
-                    setSearchedOptions([]);
+                    setSearchedRoutes([]);
                 }
             }
         };
@@ -277,7 +277,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                     };
                 });
 
-                const servicesRoutesForMap = [...searched, ...servicesRoutesForGivenStop].filter(
+                const servicesRoutesForMap = [...searchedRoutes, ...servicesRoutesForGivenStop].filter(
                     (value, index, self) =>
                         index === self.findIndex((service) => service?.serviceId === value?.serviceId),
                 );
@@ -297,7 +297,8 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                     (value, index, self) => index === self.findIndex((stop) => stop?.atcoCode === value?.atcoCode),
                 );
 
-                setSearchedOptions(servicesRoutesForMap);
+                setSearchedRoutes(servicesRoutesForMap);
+
                 setStopOptions(stopsForMap);
 
                 setPageState({
@@ -367,7 +368,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     useEffect(() => {
         if (pageState?.inputs?.services && pageState.inputs.services.length === 0) {
             setStopOptions([]);
-            setSearchedOptions([]);
+            setSearchedRoutes([]);
             setSelectedService(null);
             setPageState({
                 ...pageState,
@@ -438,7 +439,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             setStopOptions(sortAndFilterStops(filteredStopOptions));
         }
 
-        setSearchedOptions(searched.filter((route) => route?.serviceId !== removedServiceId) || []);
+        setSearchedRoutes(searchedRoutes.filter((route) => route?.serviceId !== removedServiceId) || []);
         setSelectedService(null);
     };
 
@@ -566,17 +567,20 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             }}
                             style={{ width: "100%", height: "40vh", marginBottom: 20 }}
                             mapStyle="mapbox://styles/mapbox/streets-v12"
-                            selected={
+                            selectedStop={
                                 pageState.inputs.stops && pageState.inputs.stops.length > 0
                                     ? pageState.inputs.stops
                                     : []
                             }
-                            searched={stopOptions}
+                            stopOptions={stopOptions}
+                            setStopOptions={setStopOptions}
                             stateUpdater={setPageState}
                             state={pageState}
-                            searchedRoutes={searched}
+                            searchedRoutes={searchedRoutes}
+                            setSearchedRoutes={setSearchedRoutes}
                             showSelectAllButton
                             services={servicesRecords}
+                            setServices={setServicesRecords}
                             dataSource={dataSource}
                         />
 
