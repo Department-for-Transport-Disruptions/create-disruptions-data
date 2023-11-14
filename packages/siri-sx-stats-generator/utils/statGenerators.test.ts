@@ -1,3 +1,4 @@
+import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, expect, it } from "vitest";
 import {
@@ -14,7 +15,7 @@ const mockDisruptionReasonCountStat = {
     accident: 3,
 };
 
-const mockDisruption = {
+const mockDisruption: Disruption = {
     disruptionId: "0ecde498-cbee-59ee-a604-2b0ceea971e3",
     disruptionType: "planned" as const,
     summary: "Pilley Village (Barnsley)",
@@ -53,7 +54,7 @@ const mockDisruption = {
                     operatorPublicName: "Stagecoach Yorkshire",
                 },
             ],
-            consequenceType: "operatorWide" as const,
+            consequenceType: "operatorWide",
         },
         {
             disruptionId: "0ecde498-cbee-59ee-a604-2b0ceea971e3",
@@ -65,15 +66,10 @@ const mockDisruption = {
             vehicleMode: "bus" as VehicleMode,
             consequenceIndex: 0,
             orgId: "76a85b15-0523-4fa7-95ee-0d9caf05e2d4",
-            consequenceOperators: [
-                {
-                    operatorNoc: "SYRK",
-                    operatorPublicName: "Stagecoach Yorkshire",
-                },
-            ],
-            consequenceType: "networkWide" as const,
+            consequenceType: "networkWide",
         },
     ],
+    lastUpdated: "2023-10-11T12:00:00Z",
     publishStatus: PublishStatus.published,
     template: false,
 };
@@ -111,7 +107,27 @@ describe("generateSiriStats", () => {
                 totalConsequencesCount: 4,
                 operatorWideConsequencesCount: 2,
                 networkWideConsequencesCount: 2,
+                lastUpdated: "2023-10-11T12:00:00Z",
+                totalDisruptionsCount: 2,
             },
         });
+    });
+
+    it("correctly calculates the last updated date for multiple disruptions", () => {
+        expect(generateSiriStats([{ ...mockDisruption, lastUpdated: "2023-11-11T14:00:00Z" }, mockDisruption])).toEqual(
+            {
+                "76a85b15-0523-4fa7-95ee-0d9caf05e2d4": {
+                    disruptionReasonCount: {
+                        roadworks: 2,
+                    },
+                    ...initialConsequenceStatsValues,
+                    totalConsequencesCount: 4,
+                    operatorWideConsequencesCount: 2,
+                    networkWideConsequencesCount: 2,
+                    lastUpdated: "2023-11-11T14:00:00Z",
+                    totalDisruptionsCount: 2,
+                },
+            },
+        );
     });
 });
