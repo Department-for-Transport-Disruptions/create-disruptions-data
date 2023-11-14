@@ -24,7 +24,7 @@ import { fetchServicesByStops, fetchStops } from "../../data/refDataApi";
 import { LargePolygonError, NoStopsError } from "../../errors";
 import { PageState } from "../../interfaces";
 import { getStops } from "../../pages/create-consequence-services/[disruptionId]/[consequenceIndex].page";
-import { ServiceByStop, servicesByStopSchema } from "../../schemas/consequence.schema";
+import { ServiceByStop } from "../../schemas/consequence.schema";
 import { flattenZodErrors } from "../../utils";
 import { filterServices, getStopType, sortAndFilterStops, sortStops } from "../../utils/formUtils";
 import { warningMessageText } from "../../utils/mapUtils";
@@ -191,13 +191,9 @@ const Map = ({
                     return;
                 }
 
-                const servicesWithoutDuplicates = servicesByStopSchema.safeParse(filterServices(servicesInPolygon));
+                const servicesWithoutDuplicates: ServiceByStop[] = filterServices(servicesInPolygon);
 
-                if (!servicesWithoutDuplicates.success) {
-                    return;
-                }
-
-                const servicesRoutesForGivenStop = servicesWithoutDuplicates.data.map((service) => {
+                const servicesRoutesForGivenStop = servicesWithoutDuplicates.map((service) => {
                     return {
                         inbound: service.routes.inbound,
                         outbound: service.routes.outbound,

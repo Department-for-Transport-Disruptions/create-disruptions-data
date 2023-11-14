@@ -6,7 +6,7 @@ import { SetStateAction } from "react";
 import { ParsedUrlQuery } from "querystring";
 import { DISRUPTION_DETAIL_PAGE_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../constants";
 import { PageState } from "../interfaces";
-import { ServiceApiResponse, ServiceByStop } from "../schemas/consequence.schema";
+import { ServiceApiResponse } from "../schemas/consequence.schema";
 import { sortServices } from ".";
 
 export const getStateUpdater =
@@ -82,9 +82,7 @@ export const getStopType = (stopType: string | undefined) => {
     }
 };
 
-export const filterServices = (
-    servicesData?: ServiceApiResponse[] | ServiceByStop[],
-): ServiceApiResponse[] | ServiceByStop[] => {
+export const filterServices = <T extends ServiceApiResponse>(servicesData?: T[]) => {
     if (!servicesData?.length) {
         return [];
     }

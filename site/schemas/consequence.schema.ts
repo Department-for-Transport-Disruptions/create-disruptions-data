@@ -15,8 +15,6 @@ export const serviceByStopSchema = serviceSchema.and(
     }),
 );
 
-export const servicesByStopSchema = z.array(serviceByStopSchema);
-
 export type ServiceByStop = z.infer<typeof serviceByStopSchema>;
 
 export type ServiceApiResponse = z.infer<typeof serviceSchema>;
