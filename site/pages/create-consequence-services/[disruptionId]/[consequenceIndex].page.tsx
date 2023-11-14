@@ -36,9 +36,9 @@ import {
     VEHICLE_MODES,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
-import { fetchServiceRoutes, fetchServices, fetchServicesByStops, fetchServiceStops } from "../../../data/refDataApi";
+import { fetchServiceRoutes, fetchServices, fetchServicesByStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import { flattenZodErrors, getServiceLabel, isServicesConsequence, sortServices } from "../../../utils";
+import { flattenZodErrors, getServiceLabel, getStops, isServicesConsequence, sortServices } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import {
@@ -62,39 +62,6 @@ const filterConfig = {
     stringify: <Option extends object>(option: FilterOptionOption<Option>) => `${option.label}`,
     trim: true,
     matchFrom: "any" as const,
-};
-
-export const getStops = async (
-    serviceId: number,
-    vehicleMode?: VehicleMode | Modes,
-    dataSource?: Datasource,
-): Promise<Stop[]> => {
-    if (serviceId) {
-        const stopsData = await fetchServiceStops({
-            serviceId,
-            modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
-            ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
-            ...(vehicleMode === VehicleMode.bus
-                ? { stopTypes: "BCT" }
-                : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
-                ? { stopTypes: "MET, PLT" }
-                : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                ? { stopTypes: "FER, FBT" }
-                : { stopTypes: "undefined" }),
-            dataSource: dataSource || Datasource.bods,
-        });
-
-        if (stopsData) {
-            return sortAndFilterStops(
-                stopsData.map((stop) => ({
-                    ...stop,
-                    ...(serviceId && { serviceIds: [serviceId] }),
-                })),
-            );
-        }
-    }
-
-    return [];
 };
 
 const getMode = (vehicleMode: Modes | VehicleMode) => {
@@ -247,6 +214,15 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         return [];
     };
 
+    // const getRoutesForServices = (services: Service[]) => {
+    //     return services.map((service)=> {
+    //                 return {
+    //                     inbound: service.routes.inbound,
+    //                     outbound: service.routes.outbound,
+    //                     serviceId: service.id,
+    //                 })
+    // }
+
     const addStop = async (stopToAdd: SingleValue<Stop>) => {
         const parsed = stopSchema.safeParse(stopToAdd);
 
@@ -269,13 +245,11 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
                 stopToAdd["serviceIds"] = servicesForGivenStop.map((service) => service.id);
 
-                const servicesRoutesForGivenStop = servicesForGivenStop?.map((service) => {
-                    return {
-                        inbound: service.routes.inbound,
-                        outbound: service.routes.outbound,
-                        serviceId: service.id,
-                    };
-                });
+                const servicesRoutesForGivenStop = servicesForGivenStop?.map((service) => ({
+                    inbound: service.routes.inbound,
+                    outbound: service.routes.outbound,
+                    serviceId: service.id,
+                }));
 
                 const servicesRoutesForMap = [...searchedRoutes, ...servicesRoutesForGivenStop].filter(
                     (value, index, self) =>
@@ -567,7 +541,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             }}
                             style={{ width: "100%", height: "40vh", marginBottom: 20 }}
                             mapStyle="mapbox://styles/mapbox/streets-v12"
-                            selectedStop={
+                            selectedStops={
                                 pageState.inputs.stops && pageState.inputs.stops.length > 0
                                     ? pageState.inputs.stops
                                     : []

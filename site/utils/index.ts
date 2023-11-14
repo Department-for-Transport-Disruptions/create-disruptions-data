@@ -5,8 +5,10 @@ import {
     OperatorConsequence,
     Service,
     ServicesConsequence,
+    Stop,
     StopsConsequence,
 } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import lowerCase from "lodash/lowerCase";
 import startCase from "lodash/startCase";
@@ -14,6 +16,8 @@ import upperFirst from "lodash/upperFirst";
 import { NextApiResponse, NextPageContext } from "next";
 import { ZodError, ZodErrorMap } from "zod";
 import { ServerResponse } from "http";
+import { sortAndFilterStops } from "./formUtils";
+import { fetchServiceStops } from "../data/refDataApi";
 import { DisplayValuePair, ErrorInfo } from "../interfaces";
 import { FullDisruption } from "../schemas/disruption.schema";
 
@@ -127,3 +131,36 @@ export const sortServices = <T extends Service>(services: T[]): T[] => {
 };
 
 export const toLowerStartCase = (text: string) => startCase(text.toLowerCase());
+
+export const getStops = async (
+    serviceId: number,
+    vehicleMode?: VehicleMode | Modes,
+    dataSource?: Datasource,
+): Promise<Stop[]> => {
+    if (serviceId) {
+        const stopsData = await fetchServiceStops({
+            serviceId,
+            modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
+            ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
+            ...(vehicleMode === VehicleMode.bus
+                ? { stopTypes: "BCT" }
+                : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
+                ? { stopTypes: "MET, PLT" }
+                : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
+                ? { stopTypes: "FER, FBT" }
+                : { stopTypes: "undefined" }),
+            dataSource: dataSource || Datasource.bods,
+        });
+
+        if (stopsData) {
+            return sortAndFilterStops(
+                stopsData.map((stop) => ({
+                    ...stop,
+                    ...(serviceId && { serviceIds: [serviceId] }),
+                })),
+            );
+        }
+    }
+
+    return [];
+};

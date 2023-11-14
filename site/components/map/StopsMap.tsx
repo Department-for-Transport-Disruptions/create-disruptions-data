@@ -29,7 +29,7 @@ interface MapProps {
     initialViewState: Partial<ViewState>;
     style: CSSProperties;
     mapStyle: string;
-    selectedStop: Stop[];
+    selectedStops: Stop[];
     stopOptions: Stop[];
     inputId?: keyof Stop;
     showSelectAllButton?: boolean;
@@ -41,7 +41,7 @@ const Map = ({
     initialViewState,
     style,
     mapStyle,
-    selectedStop,
+    selectedStops,
     stopOptions,
     showSelectAllButton = false,
     stateUpdater = () => "",
@@ -58,10 +58,10 @@ const Map = ({
     const handleMouseEnter = useCallback(
         (id: string) => {
             const searchedAtcoCodes = stopOptions.map((searchItem) => searchItem.atcoCode);
-            const selectedAtcoCodes = selectedStop.map((selectedItem) => selectedItem.atcoCode);
+            const selectedAtcoCodes = selectedStops.map((selectedItem) => selectedItem.atcoCode);
             const markerDataAtcoCodes = markerData.map((markerItem) => markerItem.atcoCode);
             const stopsOnMap = [
-                ...selectedStop,
+                ...selectedStops,
                 ...stopOptions,
                 ...markerData.filter(
                     (item) => !searchedAtcoCodes.includes(item.atcoCode) && !selectedAtcoCodes.includes(item.atcoCode),
@@ -76,13 +76,13 @@ const Map = ({
             const stopInfo = stopsOnMap.find((stop) => stop.atcoCode === id);
             if (stopInfo) setPopupInfo(stopInfo);
         },
-        [stopOptions, selectedStop, markerData, state.inputs?.pastStops],
+        [stopOptions, selectedStops, markerData, state.inputs?.pastStops],
     );
 
     const unselectMarker = useCallback(
         (id: string) => {
             if (state) {
-                const stops = sortAndFilterStops(selectedStop.filter((stop: Stop) => stop.atcoCode !== id));
+                const stops = sortAndFilterStops(selectedStops.filter((stop: Stop) => stop.atcoCode !== id));
 
                 stateUpdater({
                     ...state,
@@ -91,14 +91,14 @@ const Map = ({
                         stops,
                         pastStops: sortAndFilterStops([
                             ...(state.inputs?.pastStops || []),
-                            ...selectedStop.filter((stop: Stop) => stop.atcoCode === id),
+                            ...selectedStops.filter((stop: Stop) => stop.atcoCode === id),
                         ]),
                     },
                     errors: state.errors,
                 });
             }
         },
-        [selectedStop, state, stateUpdater],
+        [selectedStops, state, stateUpdater],
     );
 
     const selectMarker = useCallback(
@@ -112,14 +112,14 @@ const Map = ({
                     ...state,
                     inputs: {
                         ...state.inputs,
-                        stops: sortAndFilterStops([...selectedStop, ...stop]),
+                        stops: sortAndFilterStops([...selectedStops, ...stop]),
                         pastStops: state.inputs?.pastStops?.filter((stop: Stop) => stop.atcoCode !== id),
                     },
                     errors: state.errors,
                 });
             }
         },
-        [stopOptions, selectedStop, state, stateUpdater, markerData],
+        [stopOptions, selectedStops, state, stateUpdater, markerData],
     );
 
     useEffect(() => {
@@ -153,11 +153,11 @@ const Map = ({
                 } catch (e) {
                     setMarkerData([]);
                     if (e instanceof LargePolygonError) {
-                        setWarningMessage(warningMessageText(selectedStop.length).drawnAreaTooBig);
+                        setWarningMessage(warningMessageText(selectedStops.length).drawnAreaTooBig);
                     } else if (e instanceof NoStopsError) {
-                        setWarningMessage(warningMessageText(selectedStop.length).noStopsFound);
+                        setWarningMessage(warningMessageText(selectedStops.length).noStopsFound);
                     } else {
-                        setWarningMessage(warningMessageText(selectedStop.length).problemRetrievingStops);
+                        setWarningMessage(warningMessageText(selectedStops.length).problemRetrievingStops);
                     }
                 }
             };
@@ -200,7 +200,7 @@ const Map = ({
                 ...state,
                 inputs: {
                     ...state.inputs,
-                    stops: selectedStop.filter((sToFilter: Stop) =>
+                    stops: selectedStops.filter((sToFilter: Stop) =>
                         markerData && markerData.length > 0
                             ? !markerData.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
                             : sToFilter,
@@ -224,7 +224,7 @@ const Map = ({
                         ...state,
                         inputs: {
                             ...state.inputs,
-                            stops: sortAndFilterStops([...selectedStop, ...markerData].splice(0, 100)),
+                            stops: sortAndFilterStops([...selectedStops, ...markerData].splice(0, 100)),
                         },
                         errors: [
                             ...state.errors.filter(
@@ -239,12 +239,12 @@ const Map = ({
     };
 
     useEffect(() => {
-        if (selectedStop.length === 100) {
-            setWarningMessage(warningMessageText(selectedStop.length).maxStopLimitReached);
+        if (selectedStops.length === 100) {
+            setWarningMessage(warningMessageText(selectedStops.length).maxStopLimitReached);
         } else {
             setWarningMessage("");
         }
-    }, [selectedStop]);
+    }, [selectedStops]);
 
     useEffect(() => {
         stateUpdater({
@@ -280,7 +280,7 @@ const Map = ({
                 >
                     <MapControls onUpdate={onUpdate} onDelete={onDelete} />
                     <Markers
-                        selectedStop={selectedStop}
+                        selectedStops={selectedStops}
                         stopOptions={stopOptions}
                         handleMouseEnter={handleMouseEnter}
                         markerData={markerData}
