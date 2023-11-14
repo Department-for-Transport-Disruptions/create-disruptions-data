@@ -485,9 +485,10 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
                             PK: id,
                             SK: `${disruption.disruptionId}#INFO`,
                         },
-                        UpdateExpression: "SET publishStatus = :1",
+                        UpdateExpression: "SET publishStatus = :1, lastUpdated = :2",
                         ExpressionAttributeValues: {
                             ":1": status,
+                            ":2": getDate().toISOString(),
                         },
                     },
                 },
