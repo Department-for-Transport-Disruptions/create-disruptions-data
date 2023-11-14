@@ -29,8 +29,8 @@ interface MapProps {
     initialViewState: Partial<ViewState>;
     style: CSSProperties;
     mapStyle: string;
-    selected: Stop[];
-    searched: Stop[];
+    selectedStop: Stop[];
+    stopOptions: Stop[];
     inputId?: keyof Stop;
     showSelectAllButton?: boolean;
     stateUpdater: Dispatch<SetStateAction<PageState<Partial<StopsConsequence>>>>;
@@ -41,8 +41,8 @@ const Map = ({
     initialViewState,
     style,
     mapStyle,
-    selected,
-    searched,
+    selectedStop,
+    stopOptions,
     showSelectAllButton = false,
     stateUpdater = () => "",
     state,
@@ -57,12 +57,12 @@ const Map = ({
 
     const handleMouseEnter = useCallback(
         (id: string) => {
-            const searchedAtcoCodes = searched.map((searchItem) => searchItem.atcoCode);
-            const selectedAtcoCodes = selected.map((selectedItem) => selectedItem.atcoCode);
+            const searchedAtcoCodes = stopOptions.map((searchItem) => searchItem.atcoCode);
+            const selectedAtcoCodes = selectedStop.map((selectedItem) => selectedItem.atcoCode);
             const markerDataAtcoCodes = markerData.map((markerItem) => markerItem.atcoCode);
             const stopsOnMap = [
-                ...selected,
-                ...searched,
+                ...selectedStop,
+                ...stopOptions,
                 ...markerData.filter(
                     (item) => !searchedAtcoCodes.includes(item.atcoCode) && !selectedAtcoCodes.includes(item.atcoCode),
                 ),
@@ -76,13 +76,13 @@ const Map = ({
             const stopInfo = stopsOnMap.find((stop) => stop.atcoCode === id);
             if (stopInfo) setPopupInfo(stopInfo);
         },
-        [searched, selected, markerData, state.inputs?.pastStops],
+        [stopOptions, selectedStop, markerData, state.inputs?.pastStops],
     );
 
     const unselectMarker = useCallback(
         (id: string) => {
             if (state) {
-                const stops = sortAndFilterStops(selected.filter((stop: Stop) => stop.atcoCode !== id));
+                const stops = sortAndFilterStops(selectedStop.filter((stop: Stop) => stop.atcoCode !== id));
 
                 stateUpdater({
                     ...state,
@@ -91,20 +91,20 @@ const Map = ({
                         stops,
                         pastStops: sortAndFilterStops([
                             ...(state.inputs?.pastStops || []),
-                            ...selected.filter((stop: Stop) => stop.atcoCode === id),
+                            ...selectedStop.filter((stop: Stop) => stop.atcoCode === id),
                         ]),
                     },
                     errors: state.errors,
                 });
             }
         },
-        [selected, state, stateUpdater],
+        [selectedStop, state, stateUpdater],
     );
 
     const selectMarker = useCallback(
         (id: string) => {
             if (state) {
-                const stop: Stop[] = [...searched, ...markerData, ...(state.inputs?.pastStops || [])].filter(
+                const stop: Stop[] = [...stopOptions, ...markerData, ...(state.inputs?.pastStops || [])].filter(
                     (stop: Stop) => stop.atcoCode === id,
                 );
 
@@ -112,14 +112,14 @@ const Map = ({
                     ...state,
                     inputs: {
                         ...state.inputs,
-                        stops: sortAndFilterStops([...selected, ...stop]),
+                        stops: sortAndFilterStops([...selectedStop, ...stop]),
                         pastStops: state.inputs?.pastStops?.filter((stop: Stop) => stop.atcoCode !== id),
                     },
                     errors: state.errors,
                 });
             }
         },
-        [searched, selected, state, stateUpdater, markerData],
+        [stopOptions, selectedStop, state, stateUpdater, markerData],
     );
 
     useEffect(() => {
@@ -153,11 +153,11 @@ const Map = ({
                 } catch (e) {
                     setMarkerData([]);
                     if (e instanceof LargePolygonError) {
-                        setWarningMessage(warningMessageText(selected.length).drawnAreaTooBig);
+                        setWarningMessage(warningMessageText(selectedStop.length).drawnAreaTooBig);
                     } else if (e instanceof NoStopsError) {
-                        setWarningMessage(warningMessageText(selected.length).noStopsFound);
+                        setWarningMessage(warningMessageText(selectedStop.length).noStopsFound);
                     } else {
-                        setWarningMessage(warningMessageText(selected.length).problemRetrievingStops);
+                        setWarningMessage(warningMessageText(selectedStop.length).problemRetrievingStops);
                     }
                 }
             };
@@ -200,7 +200,7 @@ const Map = ({
                 ...state,
                 inputs: {
                     ...state.inputs,
-                    stops: selected.filter((sToFilter: Stop) =>
+                    stops: selectedStop.filter((sToFilter: Stop) =>
                         markerData && markerData.length > 0
                             ? !markerData.map((s) => s.atcoCode).includes(sToFilter.atcoCode)
                             : sToFilter,
@@ -224,7 +224,7 @@ const Map = ({
                         ...state,
                         inputs: {
                             ...state.inputs,
-                            stops: sortAndFilterStops([...selected, ...markerData].splice(0, 100)),
+                            stops: sortAndFilterStops([...selectedStop, ...markerData].splice(0, 100)),
                         },
                         errors: [
                             ...state.errors.filter(
@@ -239,12 +239,12 @@ const Map = ({
     };
 
     useEffect(() => {
-        if (selected.length === 100) {
-            setWarningMessage(warningMessageText(selected.length).maxStopLimitReached);
+        if (selectedStop.length === 100) {
+            setWarningMessage(warningMessageText(selectedStop.length).maxStopLimitReached);
         } else {
             setWarningMessage("");
         }
-    }, [selected]);
+    }, [selectedStop]);
 
     useEffect(() => {
         stateUpdater({
@@ -255,7 +255,7 @@ const Map = ({
             },
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [searched]);
+    }, [stopOptions]);
 
     return mapboxAccessToken ? (
         <>
@@ -280,8 +280,8 @@ const Map = ({
                 >
                     <MapControls onUpdate={onUpdate} onDelete={onDelete} />
                     <Markers
-                        selected={selected}
-                        searched={searched}
+                        selectedStop={selectedStop}
+                        stopOptions={stopOptions}
                         handleMouseEnter={handleMouseEnter}
                         markerData={markerData}
                         selectMarker={selectMarker}
