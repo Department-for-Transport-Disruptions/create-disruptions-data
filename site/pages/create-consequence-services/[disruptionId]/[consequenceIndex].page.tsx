@@ -64,7 +64,7 @@ const filterConfig = {
     matchFrom: "any" as const,
 };
 
-const fetchStops = async (
+const getStops = async (
     serviceId: number,
     vehicleMode?: VehicleMode | Modes,
     dataSource?: Datasource,
@@ -97,6 +97,32 @@ const fetchStops = async (
     return [];
 };
 
+const getMode = (vehicleMode: Modes | VehicleMode) => {
+    let mode: Modes[] = [];
+
+    if (vehicleMode === VehicleMode.ferryService) {
+        mode = [Modes.ferry];
+    } else if (vehicleMode === VehicleMode.tram) {
+        mode = [Modes.tram, Modes.metro];
+    } else {
+        mode = [vehicleMode as Modes];
+    }
+
+    return mode;
+};
+
+const getServices = async (source: Datasource, vehicleMode: VehicleMode, adminAreaCodes?: string[]) => {
+    const mode = getMode(vehicleMode);
+
+    const serviceData = await fetchServices({
+        adminAreaCodes,
+        dataSource: source,
+        modes: mode,
+    });
+
+    return filterServices(serviceData);
+};
+
 const removeServiceForStop = (stop: Stop, removedServiceId: number) =>
     stop.serviceIds?.includes(removedServiceId)
         ? { ...stop, serviceIds: stop.serviceIds.filter((id) => id !== removedServiceId) }
@@ -114,6 +140,7 @@ export interface CreateConsequenceServicesProps
     globalDataSource: Datasource | null;
     isOperatorUser?: boolean;
     operatorUserNocCodes?: string[];
+    initialStops: Stop[];
 }
 
 const CreateConsequenceServices = (props: CreateConsequenceServicesProps): ReactElement => {
@@ -240,6 +267,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                     includeRoutes: true,
                     dataSource: dataSource,
                     nocCodes: props.isOperatorUser && props.operatorUserNocCodes ? props.operatorUserNocCodes : [],
+                    adminAreaCodes: pageState.sessionWithOrg?.adminAreaCodes,
                 });
 
                 stopToAdd["serviceIds"] = servicesForGivenStop.map((service) => service.id);
@@ -261,7 +289,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                     await Promise.all(
                         servicesRoutesForMap.map(async (service) => {
                             if (service) {
-                                return fetchStops(service.serviceId, pageState.inputs.vehicleMode, dataSource);
+                                return getStops(service.serviceId, pageState.inputs.vehicleMode, dataSource);
                             }
                             return [];
                         }),
@@ -301,7 +329,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
     useEffect(() => {
         if (selectedService) {
-            fetchStops(selectedService.id, pageState.inputs.vehicleMode, selectedService.dataSource)
+            getStops(selectedService.id, pageState.inputs.vehicleMode, selectedService.dataSource)
                 .then((stops) => setStopOptions(sortAndFilterStops([...stopOptions, ...stops])))
                 // eslint-disable-next-line no-console
                 .catch(console.error);
@@ -356,38 +384,18 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageState?.inputs?.services]);
 
-    const fetchData = async (source: Datasource, vehicleMode: string) => {
-        let mode: Modes[] = [];
-        if (vehicleMode === VehicleMode.ferryService.toString()) {
-            mode = [Modes.ferry];
-        } else if (vehicleMode === VehicleMode.tram.toString()) {
-            mode = [Modes.tram, Modes.metro];
-        } else {
-            mode = [vehicleMode as Modes];
-        }
-
-        const serviceData = await fetchServices({
-            adminAreaCodes: props.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
-            dataSource: source,
-            modes: mode,
-            nocCodes: props.isOperatorUser && props.operatorUserNocCodes ? props.operatorUserNocCodes : [],
-        });
-
-        const filteredData = filterServices(serviceData);
-
-        setServicesRecords(filteredData);
-    };
-
     useEffect(() => {
         if (pageState.inputs.vehicleMode) {
             const source =
                 props.inputs.vehicleMode === pageState.inputs.vehicleMode
-                    ? props.consequenceDataSource
+                    ? props.consequenceDataSource || props.globalDataSource
                     : props.sessionWithOrg?.mode[pageState.inputs.vehicleMode];
 
             if (source) {
-                fetchData(source, pageState.inputs.vehicleMode)
-                    .then(() => {
+                getServices(source, pageState.inputs.vehicleMode, props.sessionWithOrg?.adminAreaCodes)
+                    .then((services) => {
+                        setServicesRecords(services);
+
                         if (vehicleMode !== pageState.inputs.vehicleMode) {
                             setDataSource(source);
                             setPageState({
@@ -774,15 +782,29 @@ export const getServerSideProps = async (
     let consequenceDataSource: Datasource | null = null;
     let globalDataSource: Datasource | null = null;
 
-    if (pageState.inputs.vehicleMode && pageState.inputs.services) {
+    if (pageState.inputs.vehicleMode) {
         globalDataSource = session.mode[pageState.inputs.vehicleMode];
 
-        consequenceDataSource = pageState.inputs.services[0].dataSource;
+        const serviceList = await getServices(globalDataSource, pageState.inputs.vehicleMode, session.adminAreaCodes);
 
-        const stopPromises = pageState.inputs.services.map((service) =>
-            fetchStops(service.id, pageState.inputs.vehicleMode, service.dataSource),
-        );
-        stops = (await Promise.all(stopPromises)).flat();
+        if (pageState.inputs.serviceIds) {
+            pageState.inputs.services =
+                serviceList.filter((service) => pageState.inputs.serviceIds?.includes(service.id)) ?? [];
+        }
+
+        if (pageState.inputs.services?.length) {
+            consequenceDataSource = pageState.inputs.services[0].dataSource;
+
+            const stopPromises = pageState.inputs.services.map((service) =>
+                getStops(service.id, pageState.inputs.vehicleMode, service.dataSource),
+            );
+            stops = (await Promise.all(stopPromises)).flat();
+
+            if (pageState.inputs.stopIds) {
+                pageState.inputs.stops =
+                    sortAndFilterStops(stops.filter((stop) => pageState.inputs.stopIds?.includes(stop.atcoCode))) ?? [];
+            }
+        }
     }
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_SERVICES_ERRORS, ctx.res);

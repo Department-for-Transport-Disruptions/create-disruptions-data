@@ -12,6 +12,7 @@ const blankInputs: CreateConsequenceServicesProps = {
     sessionWithOrg: mockSessionWithOrgDetail,
     consequenceDataSource: null,
     globalDataSource: null,
+    initialStops: [],
 };
 
 const withInputs: CreateConsequenceServicesProps = {
@@ -59,6 +60,7 @@ const withInputs: CreateConsequenceServicesProps = {
     },
     consequenceDataSource: Datasource.bods,
     globalDataSource: Datasource.bods,
+    initialStops: [],
 };
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -113,6 +115,7 @@ const withInputsAndErrors: CreateConsequenceServicesProps = {
     },
     consequenceDataSource: Datasource.bods,
     globalDataSource: Datasource.bods,
+    initialStops: [],
 };
 
 describe("pages", () => {

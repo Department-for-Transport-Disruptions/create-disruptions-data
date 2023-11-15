@@ -14,6 +14,7 @@ const ViewAllTemplates = ({
     adminAreaCodes,
     filterStatus,
     enableLoadingSpinnerOnPageLoad = true,
+    orgId,
 }: ViewAllContentProps): ReactElement => {
     return (
         <BaseLayout title={title} description={description}>
@@ -23,6 +24,7 @@ const ViewAllTemplates = ({
                 filterStatus={filterStatus}
                 enableLoadingSpinnerOnPageLoad={enableLoadingSpinnerOnPageLoad}
                 isTemplate={true}
+                orgId={orgId}
             />
         </BaseLayout>
     );
@@ -64,6 +66,7 @@ export const getServerSideProps = async (
     return {
         props: {
             adminAreaCodes: session.adminAreaCodes,
+            orgId: session.orgId,
             newContentId: randomUUID(),
             ...(showPending
                 ? { filterStatus: Progress.pendingApproval }

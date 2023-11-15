@@ -2,7 +2,7 @@ import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@crea
 import * as sharedUtils from "@create-disruptions-data/shared-ts/utils";
 import MockDate from "mockdate";
 import { describe, it, expect, afterEach, beforeEach, vi, afterAll } from "vitest";
-import getAllDisruptions, { formatSortedDisruption } from "./get-all-disruptions.api";
+import getAllDisruptions, { formatSortedDisruption } from "./get-all-disruptions/[organisationId].api";
 import * as dynamo from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession, sortedDisruption } from "../../testData/mockData";
@@ -108,11 +108,11 @@ describe("getAllDisruptions", () => {
     ];
 
     it("should be successful when session is set", async () => {
-        getDisruptionsDataFromDynamoSpy.mockResolvedValue(disruptions);
+        getDisruptionsDataFromDynamoSpy.mockResolvedValue({ disruptions });
 
         const { req, res } = getMockRequestAndResponse({
             query: {
-                orgId: DEFAULT_ORG_ID,
+                organisationId: DEFAULT_ORG_ID,
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -164,11 +164,11 @@ describe("getAllDisruptions", () => {
             return operatorDisruptions;
         });
 
-        getDisruptionsDataFromDynamoSpy.mockResolvedValue(disruptionsWithOperatorDisruptions);
+        getDisruptionsDataFromDynamoSpy.mockResolvedValue({ disruptions: disruptionsWithOperatorDisruptions });
 
         const { req, res } = getMockRequestAndResponse({
             query: {
-                orgId: DEFAULT_ORG_ID,
+                organisationId: DEFAULT_ORG_ID,
             },
             mockWriteHeadFn: writeHeadMock,
         });

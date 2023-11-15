@@ -773,6 +773,8 @@ export const servicesConsequenceSchema = z.object({
         [z.literal("allDirections"), z.literal("inbound"), z.literal("outbound")],
         setZodDefaultError("Select a direction"),
     ),
+    serviceIds: z.array(z.number()).optional(),
+    stopIds: z.array(z.string()).optional(),
 });
 
 export const consequenceSchema = z.discriminatedUnion("consequenceType", [
@@ -795,5 +797,6 @@ export const disruptionSchema = disruptionInfoSchemaRefined.and(
         publishStatus: z.nativeEnum(PublishStatus).default(PublishStatus.draft),
         template: z.boolean().optional().default(false),
         createdByOperatorOrgId: z.string().uuid().optional(),
+        lastUpdated: z.string().optional(),
     }),
 );

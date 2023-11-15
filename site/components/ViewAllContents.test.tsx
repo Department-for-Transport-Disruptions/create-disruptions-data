@@ -4,8 +4,8 @@ import { Dayjs } from "dayjs";
 import renderer, { act } from "react-test-renderer";
 import { describe, it, expect, vi, afterEach } from "vitest";
 import ViewAllContents, { Filter, TableContents, filterContents } from "./ViewAllContents";
-import { getWorstSeverity, isClosingOrClosed } from "../pages/api/get-all-disruptions.api";
-import { mockServices, mockViewAllData } from "../testData/mockData";
+import { getWorstSeverity, isClosingOrClosed } from "../pages/api/get-all-disruptions/[organisationId].api";
+import { DEFAULT_ORG_ID, mockServices, mockViewAllData } from "../testData/mockData";
 
 type Renderer = {
     toJSON: () => void;
@@ -35,7 +35,7 @@ describe("pages", () => {
     describe("ViewAllContents", () => {
         it("should render correctly when there are no disruptions", async () => {
             fetchSpy.mockResolvedValue({
-                json: vi.fn().mockResolvedValue([]),
+                json: vi.fn().mockResolvedValue({ disruptions: [] }),
             } as unknown as Response);
 
             let component: Renderer = defaultRenderer;
@@ -46,6 +46,7 @@ describe("pages", () => {
                         newContentId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
                         enableLoadingSpinnerOnPageLoad={false}
+                        orgId={DEFAULT_ORG_ID}
                     />,
                 );
             });
@@ -55,7 +56,7 @@ describe("pages", () => {
 
         it("should render correctly when there are enough disruptions for no pagination", async () => {
             fetchSpy.mockResolvedValue({
-                json: vi.fn().mockResolvedValue(disruptions),
+                json: vi.fn().mockResolvedValue({ disruptions }),
             } as unknown as Response);
 
             let component: Renderer = defaultRenderer;
@@ -66,6 +67,7 @@ describe("pages", () => {
                         newContentId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
                         enableLoadingSpinnerOnPageLoad={false}
+                        orgId={DEFAULT_ORG_ID}
                     />,
                 );
             });
@@ -75,7 +77,14 @@ describe("pages", () => {
 
         it("should render correctly when there are enough disruptions for pagination", async () => {
             fetchSpy.mockResolvedValue({
-                json: vi.fn().mockResolvedValue([...disruptions, ...disruptions, ...disruptions, ...disruptions]),
+                json: vi.fn().mockResolvedValue({
+                    disruptions: [
+                        ...disruptions,
+                        ...disruptions.map((d) => ({ ...d, id: `${d.id}1` })),
+                        ...disruptions.map((d) => ({ ...d, id: `${d.id}2` })),
+                        ...disruptions.map((d) => ({ ...d, id: `${d.id}3` })),
+                    ],
+                }),
             } as unknown as Response);
 
             let component: Renderer = defaultRenderer;
@@ -86,6 +95,7 @@ describe("pages", () => {
                         newContentId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
                         enableLoadingSpinnerOnPageLoad={false}
+                        orgId={DEFAULT_ORG_ID}
                     />,
                 );
             });
@@ -95,7 +105,14 @@ describe("pages", () => {
 
         it("should render correctly when filter is set to pending approval status", async () => {
             fetchSpy.mockResolvedValue({
-                json: vi.fn().mockResolvedValue([...disruptions, ...disruptions, ...disruptions, ...disruptions]),
+                json: vi.fn().mockResolvedValue({
+                    disruptions: [
+                        ...disruptions,
+                        ...disruptions.map((d) => ({ ...d, id: `${d.id}1` })),
+                        ...disruptions.map((d) => ({ ...d, id: `${d.id}2` })),
+                        ...disruptions.map((d) => ({ ...d, id: `${d.id}3` })),
+                    ],
+                }),
             } as unknown as Response);
 
             let component: Renderer = defaultRenderer;
@@ -107,6 +124,7 @@ describe("pages", () => {
                         adminAreaCodes={["099"]}
                         filterStatus={Progress.pendingApproval}
                         enableLoadingSpinnerOnPageLoad={false}
+                        orgId={DEFAULT_ORG_ID}
                     />,
                 );
             });
@@ -116,7 +134,14 @@ describe("pages", () => {
 
         it("should render correctly when filter is set to draft status", async () => {
             fetchSpy.mockResolvedValue({
-                json: vi.fn().mockResolvedValue([...disruptions, ...disruptions, ...disruptions, ...disruptions]),
+                json: vi.fn().mockResolvedValue({
+                    disruptions: [
+                        ...disruptions,
+                        ...disruptions.map((d) => ({ ...d, id: `${d.id}1` })),
+                        ...disruptions.map((d) => ({ ...d, id: `${d.id}2` })),
+                        ...disruptions.map((d) => ({ ...d, id: `${d.id}3` })),
+                    ],
+                }),
             } as unknown as Response);
 
             let component: Renderer = defaultRenderer;
@@ -128,6 +153,7 @@ describe("pages", () => {
                         adminAreaCodes={["099"]}
                         filterStatus={Progress.draft}
                         enableLoadingSpinnerOnPageLoad={false}
+                        orgId={DEFAULT_ORG_ID}
                     />,
                 );
             });

@@ -5,6 +5,7 @@ import {
     TransactWriteCommand,
     PutCommand,
     GetCommand,
+    QueryCommand,
 } from "@aws-sdk/lib-dynamodb";
 import { Consequence, Disruption, DisruptionInfo, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { MAX_CONSEQUENCES } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
@@ -189,7 +190,7 @@ export const getPendingDisruptionsIdsFromDynamo = async (id: string): Promise<Se
     return disruptionIds;
 };
 
-export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise<Disruption[]> => {
+export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise<FullDisruption[]> => {
     logger.info("Getting disruptions data from DynamoDB table...");
 
     const dbData = await recursiveQuery(
@@ -212,31 +213,39 @@ export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise
     return disruptionIds?.map((id) => collectDisruptionsData(dbData || [], id)).filter(notEmpty) ?? [];
 };
 
-export const getDisruptionsDataFromDynamo = async (id: string, isTemplate?: boolean): Promise<FullDisruption[]> => {
-    logger.info("Getting disruptions data from DynamoDB table...");
+export const getDisruptionsDataFromDynamo = async (
+    id: string,
+    isTemplate?: boolean,
+    nextKey?: Record<string, unknown>,
+): Promise<{ disruptions: FullDisruption[]; nextKey?: string }> => {
+    logger.info(`Getting disruptions data from DynamoDB table for org ${id}...`);
 
-    const dbData = await recursiveQuery(
-        {
+    const dbData = await ddbDocClient.send(
+        new QueryCommand({
             TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
             KeyConditionExpression: "PK = :1",
             ExpressionAttributeValues: {
                 ":1": id,
             },
-        },
-        logger,
+            Limit: 200,
+            ExclusiveStartKey: nextKey,
+        }),
     );
 
-    const disruptionIds = dbData
-        .map((item) => (item as Disruption).disruptionId)
-        .filter((value, index, array) => array.indexOf(value) === index);
+    const disruptionIds = dbData.Items?.map((item) => (item as Disruption).disruptionId).filter(
+        (value, index, array) => array.indexOf(value) === index,
+    );
 
-    return disruptionIds?.map((id) => collectDisruptionsData(dbData || [], id)).filter(notEmpty) ?? [];
+    return {
+        disruptions: disruptionIds?.map((id) => collectDisruptionsData(dbData.Items || [], id)).filter(notEmpty) ?? [],
+        nextKey: dbData.LastEvaluatedKey ? JSON.stringify(dbData.LastEvaluatedKey) : undefined,
+    };
 };
 
 export const getPublishedSocialMediaPosts = async (orgId: string): Promise<SocialMediaPost[]> => {
     logger.info("Getting published social media data from DynamoDB table...");
 
-    const disruptions = await getDisruptionsDataFromDynamo(orgId);
+    const disruptions = await getPublishedDisruptionsDataFromDynamo(orgId);
 
     return disruptions
         .filter((disruption) => {
@@ -483,9 +492,10 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
                             PK: id,
                             SK: `${disruption.disruptionId}#INFO`,
                         },
-                        UpdateExpression: "SET publishStatus = :1",
+                        UpdateExpression: "SET publishStatus = :1, lastUpdated = :2",
                         ExpressionAttributeValues: {
                             ":1": status,
+                            ":2": getDate().toISOString(),
                         },
                     },
                 },
