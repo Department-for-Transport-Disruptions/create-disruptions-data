@@ -248,8 +248,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_SOCIAL_MEDIA_ERRORS, ctx.res);
 
-    const hootsuiteAccounts = await getHootsuiteAccountList(session.orgId);
-    const twitterAccounts = await getTwitterAccountList(session.orgId);
+    const hootsuiteAccounts = await getHootsuiteAccountList(session.orgId, session.operatorOrgId ?? "");
+    const twitterAccounts = await getTwitterAccountList(session.orgId, session.operatorOrgId ?? "");
 
     return {
         props: {
