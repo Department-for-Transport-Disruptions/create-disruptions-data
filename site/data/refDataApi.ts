@@ -6,7 +6,8 @@ import { Position } from "geojson";
 import { z } from "zod";
 import { API_BASE_URL } from "../constants";
 import { LargePolygonError, NoStopsError } from "../errors";
-import { operatorSchema, serviceByStopSchema } from "../schemas/consequence.schema";
+import { operatorSchema, serviceWithStopsAndRoutesSchema } from "../schemas/consequence.schema";
+import { filterServices } from "../utils/formUtils";
 
 interface FetchStopsInput {
     adminAreaCodes: string[];
@@ -128,13 +129,13 @@ export const fetchServicesByStops = async (input: FetchServicesByStopsInput) => 
         method: "GET",
     });
 
-    const parseResult = makeFilteredArraySchema(serviceByStopSchema).safeParse(await res.json());
+    const parseResult = makeFilteredArraySchema(serviceWithStopsAndRoutesSchema).safeParse(await res.json());
 
     if (!parseResult.success) {
         return [];
     }
 
-    return parseResult.data;
+    return filterServices(parseResult.data);
 };
 
 interface FetchServiceRoutes {

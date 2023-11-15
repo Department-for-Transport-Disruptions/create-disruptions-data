@@ -3,6 +3,7 @@ import {
     Disruption,
     NetworkConsequence,
     OperatorConsequence,
+    Routes,
     Service,
     ServicesConsequence,
     Stop,
@@ -19,6 +20,7 @@ import { ServerResponse } from "http";
 import { sortAndFilterStops } from "./formUtils";
 import { fetchServiceStops } from "../data/refDataApi";
 import { DisplayValuePair, ErrorInfo } from "../interfaces";
+import { ServiceWithStopAndRoutes } from "../schemas/consequence.schema";
 import { FullDisruption } from "../schemas/disruption.schema";
 
 export const mapValidityPeriods = (disruption: Disruption) =>
@@ -163,4 +165,38 @@ export const getStops = async (
     }
 
     return [];
+};
+
+export const removeDuplicateRoutes = (routes: Partial<(Routes & { serviceId: number })[]>) => {
+    return routes.filter(
+        (value, index, self) => index === self.findIndex((route) => route?.serviceId === value?.serviceId),
+    );
+};
+
+export const removeDuplicateStops = (stops: Stop[]) => {
+    return stops.filter((value, index, self) => index === self.findIndex((stop) => stop?.atcoCode === value?.atcoCode));
+};
+
+export const getRoutesForServices = (services: ServiceWithStopAndRoutes[]) =>
+    services.map((service) => ({
+        inbound: service.routes.inbound,
+        outbound: service.routes.outbound,
+        serviceId: service.id,
+    }));
+
+export const getStopsForRoutes = async (
+    routes: Partial<(Routes & { serviceId: number })[]>,
+    vehicleMode: VehicleMode | undefined,
+    dataSource: Datasource | undefined,
+) => {
+    return (
+        await Promise.all(
+            routes.map(async (route) => {
+                if (route) {
+                    return getStops(route.serviceId, vehicleMode, dataSource);
+                }
+                return [];
+            }),
+        )
+    ).flat();
 };

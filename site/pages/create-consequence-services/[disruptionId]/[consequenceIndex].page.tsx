@@ -38,7 +38,18 @@ import {
 import { getDisruptionById } from "../../../data/dynamo";
 import { fetchServiceRoutes, fetchServices, fetchServicesByStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import { flattenZodErrors, getServiceLabel, getStops, isServicesConsequence, sortServices } from "../../../utils";
+import { ServiceWithStopAndRoutes } from "../../../schemas/consequence.schema";
+import {
+    flattenZodErrors,
+    getRoutesForServices,
+    getServiceLabel,
+    getStops,
+    getStopsForRoutes,
+    isServicesConsequence,
+    removeDuplicateRoutes,
+    removeDuplicateStops,
+    sortServices,
+} from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import {
@@ -117,7 +128,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     const [servicesSearchInput, setServicesSearchInput] = useState<string>("");
     const [stopsSearchInput, setStopsSearchInput] = useState<string>("");
     const [searchedRoutes, setSearchedRoutes] = useState<Partial<(Routes & { serviceId: number })[]>>([]);
-    const [servicesRecords, setServicesRecords] = useState<Service[]>([]);
+    const [serviceOptionsForDropdown, setServiceOptionsForDropdown] = useState<Service[]>([]);
     const [dataSource, setDataSource] = useState<Datasource>(props.consequenceDataSource || Datasource.bods);
     const [vehicleMode, setVehicleMode] = useState<VehicleMode | null>(props.inputs.vehicleMode || null);
 
@@ -227,7 +238,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             });
         } else {
             if (stopToAdd) {
-                const servicesForGivenStop = await fetchServicesByStops({
+                const servicesForGivenStop: ServiceWithStopAndRoutes[] = await fetchServicesByStops({
                     atcoCodes: [stopToAdd.atcoCode],
                     includeRoutes: true,
                     dataSource: dataSource,
@@ -236,34 +247,19 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
                 stopToAdd["serviceIds"] = servicesForGivenStop.map((service) => service.id);
 
-                const servicesRoutesForGivenStop = servicesForGivenStop?.map((service) => ({
-                    inbound: service.routes.inbound,
-                    outbound: service.routes.outbound,
-                    serviceId: service.id,
-                }));
+                const servicesRoutesForGivenStop = getRoutesForServices(servicesForGivenStop);
 
-                const servicesRoutesForMap = [...searchedRoutes, ...servicesRoutesForGivenStop].filter(
-                    (value, index, self) =>
-                        index === self.findIndex((service) => service?.serviceId === value?.serviceId),
+                const servicesRoutesForMap = removeDuplicateRoutes([...searchedRoutes, ...servicesRoutesForGivenStop]);
+
+                const stopsForServicesRoutes = await getStopsForRoutes(
+                    servicesRoutesForMap,
+                    pageState.inputs.vehicleMode,
+                    dataSource,
                 );
 
-                const stopsForServicesRoutes = (
-                    await Promise.all(
-                        servicesRoutesForMap.map(async (service) => {
-                            if (service) {
-                                return getStops(service.serviceId, pageState.inputs.vehicleMode, dataSource);
-                            }
-                            return [];
-                        }),
-                    )
-                ).flat();
-
-                const stopsForMap = [...stopOptions, ...stopsForServicesRoutes].filter(
-                    (value, index, self) => index === self.findIndex((stop) => stop?.atcoCode === value?.atcoCode),
-                );
+                const stopsForMap = removeDuplicateStops([...stopOptions, ...stopsForServicesRoutes]);
 
                 setSearchedRoutes(servicesRoutesForMap);
-
                 setStopOptions(stopsForMap);
 
                 setPageState({
@@ -357,7 +353,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             if (source) {
                 getServices(source, pageState.inputs.vehicleMode, props.sessionWithOrg?.adminAreaCodes)
                     .then((services) => {
-                        setServicesRecords(services);
+                        setServiceOptionsForDropdown(services);
 
                         if (vehicleMode !== pageState.inputs.vehicleMode) {
                             setDataSource(source);
@@ -373,7 +369,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
                         setVehicleMode(pageState.inputs.vehicleMode || null);
                     })
-                    .catch(() => setServicesRecords([]));
+                    .catch(() => setServiceOptionsForDropdown([]));
             }
         }
 
@@ -486,7 +482,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             initialErrors={pageState.errors}
                             placeholder="Select services"
                             getOptionLabel={getServiceLabel}
-                            options={servicesRecords.filter(
+                            options={serviceOptionsForDropdown.filter(
                                 (service) => !isSelectedServiceInDropdown(service, pageState.inputs.services ?? []),
                             )}
                             handleChange={handleServiceChange}
@@ -517,7 +513,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             hint="Stops"
                             displaySize="l"
                             inputId="stops"
-                            options={stopOptions.filter(
+                            options={sortAndFilterStops(stopOptions).filter(
                                 (stop) => !isSelectedStopInDropdown(stop, pageState.inputs.stops ?? []),
                             )}
                             inputValue={stopsSearchInput}
@@ -544,8 +540,8 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             searchedRoutes={searchedRoutes}
                             setSearchedRoutes={setSearchedRoutes}
                             showSelectAllButton
-                            services={servicesRecords}
-                            setServices={setServicesRecords}
+                            serviceOptionsForDropdown={serviceOptionsForDropdown}
+                            setServiceOptionsForDropdown={setServiceOptionsForDropdown}
                             dataSource={dataSource}
                         />
 
