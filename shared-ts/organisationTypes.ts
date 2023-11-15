@@ -21,6 +21,8 @@ export const statisticSchema = z.object({
     stopsAffected: z.coerce.number().default(0),
     stopsConsequencesCount: z.coerce.number().default(0),
     totalConsequencesCount: z.coerce.number().default(0),
+    totalDisruptionsCount: z.coerce.number().default(0),
+    lastUpdated: z.string().default(""),
 });
 
 export const organisationSchemaWithStats = organisationSchema.and(z.object({ stats: statisticSchema }));
