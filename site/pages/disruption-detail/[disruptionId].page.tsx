@@ -42,6 +42,7 @@ interface DisruptionDetailProps {
     canPublish: boolean;
     csrfToken?: string;
     operatorOrgId?: string;
+    isOperatorUser?: boolean;
 }
 
 const DisruptionDetail = ({
@@ -51,6 +52,7 @@ const DisruptionDetail = ({
     errors,
     canPublish,
     operatorOrgId,
+    isOperatorUser,
 }: DisruptionDetailProps): ReactElement => {
     const [socialMediaPostPopUpState, setSocialMediaPostPopUpState] = useState<{
         name: string;
@@ -82,7 +84,10 @@ const DisruptionDetail = ({
         },
     ];
 
-    const isEditingAllowed = operatorOrgId ? disruption.createdByOperatorOrgId === operatorOrgId : true;
+    const isEditingAllowed = operatorOrgId
+        ? disruption.createdByOperatorOrgId === operatorOrgId
+        : !(disruption.createdByOperatorOrgId && !isOperatorUser);
+
     const displaySendToReview = redirect.includes(DISRUPTION_DETAIL_PAGE_PATH) && redirect.includes("template=true");
     const getSocialMediaRows = (post: SocialMediaPostTransformed, isEditingAllowed?: boolean) => {
         const isPendingOrRejected =
@@ -952,6 +957,7 @@ export const getServerSideProps = async (
             errors: errors,
             canPublish: canPublish(session),
             operatorOrgId: session.operatorOrgId || "",
+            isOperatorUser: session.isOperatorUser,
         },
     };
 };

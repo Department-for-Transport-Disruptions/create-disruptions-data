@@ -45,6 +45,7 @@ interface ReviewDisruptionProps {
     canPublish: boolean;
     redirect: string;
     operatorOrgId?: string;
+    isOperatorUser?: boolean;
 }
 
 const ReviewDisruption = ({
@@ -54,6 +55,7 @@ const ReviewDisruption = ({
     canPublish,
     redirect,
     operatorOrgId,
+    isOperatorUser,
 }: ReviewDisruptionProps): ReactElement => {
     const hasInitialised = useRef(false);
     const [popUpState, setPopUpState] = useState<{ name: string; hiddenInputs: { name: string; value: string }[] }>();
@@ -64,7 +66,9 @@ const ReviewDisruption = ({
 
     const queryParams = useRouter().query;
 
-    const isEditingAllowed = operatorOrgId ? disruption.createdByOperatorOrgId === operatorOrgId : true;
+    const isEditingAllowed = operatorOrgId
+        ? disruption.createdByOperatorOrgId === operatorOrgId
+        : !(disruption.createdByOperatorOrgId && !isOperatorUser);
 
     const getSocialMediaRows = (post: SocialMediaPostTransformed) => {
         const isPendingOrRejected =
@@ -883,6 +887,7 @@ export const getServerSideProps = async (
             errors,
             canPublish: canPublish(session),
             operatorOrgId: session.operatorOrgId || "",
+            isOperatorUser: session.isOperatorUser,
         },
     };
 };

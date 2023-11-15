@@ -194,6 +194,23 @@ describe("pages", () => {
             expect(tree).toMatchSnapshot();
         });
 
+        it("should render correctly with inputs and no errors if a non-operator user is viewing an operator disruption", () => {
+            const tree = renderer
+                .create(
+                    <DisruptionDetail
+                        disruption={{
+                            ...previousDisruptionInformation,
+                            createdByOperatorOrgId: "e17489ff-779c-4e74-b5cb-623be0adf24f",
+                        }}
+                        redirect={"/dashboard"}
+                        errors={[]}
+                        canPublish
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+
         it("should render correctly with inputs and state set to saved", () => {
             const tree = renderer
                 .create(
