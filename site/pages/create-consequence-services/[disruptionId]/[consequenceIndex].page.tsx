@@ -203,23 +203,21 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
     const getStopRows = () => {
         if (pageState.inputs.stops) {
-            return pageState.inputs.stops
-                .filter((value, index, self) => index === self.findIndex((s) => s.atcoCode === value.atcoCode))
-                .map((stop, i) => ({
-                    cells: [
-                        stop.commonName && stop.indicator && stop.atcoCode
-                            ? `${stop.commonName} ${stop.indicator} ${stop.atcoCode}`
-                            : `${stop.commonName} ${stop.atcoCode}`,
-                        <button
-                            id={`remove-stop-${stop.atcoCode}`}
-                            key={`remove-stop-${stop.atcoCode}`}
-                            className="govuk-link"
-                            onClick={(e) => removeStop(e, i)}
-                        >
-                            Remove
-                        </button>,
-                    ],
-                }));
+            return sortAndFilterStops(pageState.inputs.stops).map((stop, i) => ({
+                cells: [
+                    stop.commonName && stop.indicator && stop.atcoCode
+                        ? `${stop.commonName} ${stop.indicator} ${stop.atcoCode}`
+                        : `${stop.commonName} ${stop.atcoCode}`,
+                    <button
+                        id={`remove-stop-${stop.atcoCode}`}
+                        key={`remove-stop-${stop.atcoCode}`}
+                        className="govuk-link"
+                        onClick={(e) => removeStop(e, i)}
+                    >
+                        Remove
+                    </button>,
+                ],
+            }));
         }
         return [];
     };

@@ -357,6 +357,7 @@ const Map = ({
                 );
 
                 const stopsForMap = sortAndFilterStops([...stopOptions, ...stopsForServicesRoutes]);
+
                 setStopOptions(stopsForMap);
                 setSelectedServicesRoutes(servicesRoutesForMap);
                 setSearchedRoutes(servicesRoutesForMap);
@@ -364,13 +365,11 @@ const Map = ({
                     filterServices([...serviceOptionsForDropdown, ...servicesForStopsInPolygon]),
                 );
 
-                const stops = [
+                const stops = sortAndFilterStops([
                     ...(state.inputs.stops ?? []),
                     ...markerData,
                     ...(stopOptions.length > 0 ? stopOptions : []),
-                ]
-                    .filter((value, index, self) => index === self.findIndex((s) => s.atcoCode === value.atcoCode))
-                    .splice(0, 100);
+                ]).splice(0, 100);
 
                 if (!!markerData && markerData.length && stops.length === 100) {
                     setDisableSelectAllButton(true);
