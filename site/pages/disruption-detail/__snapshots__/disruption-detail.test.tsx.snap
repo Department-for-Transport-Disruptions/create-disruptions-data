@@ -3712,19 +3712,6 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
           >
             Disruption Overview
           </h1>
-          <a
-            className="govuk-link"
-            href="/disruption-history/2"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
-          >
-            <h2
-              className="govuk-heading-s text-govBlue"
-            >
-              View disruption history
-            </h2>
-          </a>
           <br />
           <table
             className="govuk-table"
@@ -5048,19 +5035,6 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
           >
             Disruption Overview
           </h1>
-          <a
-            className="govuk-link"
-            href="/disruption-history/2"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
-          >
-            <h2
-              className="govuk-heading-s text-govBlue"
-            >
-              View disruption history
-            </h2>
-          </a>
           <br />
           <table
             className="govuk-table"

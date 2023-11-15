@@ -415,7 +415,7 @@ const DisruptionDetail = ({
                                     Create disruption
                                 </button>
                             )}
-                        {!disruption.template && (
+                        {!disruption.template && isEditingAllowed && (
                             <Link
                                 className="govuk-link"
                                 href={`${DISRUPTION_HISTORY_PAGE_PATH}/${disruption.disruptionId}`}
@@ -771,8 +771,9 @@ const DisruptionDetail = ({
 
                         <input type="hidden" name="disruptionId" value={disruption.disruptionId} />
 
-                        {disruption.publishStatus !== PublishStatus.editing &&
-                        disruption.publishStatus !== PublishStatus.pendingAndEditing ? (
+                        {(disruption.publishStatus !== PublishStatus.editing &&
+                            disruption.publishStatus !== PublishStatus.pendingAndEditing) ||
+                        !isEditingAllowed ? (
                             <Link
                                 role="button"
                                 href={redirect}
@@ -798,7 +799,9 @@ const DisruptionDetail = ({
                             </button>
                         ) : null}
 
-                        {(canPublish || disruption.template) && disruption.publishStatus !== PublishStatus.published ? (
+                        {(canPublish || disruption.template) &&
+                        disruption.publishStatus !== PublishStatus.published &&
+                        isEditingAllowed ? (
                             <>
                                 <button className="govuk-button mt-8 govuk-button" data-module="govuk-button">
                                     {disruption.template ? "Save changes" : "Publish disruption"}
