@@ -23,6 +23,7 @@ const baseSchema = {
     socialAccount: z.string(setZodDefaultError("Select a social account")),
     socialMediaPostIndex: z.coerce.number().default(0),
     status: z.nativeEnum(SocialMediaPostStatus).default(SocialMediaPostStatus.pending),
+    createdByOperatorOrgId: z.string().optional(),
 };
 
 const hootsuiteSchema = z.object({

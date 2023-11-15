@@ -30,6 +30,7 @@ export interface CreateSocialMediaPostPageProps extends PageState<Partial<Hootsu
     csrfToken?: string;
     socialAccounts: SocialMediaAccount[];
     template?: string;
+    operatorOrgId?: string;
 }
 
 const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElement => {
@@ -205,6 +206,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
 
                     <input type="hidden" name="disruptionId" value={pageState.disruptionId} />
                     <input type="hidden" name="socialMediaPostIndex" value={props.socialMediaPostIndex} />
+                    <input type="hidden" name="createdByOperatorOrgId" value={props.operatorOrgId} />
 
                     <button className="govuk-button mt-8" data-module="govuk-button">
                         Save and continue
@@ -258,6 +260,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             socialMediaPostIndex: index,
             socialAccounts: [...hootsuiteAccounts, ...twitterAccounts],
             template: disruption?.template?.toString() || "",
+            operatorOrgId: session.operatorOrgId ?? "",
         },
     };
 };
