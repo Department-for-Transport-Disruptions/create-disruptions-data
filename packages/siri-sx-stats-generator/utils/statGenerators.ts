@@ -87,10 +87,21 @@ export const generateSiriStats = (disruptions: Disruption[]) => {
                 acc[key] = {
                     disruptionReasonCount: {},
                     totalDisruptionsCount: 0,
-                    lastUpdated: disruption.lastUpdated || "",
+                    lastUpdated: "",
                     ...initialConsequenceStatsValues,
                 };
             }
+
+            let lastUpdated = "";
+
+            if (!!acc[key].lastUpdated && !!disruption.lastUpdated) {
+                lastUpdated = getDate(disruption.lastUpdated).isAfter(getDate(acc[key].lastUpdated))
+                    ? disruption.lastUpdated
+                    : acc[key].lastUpdated;
+            } else if (disruption.lastUpdated || acc[key].lastUpdated) {
+                lastUpdated = disruption.lastUpdated || acc[key].lastUpdated;
+            }
+
             acc[key] = {
                 disruptionReasonCount: generateDisruptionReasonCount(
                     disruption.disruptionReason,
@@ -107,12 +118,7 @@ export const generateSiriStats = (disruptions: Disruption[]) => {
                 operatorWideConsequencesCount:
                     acc[key].operatorWideConsequencesCount + consequenceStats[key].operatorWideConsequencesCount,
                 totalConsequencesCount: acc[key].totalConsequencesCount + consequenceStats[key].totalConsequencesCount,
-                lastUpdated:
-                    disruption.lastUpdated &&
-                    acc[key].lastUpdated &&
-                    getDate(disruption.lastUpdated).isAfter(getDate(acc[key].lastUpdated))
-                        ? disruption.lastUpdated
-                        : acc[key].lastUpdated,
+                lastUpdated,
             };
         }
         return acc;

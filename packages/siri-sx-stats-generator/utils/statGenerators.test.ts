@@ -113,21 +113,27 @@ describe("generateSiriStats", () => {
         });
     });
 
-    it("correctly calculates the last updated date for multiple disruptions", () => {
-        expect(generateSiriStats([{ ...mockDisruption, lastUpdated: "2023-11-11T14:00:00Z" }, mockDisruption])).toEqual(
-            {
-                "76a85b15-0523-4fa7-95ee-0d9caf05e2d4": {
-                    disruptionReasonCount: {
-                        roadworks: 2,
-                    },
-                    ...initialConsequenceStatsValues,
-                    totalConsequencesCount: 4,
-                    operatorWideConsequencesCount: 2,
-                    networkWideConsequencesCount: 2,
-                    lastUpdated: "2023-11-11T14:00:00Z",
-                    totalDisruptionsCount: 2,
+    it.each([
+        [[{ ...mockDisruption, lastUpdated: "2023-11-11T14:00:00Z" }, mockDisruption]],
+        [
+            [
+                { ...mockDisruption, lastUpdated: "" },
+                { ...mockDisruption, lastUpdated: "2023-11-11T14:00:00Z" },
+            ],
+        ],
+    ])("correctly calculates the last updated date for multiple disruptions", (testData) => {
+        expect(generateSiriStats(testData)).toEqual({
+            "76a85b15-0523-4fa7-95ee-0d9caf05e2d4": {
+                disruptionReasonCount: {
+                    roadworks: 2,
                 },
+                ...initialConsequenceStatsValues,
+                totalConsequencesCount: 4,
+                operatorWideConsequencesCount: 2,
+                networkWideConsequencesCount: 2,
+                lastUpdated: "2023-11-11T14:00:00Z",
+                totalDisruptionsCount: 2,
             },
-        );
+        });
     });
 });
