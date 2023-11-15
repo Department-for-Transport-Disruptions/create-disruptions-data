@@ -111,13 +111,20 @@ const getMode = (vehicleMode: Modes | VehicleMode) => {
     return mode;
 };
 
-const getServices = async (source: Datasource, vehicleMode: VehicleMode, adminAreaCodes?: string[]) => {
+const getServices = async (
+    source: Datasource,
+    vehicleMode: VehicleMode,
+    adminAreaCodes?: string[],
+    isOperatorUser?: boolean,
+    operatorUserNocCodes?: string[],
+) => {
     const mode = getMode(vehicleMode);
 
     const serviceData = await fetchServices({
         adminAreaCodes,
         dataSource: source,
         modes: mode,
+        nocCodes: isOperatorUser && operatorUserNocCodes ? operatorUserNocCodes : [],
     });
 
     return filterServices(serviceData);
@@ -392,7 +399,13 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                     : props.sessionWithOrg?.mode[pageState.inputs.vehicleMode];
 
             if (source) {
-                getServices(source, pageState.inputs.vehicleMode, props.sessionWithOrg?.adminAreaCodes)
+                getServices(
+                    source,
+                    pageState.inputs.vehicleMode,
+                    props.sessionWithOrg?.adminAreaCodes,
+                    props.isOperatorUser,
+                    props.operatorUserNocCodes,
+                )
                     .then((services) => {
                         setServicesRecords(services);
 
