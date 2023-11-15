@@ -1579,6 +1579,7 @@ export const addSocialAccountToOrg = async (
     display: string,
     addedBy: string,
     accountType: SocialMediaAccount["accountType"],
+    createdByOperatorOrgId?: string | null,
 ) => {
     await ddbDocClient.send(
         new PutCommand({
@@ -1590,6 +1591,7 @@ export const addSocialAccountToOrg = async (
                 display,
                 addedBy,
                 accountType,
+                ...(createdByOperatorOrgId ? { createdByOperatorOrgId: createdByOperatorOrgId } : {}),
             },
         }),
     );
