@@ -173,10 +173,6 @@ export const removeDuplicateRoutes = (routes: Partial<(Routes & { serviceId: num
     );
 };
 
-export const removeDuplicateStops = (stops: Stop[]) => {
-    return stops.filter((value, index, self) => index === self.findIndex((stop) => stop?.atcoCode === value?.atcoCode));
-};
-
 export const getRoutesForServices = (services: ServiceWithStopAndRoutes[]) =>
     services.map((service) => ({
         inbound: service.routes.inbound,

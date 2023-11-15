@@ -47,7 +47,6 @@ import {
     getStopsForRoutes,
     isServicesConsequence,
     removeDuplicateRoutes,
-    removeDuplicateStops,
     sortServices,
 } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
@@ -257,7 +256,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                     dataSource,
                 );
 
-                const stopsForMap = removeDuplicateStops([...stopOptions, ...stopsForServicesRoutes]);
+                const stopsForMap = sortAndFilterStops([...stopOptions, ...stopsForServicesRoutes]);
 
                 setSearchedRoutes(servicesRoutesForMap);
                 setStopOptions(stopsForMap);

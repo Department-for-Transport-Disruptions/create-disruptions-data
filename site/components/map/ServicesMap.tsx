@@ -24,13 +24,7 @@ import { fetchServicesByStops, fetchStops } from "../../data/refDataApi";
 import { LargePolygonError, NoStopsError } from "../../errors";
 import { PageState } from "../../interfaces";
 import { ServiceWithStopAndRoutes } from "../../schemas/consequence.schema";
-import {
-    flattenZodErrors,
-    getRoutesForServices,
-    getStopsForRoutes,
-    removeDuplicateRoutes,
-    removeDuplicateStops,
-} from "../../utils";
+import { flattenZodErrors, getRoutesForServices, getStopsForRoutes, removeDuplicateRoutes } from "../../utils";
 import { filterServices, getStopType, sortAndFilterStops, sortStops } from "../../utils/formUtils";
 import { warningMessageText } from "../../utils/mapUtils";
 import Warning from "../form/Warning";
@@ -190,7 +184,7 @@ const Map = ({
                     dataSource,
                 );
 
-                const stopOptionsForMap = removeDuplicateStops([...stopOptions, ...stopsForServicesRoutes]);
+                const stopOptionsForMap = sortAndFilterStops([...stopOptions, ...stopsForServicesRoutes]);
 
                 setStopOptions(stopOptionsForMap);
                 setSelectedServicesRoutes(servicesRoutesForMap);
@@ -362,7 +356,7 @@ const Map = ({
                     dataSource,
                 );
 
-                const stopsForMap = removeDuplicateStops([...stopOptions, ...stopsForServicesRoutes]);
+                const stopsForMap = sortAndFilterStops([...stopOptions, ...stopsForServicesRoutes]);
                 setStopOptions(stopsForMap);
                 setSelectedServicesRoutes(servicesRoutesForMap);
                 setSearchedRoutes(servicesRoutesForMap);
