@@ -795,6 +795,6 @@ export const disruptionSchema = disruptionInfoSchemaRefined.and(
             .optional(),
         publishStatus: z.nativeEnum(PublishStatus).default(PublishStatus.draft),
         template: z.boolean().optional().default(false),
-        lastUpdated: z.string().datetime().optional(),
+        lastUpdated: z.string().optional(),
     }),
 );
