@@ -4,7 +4,7 @@ import { mockClient } from "aws-sdk-client-mock";
 import Mockdate from "mockdate";
 import { describe, expect, it, beforeEach, beforeAll, afterAll } from "vitest";
 import formatXml from "xml-formatter";
-import { dbResponse, orgId } from "./test/testData";
+import { dbResponse, dbResponseWithCreationTime, orgId } from "./test/testData";
 import { generateSiriSxAndUploadToS3 } from ".";
 
 const ddbMock = mockClient(DynamoDBDocumentClient);
@@ -30,6 +30,32 @@ describe("SIRI-SX Generator", () => {
 
     it("correctly generates SIRI-SX XML", async () => {
         ddbMock.on(ScanCommand).resolves({ Items: dbResponse });
+        ddbMock.on(GetCommand).resolves({ Item: { PK: orgId, name: "Test Org" } });
+
+        await generateSiriSxAndUploadToS3(
+            s3Mock as unknown as S3Client,
+            "test-table",
+            "org-table",
+            "test-bucket",
+            "disruptions-json-bucket",
+            "disruptions-csv-bucket",
+            "abcde-fghij-klmno-pqrst",
+            "2023-03-06T12:00:00Z",
+        );
+
+        const s3PutSiriCommand = s3Mock.commandCalls(PutObjectCommand)[0].args[0];
+        const putData = (s3PutSiriCommand.input.Body as string).replace(/(?:\r\n|\r|\n)/g, "");
+
+        expect(s3PutSiriCommand.input.Key).toBe("1678104000000-unvalidated-siri.xml");
+        expect(
+            formatXml(putData, {
+                collapseContent: true,
+            }),
+        ).toMatchSnapshot();
+    });
+
+    it("correctly generates SIRI-SX XML where creationDate is present", async () => {
+        ddbMock.on(ScanCommand).resolves({ Items: dbResponseWithCreationTime });
         ddbMock.on(GetCommand).resolves({ Item: { PK: orgId, name: "Test Org" } });
 
         await generateSiriSxAndUploadToS3(

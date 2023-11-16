@@ -63,6 +63,11 @@ export const getPtSituationElementFromSiteDisruption = (
     disruption: Disruption & { organisation: { id: string; name: string } },
 ) => {
     const currentTime = getDate().toISOString();
+    const creationTime = disruption.creationTime
+        ? disruption.creationTime
+        : disruption.history && disruption.history.length > 0
+        ? disruption.history.sort((a, b) => +getDate(b.datetime) - +getDate(a.datetime))[0].datetime
+        : "";
 
     const reason = disruption.disruptionReason;
 
@@ -78,7 +83,7 @@ export const getPtSituationElementFromSiteDisruption = (
     });
 
     const ptSituationElement: Omit<PtSituationElement, Reason | "ReasonType"> = {
-        CreationTime: currentTime,
+        CreationTime: creationTime,
         Planned: disruption.disruptionType === "planned",
         Summary: disruption.summary,
         Description: disruption.description,

@@ -785,6 +785,13 @@ export const consequenceSchema = z.discriminatedUnion("consequenceType", [
 
 export const MAX_CONSEQUENCES = 15;
 
+const historySchema = z.object({
+    historyItems: z.array(z.string()),
+    user: z.string(),
+    datetime: z.string().datetime(),
+    status: z.nativeEnum(PublishStatus),
+});
+
 export const disruptionSchema = disruptionInfoSchemaRefined.and(
     z.object({
         consequences: z
@@ -796,5 +803,7 @@ export const disruptionSchema = disruptionInfoSchemaRefined.and(
         publishStatus: z.nativeEnum(PublishStatus).default(PublishStatus.draft),
         template: z.boolean().optional().default(false),
         lastUpdated: z.string().optional(),
+        creationTime: z.string().optional(),
+        history: z.array(historySchema).optional(),
     }),
 );

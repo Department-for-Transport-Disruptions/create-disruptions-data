@@ -320,6 +320,26 @@ export const disruption = {
     consequences: [],
     displayId: "8fg3ha",
     orgId: orgId,
+    history: [
+        {
+            datetime: "2023-05-19T14:40:00Z",
+            status: "PENDING_APPROVAL",
+            user: "Test User 1",
+            historyItems: ["Some Text"],
+        },
+        {
+            datetime: "2023-05-13T14:45:00Z",
+            status: "PUBLISHED",
+            user: "Test User 3",
+            historyItems: ["Some Text Again", "Some More Text"],
+        },
+        {
+            datetime: "2023-05-11T14:40:00Z",
+            status: "PENDING_APPROVAL",
+            user: "Test User 1",
+            historyItems: ["Some Text"],
+        },
+    ],
 };
 
 export const invalidDisruption1 = {
@@ -347,6 +367,26 @@ export const invalidDisruption1 = {
     consequences: [],
     displayId: "8fg3ha",
     orgId: orgId,
+    history: [
+        {
+            datetime: "2023-05-19T14:40:00Z",
+            status: "PENDING_APPROVAL",
+            user: "Test User 1",
+            historyItems: ["Some Text"],
+        },
+        {
+            datetime: "2023-05-13T14:45:00Z",
+            status: "PUBLISHED",
+            user: "Test User 3",
+            historyItems: ["Some Text Again", "Some More Text"],
+        },
+        {
+            datetime: "2023-05-11T14:40:00Z",
+            status: "PENDING_APPROVAL",
+            user: "Test User 1",
+            historyItems: ["Some Text"],
+        },
+    ],
 };
 
 export const invalidDisruption2 = {
@@ -374,6 +414,26 @@ export const invalidDisruption2 = {
     consequences: [],
     displayId: "8fg3ha",
     orgId: orgId,
+    history: [
+        {
+            datetime: "2023-05-19T14:40:00Z",
+            status: "PENDING_APPROVAL",
+            user: "Test User 1",
+            historyItems: ["Some Text"],
+        },
+        {
+            datetime: "2023-05-13T14:45:00Z",
+            status: "PUBLISHED",
+            user: "Test User 3",
+            historyItems: ["Some Text Again", "Some More Text"],
+        },
+        {
+            datetime: "2023-05-11T14:40:00Z",
+            status: "PENDING_APPROVAL",
+            user: "Test User 1",
+            historyItems: ["Some Text"],
+        },
+    ],
 };
 
 export const draftDisruption = {
@@ -424,10 +484,40 @@ export const expiredDisruption = {
     consequences: [],
     displayId: "8fg3ha",
     orgId: orgId,
+    history: [
+        {
+            datetime: "2023-05-19T14:40:00Z",
+            status: "PENDING_APPROVAL",
+            user: "Test User 1",
+            historyItems: ["Some Text"],
+        },
+        {
+            datetime: "2023-05-13T14:45:00Z",
+            status: "PUBLISHED",
+            user: "Test User 3",
+            historyItems: ["Some Text Again", "Some More Text"],
+        },
+        {
+            datetime: "2023-05-11T14:40:00Z",
+            status: "PENDING_APPROVAL",
+            user: "Test User 1",
+            historyItems: ["Some Text"],
+        },
+    ],
 };
 
 export const dbResponse = [
     disruption,
+    consequenceInfoOperatorTest,
+    consequenceInfoNetworkTest,
+    invalidDisruption1,
+    invalidDisruption2,
+    draftDisruption,
+    expiredDisruption,
+];
+
+export const dbResponseWithCreationTime = [
+    { ...disruption, creationTime: "2023-05-13T14:45:00Z" },
     consequenceInfoOperatorTest,
     consequenceInfoNetworkTest,
     invalidDisruption1,
