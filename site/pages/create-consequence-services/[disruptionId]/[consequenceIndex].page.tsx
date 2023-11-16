@@ -64,11 +64,7 @@ const filterConfig = {
     matchFrom: "any" as const,
 };
 
-const getStops = async (
-    serviceId: number,
-    vehicleMode?: VehicleMode | Modes,
-    dataSource?: Datasource,
-): Promise<Stop[]> => {
+const getStops = async (serviceId: number, vehicleMode?: VehicleMode | Modes): Promise<Stop[]> => {
     if (serviceId) {
         const stopsData = await fetchServiceStops({
             serviceId,
@@ -81,7 +77,6 @@ const getStops = async (
                 : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
                 ? { stopTypes: "FER, FBT" }
                 : { stopTypes: "undefined" }),
-            dataSource: dataSource || Datasource.bods,
         });
 
         if (stopsData) {
@@ -286,7 +281,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                     await Promise.all(
                         servicesRoutesForMap.map(async (service) => {
                             if (service) {
-                                return getStops(service.serviceId, pageState.inputs.vehicleMode, dataSource);
+                                return getStops(service.serviceId, pageState.inputs.vehicleMode);
                             }
                             return [];
                         }),
@@ -326,7 +321,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
     useEffect(() => {
         if (selectedService) {
-            getStops(selectedService.id, pageState.inputs.vehicleMode, selectedService.dataSource)
+            getStops(selectedService.id, pageState.inputs.vehicleMode)
                 .then((stops) => setStopOptions(sortAndFilterStops([...stopOptions, ...stops])))
                 // eslint-disable-next-line no-console
                 .catch(console.error);
@@ -793,7 +788,7 @@ export const getServerSideProps = async (
             consequenceDataSource = pageState.inputs.services[0].dataSource;
 
             const stopPromises = pageState.inputs.services.map((service) =>
-                getStops(service.id, pageState.inputs.vehicleMode, service.dataSource),
+                getStops(service.id, pageState.inputs.vehicleMode),
             );
             stops = (await Promise.all(stopPromises)).flat();
 
