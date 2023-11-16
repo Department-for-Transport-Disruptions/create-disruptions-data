@@ -12,6 +12,7 @@ import { APIGatewayEvent } from "aws-lambda";
 import { Dayjs } from "dayjs";
 import * as logger from "lambda-log";
 import { randomUUID } from "crypto";
+import { Datasource } from "@create-disruptions-data/shared-ts/enums";
 
 const fetchRoute = (routesData: Partial<Stop>[]) => {
     const routes =
@@ -144,7 +145,11 @@ const getOrganisationStops = async (orgId: string) => {
         const routesForMaps: ServiceGeoJSON[] = [];
         await Promise.all(
             services.map(async (service) => {
-                const routesData = await fetchServiceRoutes(service.id, logger);
+                const routesData = await fetchServiceRoutes(
+                    service.dataSource === Datasource.bods ? service.lineId : service.serviceCode,
+                    logger,
+                    service.dataSource,
+                );
 
                 const [inboundRoute, outboundRoute] = await Promise.all([
                     fetchRoute(routesData?.inbound ?? []),
