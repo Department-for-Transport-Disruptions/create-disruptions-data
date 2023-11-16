@@ -67,7 +67,7 @@ export const getPtSituationElementFromSiteDisruption = (
         ? disruption.creationTime
         : disruption.history && disruption.history.length > 0
         ? disruption.history.sort((a, b) => +getDate(b.datetime) - +getDate(a.datetime))[0].datetime
-        : "";
+        : currentTime;
 
     const reason = disruption.disruptionReason;
 
