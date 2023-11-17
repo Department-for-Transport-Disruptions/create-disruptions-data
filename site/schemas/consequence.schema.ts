@@ -5,7 +5,7 @@ export const duplicateConsequenceSchema = z.object({
     disruptionId: z.string().uuid(),
 });
 
-export const serviceByStopSchema = serviceSchema.and(
+export const serviceWithStopsAndRoutesSchema = serviceSchema.and(
     z.object({
         stops: z.array(z.string()),
         routes: z.object({
@@ -15,7 +15,7 @@ export const serviceByStopSchema = serviceSchema.and(
     }),
 );
 
-export type ServiceByStop = z.infer<typeof serviceByStopSchema>;
+export type ServiceWithStopAndRoutes = z.infer<typeof serviceWithStopsAndRoutesSchema>;
 
 export type ServiceApiResponse = z.infer<typeof serviceSchema>;
 

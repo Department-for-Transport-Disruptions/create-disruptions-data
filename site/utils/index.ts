@@ -3,10 +3,13 @@ import {
     Disruption,
     NetworkConsequence,
     OperatorConsequence,
+    Routes,
     Service,
     ServicesConsequence,
+    Stop,
     StopsConsequence,
 } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import lowerCase from "lodash/lowerCase";
 import startCase from "lodash/startCase";
@@ -14,7 +17,10 @@ import upperFirst from "lodash/upperFirst";
 import { NextApiResponse, NextPageContext } from "next";
 import { ZodError, ZodErrorMap } from "zod";
 import { ServerResponse } from "http";
+import { sortAndFilterStops } from "./formUtils";
+import { fetchServiceStops } from "../data/refDataApi";
 import { DisplayValuePair, ErrorInfo } from "../interfaces";
+import { ServiceWithStopAndRoutes } from "../schemas/consequence.schema";
 import { FullDisruption } from "../schemas/disruption.schema";
 
 export const mapValidityPeriods = (disruption: Disruption) =>
@@ -127,3 +133,76 @@ export const sortServices = <T extends Service>(services: T[]): T[] => {
 };
 
 export const toLowerStartCase = (text: string) => startCase(text.toLowerCase());
+
+export const getStops = async (
+    serviceRef: string,
+    serviceId: number,
+    dataSource: Datasource,
+    vehicleMode?: VehicleMode | Modes,
+): Promise<Stop[]> => {
+    if (serviceRef) {
+        const stopsData = await fetchServiceStops({
+            serviceRef,
+            dataSource,
+            modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
+            ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
+            ...(vehicleMode === VehicleMode.bus
+                ? { stopTypes: "BCT" }
+                : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
+                ? { stopTypes: "MET, PLT" }
+                : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
+                ? { stopTypes: "FER, FBT" }
+                : { stopTypes: "undefined" }),
+        });
+
+        if (stopsData) {
+            return sortAndFilterStops(
+                stopsData.map((stop) => ({
+                    ...stop,
+                    ...(serviceId && { serviceIds: [serviceId] }),
+                })),
+            );
+        }
+    }
+
+    return [];
+};
+
+export type RouteWithServiceInfo = Routes & { serviceId: number; serviceCode: string; lineId: string };
+
+export const removeDuplicateRoutes = (routes: Partial<RouteWithServiceInfo[]>) => {
+    return routes.filter(
+        (value, index, self) => index === self.findIndex((route) => route?.serviceId === value?.serviceId),
+    );
+};
+
+export const getRoutesForServices = (services: ServiceWithStopAndRoutes[]) =>
+    services.map((service) => ({
+        inbound: service.routes.inbound,
+        outbound: service.routes.outbound,
+        serviceId: service.id,
+        serviceCode: service.serviceCode,
+        lineId: service.lineId,
+    }));
+
+export const getStopsForRoutes = async (
+    routes: Partial<RouteWithServiceInfo[]>,
+    vehicleMode: VehicleMode | undefined,
+    dataSource: Datasource,
+) => {
+    return (
+        await Promise.all(
+            routes.map(async (route) => {
+                if (route) {
+                    return getStops(
+                        dataSource === Datasource.bods ? route.lineId : route.serviceCode,
+                        route.serviceId,
+                        dataSource,
+                        vehicleMode,
+                    );
+                }
+                return [];
+            }),
+        )
+    ).flat();
+};

@@ -772,8 +772,8 @@ export const servicesConsequenceSchema = z.object({
         [z.literal("allDirections"), z.literal("inbound"), z.literal("outbound")],
         setZodDefaultError("Select a direction"),
     ),
-    serviceIds: z.array(z.number()).optional(),
-    stopIds: z.array(z.string()).optional(),
+    serviceRefs: z.array(z.string()).optional(),
+    stopRefs: z.array(z.string()).optional(),
 });
 
 export const consequenceSchema = z.discriminatedUnion("consequenceType", [

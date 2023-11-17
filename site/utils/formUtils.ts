@@ -82,7 +82,7 @@ export const getStopType = (stopType: string | undefined) => {
     }
 };
 
-export const filterServices = (servicesData?: ServiceApiResponse[]) => {
+export const filterServices = <T extends ServiceApiResponse>(servicesData?: T[]) => {
     if (!servicesData?.length) {
         return [];
     }
@@ -93,9 +93,12 @@ export const filterServices = (servicesData?: ServiceApiResponse[]) => {
     return removeDuplicateServicesByKey(services, filterKey);
 };
 
-export const removeDuplicateServicesByKey = (services: ServiceApiResponse[], filterKey: "serviceCode" | "lineId") => {
+export const removeDuplicateServicesByKey = <T extends ServiceApiResponse>(
+    services: T[],
+    filterKey: "serviceCode" | "lineId",
+) => {
     const setOfServiceIds = new Set();
-    const filteredServices: ServiceApiResponse[] = [];
+    const filteredServices: T[] = [];
     const currentDate = getDate();
 
     services.forEach((currentService) => {
