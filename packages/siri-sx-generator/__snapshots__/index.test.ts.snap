@@ -48,7 +48,7 @@ exports[`SIRI-SX Generator > correctly generates Disruptions JSON 1`] = `
       {
         "datetime": "2023-05-13T14:45:00Z",
         "historyItems": [
-          "Some Text Again",
+          "Disruption created and published",
           "Some More Text",
         ],
         "status": "PUBLISHED",
@@ -97,7 +97,7 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML 1`] = `
             <ResponseTimestamp>2023-03-06T12:00:00Z</ResponseTimestamp>
             <Situations>
                 <PtSituationElement>
-                    <CreationTime>2023-05-19T14:40:00Z</CreationTime>
+                    <CreationTime>2023-05-13T14:45:00Z</CreationTime>
                     <ParticipantRef>TestOrg</ParticipantRef>
                     <SituationNumber>acde070d-8c4c-4f0d-9d8a-162843c10333</SituationNumber>
                     <Source>

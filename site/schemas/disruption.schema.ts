@@ -1,18 +1,9 @@
-import { disruptionSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
-import { Progress, PublishStatus } from "@create-disruptions-data/shared-ts/enums";
+import { disruptionSchema, historySchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { Progress } from "@create-disruptions-data/shared-ts/enums";
 import { z } from "zod";
 import { socialMediaPostSchema } from "./social-media.schema";
 import { setZodDefaultError, splitCamelCaseToString } from "../utils";
 import { getDateForExporter } from "../utils/dates";
-
-const historySchema = z.object({
-    historyItems: z.array(z.string()),
-    user: z.string(),
-    datetime: z.string().datetime(),
-    status: z.nativeEnum(PublishStatus),
-});
-
-export type History = z.infer<typeof historySchema>;
 
 export const fullDisruptionSchema = disruptionSchema.and(
     z.object({

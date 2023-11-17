@@ -1,5 +1,5 @@
 import { Disruption, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { Progress, SourceType } from "@create-disruptions-data/shared-ts/enums";
+import { HistoryItem, Progress, SourceType } from "@create-disruptions-data/shared-ts/enums";
 import {
     isEnvironmentReason,
     isMiscellaneousReason,
@@ -66,7 +66,9 @@ export const getPtSituationElementFromSiteDisruption = (
     const creationTime = disruption.creationTime
         ? disruption.creationTime
         : disruption.history && disruption.history.length > 0
-        ? disruption.history.sort((a, b) => +getDate(b.datetime) - +getDate(a.datetime))[0].datetime
+        ? disruption.history.find(
+              (h) => !!h.historyItems.find((item) => item === HistoryItem.createdAndPublished.toString()),
+          )?.datetime ?? currentTime
         : currentTime;
 
     const reason = disruption.disruptionReason;

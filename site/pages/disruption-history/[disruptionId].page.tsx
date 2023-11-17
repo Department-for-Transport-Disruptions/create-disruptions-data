@@ -1,3 +1,4 @@
+import { History } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { getSortedDisruptionFinalEndDate, sortDisruptionsByStartDate } from "@create-disruptions-data/shared-ts/utils";
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
@@ -9,7 +10,6 @@ import { BaseLayout } from "../../components/layout/Layout";
 import { DISRUPTION_DETAIL_PAGE_PATH } from "../../constants/index";
 import { getDisruptionById } from "../../data/dynamo";
 import { DisplayValuePair } from "../../interfaces";
-import { History } from "../../schemas/disruption.schema";
 import { getDisplayByValue } from "../../utils";
 import { getSession } from "../../utils/apiUtils/auth";
 import { convertDateTimeToFormat, getDaysInPast } from "../../utils/dates";

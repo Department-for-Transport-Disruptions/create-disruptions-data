@@ -398,6 +398,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
     user: string,
     history?: string,
     isTemplate?: boolean,
+    disruptionCreated?: boolean,
 ) => {
     logger.info(
         `Inserting published disruption (${disruption.disruptionId}) into DynamoDB table (${getTableName(
@@ -475,6 +476,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
           ]
         : [];
 
+    const currentDate = getDate().toISOString();
     await ddbDocClient.send(
         new TransactWriteCommand({
             TransactItems: [
@@ -488,7 +490,8 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
                         UpdateExpression: "SET publishStatus = :1, lastUpdated = :2",
                         ExpressionAttributeValues: {
                             ":1": status,
-                            ":2": getDate().toISOString(),
+                            ":2": currentDate,
+                            ...(disruptionCreated ? { ":3": currentDate } : {}),
                         },
                     },
                 },
