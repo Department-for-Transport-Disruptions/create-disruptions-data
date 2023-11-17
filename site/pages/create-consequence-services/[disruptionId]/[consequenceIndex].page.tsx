@@ -182,54 +182,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageState.inputs.services]);
 
-    useEffect(() => {
-        const loadOptions = async () => {
-            if (selectedService) {
-                const vehicleMode = pageState?.inputs?.vehicleMode || ("" as Modes | VehicleMode);
-                const serviceRoutesData = await fetchServiceRoutes({
-                    serviceRef:
-                        selectedService.dataSource === Datasource.bods
-                            ? selectedService.lineId
-                            : selectedService.serviceCode,
-                    dataSource: selectedService.dataSource,
-                    modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
-                    ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
-                    ...(vehicleMode === VehicleMode.bus
-                        ? { stopTypes: "BCT" }
-                        : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
-                        ? { stopTypes: "MET, PLT" }
-                        : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                        ? { stopTypes: "FER, FBT" }
-                        : { stopTypes: "undefined" }),
-                });
-
-                if (serviceRoutesData) {
-                    const notSelected =
-                        searchedRoutes.length > 0
-                            ? !searchedRoutes.map((service) => service?.serviceId).includes(selectedService.id)
-                            : true;
-                    if (notSelected)
-                        setSearchedRoutes([
-                            ...searchedRoutes,
-                            {
-                                ...serviceRoutesData,
-                                serviceId: selectedService.id,
-                                serviceCode: selectedService.serviceCode,
-                                lineId: selectedService.lineId,
-                            },
-                        ]);
-                } else {
-                    setSearchedRoutes([]);
-                }
-            }
-        };
-
-        loadOptions()
-            // eslint-disable-next-line no-console
-            .catch(console.error);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedService]);
-
     const queryParams = useRouter().query;
     const displayCancelButton = showCancelButton(queryParams);
 
