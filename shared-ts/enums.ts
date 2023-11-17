@@ -191,9 +191,3 @@ export enum Modes {
     underground = "underground",
     metro = "metro",
 }
-
-export enum HistoryItem {
-    createdAndPublished = "Disruption created and published",
-    submittedForReview = "Disruption submitted for review",
-    openToClosed = "Changed status: Open to closed",
-}

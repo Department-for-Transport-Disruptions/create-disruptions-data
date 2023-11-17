@@ -2,7 +2,6 @@ import { Consequence, DisruptionInfo } from "@create-disruptions-data/shared-ts/
 import {
     DayType,
     EnvironmentReason,
-    HistoryItem,
     MiscellaneousReason,
     PersonnelReason,
     Progress,
@@ -332,7 +331,7 @@ export const disruption = {
             datetime: "2023-05-13T14:45:00Z",
             status: "PUBLISHED",
             user: "Test User 3",
-            historyItems: [HistoryItem.createdAndPublished, "Some More Text"],
+            historyItems: ["Disruption created and published", "Some More Text"],
         },
         {
             datetime: "2023-05-11T14:40:00Z",
@@ -379,7 +378,7 @@ export const invalidDisruption1 = {
             datetime: "2023-05-13T14:45:00Z",
             status: "PUBLISHED",
             user: "Test User 3",
-            historyItems: [HistoryItem.createdAndPublished, "Some More Text"],
+            historyItems: ["Disruption created and published", "Some More Text"],
         },
         {
             datetime: "2023-05-11T14:40:00Z",
@@ -426,7 +425,7 @@ export const invalidDisruption2 = {
             datetime: "2023-05-13T14:45:00Z",
             status: "PUBLISHED",
             user: "Test User 3",
-            historyItems: [HistoryItem.createdAndPublished, "Some More Text"],
+            historyItems: ["Disruption created and published", "Some More Text"],
         },
         {
             datetime: "2023-05-11T14:40:00Z",
@@ -496,7 +495,7 @@ export const expiredDisruption = {
             datetime: "2023-05-13T14:45:00Z",
             status: "PUBLISHED",
             user: "Test User 3",
-            historyItems: [HistoryItem.createdAndPublished, "Some More Text"],
+            historyItems: ["Disruption created and published", "Some More Text"],
         },
         {
             datetime: "2023-05-11T14:40:00Z",

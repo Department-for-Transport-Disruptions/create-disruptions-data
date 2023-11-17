@@ -487,11 +487,11 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
                             PK: id,
                             SK: `${disruption.disruptionId}#INFO`,
                         },
-                        UpdateExpression: "SET publishStatus = :1, lastUpdated = :2",
+                        UpdateExpression: `SET publishStatus = :1, lastUpdated = :2, creationTime = :3`,
                         ExpressionAttributeValues: {
                             ":1": status,
                             ":2": currentDate,
-                            ...(disruptionCreated ? { ":3": currentDate } : {}),
+                            ":3": disruptionCreated ? currentDate : disruption.creationTime ?? null,
                         },
                     },
                 },
@@ -539,6 +539,7 @@ export const upsertDisruptionInfo = async (
             !!isTemplate,
         )})...`,
     );
+
     const currentDisruption = await getDisruptionById(disruptionInfo.disruptionId, id, isTemplate);
     const isPending =
         isUserStaff &&
@@ -553,6 +554,7 @@ export const upsertDisruptionInfo = async (
             Item: {
                 PK: id,
                 SK: `${disruptionInfo.disruptionId}#INFO${isPending ? "#PENDING" : isEditing ? "#EDIT" : ""}`,
+                ...currentDisruption,
                 ...disruptionInfo,
                 ...(isTemplate ? { template: isTemplate } : {}),
             },

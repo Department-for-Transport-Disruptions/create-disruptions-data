@@ -36,33 +36,7 @@ exports[`SIRI-SX Generator > correctly generates Disruptions JSON 1`] = `
     "disruptionId": "acde070d-8c4c-4f0d-9d8a-162843c10333",
     "disruptionReason": "staffInWrongPlace",
     "disruptionType": "planned",
-    "history": [
-      {
-        "datetime": "2023-05-19T14:40:00Z",
-        "historyItems": [
-          "Some Text",
-        ],
-        "status": "PENDING_APPROVAL",
-        "user": "Test User 1",
-      },
-      {
-        "datetime": "2023-05-13T14:45:00Z",
-        "historyItems": [
-          "Disruption created and published",
-          "Some More Text",
-        ],
-        "status": "PUBLISHED",
-        "user": "Test User 3",
-      },
-      {
-        "datetime": "2023-05-11T14:40:00Z",
-        "historyItems": [
-          "Some Text",
-        ],
-        "status": "PENDING_APPROVAL",
-        "user": "Test User 1",
-      },
-    ],
+    "history": [],
     "organisation": {
       "id": "6f6435e3-a485-4c8c-8c29-e121b1e76802",
       "name": "Test Org",
@@ -90,14 +64,14 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML 1`] = `
 "<?xml version=\\"1.0\\" encoding=\\"UTF-8\\" standalone=\\"yes\\"?>
 <Siri version=\\"2.0\\" xmlns=\\"http://www.siri.org.uk/siri\\" xmlns:xsi=\\"http://www.w3.org/2001/XMLSchema-instance\\" xsi:schemaLocation=\\"http://www.siri.org.uk/siri http://www.siri.org.uk/schema/2.0/xsd/siri.xsd\\">
     <ServiceDelivery>
-        <ResponseTimestamp>2023-03-06T12:00:00Z</ResponseTimestamp>
+        <ResponseTimestamp>2023-08-17T00:00:00Z</ResponseTimestamp>
         <ProducerRef>DepartmentForTransport</ProducerRef>
         <ResponseMessageIdentifier>abcde-fghij-klmno-pqrst</ResponseMessageIdentifier>
         <SituationExchangeDelivery>
-            <ResponseTimestamp>2023-03-06T12:00:00Z</ResponseTimestamp>
+            <ResponseTimestamp>2023-08-17T00:00:00Z</ResponseTimestamp>
             <Situations>
                 <PtSituationElement>
-                    <CreationTime>2023-05-13T14:45:00Z</CreationTime>
+                    <CreationTime>2023-08-17T00:00:00.000Z</CreationTime>
                     <ParticipantRef>TestOrg</ParticipantRef>
                     <SituationNumber>acde070d-8c4c-4f0d-9d8a-162843c10333</SituationNumber>
                     <Source>

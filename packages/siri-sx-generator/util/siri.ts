@@ -1,5 +1,6 @@
 import { Disruption, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { HistoryItem, Progress, SourceType } from "@create-disruptions-data/shared-ts/enums";
+import { History } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { Progress, SourceType } from "@create-disruptions-data/shared-ts/enums";
 import {
     isEnvironmentReason,
     isMiscellaneousReason,
@@ -59,17 +60,24 @@ const getPeriod = (period: Validity): Period => ({
         : {}),
 });
 
+const getDisruptionCreationTime = (disruptionHistory: History[] | null, creationTime: string | null): string => {
+    const currentTime = getDate().toISOString();
+    if (creationTime) {
+        return creationTime;
+    } else if (disruptionHistory && disruptionHistory.length > 0) {
+        return (
+            disruptionHistory.find((h) => !!h.historyItems.find((item) => item === "Disruption created and published"))
+                ?.datetime ?? currentTime
+        );
+    } else {
+        return currentTime;
+    }
+};
+
 export const getPtSituationElementFromSiteDisruption = (
     disruption: Disruption & { organisation: { id: string; name: string } },
 ) => {
     const currentTime = getDate().toISOString();
-    const creationTime = disruption.creationTime
-        ? disruption.creationTime
-        : disruption.history && disruption.history.length > 0
-        ? disruption.history.find(
-              (h) => !!h.historyItems.find((item) => item === HistoryItem.createdAndPublished.toString()),
-          )?.datetime ?? currentTime
-        : currentTime;
 
     const reason = disruption.disruptionReason;
 
@@ -85,7 +93,7 @@ export const getPtSituationElementFromSiteDisruption = (
     });
 
     const ptSituationElement: Omit<PtSituationElement, Reason | "ReasonType"> = {
-        CreationTime: creationTime,
+        CreationTime: getDisruptionCreationTime(disruption.history ?? null, disruption.creationTime ?? null),
         Planned: disruption.disruptionType === "planned",
         Summary: disruption.summary,
         Description: disruption.description,

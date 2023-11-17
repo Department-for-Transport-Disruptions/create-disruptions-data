@@ -40,13 +40,13 @@ describe("SIRI-SX Generator", () => {
             "disruptions-json-bucket",
             "disruptions-csv-bucket",
             "abcde-fghij-klmno-pqrst",
-            "2023-03-06T12:00:00Z",
+            "2023-08-17T00:00:00Z",
         );
 
         const s3PutSiriCommand = s3Mock.commandCalls(PutObjectCommand)[0].args[0];
         const putData = (s3PutSiriCommand.input.Body as string).replace(/(?:\r\n|\r|\n)/g, "");
 
-        expect(s3PutSiriCommand.input.Key).toBe("1678104000000-unvalidated-siri.xml");
+        expect(s3PutSiriCommand.input.Key).toBe("1692230400000-unvalidated-siri.xml");
         expect(
             formatXml(putData, {
                 collapseContent: true,

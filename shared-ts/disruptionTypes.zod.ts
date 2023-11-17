@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { z } from "zod";
 import { Validity } from "./disruptionTypes";
-import { Datasource, HistoryItem, PublishStatus, Severity, VehicleMode } from "./enums";
+import { Datasource, PublishStatus, Severity, VehicleMode } from "./enums";
 import {
     environmentReasonSchema,
     equipmentReasonSchema,
@@ -248,6 +248,7 @@ export const disruptionInfoSchema = z.object({
         .optional(),
     displayId: z.string(),
     orgId: z.string().uuid().optional(),
+    creationTime: z.string().datetime().optional().nullable(),
 });
 
 export const disruptionInfoSchemaRefined = disruptionInfoSchema
@@ -786,7 +787,7 @@ export const consequenceSchema = z.discriminatedUnion("consequenceType", [
 export const MAX_CONSEQUENCES = 15;
 
 export const historySchema = z.object({
-    historyItems: z.array(z.union([z.string(), z.nativeEnum(HistoryItem)])),
+    historyItems: z.array(z.string()),
     user: z.string(),
     datetime: z.string().datetime(),
     status: z.nativeEnum(PublishStatus),
@@ -805,7 +806,7 @@ export const disruptionSchema = disruptionInfoSchemaRefined.and(
         publishStatus: z.nativeEnum(PublishStatus).default(PublishStatus.draft),
         template: z.boolean().optional().default(false),
         lastUpdated: z.string().optional(),
-        creationTime: z.string().optional(),
+        creationTime: z.string().optional().nullable(),
         history: z.array(historySchema).optional(),
     }),
 );
