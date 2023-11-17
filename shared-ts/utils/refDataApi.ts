@@ -4,7 +4,7 @@ import { Datasource } from "../enums";
 import { Logger } from ".";
 
 export const fetchServiceRoutes = async (serviceRef: string, dataSource: Datasource, logger: Logger) => {
-    logger.debug(`Retrieving routes for service: ${serviceRef}`);
+    logger.debug(`Retrieving routes for service: ${serviceRef}, using dataSource: ${dataSource}`);
 
     if (!process.env.API_BASE_URL) {
         logger.error("Reference data service URL is not set as an environment variable");
