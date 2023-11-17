@@ -5,6 +5,7 @@ import {
     Stop,
     Validity,
 } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Datasource } from "@create-disruptions-data/shared-ts/enums";
 import { getDate, getFormattedDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import { getPublishedDisruptionsDataFromDynamo } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { fetchServiceRoutes } from "@create-disruptions-data/shared-ts/utils/refDataApi";
@@ -12,7 +13,6 @@ import { APIGatewayEvent } from "aws-lambda";
 import { Dayjs } from "dayjs";
 import * as logger from "lambda-log";
 import { randomUUID } from "crypto";
-import { Datasource } from "@create-disruptions-data/shared-ts/enums";
 
 const fetchRoute = (routesData: Partial<Stop>[]) => {
     const routes =
@@ -147,8 +147,8 @@ const getOrganisationStops = async (orgId: string) => {
             services.map(async (service) => {
                 const routesData = await fetchServiceRoutes(
                     service.dataSource === Datasource.bods ? service.lineId : service.serviceCode,
-                    logger,
                     service.dataSource,
+                    logger,
                 );
 
                 const [inboundRoute, outboundRoute] = await Promise.all([

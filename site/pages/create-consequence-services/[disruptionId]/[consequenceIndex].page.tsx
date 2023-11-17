@@ -67,12 +67,13 @@ const filterConfig = {
 const getStops = async (
     serviceRef: string,
     serviceId: number,
+    dataSource: Datasource,
     vehicleMode?: VehicleMode | Modes,
-    dataSource?: Datasource,
 ): Promise<Stop[]> => {
     if (serviceRef) {
         const stopsData = await fetchServiceStops({
             serviceRef,
+            dataSource,
             modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
             ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
             ...(vehicleMode === VehicleMode.bus
@@ -82,7 +83,6 @@ const getStops = async (
                 : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
                 ? { stopTypes: "FER, FBT" }
                 : { stopTypes: "undefined" }),
-            dataSource: dataSource || Datasource.bods,
         });
 
         if (stopsData) {
@@ -306,8 +306,8 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                                 return getStops(
                                     dataSource === Datasource.bods ? service.lineId : service.serviceCode,
                                     service.serviceId,
-                                    pageState.inputs.vehicleMode,
                                     dataSource,
+                                    pageState.inputs.vehicleMode,
                                 );
                             }
                             return [];
@@ -351,8 +351,8 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             getStops(
                 selectedService.dataSource === Datasource.bods ? selectedService.lineId : selectedService.serviceCode,
                 selectedService.id,
-                pageState.inputs.vehicleMode,
                 selectedService.dataSource,
+                pageState.inputs.vehicleMode,
             )
                 .then((stops) => setStopOptions(sortAndFilterStops([...stopOptions, ...stops])))
                 // eslint-disable-next-line no-console
@@ -823,8 +823,8 @@ export const getServerSideProps = async (
                 getStops(
                     service.dataSource === Datasource.bods ? service.lineId : service.serviceCode,
                     service.id,
-                    pageState.inputs.vehicleMode,
                     service.dataSource,
+                    pageState.inputs.vehicleMode,
                 ),
             );
             stops = (await Promise.all(stopPromises)).flat();
