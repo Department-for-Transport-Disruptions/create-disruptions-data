@@ -295,6 +295,24 @@ export const consequenceInfoNetworkTest = {
     removeFromJourneyPlanners: "no",
 };
 
+export const disruptionHistoryInfoCreated = {
+    datetime: "2023-05-13T14:45:00Z",
+    historyItems: ["Disruption created and published"],
+    status: "PUBLISHED",
+    user: "user",
+    SK: "acde070d-8c4c-4f0d-9d8a-162843c10333#HISTORY#123456",
+    PK: orgId,
+};
+
+export const disruptionHistoryInfoPendingApproval = {
+    datetime: "2023-05-19T14:40:00Z",
+    historyItems: ["some text"],
+    status: "PENDING_APPROVAL",
+    user: "user",
+    SK: "acde070d-8c4c-4f0d-9d8a-162843c10333#HISTORY#1234",
+    PK: orgId,
+};
+
 export const disruption = {
     PK: orgId,
     SK: "acde070d-8c4c-4f0d-9d8a-162843c10333#INFO",
@@ -514,6 +532,8 @@ export const dbResponse = [
     invalidDisruption2,
     draftDisruption,
     expiredDisruption,
+    disruptionHistoryInfoPendingApproval,
+    disruptionHistoryInfoCreated,
 ];
 
 export const dbResponseWithCreationTime = [
