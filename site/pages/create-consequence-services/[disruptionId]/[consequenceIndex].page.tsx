@@ -136,43 +136,43 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
     useEffect(() => {
         const loadOptions = async () => {
-            if (selectedService) {
+            const serviceDataToShow: RouteWithServiceInfo[] = [];
+            if (pageState.inputs.services && pageState.inputs.services?.length > 0) {
                 const vehicleMode = pageState?.inputs?.vehicleMode || ("" as Modes | VehicleMode);
-                const serviceRoutesData = await fetchServiceRoutes({
-                    serviceRef:
-                        selectedService.dataSource === Datasource.bods
-                            ? selectedService.lineId
-                            : selectedService.serviceCode,
-                    dataSource: selectedService.dataSource,
-                    modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
-                    ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
-                    ...(vehicleMode === VehicleMode.bus
-                        ? { stopTypes: "BCT" }
-                        : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
-                        ? { stopTypes: "MET, PLT" }
-                        : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                        ? { stopTypes: "FER, FBT" }
-                        : { stopTypes: "undefined" }),
-                });
+                await Promise.all(
+                    pageState.inputs.services.map(async (s) => {
+                        const serviceRoutesData = await fetchServiceRoutes({
+                            serviceRef: s.dataSource === Datasource.bods ? s.lineId : s.serviceCode,
+                            dataSource: s.dataSource,
+                            modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
+                            ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
+                            ...(vehicleMode === VehicleMode.bus
+                                ? { stopTypes: "BCT" }
+                                : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
+                                ? { stopTypes: "MET, PLT" }
+                                : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
+                                ? { stopTypes: "FER, FBT" }
+                                : { stopTypes: "undefined" }),
+                        });
 
-                if (serviceRoutesData) {
-                    const notSelected =
-                        searchedRoutes.length > 0
-                            ? !searchedRoutes.map((service) => service?.serviceId).includes(selectedService.id)
-                            : true;
-                    if (notSelected)
-                        setSearchedRoutes([
-                            ...searchedRoutes,
-                            {
-                                ...serviceRoutesData,
-                                serviceId: selectedService.id,
-                                serviceCode: selectedService.serviceCode,
-                                lineId: selectedService.lineId,
-                            },
-                        ]);
-                } else {
-                    setSearchedRoutes([]);
-                }
+                        if (serviceRoutesData) {
+                            const notSelected =
+                                serviceDataToShow.length > 0
+                                    ? !serviceDataToShow.map((service) => service?.serviceId).includes(s.id)
+                                    : true;
+                            if (notSelected) {
+                                serviceDataToShow.push({
+                                    ...serviceRoutesData,
+                                    serviceId: s.id,
+                                    serviceCode: s.serviceCode,
+                                    lineId: s.lineId,
+                                });
+                            }
+                        }
+                    }),
+                );
+
+                setSearchedRoutes(serviceDataToShow);
             }
         };
 
@@ -180,7 +180,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             // eslint-disable-next-line no-console
             .catch(console.error);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedService]);
+    }, [pageState.inputs.services]);
 
     const queryParams = useRouter().query;
     const displayCancelButton = showCancelButton(queryParams);
