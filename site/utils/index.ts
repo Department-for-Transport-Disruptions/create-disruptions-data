@@ -9,7 +9,7 @@ import {
     Stop,
     StopsConsequence,
 } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import lowerCase from "lodash/lowerCase";
 import startCase from "lodash/startCase";
@@ -134,10 +134,16 @@ export const sortServices = <T extends Service>(services: T[]): T[] => {
 
 export const toLowerStartCase = (text: string) => startCase(text.toLowerCase());
 
-export const getStops = async (serviceId: number, vehicleMode?: VehicleMode | Modes): Promise<Stop[]> => {
-    if (serviceId) {
+export const getStops = async (
+    serviceRef: string,
+    serviceId: number,
+    dataSource: Datasource,
+    vehicleMode?: VehicleMode | Modes,
+): Promise<Stop[]> => {
+    if (serviceRef) {
         const stopsData = await fetchServiceStops({
-            serviceId,
+            serviceRef,
+            dataSource,
             modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
             ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
             ...(vehicleMode === VehicleMode.bus
@@ -162,7 +168,9 @@ export const getStops = async (serviceId: number, vehicleMode?: VehicleMode | Mo
     return [];
 };
 
-export const removeDuplicateRoutes = (routes: Partial<(Routes & { serviceId: number })[]>) => {
+export type RouteWithServiceInfo = Routes & { serviceId: number; serviceCode: string; lineId: string };
+
+export const removeDuplicateRoutes = (routes: Partial<RouteWithServiceInfo[]>) => {
     return routes.filter(
         (value, index, self) => index === self.findIndex((route) => route?.serviceId === value?.serviceId),
     );
@@ -173,17 +181,25 @@ export const getRoutesForServices = (services: ServiceWithStopAndRoutes[]) =>
         inbound: service.routes.inbound,
         outbound: service.routes.outbound,
         serviceId: service.id,
+        serviceCode: service.serviceCode,
+        lineId: service.lineId,
     }));
 
 export const getStopsForRoutes = async (
-    routes: Partial<(Routes & { serviceId: number })[]>,
+    routes: Partial<RouteWithServiceInfo[]>,
     vehicleMode: VehicleMode | undefined,
+    dataSource: Datasource,
 ) => {
     return (
         await Promise.all(
             routes.map(async (route) => {
                 if (route) {
-                    return getStops(route.serviceId, vehicleMode);
+                    return getStops(
+                        dataSource === Datasource.bods ? route.lineId : route.serviceCode,
+                        route.serviceId,
+                        dataSource,
+                        vehicleMode,
+                    );
                 }
                 return [];
             }),

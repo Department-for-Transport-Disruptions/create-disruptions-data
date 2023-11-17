@@ -5,6 +5,7 @@ import {
     Stop,
     Validity,
 } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Datasource } from "@create-disruptions-data/shared-ts/enums";
 import { getDate, getFormattedDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import { getPublishedDisruptionsDataFromDynamo } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { fetchServiceRoutes } from "@create-disruptions-data/shared-ts/utils/refDataApi";
@@ -144,7 +145,11 @@ const getOrganisationStops = async (orgId: string) => {
         const routesForMaps: ServiceGeoJSON[] = [];
         await Promise.all(
             services.map(async (service) => {
-                const routesData = await fetchServiceRoutes(service.id, logger);
+                const routesData = await fetchServiceRoutes(
+                    service.dataSource === Datasource.bods ? service.lineId : service.serviceCode,
+                    service.dataSource,
+                    logger,
+                );
 
                 const [inboundRoute, outboundRoute] = await Promise.all([
                     fetchRoute(routesData?.inbound ?? []),

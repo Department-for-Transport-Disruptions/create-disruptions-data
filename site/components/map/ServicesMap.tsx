@@ -24,13 +24,19 @@ import { fetchServicesByStops, fetchStops } from "../../data/refDataApi";
 import { LargePolygonError, NoStopsError } from "../../errors";
 import { PageState } from "../../interfaces";
 import { ServiceWithStopAndRoutes } from "../../schemas/consequence.schema";
-import { flattenZodErrors, getRoutesForServices, getStopsForRoutes, removeDuplicateRoutes } from "../../utils";
+import {
+    RouteWithServiceInfo,
+    flattenZodErrors,
+    getRoutesForServices,
+    getStopsForRoutes,
+    removeDuplicateRoutes,
+} from "../../utils";
 import { filterServices, getStopType, sortAndFilterStops, sortStops } from "../../utils/formUtils";
 import { warningMessageText } from "../../utils/mapUtils";
 import Warning from "../form/Warning";
 
 interface ServiceMapProps extends MapProps {
-    dataSource?: Datasource;
+    dataSource: Datasource;
 }
 interface MapProps {
     initialViewState: Partial<ViewState>;
@@ -43,8 +49,8 @@ interface MapProps {
     showSelectAllButton?: boolean;
     stateUpdater: Dispatch<SetStateAction<PageState<Partial<ServicesConsequence>>>>;
     state: PageState<Partial<ServicesConsequence>>;
-    searchedRoutes?: Partial<(Routes & { serviceId: number })[]>;
-    setSearchedRoutes: Dispatch<SetStateAction<Partial<(Routes & { serviceId: number })[]>>>;
+    searchedRoutes?: Partial<RouteWithServiceInfo[]>;
+    setSearchedRoutes: Dispatch<SetStateAction<Partial<RouteWithServiceInfo[]>>>;
     serviceOptionsForDropdown: Service[];
     setServiceOptionsForDropdown: Dispatch<SetStateAction<Service[]>>;
 }
@@ -178,7 +184,11 @@ const Map = ({
 
                 const servicesRoutesForMap = removeDuplicateRoutes([...searchedRoutes, ...servicesRoutesForGivenStop]);
 
-                const stopsForServicesRoutes = await getStopsForRoutes(servicesRoutesForMap, state.inputs.vehicleMode);
+                const stopsForServicesRoutes = await getStopsForRoutes(
+                    servicesRoutesForMap,
+                    state.inputs.vehicleMode,
+                    dataSource,
+                );
 
                 const stopOptionsForMap = sortAndFilterStops([...stopOptions, ...stopsForServicesRoutes]);
 
@@ -346,7 +356,11 @@ const Map = ({
 
                 const servicesRoutesForMap = removeDuplicateRoutes([...searchedRoutes, ...servicesRoutesForGivenStop]);
 
-                const stopsForServicesRoutes = await getStopsForRoutes(servicesRoutesForMap, state.inputs.vehicleMode);
+                const stopsForServicesRoutes = await getStopsForRoutes(
+                    servicesRoutesForMap,
+                    state.inputs.vehicleMode,
+                    dataSource,
+                );
 
                 const stopsForMap = sortAndFilterStops([...stopOptions, ...stopsForServicesRoutes]);
 
