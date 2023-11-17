@@ -73,10 +73,13 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
+        const status =
+            canPublish(session) || draftDisruption.template ? PublishStatus.published : PublishStatus.pendingApproval;
+
         await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
             draftDisruption,
             session.orgId,
-            canPublish(session) || draftDisruption.template ? PublishStatus.published : PublishStatus.pendingApproval,
+            status,
             session.name,
             draftDisruption.template
                 ? undefined
@@ -84,6 +87,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
                 ? "Disruption created and published"
                 : "Disruption submitted for review",
             template === "true",
+            status === PublishStatus.published,
         );
 
         if (

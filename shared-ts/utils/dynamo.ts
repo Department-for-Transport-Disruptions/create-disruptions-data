@@ -41,9 +41,12 @@ const collectDisruptionsData = (
 
     consequences = consequences.filter((consequence) => !consequence.isDeleted);
 
+    const history = disruptionItems.filter((item) => (item.SK as string).startsWith(`${disruptionId}#HISTORY`));
+
     const parsedDisruption = disruptionSchema.safeParse({
         ...info,
         consequences,
+        history,
         orgId: info.orgId ?? info.PK,
     });
 
@@ -139,9 +142,13 @@ export const getPublishedDisruptionsDataFromDynamo = async (
         disruptions = await recursiveScan(
             {
                 TableName: tableName,
-                FilterExpression: "publishStatus = :1",
+                FilterExpression: "publishStatus = :1 or #a = :2",
                 ExpressionAttributeValues: {
                     ":1": PublishStatus.published,
+                    ":2": PublishStatus.published,
+                },
+                ExpressionAttributeNames: {
+                    "#a": "status",
                 },
             },
             logger,

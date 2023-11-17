@@ -53,7 +53,7 @@ export const infoLinkSchema = z.object({
 });
 
 export const situationElementRefSchema = z.object({
-    CreationTime: z.string().datetime(),
+    CreationTime: z.string().datetime().optional(),
     ParticipantRef: z.string(),
     SituationNumber: z.string(),
 });

@@ -90,6 +90,7 @@ describe("publish", () => {
             "test@example.com",
             "Disruption created and published",
             false,
+            true,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
     });
@@ -123,6 +124,7 @@ describe("publish", () => {
             "test@example.com",
             "Disruption created and published",
             false,
+            true,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
     });
