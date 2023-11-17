@@ -764,9 +764,13 @@ export const getServerSideProps = async (
 
         const serviceList = await getServices(globalDataSource, pageState.inputs.vehicleMode, session.adminAreaCodes);
 
-        if (pageState.inputs.serviceIds) {
+        if (pageState.inputs.serviceRefs) {
             pageState.inputs.services =
-                serviceList.filter((service) => pageState.inputs.serviceIds?.includes(service.id)) ?? [];
+                serviceList.filter((service) =>
+                    pageState.inputs.serviceRefs?.includes(
+                        service.dataSource === Datasource.bods ? service.lineId : service.serviceCode,
+                    ),
+                ) ?? [];
         }
 
         if (pageState.inputs.services?.length) {
@@ -782,9 +786,10 @@ export const getServerSideProps = async (
             );
             stops = (await Promise.all(stopPromises)).flat();
 
-            if (pageState.inputs.stopIds) {
+            if (pageState.inputs.stopRefs) {
                 pageState.inputs.stops =
-                    sortAndFilterStops(stops.filter((stop) => pageState.inputs.stopIds?.includes(stop.atcoCode))) ?? [];
+                    sortAndFilterStops(stops.filter((stop) => pageState.inputs.stopRefs?.includes(stop.atcoCode))) ??
+                    [];
             }
         }
     }

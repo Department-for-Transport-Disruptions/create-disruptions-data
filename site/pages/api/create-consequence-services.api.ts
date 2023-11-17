@@ -1,5 +1,6 @@
 import { Service, ServicesConsequence, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { servicesConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { Datasource } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_CONSEQUENCE_SERVICES_ERRORS,
@@ -84,8 +85,10 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
                         ...formattedBody,
                         services: [],
                         stops: [],
-                        serviceIds: formattedBody.services.map((service) => service.id),
-                        stopIds: formattedBody.stops.map((stop) => stop.atcoCode),
+                        serviceRefs: formattedBody.services.map((service) =>
+                            service.dataSource === Datasource.bods ? service.lineId : service.serviceCode,
+                        ),
+                        stopRefs: formattedBody.stops.map((stop) => stop.atcoCode),
                     },
                     errors: flattenZodErrors(validatedBody.error),
                 }),
