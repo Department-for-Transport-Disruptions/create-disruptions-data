@@ -9,7 +9,7 @@ import {
     Stop,
     StopsConsequence,
 } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import lowerCase from "lodash/lowerCase";
 import startCase from "lodash/startCase";
@@ -134,11 +134,7 @@ export const sortServices = <T extends Service>(services: T[]): T[] => {
 
 export const toLowerStartCase = (text: string) => startCase(text.toLowerCase());
 
-export const getStops = async (
-    serviceId: number,
-    vehicleMode?: VehicleMode | Modes,
-    dataSource?: Datasource,
-): Promise<Stop[]> => {
+export const getStops = async (serviceId: number, vehicleMode?: VehicleMode | Modes): Promise<Stop[]> => {
     if (serviceId) {
         const stopsData = await fetchServiceStops({
             serviceId,
@@ -151,7 +147,6 @@ export const getStops = async (
                 : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
                 ? { stopTypes: "FER, FBT" }
                 : { stopTypes: "undefined" }),
-            dataSource: dataSource || Datasource.bods,
         });
 
         if (stopsData) {
@@ -183,13 +178,12 @@ export const getRoutesForServices = (services: ServiceWithStopAndRoutes[]) =>
 export const getStopsForRoutes = async (
     routes: Partial<(Routes & { serviceId: number })[]>,
     vehicleMode: VehicleMode | undefined,
-    dataSource: Datasource | undefined,
 ) => {
     return (
         await Promise.all(
             routes.map(async (route) => {
                 if (route) {
-                    return getStops(route.serviceId, vehicleMode, dataSource);
+                    return getStops(route.serviceId, vehicleMode);
                 }
                 return [];
             }),

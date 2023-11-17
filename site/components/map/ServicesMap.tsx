@@ -178,11 +178,7 @@ const Map = ({
 
                 const servicesRoutesForMap = removeDuplicateRoutes([...searchedRoutes, ...servicesRoutesForGivenStop]);
 
-                const stopsForServicesRoutes = await getStopsForRoutes(
-                    servicesRoutesForMap,
-                    state.inputs.vehicleMode,
-                    dataSource,
-                );
+                const stopsForServicesRoutes = await getStopsForRoutes(servicesRoutesForMap, state.inputs.vehicleMode);
 
                 const stopOptionsForMap = sortAndFilterStops([...stopOptions, ...stopsForServicesRoutes]);
 
@@ -350,11 +346,7 @@ const Map = ({
 
                 const servicesRoutesForMap = removeDuplicateRoutes([...searchedRoutes, ...servicesRoutesForGivenStop]);
 
-                const stopsForServicesRoutes = await getStopsForRoutes(
-                    servicesRoutesForMap,
-                    state.inputs.vehicleMode,
-                    dataSource,
-                );
+                const stopsForServicesRoutes = await getStopsForRoutes(servicesRoutesForMap, state.inputs.vehicleMode);
 
                 const stopsForMap = sortAndFilterStops([...stopOptions, ...stopsForServicesRoutes]);
 

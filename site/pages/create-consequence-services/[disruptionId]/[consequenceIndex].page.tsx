@@ -251,7 +251,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                 const stopsForServicesRoutes = await getStopsForRoutes(
                     servicesRoutesForMap,
                     pageState.inputs.vehicleMode,
-                    dataSource,
                 );
 
                 const stopsForMap = sortAndFilterStops([...stopOptions, ...stopsForServicesRoutes]);
@@ -285,7 +284,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
     useEffect(() => {
         if (selectedService) {
-            getStops(selectedService.id, pageState.inputs.vehicleMode, selectedService.dataSource)
+            getStops(selectedService.id, pageState.inputs.vehicleMode)
                 .then((stops) => setStopOptions(sortAndFilterStops([...stopOptions, ...stops])))
                 // eslint-disable-next-line no-console
                 .catch(console.error);
@@ -755,7 +754,7 @@ export const getServerSideProps = async (
             consequenceDataSource = pageState.inputs.services[0].dataSource;
 
             const stopPromises = pageState.inputs.services.map((service) =>
-                getStops(service.id, pageState.inputs.vehicleMode, service.dataSource),
+                getStops(service.id, pageState.inputs.vehicleMode),
             );
             stops = (await Promise.all(stopPromises)).flat();
 

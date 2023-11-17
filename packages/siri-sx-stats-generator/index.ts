@@ -1,9 +1,6 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, TransactWriteCommand } from "@aws-sdk/lib-dynamodb";
-import {
-    getOrganisationsInfo,
-    getPublishedDisruptionsDataFromDynamo,
-} from "@create-disruptions-data/shared-ts/utils/dynamo";
+import { getCurrentAndFutureDisruptions, getOrganisationsInfo } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import * as logger from "lambda-log";
 import { randomUUID } from "crypto";
 import { generateSiriStats, SiriStats } from "./utils/statGenerators";
@@ -33,6 +30,8 @@ const publishStatsToDynamo = async (orgTableName: string, siriStats: Record<stri
                                   operatorWideConsequencesCount: statForOrg.operatorWideConsequencesCount,
                                   totalConsequencesCount: statForOrg.totalConsequencesCount,
                                   disruptionReasonCount: statForOrg.disruptionReasonCount,
+                                  totalDisruptionsCount: statForOrg.totalDisruptionsCount,
+                                  lastUpdated: statForOrg.lastUpdated,
                               },
                           },
                       }
@@ -50,6 +49,8 @@ const publishStatsToDynamo = async (orgTableName: string, siriStats: Record<stri
                                   operatorWideConsequencesCount: 0,
                                   totalConsequencesCount: 0,
                                   disruptionReasonCount: {},
+                                  totalDisruptionsCount: 0,
+                                  lastUpdated: "",
                               },
                           },
                       };
@@ -88,7 +89,7 @@ export const main = async (): Promise<void> => {
             throw new Error("Dynamo table names not set");
         }
 
-        const disruptions = await getPublishedDisruptionsDataFromDynamo(disruptionsTableName, logger);
+        const disruptions = await getCurrentAndFutureDisruptions(disruptionsTableName, logger);
 
         const siriStats = generateSiriStats(disruptions);
 
