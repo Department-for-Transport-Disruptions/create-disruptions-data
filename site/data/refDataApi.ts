@@ -138,16 +138,17 @@ export const fetchServicesByStops = async (input: FetchServicesByStopsInput) => 
 };
 
 interface FetchServiceRoutes {
-    serviceId: number;
+    serviceRef: string;
+    dataSource: Datasource;
     busStopTypes?: string;
     modes?: string;
     stopTypes?: string;
 }
 
 export const fetchServiceRoutes = async (input: FetchServiceRoutes) => {
-    const searchApiUrl = `${API_BASE_URL}/services/${input.serviceId}/routes`;
+    const searchApiUrl = `${API_BASE_URL}/services/${input.serviceRef}/routes`;
 
-    const queryStringItems = [];
+    const queryStringItems = [`dataSource=${input.dataSource}`];
 
     if (input.modes) {
         queryStringItems.push(`modes=${input.modes}`);
@@ -175,17 +176,16 @@ export const fetchServiceRoutes = async (input: FetchServiceRoutes) => {
 };
 
 interface FetchServiceStops {
-    serviceId: number;
+    serviceRef: string;
+    dataSource: Datasource;
     busStopTypes?: string;
     modes?: string;
     stopTypes?: string;
-    dataSource?: Datasource;
 }
 
 export const fetchServiceStops = async (input: FetchServiceStops) => {
-    const searchApiUrl = `${API_BASE_URL}/services/${input.serviceId}/stops`;
-
-    const queryStringItems = [];
+    const searchApiUrl = `${API_BASE_URL}/services/${input.serviceRef}/stops`;
+    const queryStringItems = [`dataSource=${input.dataSource}`];
 
     if (input.modes) {
         queryStringItems.push(`modes=${input.modes}`);
@@ -197,10 +197,6 @@ export const fetchServiceStops = async (input: FetchServiceStops) => {
 
     if (input.stopTypes) {
         queryStringItems.push(`stopTypes=${input.stopTypes}`);
-    }
-
-    if (input.dataSource) {
-        queryStringItems.push(`dataSource=${input.dataSource}`);
     }
 
     const res = await fetch(`${searchApiUrl}${queryStringItems.length > 0 ? `?${queryStringItems.join("&")}` : ""}`, {
