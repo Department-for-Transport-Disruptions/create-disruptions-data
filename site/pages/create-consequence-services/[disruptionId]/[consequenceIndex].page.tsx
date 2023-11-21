@@ -1,4 +1,4 @@
-import { Routes, Service, ServicesConsequence, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Service, ServicesConsequence, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import {
     MAX_CONSEQUENCES,
     serviceSchema,
@@ -36,9 +36,20 @@ import {
     VEHICLE_MODES,
 } from "../../../constants";
 import { getDisruptionById, getNocCodesForOperatorOrg } from "../../../data/dynamo";
-import { fetchServiceRoutes, fetchServices, fetchServicesByStops, fetchServiceStops } from "../../../data/refDataApi";
+import { fetchServiceRoutes, fetchServices, fetchServicesByStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import { flattenZodErrors, getServiceLabel, isServicesConsequence, sortServices } from "../../../utils";
+import { ServiceWithStopAndRoutes } from "../../../schemas/consequence.schema";
+import {
+    RouteWithServiceInfo,
+    flattenZodErrors,
+    getRoutesForServices,
+    getServiceLabel,
+    getStops,
+    getStopsForRoutes,
+    isServicesConsequence,
+    removeDuplicateRoutes,
+    sortServices,
+} from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import {
@@ -62,39 +73,6 @@ const filterConfig = {
     stringify: <Option extends object>(option: FilterOptionOption<Option>) => `${option.label}`,
     trim: true,
     matchFrom: "any" as const,
-};
-
-const getStops = async (
-    serviceId: number,
-    vehicleMode?: VehicleMode | Modes,
-    dataSource?: Datasource,
-): Promise<Stop[]> => {
-    if (serviceId) {
-        const stopsData = await fetchServiceStops({
-            serviceId,
-            modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
-            ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
-            ...(vehicleMode === VehicleMode.bus
-                ? { stopTypes: "BCT" }
-                : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
-                ? { stopTypes: "MET, PLT" }
-                : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                ? { stopTypes: "FER, FBT" }
-                : { stopTypes: "undefined" }),
-            dataSource: dataSource || Datasource.bods,
-        });
-
-        if (stopsData) {
-            return sortAndFilterStops(
-                stopsData.map((stop) => ({
-                    ...stop,
-                    ...(serviceId && { serviceIds: [serviceId] }),
-                })),
-            );
-        }
-    }
-
-    return [];
 };
 
 const getMode = (vehicleMode: Modes | VehicleMode) => {
@@ -158,8 +136,8 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     const [stopOptions, setStopOptions] = useState<Stop[]>(props.initialStops || []);
     const [servicesSearchInput, setServicesSearchInput] = useState<string>("");
     const [stopsSearchInput, setStopsSearchInput] = useState<string>("");
-    const [searched, setSearchedOptions] = useState<Partial<(Routes & { serviceId: number })[]>>([]);
-    const [servicesRecords, setServicesRecords] = useState<Service[]>([]);
+    const [searchedRoutes, setSearchedRoutes] = useState<Partial<RouteWithServiceInfo[]>>([]);
+    const [serviceOptionsForDropdown, setServiceOptionsForDropdown] = useState<Service[]>([]);
     const [dataSource, setDataSource] = useState<Datasource>(props.consequenceDataSource || Datasource.bods);
     const [vehicleMode, setVehicleMode] = useState<VehicleMode | null>(props.inputs.vehicleMode || null);
 
@@ -167,31 +145,43 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
     useEffect(() => {
         const loadOptions = async () => {
-            if (selectedService) {
+            const serviceDataToShow: RouteWithServiceInfo[] = [];
+            if (pageState.inputs.services && pageState.inputs.services?.length > 0) {
                 const vehicleMode = pageState?.inputs?.vehicleMode || ("" as Modes | VehicleMode);
-                const serviceRoutesData = await fetchServiceRoutes({
-                    serviceId: selectedService.id,
-                    modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
-                    ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
-                    ...(vehicleMode === VehicleMode.bus
-                        ? { stopTypes: "BCT" }
-                        : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
-                        ? { stopTypes: "MET, PLT" }
-                        : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                        ? { stopTypes: "FER, FBT" }
-                        : { stopTypes: "undefined" }),
-                });
+                await Promise.all(
+                    pageState.inputs.services.map(async (s) => {
+                        const serviceRoutesData = await fetchServiceRoutes({
+                            serviceRef: s.dataSource === Datasource.bods ? s.lineId : s.serviceCode,
+                            dataSource: s.dataSource,
+                            modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
+                            ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
+                            ...(vehicleMode === VehicleMode.bus
+                                ? { stopTypes: "BCT" }
+                                : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
+                                ? { stopTypes: "MET, PLT" }
+                                : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
+                                ? { stopTypes: "FER, FBT" }
+                                : { stopTypes: "undefined" }),
+                        });
 
-                if (serviceRoutesData) {
-                    const notSelected =
-                        searched.length > 0
-                            ? !searched.map((service) => service?.serviceId).includes(selectedService.id)
-                            : true;
-                    if (notSelected)
-                        setSearchedOptions([...searched, { ...serviceRoutesData, serviceId: selectedService.id }]);
-                } else {
-                    setSearchedOptions([]);
-                }
+                        if (serviceRoutesData) {
+                            const notSelected =
+                                serviceDataToShow.length > 0
+                                    ? !serviceDataToShow.map((service) => service?.serviceId).includes(s.id)
+                                    : true;
+                            if (notSelected) {
+                                serviceDataToShow.push({
+                                    ...serviceRoutesData,
+                                    serviceId: s.id,
+                                    serviceCode: s.serviceCode,
+                                    lineId: s.lineId,
+                                });
+                            }
+                        }
+                    }),
+                );
+
+                setSearchedRoutes(serviceDataToShow);
             }
         };
 
@@ -199,7 +189,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             // eslint-disable-next-line no-console
             .catch(console.error);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedService]);
+    }, [pageState.inputs.services]);
 
     const queryParams = useRouter().query;
     const displayCancelButton = showCancelButton(queryParams);
@@ -235,23 +225,21 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
     const getStopRows = () => {
         if (pageState.inputs.stops) {
-            return pageState.inputs.stops
-                .filter((value, index, self) => index === self.findIndex((s) => s.atcoCode === value.atcoCode))
-                .map((stop, i) => ({
-                    cells: [
-                        stop.commonName && stop.indicator && stop.atcoCode
-                            ? `${stop.commonName} ${stop.indicator} ${stop.atcoCode}`
-                            : `${stop.commonName} ${stop.atcoCode}`,
-                        <button
-                            id={`remove-stop-${stop.atcoCode}`}
-                            key={`remove-stop-${stop.atcoCode}`}
-                            className="govuk-link"
-                            onClick={(e) => removeStop(e, i)}
-                        >
-                            Remove
-                        </button>,
-                    ],
-                }));
+            return sortAndFilterStops(pageState.inputs.stops).map((stop, i) => ({
+                cells: [
+                    stop.commonName && stop.indicator && stop.atcoCode
+                        ? `${stop.commonName} ${stop.indicator} ${stop.atcoCode}`
+                        : `${stop.commonName} ${stop.atcoCode}`,
+                    <button
+                        id={`remove-stop-${stop.atcoCode}`}
+                        key={`remove-stop-${stop.atcoCode}`}
+                        className="govuk-link"
+                        onClick={(e) => removeStop(e, i)}
+                    >
+                        Remove
+                    </button>,
+                ],
+            }));
         }
         return [];
     };
@@ -269,7 +257,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             });
         } else {
             if (stopToAdd) {
-                const servicesForGivenStop = await fetchServicesByStops({
+                const servicesForGivenStop: ServiceWithStopAndRoutes[] = await fetchServicesByStops({
                     atcoCodes: [stopToAdd.atcoCode],
                     includeRoutes: true,
                     dataSource: dataSource,
@@ -279,35 +267,19 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
                 stopToAdd["serviceIds"] = servicesForGivenStop.map((service) => service.id);
 
-                const servicesRoutesForGivenStop = servicesForGivenStop?.map((service) => {
-                    return {
-                        inbound: service.routes.inbound,
-                        outbound: service.routes.outbound,
-                        serviceId: service.id,
-                    };
-                });
+                const servicesRoutesForGivenStop = getRoutesForServices(servicesForGivenStop);
 
-                const servicesRoutesForMap = [...searched, ...servicesRoutesForGivenStop].filter(
-                    (value, index, self) =>
-                        index === self.findIndex((service) => service?.serviceId === value?.serviceId),
+                const servicesRoutesForMap = removeDuplicateRoutes([...searchedRoutes, ...servicesRoutesForGivenStop]);
+
+                const stopsForServicesRoutes = await getStopsForRoutes(
+                    servicesRoutesForMap,
+                    pageState.inputs.vehicleMode,
+                    dataSource,
                 );
 
-                const stopsForServicesRoutes = (
-                    await Promise.all(
-                        servicesRoutesForMap.map(async (service) => {
-                            if (service) {
-                                return getStops(service.serviceId, pageState.inputs.vehicleMode, dataSource);
-                            }
-                            return [];
-                        }),
-                    )
-                ).flat();
+                const stopsForMap = sortAndFilterStops([...stopOptions, ...stopsForServicesRoutes]);
 
-                const stopsForMap = [...stopOptions, ...stopsForServicesRoutes].filter(
-                    (value, index, self) => index === self.findIndex((stop) => stop?.atcoCode === value?.atcoCode),
-                );
-
-                setSearchedOptions(servicesRoutesForMap);
+                setSearchedRoutes(servicesRoutesForMap);
                 setStopOptions(stopsForMap);
 
                 setPageState({
@@ -336,7 +308,12 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
     useEffect(() => {
         if (selectedService) {
-            getStops(selectedService.id, pageState.inputs.vehicleMode, selectedService.dataSource)
+            getStops(
+                selectedService.dataSource === Datasource.bods ? selectedService.lineId : selectedService.serviceCode,
+                selectedService.id,
+                selectedService.dataSource,
+                pageState.inputs.vehicleMode,
+            )
                 .then((stops) => setStopOptions(sortAndFilterStops([...stopOptions, ...stops])))
                 // eslint-disable-next-line no-console
                 .catch(console.error);
@@ -377,7 +354,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     useEffect(() => {
         if (pageState?.inputs?.services && pageState.inputs.services.length === 0) {
             setStopOptions([]);
-            setSearchedOptions([]);
+            setSearchedRoutes([]);
             setSelectedService(null);
             setPageState({
                 ...pageState,
@@ -407,7 +384,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                     props.operatorUserNocCodes,
                 )
                     .then((services) => {
-                        setServicesRecords(services);
+                        setServiceOptionsForDropdown(services);
 
                         if (vehicleMode !== pageState.inputs.vehicleMode) {
                             setDataSource(source);
@@ -423,7 +400,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
                         setVehicleMode(pageState.inputs.vehicleMode || null);
                     })
-                    .catch(() => setServicesRecords([]));
+                    .catch(() => setServiceOptionsForDropdown([]));
             }
         }
 
@@ -454,7 +431,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             setStopOptions(sortAndFilterStops(filteredStopOptions));
         }
 
-        setSearchedOptions(searched.filter((route) => route?.serviceId !== removedServiceId) || []);
+        setSearchedRoutes(searchedRoutes.filter((route) => route?.serviceId !== removedServiceId) || []);
         setSelectedService(null);
     };
 
@@ -536,7 +513,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             initialErrors={pageState.errors}
                             placeholder="Select services"
                             getOptionLabel={getServiceLabel}
-                            options={servicesRecords.filter(
+                            options={serviceOptionsForDropdown.filter(
                                 (service) => !isSelectedServiceInDropdown(service, pageState.inputs.services ?? []),
                             )}
                             handleChange={handleServiceChange}
@@ -567,7 +544,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             hint="Stops"
                             displaySize="l"
                             inputId="stops"
-                            options={stopOptions.filter(
+                            options={sortAndFilterStops(stopOptions).filter(
                                 (stop) => !isSelectedStopInDropdown(stop, pageState.inputs.stops ?? []),
                             )}
                             inputValue={stopsSearchInput}
@@ -582,17 +559,20 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             }}
                             style={{ width: "100%", height: "40vh", marginBottom: 20 }}
                             mapStyle="mapbox://styles/mapbox/streets-v12"
-                            selected={
+                            selectedStops={
                                 pageState.inputs.stops && pageState.inputs.stops.length > 0
                                     ? pageState.inputs.stops
                                     : []
                             }
-                            searched={stopOptions}
+                            stopOptions={stopOptions}
+                            setStopOptions={setStopOptions}
                             stateUpdater={setPageState}
                             state={pageState}
-                            searchedRoutes={searched}
+                            searchedRoutes={searchedRoutes}
+                            setSearchedRoutes={setSearchedRoutes}
                             showSelectAllButton
-                            services={servicesRecords}
+                            serviceOptionsForDropdown={serviceOptionsForDropdown}
+                            setServiceOptionsForDropdown={setServiceOptionsForDropdown}
                             dataSource={dataSource}
                         />
 
@@ -800,22 +780,32 @@ export const getServerSideProps = async (
 
         const serviceList = await getServices(globalDataSource, pageState.inputs.vehicleMode, session.adminAreaCodes);
 
-        if (pageState.inputs.serviceIds) {
+        if (pageState.inputs.serviceRefs) {
             pageState.inputs.services =
-                serviceList.filter((service) => pageState.inputs.serviceIds?.includes(service.id)) ?? [];
+                serviceList.filter((service) =>
+                    pageState.inputs.serviceRefs?.includes(
+                        service.dataSource === Datasource.bods ? service.lineId : service.serviceCode,
+                    ),
+                ) ?? [];
         }
 
         if (pageState.inputs.services?.length) {
             consequenceDataSource = pageState.inputs.services[0].dataSource;
 
             const stopPromises = pageState.inputs.services.map((service) =>
-                getStops(service.id, pageState.inputs.vehicleMode, service.dataSource),
+                getStops(
+                    service.dataSource === Datasource.bods ? service.lineId : service.serviceCode,
+                    service.id,
+                    service.dataSource,
+                    pageState.inputs.vehicleMode,
+                ),
             );
             stops = (await Promise.all(stopPromises)).flat();
 
-            if (pageState.inputs.stopIds) {
+            if (pageState.inputs.stopRefs) {
                 pageState.inputs.stops =
-                    sortAndFilterStops(stops.filter((stop) => pageState.inputs.stopIds?.includes(stop.atcoCode))) ?? [];
+                    sortAndFilterStops(stops.filter((stop) => pageState.inputs.stopRefs?.includes(stop.atcoCode))) ??
+                    [];
             }
         }
     }

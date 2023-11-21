@@ -269,12 +269,12 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             }}
                             style={{ width: "100%", height: "40vh", marginBottom: 20 }}
                             mapStyle="mapbox://styles/mapbox/streets-v12"
-                            selected={
+                            selectedStops={
                                 pageState.inputs.stops && pageState.inputs.stops.length > 0
                                     ? pageState.inputs.stops
                                     : []
                             }
-                            searched={stopOptions}
+                            stopOptions={stopOptions}
                             showSelectAllButton
                             stateUpdater={setPageState}
                             state={pageState}

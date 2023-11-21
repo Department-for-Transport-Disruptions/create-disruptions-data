@@ -249,6 +249,7 @@ export const disruptionInfoSchema = z.object({
     displayId: z.string(),
     orgId: z.string().uuid().optional(),
     createdByOperatorOrgId: z.string().uuid().optional(),
+    creationTime: z.string().datetime().optional().nullable(),
 });
 
 export const disruptionInfoSchemaRefined = disruptionInfoSchema
@@ -773,8 +774,8 @@ export const servicesConsequenceSchema = z.object({
         [z.literal("allDirections"), z.literal("inbound"), z.literal("outbound")],
         setZodDefaultError("Select a direction"),
     ),
-    serviceIds: z.array(z.number()).optional(),
-    stopIds: z.array(z.string()).optional(),
+    serviceRefs: z.array(z.string()).optional(),
+    stopRefs: z.array(z.string()).optional(),
 });
 
 export const consequenceSchema = z.discriminatedUnion("consequenceType", [
@@ -785,6 +786,15 @@ export const consequenceSchema = z.discriminatedUnion("consequenceType", [
 ]);
 
 export const MAX_CONSEQUENCES = 15;
+
+export const historySchema = z.object({
+    historyItems: z.array(z.string()),
+    user: z.string(),
+    datetime: z.string().datetime(),
+    status: z.nativeEnum(PublishStatus),
+});
+
+export type History = z.infer<typeof historySchema>;
 
 export const disruptionSchema = disruptionInfoSchemaRefined.and(
     z.object({
@@ -798,5 +808,7 @@ export const disruptionSchema = disruptionInfoSchemaRefined.and(
         template: z.boolean().optional().default(false),
         createdByOperatorOrgId: z.string().uuid().optional(),
         lastUpdated: z.string().optional(),
+        creationTime: z.string().optional().nullable(),
+        history: z.array(historySchema).optional(),
     }),
 );

@@ -4,8 +4,8 @@ import { Dispatch, ReactElement, SetStateAction, memo } from "react";
 import { Marker } from "react-map-gl";
 
 interface MarkersProps {
-    selected: Stop[];
-    searched: Stop[];
+    selectedStops: Stop[];
+    stopOptions: Stop[];
     markerData: Stop[];
     unselectMarker: (id: string) => void;
     selectMarker: (id: string) => void;
@@ -15,8 +15,8 @@ interface MarkersProps {
 }
 
 const Markers = ({
-    selected,
-    searched,
+    selectedStops,
+    stopOptions,
     markerData,
     unselectMarker,
     selectMarker,
@@ -25,14 +25,14 @@ const Markers = ({
     pastStops,
 }: MarkersProps): ReactElement | null => {
     const dataFromPolygon =
-        selected && selected.length > 0
-            ? markerData.filter((sToFilter: Stop) => !selected.some((s) => s.atcoCode === sToFilter.atcoCode))
+        selectedStops && selectedStops.length > 0
+            ? markerData.filter((sToFilter: Stop) => !selectedStops.some((s) => s.atcoCode === sToFilter.atcoCode))
             : markerData;
 
     const filterSelected =
-        selected && selected.length > 0
-            ? searched.filter((sToFilter: Stop) => !selected.some((s) => s.atcoCode === sToFilter.atcoCode))
-            : searched;
+        selectedStops && selectedStops.length > 0
+            ? stopOptions.filter((sToFilter: Stop) => !selectedStops.some((s) => s.atcoCode === sToFilter.atcoCode))
+            : stopOptions;
 
     const notInTable =
         markerData && markerData.length > 0
@@ -43,14 +43,14 @@ const Markers = ({
         pastStops && pastStops.length > 0
             ? pastStops
                   .filter((sToFilter: Stop) => !markerData.some((s) => s.atcoCode === sToFilter.atcoCode))
-                  .filter((sToFilter: Stop) => !selected.some((s) => s.atcoCode === sToFilter.atcoCode))
-                  .filter((sToFilter: Stop) => !searched.some((s) => s.atcoCode === sToFilter.atcoCode))
+                  .filter((sToFilter: Stop) => !selectedStops.some((s) => s.atcoCode === sToFilter.atcoCode))
+                  .filter((sToFilter: Stop) => !stopOptions.some((s) => s.atcoCode === sToFilter.atcoCode))
             : pastStops;
 
     return (
         <>
-            {selected && selected.length > 0
-                ? selected.map((s: Stop) => (
+            {selectedStops && selectedStops.length > 0
+                ? selectedStops.map((s: Stop) => (
                       <Marker
                           key={uniqueId(s.atcoCode)}
                           longitude={Number(s.longitude)}

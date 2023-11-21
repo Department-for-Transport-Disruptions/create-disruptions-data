@@ -29,20 +29,22 @@ import * as session from "../../utils/apiUtils/auth";
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 const defaultConsequenceIndex = "0";
 
+const service = {
+    id: 23127,
+    lineName: "1",
+    operatorShortName: "First South Yorkshire",
+    origin: "Jordanthorpe",
+    destination: "HigH Green",
+    nocCode: "TEST",
+    startDate: "2023-07-23",
+    serviceCode: "NW_04_SCMN_149_1",
+    dataSource: Datasource.tnds,
+    lineId: "SL1",
+    endDate: "2023-08-10",
+};
+
 const defaultServicesData = {
-    service1: JSON.stringify({
-        id: 23127,
-        lineName: "1",
-        operatorShortName: "First South Yorkshire",
-        origin: "Jordanthorpe",
-        destination: "HigH Green",
-        nocCode: "TEST",
-        startDate: "2023-07-23",
-        serviceCode: "NW_04_SCMN_149_1",
-        dataSource: Datasource.tnds,
-        lineId: "SL1",
-        endDate: "2023-08-10",
-    }),
+    service1: JSON.stringify(service),
     description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     removeFromJourneyPlanners: "no",
@@ -279,8 +281,8 @@ describe("create-consequence-services API", () => {
                     ...(formatCreateConsequenceStopsServicesBody(req.body) as ServicesConsequence),
                     services: [],
                     stops: [],
-                    serviceIds: [],
-                    stopIds: [],
+                    serviceRefs: [],
+                    stopRefs: [],
                 },
                 errors,
             }),
@@ -316,8 +318,8 @@ describe("create-consequence-services API", () => {
                     ...formattedBody,
                     services: [],
                     stops: [],
-                    serviceIds: [23127],
-                    stopIds: [],
+                    serviceRefs: ["NW_04_SCMN_149_1"],
+                    stopRefs: [],
                 },
                 errors,
             }),
@@ -352,8 +354,8 @@ describe("create-consequence-services API", () => {
                     ...formattedBody,
                     services: [],
                     stops: [],
-                    serviceIds: [23127],
-                    stopIds: [],
+                    serviceRefs: ["NW_04_SCMN_149_1"],
+                    stopRefs: [],
                 },
                 errors,
             }),
@@ -413,6 +415,10 @@ describe("create-consequence-services API", () => {
     it("should redirect back to /create-consequence-services when description is too long with appropriate query params", async () => {
         const stopsData = {
             ...defaultServicesData,
+            service2: JSON.stringify({
+                ...service,
+                dataSource: Datasource.bods,
+            }),
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         };
@@ -441,8 +447,8 @@ describe("create-consequence-services API", () => {
                     ...formattedBody,
                     services: [],
                     stops: [],
-                    serviceIds: [23127],
-                    stopIds: [],
+                    serviceRefs: ["NW_04_SCMN_149_1", "SL1"],
+                    stopRefs: [],
                 },
                 errors,
             }),
