@@ -7,8 +7,9 @@ import FormElementWrapper, { FormGroupWrapper } from "../components/form/FormEle
 import Table from "../components/form/Table";
 import { TwoThirdsLayout } from "../components/layout/Layout";
 import { SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH } from "../constants";
+import { getOperatorByOrgIdAndOperatorOrgId } from "../data/dynamo";
 import { ErrorInfo } from "../interfaces";
-import { ModeType } from "../schemas/organisation.schema";
+import { OperatorOrgSchema, ModeType } from "../schemas/organisation.schema";
 import { SessionWithOrgDetail } from "../schemas/session.schema";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 import { getDisruptionEmailPreference } from "../utils/user";
@@ -20,12 +21,14 @@ interface AccountSettingsProps {
     sessionWithOrg: SessionWithOrgDetail;
     csrfToken?: string;
     disruptionEmailPreference?: boolean;
+    operator?: OperatorOrgSchema | null;
 }
 
 const AccountSettings = ({
     sessionWithOrg,
     csrfToken,
     disruptionEmailPreference,
+    operator,
 }: AccountSettingsProps): ReactElement => {
     const [mode, setMode] = useState<ModeType>(sessionWithOrg.mode);
     const [errors, setErrors] = useState<ErrorInfo[]>([]);
@@ -174,6 +177,14 @@ const AccountSettings = ({
                               ]
                             : [
                                   { header: "Email address", cells: [sessionWithOrg.email, ""] },
+                                  ...(sessionWithOrg.isOperatorUser && operator
+                                      ? [
+                                            {
+                                                header: "Operator name",
+                                                cells: [operator.name, ""],
+                                            },
+                                        ]
+                                      : []),
                                   {
                                       header: "Password",
                                       cells: [
@@ -200,6 +211,14 @@ const AccountSettings = ({
                                       header: "NaPTAN Adminarea",
                                       cells: [sessionWithOrg?.adminAreaCodes.join(", "), ""],
                                   },
+                                  ...(sessionWithOrg.isOperatorUser && operator
+                                      ? [
+                                            {
+                                                header: "NOC Code",
+                                                cells: [operator.nocCodes.join(", "), ""],
+                                            },
+                                        ]
+                                      : []),
                               ]
                     }
                 />
@@ -311,6 +330,22 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             props: {
                 sessionWithOrg,
                 disruptionEmailPreference,
+            },
+        };
+    }
+
+    if (sessionWithOrg.isOperatorUser) {
+        if (!sessionWithOrg.operatorOrgId) {
+            throw new Error("No subOrgId provided");
+        }
+        const operator = await getOperatorByOrgIdAndOperatorOrgId(sessionWithOrg.orgId, sessionWithOrg.operatorOrgId);
+        if (!operator) {
+            throw new Error("No operator found");
+        }
+        return {
+            props: {
+                operator,
+                sessionWithOrg,
             },
         };
     }

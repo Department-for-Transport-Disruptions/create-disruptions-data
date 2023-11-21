@@ -12,6 +12,7 @@ import {
     COOKIES_CONSEQUENCE_TYPE_ERRORS,
     CONSEQUENCE_TYPES,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
+    OPERATOR_USER_CONSEQUENCE_TYPES,
 } from "../../../constants/index";
 import { getDisruptionById } from "../../../data/dynamo";
 import { PageState } from "../../../interfaces/index";
@@ -23,7 +24,9 @@ import { getStateUpdater, returnTemplateOverview, showCancelButton } from "../..
 const title = "Create Consequences";
 const description = "Create Consequences page for the Create Transport Disruptions Service";
 
-export interface ConsequenceTypePageProps extends PageState<Partial<ConsequenceType>> {}
+export interface ConsequenceTypePageProps extends PageState<Partial<ConsequenceType>> {
+    isOperatorUser?: boolean;
+}
 
 const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
     const [pageState, setPageState] = useState(props);
@@ -37,6 +40,8 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
 
     const isTemplate = queryParams["template"]?.toString() ?? "";
     const returnPath = queryParams["return"]?.toString() ?? "";
+
+    const consequenceTypesRadioDetail = props.isOperatorUser ? OPERATOR_USER_CONSEQUENCE_TYPES : CONSEQUENCE_TYPES;
 
     return (
         <TwoThirdsLayout title={title} description={description} errors={props.errors}>
@@ -52,7 +57,7 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
 
                         <Radios<ConsequenceType>
                             display="Select consequence type"
-                            radioDetail={CONSEQUENCE_TYPES}
+                            radioDetail={consequenceTypesRadioDetail}
                             inputName="consequenceType"
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.consequenceType}
@@ -142,6 +147,7 @@ export const getServerSideProps = async (
                 disruption?.consequences?.find((c) => c.consequenceIndex === index) ?? undefined,
             ),
             consequenceIndex: index,
+            isOperatorUser: session.isOperatorUser,
         },
     };
 };

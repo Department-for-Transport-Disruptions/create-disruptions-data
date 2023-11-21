@@ -4,24 +4,12 @@ import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import CreateConsequenceServices, { CreateConsequenceServicesProps } from "./[disruptionId]/[consequenceIndex].page";
 import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
-import { defaultModes } from "../../schemas/organisation.schema";
+import { mockSessionWithOrgDetail } from "../../testData/mockData";
 
 const blankInputs: CreateConsequenceServicesProps = {
     errors: [],
     inputs: {},
-    sessionWithOrg: {
-        email: "test@example.com",
-        username: "Test",
-        orgId: "org",
-        adminAreaCodes: [],
-        orgName: "Test Org",
-        isOrgAdmin: true,
-        isOrgPublisher: true,
-        isOrgStaff: true,
-        isSystemAdmin: true,
-        name: "Test User",
-        mode: defaultModes,
-    },
+    sessionWithOrg: mockSessionWithOrgDetail,
     consequenceDataSource: null,
     globalDataSource: null,
     initialStops: [],
@@ -31,19 +19,7 @@ const withInputs: CreateConsequenceServicesProps = {
     disruptionDescription: "A truck broke down on a bridge",
     errors: [],
     disruptionId: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
-    sessionWithOrg: {
-        email: "test@example.com",
-        username: "Test",
-        orgId: "org",
-        adminAreaCodes: [],
-        orgName: "Test Org",
-        isOrgAdmin: true,
-        isOrgPublisher: true,
-        isOrgStaff: true,
-        isSystemAdmin: true,
-        name: "Test User",
-        mode: defaultModes,
-    },
+    sessionWithOrg: mockSessionWithOrgDetail,
     inputs: {
         stops: [
             {
@@ -97,19 +73,7 @@ beforeEach(() => {
 
 const withInputsAndErrors: CreateConsequenceServicesProps = {
     disruptionDescription: "A truck broke down on a bridge",
-    sessionWithOrg: {
-        email: "test@example.com",
-        username: "Test",
-        orgId: "org",
-        adminAreaCodes: [],
-        orgName: "Test Org",
-        isOrgAdmin: true,
-        isOrgPublisher: true,
-        isOrgStaff: true,
-        isSystemAdmin: true,
-        name: "Test User",
-        mode: defaultModes,
-    },
+    sessionWithOrg: mockSessionWithOrgDetail,
     errors: [
         { errorMessage: "Enter a description for this disruption", id: "description" },
         { errorMessage: "Select at least one option", id: "removeFromJourneyPlanners" },

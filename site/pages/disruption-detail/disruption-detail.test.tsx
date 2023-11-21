@@ -13,7 +13,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import DisruptionDetail from "./[disruptionId].page";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { SocialMediaPost } from "../../schemas/social-media.schema";
-import { DEFAULT_ORG_ID } from "../../testData/mockData";
+import { DEFAULT_OPERATOR_ORG_ID, DEFAULT_ORG_ID } from "../../testData/mockData";
 
 const defaultConsequenceOperators: ConsequenceOperators[] = [
     {
@@ -152,6 +152,56 @@ describe("pages", () => {
                 .create(
                     <DisruptionDetail
                         disruption={previousDisruptionInformation}
+                        redirect={"/dashboard"}
+                        errors={[]}
+                        canPublish
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+
+        it("should render correctly with inputs and no errors if an operator is viewing a disruption made by an LTA", () => {
+            const tree = renderer
+                .create(
+                    <DisruptionDetail
+                        disruption={previousDisruptionInformation}
+                        redirect={"/dashboard"}
+                        errors={[]}
+                        canPublish
+                        operatorOrgId={DEFAULT_OPERATOR_ORG_ID}
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+
+        it("should render correctly with inputs and no errors if an operator is viewing a disruption made by another operator who does not have the same operatorOrgId", () => {
+            const tree = renderer
+                .create(
+                    <DisruptionDetail
+                        disruption={{
+                            ...previousDisruptionInformation,
+                            createdByOperatorOrgId: "e17489ff-779c-4e74-b5cb-623be0adf24f",
+                        }}
+                        redirect={"/dashboard"}
+                        errors={[]}
+                        canPublish
+                        operatorOrgId={DEFAULT_OPERATOR_ORG_ID}
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+
+        it("should render correctly with inputs and no errors if a non-operator user is viewing an operator disruption", () => {
+            const tree = renderer
+                .create(
+                    <DisruptionDetail
+                        disruption={{
+                            ...previousDisruptionInformation,
+                            createdByOperatorOrgId: "e17489ff-779c-4e74-b5cb-623be0adf24f",
+                        }}
                         redirect={"/dashboard"}
                         errors={[]}
                         canPublish

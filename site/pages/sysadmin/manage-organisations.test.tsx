@@ -1,8 +1,7 @@
 import renderer from "react-test-renderer";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import ManageOrganisations, { ManageOrganisationsProps } from "./manage-organisations.page";
-import { defaultModes } from "../../schemas/organisation.schema";
-import { SessionWithOrgDetail } from "../../schemas/session.schema";
+import { mockSessionWithOrgDetail } from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
 
 const blankInputs: ManageOrganisationsProps = {
@@ -26,20 +25,6 @@ const withInputs: ManageOrganisationsProps = {
     ],
 };
 
-const defaultSession: SessionWithOrgDetail = {
-    email: "test@example.com",
-    isOrgAdmin: false,
-    isOrgPublisher: false,
-    isOrgStaff: false,
-    isSystemAdmin: true,
-    orgId: randomID,
-    username: "test@example.com",
-    name: "Test User",
-    orgName: "Nexus",
-    adminAreaCodes: ["A", "B", "C"],
-    mode: defaultModes,
-};
-
 const getSessionWithOrgDetailSpy = vi.spyOn(session, "getSessionWithOrgDetail");
 
 describe("manageOrganisations", () => {
@@ -52,7 +37,7 @@ describe("manageOrganisations", () => {
     });
 
     beforeEach(() => {
-        getSessionWithOrgDetailSpy.mockResolvedValue(defaultSession);
+        getSessionWithOrgDetailSpy.mockResolvedValue(mockSessionWithOrgDetail);
     });
 
     it("should render correctly when there are no inputs", () => {

@@ -43,7 +43,7 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
         const queryParam = getReturnPage(req);
         const isFromTemplate = isDisruptionFromTemplate(req);
 
-        const { template, addAnotherConsequence } = req.query;
+        const { template, addAnotherConsequence, draft } = req.query;
 
         const body = req.body as StopsConsequence;
 
@@ -53,10 +53,12 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
 
         const session = getSession(req);
 
-        const { draft } = req.query;
-
         if (!session) {
             throw new Error("No session found");
+        }
+
+        if (session.isOperatorUser) {
+            throw new Error("Operator users are not permitted to create stop type consequences");
         }
 
         if (!validatedBody.success) {

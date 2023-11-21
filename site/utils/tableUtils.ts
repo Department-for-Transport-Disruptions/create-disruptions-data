@@ -10,5 +10,7 @@ export const getAccountType = (groupName: UserGroups): string => {
             return "Publisher";
         case UserGroups.orgStaff:
             return "Staff";
+        case UserGroups.operators:
+            return "Operator";
     }
 };

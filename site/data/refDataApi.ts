@@ -65,6 +65,7 @@ interface FetchServicesInput {
     adminAreaCodes?: string[];
     dataSource?: Datasource;
     modes?: Modes[];
+    nocCodes?: string[];
 }
 
 export const fetchServices = async (input: FetchServicesInput) => {
@@ -78,6 +79,10 @@ export const fetchServices = async (input: FetchServicesInput) => {
 
     if (input.dataSource) {
         queryStringItems.push(`dataSource=${input.dataSource}`);
+    }
+
+    if (input.nocCodes && input.nocCodes.length > 0) {
+        queryStringItems.push(`nocCodes=${input.nocCodes.join(",")}`);
     }
 
     if (input.modes && input.modes.length > 0) {
@@ -102,6 +107,7 @@ interface FetchServicesByStopsInput {
     adminAreaCodes?: string[];
     includeRoutes?: boolean;
     dataSource?: Datasource;
+    nocCodes?: string[];
 }
 
 export const fetchServicesByStops = async (input: FetchServicesByStopsInput) => {
@@ -111,6 +117,10 @@ export const fetchServicesByStops = async (input: FetchServicesByStopsInput) => 
 
     if (input.atcoCodes) {
         queryStringItems.push(`atcoCodes=${input.atcoCodes.join(",")}`);
+    }
+
+    if (input.nocCodes && input.nocCodes.length > 0) {
+        queryStringItems.push(`nocCodes=${input.nocCodes.join(",")}`);
     }
 
     if (input.includeRoutes) {

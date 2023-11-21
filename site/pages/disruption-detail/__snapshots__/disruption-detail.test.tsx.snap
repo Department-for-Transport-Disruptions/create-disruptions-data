@@ -3651,6 +3651,3975 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
 ]
 `;
 
+exports[`pages > DisruptionDetail > should render correctly with inputs and no errors if a non-operator user is viewing an operator disruption 1`] = `
+[
+  <div
+    className="app-phase-banner__wrapper"
+  >
+    <div
+      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    >
+      <p
+        className="govuk-phase-banner__content"
+      >
+        <strong
+          className="govuk-tag govuk-phase-banner__content__tag"
+        >
+          beta
+        </strong>
+        <span
+          className="govuk-phase-banner__text"
+        >
+          This is a new service – your
+           
+          <a
+            className="govuk-link"
+            href="/feedback"
+            id="feedback-link"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+          >
+            feedback
+          </a>
+           
+          will help us to improve it.
+        </span>
+      </p>
+    </div>
+  </div>,
+  <div
+    className="govuk-width-container"
+  >
+    <main
+      className="govuk-main-wrapper"
+      id="main-content"
+    >
+      <form
+        action="/api/publish-edit"
+        method="post"
+      >
+        <input
+          name="csrf_token"
+          type="hidden"
+          value=""
+        />
+        <div
+          className="govuk-form-group"
+        >
+          <h1
+            className="govuk-heading-xl"
+          >
+            Disruption Overview
+          </h1>
+          <br />
+          <table
+            className="govuk-table"
+          >
+            <thead
+              className="govuk-table__head"
+            >
+              <tr
+                className="govuk-table__row"
+              />
+            </thead>
+            <tbody
+              className="govuk-table__body"
+            >
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  ID
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  8fg3ha
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Type of disruption
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  Planned
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Summary
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  Road closure due to flooding and cattle on road and no sign of movement example example example etc etc
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Description
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  Road closure due to flooding and cattle on road and no sign of movement example example example etc etc
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Associated link
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  https://www.flooding.com
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Reason for disruption
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  Flooding
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Validity period 1
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  <span>
+                    13/01/2022
+                     
+                    1200
+                     - 
+                    14/01/2022
+                     
+                    1400
+                     
+                  </span>
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Validity period 2
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  <span>
+                    15/01/2022
+                     
+                    1200
+                     - 
+                    17/01/2022
+                     
+                    1400
+                     
+                  </span>
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Publish start date
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  13/01/2022
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Publish start time
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  13:00
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Publish end date
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  13/01/2022
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Publish end time
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  14:00
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+            </tbody>
+          </table>
+          <h2
+            className="govuk-heading-l"
+          >
+            Consequences
+          </h2>
+          <div
+            className="govuk-accordion"
+            data-module="govuk-accordion"
+            id="accordion-default"
+          >
+            <div
+              className="govuk-accordion__section"
+            >
+              <div
+                className="govuk-accordion__section-header"
+              >
+                <h2
+                  className="govuk-accordion__section-heading"
+                >
+                  <span
+                    className="govuk-accordion__section-button"
+                    id="accordion-default-heading-1"
+                  >
+                    Consequence 1 - Bus - Network wide
+                  </span>
+                </h2>
+              </div>
+              <div
+                aria-labelledby="accordion-default-heading-1"
+                className="govuk-accordion__section-content"
+                id="accordion-default-content-1"
+              >
+                <table
+                  className="govuk-table"
+                >
+                  <thead
+                    className="govuk-table__head"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Consequence type
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/2"
+                      >
+                        Network wide
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Mode of transport
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Bus
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Advice to display
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        The road is closed for the following reasons: Example, example, example, example
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Remove from journey planner
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Yes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Disruption delay
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        33 minutes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div
+              className="govuk-accordion__section"
+            >
+              <div
+                className="govuk-accordion__section-header"
+              >
+                <h2
+                  className="govuk-accordion__section-heading"
+                >
+                  <span
+                    className="govuk-accordion__section-button"
+                    id="accordion-default-heading-2"
+                  >
+                    Consequence 2 - Tram - Operator wide - FMAN
+                  </span>
+                </h2>
+              </div>
+              <div
+                aria-labelledby="accordion-default-heading-2"
+                className="govuk-accordion__section-content"
+                id="accordion-default-content-2"
+              >
+                <table
+                  className="govuk-table"
+                >
+                  <thead
+                    className="govuk-table__head"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Consequence type
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/2"
+                      >
+                        Operator wide
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Mode of transport
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Tram
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Operators affected
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        FMAN
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Advice to display
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        The road is closed for the following reasons: Example, example, example, example
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Remove from journey planner
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Yes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Disruption delay
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        50 minutes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div
+              className="govuk-accordion__section"
+            >
+              <div
+                className="govuk-accordion__section-header"
+              >
+                <h2
+                  className="govuk-accordion__section-heading"
+                >
+                  <span
+                    className="govuk-accordion__section-button"
+                    id="accordion-default-heading-3"
+                  >
+                    Consequence 3 - Bus - Services - 1
+                  </span>
+                </h2>
+              </div>
+              <div
+                aria-labelledby="accordion-default-heading-3"
+                className="govuk-accordion__section-content"
+                id="accordion-default-content-3"
+              >
+                <table
+                  className="govuk-table"
+                >
+                  <thead
+                    className="govuk-table__head"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Consequence type
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/2"
+                      >
+                        Services
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Mode of transport
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Bus
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Service(s)
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        1 - Jordanthorpe - HigH Green (First South Yorkshire)
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Stops affected
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Advice to display
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        The road is closed for the following reasons: Example, example, example, example
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Remove from journey planner
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Yes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Disruption delay
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        12 minutes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <br />
+          <h2
+            className="govuk-heading-l"
+          >
+            Social media posts
+          </h2>
+          <div
+            className="govuk-accordion"
+            data-module="govuk-accordion"
+            id="accordion-default"
+          >
+            <div
+              className="govuk-accordion__section"
+            >
+              <div
+                className="govuk-accordion__section-header"
+              >
+                <h2
+                  className="govuk-accordion__section-heading"
+                >
+                  <span
+                    className="govuk-accordion__section-button"
+                    id="accordion-default-heading-1"
+                  >
+                    Social media post 1
+                  </span>
+                </h2>
+              </div>
+              <div
+                aria-labelledby="accordion-default-heading-1"
+                className="govuk-accordion__section-content"
+                id="accordion-default-content-1"
+              >
+                <table
+                  className="govuk-table"
+                >
+                  <thead
+                    className="govuk-table__head"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Message to appear
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Test post 12345
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Image
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        No image uploaded
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Publish date
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        14/01/2027
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Publish time
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        1300
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Account name
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Twitter
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        HootSuite profile
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Twitter/1234
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Status
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Pending
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div
+              className="govuk-accordion__section"
+            >
+              <div
+                className="govuk-accordion__section-header"
+              >
+                <h2
+                  className="govuk-accordion__section-heading"
+                >
+                  <span
+                    className="govuk-accordion__section-button"
+                    id="accordion-default-heading-2"
+                  >
+                    Social media post 2
+                  </span>
+                </h2>
+              </div>
+              <div
+                aria-labelledby="accordion-default-heading-2"
+                className="govuk-accordion__section-content"
+                id="accordion-default-content-2"
+              >
+                <table
+                  className="govuk-table"
+                >
+                  <thead
+                    className="govuk-table__head"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Message to appear
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Test post 12345
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Image
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link text-govBlue"
+                          href=""
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          blah.jpg
+                        </a>
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Publish date
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        14/01/2028
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Publish time
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        1300
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Account name
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Twitter
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        HootSuite profile
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Twitter/1234
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Status
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Pending
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <br />
+          <input
+            name="disruptionId"
+            type="hidden"
+            value="2"
+          />
+          <a
+            className="govuk-button mt-8 "
+            href="/dashboard"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+            role="button"
+          >
+            Close and Return
+          </a>
+        </div>
+      </form>
+    </main>
+    <div>
+      <h2
+        className="govuk-heading-s"
+      >
+        Help and Support
+      </h2>
+      <p
+        className="govuk-body"
+      >
+        If you are having problems, please contact the Create Disruption Service via this link:
+         
+        <a
+          className="govuk-link govuk-!-font-size-19"
+          href="/contact"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
+        >
+          Contact us
+        </a>
+      </p>
+    </div>
+  </div>,
+  <footer
+    className="govuk-footer"
+    role="contentinfo"
+  >
+    <div
+      className="govuk-width-container"
+    >
+      <div
+        className="govuk-footer__meta"
+      >
+        <div
+          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+        >
+          <h2
+            className="govuk-visually-hidden"
+          >
+            Support links
+          </h2>
+          <ul
+            className="govuk-footer__inline-list"
+          >
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/contact"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Help
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/cookies"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Cookies
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/contact"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Contact
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/accessibility"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Accessibility
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="https://www.gov.uk/help/terms-conditions"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Terms and conditions
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/privacy"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Privacy
+              </a>
+            </li>
+          </ul>
+          <p
+            className="govuk-footer__body"
+          >
+            Built by the
+             
+            <a
+              className="govuk-footer__link"
+              href="https://www.gov.uk/government/organisations/department-for-transport"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+              rel="noreferrer"
+              target="_blank"
+            >
+              Department for Transport
+            </a>
+          </p>
+          <svg
+            aria-hidden="true"
+            className="govuk-footer__licence-logo"
+            focusable="false"
+            height="17"
+            viewBox="0 0 483.2 195.7"
+            width="41"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145"
+              fill="currentColor"
+            />
+          </svg>
+          <span
+            className="govuk-footer__licence-description"
+          >
+            All content is available under the
+             
+            <a
+              className="govuk-footer__link"
+              href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+              rel="license"
+            >
+              Open Government Licence v3.0
+            </a>
+            , except where otherwise stated
+          </span>
+        </div>
+        <div
+          className="govuk-footer__meta-item"
+        >
+          <a
+            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+          >
+            © Crown copyright
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>,
+]
+`;
+
+exports[`pages > DisruptionDetail > should render correctly with inputs and no errors if an operator is viewing a disruption made by an LTA 1`] = `
+[
+  <div
+    className="app-phase-banner__wrapper"
+  >
+    <div
+      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    >
+      <p
+        className="govuk-phase-banner__content"
+      >
+        <strong
+          className="govuk-tag govuk-phase-banner__content__tag"
+        >
+          beta
+        </strong>
+        <span
+          className="govuk-phase-banner__text"
+        >
+          This is a new service – your
+           
+          <a
+            className="govuk-link"
+            href="/feedback"
+            id="feedback-link"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+          >
+            feedback
+          </a>
+           
+          will help us to improve it.
+        </span>
+      </p>
+    </div>
+  </div>,
+  <div
+    className="govuk-width-container"
+  >
+    <main
+      className="govuk-main-wrapper"
+      id="main-content"
+    >
+      <form
+        action="/api/publish-edit"
+        method="post"
+      >
+        <input
+          name="csrf_token"
+          type="hidden"
+          value=""
+        />
+        <div
+          className="govuk-form-group"
+        >
+          <h1
+            className="govuk-heading-xl"
+          >
+            Disruption Overview
+          </h1>
+          <br />
+          <table
+            className="govuk-table"
+          >
+            <thead
+              className="govuk-table__head"
+            >
+              <tr
+                className="govuk-table__row"
+              />
+            </thead>
+            <tbody
+              className="govuk-table__body"
+            >
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  ID
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  8fg3ha
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Type of disruption
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  Planned
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Summary
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  Road closure due to flooding and cattle on road and no sign of movement example example example etc etc
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Description
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  Road closure due to flooding and cattle on road and no sign of movement example example example etc etc
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Associated link
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  https://www.flooding.com
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Reason for disruption
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  Flooding
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Validity period 1
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  <span>
+                    13/01/2022
+                     
+                    1200
+                     - 
+                    14/01/2022
+                     
+                    1400
+                     
+                  </span>
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Validity period 2
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  <span>
+                    15/01/2022
+                     
+                    1200
+                     - 
+                    17/01/2022
+                     
+                    1400
+                     
+                  </span>
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Publish start date
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  13/01/2022
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Publish start time
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  13:00
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Publish end date
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  13/01/2022
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Publish end time
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  14:00
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+            </tbody>
+          </table>
+          <h2
+            className="govuk-heading-l"
+          >
+            Consequences
+          </h2>
+          <div
+            className="govuk-accordion"
+            data-module="govuk-accordion"
+            id="accordion-default"
+          >
+            <div
+              className="govuk-accordion__section"
+            >
+              <div
+                className="govuk-accordion__section-header"
+              >
+                <h2
+                  className="govuk-accordion__section-heading"
+                >
+                  <span
+                    className="govuk-accordion__section-button"
+                    id="accordion-default-heading-1"
+                  >
+                    Consequence 1 - Bus - Network wide
+                  </span>
+                </h2>
+              </div>
+              <div
+                aria-labelledby="accordion-default-heading-1"
+                className="govuk-accordion__section-content"
+                id="accordion-default-content-1"
+              >
+                <table
+                  className="govuk-table"
+                >
+                  <thead
+                    className="govuk-table__head"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Consequence type
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/2"
+                      >
+                        Network wide
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Mode of transport
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Bus
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Advice to display
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        The road is closed for the following reasons: Example, example, example, example
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Remove from journey planner
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Yes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Disruption delay
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        33 minutes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div
+              className="govuk-accordion__section"
+            >
+              <div
+                className="govuk-accordion__section-header"
+              >
+                <h2
+                  className="govuk-accordion__section-heading"
+                >
+                  <span
+                    className="govuk-accordion__section-button"
+                    id="accordion-default-heading-2"
+                  >
+                    Consequence 2 - Tram - Operator wide - FMAN
+                  </span>
+                </h2>
+              </div>
+              <div
+                aria-labelledby="accordion-default-heading-2"
+                className="govuk-accordion__section-content"
+                id="accordion-default-content-2"
+              >
+                <table
+                  className="govuk-table"
+                >
+                  <thead
+                    className="govuk-table__head"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Consequence type
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/2"
+                      >
+                        Operator wide
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Mode of transport
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Tram
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Operators affected
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        FMAN
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Advice to display
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        The road is closed for the following reasons: Example, example, example, example
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Remove from journey planner
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Yes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Disruption delay
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        50 minutes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div
+              className="govuk-accordion__section"
+            >
+              <div
+                className="govuk-accordion__section-header"
+              >
+                <h2
+                  className="govuk-accordion__section-heading"
+                >
+                  <span
+                    className="govuk-accordion__section-button"
+                    id="accordion-default-heading-3"
+                  >
+                    Consequence 3 - Bus - Services - 1
+                  </span>
+                </h2>
+              </div>
+              <div
+                aria-labelledby="accordion-default-heading-3"
+                className="govuk-accordion__section-content"
+                id="accordion-default-content-3"
+              >
+                <table
+                  className="govuk-table"
+                >
+                  <thead
+                    className="govuk-table__head"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Consequence type
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/2"
+                      >
+                        Services
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Mode of transport
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Bus
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Service(s)
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        1 - Jordanthorpe - HigH Green (First South Yorkshire)
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Stops affected
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Advice to display
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        The road is closed for the following reasons: Example, example, example, example
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Remove from journey planner
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Yes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Disruption delay
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        12 minutes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <br />
+          <h2
+            className="govuk-heading-l"
+          >
+            Social media posts
+          </h2>
+          <div
+            className="govuk-accordion"
+            data-module="govuk-accordion"
+            id="accordion-default"
+          >
+            <div
+              className="govuk-accordion__section"
+            >
+              <div
+                className="govuk-accordion__section-header"
+              >
+                <h2
+                  className="govuk-accordion__section-heading"
+                >
+                  <span
+                    className="govuk-accordion__section-button"
+                    id="accordion-default-heading-1"
+                  >
+                    Social media post 1
+                  </span>
+                </h2>
+              </div>
+              <div
+                aria-labelledby="accordion-default-heading-1"
+                className="govuk-accordion__section-content"
+                id="accordion-default-content-1"
+              >
+                <table
+                  className="govuk-table"
+                >
+                  <thead
+                    className="govuk-table__head"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Message to appear
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Test post 12345
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Image
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        No image uploaded
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Publish date
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        14/01/2027
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Publish time
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        1300
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Account name
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Twitter
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        HootSuite profile
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Twitter/1234
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Status
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Pending
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div
+              className="govuk-accordion__section"
+            >
+              <div
+                className="govuk-accordion__section-header"
+              >
+                <h2
+                  className="govuk-accordion__section-heading"
+                >
+                  <span
+                    className="govuk-accordion__section-button"
+                    id="accordion-default-heading-2"
+                  >
+                    Social media post 2
+                  </span>
+                </h2>
+              </div>
+              <div
+                aria-labelledby="accordion-default-heading-2"
+                className="govuk-accordion__section-content"
+                id="accordion-default-content-2"
+              >
+                <table
+                  className="govuk-table"
+                >
+                  <thead
+                    className="govuk-table__head"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Message to appear
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Test post 12345
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Image
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link text-govBlue"
+                          href=""
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          blah.jpg
+                        </a>
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Publish date
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        14/01/2028
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Publish time
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        1300
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Account name
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Twitter
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        HootSuite profile
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Twitter/1234
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Status
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Pending
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <br />
+          <input
+            name="disruptionId"
+            type="hidden"
+            value="2"
+          />
+          <a
+            className="govuk-button mt-8 "
+            href="/dashboard"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+            role="button"
+          >
+            Close and Return
+          </a>
+        </div>
+      </form>
+    </main>
+    <div>
+      <h2
+        className="govuk-heading-s"
+      >
+        Help and Support
+      </h2>
+      <p
+        className="govuk-body"
+      >
+        If you are having problems, please contact the Create Disruption Service via this link:
+         
+        <a
+          className="govuk-link govuk-!-font-size-19"
+          href="/contact"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
+        >
+          Contact us
+        </a>
+      </p>
+    </div>
+  </div>,
+  <footer
+    className="govuk-footer"
+    role="contentinfo"
+  >
+    <div
+      className="govuk-width-container"
+    >
+      <div
+        className="govuk-footer__meta"
+      >
+        <div
+          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+        >
+          <h2
+            className="govuk-visually-hidden"
+          >
+            Support links
+          </h2>
+          <ul
+            className="govuk-footer__inline-list"
+          >
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/contact"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Help
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/cookies"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Cookies
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/contact"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Contact
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/accessibility"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Accessibility
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="https://www.gov.uk/help/terms-conditions"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Terms and conditions
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/privacy"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Privacy
+              </a>
+            </li>
+          </ul>
+          <p
+            className="govuk-footer__body"
+          >
+            Built by the
+             
+            <a
+              className="govuk-footer__link"
+              href="https://www.gov.uk/government/organisations/department-for-transport"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+              rel="noreferrer"
+              target="_blank"
+            >
+              Department for Transport
+            </a>
+          </p>
+          <svg
+            aria-hidden="true"
+            className="govuk-footer__licence-logo"
+            focusable="false"
+            height="17"
+            viewBox="0 0 483.2 195.7"
+            width="41"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145"
+              fill="currentColor"
+            />
+          </svg>
+          <span
+            className="govuk-footer__licence-description"
+          >
+            All content is available under the
+             
+            <a
+              className="govuk-footer__link"
+              href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+              rel="license"
+            >
+              Open Government Licence v3.0
+            </a>
+            , except where otherwise stated
+          </span>
+        </div>
+        <div
+          className="govuk-footer__meta-item"
+        >
+          <a
+            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+          >
+            © Crown copyright
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>,
+]
+`;
+
+exports[`pages > DisruptionDetail > should render correctly with inputs and no errors if an operator is viewing a disruption made by another operator who does not have the same operatorOrgId 1`] = `
+[
+  <div
+    className="app-phase-banner__wrapper"
+  >
+    <div
+      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    >
+      <p
+        className="govuk-phase-banner__content"
+      >
+        <strong
+          className="govuk-tag govuk-phase-banner__content__tag"
+        >
+          beta
+        </strong>
+        <span
+          className="govuk-phase-banner__text"
+        >
+          This is a new service – your
+           
+          <a
+            className="govuk-link"
+            href="/feedback"
+            id="feedback-link"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+          >
+            feedback
+          </a>
+           
+          will help us to improve it.
+        </span>
+      </p>
+    </div>
+  </div>,
+  <div
+    className="govuk-width-container"
+  >
+    <main
+      className="govuk-main-wrapper"
+      id="main-content"
+    >
+      <form
+        action="/api/publish-edit"
+        method="post"
+      >
+        <input
+          name="csrf_token"
+          type="hidden"
+          value=""
+        />
+        <div
+          className="govuk-form-group"
+        >
+          <h1
+            className="govuk-heading-xl"
+          >
+            Disruption Overview
+          </h1>
+          <br />
+          <table
+            className="govuk-table"
+          >
+            <thead
+              className="govuk-table__head"
+            >
+              <tr
+                className="govuk-table__row"
+              />
+            </thead>
+            <tbody
+              className="govuk-table__body"
+            >
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  ID
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  8fg3ha
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Type of disruption
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  Planned
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Summary
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  Road closure due to flooding and cattle on road and no sign of movement example example example etc etc
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Description
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  Road closure due to flooding and cattle on road and no sign of movement example example example etc etc
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Associated link
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  https://www.flooding.com
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Reason for disruption
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  Flooding
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Validity period 1
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  <span>
+                    13/01/2022
+                     
+                    1200
+                     - 
+                    14/01/2022
+                     
+                    1400
+                     
+                  </span>
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Validity period 2
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  <span>
+                    15/01/2022
+                     
+                    1200
+                     - 
+                    17/01/2022
+                     
+                    1400
+                     
+                  </span>
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Publish start date
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  13/01/2022
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Publish start time
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  13:00
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Publish end date
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  13/01/2022
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Publish end time
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  14:00
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                />
+              </tr>
+            </tbody>
+          </table>
+          <h2
+            className="govuk-heading-l"
+          >
+            Consequences
+          </h2>
+          <div
+            className="govuk-accordion"
+            data-module="govuk-accordion"
+            id="accordion-default"
+          >
+            <div
+              className="govuk-accordion__section"
+            >
+              <div
+                className="govuk-accordion__section-header"
+              >
+                <h2
+                  className="govuk-accordion__section-heading"
+                >
+                  <span
+                    className="govuk-accordion__section-button"
+                    id="accordion-default-heading-1"
+                  >
+                    Consequence 1 - Bus - Network wide
+                  </span>
+                </h2>
+              </div>
+              <div
+                aria-labelledby="accordion-default-heading-1"
+                className="govuk-accordion__section-content"
+                id="accordion-default-content-1"
+              >
+                <table
+                  className="govuk-table"
+                >
+                  <thead
+                    className="govuk-table__head"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Consequence type
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/2"
+                      >
+                        Network wide
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Mode of transport
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Bus
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Advice to display
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        The road is closed for the following reasons: Example, example, example, example
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Remove from journey planner
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Yes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Disruption delay
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        33 minutes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div
+              className="govuk-accordion__section"
+            >
+              <div
+                className="govuk-accordion__section-header"
+              >
+                <h2
+                  className="govuk-accordion__section-heading"
+                >
+                  <span
+                    className="govuk-accordion__section-button"
+                    id="accordion-default-heading-2"
+                  >
+                    Consequence 2 - Tram - Operator wide - FMAN
+                  </span>
+                </h2>
+              </div>
+              <div
+                aria-labelledby="accordion-default-heading-2"
+                className="govuk-accordion__section-content"
+                id="accordion-default-content-2"
+              >
+                <table
+                  className="govuk-table"
+                >
+                  <thead
+                    className="govuk-table__head"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Consequence type
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/2"
+                      >
+                        Operator wide
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Mode of transport
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Tram
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Operators affected
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        FMAN
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Advice to display
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        The road is closed for the following reasons: Example, example, example, example
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Remove from journey planner
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Yes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Disruption delay
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        50 minutes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div
+              className="govuk-accordion__section"
+            >
+              <div
+                className="govuk-accordion__section-header"
+              >
+                <h2
+                  className="govuk-accordion__section-heading"
+                >
+                  <span
+                    className="govuk-accordion__section-button"
+                    id="accordion-default-heading-3"
+                  >
+                    Consequence 3 - Bus - Services - 1
+                  </span>
+                </h2>
+              </div>
+              <div
+                aria-labelledby="accordion-default-heading-3"
+                className="govuk-accordion__section-content"
+                id="accordion-default-content-3"
+              >
+                <table
+                  className="govuk-table"
+                >
+                  <thead
+                    className="govuk-table__head"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Consequence type
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/2"
+                      >
+                        Services
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Mode of transport
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Bus
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Service(s)
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        1 - Jordanthorpe - HigH Green (First South Yorkshire)
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Stops affected
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Advice to display
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        The road is closed for the following reasons: Example, example, example, example
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Remove from journey planner
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Yes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Disruption delay
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        12 minutes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <br />
+          <h2
+            className="govuk-heading-l"
+          >
+            Social media posts
+          </h2>
+          <div
+            className="govuk-accordion"
+            data-module="govuk-accordion"
+            id="accordion-default"
+          >
+            <div
+              className="govuk-accordion__section"
+            >
+              <div
+                className="govuk-accordion__section-header"
+              >
+                <h2
+                  className="govuk-accordion__section-heading"
+                >
+                  <span
+                    className="govuk-accordion__section-button"
+                    id="accordion-default-heading-1"
+                  >
+                    Social media post 1
+                  </span>
+                </h2>
+              </div>
+              <div
+                aria-labelledby="accordion-default-heading-1"
+                className="govuk-accordion__section-content"
+                id="accordion-default-content-1"
+              >
+                <table
+                  className="govuk-table"
+                >
+                  <thead
+                    className="govuk-table__head"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Message to appear
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Test post 12345
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Image
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        No image uploaded
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Publish date
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        14/01/2027
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Publish time
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        1300
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Account name
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Twitter
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        HootSuite profile
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Twitter/1234
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Status
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Pending
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div
+              className="govuk-accordion__section"
+            >
+              <div
+                className="govuk-accordion__section-header"
+              >
+                <h2
+                  className="govuk-accordion__section-heading"
+                >
+                  <span
+                    className="govuk-accordion__section-button"
+                    id="accordion-default-heading-2"
+                  >
+                    Social media post 2
+                  </span>
+                </h2>
+              </div>
+              <div
+                aria-labelledby="accordion-default-heading-2"
+                className="govuk-accordion__section-content"
+                id="accordion-default-content-2"
+              >
+                <table
+                  className="govuk-table"
+                >
+                  <thead
+                    className="govuk-table__head"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Message to appear
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Test post 12345
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Image
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link text-govBlue"
+                          href=""
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          blah.jpg
+                        </a>
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Publish date
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        14/01/2028
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Publish time
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        1300
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Account name
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Twitter
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        HootSuite profile
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Twitter/1234
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Status
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Pending
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <br />
+          <input
+            name="disruptionId"
+            type="hidden"
+            value="2"
+          />
+          <a
+            className="govuk-button mt-8 "
+            href="/dashboard"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+            role="button"
+          >
+            Close and Return
+          </a>
+        </div>
+      </form>
+    </main>
+    <div>
+      <h2
+        className="govuk-heading-s"
+      >
+        Help and Support
+      </h2>
+      <p
+        className="govuk-body"
+      >
+        If you are having problems, please contact the Create Disruption Service via this link:
+         
+        <a
+          className="govuk-link govuk-!-font-size-19"
+          href="/contact"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
+        >
+          Contact us
+        </a>
+      </p>
+    </div>
+  </div>,
+  <footer
+    className="govuk-footer"
+    role="contentinfo"
+  >
+    <div
+      className="govuk-width-container"
+    >
+      <div
+        className="govuk-footer__meta"
+      >
+        <div
+          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+        >
+          <h2
+            className="govuk-visually-hidden"
+          >
+            Support links
+          </h2>
+          <ul
+            className="govuk-footer__inline-list"
+          >
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/contact"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Help
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/cookies"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Cookies
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/contact"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Contact
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/accessibility"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Accessibility
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="https://www.gov.uk/help/terms-conditions"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Terms and conditions
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/privacy"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Privacy
+              </a>
+            </li>
+          </ul>
+          <p
+            className="govuk-footer__body"
+          >
+            Built by the
+             
+            <a
+              className="govuk-footer__link"
+              href="https://www.gov.uk/government/organisations/department-for-transport"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+              rel="noreferrer"
+              target="_blank"
+            >
+              Department for Transport
+            </a>
+          </p>
+          <svg
+            aria-hidden="true"
+            className="govuk-footer__licence-logo"
+            focusable="false"
+            height="17"
+            viewBox="0 0 483.2 195.7"
+            width="41"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145"
+              fill="currentColor"
+            />
+          </svg>
+          <span
+            className="govuk-footer__licence-description"
+          >
+            All content is available under the
+             
+            <a
+              className="govuk-footer__link"
+              href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+              rel="license"
+            >
+              Open Government Licence v3.0
+            </a>
+            , except where otherwise stated
+          </span>
+        </div>
+        <div
+          className="govuk-footer__meta-item"
+        >
+          <a
+            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+          >
+            © Crown copyright
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>,
+]
+`;
+
 exports[`pages > DisruptionDetail > should render correctly with inputs and no errors when disruption is a template 1`] = `
 [
   <div

@@ -3,14 +3,14 @@ import {
     disruptionInfoSchema,
     operatorConsequenceSchema,
 } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
-import { MiscellaneousReason, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
-import { describe, it, expect } from "vitest";
+import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { describe, expect, it } from "vitest";
 import { randomUUID } from "crypto";
 import { getPageState } from "./apiUtils";
 import { getFutureDateAsString } from "./dates";
 import { CD_DATE_FORMAT } from "../constants";
-import { DEFAULT_ORG_ID } from "../testData/mockData";
-import { splitCamelCaseToString } from ".";
+import { DEFAULT_ORG_ID, disruptionWithNoConsequences } from "../testData/mockData";
+import { filterDisruptionsForOperatorUser, splitCamelCaseToString } from ".";
 
 describe("utils tests", () => {
     it.each([
@@ -74,5 +74,62 @@ describe("page state test", () => {
 
         expect(parsedInput).not.toBeNull();
         expect(parsedInput.inputs).toEqual(operatorData);
+    });
+});
+
+describe("filterDisruptionsForOperatorUser", () => {
+    const baseOperatorInput = [
+        {
+            ...disruptionWithNoConsequences,
+            publishStatus: PublishStatus.published,
+            createdByOperatorOrgId: "test operator",
+        },
+        { ...disruptionWithNoConsequences, createdByOperatorOrgId: "test operator" },
+    ];
+    it("should remove disruptions that are from a different operator sub organisation", () => {
+        const disruptionsArray = [
+            ...baseOperatorInput,
+            { ...disruptionWithNoConsequences, createdByOperatorOrgId: "a different operator" },
+            {
+                ...disruptionWithNoConsequences,
+                publishStatus: PublishStatus.published,
+                createdByOperatorOrgId: "a different operator",
+            },
+            {
+                ...disruptionWithNoConsequences,
+                publishStatus: PublishStatus.draft,
+                createdByOperatorOrgId: "a different operator",
+            },
+        ];
+
+        const result = filterDisruptionsForOperatorUser(disruptionsArray, "test operator");
+
+        expect(result).toEqual([disruptionsArray[0], disruptionsArray[1]]);
+    });
+
+    it("should remove disruptions created by the LTA org that are not in a published state", () => {
+        const disruptionsArray = [
+            ...baseOperatorInput,
+            { ...disruptionWithNoConsequences },
+            { ...disruptionWithNoConsequences, publishStatus: PublishStatus.editPendingApproval },
+            { ...disruptionWithNoConsequences, publishStatus: PublishStatus.pendingApproval },
+            { ...disruptionWithNoConsequences, publishStatus: PublishStatus.editing },
+            { ...disruptionWithNoConsequences, publishStatus: PublishStatus.rejected },
+        ];
+
+        const result = filterDisruptionsForOperatorUser(disruptionsArray, "test operator");
+
+        expect(result).toEqual([disruptionsArray[0], disruptionsArray[1]]);
+    });
+
+    it("should retain disruptions created by the LTA org that are in a published state", () => {
+        const disruptionsArray = [
+            ...baseOperatorInput,
+            { ...disruptionWithNoConsequences, publishStatus: PublishStatus.published },
+        ];
+
+        const result = filterDisruptionsForOperatorUser(disruptionsArray, "test operator");
+
+        expect(result).toEqual(disruptionsArray);
     });
 });

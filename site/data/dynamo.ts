@@ -14,10 +14,17 @@ import { getSortedDisruptionFinalEndDate } from "@create-disruptions-data/shared
 import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { recursiveQuery } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { makeFilteredArraySchema } from "@create-disruptions-data/shared-ts/utils/zod";
+import { randomUUID } from "crypto";
 import { inspect } from "util";
 import { TooManyConsequencesError } from "../errors";
 import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.schema";
-import { Organisation, organisationSchema } from "../schemas/organisation.schema";
+import {
+    operatorOrgSchema,
+    operatorOrgListSchema,
+    Organisation,
+    organisationSchema,
+    SubOrganisation,
+} from "../schemas/organisation.schema";
 import { SocialMediaAccount, dynamoSocialAccountSchema } from "../schemas/social-media-accounts.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../schemas/social-media.schema";
 import { flattenZodErrors, notEmpty, splitCamelCaseToString } from "../utils";
@@ -533,6 +540,7 @@ export const upsertDisruptionInfo = async (
     id: string,
     isUserStaff?: boolean,
     isTemplate?: boolean,
+    operatorOrgId?: string | null,
 ) => {
     logger.info(
         `Updating draft disruption (${disruptionInfo.disruptionId}) from DynamoDB table (${getTableName(
@@ -557,6 +565,7 @@ export const upsertDisruptionInfo = async (
                 ...currentDisruption,
                 ...disruptionInfo,
                 ...(isTemplate ? { template: isTemplate } : {}),
+                ...(operatorOrgId ? { createdByOperatorOrgId: operatorOrgId } : {}),
             },
         }),
     );
@@ -710,6 +719,89 @@ export const removeOrganisation = async (orgId: string) => {
             })),
         }),
     );
+};
+
+export const createOperatorSubOrganisation = async (orgId: string, operatorName: string, nocCodes: string[]) => {
+    logger.info(`Adding operator: ${operatorName} to (${orgId}) in organisations DynamoDB table...`);
+
+    const uuid = randomUUID();
+
+    await ddbDocClient.send(
+        new PutCommand({
+            TableName: organisationsTableName,
+            Item: {
+                PK: orgId,
+                SK: `OPERATOR#${uuid}`,
+                name: operatorName,
+                nocCodes: nocCodes,
+            },
+        }),
+    );
+};
+
+export const getOperatorByOrgIdAndOperatorOrgId = async (orgId: string, operatorOrgId: string) => {
+    logger.info(
+        `Getting operator: by orgId (${orgId}) and operatorOrgId orgId (${operatorOrgId}) from organisations DynamoDB table...`,
+    );
+    const operator = await ddbDocClient.send(
+        new GetCommand({
+            TableName: organisationsTableName,
+            Key: {
+                PK: orgId,
+                SK: `OPERATOR#${operatorOrgId}`,
+            },
+        }),
+    );
+
+    const parsedOperator = operatorOrgSchema.safeParse(operator.Item);
+
+    if (!parsedOperator.success) {
+        return null;
+    }
+
+    return parsedOperator.data;
+};
+
+export const getNocCodesForOperatorOrg = async (orgId: string, operatorOrgId: string) => {
+    logger.info(`Getting NOC codes associated with operatorOrgId (${operatorOrgId})`);
+    const operatorDetails = await getOperatorByOrgIdAndOperatorOrgId(orgId, operatorOrgId);
+    return operatorDetails ? operatorDetails.nocCodes : [];
+};
+
+export const listOperatorsForOrg = async (orgId: string) => {
+    logger.info(`Retrieving operators for org: (${orgId}) in DynamoDB table...`);
+
+    let dbData: Record<string, unknown>[] = [];
+
+    dbData = await recursiveQuery(
+        {
+            TableName: organisationsTableName,
+            KeyConditionExpression: "PK = :1 AND begins_with(SK, :2)",
+            ExpressionAttributeValues: {
+                ":1": orgId,
+                ":2": "OPERATOR",
+            },
+        },
+        logger,
+    );
+
+    const operators = dbData.map((item) => ({
+        PK: (item as SubOrganisation).PK,
+        name: (item as SubOrganisation).name,
+        nocCodes: (item as SubOrganisation).nocCodes,
+        SK: (item as SubOrganisation).SK?.slice(9),
+    }));
+
+    const parsedOperators = operatorOrgListSchema.safeParse(operators);
+
+    if (!parsedOperators.success) {
+        logger.warn(`Invalid operators found for organisation: ${operators[0].PK} in DynamoDB`);
+        logger.warn(parsedOperators.error.toString());
+
+        return null;
+    }
+
+    return parsedOperators.data;
 };
 
 export const removeSocialMediaPostFromDisruption = async (
@@ -1502,6 +1594,7 @@ export const addSocialAccountToOrg = async (
     display: string,
     addedBy: string,
     accountType: SocialMediaAccount["accountType"],
+    createdByOperatorOrgId?: string | null,
 ) => {
     await ddbDocClient.send(
         new PutCommand({
@@ -1513,6 +1606,7 @@ export const addSocialAccountToOrg = async (
                 display,
                 addedBy,
                 accountType,
+                ...(createdByOperatorOrgId ? { createdByOperatorOrgId: createdByOperatorOrgId } : {}),
             },
         }),
     );

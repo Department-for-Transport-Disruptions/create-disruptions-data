@@ -78,6 +78,14 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
+        if (session.isOperatorUser && session.operatorOrgId !== validatedDisruptionBody.data.createdByOperatorOrgId) {
+            logger.error(
+                `Operator with operatorOrgId: ${session.operatorOrgId} is not authorised to edit disruption ${validatedBody.data.disruptionId}`,
+            );
+            redirectTo(res, ERROR_PATH);
+            return;
+        }
+
         const isEditPendingDsp =
             draftDisruption.publishStatus === PublishStatus.pendingAndEditing ||
             draftDisruption.publishStatus === PublishStatus.editPendingApproval;

@@ -248,6 +248,7 @@ export const disruptionInfoSchema = z.object({
         .optional(),
     displayId: z.string(),
     orgId: z.string().uuid().optional(),
+    createdByOperatorOrgId: z.string().uuid().optional(),
     creationTime: z.string().datetime().optional().nullable(),
 });
 
@@ -805,6 +806,7 @@ export const disruptionSchema = disruptionInfoSchemaRefined.and(
             .optional(),
         publishStatus: z.nativeEnum(PublishStatus).default(PublishStatus.draft),
         template: z.boolean().optional().default(false),
+        createdByOperatorOrgId: z.string().uuid().optional(),
         lastUpdated: z.string().optional(),
         creationTime: z.string().optional().nullable(),
         history: z.array(historySchema).optional(),

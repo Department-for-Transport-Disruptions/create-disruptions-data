@@ -49,7 +49,12 @@ export const hootsuiteRedirectUri = `${process.env.DOMAIN_NAME as string}/api/ho
 
 const getSsmKey = (orgId: string, id: string) => `/social/${orgId}/hootsuite/${id}/refresh_token`;
 
-export const addHootsuiteAccount = async (code: string, orgId: string, addedBy: string) => {
+export const addHootsuiteAccount = async (
+    code: string,
+    orgId: string,
+    addedBy: string,
+    createdByOperatorOrgId?: string | null,
+) => {
     const authHeader = await getHootsuiteAuthHeader();
 
     const tokenResponse = await fetch(`${HOOTSUITE_URL}oauth2/token`, {
@@ -87,7 +92,7 @@ export const addHootsuiteAccount = async (code: string, orgId: string, addedBy: 
     const userDetails = hootsuiteMeSchema.parse(await userDetailsResponse.json());
 
     await Promise.all([
-        addSocialAccountToOrg(orgId, userDetails.id, userDetails.email, addedBy, "Hootsuite"),
+        addSocialAccountToOrg(orgId, userDetails.id, userDetails.email, addedBy, "Hootsuite", createdByOperatorOrgId),
         putParameter(getSsmKey(orgId, userDetails.id), tokenResult.refreshToken, "SecureString", true),
     ]);
 };
@@ -175,6 +180,7 @@ export const getHootsuiteDetails = async (
     orgId: string,
     socialId: string,
     addedBy: string,
+    createdByOperatorOrgId?: string,
 ): Promise<SocialMediaAccount | null> => {
     try {
         const hootsuiteAccessToken = await getAccessToken(orgId, socialId);
@@ -191,6 +197,7 @@ export const getHootsuiteDetails = async (
             id: socialId,
             expiresIn: "Never",
             hootsuiteProfiles,
+            ...(createdByOperatorOrgId ? { createdByOperatorOrgId: createdByOperatorOrgId } : {}),
         };
     } catch (e) {
         logger.error(e);
@@ -198,13 +205,15 @@ export const getHootsuiteDetails = async (
     }
 };
 
-export const getHootsuiteAccountList = async (orgId: string): Promise<SocialMediaAccount[]> => {
+export const getHootsuiteAccountList = async (orgId: string, operatorOrgId?: string): Promise<SocialMediaAccount[]> => {
     const socialAccounts = await getOrgSocialAccounts(orgId);
 
     const hootsuiteAccounts = socialAccounts.filter((account) => account.accountType === "Hootsuite");
 
     const hootsuiteDetail = await Promise.all(
-        hootsuiteAccounts.map(async (account) => getHootsuiteDetails(orgId, account.id, account.addedBy)),
+        hootsuiteAccounts.map(async (account) =>
+            getHootsuiteDetails(orgId, account.id, account.addedBy, account.createdByOperatorOrgId),
+        ),
     );
 
     return hootsuiteAccounts
@@ -221,10 +230,14 @@ export const getHootsuiteAccountList = async (orgId: string): Promise<SocialMedi
                 display: account.display,
                 expiresIn: "N/A",
                 id: account.id,
+                createdByOperatorOrgId: account.createdByOperatorOrgId,
             };
 
             return defaultAccount;
         })
+        .filter((item) =>
+            operatorOrgId ? operatorOrgId === item.createdByOperatorOrgId : !item.createdByOperatorOrgId,
+        )
         .filter(notEmpty);
 };
 
@@ -367,6 +380,7 @@ export const publishToHootsuite = async (
             orgId,
             isUserStaff,
             canPublish,
+            undefined,
         );
     } catch (e) {
         logger.error(e);
