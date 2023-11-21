@@ -41,6 +41,8 @@ interface DisruptionDetailProps {
     errors: ErrorInfo[];
     canPublish: boolean;
     csrfToken?: string;
+    operatorOrgId?: string;
+    isOperatorUser?: boolean;
 }
 
 const DisruptionDetail = ({
@@ -49,6 +51,8 @@ const DisruptionDetail = ({
     csrfToken,
     errors,
     canPublish,
+    operatorOrgId,
+    isOperatorUser,
 }: DisruptionDetailProps): ReactElement => {
     const [socialMediaPostPopUpState, setSocialMediaPostPopUpState] = useState<{
         name: string;
@@ -80,8 +84,12 @@ const DisruptionDetail = ({
         },
     ];
 
+    const isEditingAllowed = operatorOrgId
+        ? disruption.createdByOperatorOrgId === operatorOrgId
+        : !(disruption.createdByOperatorOrgId && !isOperatorUser);
+
     const displaySendToReview = redirect.includes(DISRUPTION_DETAIL_PAGE_PATH) && redirect.includes("template=true");
-    const getSocialMediaRows = (post: SocialMediaPostTransformed) => {
+    const getSocialMediaRows = (post: SocialMediaPostTransformed, isEditingAllowed?: boolean) => {
         const isPendingOrRejected =
             post.status === SocialMediaPostStatus.pending || post.status === SocialMediaPostStatus.rejected;
         const socialMediaTableRows: { header?: string | ReactNode; cells: CellProps[] }[] = [
@@ -92,17 +100,18 @@ const DisruptionDetail = ({
                         value: post.messageContent,
                     },
                     {
-                        value: isPendingOrRejected
-                            ? createChangeLink(
-                                  "message-to-appear",
-                                  CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                  disruption.disruptionId,
-                                  post.socialMediaPostIndex,
-                                  true,
-                                  true,
-                                  !!disruption.template,
-                              )
-                            : "",
+                        value:
+                            isPendingOrRejected && isEditingAllowed
+                                ? createChangeLink(
+                                      "message-to-appear",
+                                      CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                      disruption.disruptionId,
+                                      post.socialMediaPostIndex,
+                                      true,
+                                      true,
+                                      !!disruption.template,
+                                  )
+                                : "",
                         styles: {
                             width: "w-1/10",
                         },
@@ -127,17 +136,18 @@ const DisruptionDetail = ({
                             ),
                     },
                     {
-                        value: isPendingOrRejected
-                            ? createChangeLink(
-                                  "hootsuite-profile",
-                                  CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                  disruption.disruptionId,
-                                  post.socialMediaPostIndex,
-                                  true,
-                                  true,
-                                  !!disruption.template,
-                              )
-                            : "",
+                        value:
+                            isPendingOrRejected && isEditingAllowed
+                                ? createChangeLink(
+                                      "hootsuite-profile",
+                                      CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                      disruption.disruptionId,
+                                      post.socialMediaPostIndex,
+                                      true,
+                                      true,
+                                      !!disruption.template,
+                                  )
+                                : "",
                     },
                 ],
             },
@@ -148,17 +158,18 @@ const DisruptionDetail = ({
                         value: post.accountType === "Hootsuite" && post.publishDate ? post.publishDate : "N/A",
                     },
                     {
-                        value: isPendingOrRejected
-                            ? createChangeLink(
-                                  "publish-date",
-                                  CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                  disruption.disruptionId,
-                                  post.socialMediaPostIndex,
-                                  true,
-                                  true,
-                                  !!disruption.template,
-                              )
-                            : "",
+                        value:
+                            isPendingOrRejected && isEditingAllowed
+                                ? createChangeLink(
+                                      "publish-date",
+                                      CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                      disruption.disruptionId,
+                                      post.socialMediaPostIndex,
+                                      true,
+                                      true,
+                                      !!disruption.template,
+                                  )
+                                : "",
                     },
                 ],
             },
@@ -169,17 +180,18 @@ const DisruptionDetail = ({
                         value: post.accountType === "Hootsuite" && post.publishTime ? post.publishTime : "N/A",
                     },
                     {
-                        value: isPendingOrRejected
-                            ? createChangeLink(
-                                  "publish-time",
-                                  CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                  disruption.disruptionId,
-                                  post.socialMediaPostIndex,
-                                  true,
-                                  true,
-                                  !!disruption.template,
-                              )
-                            : "",
+                        value:
+                            isPendingOrRejected && isEditingAllowed
+                                ? createChangeLink(
+                                      "publish-time",
+                                      CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                      disruption.disruptionId,
+                                      post.socialMediaPostIndex,
+                                      true,
+                                      true,
+                                      !!disruption.template,
+                                  )
+                                : "",
                     },
                 ],
             },
@@ -193,17 +205,18 @@ const DisruptionDetail = ({
                                 : post.socialAccount,
                     },
                     {
-                        value: isPendingOrRejected
-                            ? createChangeLink(
-                                  "account-to-publish",
-                                  CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                  disruption.disruptionId,
-                                  post.socialMediaPostIndex,
-                                  true,
-                                  true,
-                                  !!disruption.template,
-                              )
-                            : "",
+                        value:
+                            isPendingOrRejected && isEditingAllowed
+                                ? createChangeLink(
+                                      "account-to-publish",
+                                      CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                      disruption.disruptionId,
+                                      post.socialMediaPostIndex,
+                                      true,
+                                      true,
+                                      !!disruption.template,
+                                  )
+                                : "",
                     },
                 ],
             },
@@ -214,16 +227,17 @@ const DisruptionDetail = ({
                         value: post.accountType === "Hootsuite" ? post.hootsuiteProfile : "N/A",
                     },
                     {
-                        value: isPendingOrRejected
-                            ? createChangeLink(
-                                  "hootsuite-profile",
-                                  CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                  disruption.disruptionId,
-                                  post.socialMediaPostIndex,
-                                  true,
-                                  true,
-                              )
-                            : "",
+                        value:
+                            isPendingOrRejected && isEditingAllowed
+                                ? createChangeLink(
+                                      "hootsuite-profile",
+                                      CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                      disruption.disruptionId,
+                                      post.socialMediaPostIndex,
+                                      true,
+                                      true,
+                                  )
+                                : "",
                     },
                 ],
             },
@@ -323,15 +337,16 @@ const DisruptionDetail = ({
                     ) : (
                         `${validity.disruptionStartDate} ${validity.disruptionStartTime} - No end date/time`
                     ),
-                    createChangeLink(
-                        `validity-period-${i + 1}`,
-                        "/create-disruption",
-                        disruption.disruptionId,
-                        undefined,
-                        true,
-                        true,
-                        !!disruption.template,
-                    ),
+                    isEditingAllowed &&
+                        createChangeLink(
+                            `validity-period-${i + 1}`,
+                            "/create-disruption",
+                            disruption.disruptionId,
+                            undefined,
+                            true,
+                            true,
+                            !!disruption.template,
+                        ),
                 ],
             };
         });
@@ -405,7 +420,7 @@ const DisruptionDetail = ({
                                     Create disruption
                                 </button>
                             )}
-                        {!disruption.template && (
+                        {!disruption.template && isEditingAllowed && (
                             <Link
                                 className="govuk-link"
                                 href={`${DISRUPTION_HISTORY_PAGE_PATH}/${disruption.disruptionId}`}
@@ -434,15 +449,17 @@ const DisruptionDetail = ({
                                             value: startCase(disruption.disruptionType),
                                         },
                                         {
-                                            value: createChangeLink(
-                                                "type-of-disruption",
-                                                "/create-disruption",
-                                                disruption.disruptionId,
-                                                undefined,
-                                                true,
-                                                true,
-                                                !!disruption.template,
-                                            ),
+                                            value:
+                                                isEditingAllowed &&
+                                                createChangeLink(
+                                                    "type-of-disruption",
+                                                    "/create-disruption",
+                                                    disruption.disruptionId,
+                                                    undefined,
+                                                    true,
+                                                    true,
+                                                    !!disruption.template,
+                                                ),
                                             styles: {
                                                 width: "w-1/10",
                                             },
@@ -456,15 +473,17 @@ const DisruptionDetail = ({
                                             value: disruption.summary,
                                         },
                                         {
-                                            value: createChangeLink(
-                                                "summary",
-                                                "/create-disruption",
-                                                disruption.disruptionId,
-                                                undefined,
-                                                true,
-                                                true,
-                                                !!disruption.template,
-                                            ),
+                                            value:
+                                                isEditingAllowed &&
+                                                createChangeLink(
+                                                    "summary",
+                                                    "/create-disruption",
+                                                    disruption.disruptionId,
+                                                    undefined,
+                                                    true,
+                                                    true,
+                                                    !!disruption.template,
+                                                ),
                                         },
                                     ],
                                 },
@@ -475,15 +494,17 @@ const DisruptionDetail = ({
                                             value: disruption.description,
                                         },
                                         {
-                                            value: createChangeLink(
-                                                "description",
-                                                "/create-disruption",
-                                                disruption.disruptionId,
-                                                undefined,
-                                                true,
-                                                true,
-                                                disruption.template,
-                                            ),
+                                            value:
+                                                isEditingAllowed &&
+                                                createChangeLink(
+                                                    "description",
+                                                    "/create-disruption",
+                                                    disruption.disruptionId,
+                                                    undefined,
+                                                    true,
+                                                    true,
+                                                    disruption.template,
+                                                ),
                                         },
                                     ],
                                 },
@@ -494,15 +515,17 @@ const DisruptionDetail = ({
                                             value: disruption.associatedLink || "N/A",
                                         },
                                         {
-                                            value: createChangeLink(
-                                                "associated-link",
-                                                "/create-disruption",
-                                                disruption.disruptionId,
-                                                undefined,
-                                                true,
-                                                true,
-                                                !!disruption.template,
-                                            ),
+                                            value:
+                                                isEditingAllowed &&
+                                                createChangeLink(
+                                                    "associated-link",
+                                                    "/create-disruption",
+                                                    disruption.disruptionId,
+                                                    undefined,
+                                                    true,
+                                                    true,
+                                                    !!disruption.template,
+                                                ),
                                         },
                                     ],
                                 },
@@ -513,15 +536,17 @@ const DisruptionDetail = ({
                                             value: splitCamelCaseToString(disruption.disruptionReason),
                                         },
                                         {
-                                            value: createChangeLink(
-                                                "disruption-reason",
-                                                "/create-disruption",
-                                                disruption.disruptionId,
-                                                undefined,
-                                                true,
-                                                true,
-                                                !!disruption.template,
-                                            ),
+                                            value:
+                                                isEditingAllowed &&
+                                                createChangeLink(
+                                                    "disruption-reason",
+                                                    "/create-disruption",
+                                                    disruption.disruptionId,
+                                                    undefined,
+                                                    true,
+                                                    true,
+                                                    !!disruption.template,
+                                                ),
                                         },
                                     ],
                                 },
@@ -533,15 +558,17 @@ const DisruptionDetail = ({
                                             value: disruption.publishStartDate,
                                         },
                                         {
-                                            value: createChangeLink(
-                                                "publish-start-date",
-                                                "/create-disruption",
-                                                disruption.disruptionId,
-                                                undefined,
-                                                true,
-                                                true,
-                                                !!disruption.template,
-                                            ),
+                                            value:
+                                                isEditingAllowed &&
+                                                createChangeLink(
+                                                    "publish-start-date",
+                                                    "/create-disruption",
+                                                    disruption.disruptionId,
+                                                    undefined,
+                                                    true,
+                                                    true,
+                                                    !!disruption.template,
+                                                ),
                                         },
                                     ],
                                 },
@@ -552,15 +579,17 @@ const DisruptionDetail = ({
                                             value: formatTime(disruption.publishStartTime),
                                         },
                                         {
-                                            value: createChangeLink(
-                                                "publish-start-time",
-                                                "/create-disruption",
-                                                disruption.disruptionId,
-                                                undefined,
-                                                true,
-                                                true,
-                                                !!disruption.template,
-                                            ),
+                                            value:
+                                                isEditingAllowed &&
+                                                createChangeLink(
+                                                    "publish-start-time",
+                                                    "/create-disruption",
+                                                    disruption.disruptionId,
+                                                    undefined,
+                                                    true,
+                                                    true,
+                                                    !!disruption.template,
+                                                ),
                                         },
                                     ],
                                 },
@@ -571,15 +600,17 @@ const DisruptionDetail = ({
                                             value: disruption.publishEndDate || "N/A",
                                         },
                                         {
-                                            value: createChangeLink(
-                                                "publish-end-date",
-                                                "/create-disruption",
-                                                disruption.disruptionId,
-                                                undefined,
-                                                true,
-                                                true,
-                                                !!disruption.template,
-                                            ),
+                                            value:
+                                                isEditingAllowed &&
+                                                createChangeLink(
+                                                    "publish-end-date",
+                                                    "/create-disruption",
+                                                    disruption.disruptionId,
+                                                    undefined,
+                                                    true,
+                                                    true,
+                                                    !!disruption.template,
+                                                ),
                                         },
                                     ],
                                 },
@@ -592,15 +623,17 @@ const DisruptionDetail = ({
                                                 : "N/A",
                                         },
                                         {
-                                            value: createChangeLink(
-                                                "publish-end-time",
-                                                "/create-disruption",
-                                                disruption.disruptionId,
-                                                undefined,
-                                                true,
-                                                true,
-                                                !!disruption.template,
-                                            ),
+                                            value:
+                                                isEditingAllowed &&
+                                                createChangeLink(
+                                                    "publish-end-time",
+                                                    "/create-disruption",
+                                                    disruption.disruptionId,
+                                                    undefined,
+                                                    true,
+                                                    true,
+                                                    !!disruption.template,
+                                                ),
                                         },
                                     ],
                                 },
@@ -647,27 +680,32 @@ const DisruptionDetail = ({
                                             deleteActionHandler={deleteActionHandler}
                                             isDisruptionDetail={true}
                                             isTemplate={disruption.template}
+                                            isEditingAllowed={isEditingAllowed}
                                         />
                                     </div>
                                 </div>
                             ))}
                         </div>
-                        <Link
-                            href={{
-                                pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${nextIndex}`,
-                                query: {
-                                    return: DISRUPTION_DETAIL_PAGE_PATH,
-                                    ...(disruption.template ? { template: disruption.template?.toString() } : {}),
-                                },
-                            }}
-                            className={`govuk-button mt-2 govuk-button--secondary ${
-                                disruption.consequences && disruption.consequences.length >= MAX_CONSEQUENCES
-                                    ? "pointer-events-none govuk-button--disabled"
-                                    : ""
-                            }`}
-                        >
-                            {disruption.consequences?.length === 0 ? "Add a consequence" : "Add another consequence"}
-                        </Link>
+                        {isEditingAllowed && (
+                            <Link
+                                href={{
+                                    pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${nextIndex}`,
+                                    query: {
+                                        return: DISRUPTION_DETAIL_PAGE_PATH,
+                                        ...(disruption.template ? { template: disruption.template?.toString() } : {}),
+                                    },
+                                }}
+                                className={`govuk-button mt-2 govuk-button--secondary ${
+                                    disruption.consequences && disruption.consequences.length >= MAX_CONSEQUENCES
+                                        ? "pointer-events-none govuk-button--disabled"
+                                        : ""
+                                }`}
+                            >
+                                {disruption.consequences?.length === 0
+                                    ? "Add a consequence"
+                                    : "Add another consequence"}
+                            </Link>
+                        )}
 
                         <br />
 
@@ -691,9 +729,10 @@ const DisruptionDetail = ({
                                         className="govuk-accordion__section-content"
                                         aria-labelledby={`accordion-default-heading-${i + 1}`}
                                     >
-                                        <Table rows={getSocialMediaRows(post)} />
-                                        {post.status === SocialMediaPostStatus.pending ||
-                                        post.status === SocialMediaPostStatus.rejected ? (
+                                        <Table rows={getSocialMediaRows(post, isEditingAllowed)} />
+                                        {(post.status === SocialMediaPostStatus.pending ||
+                                            post.status === SocialMediaPostStatus.rejected) &&
+                                        isEditingAllowed ? (
                                             <button
                                                 key={post.socialMediaPostIndex}
                                                 className="govuk-button govuk-button--warning mt-4"
@@ -713,32 +752,33 @@ const DisruptionDetail = ({
                                 </div>
                             ))}
                         </div>
-
-                        <Link
-                            className={`govuk-button mt-2 govuk-button--secondary ${
-                                disruption.socialMediaPosts && disruption.socialMediaPosts.length >= 5
-                                    ? "pointer-events-none govuk-button--disabled"
-                                    : ""
-                            }`}
-                            href={{
-                                pathname: `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
-                                query: {
-                                    return: DISRUPTION_DETAIL_PAGE_PATH,
-                                    ...(disruption.template ? { template: disruption.template?.toString() } : {}),
-                                },
-                            }}
-                        >
-                            {disruption.socialMediaPosts && disruption.socialMediaPosts.length > 0
-                                ? "Add another social media post"
-                                : "Add a social media post"}
-                        </Link>
-
+                        {isEditingAllowed && (
+                            <Link
+                                className={`govuk-button mt-2 govuk-button--secondary ${
+                                    disruption.socialMediaPosts && disruption.socialMediaPosts.length >= 5
+                                        ? "pointer-events-none govuk-button--disabled"
+                                        : ""
+                                }`}
+                                href={{
+                                    pathname: `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
+                                    query: {
+                                        return: DISRUPTION_DETAIL_PAGE_PATH,
+                                        ...(disruption.template ? { template: disruption.template?.toString() } : {}),
+                                    },
+                                }}
+                            >
+                                {disruption.socialMediaPosts && disruption.socialMediaPosts.length > 0
+                                    ? "Add another social media post"
+                                    : "Add a social media post"}
+                            </Link>
+                        )}
                         <br />
 
                         <input type="hidden" name="disruptionId" value={disruption.disruptionId} />
 
-                        {disruption.publishStatus !== PublishStatus.editing &&
-                        disruption.publishStatus !== PublishStatus.pendingAndEditing ? (
+                        {(disruption.publishStatus !== PublishStatus.editing &&
+                            disruption.publishStatus !== PublishStatus.pendingAndEditing) ||
+                        !isEditingAllowed ? (
                             <Link
                                 role="button"
                                 href={redirect}
@@ -755,6 +795,7 @@ const DisruptionDetail = ({
                         ) : null}
 
                         {!canPublish &&
+                        isEditingAllowed &&
                         !disruption.template &&
                         (disruption.publishStatus === PublishStatus.editing ||
                             disruption.publishStatus === PublishStatus.pendingAndEditing) ? (
@@ -763,7 +804,9 @@ const DisruptionDetail = ({
                             </button>
                         ) : null}
 
-                        {(canPublish || disruption.template) && disruption.publishStatus !== PublishStatus.published ? (
+                        {(canPublish || disruption.template) &&
+                        disruption.publishStatus !== PublishStatus.published &&
+                        isEditingAllowed ? (
                             <>
                                 <button className="govuk-button mt-8 govuk-button" data-module="govuk-button">
                                     {disruption.template ? "Save changes" : "Publish disruption"}
@@ -780,8 +823,9 @@ const DisruptionDetail = ({
                             </>
                         ) : null}
 
-                        {disruption.publishStatus === PublishStatus.editing ||
-                        disruption.publishStatus === PublishStatus.pendingAndEditing ? (
+                        {(disruption.publishStatus === PublishStatus.editing ||
+                            disruption.publishStatus === PublishStatus.pendingAndEditing) &&
+                        isEditingAllowed ? (
                             <button
                                 className="govuk-button govuk-button--secondary mt-8 ml-5"
                                 data-module="govuk-button"
@@ -791,7 +835,7 @@ const DisruptionDetail = ({
                             </button>
                         ) : null}
 
-                        {canPublish && (
+                        {canPublish && isEditingAllowed && (
                             <button
                                 className="govuk-button govuk-button--warning ml-5 mt-8"
                                 data-module="govuk-button"
@@ -808,7 +852,9 @@ const DisruptionDetail = ({
                                 {disruption.template ? "Delete template" : "Delete disruption"}
                             </button>
                         )}
-                        {disruption.publishStatus === PublishStatus.published && !disruption.template ? (
+                        {disruption.publishStatus === PublishStatus.published &&
+                        !disruption.template &&
+                        isEditingAllowed ? (
                             <button
                                 className="govuk-button govuk-button--secondary ml-5 mt-8"
                                 data-module="govuk-button"
@@ -910,6 +956,8 @@ export const getServerSideProps = async (
             redirect: referer || "/dashboard",
             errors: errors,
             canPublish: canPublish(session),
+            operatorOrgId: session.operatorOrgId || "",
+            isOperatorUser: session.isOperatorUser,
         },
     };
 };

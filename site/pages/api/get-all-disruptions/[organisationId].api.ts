@@ -7,7 +7,12 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
 import { VEHICLE_MODES } from "../../../constants";
 import { getDisruptionsDataFromDynamo } from "../../../data/dynamo";
-import { getDisplayByValue, mapValidityPeriods, reduceStringWithEllipsis } from "../../../utils";
+import {
+    filterDisruptionsForOperatorUser,
+    getDisplayByValue,
+    mapValidityPeriods,
+    reduceStringWithEllipsis,
+} from "../../../utils";
 import { getSession } from "../../../utils/apiUtils/auth";
 import { isLiveDisruption } from "../../../utils/dates";
 
@@ -171,8 +176,8 @@ const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResp
 
     const { template } = req.query;
 
-    if (!session) {
-        res.status(403).json({});
+    if (!session || (session.isOperatorUser && template)) {
+        res.status(403);
         return;
     }
 
@@ -201,8 +206,14 @@ const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResp
         nextKey,
     );
 
-    if (disruptions) {
-        const filteredDisruptions = disruptions.filter(
+    let disruptionsData = disruptions;
+
+    if (session.isOperatorUser) {
+        disruptionsData = filterDisruptionsForOperatorUser(disruptionsData, session.operatorOrgId);
+    }
+
+    if (disruptionsData) {
+        const filteredDisruptions = disruptionsData.filter(
             (item) =>
                 item.publishStatus === PublishStatus.published ||
                 item.publishStatus === PublishStatus.draft ||

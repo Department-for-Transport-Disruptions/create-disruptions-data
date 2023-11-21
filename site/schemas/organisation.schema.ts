@@ -13,9 +13,9 @@ export type ModeType = z.infer<typeof modeSchema>;
 
 export const defaultModes: ModeType = {
     bus: Datasource.bods,
-    tram: Datasource.bods,
-    ferryService: Datasource.bods,
-    rail: Datasource.bods,
+    tram: Datasource.tnds,
+    ferryService: Datasource.tnds,
+    rail: Datasource.tnds,
 };
 
 export const organisationSchema = z.object({
@@ -33,3 +33,25 @@ export const areaCodeSchema = z.string().transform((item) => ({
 }));
 
 export type AreaCodeValuePair = z.infer<typeof areaCodeSchema>;
+
+export const subOrganisationSchema = z.object({
+    name: z.string(),
+    PK: z.string(),
+    nocCodes: z.array(z.string()),
+    SK: z.string(),
+});
+
+export type SubOrganisation = z.infer<typeof subOrganisationSchema>;
+
+export const subOrganisationsSchema = z.array(subOrganisationSchema);
+
+export const operatorOrgSchema = subOrganisationSchema.transform((data) => ({
+    orgId: data.PK,
+    operatorOrgId: data.SK.replace("OPERATOR#", ""),
+    name: data.name,
+    nocCodes: data.nocCodes,
+}));
+
+export type OperatorOrgSchema = z.infer<typeof operatorOrgSchema>;
+
+export const operatorOrgListSchema = z.array(operatorOrgSchema);

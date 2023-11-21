@@ -2,7 +2,7 @@ import { render, screen } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import AccountSettings from "./account-settings.page";
-import { defaultModes } from "../schemas/organisation.schema";
+import { DEFAULT_OPERATOR_ORG_ID, DEFAULT_ORG_ID, mockSessionWithOrgDetail } from "../testData/mockData";
 import * as user from "../utils/user";
 
 describe("accountSettings", () => {
@@ -20,25 +20,7 @@ describe("accountSettings", () => {
 
     const getDisruptionEmailPreferenceSpy = vi.spyOn(user, "getDisruptionEmailPreference");
     it("should render correctly for organisation admin", () => {
-        const tree = renderer
-            .create(
-                <AccountSettings
-                    sessionWithOrg={{
-                        email: "test@example.com",
-                        username: "Test",
-                        orgId: "org",
-                        adminAreaCodes: [],
-                        orgName: "Test Org",
-                        isOrgAdmin: true,
-                        isOrgPublisher: false,
-                        isOrgStaff: false,
-                        isSystemAdmin: false,
-                        name: "Test User",
-                        mode: defaultModes,
-                    }}
-                />,
-            )
-            .toJSON();
+        const tree = renderer.create(<AccountSettings sessionWithOrg={mockSessionWithOrgDetail} />).toJSON();
         expect(tree).toMatchSnapshot();
     });
 
@@ -46,17 +28,9 @@ describe("accountSettings", () => {
         const { unmount } = render(
             <AccountSettings
                 sessionWithOrg={{
-                    email: "test@example.com",
-                    username: "Test",
-                    orgId: "org",
-                    adminAreaCodes: [],
-                    orgName: "Test Org",
+                    ...mockSessionWithOrgDetail,
                     isOrgAdmin: false,
-                    isOrgPublisher: false,
-                    isOrgStaff: false,
                     isSystemAdmin: true,
-                    name: "Test User",
-                    mode: defaultModes,
                 }}
             />,
         );
@@ -72,17 +46,30 @@ describe("accountSettings", () => {
             .create(
                 <AccountSettings
                     sessionWithOrg={{
-                        email: "test@example.com",
-                        username: "Test",
-                        orgId: "org",
-                        adminAreaCodes: [],
-                        orgName: "Test Org",
+                        ...mockSessionWithOrgDetail,
                         isOrgAdmin: false,
                         isOrgPublisher: true,
-                        isOrgStaff: true,
-                        isSystemAdmin: false,
-                        name: "Test User",
-                        mode: defaultModes,
+                    }}
+                />,
+            )
+            .toJSON();
+        expect(tree).toMatchSnapshot();
+    });
+
+    it("should render correctly for operator", () => {
+        const tree = renderer
+            .create(
+                <AccountSettings
+                    sessionWithOrg={{
+                        ...mockSessionWithOrgDetail,
+                        isOperatorUser: true,
+                        operatorOrgId: DEFAULT_OPERATOR_ORG_ID,
+                    }}
+                    operator={{
+                        nocCodes: ["WRAY", "CPTR", "MOXN"],
+                        operatorOrgId: DEFAULT_OPERATOR_ORG_ID,
+                        orgId: DEFAULT_ORG_ID,
+                        name: "add-op",
                     }}
                 />,
             )

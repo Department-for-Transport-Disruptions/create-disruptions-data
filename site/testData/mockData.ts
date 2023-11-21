@@ -1,19 +1,15 @@
 import { UserStatusType } from "@aws-sdk/client-cognito-identity-provider";
-import { Consequence, Disruption, DisruptionInfo, Service } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Consequence, Disruption, Service } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import {
     Datasource,
-    DayType,
-    EnvironmentReason,
     MiscellaneousReason,
     PersonnelReason,
     Progress,
     PublishStatus,
     Severity,
     SocialMediaPostStatus,
-    SourceType,
     VehicleMode,
 } from "@create-disruptions-data/shared-ts/enums";
-import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes";
 import { mockRequest, mockResponse } from "mock-req-res";
 import { NextApiRequest, NextApiResponse, NextPageContext } from "next";
 import React from "react";
@@ -22,11 +18,13 @@ import { ParsedUrlQuery } from "querystring";
 import { COOKIES_ID_TOKEN, COOKIES_POLICY_COOKIE } from "../constants";
 import { Operator, ServiceApiResponse } from "../schemas/consequence.schema";
 import { ExportDisruptions, FullDisruption } from "../schemas/disruption.schema";
-import { Session } from "../schemas/session.schema";
+import { defaultModes } from "../schemas/organisation.schema";
+import { Session, SessionWithOrgDetail } from "../schemas/session.schema";
 import { HootsuitePost } from "../schemas/social-media.schema";
 import { getFutureDateAsString } from "../utils/dates";
 
 export const DEFAULT_ORG_ID = "35bae327-4af0-4bbf-8bfa-2c085f214483";
+export const DEFAULT_OPERATOR_ORG_ID = "e18499ff-779c-4e74-b5cb-623be0adf24f";
 export const DEFAULT_DISRUPTION_ID = "8befe1e9-e317-45af-825a-e0254fabf49d";
 
 export const DEFAULT_IMAGE_BUCKET_NAME = "cdd-image-bucket";
@@ -144,193 +142,6 @@ export interface GetMockRequestAndResponse {
     url?: string | null;
     query?: qs.ParsedQs | null;
 }
-
-export const databaseData: PtSituationElement[] = [
-    {
-        CreationTime: "2023-01-01T01:10:00Z",
-        ParticipantRef: "ref",
-        SituationNumber: "aaaaa-bbbbb-ccccc",
-        Version: 1,
-        Source: {
-            SourceType: SourceType.feed,
-            TimeOfCommunication: "2023-01-01T01:10:00Z",
-        },
-        Progress: Progress.open,
-        ValidityPeriod: [
-            {
-                StartTime: "2023-03-03T01:10:00Z",
-            },
-        ],
-        PublicationWindow: {
-            StartTime: "2023-03-02T10:10:00Z",
-            EndTime: "2023-03-09T10:10:00Z",
-        },
-        ReasonType: "PersonnelReason",
-        PersonnelReason: PersonnelReason.staffSickness,
-        Planned: true,
-        Summary: "Disruption Summary",
-        Description: "Disruption Description",
-    },
-    {
-        PublicationWindow: {
-            StartTime: "2023-03-05T10:10:00Z",
-            EndTime: "2023-05-09T10:10:00Z",
-        },
-        Source: {
-            SourceType: SourceType.directReport,
-            TimeOfCommunication: "2023-02-02T10:10:00Z",
-        },
-        ReasonType: "MiscellaneousReason",
-        MiscellaneousReason: MiscellaneousReason.vegetation,
-        CreationTime: "2023-02-02T05:10:00Z",
-        ParticipantRef: "ref2",
-        SituationNumber: "11111-22222-33333",
-        Version: 2,
-        Progress: Progress.closing,
-        ValidityPeriod: [
-            {
-                StartTime: "2023-03-03T01:10:00Z",
-                EndTime: "2023-05-01T01:10:00Z",
-            },
-            {
-                StartTime: "2023-05-03T01:10:00Z",
-            },
-        ],
-        Planned: false,
-        Summary: "Disruption Summary 2",
-        Description: "Disruption Description 2",
-        InfoLinks: {
-            InfoLink: [
-                {
-                    Uri: "https://example.com",
-                },
-                {
-                    Uri: "https://example.com/2",
-                },
-            ],
-        },
-        References: {
-            RelatedToRef: [
-                {
-                    ParticipantRef: "ref",
-                    CreationTime: "2023-01-01T01:10:00Z",
-                    SituationNumber: "aaaaa-bbbbb-ccccc",
-                },
-            ],
-        },
-    },
-    {
-        PublicationWindow: {
-            StartTime: "2023-03-05T10:10:00Z",
-        },
-        Source: {
-            SourceType: SourceType.directReport,
-            TimeOfCommunication: "2023-02-02T10:10:00Z",
-        },
-        ReasonType: "EnvironmentReason",
-        EnvironmentReason: EnvironmentReason.grassFire,
-        CreationTime: "2023-03-05T05:10:00Z",
-        ParticipantRef: "ref3",
-        SituationNumber: "ddddd-eeeee-fffff",
-        Version: 1,
-        Progress: Progress.published,
-        ValidityPeriod: [
-            {
-                StartTime: "2023-03-03T01:10:00Z",
-            },
-        ],
-        Planned: true,
-        Summary: "Disruption Summary 3",
-        Description: "Disruption Description 3",
-        Repetitions: {
-            DayType: [DayType.saturday, DayType.sunday],
-        },
-    },
-];
-
-export const randomlyGeneratedDisruptions: PtSituationElement[] = [
-    {
-        CreationTime: "2023-01-01T01:10:00Z",
-        ParticipantRef: "ref",
-        SituationNumber: "cd544ea5-f9a0-4bba-b535-3352f39c1597",
-        Version: 1,
-        Source: {
-            SourceType: SourceType.feed,
-            TimeOfCommunication: "2023-01-01T01:10:00Z",
-        },
-        Progress: Progress.open,
-        ValidityPeriod: [{ StartTime: "2024-10-03T05:48:00.755Z" }],
-        PublicationWindow: {
-            StartTime: "2023-03-02T10:10:00Z",
-            EndTime: "2023-03-09T10:10:00Z",
-        },
-        ReasonType: "PersonnelReason",
-        PersonnelReason: PersonnelReason.staffSickness,
-        Planned: true,
-        Summary:
-            "Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be weak to bus information.",
-        Description: "Disruption Description",
-        Consequences: {
-            Consequence: [
-                {
-                    Condition: "unknown",
-                    Severity: Severity.verySevere,
-                    Affects: {
-                        Networks: {
-                            AffectedNetwork: { VehicleMode: VehicleMode.tram, AllLines: "" },
-                        },
-                    },
-                    Advice: { Details: "Some Advice" },
-                    Blocking: { JourneyPlanner: false },
-                    Delays: { Delay: "PT10M" },
-                },
-            ],
-        },
-    },
-    {
-        CreationTime: "2023-01-01T01:10:00Z",
-        ParticipantRef: "ref",
-        SituationNumber: "d4e5f0d0-7222-45b1-a12d-38113fbc4e93",
-        Version: 1,
-        Source: { SourceType: SourceType.feed, TimeOfCommunication: "2023-01-01T01:10:00Z" },
-        Progress: Progress.draft,
-        ValidityPeriod: [{ StartTime: "2022-10-23T17:37:27.197Z", EndTime: "2022-10-30T17:37:27.197Z" }],
-        PublicationWindow: { StartTime: "2023-03-02T10:10:00Z", EndTime: "2023-03-09T10:10:00Z" },
-        ReasonType: "PersonnelReason",
-        PersonnelReason: PersonnelReason.staffSickness,
-        Planned: true,
-        Summary: "Mongeese loose from petting zoo",
-        Description: "Disruption Description",
-        Consequences: {
-            Consequence: [
-                {
-                    Condition: "unknown",
-                    Severity: Severity.verySlight,
-                    Affects: { Networks: { AffectedNetwork: { VehicleMode: VehicleMode.bus, AllLines: "" } } },
-                    Advice: { Details: "Some Advice" },
-                    Blocking: { JourneyPlanner: false },
-                    Delays: { Delay: "PT10M" },
-                },
-            ],
-        },
-    },
-];
-
-export const disruptionInfoTest: DisruptionInfo = {
-    disruptionId: "test",
-    description: "Test description",
-    disruptionType: "planned",
-    summary: "Some summary",
-    associatedLink: "https://example.com",
-    disruptionReason: EnvironmentReason.grassFire,
-    publishStartDate: "10/03/2023",
-    publishStartTime: "1200",
-    disruptionStartDate: "10/03/2023",
-    disruptionStartTime: "1200",
-    disruptionNoEndDateTime: "true",
-    displayId: "8fg3ha",
-    orgId: DEFAULT_ORG_ID,
-};
 
 export const disruptionWithNoConsequences: FullDisruption = {
     publishStatus: PublishStatus.draft,
@@ -1020,9 +831,27 @@ export const mockSession: Session = {
     isOrgPublisher: false,
     isOrgStaff: false,
     isSystemAdmin: true,
+    isOperatorUser: false,
     orgId: DEFAULT_ORG_ID,
     username: "test@example.com",
     name: "Test User",
+    operatorOrgId: null,
+};
+
+export const mockSessionWithOrgDetail: SessionWithOrgDetail = {
+    email: "test@example.com",
+    username: "test@example.com",
+    orgId: DEFAULT_ORG_ID,
+    adminAreaCodes: [],
+    orgName: "Test Org",
+    isOrgAdmin: true,
+    isOrgPublisher: false,
+    isOrgStaff: false,
+    isSystemAdmin: false,
+    name: "Test User",
+    mode: defaultModes,
+    isOperatorUser: false,
+    operatorOrgId: null,
 };
 
 export const mockGetUserDetails = Promise.resolve({

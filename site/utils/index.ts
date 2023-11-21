@@ -9,7 +9,7 @@ import {
     Stop,
     StopsConsequence,
 } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, Modes, VehicleMode, PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import lowerCase from "lodash/lowerCase";
 import startCase from "lodash/startCase";
@@ -133,6 +133,14 @@ export const sortServices = <T extends Service>(services: T[]): T[] => {
 };
 
 export const toLowerStartCase = (text: string) => startCase(text.toLowerCase());
+
+export const filterDisruptionsForOperatorUser = (disruptions: Disruption[], operatorOrgId: string | null) => {
+    return disruptions.filter(
+        (disruption) =>
+            disruption.createdByOperatorOrgId === operatorOrgId ||
+            (!disruption.createdByOperatorOrgId && disruption.publishStatus === PublishStatus.published),
+    );
+};
 
 export const getStops = async (
     serviceRef: string,

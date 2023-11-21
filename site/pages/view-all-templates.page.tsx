@@ -1,5 +1,5 @@
 import { Progress } from "@create-disruptions-data/shared-ts/enums";
-import { NextPageContext } from "next";
+import { NextPageContext, Redirect } from "next";
 import { ReactElement } from "react";
 import { randomUUID } from "crypto";
 import { BaseLayout } from "../components/layout/Layout";
@@ -30,7 +30,9 @@ const ViewAllTemplates = ({
     );
 };
 
-export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: ViewAllContentProps }> => {
+export const getServerSideProps = async (
+    ctx: NextPageContext,
+): Promise<{ props: ViewAllContentProps } | { redirect: Redirect }> => {
     const baseProps = {
         props: {
             newContentId: randomUUID(),
@@ -47,6 +49,15 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     if (!session) {
         return baseProps;
+    }
+
+    if (session.isOperatorUser) {
+        return {
+            redirect: {
+                destination: "/404",
+                statusCode: 302,
+            },
+        };
     }
 
     const showPending = ctx.query.pending?.toString() === "true";

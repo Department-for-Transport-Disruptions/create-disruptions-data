@@ -57,6 +57,20 @@ describe("ReviewConsequenceTable", () => {
                     consequence={previousConsequencesInformation}
                     disruption={previousDisruptionInformation}
                     deleteActionHandler={vi.fn()}
+                    isEditingAllowed={true}
+                />,
+            )
+            .toJSON();
+        expect(tree).toMatchSnapshot();
+    });
+    it("should render the table with data without change links", () => {
+        const tree = renderer
+            .create(
+                <ReviewConsequenceTable
+                    consequence={previousConsequencesInformation}
+                    disruption={previousDisruptionInformation}
+                    deleteActionHandler={vi.fn()}
+                    isEditingAllowed={false}
                 />,
             )
             .toJSON();

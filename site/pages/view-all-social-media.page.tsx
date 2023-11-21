@@ -122,7 +122,13 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("No session found");
     }
 
-    const socialMediaPosts = await getPublishedSocialMediaPosts(session.orgId);
+    let socialMediaPosts = await getPublishedSocialMediaPosts(session.orgId);
+
+    socialMediaPosts = session.isOperatorUser
+        ? socialMediaPosts.filter(
+              (post) => post.createdByOperatorOrgId && post.createdByOperatorOrgId === session.operatorOrgId,
+          )
+        : socialMediaPosts.filter((post) => !post.createdByOperatorOrgId);
 
     let socialMediaWithImageLinks: SocialMediaPost[] = [];
     if (socialMediaPosts && process.env.IMAGE_BUCKET_NAME) {

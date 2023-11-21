@@ -35,7 +35,7 @@ import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
 } from "../../../constants";
-import { getDisruptionById } from "../../../data/dynamo";
+import { getDisruptionById, getNocCodesForOperatorOrg } from "../../../data/dynamo";
 import { fetchServiceRoutes, fetchServices, fetchServicesByStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { ServiceWithStopAndRoutes } from "../../../schemas/consequence.schema";
@@ -89,13 +89,20 @@ const getMode = (vehicleMode: Modes | VehicleMode) => {
     return mode;
 };
 
-const getServices = async (source: Datasource, vehicleMode: VehicleMode, adminAreaCodes?: string[]) => {
+const getServices = async (
+    source: Datasource,
+    vehicleMode: VehicleMode,
+    adminAreaCodes?: string[],
+    isOperatorUser?: boolean,
+    operatorUserNocCodes?: string[],
+) => {
     const mode = getMode(vehicleMode);
 
     const serviceData = await fetchServices({
         adminAreaCodes,
         dataSource: source,
         modes: mode,
+        nocCodes: isOperatorUser && operatorUserNocCodes ? operatorUserNocCodes : [],
     });
 
     return filterServices(serviceData);
@@ -116,6 +123,8 @@ export interface CreateConsequenceServicesProps
         CreateConsequenceProps {
     consequenceDataSource: Datasource | null;
     globalDataSource: Datasource | null;
+    isOperatorUser?: boolean;
+    operatorUserNocCodes?: string[];
     initialStops: Stop[];
 }
 
@@ -252,6 +261,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                     atcoCodes: [stopToAdd.atcoCode],
                     includeRoutes: true,
                     dataSource: dataSource,
+                    nocCodes: props.isOperatorUser && props.operatorUserNocCodes ? props.operatorUserNocCodes : [],
                     adminAreaCodes: pageState.sessionWithOrg?.adminAreaCodes,
                 });
 
@@ -366,7 +376,13 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                     : props.sessionWithOrg?.mode[pageState.inputs.vehicleMode];
 
             if (source) {
-                getServices(source, pageState.inputs.vehicleMode, props.sessionWithOrg?.adminAreaCodes)
+                getServices(
+                    source,
+                    pageState.inputs.vehicleMode,
+                    props.sessionWithOrg?.adminAreaCodes,
+                    props.isOperatorUser,
+                    props.operatorUserNocCodes,
+                )
                     .then((services) => {
                         setServiceOptionsForDropdown(services);
 
@@ -796,6 +812,11 @@ export const getServerSideProps = async (
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_SERVICES_ERRORS, ctx.res);
 
+    const operatorUserNocCodes =
+        session.isOperatorUser && session.operatorOrgId
+            ? await getNocCodesForOperatorOrg(session.orgId, session.operatorOrgId)
+            : [];
+
     return {
         props: {
             ...pageState,
@@ -808,6 +829,8 @@ export const getServerSideProps = async (
             consequenceDataSource,
             globalDataSource,
             isEdit: !!consequence,
+            isOperatorUser: session.isOperatorUser,
+            operatorUserNocCodes: operatorUserNocCodes,
         },
     };
 };
