@@ -6,17 +6,19 @@ import { BaseLayout } from "../components/layout/Layout";
 import Tabs from "../components/layout/Tabs";
 import { CREATE_DISRUPTION_PAGE_PATH } from "../constants";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
+import { convertDateTimeToFormat } from "../utils/dates";
 
 const title = "View All Roadworks";
 const description = "View All Roadworks page for the Create Transport Disruptions Service";
 export interface Roadwork {
-    id: string;
+    permitReferenceNumber: string;
     proposedStartDateTime: string;
     proposedEndDateTime: string;
     actualStartDateTime: string;
     actualEndDateTime: string;
     workStatus: string;
     streetName: string;
+    trafficManagementType: string;
 }
 
 export interface ViewAllRoadworksProps {
@@ -47,34 +49,206 @@ const columns: TableColumn<RoadworksTable>[] = [
     },
 ];
 
-const mockRoadworkData: RoadworksTable[] = [
+const mockRoadworks: Roadwork[] = [
     {
-        datesAffected: "01/12/2023 - 15/12/2023",
-        description: "Corporation street - Utility repair and maintenance work",
-        action: (
-            <Link className="govuk-link" href={CREATE_DISRUPTION_PAGE_PATH}>
-                Create disruption
-            </Link>
-        ),
+        permitReferenceNumber: "LM213MB10186822-01",
+        actualStartDateTime: "2023-10-29T08:36:00.000Z",
+        actualEndDateTime: "2023-11-01T00:00:00.000Z",
+        proposedStartDateTime: "2023-10-29T08:36:00.000Z",
+        proposedEndDateTime: "2023-11-01T00:00:00.000Z",
+        streetName: "New Station Street",
+        trafficManagementType: "Road closure",
+        workStatus: "Works in progress",
     },
     {
-        datesAffected: "01/12/2023 - 15/12/2023",
-        description: "My description",
-        action: (
-            <Link className="govuk-link" href={CREATE_DISRUPTION_PAGE_PATH}>
-                View disruption
-            </Link>
-        ),
+        permitReferenceNumber: "LM213MB10186822-01",
+        actualStartDateTime: "2023-10-01T08:36:00.000Z",
+        actualEndDateTime: "2023-10-15T00:00:00.000Z",
+        proposedStartDateTime: "2023-10-29T08:36:00.000Z",
+        proposedEndDateTime: "2023-11-01T00:00:00.000Z",
+        streetName: "Wellington Street",
+        trafficManagementType: "Stop/go boards",
+        workStatus: "Works in progress",
+    },
+    {
+        permitReferenceNumber: "LM213MB10186822-01",
+        actualStartDateTime: "2023-12-01T08:36:00.000Z",
+        actualEndDateTime: "2023-12-10T00:00:00.000Z",
+        proposedStartDateTime: "2023-10-29T08:36:00.000Z",
+        proposedEndDateTime: "2023-11-01T00:00:00.000Z",
+        streetName: "Call Lane",
+        trafficManagementType: "Two way signals",
+        workStatus: "Works in progress",
+    },
+    {
+        permitReferenceNumber: "LM213MB10186822-01",
+        actualStartDateTime: "2023-10-29T08:36:00.000Z",
+        actualEndDateTime: "2023-11-01T00:00:00.000Z",
+        proposedStartDateTime: "2023-10-29T08:36:00.000Z",
+        proposedEndDateTime: "2023-11-01T00:00:00.000Z",
+        streetName: "New Station Street",
+        trafficManagementType: "Road closure",
+        workStatus: "Works in progress",
+    },
+    {
+        permitReferenceNumber: "LM213MB10186822-01",
+        actualStartDateTime: "2023-10-01T08:36:00.000Z",
+        actualEndDateTime: "2023-10-15T00:00:00.000Z",
+        proposedStartDateTime: "2023-10-29T08:36:00.000Z",
+        proposedEndDateTime: "2023-11-01T00:00:00.000Z",
+        streetName: "Wellington Street",
+        trafficManagementType: "Stop/go boards",
+        workStatus: "Works in progress",
+    },
+    {
+        permitReferenceNumber: "LM213MB10186822-01",
+        actualStartDateTime: "2023-12-01T08:36:00.000Z",
+        actualEndDateTime: "2023-12-10T00:00:00.000Z",
+        proposedStartDateTime: "2023-10-29T08:36:00.000Z",
+        proposedEndDateTime: "2023-11-01T00:00:00.000Z",
+        streetName: "Call Lane",
+        trafficManagementType: "Two way signals",
+        workStatus: "Works in progress",
+    },
+    {
+        permitReferenceNumber: "LM213MB10186822-01",
+        actualStartDateTime: "2023-10-29T08:36:00.000Z",
+        actualEndDateTime: "2023-11-01T00:00:00.000Z",
+        proposedStartDateTime: "2023-10-29T08:36:00.000Z",
+        proposedEndDateTime: "2023-11-01T00:00:00.000Z",
+        streetName: "New Station Street",
+        trafficManagementType: "Road closure",
+        workStatus: "Works in progress",
+    },
+    {
+        permitReferenceNumber: "LM213MB10186822-01",
+        actualStartDateTime: "2023-10-01T08:36:00.000Z",
+        actualEndDateTime: "2023-10-15T00:00:00.000Z",
+        proposedStartDateTime: "2023-10-29T08:36:00.000Z",
+        proposedEndDateTime: "2023-11-01T00:00:00.000Z",
+        streetName: "Wellington Street",
+        trafficManagementType: "Stop/go boards",
+        workStatus: "Works in progress",
+    },
+    {
+        permitReferenceNumber: "LM213MB10186822-01",
+        actualStartDateTime: "2023-12-01T08:36:00.000Z",
+        actualEndDateTime: "2023-12-10T00:00:00.000Z",
+        proposedStartDateTime: "2023-10-29T08:36:00.000Z",
+        proposedEndDateTime: "2023-11-01T00:00:00.000Z",
+        streetName: "Call Lane",
+        trafficManagementType: "Two way signals",
+        workStatus: "Works in progress",
+    },
+    {
+        permitReferenceNumber: "LM213MB10186822-01",
+        actualStartDateTime: "2023-10-29T08:36:00.000Z",
+        actualEndDateTime: "2023-11-01T00:00:00.000Z",
+        proposedStartDateTime: "2023-10-29T08:36:00.000Z",
+        proposedEndDateTime: "2023-11-01T00:00:00.000Z",
+        streetName: "New Station Street",
+        trafficManagementType: "Road closure",
+        workStatus: "Works in progress",
+    },
+    {
+        permitReferenceNumber: "LM213MB10186822-01",
+        actualStartDateTime: "2023-10-01T08:36:00.000Z",
+        actualEndDateTime: "2023-10-15T00:00:00.000Z",
+        proposedStartDateTime: "2023-10-29T08:36:00.000Z",
+        proposedEndDateTime: "2023-11-01T00:00:00.000Z",
+        streetName: "Wellington Street",
+        trafficManagementType: "Stop/go boards",
+        workStatus: "Works in progress",
+    },
+    {
+        permitReferenceNumber: "LM213MB10186822-01",
+        actualStartDateTime: "2023-12-01T08:36:00.000Z",
+        actualEndDateTime: "2023-12-10T00:00:00.000Z",
+        proposedStartDateTime: "2023-10-29T08:36:00.000Z",
+        proposedEndDateTime: "2023-11-01T00:00:00.000Z",
+        streetName: "Call Lane",
+        trafficManagementType: "Two way signals",
+        workStatus: "Works in progress",
+    },
+    {
+        permitReferenceNumber: "LM213MB10186822-01",
+        actualStartDateTime: "2023-10-29T08:36:00.000Z",
+        actualEndDateTime: "2023-11-01T00:00:00.000Z",
+        proposedStartDateTime: "2023-10-29T08:36:00.000Z",
+        proposedEndDateTime: "2023-11-01T00:00:00.000Z",
+        streetName: "New Station Street",
+        trafficManagementType: "Road closure",
+        workStatus: "Works in progress",
+    },
+    {
+        permitReferenceNumber: "LM213MB10186822-01",
+        actualStartDateTime: "2023-10-01T08:36:00.000Z",
+        actualEndDateTime: "2023-10-15T00:00:00.000Z",
+        proposedStartDateTime: "2023-10-29T08:36:00.000Z",
+        proposedEndDateTime: "2023-11-01T00:00:00.000Z",
+        streetName: "Wellington Street",
+        trafficManagementType: "Stop/go boards",
+        workStatus: "Works in progress",
+    },
+    {
+        permitReferenceNumber: "LM213MB10186822-01",
+        actualStartDateTime: "2023-12-01T08:36:00.000Z",
+        actualEndDateTime: "2023-12-10T00:00:00.000Z",
+        proposedStartDateTime: "2023-10-29T08:36:00.000Z",
+        proposedEndDateTime: "2023-11-01T00:00:00.000Z",
+        streetName: "Call Lane",
+        trafficManagementType: "Two way signals",
+        workStatus: "Works in progress",
+    },
+    {
+        permitReferenceNumber: "LM213MB10186822-01",
+        actualStartDateTime: "2023-10-29T08:36:00.000Z",
+        actualEndDateTime: "2023-11-01T00:00:00.000Z",
+        proposedStartDateTime: "2023-10-29T08:36:00.000Z",
+        proposedEndDateTime: "2023-11-01T00:00:00.000Z",
+        streetName: "New Station Street",
+        trafficManagementType: "Road closure",
+        workStatus: "Works in progress",
+    },
+    {
+        permitReferenceNumber: "LM213MB10186822-01",
+        actualStartDateTime: "2023-10-01T08:36:00.000Z",
+        actualEndDateTime: "2023-10-15T00:00:00.000Z",
+        proposedStartDateTime: "2023-10-29T08:36:00.000Z",
+        proposedEndDateTime: "2023-11-01T00:00:00.000Z",
+        streetName: "Wellington Street",
+        trafficManagementType: "Stop/go boards",
+        workStatus: "Works in progress",
+    },
+    {
+        permitReferenceNumber: "LM213MB10186822-01",
+        actualStartDateTime: "2023-12-01T08:36:00.000Z",
+        actualEndDateTime: "2023-12-10T00:00:00.000Z",
+        proposedStartDateTime: "2023-10-29T08:36:00.000Z",
+        proposedEndDateTime: "2023-11-01T00:00:00.000Z",
+        streetName: "Call Lane",
+        trafficManagementType: "Two way signals",
+        workStatus: "Works in progress",
     },
 ];
 
-const formatRows = (roadworks: Roadwork[]) => {
+const formatRows = (roadworks: Roadwork[], newDisruptionId: string) => {
     return roadworks.map((roadwork) => {
-        return { datesAffect: `${roadwork.actualStartDateTime}` };
+        return {
+            datesAffected: `${convertDateTimeToFormat(roadwork.actualStartDateTime)} - ${convertDateTimeToFormat(
+                roadwork.actualEndDateTime,
+            )}`,
+            description: `${roadwork.streetName} - ${roadwork.trafficManagementType}`,
+            action: (
+                <Link className="govuk-link" href={`${CREATE_DISRUPTION_PAGE_PATH}/${newDisruptionId}`}>
+                    Create disruption
+                </Link>
+            ),
+        };
     });
 };
 
-const ViewAllRoadworks = () => {
+const ViewAllRoadworks = ({ newDisruptionId, liveRoadworks }: ViewAllRoadworksProps) => {
     return (
         <BaseLayout title={title} description={description}>
             <h1 className="govuk-heading-xl">Roadworks in your area</h1>
@@ -86,7 +260,7 @@ const ViewAllRoadworks = () => {
                             <>
                                 <SortableTable
                                     columns={columns}
-                                    rows={mockRoadworkData}
+                                    rows={formatRows(liveRoadworks, newDisruptionId)}
                                     caption={{ text: "Recent live roadworks", size: "m" }}
                                 />
                             </>
@@ -119,10 +293,12 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         return baseProps;
     }
 
+    const liveRoadworks = mockRoadworks;
+
     return {
         props: {
             newDisruptionId,
-            liveRoadworks: [],
+            liveRoadworks: liveRoadworks,
         },
     };
 };
