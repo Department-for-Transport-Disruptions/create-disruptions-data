@@ -71,7 +71,6 @@ const mockDisruption: Disruption = {
     ],
     lastUpdated: "2023-10-11T12:00:00Z",
     publishStatus: PublishStatus.published,
-    template: false,
 };
 
 describe("generateDisruptionReasonCount", () => {
