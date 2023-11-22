@@ -17,7 +17,7 @@ import {
     organisationSchema,
     OrganisationWithStats,
 } from "../organisationTypes";
-import { Logger, notEmpty } from "./index";
+import { Logger, notEmpty, sortDisruptionsByStartDate } from "./index";
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
 
@@ -177,6 +177,42 @@ export const getCurrentAndFutureDisruptions = async (tableName: string, logger: 
         }
 
         return true;
+    });
+};
+
+export const getActiveDisruptions = async (
+    tableName: string,
+    logger: Logger,
+    orgId?: string,
+): Promise<Disruption[]> => {
+    const disruptions = await getPublishedDisruptionsDataFromDynamo(tableName, logger, orgId);
+    const sortedDisruptions = sortDisruptionsByStartDate(disruptions);
+
+    const currentDatetime = getDate();
+
+    return sortedDisruptions.filter((disruption) => {
+        const firstValidity = disruption.validity?.[0];
+        const finalValidity = disruption.validity?.[disruption.validity.length - 1];
+
+        if (!firstValidity || !finalValidity) {
+            return false;
+        }
+
+        const startDatetime = getDatetimeFromDateAndTime(
+            firstValidity.disruptionStartDate,
+            firstValidity.disruptionStartTime,
+        );
+
+        const endDatetime =
+            finalValidity.disruptionEndDate && finalValidity.disruptionEndTime
+                ? getDatetimeFromDateAndTime(finalValidity.disruptionEndDate, finalValidity.disruptionEndTime)
+                : null;
+
+        if (!endDatetime) {
+            return currentDatetime.isAfter(startDatetime);
+        }
+
+        return currentDatetime.isBetween(startDatetime, endDatetime);
     });
 };
 
