@@ -554,6 +554,7 @@ const TemplateOverview = ({ disruption, csrfToken, errors, canPublish }: Disrupt
                                             deleteActionHandler={deleteActionHandler}
                                             isDisruptionDetail={true}
                                             isTemplate={true}
+                                            isEditingAllowed={true}
                                         />
                                     </div>
                                 </div>

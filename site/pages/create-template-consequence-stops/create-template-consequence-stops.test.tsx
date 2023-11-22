@@ -47,6 +47,8 @@ const withInputs: CreateConsequenceStopsProps = {
         isSystemAdmin: true,
         name: "Test User",
         mode: defaultModes,
+        isOperatorUser: false,
+        operatorOrgId: null,
     },
     disruptionDescription: "A truck broke down on a bridge",
 };
@@ -88,6 +90,8 @@ const withInputsAndErrors: CreateConsequenceStopsProps = {
         isSystemAdmin: true,
         name: "Test User",
         mode: defaultModes,
+        isOperatorUser: false,
+        operatorOrgId: null,
     },
 };
 

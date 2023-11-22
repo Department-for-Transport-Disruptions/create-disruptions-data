@@ -22,9 +22,12 @@ const blankInputs: CreateConsequenceServicesProps = {
         isSystemAdmin: true,
         name: "Test User",
         mode: defaultModes,
+        isOperatorUser: false,
+        operatorOrgId: null,
     },
     consequenceDataSource: null,
     globalDataSource: null,
+    initialStops: [],
 };
 
 const withInputs: CreateConsequenceServicesProps = {
@@ -43,6 +46,8 @@ const withInputs: CreateConsequenceServicesProps = {
         isSystemAdmin: true,
         name: "Test User",
         mode: defaultModes,
+        isOperatorUser: false,
+        operatorOrgId: null,
     },
     inputs: {
         stops: [
@@ -84,6 +89,7 @@ const withInputs: CreateConsequenceServicesProps = {
     },
     consequenceDataSource: Datasource.bods,
     globalDataSource: Datasource.bods,
+    initialStops: [],
 };
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -108,6 +114,8 @@ const withInputsAndErrors: CreateConsequenceServicesProps = {
         isSystemAdmin: true,
         name: "Test User",
         mode: defaultModes,
+        operatorOrgId: null,
+        isOperatorUser: false,
     },
     errors: [
         { errorMessage: "Enter a description for this disruption", id: "description" },
@@ -150,6 +158,7 @@ const withInputsAndErrors: CreateConsequenceServicesProps = {
     },
     consequenceDataSource: Datasource.bods,
     globalDataSource: Datasource.bods,
+    initialStops: [],
 };
 
 describe("pages", () => {

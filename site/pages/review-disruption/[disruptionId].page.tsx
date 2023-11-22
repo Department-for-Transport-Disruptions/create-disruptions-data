@@ -41,7 +41,6 @@ interface ReviewDisruptionProps {
     csrfToken?: string;
     errors: ErrorInfo[];
     canPublish: boolean;
-    redirect: string;
     operatorOrgId?: string;
     isOperatorUser?: boolean;
 }

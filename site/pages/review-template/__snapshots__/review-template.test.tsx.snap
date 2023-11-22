@@ -487,7 +487,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/type-of-consequence-template/acde070d-8c4c-4f0d-9d8a-162843c10333/0"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -505,7 +515,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-network/acde070d-8c4c-4f0d-9d8a-162843c10333/0"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -523,7 +543,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-network/acde070d-8c4c-4f0d-9d8a-162843c10333/0"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -541,7 +571,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-network/acde070d-8c4c-4f0d-9d8a-162843c10333/0"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -559,10 +599,34 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-network/acde070d-8c4c-4f0d-9d8a-162843c10333/0"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
+                <button
+                  className="govuk-button govuk-button--warning mt-4"
+                  data-module="govuk-button"
+                  onClick={[Function]}
+                >
+                  Delete consequence
+                </button>
+                <button
+                  className="govuk-button govuk-button--secondary mt-4 ml-4"
+                  data-module="govuk-button"
+                  formAction="/api/duplicate-consequence-template?consequenceId=0"
+                >
+                  Duplicate consequence
+                </button>
               </div>
             </div>
             <div
@@ -616,7 +680,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/type-of-consequence-template/acde070d-8c4c-4f0d-9d8a-162843c10333/1"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -634,7 +708,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-operator/acde070d-8c4c-4f0d-9d8a-162843c10333/1"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -652,7 +736,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-operator/acde070d-8c4c-4f0d-9d8a-162843c10333/1"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -670,7 +764,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-operator/acde070d-8c4c-4f0d-9d8a-162843c10333/1"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -688,7 +792,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-operator/acde070d-8c4c-4f0d-9d8a-162843c10333/1"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -706,10 +820,34 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-operator/acde070d-8c4c-4f0d-9d8a-162843c10333/1"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
+                <button
+                  className="govuk-button govuk-button--warning mt-4"
+                  data-module="govuk-button"
+                  onClick={[Function]}
+                >
+                  Delete consequence
+                </button>
+                <button
+                  className="govuk-button govuk-button--secondary mt-4 ml-4"
+                  data-module="govuk-button"
+                  formAction="/api/duplicate-consequence-template?consequenceId=1"
+                >
+                  Duplicate consequence
+                </button>
               </div>
             </div>
             <div
@@ -763,7 +901,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/type-of-consequence-template/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -781,7 +929,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-services/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -799,7 +957,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-services/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -817,7 +985,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-services/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -835,7 +1013,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-services/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -853,7 +1041,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-services/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -871,10 +1069,34 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-services/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
+                <button
+                  className="govuk-button govuk-button--warning mt-4"
+                  data-module="govuk-button"
+                  onClick={[Function]}
+                >
+                  Delete consequence
+                </button>
+                <button
+                  className="govuk-button govuk-button--secondary mt-4 ml-4"
+                  data-module="govuk-button"
+                  formAction="/api/duplicate-consequence-template?consequenceId=2"
+                >
+                  Duplicate consequence
+                </button>
               </div>
             </div>
           </div>
@@ -2312,7 +2534,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/type-of-consequence-template/acde070d-8c4c-4f0d-9d8a-162843c10333/0"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2330,7 +2562,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-network/acde070d-8c4c-4f0d-9d8a-162843c10333/0"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2348,7 +2590,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-network/acde070d-8c4c-4f0d-9d8a-162843c10333/0"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2366,7 +2618,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-network/acde070d-8c4c-4f0d-9d8a-162843c10333/0"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2384,10 +2646,34 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-network/acde070d-8c4c-4f0d-9d8a-162843c10333/0"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
+                <button
+                  className="govuk-button govuk-button--warning mt-4"
+                  data-module="govuk-button"
+                  onClick={[Function]}
+                >
+                  Delete consequence
+                </button>
+                <button
+                  className="govuk-button govuk-button--secondary mt-4 ml-4"
+                  data-module="govuk-button"
+                  formAction="/api/duplicate-consequence-template?consequenceId=0"
+                >
+                  Duplicate consequence
+                </button>
               </div>
             </div>
             <div
@@ -2441,7 +2727,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/type-of-consequence-template/acde070d-8c4c-4f0d-9d8a-162843c10333/1"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2459,7 +2755,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-operator/acde070d-8c4c-4f0d-9d8a-162843c10333/1"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2477,7 +2783,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-operator/acde070d-8c4c-4f0d-9d8a-162843c10333/1"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2495,7 +2811,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-operator/acde070d-8c4c-4f0d-9d8a-162843c10333/1"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2513,7 +2839,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-operator/acde070d-8c4c-4f0d-9d8a-162843c10333/1"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2531,10 +2867,34 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-operator/acde070d-8c4c-4f0d-9d8a-162843c10333/1"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
+                <button
+                  className="govuk-button govuk-button--warning mt-4"
+                  data-module="govuk-button"
+                  onClick={[Function]}
+                >
+                  Delete consequence
+                </button>
+                <button
+                  className="govuk-button govuk-button--secondary mt-4 ml-4"
+                  data-module="govuk-button"
+                  formAction="/api/duplicate-consequence-template?consequenceId=1"
+                >
+                  Duplicate consequence
+                </button>
               </div>
             </div>
             <div
@@ -2588,7 +2948,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/type-of-consequence-template/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2606,7 +2976,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-services/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2624,7 +3004,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-services/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2642,7 +3032,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-services/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2660,7 +3060,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-services/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2678,7 +3088,17 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-services/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2696,10 +3116,34 @@ exports[`pages > ReviewTemplate > should render correctly with inputs and no err
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      />
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-template-consequence-services/acde070d-8c4c-4f0d-9d8a-162843c10333/2"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
                     </tr>
                   </tbody>
                 </table>
+                <button
+                  className="govuk-button govuk-button--warning mt-4"
+                  data-module="govuk-button"
+                  onClick={[Function]}
+                >
+                  Delete consequence
+                </button>
+                <button
+                  className="govuk-button govuk-button--secondary mt-4 ml-4"
+                  data-module="govuk-button"
+                  formAction="/api/duplicate-consequence-template?consequenceId=2"
+                >
+                  Duplicate consequence
+                </button>
               </div>
             </div>
           </div>

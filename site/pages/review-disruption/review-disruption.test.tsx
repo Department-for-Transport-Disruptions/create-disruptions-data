@@ -266,7 +266,6 @@ describe("pages", () => {
                 .create(
                     <ReviewDisruption
                         disruption={previousDisruptionInformation}
-                        redirect={"/dashboard"}
                         errors={[]}
                         canPublish
                         operatorOrgId={DEFAULT_OPERATOR_ORG_ID}
@@ -284,7 +283,6 @@ describe("pages", () => {
                             ...previousDisruptionInformation,
                             createdByOperatorOrgId: "e17489ff-779c-4e74-b5cb-623be0adf24f",
                         }}
-                        redirect={"/dashboard"}
                         errors={[]}
                         canPublish
                         operatorOrgId={DEFAULT_OPERATOR_ORG_ID}
@@ -302,7 +300,6 @@ describe("pages", () => {
                             ...previousDisruptionInformation,
                             createdByOperatorOrgId: "e17489ff-779c-4e74-b5cb-623be0adf24f",
                         }}
-                        redirect={"/dashboard"}
                         errors={[]}
                         canPublish
                     />,

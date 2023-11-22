@@ -533,6 +533,7 @@ const ReviewTemplate = ({ disruption, csrfToken, errors, canPublish }: ReviewDis
                                             disruption={disruption}
                                             deleteActionHandler={deleteActionHandler}
                                             isTemplate={true}
+                                            isEditingAllowed={true}
                                         />
                                     </div>
                                 </div>
