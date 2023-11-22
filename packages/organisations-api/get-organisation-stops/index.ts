@@ -1,16 +1,8 @@
-import {
-    Disruption,
-    Service,
-    ServiceGeoJSON,
-    Stop,
-    Validity,
-} from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Disruption, Service, ServiceGeoJSON, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Datasource } from "@create-disruptions-data/shared-ts/enums";
-import { getDate, getFormattedDate } from "@create-disruptions-data/shared-ts/utils/dates";
-import { getPublishedDisruptionsDataFromDynamo } from "@create-disruptions-data/shared-ts/utils/dynamo";
+import { getActiveDisruptions } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { fetchServiceRoutes } from "@create-disruptions-data/shared-ts/utils/refDataApi";
 import { APIGatewayEvent } from "aws-lambda";
-import { Dayjs } from "dayjs";
 import * as logger from "lambda-log";
 import { randomUUID } from "crypto";
 
@@ -63,25 +55,6 @@ const getGeoJson = (coordinates: number[][], service: Service) => {
     };
 };
 
-const getMaxEndDate = (validities: Validity[] | undefined) => {
-    let maxEndDate: Dayjs | undefined = undefined;
-
-    validities?.map((validity) => {
-        const endDate = validity.disruptionRepeatsEndDate
-            ? getFormattedDate(validity.disruptionRepeatsEndDate)
-            : validity.disruptionEndDate
-            ? getFormattedDate(validity.disruptionEndDate)
-            : undefined;
-
-        if (!maxEndDate) maxEndDate = endDate;
-
-        if (endDate && endDate.isAfter(maxEndDate)) {
-            maxEndDate = endDate;
-        }
-    });
-    return maxEndDate;
-};
-
 const getStopsFromDisruptions = (disruptions: Disruption[]) => {
     const uniqueStopIds = new Set<string>();
     return disruptions.flatMap((disruption) =>
@@ -115,35 +88,14 @@ const getServicesFromDisruptions = (disruptions: Disruption[]) => {
 const getOrganisationStops = async (orgId: string) => {
     try {
         const disruptionsTableName = process.env.DISRUPTIONS_TABLE_NAME as string;
-        const disruptions = await getPublishedDisruptionsDataFromDynamo(disruptionsTableName, logger, orgId);
-
-        const activeAndPublishedDisruptions = disruptions.filter((disruption) => {
-            const currentDate = getDate();
-            const startDate = getFormattedDate(disruption.disruptionStartDate);
-
-            const mergedValidities = disruption.validity;
-            mergedValidities?.push({
-                disruptionStartDate: disruption.disruptionStartDate,
-                disruptionStartTime: disruption.disruptionStartTime,
-                disruptionEndDate: disruption.disruptionEndDate,
-                disruptionEndTime: disruption.disruptionEndTime,
-                disruptionNoEndDateTime: disruption.disruptionNoEndDateTime,
-                disruptionRepeats: disruption.disruptionRepeats,
-                disruptionRepeatsEndDate: disruption.disruptionRepeatsEndDate,
-            });
-
-            const maxEndDate = getMaxEndDate(mergedValidities);
-
-            return startDate.isSameOrBefore(currentDate) && (maxEndDate ? currentDate.isBefore(maxEndDate) : true);
-        });
+        const disruptions = await getActiveDisruptions(disruptionsTableName, logger, orgId);
 
         const [stops, services] = await Promise.all([
-            getStopsFromDisruptions(activeAndPublishedDisruptions),
-            getServicesFromDisruptions(activeAndPublishedDisruptions),
+            getStopsFromDisruptions(disruptions),
+            getServicesFromDisruptions(disruptions),
         ]);
 
-        const routesForMaps: ServiceGeoJSON[] = [];
-        await Promise.all(
+        const routesForMaps = await Promise.all(
             services.map(async (service) => {
                 const routesData = await fetchServiceRoutes(
                     service.dataSource === Datasource.bods ? service.lineId : service.serviceCode,
@@ -151,21 +103,17 @@ const getOrganisationStops = async (orgId: string) => {
                     logger,
                 );
 
-                const [inboundRoute, outboundRoute] = await Promise.all([
-                    fetchRoute(routesData?.inbound ?? []),
-                    fetchRoute(routesData?.outbound ?? []),
-                ]);
+                const inboundRoute = fetchRoute(routesData?.inbound ?? []);
+                const outboundRoute = fetchRoute(routesData?.outbound ?? []);
 
                 const inboundGeoJSON: ServiceGeoJSON = getGeoJson(inboundRoute, service);
-
                 const outboundGeoJSON: ServiceGeoJSON = getGeoJson(outboundRoute, service);
 
-                if (inboundRoute && inboundRoute.length > 0) routesForMaps.push(inboundGeoJSON);
-                if (outboundRoute && outboundRoute.length > 0) routesForMaps.push(outboundGeoJSON);
+                return [inboundGeoJSON, outboundGeoJSON];
             }),
         );
 
-        return { stops, services: routesForMaps };
+        return { stops, services: routesForMaps.flat() };
     } catch (e) {
         if (e instanceof Error) {
             logger.error(`Error occured while getting stops and services for an organisation: ${orgId} - error: `, e);

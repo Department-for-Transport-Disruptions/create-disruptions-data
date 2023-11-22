@@ -1,0 +1,41 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`getAllDisruptions > formatSortedDisruptions > correctly formats disruptions 1`] = `
+{
+  "consequenceLength": 3,
+  "displayId": "8fg3ha",
+  "id": "test",
+  "isLive": true,
+  "isNetworkWideCq": true,
+  "isOperatorWideCq": true,
+  "modes": [
+    "Bus",
+    "Tram",
+    "Train",
+  ],
+  "operators": [
+    "TEST",
+  ],
+  "serviceIds": [
+    "123",
+  ],
+  "severity": "severe",
+  "status": "draft",
+  "stopsAffectedCount": 0,
+  "summary": "Some summary",
+  "validityPeriods": [
+    {
+      "endTime": "2021-03-30T10:23:00.000Z",
+      "startTime": "2021-03-25T11:23:00.000Z",
+    },
+    {
+      "endTime": "2025-12-30T11:23:00.000Z",
+      "startTime": "2025-12-25T11:23:00.000Z",
+    },
+    {
+      "endTime": "2030-03-30T11:23:00.000Z",
+      "startTime": "2030-03-25T11:23:00.000Z",
+    },
+  ],
+}
+`;
