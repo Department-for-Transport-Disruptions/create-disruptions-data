@@ -15,6 +15,7 @@ import {
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
     DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
+    OPERATOR_USER_CONSEQUENCE_TYPES,
 } from "../../../constants/index";
 import { getDisruptionById } from "../../../data/dynamo";
 import { PageState } from "../../../interfaces/index";
@@ -26,7 +27,9 @@ import { getStateUpdater } from "../../../utils/formUtils";
 const title = "Create Consequences";
 const description = "Create Consequences page for the Create Transport Disruptions Service";
 
-export interface ConsequenceTypePageProps extends PageState<Partial<ConsequenceType>> {}
+export interface ConsequenceTypePageProps extends PageState<Partial<ConsequenceType>> {
+    isOperatorUser?: boolean;
+}
 
 const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
     const [pageState, setPageState] = useState(props);
@@ -44,6 +47,8 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
     const isFromTemplate = useRouter().query["isFromTemplate"] === "true" ? true : false;
     const displayCancelButton = (isEditing || !!props.inputs.consequenceType) && !isFromTemplate;
 
+    const consequenceTypesRadioDetail = props.isOperatorUser ? OPERATOR_USER_CONSEQUENCE_TYPES : CONSEQUENCE_TYPES;
+
     return (
         <TwoThirdsLayout title={title} description={description} errors={props.errors}>
             <CsrfForm
@@ -58,7 +63,7 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
 
                         <Radios<ConsequenceType>
                             display="Select consequence type"
-                            radioDetail={CONSEQUENCE_TYPES}
+                            radioDetail={consequenceTypesRadioDetail}
                             inputName="consequenceType"
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.consequenceType}
@@ -136,6 +141,7 @@ export const getServerSideProps = async (
             ),
             consequenceIndex: index,
             disruptionStatus: disruption.publishStatus,
+            isOperatorUser: session.isOperatorUser,
         },
     };
 };

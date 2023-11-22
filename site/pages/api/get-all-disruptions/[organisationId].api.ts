@@ -1,16 +1,20 @@
 import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Progress, PublishStatus, Severity } from "@create-disruptions-data/shared-ts/enums";
-import {
-    getSortedDisruptionFinalEndDate,
-    sortDisruptionsByStartDate as sortTemplatesByStartDate,
-} from "@create-disruptions-data/shared-ts/utils";
+import { getSortedDisruptionFinalEndDate, sortDisruptionsByStartDate } from "@create-disruptions-data/shared-ts/utils";
+import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import { Dayjs } from "dayjs";
 import { NextApiRequest, NextApiResponse } from "next";
-import { VEHICLE_MODES } from "../../constants";
-import { getTemplatesDataFromDynamo } from "../../data/dynamo";
-import { getDisplayByValue, mapValidityPeriods, reduceStringWithEllipsis } from "../../utils";
-import { getSession } from "../../utils/apiUtils/auth";
-import { isLiveDisruption } from "../../utils/dates";
+import { z } from "zod";
+import { VEHICLE_MODES } from "../../../constants";
+import { getDisruptionsDataFromDynamo } from "../../../data/dynamo";
+import {
+    filterDisruptionsForOperatorUser,
+    getDisplayByValue,
+    mapValidityPeriods,
+    reduceStringWithEllipsis,
+} from "../../../utils";
+import { getSession } from "../../../utils/apiUtils/auth";
+import { isLiveDisruption } from "../../../utils/dates";
 
 export interface GetDisruptionsApiRequest extends NextApiRequest {
     body: {
@@ -19,10 +23,38 @@ export interface GetDisruptionsApiRequest extends NextApiRequest {
     };
 }
 
-export const getTemplateStatus = (disruption: Disruption): Progress => {
+export const getDisruptionStatus = (disruption: Disruption): Progress => {
     if (disruption.publishStatus === PublishStatus.draft) {
         return Progress.draft;
-    } else return Progress.open;
+    }
+
+    if (disruption.publishStatus === PublishStatus.rejected) {
+        return Progress.rejected;
+    }
+
+    if (disruption.publishStatus === PublishStatus.pendingApproval) {
+        return Progress.draftPendingApproval;
+    }
+
+    if (
+        disruption.publishStatus === PublishStatus.editPendingApproval ||
+        disruption.publishStatus === PublishStatus.pendingAndEditing
+    ) {
+        return Progress.editPendingApproval;
+    }
+
+    if (!disruption.validity) {
+        return Progress.closed;
+    }
+
+    const today = getDate();
+    const disruptionEndDate = getSortedDisruptionFinalEndDate(disruption);
+
+    if (!!disruptionEndDate) {
+        return isClosingOrClosed(disruptionEndDate, today);
+    }
+
+    return Progress.open;
 };
 
 export const isClosingOrClosed = (endDate: Dayjs, today: Dayjs): Progress => {
@@ -58,7 +90,7 @@ export const getWorstSeverity = (severitys: Severity[]): Severity => {
     return worstSeverity;
 };
 
-export const formatSortedTemplate = (disruption: Disruption) => {
+export const formatSortedDisruption = (disruption: Disruption) => {
     const modes: string[] = [];
     const severitys: Severity[] = [];
     const serviceIds: string[] = [];
@@ -119,7 +151,7 @@ export const formatSortedTemplate = (disruption: Disruption) => {
         });
     }
 
-    const status = getTemplateStatus(disruption);
+    const status = getDisruptionStatus(disruption);
 
     return {
         displayId: disruption.displayId,
@@ -139,7 +171,7 @@ export const formatSortedTemplate = (disruption: Disruption) => {
     };
 };
 
-const getAllTemplates = async (req: GetDisruptionsApiRequest, res: NextApiResponse) => {
+const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResponse) => {
     const session = getSession(req);
 
     if (!session) {
@@ -147,22 +179,50 @@ const getAllTemplates = async (req: GetDisruptionsApiRequest, res: NextApiRespon
         return;
     }
 
-    const { orgId } = session;
+    const { orgId: sessionOrgId } = session;
 
-    let templateData = await getTemplatesDataFromDynamo(orgId);
+    const reqOrgId = req.query.organisationId;
 
-    if (templateData) {
-        templateData = templateData.filter(
-            (item) => item.publishStatus === PublishStatus.published || item.publishStatus === PublishStatus.draft,
+    if (reqOrgId !== sessionOrgId) {
+        res.status(403).json({});
+        return;
+    }
+
+    const nextKeyParsed = z
+        .object({ PK: z.string(), SK: z.string() })
+        .safeParse(req.query.nextKey ? JSON.parse(decodeURIComponent(req.query.nextKey.toString())) : undefined);
+
+    let nextKey: Record<string, unknown> | undefined = undefined;
+
+    if (nextKeyParsed.success) {
+        nextKey = nextKeyParsed.data;
+    }
+
+    const { disruptions, nextKey: newNextKey } = await getDisruptionsDataFromDynamo(sessionOrgId, false, nextKey);
+
+    let disruptionsData = disruptions;
+
+    if (session.isOperatorUser) {
+        disruptionsData = filterDisruptionsForOperatorUser(disruptionsData, session.operatorOrgId);
+    }
+
+    if (disruptionsData) {
+        const filteredDisruptions = disruptionsData.filter(
+            (item) =>
+                item.publishStatus === PublishStatus.published ||
+                item.publishStatus === PublishStatus.draft ||
+                item.publishStatus === PublishStatus.pendingApproval ||
+                item.publishStatus === PublishStatus.editPendingApproval ||
+                item.publishStatus === PublishStatus.rejected,
         );
-        const sortedTemplates = sortTemplatesByStartDate(templateData);
+        const sortedDisruptions = sortDisruptionsByStartDate(filteredDisruptions);
 
-        const shortenedData = sortedTemplates.map(formatSortedTemplate);
+        const shortenedData = sortedDisruptions.map(formatSortedDisruption);
 
-        res.status(200).json(shortenedData);
+        res.status(200).json({ disruptions: shortenedData, nextKey: newNextKey });
     } else {
         res.status(200).json({});
     }
 };
 
-export default getAllTemplates;
+export default getAllDisruptions;

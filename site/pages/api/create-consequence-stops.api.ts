@@ -39,7 +39,7 @@ export const formatCreateConsequenceStopsBody = (body: object) => {
 
 const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
-        const { template, addAnotherConsequence, isFromTemplate, draft } = req.query;
+        const { addAnotherConsequence, isFromTemplate, draft } = req.query;
 
         const body = req.body as StopsConsequence;
 
@@ -51,6 +51,10 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
 
         if (!session) {
             throw new Error("No session found");
+        }
+
+        if (session.isOperatorUser) {
+            throw new Error("Operator users are not permitted to create stop type consequences");
         }
 
         if (!validatedBody.success) {
@@ -70,7 +74,7 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
             redirectToWithQueryParams(
                 req,
                 res,
-                template ? ["template"] : [],
+                [],
                 `${CREATE_CONSEQUENCE_STOPS_PATH}/${body.disruptionId}/${body.consequenceIndex}`,
                 isFromTemplate ? ["isFromTemplate=true"] : [],
             );
@@ -81,7 +85,7 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
             validatedBody.data,
             session.orgId,
             session.isOrgStaff,
-            template === "true",
+            false,
             formattedBody,
             COOKIES_CONSEQUENCE_STOPS_ERRORS,
             res,
@@ -89,7 +93,7 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
         destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_STOPS_ERRORS, res);
 
         const redirectPath =
-            (!isFromTemplate || template) && disruption?.publishStatus !== PublishStatus.draft
+            !isFromTemplate && disruption?.publishStatus !== PublishStatus.draft
                 ? DISRUPTION_DETAIL_PAGE_PATH
                 : REVIEW_DISRUPTION_PAGE_PATH;
 
@@ -104,7 +108,7 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
             redirectToWithQueryParams(
                 req,
                 res,
-                template ? ["template"] : [],
+                [],
                 `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/${nextIndex}`,
                 isFromTemplate ? ["isFromTemplate=true"] : [],
             );
@@ -118,7 +122,7 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
         redirectToWithQueryParams(
             req,
             res,
-            template ? ["template"] : [],
+            [],
             `${redirectPath}/${validatedBody.data.disruptionId}`,
             isFromTemplate ? ["isFromTemplate=true"] : [],
         );
@@ -130,7 +134,7 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
             redirectToWithQueryParams(
                 req,
                 res,
-                req.query.template === "true" ? ["template"] : [],
+                [],
                 `${CREATE_CONSEQUENCE_STOPS_PATH}/${body.disruptionId}/${body.consequenceIndex}`,
                 [],
             );

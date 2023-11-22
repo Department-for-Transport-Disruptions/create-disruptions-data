@@ -3488,20 +3488,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                   </div>
                 </div>
               </div>
-              <table
-                className="govuk-table"
-              >
-                <thead
-                  className="govuk-table__head"
-                >
-                  <tr
-                    className="govuk-table__row"
-                  />
-                </thead>
-                <tbody
-                  className="govuk-table__body"
-                />
-              </table>
             </div>
           </div>
           <div
@@ -3623,20 +3609,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                   </div>
                 </div>
               </div>
-              <table
-                className="govuk-table"
-              >
-                <thead
-                  className="govuk-table__head"
-                >
-                  <tr
-                    className="govuk-table__row"
-                  />
-                </thead>
-                <tbody
-                  className="govuk-table__body"
-                />
-              </table>
             </div>
           </div>
           <div

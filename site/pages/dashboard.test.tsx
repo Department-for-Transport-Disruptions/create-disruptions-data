@@ -1,14 +1,18 @@
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
-import { randomUUID } from "crypto";
 import Dashboard, { DashboardDisruption, getServerSideProps } from "./dashboard.page";
 import { CD_DATE_FORMAT } from "../constants";
 import * as dynamo from "../data/dynamo";
-import { defaultModes } from "../schemas/organisation.schema";
-import { SessionWithOrgDetail } from "../schemas/session.schema";
-import { disruptionArray, disruptionWithConsequencesAndSocialMediaPosts, getMockContext } from "../testData/mockData";
+import {
+    disruptionArray,
+    disruptionWithConsequencesAndSocialMediaPosts,
+    getMockContext,
+    mockSessionWithOrgDetail,
+} from "../testData/mockData";
 import * as session from "../utils/apiUtils/auth";
+import { formatDate } from "../utils/dates";
 
 const getDisruptionsSpy = vi.spyOn(dynamo, "getPublishedDisruptionsDataFromDynamo");
 const getPendingDisruptionsSpy = vi.spyOn(dynamo, "getPendingDisruptionsIdsFromDynamo");
@@ -21,26 +25,11 @@ vi.mock("../utils/apiUtils/auth", async () => ({
 }));
 
 beforeEach(() => {
-    getSessionWithOrgDetailSpy.mockResolvedValue(defaultSession);
+    getSessionWithOrgDetailSpy.mockResolvedValue(mockSessionWithOrgDetail);
 });
 const defaultNewDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
 const recentlyClosedDate = getDate().subtract(4, "day").format(CD_DATE_FORMAT);
-const isoRecentlyClosedDate = getDate().subtract(4, "day").format("YYYY-MM-DD");
-
-const defaultSession: SessionWithOrgDetail = {
-    email: "test@example.com",
-    isOrgAdmin: false,
-    isOrgPublisher: false,
-    isOrgStaff: false,
-    isSystemAdmin: true,
-    orgId: randomUUID(),
-    username: "test@example.com",
-    name: "Test User",
-    orgName: "Nexus",
-    adminAreaCodes: ["A", "B", "C"],
-    mode: defaultModes,
-};
 
 const disruptions: DashboardDisruption[] = [
     {
@@ -108,7 +97,8 @@ describe("pages", () => {
                         recentlyClosedDisruptions={[]}
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
-                        orgName="Nexus"
+                        orgName="Test Org"
+                        isOperatorUser={false}
                     />,
                 )
                 .toJSON();
@@ -124,7 +114,8 @@ describe("pages", () => {
                         recentlyClosedDisruptions={[]}
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
-                        orgName="Nexus"
+                        orgName="Test Org"
+                        isOperatorUser={false}
                     />,
                 )
                 .toJSON();
@@ -140,7 +131,8 @@ describe("pages", () => {
                         recentlyClosedDisruptions={[]}
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
-                        orgName="Nexus"
+                        orgName="Test Org"
+                        isOperatorUser={false}
                     />,
                 )
                 .toJSON();
@@ -156,7 +148,8 @@ describe("pages", () => {
                         recentlyClosedDisruptions={disruptions}
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
-                        orgName="Nexus"
+                        orgName="Test Org"
+                        isOperatorUser={false}
                     />,
                 )
                 .toJSON();
@@ -172,7 +165,8 @@ describe("pages", () => {
                         recentlyClosedDisruptions={[disruptions[3]]}
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
-                        orgName="Nexus"
+                        orgName="Test Org"
+                        isOperatorUser={false}
                     />,
                 )
                 .toJSON();
@@ -201,7 +195,8 @@ describe("pages", () => {
                     newDisruptionId: expect.any(String) as string,
                     pendingApprovalCount: 0,
                     canPublish: true,
-                    orgName: "Nexus",
+                    orgName: "Test Org",
+                    isOperatorUser: false,
                 });
             });
 
@@ -230,7 +225,8 @@ describe("pages", () => {
                     newDisruptionId: expect.any(String) as string,
                     pendingApprovalCount: 0,
                     canPublish: true,
-                    orgName: "Nexus",
+                    orgName: "Test Org",
+                    isOperatorUser: false,
                 });
             });
 
@@ -262,7 +258,8 @@ describe("pages", () => {
                     newDisruptionId: expect.any(String) as string,
                     pendingApprovalCount: 0,
                     canPublish: true,
-                    orgName: "Nexus",
+                    orgName: "Test Org",
+                    isOperatorUser: false,
                 });
             });
 
@@ -292,7 +289,7 @@ describe("pages", () => {
                             validityPeriods: [
                                 {
                                     startTime: "2023-02-12T13:00:00.000Z",
-                                    endTime: `${isoRecentlyClosedDate}T12:00:00.000Z`,
+                                    endTime: formatDate(recentlyClosedDate, "1300"),
                                 },
                             ],
                             displayId: "8fg3ha",
@@ -302,7 +299,8 @@ describe("pages", () => {
                     newDisruptionId: expect.any(String) as string,
                     pendingApprovalCount: 0,
                     canPublish: true,
-                    orgName: "Nexus",
+                    orgName: "Test Org",
+                    isOperatorUser: false,
                 });
             });
 
@@ -366,7 +364,81 @@ describe("pages", () => {
                     newDisruptionId: expect.any(String) as string,
                     pendingApprovalCount: 0,
                     canPublish: true,
-                    orgName: "Nexus",
+                    orgName: "Test Org",
+                    isOperatorUser: false,
+                });
+            });
+
+            it("should filter disruptions for operator user", async () => {
+                getDisruptionsSpy.mockResolvedValue([
+                    {
+                        ...disruptionArray[0],
+                        publishStatus: PublishStatus.published,
+                        createdByOperatorOrgId: undefined,
+                    },
+                    {
+                        ...disruptionArray[0],
+                        displayId: "show this disruption",
+                        publishStatus: PublishStatus.published,
+                        createdByOperatorOrgId: "test-operator",
+                    },
+                    {
+                        ...disruptionArray[0],
+                        displayId: "don't show this disruption",
+                        publishStatus: PublishStatus.published,
+                        createdByOperatorOrgId: "a-different-operator",
+                    },
+                ]);
+
+                getSessionWithOrgDetailSpy.mockResolvedValue({
+                    ...mockSessionWithOrgDetail,
+                    isOperatorUser: true,
+                    operatorOrgId: "test-operator",
+                });
+                const ctx = getMockContext();
+
+                const actualProps = await getServerSideProps(ctx);
+
+                expect(actualProps.props).toStrictEqual({
+                    canPublish: true,
+                    isOperatorUser: true,
+                    liveDisruptions: [
+                        {
+                            displayId: "8fg3ha",
+                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                            summary: "Some summary",
+                            validityPeriods: [
+                                {
+                                    endTime: null,
+                                    startTime: "2023-03-10T12:00:00.000Z",
+                                },
+                                {
+                                    endTime: null,
+                                    startTime: "2023-03-18T12:00:00.000Z",
+                                },
+                            ],
+                        },
+                        {
+                            displayId: "show this disruption",
+                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                            summary: "Some summary",
+                            validityPeriods: [
+                                {
+                                    endTime: null,
+                                    startTime: "2023-03-10T12:00:00.000Z",
+                                },
+                                {
+                                    endTime: null,
+                                    startTime: "2023-03-18T12:00:00.000Z",
+                                },
+                            ],
+                        },
+                    ],
+                    newDisruptionId: expect.any(String) as string,
+                    orgName: "Test Org",
+                    pendingApprovalCount: 0,
+                    recentlyClosedDisruptions: [],
+                    upcomingDisruptions: [],
                 });
             });
         });

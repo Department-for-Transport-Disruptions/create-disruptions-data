@@ -1,5 +1,9 @@
 import { Stop, StopsConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { stopSchema, stopsConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import {
+    stopSchema,
+    stopsConsequenceSchema,
+    MAX_CONSEQUENCES,
+} from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Modes, PublishStatus, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
@@ -22,11 +26,11 @@ import {
     DISRUPTION_SEVERITIES,
     VEHICLE_MODES,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
-    REVIEW_TEMPLATE_PAGE_PATH,
-    TEMPLATE_OVERVIEW_PAGE_PATH,
-    COOKIES_TEMPLATE_CONSEQUENCE_STOPS_ERRORS,
     TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH,
     CREATE_TEMPLATE_CONSEQUENCE_STOPS_PATH,
+    TEMPLATE_OVERVIEW_PAGE_PATH,
+    REVIEW_TEMPLATE_PAGE_PATH,
+    COOKIES_TEMPLATE_CONSEQUENCE_STOPS_ERRORS,
 } from "../../../constants";
 import { getTemplateById } from "../../../data/dynamo";
 import { fetchStops } from "../../../data/refDataApi";
@@ -58,6 +62,8 @@ const CreateTemplateConsequenceStops = (props: CreateConsequenceStopsProps): Rea
         props.disruptionStatus === PublishStatus.pendingAndEditing;
 
     const displayCancelButton = isEditing || !!props.inputs.description;
+
+    const { consequenceCount = 0 } = props;
 
     const handleChange = (value: SingleValue<Stop>) => {
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
@@ -250,12 +256,12 @@ const CreateTemplateConsequenceStops = (props: CreateConsequenceStopsProps): Rea
                             }}
                             style={{ width: "100%", height: "40vh", marginBottom: 20 }}
                             mapStyle="mapbox://styles/mapbox/streets-v12"
-                            selected={
+                            selectedStops={
                                 pageState.inputs.stops && pageState.inputs.stops.length > 0
                                     ? pageState.inputs.stops
                                     : []
                             }
-                            searched={stopOptions}
+                            stopOptions={stopOptions}
                             showSelectAllButton
                             stateUpdater={setPageState}
                             state={pageState}
@@ -285,7 +291,7 @@ const CreateTemplateConsequenceStops = (props: CreateConsequenceStopsProps): Rea
                                         : "";
                                 }}
                             >
-                                <p className="text-govBlue govuk-body-m">Copy from disruption description</p>
+                                <p className="text-govBlue govuk-body-m">Copy from template description</p>
                             </button>
                         ) : null}
 
@@ -345,15 +351,23 @@ const CreateTemplateConsequenceStops = (props: CreateConsequenceStopsProps): Rea
                             </Link>
                         ) : null}
 
+                        <button
+                            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                            data-module="govuk-button"
+                            formAction={`/api${CREATE_TEMPLATE_CONSEQUENCE_STOPS_PATH}?draft=true`}
+                        >
+                            Save as draft
+                        </button>
+
                         <DeleteTemplateButton
                             templateId={props.disruptionId}
                             csrfToken={props.csrfToken}
                             buttonClasses="mt-8"
                         />
 
-                        {(props.consequenceIndex || 0) <= 10 && (
+                        {consequenceCount < (props.isEdit ? MAX_CONSEQUENCES : MAX_CONSEQUENCES - 1) && (
                             <button
-                                formAction={`/api/${CREATE_TEMPLATE_CONSEQUENCE_STOPS_PATH}?addAnotherConsequence=true`}
+                                formAction="/api/create-template-consequence-stops?addAnotherConsequence=true"
                                 className="govuk-button mt-8 ml-5 govuk-button--secondary"
                                 data-module="govuk-button"
                             >
@@ -388,7 +402,7 @@ export const getServerSideProps = async (
     if (!template) {
         return {
             redirect: {
-                destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`,
+                destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}?template=true`,
                 statusCode: 302,
             },
         };
@@ -411,9 +425,11 @@ export const getServerSideProps = async (
         props: {
             ...pageState,
             consequenceIndex: index,
+            consequenceCount: template.consequences?.length ?? 0,
             sessionWithOrg: session,
             disruptionDescription: template.description || "",
             disruptionStatus: template.publishStatus,
+            isEdit: !!consequence,
         },
     };
 };

@@ -489,17 +489,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/type-of-consequence-template/2/0"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -517,17 +507,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-network/2/0"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -545,17 +525,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-network/2/0"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -573,17 +543,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-network/2/0"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -601,34 +561,10 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-network/2/0"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                   </tbody>
                 </table>
-                <button
-                  className="govuk-button govuk-button--warning mt-4"
-                  data-module="govuk-button"
-                  onClick={[Function]}
-                >
-                  Delete consequence
-                </button>
-                <button
-                  className="govuk-button govuk-button--secondary mt-4 ml-4"
-                  data-module="govuk-button"
-                  formAction="/api/duplicate-consequence-template?consequenceId=0"
-                >
-                  Duplicate consequence
-                </button>
               </div>
             </div>
             <div
@@ -682,17 +618,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/type-of-consequence-template/2/1"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -710,17 +636,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-operator/2/1"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -738,17 +654,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-operator/2/1"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -766,17 +672,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-operator/2/1"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -794,17 +690,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-operator/2/1"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -822,34 +708,10 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-operator/2/1"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                   </tbody>
                 </table>
-                <button
-                  className="govuk-button govuk-button--warning mt-4"
-                  data-module="govuk-button"
-                  onClick={[Function]}
-                >
-                  Delete consequence
-                </button>
-                <button
-                  className="govuk-button govuk-button--secondary mt-4 ml-4"
-                  data-module="govuk-button"
-                  formAction="/api/duplicate-consequence-template?consequenceId=1"
-                >
-                  Duplicate consequence
-                </button>
               </div>
             </div>
             <div
@@ -903,17 +765,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/type-of-consequence-template/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -931,17 +783,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-services/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -959,17 +801,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-services/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -987,17 +819,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-services/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -1015,17 +837,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-services/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -1043,17 +855,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-services/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -1071,34 +873,10 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-services/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                   </tbody>
                 </table>
-                <button
-                  className="govuk-button govuk-button--warning mt-4"
-                  data-module="govuk-button"
-                  onClick={[Function]}
-                >
-                  Delete consequence
-                </button>
-                <button
-                  className="govuk-button govuk-button--secondary mt-4 ml-4"
-                  data-module="govuk-button"
-                  formAction="/api/duplicate-consequence-template?consequenceId=2"
-                >
-                  Duplicate consequence
-                </button>
               </div>
             </div>
           </div>
@@ -2303,17 +2081,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/type-of-consequence-template/2/0"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2331,17 +2099,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-network/2/0"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2359,17 +2117,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-network/2/0"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2387,17 +2135,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-network/2/0"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2415,34 +2153,10 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-network/2/0"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                   </tbody>
                 </table>
-                <button
-                  className="govuk-button govuk-button--warning mt-4"
-                  data-module="govuk-button"
-                  onClick={[Function]}
-                >
-                  Delete consequence
-                </button>
-                <button
-                  className="govuk-button govuk-button--secondary mt-4 ml-4"
-                  data-module="govuk-button"
-                  formAction="/api/duplicate-consequence-template?consequenceId=0"
-                >
-                  Duplicate consequence
-                </button>
               </div>
             </div>
             <div
@@ -2496,17 +2210,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/type-of-consequence-template/2/1"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2524,17 +2228,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-operator/2/1"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2552,17 +2246,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-operator/2/1"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2580,17 +2264,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-operator/2/1"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2608,17 +2282,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-operator/2/1"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2636,34 +2300,10 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-operator/2/1"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                   </tbody>
                 </table>
-                <button
-                  className="govuk-button govuk-button--warning mt-4"
-                  data-module="govuk-button"
-                  onClick={[Function]}
-                >
-                  Delete consequence
-                </button>
-                <button
-                  className="govuk-button govuk-button--secondary mt-4 ml-4"
-                  data-module="govuk-button"
-                  formAction="/api/duplicate-consequence-template?consequenceId=1"
-                >
-                  Duplicate consequence
-                </button>
               </div>
             </div>
             <div
@@ -2717,17 +2357,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/type-of-consequence-template/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2745,17 +2375,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-services/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2773,17 +2393,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-services/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2801,17 +2411,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-services/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2829,17 +2429,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-services/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2857,17 +2447,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-services/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -2885,34 +2465,10 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-services/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                   </tbody>
                 </table>
-                <button
-                  className="govuk-button govuk-button--warning mt-4"
-                  data-module="govuk-button"
-                  onClick={[Function]}
-                >
-                  Delete consequence
-                </button>
-                <button
-                  className="govuk-button govuk-button--secondary mt-4 ml-4"
-                  data-module="govuk-button"
-                  formAction="/api/duplicate-consequence-template?consequenceId=2"
-                >
-                  Duplicate consequence
-                </button>
               </div>
             </div>
           </div>
@@ -4127,17 +3683,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/type-of-consequence-template/2/0"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -4155,17 +3701,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-network/2/0"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -4183,17 +3719,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-network/2/0"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -4211,17 +3737,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-network/2/0"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -4239,34 +3755,10 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-network/2/0"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                   </tbody>
                 </table>
-                <button
-                  className="govuk-button govuk-button--warning mt-4"
-                  data-module="govuk-button"
-                  onClick={[Function]}
-                >
-                  Delete consequence
-                </button>
-                <button
-                  className="govuk-button govuk-button--secondary mt-4 ml-4"
-                  data-module="govuk-button"
-                  formAction="/api/duplicate-consequence-template?consequenceId=0"
-                >
-                  Duplicate consequence
-                </button>
               </div>
             </div>
             <div
@@ -4320,17 +3812,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/type-of-consequence-template/2/1"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -4348,17 +3830,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-operator/2/1"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -4376,17 +3848,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-operator/2/1"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -4404,17 +3866,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-operator/2/1"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -4432,17 +3884,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-operator/2/1"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -4460,34 +3902,10 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-operator/2/1"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                   </tbody>
                 </table>
-                <button
-                  className="govuk-button govuk-button--warning mt-4"
-                  data-module="govuk-button"
-                  onClick={[Function]}
-                >
-                  Delete consequence
-                </button>
-                <button
-                  className="govuk-button govuk-button--secondary mt-4 ml-4"
-                  data-module="govuk-button"
-                  formAction="/api/duplicate-consequence-template?consequenceId=1"
-                >
-                  Duplicate consequence
-                </button>
               </div>
             </div>
             <div
@@ -4541,17 +3959,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/type-of-consequence-template/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -4569,17 +3977,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-services/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -4597,17 +3995,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-services/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -4625,17 +4013,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-services/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -4653,17 +4031,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-services/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -4681,17 +4049,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-services/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -4709,34 +4067,10 @@ exports[`pages > TemplateOverview > should render correctly with inputs and no e
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-services/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                   </tbody>
                 </table>
-                <button
-                  className="govuk-button govuk-button--warning mt-4"
-                  data-module="govuk-button"
-                  onClick={[Function]}
-                >
-                  Delete consequence
-                </button>
-                <button
-                  className="govuk-button govuk-button--secondary mt-4 ml-4"
-                  data-module="govuk-button"
-                  formAction="/api/duplicate-consequence-template?consequenceId=2"
-                >
-                  Duplicate consequence
-                </button>
               </div>
             </div>
           </div>
@@ -5941,17 +5275,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and stat
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/type-of-consequence-template/2/0"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -5969,17 +5293,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and stat
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-network/2/0"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -5997,17 +5311,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and stat
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-network/2/0"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -6025,17 +5329,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and stat
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-network/2/0"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -6053,34 +5347,10 @@ exports[`pages > TemplateOverview > should render correctly with inputs and stat
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-network/2/0"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                   </tbody>
                 </table>
-                <button
-                  className="govuk-button govuk-button--warning mt-4"
-                  data-module="govuk-button"
-                  onClick={[Function]}
-                >
-                  Delete consequence
-                </button>
-                <button
-                  className="govuk-button govuk-button--secondary mt-4 ml-4"
-                  data-module="govuk-button"
-                  formAction="/api/duplicate-consequence-template?consequenceId=0"
-                >
-                  Duplicate consequence
-                </button>
               </div>
             </div>
             <div
@@ -6134,17 +5404,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and stat
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/type-of-consequence-template/2/1"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -6162,17 +5422,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and stat
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-operator/2/1"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -6190,17 +5440,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and stat
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-operator/2/1"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -6218,17 +5458,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and stat
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-operator/2/1"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -6246,17 +5476,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and stat
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-operator/2/1"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -6274,34 +5494,10 @@ exports[`pages > TemplateOverview > should render correctly with inputs and stat
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-operator/2/1"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                   </tbody>
                 </table>
-                <button
-                  className="govuk-button govuk-button--warning mt-4"
-                  data-module="govuk-button"
-                  onClick={[Function]}
-                >
-                  Delete consequence
-                </button>
-                <button
-                  className="govuk-button govuk-button--secondary mt-4 ml-4"
-                  data-module="govuk-button"
-                  formAction="/api/duplicate-consequence-template?consequenceId=1"
-                >
-                  Duplicate consequence
-                </button>
               </div>
             </div>
             <div
@@ -6355,17 +5551,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and stat
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/type-of-consequence-template/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -6383,17 +5569,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and stat
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-services/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -6411,17 +5587,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and stat
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-services/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -6439,17 +5605,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and stat
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-services/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -6467,17 +5623,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and stat
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-services/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -6495,17 +5641,7 @@ exports[`pages > TemplateOverview > should render correctly with inputs and stat
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-services/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                     <tr
                       className="govuk-table__row"
@@ -6523,34 +5659,10 @@ exports[`pages > TemplateOverview > should render correctly with inputs and stat
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <a
-                          className="govuk-link"
-                          href="/create-template-consequence-services/2/2"
-                          onClick={[Function]}
-                          onMouseEnter={[Function]}
-                          onTouchStart={[Function]}
-                        >
-                          Change
-                        </a>
-                      </td>
+                      />
                     </tr>
                   </tbody>
                 </table>
-                <button
-                  className="govuk-button govuk-button--warning mt-4"
-                  data-module="govuk-button"
-                  onClick={[Function]}
-                >
-                  Delete consequence
-                </button>
-                <button
-                  className="govuk-button govuk-button--secondary mt-4 ml-4"
-                  data-module="govuk-button"
-                  formAction="/api/duplicate-consequence-template?consequenceId=2"
-                >
-                  Duplicate consequence
-                </button>
               </div>
             </div>
           </div>

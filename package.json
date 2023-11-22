@@ -15,7 +15,8 @@
         "lint": "eslint .",
         "test:site": "npm -w @create-disruptions-data/site test -- run",
         "test:siri": "npm -w @create-disruptions-data/siri-sx-generator run test:unit -- run",
-        "test": "npm run test:site && npm run test:siri",
+        "test:stats": "npm -w @create-disruptions-data/siri-sx-stats-generator run test -- run",
+        "test": "npm run test:site && npm run test:siri && npm run test:stats",
         "prepare": "husky install",
         "tsc:build:site": "tsc --noemit -p site",
         "tsc:build": "tsc --noemit && npm run tsc:build:site"

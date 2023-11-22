@@ -32,7 +32,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
         const session = getSession(req);
         const { template } = req.query;
 
-        if (!validatedBody.success || !session) {
+        if (!validatedBody.success || !session || (session.isOperatorUser && template)) {
             redirectTo(res, ERROR_PATH);
             return;
         }

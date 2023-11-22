@@ -257,3 +257,16 @@ export const handleUpsertConsequence = async (
         throw e;
     }
 };
+
+export const formatAddOrEditUserBody = (body: object) => {
+    const operatorOrg = Object.entries(body)
+        .filter((item) => item.includes("operatorOrg"))
+        .flat();
+
+    const cleansedBody = Object.fromEntries(Object.entries(body).filter((item) => !item[0].startsWith("operatorOrg")));
+
+    return {
+        ...cleansedBody,
+        operatorOrg: operatorOrg[1] ? (JSON.parse(operatorOrg[1] as string) as object) : undefined,
+    };
+};

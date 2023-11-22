@@ -1,5 +1,363 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`pages > CreateDisruption > should render correctly for operator user with inputs and without errors 1`] = `
+[
+  <div
+    className="app-phase-banner__wrapper"
+  >
+    <div
+      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    >
+      <p
+        className="govuk-phase-banner__content"
+      >
+        <strong
+          className="govuk-tag govuk-phase-banner__content__tag"
+        >
+          beta
+        </strong>
+        <span
+          className="govuk-phase-banner__text"
+        >
+          This is a new service – your
+           
+          <a
+            className="govuk-link"
+            href="/feedback"
+            id="feedback-link"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+          >
+            feedback
+          </a>
+           
+          will help us to improve it.
+        </span>
+      </p>
+    </div>
+  </div>,
+  <div
+    className="govuk-width-container"
+  >
+    <main
+      className="govuk-main-wrapper"
+      id="main-content"
+    >
+      <div
+        className="govuk-grid-row"
+      >
+        <div
+          className="govuk-grid-column-two-thirds"
+        >
+          <form
+            action="/api/type-of-consequence"
+            method="post"
+          >
+            <input
+              name="csrf_token"
+              type="hidden"
+              value=""
+            />
+            <div
+              className="govuk-form-group"
+            >
+              <h1
+                className="govuk-heading-xl"
+              >
+                Add a consequence
+              </h1>
+              <div
+                className="govuk-form-group"
+              >
+                <fieldset
+                  className="govuk-fieldset"
+                  id="consequence-type"
+                >
+                  <legend
+                    className="govuk-fieldset__legend govuk-!-padding-top-3"
+                  >
+                    <span
+                      className="govuk-heading-s govuk-!-margin-bottom-0"
+                    >
+                      Select consequence type
+                    </span>
+                  </legend>
+                  <div
+                    className=""
+                  >
+                    <div
+                      className="govuk-radios"
+                      data-module="govuk-radios"
+                    >
+                      <div
+                        className="govuk-radios__item govuk-!-margin-bottom-1"
+                      >
+                        <input
+                          className="govuk-radios__input"
+                          data-aria-controls="consequence-type-services-conditional"
+                          defaultChecked={false}
+                          id="consequence-type-services"
+                          name="consequenceType"
+                          onChange={[Function]}
+                          type="radio"
+                          value="services"
+                        />
+                        <label
+                          className="govuk-label govuk-radios__label"
+                          htmlFor="consequence-type-services"
+                        >
+                          Services
+                        </label>
+                      </div>
+                      <div
+                        className="govuk-radios__item"
+                      >
+                        <input
+                          className="govuk-radios__input"
+                          data-aria-controls="consequence-type-operatorWide-conditional"
+                          defaultChecked={false}
+                          id="consequence-type-operatorWide"
+                          name="consequenceType"
+                          onChange={[Function]}
+                          type="radio"
+                          value="operatorWide"
+                        />
+                        <label
+                          className="govuk-label govuk-radios__label"
+                          htmlFor="consequence-type-operatorWide"
+                        >
+                          Operator wide
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </fieldset>
+              </div>
+              <input
+                name="disruptionId"
+                type="hidden"
+              />
+              <input
+                name="consequenceIndex"
+                type="hidden"
+              />
+              <div
+                className="govuk-button-group"
+              >
+                <button
+                  className="govuk-button"
+                  data-module="govuk-button"
+                >
+                  Save and continue
+                </button>
+                <a
+                  className="govuk-button mt-8 ml-1 govuk-button--secondary"
+                  href="/review-disruption"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
+                  role="button"
+                >
+                  Cancel Changes
+                </a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+    <div>
+      <h2
+        className="govuk-heading-s"
+      >
+        Help and Support
+      </h2>
+      <p
+        className="govuk-body"
+      >
+        If you are having problems, please contact the Create Disruption Service via this link:
+         
+        <a
+          className="govuk-link govuk-!-font-size-19"
+          href="/contact"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
+        >
+          Contact us
+        </a>
+      </p>
+    </div>
+  </div>,
+  <footer
+    className="govuk-footer"
+    role="contentinfo"
+  >
+    <div
+      className="govuk-width-container"
+    >
+      <div
+        className="govuk-footer__meta"
+      >
+        <div
+          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+        >
+          <h2
+            className="govuk-visually-hidden"
+          >
+            Support links
+          </h2>
+          <ul
+            className="govuk-footer__inline-list"
+          >
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/contact"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Help
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/cookies"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Cookies
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/contact"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Contact
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/accessibility"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Accessibility
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="https://www.gov.uk/help/terms-conditions"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Terms and conditions
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/privacy"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Privacy
+              </a>
+            </li>
+          </ul>
+          <p
+            className="govuk-footer__body"
+          >
+            Built by the
+             
+            <a
+              className="govuk-footer__link"
+              href="https://www.gov.uk/government/organisations/department-for-transport"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+              rel="noreferrer"
+              target="_blank"
+            >
+              Department for Transport
+            </a>
+          </p>
+          <svg
+            aria-hidden="true"
+            className="govuk-footer__licence-logo"
+            focusable="false"
+            height="17"
+            viewBox="0 0 483.2 195.7"
+            width="41"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145"
+              fill="currentColor"
+            />
+          </svg>
+          <span
+            className="govuk-footer__licence-description"
+          >
+            All content is available under the
+             
+            <a
+              className="govuk-footer__link"
+              href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+              rel="license"
+            >
+              Open Government Licence v3.0
+            </a>
+            , except where otherwise stated
+          </span>
+        </div>
+        <div
+          className="govuk-footer__meta-item"
+        >
+          <a
+            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+          >
+            © Crown copyright
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>,
+]
+`;
+
 exports[`pages > CreateDisruption > should render correctly with inputs and with errors 1`] = `
 [
   <div

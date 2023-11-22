@@ -5,6 +5,7 @@ import {
     TransactWriteCommand,
     PutCommand,
     GetCommand,
+    QueryCommand,
 } from "@aws-sdk/lib-dynamodb";
 import { Consequence, Disruption, DisruptionInfo, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { MAX_CONSEQUENCES } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
@@ -13,10 +14,17 @@ import { getSortedDisruptionFinalEndDate } from "@create-disruptions-data/shared
 import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { recursiveQuery } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { makeFilteredArraySchema } from "@create-disruptions-data/shared-ts/utils/zod";
+import { randomUUID } from "crypto";
 import { inspect } from "util";
 import { TooManyConsequencesError } from "../errors";
 import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.schema";
-import { Organisation, organisationSchema } from "../schemas/organisation.schema";
+import {
+    operatorOrgSchema,
+    operatorOrgListSchema,
+    Organisation,
+    organisationSchema,
+    SubOrganisation,
+} from "../schemas/organisation.schema";
 import { SocialMediaAccount, dynamoSocialAccountSchema } from "../schemas/social-media-accounts.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../schemas/social-media.schema";
 import { flattenZodErrors, notEmpty, splitCamelCaseToString } from "../utils";
@@ -182,7 +190,7 @@ export const getPendingDisruptionsIdsFromDynamo = async (id: string): Promise<Se
     return disruptionIds;
 };
 
-export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise<Disruption[]> => {
+export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise<FullDisruption[]> => {
     logger.info("Getting disruptions data from DynamoDB table...");
 
     const dbData = await recursiveQuery(
@@ -205,35 +213,46 @@ export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise
     return disruptionIds?.map((id) => collectDisruptionsData(dbData || [], id)).filter(notEmpty) ?? [];
 };
 
-export const getTemplatesDataFromDynamo = async (id: string): Promise<FullDisruption[]> => {
-    return getDisruptionsDataFromDynamo(id, true);
+export const getTemplatesDataFromDynamo = async (
+    id: string,
+    nextKey?: Record<string, unknown>,
+): Promise<{ disruptions: FullDisruption[]; nextKey?: string }> => {
+    return getDisruptionsDataFromDynamo(id, true, nextKey);
 };
 
-export const getDisruptionsDataFromDynamo = async (id: string, isTemplate?: boolean): Promise<FullDisruption[]> => {
-    logger.info("Getting disruptions data from DynamoDB table...");
+export const getDisruptionsDataFromDynamo = async (
+    id: string,
+    isTemplate?: boolean,
+    nextKey?: Record<string, unknown>,
+): Promise<{ disruptions: FullDisruption[]; nextKey?: string }> => {
+    logger.info(`Getting ${isTemplate ? "templates" : "disruptions"} data from DynamoDB table for org ${id}...`);
 
-    const dbData = await recursiveQuery(
-        {
+    const dbData = await ddbDocClient.send(
+        new QueryCommand({
             TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
             KeyConditionExpression: "PK = :1",
             ExpressionAttributeValues: {
                 ":1": id,
             },
-        },
-        logger,
+            Limit: 200,
+            ExclusiveStartKey: nextKey,
+        }),
     );
 
-    const disruptionIds = dbData
-        .map((item) => (item as Disruption).disruptionId)
-        .filter((value, index, array) => array.indexOf(value) === index);
+    const disruptionIds = dbData.Items?.map((item) => (item as Disruption).disruptionId).filter(
+        (value, index, array) => array.indexOf(value) === index,
+    );
 
-    return disruptionIds?.map((id) => collectDisruptionsData(dbData || [], id)).filter(notEmpty) ?? [];
+    return {
+        disruptions: disruptionIds?.map((id) => collectDisruptionsData(dbData.Items || [], id)).filter(notEmpty) ?? [],
+        nextKey: dbData.LastEvaluatedKey ? JSON.stringify(dbData.LastEvaluatedKey) : undefined,
+    };
 };
 
 export const getPublishedSocialMediaPosts = async (orgId: string): Promise<SocialMediaPost[]> => {
     logger.info("Getting published social media data from DynamoDB table...");
 
-    const disruptions = await getDisruptionsDataFromDynamo(orgId);
+    const disruptions = await getPublishedDisruptionsDataFromDynamo(orgId);
 
     return disruptions
         .filter((disruption) => {
@@ -393,6 +412,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
     user: string,
     history?: string,
     isTemplate?: boolean,
+    disruptionCreated?: boolean,
 ) => {
     logger.info(
         `Inserting published disruption (${disruption.disruptionId}) into DynamoDB table (${getTableName(
@@ -470,6 +490,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
           ]
         : [];
 
+    const currentDate = getDate().toISOString();
     await ddbDocClient.send(
         new TransactWriteCommand({
             TransactItems: [
@@ -480,9 +501,11 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
                             PK: id,
                             SK: `${disruption.disruptionId}#INFO`,
                         },
-                        UpdateExpression: "SET publishStatus = :1",
+                        UpdateExpression: `SET publishStatus = :1, lastUpdated = :2, creationTime = :3`,
                         ExpressionAttributeValues: {
                             ":1": status,
+                            ":2": currentDate,
+                            ":3": disruptionCreated ? currentDate : disruption.creationTime ?? null,
                         },
                     },
                 },
@@ -528,12 +551,14 @@ export const upsertDisruptionInfo = async (
     id: string,
     isUserStaff?: boolean,
     isTemplate?: boolean,
+    operatorOrgId?: string | null,
 ) => {
     logger.info(
         `Updating draft disruption (${disruptionInfo.disruptionId}) from DynamoDB table (${getTableName(
             !!isTemplate,
         )})...`,
     );
+
     const currentDisruption = await getDisruptionById(disruptionInfo.disruptionId, id, isTemplate);
     const isPending =
         isUserStaff &&
@@ -548,8 +573,10 @@ export const upsertDisruptionInfo = async (
             Item: {
                 PK: id,
                 SK: `${disruptionInfo.disruptionId}#INFO${isPending ? "#PENDING" : isEditing ? "#EDIT" : ""}`,
+                ...currentDisruption,
                 ...disruptionInfo,
                 ...(isTemplate ? { template: isTemplate } : {}),
+                ...(operatorOrgId ? { createdByOperatorOrgId: operatorOrgId } : {}),
             },
         }),
     );
@@ -707,6 +734,89 @@ export const removeOrganisation = async (orgId: string) => {
             })),
         }),
     );
+};
+
+export const createOperatorSubOrganisation = async (orgId: string, operatorName: string, nocCodes: string[]) => {
+    logger.info(`Adding operator: ${operatorName} to (${orgId}) in organisations DynamoDB table...`);
+
+    const uuid = randomUUID();
+
+    await ddbDocClient.send(
+        new PutCommand({
+            TableName: organisationsTableName,
+            Item: {
+                PK: orgId,
+                SK: `OPERATOR#${uuid}`,
+                name: operatorName,
+                nocCodes: nocCodes,
+            },
+        }),
+    );
+};
+
+export const getOperatorByOrgIdAndOperatorOrgId = async (orgId: string, operatorOrgId: string) => {
+    logger.info(
+        `Getting operator: by orgId (${orgId}) and operatorOrgId orgId (${operatorOrgId}) from organisations DynamoDB table...`,
+    );
+    const operator = await ddbDocClient.send(
+        new GetCommand({
+            TableName: organisationsTableName,
+            Key: {
+                PK: orgId,
+                SK: `OPERATOR#${operatorOrgId}`,
+            },
+        }),
+    );
+
+    const parsedOperator = operatorOrgSchema.safeParse(operator.Item);
+
+    if (!parsedOperator.success) {
+        return null;
+    }
+
+    return parsedOperator.data;
+};
+
+export const getNocCodesForOperatorOrg = async (orgId: string, operatorOrgId: string) => {
+    logger.info(`Getting NOC codes associated with operatorOrgId (${operatorOrgId})`);
+    const operatorDetails = await getOperatorByOrgIdAndOperatorOrgId(orgId, operatorOrgId);
+    return operatorDetails ? operatorDetails.nocCodes : [];
+};
+
+export const listOperatorsForOrg = async (orgId: string) => {
+    logger.info(`Retrieving operators for org: (${orgId}) in DynamoDB table...`);
+
+    let dbData: Record<string, unknown>[] = [];
+
+    dbData = await recursiveQuery(
+        {
+            TableName: organisationsTableName,
+            KeyConditionExpression: "PK = :1 AND begins_with(SK, :2)",
+            ExpressionAttributeValues: {
+                ":1": orgId,
+                ":2": "OPERATOR",
+            },
+        },
+        logger,
+    );
+
+    const operators = dbData.map((item) => ({
+        PK: (item as SubOrganisation).PK,
+        name: (item as SubOrganisation).name,
+        nocCodes: (item as SubOrganisation).nocCodes,
+        SK: (item as SubOrganisation).SK?.slice(9),
+    }));
+
+    const parsedOperators = operatorOrgListSchema.safeParse(operators);
+
+    if (!parsedOperators.success) {
+        logger.warn(`Invalid operators found for organisation: ${operators[0].PK} in DynamoDB`);
+        logger.warn(parsedOperators.error.toString());
+
+        return null;
+    }
+
+    return parsedOperators.data;
 };
 
 export const removeSocialMediaPostFromDisruption = async (
@@ -1503,6 +1613,7 @@ export const addSocialAccountToOrg = async (
     display: string,
     addedBy: string,
     accountType: SocialMediaAccount["accountType"],
+    createdByOperatorOrgId?: string | null,
 ) => {
     await ddbDocClient.send(
         new PutCommand({
@@ -1514,6 +1625,7 @@ export const addSocialAccountToOrg = async (
                 display,
                 addedBy,
                 accountType,
+                ...(createdByOperatorOrgId ? { createdByOperatorOrgId: createdByOperatorOrgId } : {}),
             },
         }),
     );

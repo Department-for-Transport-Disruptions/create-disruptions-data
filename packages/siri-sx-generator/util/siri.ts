@@ -1,4 +1,5 @@
 import { Disruption, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { History } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Progress, SourceType } from "@create-disruptions-data/shared-ts/enums";
 import {
     isEnvironmentReason,
@@ -59,6 +60,20 @@ const getPeriod = (period: Validity): Period => ({
         : {}),
 });
 
+const getDisruptionCreationTime = (disruptionHistory: History[] | null, creationTime: string | null): string => {
+    const currentTime = getDate().toISOString();
+    if (creationTime) {
+        return creationTime;
+    } else if (disruptionHistory && disruptionHistory.length > 0) {
+        return (
+            disruptionHistory.find((h) => !!h.historyItems.find((item) => item === "Disruption created and published"))
+                ?.datetime ?? currentTime
+        );
+    } else {
+        return currentTime;
+    }
+};
+
 export const getPtSituationElementFromSiteDisruption = (
     disruption: Disruption & { organisation: { id: string; name: string } },
 ) => {
@@ -66,7 +81,7 @@ export const getPtSituationElementFromSiteDisruption = (
 
     const reason = disruption.disruptionReason;
 
-    const participantRef = disruption.organisation.name.replace(/\s+/g, "");
+    const participantRef = disruption.organisation.name.replace(/[^-._:A-Za-z0-9]/g, "");
 
     const validityPeriod = getValidityPeriod({
         disruptionStartDate: disruption.disruptionStartDate,
@@ -78,7 +93,7 @@ export const getPtSituationElementFromSiteDisruption = (
     });
 
     const ptSituationElement: Omit<PtSituationElement, Reason | "ReasonType"> = {
-        CreationTime: currentTime,
+        CreationTime: getDisruptionCreationTime(disruption.history ?? null, disruption.creationTime ?? null),
         Planned: disruption.disruptionType === "planned",
         Summary: disruption.summary,
         Description: disruption.description,

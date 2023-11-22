@@ -1,5 +1,6 @@
-import { Routes, Service, ServicesConsequence, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Service, ServicesConsequence, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import {
+    MAX_CONSEQUENCES,
     serviceSchema,
     servicesConsequenceSchema,
     stopSchema,
@@ -26,18 +27,29 @@ import Map from "../../../components/map/ServicesMap";
 import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 import {
     COOKIES_TEMPLATE_CONSEQUENCE_SERVICES_ERRORS,
+    CREATE_TEMPLATE_CONSEQUENCE_SERVICES_PATH,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
     DISRUPTION_SEVERITIES,
-    TEMPLATE_OVERVIEW_PAGE_PATH,
     REVIEW_TEMPLATE_PAGE_PATH,
-    VEHICLE_MODES,
+    TEMPLATE_OVERVIEW_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH,
-    CREATE_TEMPLATE_CONSEQUENCE_SERVICES_PATH,
+    VEHICLE_MODES,
 } from "../../../constants";
-import { getTemplateById } from "../../../data/dynamo";
-import { fetchServiceRoutes, fetchServices, fetchServicesByStops, fetchServiceStops } from "../../../data/refDataApi";
+import { getTemplateById, getNocCodesForOperatorOrg } from "../../../data/dynamo";
+import { fetchServiceRoutes, fetchServices, fetchServicesByStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import { flattenZodErrors, getServiceLabel, isServicesConsequence, sortServices } from "../../../utils";
+import { ServiceWithStopAndRoutes } from "../../../schemas/consequence.schema";
+import {
+    RouteWithServiceInfo,
+    flattenZodErrors,
+    getRoutesForServices,
+    getServiceLabel,
+    getStops,
+    getStopsForRoutes,
+    isServicesConsequence,
+    removeDuplicateRoutes,
+    sortServices,
+} from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import {
@@ -61,44 +73,57 @@ const filterConfig = {
     matchFrom: "any" as const,
 };
 
-const fetchStops = async (
-    serviceId: number,
-    vehicleMode?: VehicleMode | Modes,
-    dataSource?: Datasource,
-): Promise<Stop[]> => {
-    if (serviceId) {
-        const stopsData = await fetchServiceStops({
-            serviceId,
-            modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
-            ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
-            ...(vehicleMode === VehicleMode.bus
-                ? { stopTypes: "BCT" }
-                : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
-                ? { stopTypes: "MET, PLT" }
-                : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                ? { stopTypes: "FER, FBT" }
-                : { stopTypes: "undefined" }),
-            dataSource: dataSource || Datasource.bods,
-        });
+const getMode = (vehicleMode: Modes | VehicleMode) => {
+    let mode: Modes[] = [];
 
-        if (stopsData) {
-            return sortAndFilterStops(
-                stopsData.map((stop) => ({
-                    ...stop,
-                    ...(serviceId && { serviceIds: [serviceId] }),
-                })),
-            );
-        }
+    if (vehicleMode === VehicleMode.ferryService) {
+        mode = [Modes.ferry];
+    } else if (vehicleMode === VehicleMode.tram) {
+        mode = [Modes.tram, Modes.metro];
+    } else {
+        mode = [vehicleMode as Modes];
     }
 
-    return [];
+    return mode;
 };
+
+const getServices = async (
+    source: Datasource,
+    vehicleMode: VehicleMode,
+    adminAreaCodes?: string[],
+    isOperatorUser?: boolean,
+    operatorUserNocCodes?: string[],
+) => {
+    const mode = getMode(vehicleMode);
+
+    const serviceData = await fetchServices({
+        adminAreaCodes,
+        dataSource: source,
+        modes: mode,
+        nocCodes: isOperatorUser && operatorUserNocCodes ? operatorUserNocCodes : [],
+    });
+
+    return filterServices(serviceData);
+};
+
+const removeServiceForStop = (stop: Stop, removedServiceId: number) =>
+    stop.serviceIds?.includes(removedServiceId)
+        ? { ...stop, serviceIds: stop.serviceIds.filter((id) => id !== removedServiceId) }
+        : stop;
+
+const removeStopsWithNoServices = (stop: Stop) => stop.serviceIds?.length !== 0;
+
+const filterStopsWithoutServices = (stops: Stop[], removedServiceId: number) =>
+    stops.map((stop) => removeServiceForStop(stop, removedServiceId)).filter(removeStopsWithNoServices);
 
 export interface CreateConsequenceServicesProps
     extends PageState<Partial<ServicesConsequence>>,
         CreateConsequenceProps {
     consequenceDataSource: Datasource | null;
     globalDataSource: Datasource | null;
+    isOperatorUser?: boolean;
+    operatorUserNocCodes?: string[];
+    initialStops: Stop[];
 }
 
 const CreateTemplateConsequenceServices = (props: CreateConsequenceServicesProps): ReactElement => {
@@ -109,38 +134,52 @@ const CreateTemplateConsequenceServices = (props: CreateConsequenceServicesProps
     const [stopOptions, setStopOptions] = useState<Stop[]>(props.initialStops || []);
     const [servicesSearchInput, setServicesSearchInput] = useState<string>("");
     const [stopsSearchInput, setStopsSearchInput] = useState<string>("");
-    const [searched, setSearchedOptions] = useState<Partial<(Routes & { serviceId: number })[]>>([]);
-    const [servicesRecords, setServicesRecords] = useState<Service[]>([]);
+    const [searchedRoutes, setSearchedRoutes] = useState<Partial<RouteWithServiceInfo[]>>([]);
+    const [serviceOptionsForDropdown, setServiceOptionsForDropdown] = useState<Service[]>([]);
     const [dataSource, setDataSource] = useState<Datasource>(props.consequenceDataSource || Datasource.bods);
     const [vehicleMode, setVehicleMode] = useState<VehicleMode | null>(props.inputs.vehicleMode || null);
 
+    const { consequenceCount = 0 } = props;
+
     useEffect(() => {
         const loadOptions = async () => {
-            if (selectedService) {
+            const serviceDataToShow: RouteWithServiceInfo[] = [];
+            if (pageState.inputs.services && pageState.inputs.services?.length > 0) {
                 const vehicleMode = pageState?.inputs?.vehicleMode || ("" as Modes | VehicleMode);
-                const serviceRoutesData = await fetchServiceRoutes({
-                    serviceId: selectedService.id,
-                    modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
-                    ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
-                    ...(vehicleMode === VehicleMode.bus
-                        ? { stopTypes: "BCT" }
-                        : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
-                        ? { stopTypes: "MET, PLT" }
-                        : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                        ? { stopTypes: "FER, FBT" }
-                        : { stopTypes: "undefined" }),
-                });
+                await Promise.all(
+                    pageState.inputs.services.map(async (s) => {
+                        const serviceRoutesData = await fetchServiceRoutes({
+                            serviceRef: s.dataSource === Datasource.bods ? s.lineId : s.serviceCode,
+                            dataSource: s.dataSource,
+                            modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
+                            ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
+                            ...(vehicleMode === VehicleMode.bus
+                                ? { stopTypes: "BCT" }
+                                : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
+                                ? { stopTypes: "MET, PLT" }
+                                : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
+                                ? { stopTypes: "FER, FBT" }
+                                : { stopTypes: "undefined" }),
+                        });
 
-                if (serviceRoutesData) {
-                    const notSelected =
-                        searched.length > 0
-                            ? !searched.map((service) => service?.serviceId).includes(selectedService.id)
-                            : true;
-                    if (notSelected)
-                        setSearchedOptions([...searched, { ...serviceRoutesData, serviceId: selectedService.id }]);
-                } else {
-                    setSearchedOptions([]);
-                }
+                        if (serviceRoutesData) {
+                            const notSelected =
+                                serviceDataToShow.length > 0
+                                    ? !serviceDataToShow.map((service) => service?.serviceId).includes(s.id)
+                                    : true;
+                            if (notSelected) {
+                                serviceDataToShow.push({
+                                    ...serviceRoutesData,
+                                    serviceId: s.id,
+                                    serviceCode: s.serviceCode,
+                                    lineId: s.lineId,
+                                });
+                            }
+                        }
+                    }),
+                );
+
+                setSearchedRoutes(serviceDataToShow);
             }
         };
 
@@ -148,7 +187,7 @@ const CreateTemplateConsequenceServices = (props: CreateConsequenceServicesProps
             // eslint-disable-next-line no-console
             .catch(console.error);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedService]);
+    }, [pageState.inputs.services]);
 
     const returnPath =
         props.disruptionStatus !== PublishStatus.draft ? TEMPLATE_OVERVIEW_PAGE_PATH : REVIEW_TEMPLATE_PAGE_PATH;
@@ -186,23 +225,21 @@ const CreateTemplateConsequenceServices = (props: CreateConsequenceServicesProps
 
     const getStopRows = () => {
         if (pageState.inputs.stops) {
-            return pageState.inputs.stops
-                .filter((value, index, self) => index === self.findIndex((s) => s.atcoCode === value.atcoCode))
-                .map((stop, i) => ({
-                    cells: [
-                        stop.commonName && stop.indicator && stop.atcoCode
-                            ? `${stop.commonName} ${stop.indicator} ${stop.atcoCode}`
-                            : `${stop.commonName} ${stop.atcoCode}`,
-                        <button
-                            id={`remove-stop-${stop.atcoCode}`}
-                            key={`remove-stop-${stop.atcoCode}`}
-                            className="govuk-link"
-                            onClick={(e) => removeStop(e, i)}
-                        >
-                            Remove
-                        </button>,
-                    ],
-                }));
+            return sortAndFilterStops(pageState.inputs.stops).map((stop, i) => ({
+                cells: [
+                    stop.commonName && stop.indicator && stop.atcoCode
+                        ? `${stop.commonName} ${stop.indicator} ${stop.atcoCode}`
+                        : `${stop.commonName} ${stop.atcoCode}`,
+                    <button
+                        id={`remove-stop-${stop.atcoCode}`}
+                        key={`remove-stop-${stop.atcoCode}`}
+                        className="govuk-link"
+                        onClick={(e) => removeStop(e, i)}
+                    >
+                        Remove
+                    </button>,
+                ],
+            }));
         }
         return [];
     };
@@ -220,43 +257,29 @@ const CreateTemplateConsequenceServices = (props: CreateConsequenceServicesProps
             });
         } else {
             if (stopToAdd) {
-                const servicesForGivenStop = await fetchServicesByStops({
+                const servicesForGivenStop: ServiceWithStopAndRoutes[] = await fetchServicesByStops({
                     atcoCodes: [stopToAdd.atcoCode],
                     includeRoutes: true,
                     dataSource: dataSource,
+                    nocCodes: props.isOperatorUser && props.operatorUserNocCodes ? props.operatorUserNocCodes : [],
+                    adminAreaCodes: pageState.sessionWithOrg?.adminAreaCodes,
                 });
 
                 stopToAdd["serviceIds"] = servicesForGivenStop.map((service) => service.id);
 
-                const servicesRoutesForGivenStop = servicesForGivenStop?.map((service) => {
-                    return {
-                        inbound: service.routes.inbound,
-                        outbound: service.routes.outbound,
-                        serviceId: service.id,
-                    };
-                });
+                const servicesRoutesForGivenStop = getRoutesForServices(servicesForGivenStop);
 
-                const servicesRoutesForMap = [...searched, ...servicesRoutesForGivenStop].filter(
-                    (value, index, self) =>
-                        index === self.findIndex((service) => service?.serviceId === value?.serviceId),
+                const servicesRoutesForMap = removeDuplicateRoutes([...searchedRoutes, ...servicesRoutesForGivenStop]);
+
+                const stopsForServicesRoutes = await getStopsForRoutes(
+                    servicesRoutesForMap,
+                    pageState.inputs.vehicleMode,
+                    dataSource,
                 );
 
-                const stopsForServicesRoutes = (
-                    await Promise.all(
-                        servicesRoutesForMap.map(async (service) => {
-                            if (service) {
-                                return fetchStops(service.serviceId, pageState.inputs.vehicleMode, dataSource);
-                            }
-                            return [];
-                        }),
-                    )
-                ).flat();
+                const stopsForMap = sortAndFilterStops([...stopOptions, ...stopsForServicesRoutes]);
 
-                const stopsForMap = [...stopOptions, ...stopsForServicesRoutes].filter(
-                    (value, index, self) => index === self.findIndex((stop) => stop?.atcoCode === value?.atcoCode),
-                );
-
-                setSearchedOptions(servicesRoutesForMap);
+                setSearchedRoutes(servicesRoutesForMap);
                 setStopOptions(stopsForMap);
 
                 setPageState({
@@ -285,7 +308,12 @@ const CreateTemplateConsequenceServices = (props: CreateConsequenceServicesProps
 
     useEffect(() => {
         if (selectedService) {
-            fetchStops(selectedService.id, pageState.inputs.vehicleMode, selectedService.dataSource)
+            getStops(
+                selectedService.dataSource === Datasource.bods ? selectedService.lineId : selectedService.serviceCode,
+                selectedService.id,
+                selectedService.dataSource,
+                pageState.inputs.vehicleMode,
+            )
                 .then((stops) => setStopOptions(sortAndFilterStops([...stopOptions, ...stops])))
                 // eslint-disable-next-line no-console
                 .catch(console.error);
@@ -326,7 +354,7 @@ const CreateTemplateConsequenceServices = (props: CreateConsequenceServicesProps
     useEffect(() => {
         if (pageState?.inputs?.services && pageState.inputs.services.length === 0) {
             setStopOptions([]);
-            setSearchedOptions([]);
+            setSearchedRoutes([]);
             setSelectedService(null);
             setPageState({
                 ...pageState,
@@ -340,37 +368,24 @@ const CreateTemplateConsequenceServices = (props: CreateConsequenceServicesProps
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageState?.inputs?.services]);
 
-    const fetchData = async (source: Datasource, vehicleMode: string) => {
-        let mode: Modes[] = [];
-        if (vehicleMode === VehicleMode.ferryService.toString()) {
-            mode = [Modes.ferry];
-        } else if (vehicleMode === VehicleMode.tram.toString()) {
-            mode = [Modes.tram, Modes.metro];
-        } else {
-            mode = [vehicleMode as Modes];
-        }
-
-        const serviceData = await fetchServices({
-            adminAreaCodes: props.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
-            dataSource: source,
-            modes: mode,
-        });
-
-        const filteredData = filterServices(serviceData);
-
-        setServicesRecords(filteredData);
-    };
-
     useEffect(() => {
         if (pageState.inputs.vehicleMode) {
             const source =
                 props.inputs.vehicleMode === pageState.inputs.vehicleMode
-                    ? props.consequenceDataSource
+                    ? props.consequenceDataSource || props.globalDataSource
                     : props.sessionWithOrg?.mode[pageState.inputs.vehicleMode];
 
             if (source) {
-                fetchData(source, pageState.inputs.vehicleMode)
-                    .then(() => {
+                getServices(
+                    source,
+                    pageState.inputs.vehicleMode,
+                    props.sessionWithOrg?.adminAreaCodes,
+                    props.isOperatorUser,
+                    props.operatorUserNocCodes,
+                )
+                    .then((services) => {
+                        setServiceOptionsForDropdown(services);
+
                         if (vehicleMode !== pageState.inputs.vehicleMode) {
                             setDataSource(source);
                             setPageState({
@@ -385,14 +400,14 @@ const CreateTemplateConsequenceServices = (props: CreateConsequenceServicesProps
 
                         setVehicleMode(pageState.inputs.vehicleMode || null);
                     })
-                    .catch(() => setServicesRecords([]));
+                    .catch(() => setServiceOptionsForDropdown([]));
             }
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageState.inputs.vehicleMode]);
 
-    const removeService = async (e: SyntheticEvent, removedServiceId: number) => {
+    const removeService = (e: SyntheticEvent, removedServiceId: number) => {
         e.preventDefault();
 
         if (pageState?.inputs?.services) {
@@ -400,36 +415,23 @@ const CreateTemplateConsequenceServices = (props: CreateConsequenceServicesProps
                 (service) => service.id !== removedServiceId,
             );
 
-            const stopsWithServiceRemoved = pageState.inputs?.stops?.map((stop) => {
-                return stop.serviceIds?.includes(removedServiceId)
-                    ? { ...stop, serviceIds: stop.serviceIds.filter((id) => id !== removedServiceId) }
-                    : stop;
-            });
-
-            const filteredStops = stopsWithServiceRemoved?.filter((stop) => stop.serviceIds?.length !== 0);
+            const filteredStopOptions = filterStopsWithoutServices(stopOptions, removedServiceId);
+            const filteredSelectedStops = filterStopsWithoutServices(pageState.inputs.stops ?? [], removedServiceId);
 
             setPageState({
                 ...pageState,
                 inputs: {
                     ...pageState.inputs,
-                    stops: filteredStops,
+                    stops: filteredSelectedStops,
                     services: updatedServicesArray,
                 },
                 errors: pageState.errors,
             });
 
-            const updatedStopOptions = (
-                await Promise.all(
-                    updatedServicesArray.map(async (service) => {
-                        return fetchStops(service.id, pageState.inputs.vehicleMode, service.dataSource);
-                    }),
-                )
-            ).flat();
-
-            setStopOptions(sortAndFilterStops(updatedStopOptions));
+            setStopOptions(sortAndFilterStops(filteredStopOptions));
         }
 
-        setSearchedOptions(searched.filter((route) => route?.serviceId !== removedServiceId) || []);
+        setSearchedRoutes(searchedRoutes.filter((route) => route?.serviceId !== removedServiceId) || []);
         setSelectedService(null);
     };
 
@@ -442,7 +444,7 @@ const CreateTemplateConsequenceServices = (props: CreateConsequenceServicesProps
                         id={`remove-service-${service.id}`}
                         key={`remove-service-${service.id}`}
                         className="govuk-link"
-                        onClick={(e) => Promise.resolve(removeService(e, service.id))}
+                        onClick={(e) => removeService(e, service.id)}
                     >
                         Remove
                     </button>,
@@ -454,7 +456,7 @@ const CreateTemplateConsequenceServices = (props: CreateConsequenceServicesProps
 
     return (
         <BaseLayout title={title} description={description}>
-            <CsrfForm action={`/api/create-template-consequence-services`} method="post" csrfToken={props.csrfToken}>
+            <CsrfForm action="/api/create-template-consequence-services" method="post" csrfToken={props.csrfToken}>
                 <>
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
@@ -503,7 +505,7 @@ const CreateTemplateConsequenceServices = (props: CreateConsequenceServicesProps
                             initialErrors={pageState.errors}
                             placeholder="Select services"
                             getOptionLabel={getServiceLabel}
-                            options={servicesRecords.filter(
+                            options={serviceOptionsForDropdown.filter(
                                 (service) => !isSelectedServiceInDropdown(service, pageState.inputs.services ?? []),
                             )}
                             handleChange={handleServiceChange}
@@ -534,7 +536,7 @@ const CreateTemplateConsequenceServices = (props: CreateConsequenceServicesProps
                             hint="Stops"
                             displaySize="l"
                             inputId="stops"
-                            options={stopOptions.filter(
+                            options={sortAndFilterStops(stopOptions).filter(
                                 (stop) => !isSelectedStopInDropdown(stop, pageState.inputs.stops ?? []),
                             )}
                             inputValue={stopsSearchInput}
@@ -549,17 +551,20 @@ const CreateTemplateConsequenceServices = (props: CreateConsequenceServicesProps
                             }}
                             style={{ width: "100%", height: "40vh", marginBottom: 20 }}
                             mapStyle="mapbox://styles/mapbox/streets-v12"
-                            selected={
+                            selectedStops={
                                 pageState.inputs.stops && pageState.inputs.stops.length > 0
                                     ? pageState.inputs.stops
                                     : []
                             }
-                            searched={stopOptions}
+                            stopOptions={stopOptions}
+                            setStopOptions={setStopOptions}
                             stateUpdater={setPageState}
                             state={pageState}
-                            searchedRoutes={searched}
+                            searchedRoutes={searchedRoutes}
+                            setSearchedRoutes={setSearchedRoutes}
                             showSelectAllButton
-                            services={servicesRecords}
+                            serviceOptionsForDropdown={serviceOptionsForDropdown}
+                            setServiceOptionsForDropdown={setServiceOptionsForDropdown}
                             dataSource={dataSource}
                         />
 
@@ -588,7 +593,7 @@ const CreateTemplateConsequenceServices = (props: CreateConsequenceServicesProps
                                         : "";
                                 }}
                             >
-                                <p className="text-govBlue govuk-body-m">Copy from disruption description</p>
+                                <p className="text-govBlue govuk-body-m">Copy from template description</p>
                             </button>
                         ) : null}
 
@@ -634,7 +639,7 @@ const CreateTemplateConsequenceServices = (props: CreateConsequenceServicesProps
                         />
 
                         <Radios<ServicesConsequence>
-                            display="Direction of disruption"
+                            display="Direction of template"
                             displaySize="l"
                             radioDetail={[
                                 {
@@ -674,15 +679,24 @@ const CreateTemplateConsequenceServices = (props: CreateConsequenceServicesProps
                                 Cancel Changes
                             </Link>
                         ) : null}
+
+                        <button
+                            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+                            data-module="govuk-button"
+                            formAction={`/api${CREATE_TEMPLATE_CONSEQUENCE_SERVICES_PATH}?draft=true`}
+                        >
+                            Save as draft
+                        </button>
+
                         <DeleteTemplateButton
                             templateId={props.disruptionId}
                             csrfToken={props.csrfToken}
                             buttonClasses="mt-8"
                         />
 
-                        {(props.consequenceIndex || 0) <= 10 && (
+                        {consequenceCount < (props.isEdit ? MAX_CONSEQUENCES : MAX_CONSEQUENCES - 1) && (
                             <button
-                                formAction={`/api/${CREATE_TEMPLATE_CONSEQUENCE_SERVICES_PATH}?addAnotherConsequence=true`}
+                                formAction="/api/create-template-consequence-services?addAnotherConsequence=true"
                                 className="govuk-button mt-8 ml-5 govuk-button--secondary"
                                 data-module="govuk-button"
                             >
@@ -739,29 +753,62 @@ export const getServerSideProps = async (
     let consequenceDataSource: Datasource | null = null;
     let globalDataSource: Datasource | null = null;
 
-    if (consequence && pageState.inputs.services) {
-        globalDataSource = session.mode[consequence.vehicleMode];
+    if (pageState.inputs.vehicleMode) {
+        globalDataSource = session.mode[pageState.inputs.vehicleMode];
 
-        consequenceDataSource = pageState.inputs.services[0].dataSource;
+        const serviceList = await getServices(globalDataSource, pageState.inputs.vehicleMode, session.adminAreaCodes);
 
-        const stopPromises = pageState.inputs.services.map((service) =>
-            fetchStops(service.id, pageState.inputs.vehicleMode, service.dataSource),
-        );
-        stops = (await Promise.all(stopPromises)).flat();
+        if (pageState.inputs.serviceRefs) {
+            pageState.inputs.services =
+                serviceList.filter((service) =>
+                    pageState.inputs.serviceRefs?.includes(
+                        service.dataSource === Datasource.bods ? service.lineId : service.serviceCode,
+                    ),
+                ) ?? [];
+        }
+
+        if (pageState.inputs.services?.length) {
+            consequenceDataSource = pageState.inputs.services[0].dataSource;
+
+            const stopPromises = pageState.inputs.services.map((service) =>
+                getStops(
+                    service.dataSource === Datasource.bods ? service.lineId : service.serviceCode,
+                    service.id,
+                    service.dataSource,
+                    pageState.inputs.vehicleMode,
+                ),
+            );
+            stops = (await Promise.all(stopPromises)).flat();
+
+            if (pageState.inputs.stopRefs) {
+                pageState.inputs.stops =
+                    sortAndFilterStops(stops.filter((stop) => pageState.inputs.stopRefs?.includes(stop.atcoCode))) ??
+                    [];
+            }
+        }
     }
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_TEMPLATE_CONSEQUENCE_SERVICES_ERRORS, ctx.res);
+
+    const operatorUserNocCodes =
+        session.isOperatorUser && session.operatorOrgId
+            ? await getNocCodesForOperatorOrg(session.orgId, session.operatorOrgId)
+            : [];
 
     return {
         props: {
             ...pageState,
             initialStops: stops,
             consequenceIndex: index,
+            consequenceCount: template.consequences?.length ?? 0,
             sessionWithOrg: session,
             disruptionDescription: template.description || "",
             consequenceDataSource,
             globalDataSource,
             disruptionStatus: template.publishStatus,
+            isEdit: !!consequence,
+            isOperatorUser: session.isOperatorUser,
+            operatorUserNocCodes: operatorUserNocCodes,
         },
     };
 };

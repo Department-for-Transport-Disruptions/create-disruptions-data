@@ -1,4 +1,5 @@
 import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 
 export interface SiriStats {
     servicesConsequencesCount: number;
@@ -8,7 +9,9 @@ export interface SiriStats {
     networkWideConsequencesCount: number;
     operatorWideConsequencesCount: number;
     totalConsequencesCount: number;
+    totalDisruptionsCount: number;
     disruptionReasonCount: Record<string, number>;
+    lastUpdated: string;
 }
 
 export const initialConsequenceStatsValues = {
@@ -83,14 +86,28 @@ export const generateSiriStats = (disruptions: Disruption[]) => {
             if (!acc.hasOwnProperty(key)) {
                 acc[key] = {
                     disruptionReasonCount: {},
+                    totalDisruptionsCount: 0,
+                    lastUpdated: "",
                     ...initialConsequenceStatsValues,
                 };
             }
+
+            let lastUpdated = "";
+
+            if (!!acc[key].lastUpdated && !!disruption.lastUpdated) {
+                lastUpdated = getDate(disruption.lastUpdated).isAfter(getDate(acc[key].lastUpdated))
+                    ? disruption.lastUpdated
+                    : acc[key].lastUpdated;
+            } else if (disruption.lastUpdated || acc[key].lastUpdated) {
+                lastUpdated = disruption.lastUpdated || acc[key].lastUpdated;
+            }
+
             acc[key] = {
                 disruptionReasonCount: generateDisruptionReasonCount(
                     disruption.disruptionReason,
                     acc[key].disruptionReasonCount,
                 ),
+                totalDisruptionsCount: (acc[key].totalDisruptionsCount += 1),
                 servicesConsequencesCount:
                     acc[key].servicesConsequencesCount + consequenceStats[key].servicesConsequencesCount,
                 servicesAffected: acc[key].servicesAffected + consequenceStats[key].servicesAffected,
@@ -101,6 +118,7 @@ export const generateSiriStats = (disruptions: Disruption[]) => {
                 operatorWideConsequencesCount:
                     acc[key].operatorWideConsequencesCount + consequenceStats[key].operatorWideConsequencesCount,
                 totalConsequencesCount: acc[key].totalConsequencesCount + consequenceStats[key].totalConsequencesCount,
+                lastUpdated,
             };
         }
         return acc;

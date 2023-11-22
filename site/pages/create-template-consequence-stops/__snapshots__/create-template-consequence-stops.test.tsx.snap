@@ -428,7 +428,7 @@ exports[`pages > CreateTemplateConsequenceStops > should render correctly with e
             <p
               className="text-govBlue govuk-body-m"
             >
-              Copy from disruption description
+              Copy from template description
             </p>
           </button>
           <div
@@ -641,7 +641,14 @@ exports[`pages > CreateTemplateConsequenceStops > should render correctly with e
           <button
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api//create-template-consequence-stops?addAnotherConsequence=true"
+            formAction="/api/create-template-consequence-stops?draft=true"
+          >
+            Save as draft
+          </button>
+          <button
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            formAction="/api/create-template-consequence-stops?addAnotherConsequence=true"
           >
             Add another consequence
           </button>
@@ -1422,7 +1429,14 @@ exports[`pages > CreateTemplateConsequenceStops > should render correctly with i
           <button
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api//create-template-consequence-stops?addAnotherConsequence=true"
+            formAction="/api/create-template-consequence-stops?draft=true"
+          >
+            Save as draft
+          </button>
+          <button
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            formAction="/api/create-template-consequence-stops?addAnotherConsequence=true"
           >
             Add another consequence
           </button>
@@ -1892,20 +1906,6 @@ exports[`pages > CreateTemplateConsequenceStops > should render correctly with n
                   </div>
                 </div>
               </div>
-              <table
-                className="govuk-table"
-              >
-                <thead
-                  className="govuk-table__head"
-                >
-                  <tr
-                    className="govuk-table__row"
-                  />
-                </thead>
-                <tbody
-                  className="govuk-table__body"
-                />
-              </table>
             </div>
           </div>
           <div
@@ -1950,7 +1950,7 @@ exports[`pages > CreateTemplateConsequenceStops > should render correctly with n
             <p
               className="text-govBlue govuk-body-m"
             >
-              Copy from disruption description
+              Copy from template description
             </p>
           </button>
           <div
@@ -2150,7 +2150,14 @@ exports[`pages > CreateTemplateConsequenceStops > should render correctly with n
           <button
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api//create-template-consequence-stops?addAnotherConsequence=true"
+            formAction="/api/create-template-consequence-stops?draft=true"
+          >
+            Save as draft
+          </button>
+          <button
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            formAction="/api/create-template-consequence-stops?addAnotherConsequence=true"
           >
             Add another consequence
           </button>
@@ -2931,7 +2938,14 @@ exports[`pages > CreateTemplateConsequenceStops > should render correctly with q
           <button
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api//create-template-consequence-stops?addAnotherConsequence=true"
+            formAction="/api/create-template-consequence-stops?draft=true"
+          >
+            Save as draft
+          </button>
+          <button
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            formAction="/api/create-template-consequence-stops?addAnotherConsequence=true"
           >
             Add another consequence
           </button>

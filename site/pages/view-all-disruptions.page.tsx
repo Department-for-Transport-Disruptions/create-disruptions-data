@@ -14,6 +14,7 @@ const ViewAllDisruptions = ({
     adminAreaCodes,
     filterStatus,
     enableLoadingSpinnerOnPageLoad = true,
+    orgId,
 }: ViewAllContentProps): ReactElement => {
     return (
         <BaseLayout title={title} description={description}>
@@ -22,6 +23,7 @@ const ViewAllDisruptions = ({
                 adminAreaCodes={adminAreaCodes}
                 filterStatus={filterStatus}
                 enableLoadingSpinnerOnPageLoad={enableLoadingSpinnerOnPageLoad}
+                orgId={orgId}
             />
         </BaseLayout>
     );
@@ -54,6 +56,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     return {
         props: {
             adminAreaCodes: session.adminAreaCodes,
+            orgId: session.orgId,
             newContentId,
             ...(showPending
                 ? { filterStatus: Progress.pendingApproval }

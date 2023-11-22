@@ -13,7 +13,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import ReviewDisruption from "./[disruptionId].page";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { SocialMediaPost } from "../../schemas/social-media.schema";
-import { DEFAULT_ORG_ID } from "../../testData/mockData";
+import { DEFAULT_OPERATOR_ORG_ID, DEFAULT_ORG_ID } from "../../testData/mockData";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
@@ -259,6 +259,56 @@ describe("pages", () => {
 
             expect(consequenceButton).toBeTruthy();
             unmount();
+        });
+
+        it("should render correctly with inputs and no errors if an operator is reviewing a disruption made by an LTA", () => {
+            const tree = renderer
+                .create(
+                    <ReviewDisruption
+                        disruption={previousDisruptionInformation}
+                        redirect={"/dashboard"}
+                        errors={[]}
+                        canPublish
+                        operatorOrgId={DEFAULT_OPERATOR_ORG_ID}
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+
+        it("should render correctly with inputs and no errors if an operator is reviewing a disruption made by another operator who does not have the same operatorOrgId", () => {
+            const tree = renderer
+                .create(
+                    <ReviewDisruption
+                        disruption={{
+                            ...previousDisruptionInformation,
+                            createdByOperatorOrgId: "e17489ff-779c-4e74-b5cb-623be0adf24f",
+                        }}
+                        redirect={"/dashboard"}
+                        errors={[]}
+                        canPublish
+                        operatorOrgId={DEFAULT_OPERATOR_ORG_ID}
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+
+        it("should render correctly with inputs and no errors if a non-operator is reviewing an operator disruption", () => {
+            const tree = renderer
+                .create(
+                    <ReviewDisruption
+                        disruption={{
+                            ...previousDisruptionInformation,
+                            createdByOperatorOrgId: "e17489ff-779c-4e74-b5cb-623be0adf24f",
+                        }}
+                        redirect={"/dashboard"}
+                        errors={[]}
+                        canPublish
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
         });
     });
 });

@@ -1,4 +1,3 @@
-import { Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest } from "next";
 import { z } from "zod";
@@ -72,7 +71,6 @@ export interface PageState<T> {
 }
 
 export interface CreateConsequenceProps {
-    initialStops?: Stop[];
     disruptionDescription?: string;
     template?: string;
     consequenceCount?: number;

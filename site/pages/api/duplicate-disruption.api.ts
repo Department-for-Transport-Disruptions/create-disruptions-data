@@ -24,6 +24,10 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             throw new Error("No session found");
         }
 
+        if (session.isOperatorUser) {
+            throw new Error("Operators cannot duplicate disruptions");
+        }
+
         const disruptionToDuplicate = await getDisruptionById(disruptionId, session.orgId);
 
         if (!disruptionToDuplicate) {

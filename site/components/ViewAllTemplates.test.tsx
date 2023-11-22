@@ -3,9 +3,9 @@ import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/u
 import { Dayjs } from "dayjs";
 import renderer, { act } from "react-test-renderer";
 import { describe, it, expect, vi, afterEach } from "vitest";
-import ViewAllContents, { Filter, TableContents, filterContents } from "./ViewAllContents";
-import { getWorstSeverity, isClosingOrClosed } from "../pages/api/get-all-templates.api";
-import { mockServices, mockViewAllData } from "../testData/mockData";
+import ViewAllTemplates, { Filter, TableContents, filterContents } from "./ViewAllTemplates";
+import { getWorstSeverity, isClosingOrClosed } from "../pages/api/get-all-templates/[organisationId].api";
+import { DEFAULT_ORG_ID, mockServices, mockViewAllData } from "../testData/mockData";
 
 type Renderer = {
     toJSON: () => void;
@@ -35,17 +35,18 @@ describe("pages", () => {
     describe("ViewAllTemplates", () => {
         it("should render correctly when there are no templates", async () => {
             fetchSpy.mockResolvedValue({
-                json: vi.fn().mockResolvedValue([]),
+                json: vi.fn().mockResolvedValue({ templates: [] }),
             } as unknown as Response);
 
             let component: Renderer = defaultRenderer;
 
             await act(() => {
                 component = renderer.create(
-                    <ViewAllContents
+                    <ViewAllTemplates
                         newContentId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
                         enableLoadingSpinnerOnPageLoad={false}
+                        orgId={DEFAULT_ORG_ID}
                     />,
                 );
             });
@@ -55,17 +56,18 @@ describe("pages", () => {
 
         it("should render correctly when there are enough templates for no pagination", async () => {
             fetchSpy.mockResolvedValue({
-                json: vi.fn().mockResolvedValue(templates),
+                json: vi.fn().mockResolvedValue({ templates }),
             } as unknown as Response);
 
             let component: Renderer = defaultRenderer;
 
             await act(() => {
                 component = renderer.create(
-                    <ViewAllContents
+                    <ViewAllTemplates
                         newContentId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
                         enableLoadingSpinnerOnPageLoad={false}
+                        orgId={DEFAULT_ORG_ID}
                     />,
                 );
             });
@@ -75,17 +77,25 @@ describe("pages", () => {
 
         it("should render correctly when there are enough templates for pagination", async () => {
             fetchSpy.mockResolvedValue({
-                json: vi.fn().mockResolvedValue([...templates, ...templates, ...templates, ...templates]),
+                json: vi.fn().mockResolvedValue({
+                    templates: [
+                        ...templates,
+                        ...templates.map((d) => ({ ...d, id: `${d.id}1` })),
+                        ...templates.map((d) => ({ ...d, id: `${d.id}2` })),
+                        ...templates.map((d) => ({ ...d, id: `${d.id}3` })),
+                    ],
+                }),
             } as unknown as Response);
 
             let component: Renderer = defaultRenderer;
 
             await act(() => {
                 component = renderer.create(
-                    <ViewAllContents
+                    <ViewAllTemplates
                         newContentId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
                         enableLoadingSpinnerOnPageLoad={false}
+                        orgId={DEFAULT_ORG_ID}
                     />,
                 );
             });
@@ -95,18 +105,26 @@ describe("pages", () => {
 
         it("should render correctly when filter is set to pending approval status", async () => {
             fetchSpy.mockResolvedValue({
-                json: vi.fn().mockResolvedValue([...templates, ...templates, ...templates, ...templates]),
+                json: vi.fn().mockResolvedValue({
+                    templates: [
+                        ...templates,
+                        ...templates.map((d) => ({ ...d, id: `${d.id}1` })),
+                        ...templates.map((d) => ({ ...d, id: `${d.id}2` })),
+                        ...templates.map((d) => ({ ...d, id: `${d.id}3` })),
+                    ],
+                }),
             } as unknown as Response);
 
             let component: Renderer = defaultRenderer;
 
             await act(() => {
                 component = renderer.create(
-                    <ViewAllContents
+                    <ViewAllTemplates
                         newContentId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
                         filterStatus={Progress.pendingApproval}
                         enableLoadingSpinnerOnPageLoad={false}
+                        orgId={DEFAULT_ORG_ID}
                     />,
                 );
             });
@@ -116,18 +134,26 @@ describe("pages", () => {
 
         it("should render correctly when filter is set to draft status", async () => {
             fetchSpy.mockResolvedValue({
-                json: vi.fn().mockResolvedValue([...templates, ...templates, ...templates, ...templates]),
+                json: vi.fn().mockResolvedValue({
+                    templates: [
+                        ...templates,
+                        ...templates.map((d) => ({ ...d, id: `${d.id}1` })),
+                        ...templates.map((d) => ({ ...d, id: `${d.id}2` })),
+                        ...templates.map((d) => ({ ...d, id: `${d.id}3` })),
+                    ],
+                }),
             } as unknown as Response);
 
             let component: Renderer = defaultRenderer;
 
             await act(() => {
                 component = renderer.create(
-                    <ViewAllContents
+                    <ViewAllTemplates
                         newContentId={defaultNewDisruptionId}
                         adminAreaCodes={["099"]}
                         filterStatus={Progress.draft}
                         enableLoadingSpinnerOnPageLoad={false}
+                        orgId={DEFAULT_ORG_ID}
                     />,
                 );
             });

@@ -1,14 +1,14 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { Fragment, ReactElement, useState } from "react";
-import Table from "../../components/form/Table";
-import { BaseLayout } from "../../components/layout/Layout";
-import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPopup";
-import { getHootsuiteAuthUrl, getHootsuiteAccountList } from "../../data/hootsuite";
-import { getTwitterAuthUrl, getTwitterAccountList } from "../../data/twitter";
-import { SocialMediaAccount } from "../../schemas/social-media-accounts.schema";
-import { toLowerStartCase } from "../../utils";
-import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
+import Table from "../components/form/Table";
+import { BaseLayout } from "../components/layout/Layout";
+import DeleteConfirmationPopup from "../components/popup/DeleteConfirmationPopup";
+import { getHootsuiteAuthUrl, getHootsuiteAccountList } from "../data/hootsuite";
+import { getTwitterAuthUrl, getTwitterAccountList } from "../data/twitter";
+import { SocialMediaAccount } from "../schemas/social-media-accounts.schema";
+import { toLowerStartCase } from "../utils";
+import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 
 const title = "Social Media Accounts - Create Transport Disruptions Service";
 const description = "Social Media Accounts page for the Create Transport Disruptions Service";
@@ -134,9 +134,10 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("Session data not found");
     }
 
+    const operatorOrgId = session.operatorOrgId || "";
     const [hootsuiteAccountList, twitterAccountList, hootsuiteAuthUrl, twitterAuthUrl] = await Promise.all([
-        getHootsuiteAccountList(session.orgId),
-        getTwitterAccountList(session.orgId),
+        getHootsuiteAccountList(session.orgId, operatorOrgId),
+        getTwitterAccountList(session.orgId, operatorOrgId),
         getHootsuiteAuthUrl(ctx),
         getTwitterAuthUrl(ctx),
     ]);

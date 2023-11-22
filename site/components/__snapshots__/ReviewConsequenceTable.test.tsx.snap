@@ -173,3 +173,111 @@ exports[`ReviewConsequenceTable > should render the table with data 1`] = `
   </button>,
 ]
 `;
+
+exports[`ReviewConsequenceTable > should render the table with data without change links 1`] = `
+<table
+  className="govuk-table"
+>
+  <thead
+    className="govuk-table__head"
+  >
+    <tr
+      className="govuk-table__row"
+    />
+  </thead>
+  <tbody
+    className="govuk-table__body"
+  >
+    <tr
+      className="govuk-table__row"
+    >
+      <th
+        className="govuk-table__header align-middle"
+        scope="row"
+      >
+        Consequence type
+      </th>
+      <td
+        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/2"
+      >
+        Network wide
+      </td>
+      <td
+        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+      />
+    </tr>
+    <tr
+      className="govuk-table__row"
+    >
+      <th
+        className="govuk-table__header align-middle"
+        scope="row"
+      >
+        Mode of transport
+      </th>
+      <td
+        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+      >
+        Bus
+      </td>
+      <td
+        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+      />
+    </tr>
+    <tr
+      className="govuk-table__row"
+    >
+      <th
+        className="govuk-table__header align-middle"
+        scope="row"
+      >
+        Advice to display
+      </th>
+      <td
+        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+      >
+        The road is closed for the following reasons: Example, example, example, example
+      </td>
+      <td
+        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+      />
+    </tr>
+    <tr
+      className="govuk-table__row"
+    >
+      <th
+        className="govuk-table__header align-middle"
+        scope="row"
+      >
+        Remove from journey planner
+      </th>
+      <td
+        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+      >
+        Yes
+      </td>
+      <td
+        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+      />
+    </tr>
+    <tr
+      className="govuk-table__row"
+    >
+      <th
+        className="govuk-table__header align-middle"
+        scope="row"
+      >
+        Disruption delay
+      </th>
+      <td
+        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+      >
+        33 minutes
+      </td>
+      <td
+        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+      />
+    </tr>
+  </tbody>
+</table>
+`;

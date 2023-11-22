@@ -125,4 +125,25 @@ describe("remove-social-connection", () => {
             Location: SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH,
         });
     });
+
+    it("should redirect to the social media accounts page and allow operators to remove a social media connection", async () => {
+        getSessionSpy.mockReturnValue({ ...mockSession, isOperatorUser: true, isSystemAdmin: false });
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                profileId: "123",
+                type: "Twitter",
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await removeSocialConnection(req, res);
+
+        expect(deleteParameterSpy).toHaveBeenCalledWith(
+            "/social/35bae327-4af0-4bbf-8bfa-2c085f214483/twitter/123/refresh_token",
+        );
+        expect(removeSocialAccountFromOrgSpy).toHaveBeenCalledWith("35bae327-4af0-4bbf-8bfa-2c085f214483", "123");
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH,
+        });
+    });
 });

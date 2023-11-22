@@ -10,6 +10,7 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
+import { getNocCodesForOperatorOrg } from "../../data/dynamo";
 import { TooManyConsequencesError } from "../../errors";
 import { flattenZodErrors, getLargestConsequenceIndex } from "../../utils";
 import {
@@ -57,6 +58,40 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
 
         if (!session) {
             throw new Error("No session found");
+        }
+
+        if (session.isOperatorUser && session.operatorOrgId) {
+            const operatorUserNocCodes = await getNocCodesForOperatorOrg(session.orgId, session.operatorOrgId);
+
+            const consequenceIncludesOperatorUserNocCode = formattedBody.consequenceOperators.map((operator) => {
+                return operatorUserNocCodes.includes(operator.operatorNoc);
+            });
+
+            if (consequenceIncludesOperatorUserNocCode.includes(false)) {
+                setCookieOnResponseObject(
+                    COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
+                    JSON.stringify({
+                        inputs: formattedBody,
+                        errors: [
+                            {
+                                errorMessage:
+                                    "Operator user can only create operator type consequence for their own NOC codes.",
+                                id: "",
+                            },
+                        ],
+                    }),
+                    res,
+                );
+
+                redirectToWithQueryParams(
+                    req,
+                    res,
+                    [],
+                    `${CREATE_CONSEQUENCE_OPERATOR_PATH}/${formattedBody.disruptionId}/${formattedBody.consequenceIndex}`,
+                    isFromTemplate ? ["isFromTemplate=true"] : [],
+                );
+                return;
+            }
         }
 
         const validatedBody = operatorConsequenceSchema.safeParse(formattedBody);

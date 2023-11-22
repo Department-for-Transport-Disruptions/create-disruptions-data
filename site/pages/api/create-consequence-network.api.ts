@@ -34,6 +34,10 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
             throw new Error("No session found");
         }
 
+        if (session.isOperatorUser) {
+            throw new Error("Operator users are not permitted to create network type consequences");
+        }
+
         if (!validatedBody.success) {
             if (!body.disruptionId || !body.consequenceIndex) {
                 throw new Error("No disruptionId or consequenceIndex found");

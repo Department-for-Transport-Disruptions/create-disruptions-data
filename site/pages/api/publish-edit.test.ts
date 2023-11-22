@@ -13,6 +13,7 @@ import {
     getMockRequestAndResponse,
     mockSession,
     disruptionWithConsequences,
+    DEFAULT_OPERATOR_ORG_ID,
 } from "../../testData/mockData";
 import * as apiUtils from "../../utils/apiUtils";
 import * as session from "../../utils/apiUtils/auth";
@@ -295,5 +296,70 @@ describe("publishEdit", () => {
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: DASHBOARD_PAGE_PATH,
         });
+    });
+
+    it("should redirect to error page if user is operator the the disruption does not match their operatorOrgId", async () => {
+        getSessionSpy.mockImplementation(() => ({
+            ...mockSession,
+            isOperatorUser: true,
+            isSystemAdmin: false,
+            operatorOrgId: DEFAULT_OPERATOR_ORG_ID,
+        }));
+        getDisruptionSpy.mockResolvedValue({
+            ...disruptionWithConsequencesAndSocialMediaPosts,
+            createdByOperatorOrgId: "35bae327-4af0-4bbf-8bfa-2c085f214482",
+        });
+        const { req, res } = getMockRequestAndResponse({
+            mockWriteHeadFn: writeHeadMock,
+            body: {
+                disruptionId: defaultDisruptionId,
+            },
+        });
+
+        await publishEdit(req, res);
+
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
+        expect(dynamo.publishEditedConsequencesAndSocialMediaPosts).not.toBeCalled();
+        expect(dynamo.deleteDisruptionsInEdit).not.toBeCalled();
+        expect(dynamo.deleteDisruptionsInPending).not.toBeCalled();
+        expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
+    });
+
+    it("should retrieve valid data from cookies, write to dynamo and redirect for operator user", async () => {
+        getSessionSpy.mockImplementation(() => ({
+            ...mockSession,
+            isOperatorUser: true,
+            isSystemAdmin: false,
+            operatorOrgId: DEFAULT_OPERATOR_ORG_ID,
+        }));
+        getDisruptionSpy.mockResolvedValue({
+            ...disruptionWithConsequences,
+            createdByOperatorOrgId: DEFAULT_OPERATOR_ORG_ID,
+        });
+
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                disruptionId: defaultDisruptionId,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await publishEdit(req, res);
+
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
+        expect(dynamo.publishEditedConsequencesAndSocialMediaPosts).toBeCalledTimes(1);
+        expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
+        expect(dynamo.deleteDisruptionsInPending).toBeCalledTimes(1);
+        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
+            {
+                ...disruptionWithConsequences,
+                createdByOperatorOrgId: DEFAULT_OPERATOR_ORG_ID,
+            },
+            DEFAULT_ORG_ID,
+            PublishStatus.published,
+            "Test User",
+            undefined,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
     });
 });

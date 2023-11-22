@@ -16,6 +16,7 @@ import {
     DEFAULT_IMAGE_BUCKET_NAME,
     getMockRequestAndResponse,
     disruptionWithConsequencesAndSocialMediaPosts,
+    DEFAULT_OPERATOR_ORG_ID,
 } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import * as file from "../../utils/apiUtils/fileUpload";
@@ -321,6 +322,40 @@ describe("create-social-media-post API", () => {
 
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${defaultDisruptionId}/0`,
+        });
+    });
+
+    it("should redirect to /review-disruption when an operator user creates a post and all required inputs are passed", async () => {
+        const operatorInputs = {
+            ...previousCreateSocialMediaPostInformation,
+            createdByOperatorOrgId: DEFAULT_OPERATOR_ORG_ID,
+        };
+
+        const { req, res } = getMockRequestAndResponse({
+            body: operatorInputs,
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        formParseSpy.mockResolvedValue({
+            fields: operatorInputs,
+            files: [],
+        });
+
+        await createSocialMediaPost(req, res);
+
+        expect(s3Spy).not.toHaveBeenCalledTimes(1);
+        expect(upsertSocialMediaPostSpy).toHaveBeenCalledTimes(1);
+        expect(upsertSocialMediaPostSpy).toHaveBeenCalledWith(
+            {
+                ...operatorInputs,
+                socialMediaPostIndex: 0,
+            },
+            DEFAULT_ORG_ID,
+            false,
+            false,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
         });
     });
 });

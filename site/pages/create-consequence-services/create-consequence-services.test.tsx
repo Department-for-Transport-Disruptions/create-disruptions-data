@@ -3,45 +3,22 @@ import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import CreateConsequenceServices, { CreateConsequenceServicesProps } from "./[disruptionId]/[consequenceIndex].page";
-import { defaultModes } from "../../schemas/organisation.schema";
+import { mockSessionWithOrgDetail } from "../../testData/mockData";
 
 const blankInputs: CreateConsequenceServicesProps = {
     errors: [],
     inputs: {},
-    sessionWithOrg: {
-        email: "test@example.com",
-        username: "Test",
-        orgId: "org",
-        adminAreaCodes: [],
-        orgName: "Test Org",
-        isOrgAdmin: true,
-        isOrgPublisher: true,
-        isOrgStaff: true,
-        isSystemAdmin: true,
-        name: "Test User",
-        mode: defaultModes,
-    },
+    sessionWithOrg: mockSessionWithOrgDetail,
     consequenceDataSource: null,
     globalDataSource: null,
+    initialStops: [],
 };
 
 const withInputs: CreateConsequenceServicesProps = {
     disruptionDescription: "A truck broke down on a bridge",
     errors: [],
     disruptionId: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
-    sessionWithOrg: {
-        email: "test@example.com",
-        username: "Test",
-        orgId: "org",
-        adminAreaCodes: [],
-        orgName: "Test Org",
-        isOrgAdmin: true,
-        isOrgPublisher: true,
-        isOrgStaff: true,
-        isSystemAdmin: true,
-        name: "Test User",
-        mode: defaultModes,
-    },
+    sessionWithOrg: mockSessionWithOrgDetail,
     inputs: {
         stops: [
             {
@@ -82,6 +59,7 @@ const withInputs: CreateConsequenceServicesProps = {
     },
     consequenceDataSource: Datasource.bods,
     globalDataSource: Datasource.bods,
+    initialStops: [],
 };
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -94,19 +72,7 @@ beforeEach(() => {
 
 const withInputsAndErrors: CreateConsequenceServicesProps = {
     disruptionDescription: "A truck broke down on a bridge",
-    sessionWithOrg: {
-        email: "test@example.com",
-        username: "Test",
-        orgId: "org",
-        adminAreaCodes: [],
-        orgName: "Test Org",
-        isOrgAdmin: true,
-        isOrgPublisher: true,
-        isOrgStaff: true,
-        isSystemAdmin: true,
-        name: "Test User",
-        mode: defaultModes,
-    },
+    sessionWithOrg: mockSessionWithOrgDetail,
     errors: [
         { errorMessage: "Enter a description for this disruption", id: "description" },
         { errorMessage: "Select at least one option", id: "removeFromJourneyPlanners" },
@@ -148,6 +114,7 @@ const withInputsAndErrors: CreateConsequenceServicesProps = {
     },
     consequenceDataSource: Datasource.bods,
     globalDataSource: Datasource.bods,
+    initialStops: [],
 };
 
 describe("pages", () => {

@@ -232,6 +232,17 @@ export const CONSEQUENCE_TYPES: DisplayValuePair<ConsequenceType["consequenceTyp
     },
 ];
 
+export const OPERATOR_USER_CONSEQUENCE_TYPES: DisplayValuePair<ConsequenceType["consequenceType"]>[] = [
+    {
+        value: "services",
+        display: "Services",
+    },
+    {
+        value: "operatorWide",
+        display: "Operator wide",
+    },
+];
+
 export const CD_DATE_FORMAT = "DD/MM/YYYY";
 export const CONTACT_FEEDBACK_QUESTION = "Did you contact us for assistance at any point?";
 export const SOLVE_FEEDBACK_QUESTION = "Did we solve your problem?";
@@ -273,10 +284,11 @@ export const CHANGE_PASSWORD_PAGE_PATH = "/change-password";
 export const USER_MANAGEMENT_PAGE_PATH = "/admin/user-management";
 export const ADD_USER_PAGE_PATH = "/admin/add-user";
 export const EDIT_USER_PAGE_PATH = "/admin/edit-user";
+export const ADD_OPERATOR_PAGE_PATH = "/admin/add-operator";
 export const REGISTER_PAGE_PATH = "/register";
 export const EXPIRED_LINK_PAGE_PATH = "/expired-link";
 export const HOME_PAGE_PATH = "/";
-export const SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH = "/admin/social-media-accounts";
+export const SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH = "/social-media-accounts";
 export const CREATE_SOCIAL_MEDIA_POST_PAGE_PATH = "/create-social-media-post";
 export const CREATE_TEMPLATE_SOCIAL_MEDIA_POST_PAGE_PATH = "/create-template-social-media-post";
 export const SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH = "/sysadmin/manage-organisations";
@@ -305,6 +317,7 @@ export const COOKIES_ADD_USER_ERRORS = "cdd-add-user-errors";
 export const COOKIES_EDIT_USER_ERRORS = "cdd-edit-user-errors";
 export const COOKIES_ADD_ADMIN_USER_ERRORS = "cdd-add-admin-user-errors";
 export const COOKIES_ADD_ORG_ERRORS = "cdd-add-org-errors";
+export const COOKIES_ADD_OPERATOR_ERRORS = "cdd-add-operator-errors";
 export const COOKIES_REGISTER_ERRORS = "cdd-register-errors";
 export const COOKIES_POLICY_COOKIE = "cdd-cookies-policy";
 export const COOKIE_PREFERENCES_COOKIE = "cdd-cookie-preferences-set";
@@ -329,3 +342,5 @@ export const MIN_PASSWORD_LENGTH = 8;
 export const MAX_FILE_SIZE = 5242880;
 export const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png"];
 export const HOOTSUITE_URL = "https://platform.hootsuite.com/";
+
+export const MAX_OPERATOR_NOC_CODES = 5;

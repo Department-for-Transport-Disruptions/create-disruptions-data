@@ -7,6 +7,7 @@ import {
     COOKIES_CONSEQUENCE_NETWORK_ERRORS,
     CREATE_CONSEQUENCE_NETWORK_PATH,
     DASHBOARD_PAGE_PATH,
+    ERROR_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
@@ -239,6 +240,20 @@ describe("create-consequence-network API", () => {
 
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/3`,
+        });
+    });
+
+    it("should throw an error when an operator user tries to create a network consequence", async () => {
+        getSessionSpy.mockImplementation(() => {
+            return { ...mockSession, isOperatorUser: true };
+        });
+        const { req, res } = getMockRequestAndResponse({ body: defaultNetworkData, mockWriteHeadFn: writeHeadMock });
+
+        await createConsequenceNetwork(req, res);
+
+        expect(upsertConsequenceSpy).not.toHaveBeenCalled();
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: ERROR_PATH,
         });
     });
 });

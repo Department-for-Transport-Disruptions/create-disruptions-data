@@ -27,7 +27,7 @@ import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VEHICLE_MODES,
 } from "../../../constants";
-import { getDisruptionById } from "../../../data/dynamo";
+import { getDisruptionById, getNocCodesForOperatorOrg } from "../../../data/dynamo";
 import { fetchOperators } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { Operator } from "../../../schemas/consequence.schema";
@@ -143,7 +143,11 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                         <OperatorSearch<OperatorConsequence>
                             display="Operators impacted"
                             displaySize="l"
-                            operators={props.operators.filter((op) => filterOperators(op))}
+                            operators={
+                                props.session?.isOperatorUser
+                                    ? props.operators
+                                    : props.operators.filter((op) => filterOperators(op))
+                            }
                             selectedOperators={pageState.inputs?.consequenceOperators ?? []}
                             stateUpdater={operatorStateUpdate}
                             initialErrors={pageState.inputs.consequenceOperators?.length === 0 ? pageState.errors : []}
@@ -353,12 +357,21 @@ export const getServerSideProps = async (
         }
     });
 
+    const operatorUserNocCodes =
+        session.isOperatorUser && session.operatorOrgId
+            ? await getNocCodesForOperatorOrg(session.orgId, session.operatorOrgId)
+            : [];
+
     return {
         props: {
             ...pageState,
             consequenceIndex: index,
             consequenceCount: disruption.consequences?.length ?? 0,
-            operators: uniqueOperators,
+            operators: session.isOperatorUser
+                ? uniqueOperators.filter((operator) => {
+                      return operatorUserNocCodes.includes(operator.nocCode);
+                  })
+                : uniqueOperators,
             disruptionDescription: disruption.description || "",
             sessionWithOrg: session,
             disruptionStatus: disruption.publishStatus,

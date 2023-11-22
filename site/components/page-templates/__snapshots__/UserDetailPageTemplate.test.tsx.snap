@@ -239,11 +239,11 @@ exports[`UserDetailPageTemplate > should render the add-user page correctly 1`] 
                         className="govuk-label govuk-radios__label"
                         htmlFor="group-org-publishers"
                       >
-                        Publishing
+                        Publisher
                       </label>
                     </div>
                     <div
-                      className="govuk-radios__item"
+                      className="govuk-radios__item govuk-!-margin-bottom-1"
                     >
                       <input
                         className="govuk-radios__input"
@@ -262,18 +262,38 @@ exports[`UserDetailPageTemplate > should render the add-user page correctly 1`] 
                         Staff
                       </label>
                     </div>
+                    <div
+                      className="govuk-radios__item"
+                    >
+                      <input
+                        className="govuk-radios__input"
+                        data-aria-controls="group-operators-conditional"
+                        defaultChecked={false}
+                        id="group-operators"
+                        name="group"
+                        onChange={[Function]}
+                        type="radio"
+                        value="operators"
+                      />
+                      <label
+                        className="govuk-label govuk-radios__label"
+                        htmlFor="group-operators"
+                      >
+                        Operator
+                      </label>
+                    </div>
                   </div>
                 </div>
               </fieldset>
             </div>
             <button
-              className="govuk-button mt-8"
+              className="govuk-button mt-8 mr-5"
               data-module="govuk-button"
             >
               Send invitation
             </button>
             <a
-              className="govuk-button mt-8 ml-5 govuk-button--secondary"
+              className="govuk-button mt-8 govuk-button--secondary"
               href="/admin/user-management"
               onClick={[Function]}
               onMouseEnter={[Function]}
@@ -539,7 +559,7 @@ exports[`UserDetailPageTemplate > should render the edit-user page correctly 1`]
             <h1
               className="govuk-heading-xl"
             >
-              Edit user
+              Edit a user
             </h1>
             <div
               className="govuk-form-group"
@@ -719,11 +739,11 @@ exports[`UserDetailPageTemplate > should render the edit-user page correctly 1`]
                         className="govuk-label govuk-radios__label"
                         htmlFor="group-org-publishers"
                       >
-                        Publishing
+                        Publisher
                       </label>
                     </div>
                     <div
-                      className="govuk-radios__item"
+                      className="govuk-radios__item govuk-!-margin-bottom-1"
                     >
                       <input
                         className="govuk-radios__input"
@@ -740,6 +760,26 @@ exports[`UserDetailPageTemplate > should render the edit-user page correctly 1`]
                         htmlFor="group-org-staff"
                       >
                         Staff
+                      </label>
+                    </div>
+                    <div
+                      className="govuk-radios__item"
+                    >
+                      <input
+                        className="govuk-radios__input"
+                        data-aria-controls="group-operators-conditional"
+                        defaultChecked={false}
+                        id="group-operators"
+                        name="group"
+                        onChange={[Function]}
+                        type="radio"
+                        value="operators"
+                      />
+                      <label
+                        className="govuk-label govuk-radios__label"
+                        htmlFor="group-operators"
+                      >
+                        Operator
                       </label>
                     </div>
                   </div>
@@ -760,13 +800,13 @@ exports[`UserDetailPageTemplate > should render the edit-user page correctly 1`]
               type="hidden"
             />
             <button
-              className="govuk-button mt-8"
+              className="govuk-button mt-8 mr-5"
               data-module="govuk-button"
             >
               Save
             </button>
             <a
-              className="govuk-button mt-8 ml-5 govuk-button--secondary"
+              className="govuk-button mt-8 govuk-button--secondary"
               href="/admin/user-management"
               onClick={[Function]}
               onMouseEnter={[Function]}

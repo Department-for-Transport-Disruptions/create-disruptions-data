@@ -11,7 +11,7 @@ import PageNumbers from "../components/layout/PageNumbers";
 import Tabs from "../components/layout/Tabs";
 import { VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../constants";
 import { getPendingDisruptionsIdsFromDynamo, getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
-import { reduceStringWithEllipsis } from "../utils";
+import { filterDisruptionsForOperatorUser, reduceStringWithEllipsis } from "../utils";
 import { canPublish, getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 import { convertDateTimeToFormat, isLiveDisruption, isUpcomingDisruption } from "../utils/dates";
 
@@ -36,6 +36,7 @@ export interface DashboardProps {
     pendingApprovalCount?: number;
     canPublish: boolean;
     orgName: string;
+    isOperatorUser: boolean;
 }
 
 const mapDisruptions = (disruptions: Disruption[]) => {
@@ -100,6 +101,7 @@ const Dashboard = ({
     pendingApprovalCount,
     canPublish,
     orgName,
+    isOperatorUser = false,
 }: DashboardProps): ReactElement => {
     const hasInitialised = useRef(false);
     const numberOfLiveDisruptionsPages = Math.ceil(liveDisruptions.length / 10);
@@ -141,7 +143,7 @@ const Dashboard = ({
     return (
         <BaseLayout title={title} description={description} errors={[]}>
             <h1 className="govuk-heading-xl">{orgName} disruptions data</h1>
-            {pendingApprovalCount && pendingApprovalCount > 0 && canPublish ? (
+            {pendingApprovalCount && pendingApprovalCount > 0 && canPublish && !isOperatorUser ? (
                 <div className="govuk-warning-text">
                     <span className="govuk-warning-text__icon" aria-hidden="true">
                         !
@@ -254,9 +256,11 @@ const Dashboard = ({
             <Link className="govuk-link" href="/view-all-disruptions?draft=true">
                 <h2 className="govuk-heading-s text-govBlue">Draft disruptions</h2>
             </Link>
-            <Link className="govuk-link" href="/view-all-templates">
-                <h2 className="govuk-heading-s text-govBlue">Templates</h2>
-            </Link>
+            {!isOperatorUser && (
+                <Link className="govuk-link" href="/view-all-templates">
+                    <h2 className="govuk-heading-s text-govBlue">Templates</h2>
+                </Link>
+            )}
         </BaseLayout>
     );
 };
@@ -272,6 +276,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             newDisruptionId,
             canPublish: false,
             orgName: "",
+            isOperatorUser: false,
         },
     };
 
@@ -289,8 +294,12 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         getPendingDisruptionsIdsFromDynamo(sessionWithOrg.orgId),
     ]);
 
-    const publishedDisruption = data[0];
+    let publishedDisruption = data[0];
     const pendingDisruption = data[1];
+
+    if (sessionWithOrg.isOperatorUser) {
+        publishedDisruption = filterDisruptionsForOperatorUser(publishedDisruption, sessionWithOrg.operatorOrgId);
+    }
 
     if (publishedDisruption) {
         const liveDisruptions: Disruption[] = [];
@@ -359,6 +368,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                 pendingApprovalCount: pendingApprovalCount,
                 canPublish: canPublish(sessionWithOrg),
                 orgName: sessionWithOrg.orgName,
+                isOperatorUser: sessionWithOrg.isOperatorUser,
             },
         };
     }

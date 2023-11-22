@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment  */
-import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Consequence, ServicesConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Datasource, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import createConsequenceServices, { formatCreateConsequenceStopsServicesBody } from "./create-consequence-services.api";
@@ -28,20 +28,22 @@ import * as session from "../../utils/apiUtils/auth";
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 const defaultConsequenceIndex = "0";
 
+const service = {
+    id: 23127,
+    lineName: "1",
+    operatorShortName: "First South Yorkshire",
+    origin: "Jordanthorpe",
+    destination: "HigH Green",
+    nocCode: "TEST",
+    startDate: "2023-07-23",
+    serviceCode: "NW_04_SCMN_149_1",
+    dataSource: Datasource.tnds,
+    lineId: "SL1",
+    endDate: "2023-08-10",
+};
+
 const defaultServicesData = {
-    service1: JSON.stringify({
-        id: 23127,
-        lineName: "1",
-        operatorShortName: "First South Yorkshire",
-        origin: "Jordanthorpe",
-        destination: "HigH Green",
-        nocCode: "TEST",
-        startDate: "2023-07-23",
-        serviceCode: "NW_04_SCMN_149_1",
-        dataSource: Datasource.tnds,
-        lineId: "SL1",
-        endDate: "2023-08-10",
-    }),
+    service1: JSON.stringify(service),
     description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     removeFromJourneyPlanners: "no",
@@ -99,8 +101,11 @@ describe("create-consequence-services API", () => {
     }));
 
     const upsertConsequenceSpy = vi.spyOn(dynamo, "upsertConsequence");
+    const getNocCodesForOperatorOrgSpy = vi.spyOn(dynamo, "getNocCodesForOperatorOrg");
+
     vi.mock("../../data/dynamo", () => ({
         upsertConsequence: vi.fn(),
+        getNocCodesForOperatorOrg: vi.fn(),
     }));
 
     afterEach(() => {
@@ -265,7 +270,16 @@ describe("create-consequence-services API", () => {
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CONSEQUENCE_SERVICES_ERRORS,
-            JSON.stringify({ inputs: formatCreateConsequenceStopsServicesBody(req.body), errors }),
+            JSON.stringify({
+                inputs: {
+                    ...(formatCreateConsequenceStopsServicesBody(req.body) as ServicesConsequence),
+                    services: [],
+                    stops: [],
+                    serviceRefs: [],
+                    stopRefs: [],
+                },
+                errors,
+            }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -287,10 +301,22 @@ describe("create-consequence-services API", () => {
         const errors: ErrorInfo[] = [
             { errorMessage: "Description must not exceed 1000 characters", id: "description" },
         ];
+
+        const formattedBody = formatCreateConsequenceStopsServicesBody(req.body) as ServicesConsequence;
+
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CONSEQUENCE_SERVICES_ERRORS,
-            JSON.stringify({ inputs: formatCreateConsequenceStopsServicesBody(req.body), errors }),
+            JSON.stringify({
+                inputs: {
+                    ...formattedBody,
+                    services: [],
+                    stops: [],
+                    serviceRefs: ["NW_04_SCMN_149_1"],
+                    stopRefs: [],
+                },
+                errors,
+            }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -311,10 +337,22 @@ describe("create-consequence-services API", () => {
         const errors: ErrorInfo[] = [
             { errorMessage: "Enter a number between 0 to 999 for disruption delay", id: "disruptionDelay" },
         ];
+
+        const formattedBody = formatCreateConsequenceStopsServicesBody(req.body) as ServicesConsequence;
+
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CONSEQUENCE_SERVICES_ERRORS,
-            JSON.stringify({ inputs: formatCreateConsequenceStopsServicesBody(req.body), errors }),
+            JSON.stringify({
+                inputs: {
+                    ...formattedBody,
+                    services: [],
+                    stops: [],
+                    serviceRefs: ["NW_04_SCMN_149_1"],
+                    stopRefs: [],
+                },
+                errors,
+            }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -347,6 +385,10 @@ describe("create-consequence-services API", () => {
     it("should redirect back to /create-consequence-services when description is too long with appropriate query params", async () => {
         const stopsData = {
             ...defaultServicesData,
+            service2: JSON.stringify({
+                ...service,
+                dataSource: Datasource.bods,
+            }),
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         };
@@ -364,10 +406,22 @@ describe("create-consequence-services API", () => {
         const errors: ErrorInfo[] = [
             { errorMessage: "Description must not exceed 1000 characters", id: "description" },
         ];
+
+        const formattedBody = formatCreateConsequenceStopsServicesBody(req.body) as ServicesConsequence;
+
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CONSEQUENCE_SERVICES_ERRORS,
-            JSON.stringify({ inputs: formatCreateConsequenceStopsServicesBody(req.body), errors }),
+            JSON.stringify({
+                inputs: {
+                    ...formattedBody,
+                    services: [],
+                    stops: [],
+                    serviceRefs: ["NW_04_SCMN_149_1", "SL1"],
+                    stopRefs: [],
+                },
+                errors,
+            }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -417,6 +471,87 @@ describe("create-consequence-services API", () => {
 
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/3`,
+        });
+    });
+
+    it("should redirect back to /create-consequence-services when operator user tries to create a consequence for service that does not contain their NOC code", async () => {
+        getSessionSpy.mockImplementation(() => {
+            return { ...mockSession, isSystemAdmin: false, isOperatorUser: true, operatorOrgId: "test-org-id" };
+        });
+        upsertConsequenceSpy.mockResolvedValue(disruptionWithConsequences);
+        getNocCodesForOperatorOrgSpy.mockResolvedValue(["TESTING, TESTING"]);
+
+        const { req, res } = getMockRequestAndResponse({
+            body: { ...defaultServicesData },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        await createConsequenceServices(req, res);
+
+        const errors: ErrorInfo[] = [
+            {
+                errorMessage:
+                    "Operator user can only create service type consequence for services that contain their own NOC codes.",
+                id: "",
+            },
+        ];
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_CONSEQUENCE_SERVICES_ERRORS,
+            JSON.stringify({ inputs: formatCreateConsequenceStopsServicesBody(req.body), errors }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${CREATE_CONSEQUENCE_SERVICES_PATH}/${defaultDisruptionId}/${defaultConsequenceIndex}`,
+        });
+    });
+
+    it("should redirect to /review-disruption when operator user creates consequence and all required inputs are passed", async () => {
+        getSessionSpy.mockImplementation(() => {
+            return { ...mockSession, isSystemAdmin: false, isOperatorUser: true, operatorOrgId: "test-org-id" };
+        });
+        getNocCodesForOperatorOrgSpy.mockResolvedValue(["TEST"]);
+        const { req, res } = getMockRequestAndResponse({ body: defaultServicesData, mockWriteHeadFn: writeHeadMock });
+
+        await createConsequenceServices(req, res);
+
+        expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
+        expect(upsertConsequenceSpy).toHaveBeenCalledWith(
+            {
+                disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                description:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                removeFromJourneyPlanners: "no",
+                disruptionDelay: "45",
+                disruptionDirection: "inbound",
+                disruptionSeverity: "severe",
+                vehicleMode: "bus",
+                consequenceIndex: 0,
+                consequenceType: "services",
+                services: [
+                    {
+                        destination: "HigH Green",
+                        id: 23127,
+                        lineName: "1",
+                        nocCode: "TEST",
+                        operatorShortName: "First South Yorkshire",
+                        origin: "Jordanthorpe",
+                        startDate: "2023-07-23",
+                        serviceCode: "NW_04_SCMN_149_1",
+                        dataSource: Datasource.tnds,
+                        lineId: "SL1",
+                        endDate: "2023-08-10",
+                    },
+                ],
+                stops: [],
+            },
+            DEFAULT_ORG_ID,
+            mockSession.isOrgStaff,
+            false,
+        );
+
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
         });
     });
 });

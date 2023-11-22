@@ -24,6 +24,7 @@ import {
     DISRUPTION_STATUSES,
     REVIEW_TEMPLATE_PAGE_PATH,
     TEMPLATE_OVERVIEW_PAGE_PATH,
+    TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH,
     VEHICLE_MODES,
 } from "../constants";
 import { fetchOperators, fetchServices } from "../data/refDataApi";
@@ -41,6 +42,7 @@ import { filterServices } from "../utils/formUtils";
 export interface ViewAllTemplatesProps {
     adminAreaCodes: string[];
     newContentId: string;
+    orgId: string;
     csrfToken?: string;
     filterStatus?: Progress | null;
     enableLoadingSpinnerOnPageLoad?: boolean;
@@ -109,31 +111,50 @@ const sortFunction = (contents: ContentTable[], sortField: keyof ContentTable, s
     });
 };
 
-export const getTemplateData = async () => {
+export const getTemplateData = async (orgId: string, nextKey?: string): Promise<TableContents[]> => {
     const options: RequestInit = {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
+            NextKey: nextKey || "",
         },
     };
 
-    const res = await fetch("/api/get-all-templates", options);
+    const queryParams = [];
 
-    const parseResult = makeFilteredArraySchema(disruptionsTableSchema).safeParse(await res.json());
-    if (!parseResult.success) {
+    if (nextKey) {
+        queryParams.push(`nextKey=${encodeURIComponent(nextKey)}`);
+    }
+
+    const res = await fetch(
+        `/api/get-all-templates/${orgId}${queryParams.length > 0 ? `?${queryParams.join("&")}` : ""}`,
+        options,
+    );
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const { disruptions, nextKey: newNextKey } = await res.json();
+
+    const parsedTemplates = makeFilteredArraySchema(disruptionsTableSchema).safeParse(disruptions);
+
+    if (!parsedTemplates.success) {
         return [];
     }
-    return parseResult.data;
+
+    if (newNextKey) {
+        return [...parsedTemplates.data, ...(await getTemplateData(orgId, newNextKey as string))];
+    }
+
+    return parsedTemplates.data;
 };
 
 export const filterContents = (contents: TableContents[], filter: Filter): TableContents[] => {
-    let disruptionsToDisplay = contents.filter((disruption) => {
+    let templatesToDisplay = contents.filter((disruption) => {
         if (filter.services.length > 0) {
             const filterServiceRefs = filter.services.map((service) => service.id.toString());
-            const disruptionServiceRefs = disruption.serviceIds;
+            const templateServiceRefs = disruption.serviceIds;
             let showService = false;
 
-            disruptionServiceRefs.forEach((disruptionServiceRef) => {
+            templateServiceRefs.forEach((disruptionServiceRef) => {
                 if (filterServiceRefs.includes(disruptionServiceRef)) {
                     showService = true;
                 }
@@ -187,10 +208,10 @@ export const filterContents = (contents: TableContents[], filter: Filter): Table
     });
 
     if (filter.period) {
-        disruptionsToDisplay = applyDateFilters(disruptionsToDisplay, filter.period);
+        templatesToDisplay = applyDateFilters(templatesToDisplay, filter.period);
     }
 
-    return disruptionsToDisplay;
+    return templatesToDisplay;
 };
 
 export const applyDateFilters = (
@@ -222,9 +243,13 @@ export const applyFiltersToContents = (
     setContentsToDisplay: Dispatch<SetStateAction<TableContents[]>>,
     filter: Filter,
 ): void => {
-    const disruptionsToDisplay = filterContents(disruptions, filter);
+    const templatesToDisplay = filterContents(disruptions, filter);
 
-    setContentsToDisplay(disruptionsToDisplay);
+    setContentsToDisplay(
+        templatesToDisplay.filter(
+            (disruption, index, self) => index === self.findIndex((val) => val.id === disruption.id),
+        ),
+    );
 };
 
 export const filterIsEmpty = (filter: Filter): boolean =>
@@ -335,6 +360,12 @@ export const handleDateFilterUpdate = (dateFilterProps: HandleDateFilterProps) =
     }
 };
 
+export const getContentPage = (pageNumber: number, contents: TableContents[]): TableContents[] => {
+    const startPoint = (pageNumber - 1) * 10;
+    const endPoint = pageNumber * 10;
+    return contents.slice(startPoint, endPoint);
+};
+
 const formatContentsIntoRows = (contents: TableContents[]): ContentTable[] => {
     return contents.map((content) => {
         const earliestPeriod: {
@@ -349,9 +380,13 @@ const formatContentsIntoRows = (contents: TableContents[]): ContentTable[] => {
                     className="govuk-link"
                     href={
                         content.status === Progress.draft
-                            ? {
-                                  pathname: `${REVIEW_TEMPLATE_PAGE_PATH}/${content.id}`,
-                              }
+                            ? content.consequenceLength && content.consequenceLength > 0
+                                ? {
+                                      pathname: `${REVIEW_TEMPLATE_PAGE_PATH}/${content.id}`,
+                                  }
+                                : {
+                                      pathname: `${TYPE_OF_CONSEQUENCE_TEMPLATE_PAGE_PATH}/${content.id}/0`,
+                                  }
                             : {
                                   pathname: `${TEMPLATE_OVERVIEW_PAGE_PATH}/${content.id}`,
                               }
@@ -428,6 +463,7 @@ const ViewAllTemplateContents = ({
     adminAreaCodes,
     filterStatus,
     enableLoadingSpinnerOnPageLoad = true,
+    orgId,
 }: ViewAllTemplatesProps): ReactElement => {
     const [selectedServices, setSelectedServices] = useState<Service[]>([]);
     const [selectedOperators, setSelectedOperators] = useState<ConsequenceOperators[]>([]);
@@ -465,7 +501,8 @@ const ViewAllTemplateContents = ({
         const fetchData = async () => {
             setLoadPage(true);
 
-            const data = await getTemplateData();
+            const data = await getTemplateData(orgId);
+
             setInitialFilters(filter, setContentsToDisplay, data);
             setContents(data);
             setLoadPage(false);
@@ -657,7 +694,7 @@ const ViewAllTemplateContents = ({
         <>
             {popUpState ? <ExportPopUp confirmHandler={exportHandler} closePopUp={cancelActionHandler} /> : null}
 
-            <h1 className="govuk-heading-xl">Templates</h1>
+            <h1 className="govuk-heading-xl">View all templates</h1>
 
             <div>
                 <Link

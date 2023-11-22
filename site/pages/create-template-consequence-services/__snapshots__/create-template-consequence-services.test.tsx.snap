@@ -756,7 +756,7 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
                 <span
                   className="govuk-heading-l govuk-!-margin-bottom-0"
                 >
-                  Direction of disruption
+                  Direction of template
                 </span>
               </legend>
               <div
@@ -863,7 +863,14 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
           <button
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api//create-template-consequence-services?addAnotherConsequence=true"
+            formAction="/api/create-template-consequence-services?draft=true"
+          >
+            Save as draft
+          </button>
+          <button
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            formAction="/api/create-template-consequence-services?addAnotherConsequence=true"
           >
             Add another consequence
           </button>
@@ -1656,7 +1663,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
             <p
               className="text-govBlue govuk-body-m"
             >
-              Copy from disruption description
+              Copy from template description
             </p>
           </button>
           <div
@@ -1860,7 +1867,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                 <span
                   className="govuk-heading-l govuk-!-margin-bottom-0"
                 >
-                  Direction of disruption
+                  Direction of template
                 </span>
               </legend>
               <div
@@ -1956,7 +1963,14 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
           <button
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api//create-template-consequence-services?addAnotherConsequence=true"
+            formAction="/api/create-template-consequence-services?draft=true"
+          >
+            Save as draft
+          </button>
+          <button
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            formAction="/api/create-template-consequence-services?addAnotherConsequence=true"
           >
             Add another consequence
           </button>
@@ -2884,7 +2898,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                 <span
                   className="govuk-heading-l govuk-!-margin-bottom-0"
                 >
-                  Direction of disruption
+                  Direction of template
                 </span>
               </legend>
               <div
@@ -2991,7 +3005,14 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
           <button
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api//create-template-consequence-services?addAnotherConsequence=true"
+            formAction="/api/create-template-consequence-services?draft=true"
+          >
+            Save as draft
+          </button>
+          <button
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            formAction="/api/create-template-consequence-services?addAnotherConsequence=true"
           >
             Add another consequence
           </button>
@@ -3467,20 +3488,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                   </div>
                 </div>
               </div>
-              <table
-                className="govuk-table"
-              >
-                <thead
-                  className="govuk-table__head"
-                >
-                  <tr
-                    className="govuk-table__row"
-                  />
-                </thead>
-                <tbody
-                  className="govuk-table__body"
-                />
-              </table>
             </div>
           </div>
           <div
@@ -3602,20 +3609,6 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                   </div>
                 </div>
               </div>
-              <table
-                className="govuk-table"
-              >
-                <thead
-                  className="govuk-table__head"
-                >
-                  <tr
-                    className="govuk-table__row"
-                  />
-                </thead>
-                <tbody
-                  className="govuk-table__body"
-                />
-              </table>
             </div>
           </div>
           <div
@@ -3660,7 +3653,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
             <p
               className="text-govBlue govuk-body-m"
             >
-              Copy from disruption description
+              Copy from template description
             </p>
           </button>
           <div
@@ -3851,7 +3844,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                 <span
                   className="govuk-heading-l govuk-!-margin-bottom-0"
                 >
-                  Direction of disruption
+                  Direction of template
                 </span>
               </legend>
               <div
@@ -3947,7 +3940,14 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
           <button
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api//create-template-consequence-services?addAnotherConsequence=true"
+            formAction="/api/create-template-consequence-services?draft=true"
+          >
+            Save as draft
+          </button>
+          <button
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            formAction="/api/create-template-consequence-services?addAnotherConsequence=true"
           >
             Add another consequence
           </button>
@@ -4875,7 +4875,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                 <span
                   className="govuk-heading-l govuk-!-margin-bottom-0"
                 >
-                  Direction of disruption
+                  Direction of template
                 </span>
               </legend>
               <div
@@ -4982,7 +4982,14 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
           <button
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api//create-template-consequence-services?addAnotherConsequence=true"
+            formAction="/api/create-template-consequence-services?draft=true"
+          >
+            Save as draft
+          </button>
+          <button
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            formAction="/api/create-template-consequence-services?addAnotherConsequence=true"
           >
             Add another consequence
           </button>
