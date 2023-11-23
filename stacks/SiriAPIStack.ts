@@ -1,3 +1,4 @@
+import { Duration } from "aws-cdk-lib";
 import { AuthorizationType, AwsIntegration, MethodOptions, PassthroughBehavior } from "aws-cdk-lib/aws-apigateway";
 import { PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
 import { ApiGatewayV1Api, StackContext, use } from "sst/constructs";
@@ -28,6 +29,10 @@ export const SiriAPIStack = ({ stack }: StackContext) => {
             restApi: {
                 restApiName: `cdd-siri-sx-api-${stack.stage}`,
                 description: "API to retrieve Siri SX XML data and includes statistics about this data",
+                deployOptions: {
+                    cachingEnabled: true,
+                    cacheTtl: Duration.seconds(60),
+                },
             },
         },
         defaults: {
