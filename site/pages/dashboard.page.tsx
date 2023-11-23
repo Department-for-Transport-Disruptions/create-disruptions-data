@@ -262,6 +262,9 @@ const Dashboard = ({
                     <h2 className="govuk-heading-s text-govBlue">Templates</h2>
                 </Link>
             )}
+            <Link className="govuk-link" href="/roadworks-overview">
+                <h2 className="govuk-heading-s text-govBlue">Create disruptions from roadworks in your area</h2>
+            </Link>
         </BaseLayout>
     );
 };
