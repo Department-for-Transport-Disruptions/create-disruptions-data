@@ -285,6 +285,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             canPublish: false,
             orgName: "",
             isOperatorUser: false,
+            stage: "dev",
         },
     };
 
