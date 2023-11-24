@@ -1034,6 +1034,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
           <input
             name="consequenceOperators"
             type="hidden"
+            value="[]"
           />
           <div
             className="govuk-form-group"

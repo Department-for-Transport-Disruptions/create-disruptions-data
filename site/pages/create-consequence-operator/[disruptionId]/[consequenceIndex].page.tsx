@@ -193,7 +193,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                         <input
                             type="hidden"
                             name="consequenceOperators"
-                            value={JSON.stringify(pageState.inputs.consequenceOperators)}
+                            value={JSON.stringify(pageState.inputs.consequenceOperators || [])}
                         />
                         <TextInput<OperatorConsequence>
                             display="Consequence description"
