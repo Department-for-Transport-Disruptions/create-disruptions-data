@@ -1,130 +1,84 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
-import { TwitterApi, UserV2Result } from "twitter-api-v2";
-import { addSocialAccountToOrg, getOrgSocialAccounts, upsertSocialMediaPost } from "./dynamo";
-import { getParameter, putParameter } from "./ssm";
-import { COOKIES_TWITTER_CODE_VERIFIER, COOKIES_TWITTER_STATE } from "../constants";
+import { TwitterApi } from "twitter-api-v2";
+import { getOrgSocialAccounts, upsertSocialMediaPost } from "./dynamo";
+import { getObject } from "./s3";
+import { getParameter } from "./ssm";
+import { COOKIES_TWITTER_OAUTH_SECRET, COOKIES_TWITTER_OAUTH_TOKEN, DOMAIN_NAME, TWITTER_CALLBACK } from "../constants";
 import { SocialMediaAccount } from "../schemas/social-media-accounts.schema";
 import { TwitterPost } from "../schemas/social-media.schema";
 import { setCookieOnResponseObject } from "../utils/apiUtils";
 import logger from "../utils/logger";
 
-let twitterClientV2: TwitterApi | null = null;
+type TwitterClientParams = {
+    orgId?: string;
+    twitterId?: string;
+    oauthToken?: string;
+    oauthSecret?: string;
+};
 
-const getTwitterClient = async () => {
-    if (twitterClientV2) {
-        return twitterClientV2;
-    }
-
-    const [twitterClientIdParam, twitterClientSecretParam] = await Promise.all([
-        getParameter("/social/twitter/client_id"),
-        getParameter("/social/twitter/client_secret"),
+export const getTwitterClient = async ({ orgId, twitterId, oauthToken, oauthSecret }: TwitterClientParams) => {
+    const [twitterClientConsumerKeyParam, twitterClientConsumerSecretParam] = await Promise.all([
+        getParameter("/social/twitter/consumer_key"),
+        getParameter("/social/twitter/consumer_secret"),
     ]);
 
-    const twitterClientId = twitterClientIdParam.Parameter?.Value ?? "";
-    const twitterClientSecret = twitterClientSecretParam.Parameter?.Value ?? "";
+    let accessToken = oauthToken;
+    let accessSecret = oauthSecret;
 
-    twitterClientV2 = new TwitterApi({
-        clientId: twitterClientId,
-        clientSecret: twitterClientSecret,
+    if ((!accessToken || !accessSecret) && orgId && twitterId) {
+        const [twitterClientAccessTokenParam, twitterClientAccessSecretParam] = await Promise.all([
+            getParameter(getTwitterSsmAccessTokenKey(orgId, twitterId)),
+            getParameter(getTwitterSsmAccessSecretKey(orgId, twitterId)),
+        ]);
+
+        accessToken = twitterClientAccessTokenParam.Parameter?.Value;
+        accessSecret = twitterClientAccessSecretParam.Parameter?.Value;
+    }
+
+    const twitterClientConsumerKey = twitterClientConsumerKeyParam.Parameter?.Value ?? "";
+    const twitterClientConsumerSecret = twitterClientConsumerSecretParam.Parameter?.Value ?? "";
+
+    const twitterClient = new TwitterApi({
+        appKey: twitterClientConsumerKey,
+        appSecret: twitterClientConsumerSecret,
+        accessToken: accessToken,
+        accessSecret: accessSecret,
     });
 
-    return twitterClientV2;
+    return twitterClient;
 };
 
 export const twitterRedirectUri = `${process.env.DOMAIN_NAME as string}/api/twitter-callback`;
 
-const getSsmKey = (orgId: string, id: string) => `/social/${orgId}/twitter/${id}/refresh_token`;
-
-export const addTwitterAccount = async (
-    code: string,
-    codeVerifier: string,
-    orgId: string,
-    addedBy: string,
-    createdByOperatorOrgId?: string | null,
-) => {
-    const twitterClient = await getTwitterClient();
-
-    const { refreshToken, client } = await twitterClient.loginWithOAuth2({
-        code: code.toString(),
-        codeVerifier,
-        redirectUri: twitterRedirectUri,
-    });
-
-    if (!refreshToken) {
-        throw new Error("No refresh token returned by Twitter");
-    }
-
-    let twitterDetails: UserV2Result | null = null;
-
-    try {
-        twitterDetails = await client.v2.me();
-    } catch (e) {
-        logger.error(e);
-        throw new Error("Twitter auth failed");
-    }
-
-    await addSocialAccountToOrg(
-        orgId,
-        twitterDetails.data.id,
-        twitterDetails.data.name,
-        addedBy,
-        "Twitter",
-        createdByOperatorOrgId,
-    );
-
-    await putParameter(getSsmKey(orgId, twitterDetails.data.id), refreshToken, "SecureString", true);
-};
-
-export const refreshTwitterToken = async (refreshToken: string, orgId: string, socialId: string) => {
-    try {
-        const twitterClient = await getTwitterClient();
-
-        const { refreshToken: newRefreshToken, client: authedClient } = await twitterClient.refreshOAuth2Token(
-            refreshToken,
-        );
-
-        if (!newRefreshToken) {
-            throw new Error("No refresh token returned by Twitter");
-        }
-
-        await putParameter(getSsmKey(orgId, socialId), newRefreshToken, "SecureString", true);
-
-        return authedClient;
-    } catch (e) {
-        return null;
-    }
-};
+export const getTwitterSsmAccessTokenKey = (orgId: string, id: string) => `/social/${orgId}/twitter/${id}/access_token`;
+export const getTwitterSsmAccessSecretKey = (orgId: string, id: string) =>
+    `/social/${orgId}/twitter/${id}/access_secret`;
 
 export const getTwitterAuthUrl = async (ctx: NextPageContext) => {
-    const twitterClient = await getTwitterClient();
+    const [twitterClientConsumerKeyParam, twitterClientConsumerSecretParam] = await Promise.all([
+        getParameter("/social/twitter/consumer_key"),
+        getParameter("/social/twitter/consumer_secret"),
+    ]);
 
-    const { url, state, codeVerifier } = twitterClient.generateOAuth2AuthLink(twitterRedirectUri, {
-        scope: ["tweet.write", "offline.access", "tweet.read", "users.read"],
+    const twitterClientConsumerKey = twitterClientConsumerKeyParam.Parameter?.Value ?? "";
+    const twitterClientConsumerSecret = twitterClientConsumerSecretParam.Parameter?.Value ?? "";
+
+    const twitterClient = new TwitterApi({
+        appKey: twitterClientConsumerKey,
+        appSecret: twitterClientConsumerSecret,
     });
 
+    const { url, oauth_token, oauth_token_secret } = await twitterClient.generateAuthLink(
+        `${DOMAIN_NAME}${TWITTER_CALLBACK}`,
+    );
+
     if (ctx.res) {
-        setCookieOnResponseObject(COOKIES_TWITTER_CODE_VERIFIER, codeVerifier, ctx.res);
-        setCookieOnResponseObject(COOKIES_TWITTER_STATE, state, ctx.res);
+        setCookieOnResponseObject(COOKIES_TWITTER_OAUTH_TOKEN, oauth_token, ctx.res);
+        setCookieOnResponseObject(COOKIES_TWITTER_OAUTH_SECRET, oauth_token_secret, ctx.res);
     }
 
     return url;
-};
-
-export const getAuthedTwitterClient = async (orgId: string, socialId: string) => {
-    try {
-        const refreshTokenParam = await getParameter(getSsmKey(orgId, socialId), true);
-
-        if (!refreshTokenParam.Parameter?.Value) {
-            return null;
-        }
-
-        const refreshToken = refreshTokenParam.Parameter.Value;
-
-        return await refreshTwitterToken(refreshToken, orgId, socialId);
-    } catch (e) {
-        return null;
-    }
 };
 
 export const sendTweet = async (
@@ -139,9 +93,34 @@ export const sendTweet = async (
             throw new Error("Not authenticated to twitter");
         }
 
+        let imageId: string | null = null;
+
+        if (post.image) {
+            const imageContents = await getObject(
+                process.env.IMAGE_BUCKET_NAME || "",
+                post.image.key,
+                post.image.originalFilename,
+            );
+
+            if (!imageContents) {
+                throw new Error("Could not read image file");
+            }
+
+            imageId = await authedClient.v1.uploadMedia(Buffer.from(imageContents), {
+                mimeType: post.image.mimetype,
+            });
+        }
+
         await Promise.all([
             authedClient.v2.tweet({
                 text: post.messageContent,
+                ...(imageId
+                    ? {
+                          media: {
+                              media_ids: [imageId],
+                          },
+                      }
+                    : {}),
             }),
             upsertSocialMediaPost(
                 {

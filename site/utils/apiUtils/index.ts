@@ -18,7 +18,7 @@ import {
 } from "../../constants";
 import { upsertConsequence } from "../../data/dynamo";
 import { getAccessToken, publishToHootsuite } from "../../data/hootsuite";
-import { getAuthedTwitterClient, sendTweet } from "../../data/twitter";
+import { getTwitterClient, sendTweet } from "../../data/twitter";
 import { TooManyConsequencesError } from "../../errors";
 import { PageState } from "../../interfaces";
 import { SocialMediaPost } from "../../schemas/social-media.schema";
@@ -153,7 +153,7 @@ export const publishSocialMedia = async (
     }
 
     for (const socialAccount of uniqueTwitterSocialAccounts) {
-        const authedClient = await getAuthedTwitterClient(orgId, socialAccount);
+        const authedClient = await getTwitterClient({ orgId, twitterId: socialAccount });
 
         if (authedClient) {
             authedTwitterClients[socialAccount] = authedClient;

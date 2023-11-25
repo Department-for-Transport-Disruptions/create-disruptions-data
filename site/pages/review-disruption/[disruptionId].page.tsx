@@ -103,18 +103,13 @@ const ReviewDisruption = ({
                 header: "Image",
                 cells: [
                     {
-                        value:
-                            post.accountType === "Hootsuite" && post.image ? (
-                                <Link
-                                    className="govuk-link text-govBlue"
-                                    key={post.image.key}
-                                    href={post.image?.url ?? ""}
-                                >
-                                    {post.image.originalFilename}
-                                </Link>
-                            ) : (
-                                "No image uploaded"
-                            ),
+                        value: post.image ? (
+                            <Link className="govuk-link text-govBlue" key={post.image.key} href={post.image?.url ?? ""}>
+                                {post.image.originalFilename}
+                            </Link>
+                        ) : (
+                            "No image uploaded"
+                        ),
                     },
                     {
                         value:
@@ -851,7 +846,7 @@ export const getServerSideProps = async (
     if (disruption?.socialMediaPosts && process.env.IMAGE_BUCKET_NAME) {
         socialMediaWithImageLinks = await Promise.all(
             disruption.socialMediaPosts.map(async (s) => {
-                if (s.accountType === "Hootsuite" && s.image) {
+                if (s.image) {
                     const url =
                         (await getItem(process.env.IMAGE_BUCKET_NAME || "", s.image?.key, s.image?.originalFilename)) ||
                         "";

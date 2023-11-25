@@ -24,6 +24,7 @@ const baseSchema = {
     socialMediaPostIndex: z.coerce.number().default(0),
     status: z.nativeEnum(SocialMediaPostStatus).default(SocialMediaPostStatus.pending),
     createdByOperatorOrgId: z.string().optional(),
+    image: socialMediaImageSchema.optional(),
 };
 
 const hootsuiteSchema = z.object({
@@ -31,7 +32,6 @@ const hootsuiteSchema = z.object({
     hootsuiteProfile: z.string(setZodDefaultError("Select a Hootsuite profile")),
     publishDate: z.string().optional(),
     publishTime: z.string().optional(),
-    image: socialMediaImageSchema.optional(),
     accountType: z.literal("Hootsuite"),
 });
 
@@ -61,17 +61,13 @@ export const refineImageSchema = socialMediaPostSchema
     })
     .refine(
         (item) => {
-            return item.accountType === "Hootsuite" && item.image && item.image.size
-                ? item.image.size <= MAX_FILE_SIZE
-                : true;
+            return item.image && item.image.size ? item.image.size <= MAX_FILE_SIZE : true;
         },
         { path: ["image"], message: `Max image size is 5MB.` },
     )
     .refine(
         (item) =>
-            item.accountType === "Hootsuite" && item.image && item.image.size
-                ? ACCEPTED_IMAGE_TYPES.includes(item.image.mimetype ?? "undefined")
-                : true,
+            item.image && item.image.size ? ACCEPTED_IMAGE_TYPES.includes(item.image.mimetype ?? "undefined") : true,
         { path: ["image"], message: "Only .jpg, .jpeg and .png formats are supported." },
     )
     .refine(
