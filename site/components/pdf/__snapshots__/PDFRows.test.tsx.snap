@@ -101,6 +101,24 @@ exports[`PDFRows > should render correctly 1`] = `
   <TEXT
     style={
       {
+        "width": "4.5%",
+      }
+    }
+  >
+    Mon 23 May 2023
+  </TEXT>
+  <TEXT
+    style={
+      {
+        "width": "4.5%",
+      }
+    }
+  >
+    Wed 25 May 2023
+  </TEXT>
+  <TEXT
+    style={
+      {
         "width": "6.5%",
       }
     }

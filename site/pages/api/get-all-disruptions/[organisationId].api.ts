@@ -1,7 +1,7 @@
 import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Progress, PublishStatus, Severity } from "@create-disruptions-data/shared-ts/enums";
 import { getSortedDisruptionFinalEndDate, sortDisruptionsByStartDate } from "@create-disruptions-data/shared-ts/utils";
-import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
+import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { Dayjs } from "dayjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
@@ -164,6 +164,14 @@ export const formatSortedDisruption = (disruption: Disruption) => {
         id: disruption.disruptionId,
         summary: reduceStringWithEllipsis(disruption.summary, 95),
         validityPeriods: mapValidityPeriods(disruption),
+        publishStartDate: getDatetimeFromDateAndTime(
+            disruption.publishStartDate,
+            disruption.publishStartTime,
+        ).toISOString(),
+        publishEndDate:
+            disruption.publishEndDate && disruption.publishEndTime
+                ? getDatetimeFromDateAndTime(disruption.publishEndDate, disruption.publishEndTime).toISOString()
+                : "",
         isOperatorWideCq: isOperatorWideCq,
         isNetworkWideCq: isNetworkWideCq,
         isLive: isLive,

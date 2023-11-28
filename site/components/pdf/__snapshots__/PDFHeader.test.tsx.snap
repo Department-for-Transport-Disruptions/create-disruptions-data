@@ -102,6 +102,24 @@ exports[`PDFHeader > should render correctly 1`] = `
   <TEXT
     style={
       {
+        "width": "4.5%",
+      }
+    }
+  >
+    publish start
+  </TEXT>
+  <TEXT
+    style={
+      {
+        "width": "4.5%",
+      }
+    }
+  >
+    publish end
+  </TEXT>
+  <TEXT
+    style={
+      {
         "width": "6.5%",
       }
     }

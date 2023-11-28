@@ -49,6 +49,16 @@ export const getExportSchema = (): Schema<ExportDisruptionData> => {
             value: (objectData: ExportDisruptionData) => objectData.endDate,
         },
         {
+            column: "publishStartDate",
+            type: String,
+            value: (objectData: ExportDisruptionData) => objectData.publishStartDate,
+        },
+        {
+            column: "publishEndDate",
+            type: String,
+            value: (objectData: ExportDisruptionData) => objectData.publishEndDate,
+        },
+        {
             column: "severity",
             type: String,
             value: (objectData: ExportDisruptionData) => objectData.severity,
