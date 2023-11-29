@@ -63,13 +63,19 @@ const PDFRows = ({ disruptions }: PDFProps) => {
             <Text key="8" style={PDFStyles.date}>
                 {disruption.endDate}
             </Text>
-            <Text key="9" style={PDFStyles.column}>
+            <Text key="9" style={PDFStyles.date}>
+                {disruption.publishStartDate}
+            </Text>
+            <Text key="10" style={PDFStyles.date}>
+                {disruption.publishEndDate}
+            </Text>
+            <Text key="11" style={PDFStyles.column}>
                 {disruption.severity}
             </Text>
-            <Text key="10" style={PDFStyles.column} hyphenationCallback={hyphenCallback}>
+            <Text key="12" style={PDFStyles.column} hyphenationCallback={hyphenCallback}>
                 {disruption.isLive}
             </Text>
-            <Text key="11" style={PDFStyles.status}>
+            <Text key="13" style={PDFStyles.status}>
                 {disruption.status}
             </Text>
         </View>
