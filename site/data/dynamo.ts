@@ -10,7 +10,7 @@ import {
 import { Consequence, Disruption, DisruptionInfo } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { MAX_CONSEQUENCES } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
-import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
+import { getDate, isCurrentOrUpcomingDisruption } from "@create-disruptions-data/shared-ts/utils/dates";
 import { recursiveQuery } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { makeFilteredArraySchema } from "@create-disruptions-data/shared-ts/utils/zod";
 import { randomUUID } from "crypto";
@@ -245,7 +245,11 @@ export const getPublishedSocialMediaPosts = async (orgId: string): Promise<Socia
 
     const disruptions = await getPublishedDisruptionsDataFromDynamo(orgId);
 
-    return disruptions.flatMap((item) => item.socialMediaPosts).filter(notEmpty);
+    const currentAndUpcomingDisruptions = disruptions.filter((disruption) =>
+        isCurrentOrUpcomingDisruption(disruption.publishEndDate, disruption.publishEndTime),
+    );
+
+    return currentAndUpcomingDisruptions.flatMap((item) => item.socialMediaPosts).filter(notEmpty);
 };
 
 export const getOrganisationInfoById = async (orgId: string): Promise<Organisation | null> => {

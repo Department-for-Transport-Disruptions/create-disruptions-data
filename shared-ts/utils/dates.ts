@@ -33,3 +33,20 @@ export const checkOverlap = (
         firstStartDate.isSame(secondStartDate)
     );
 };
+
+export const isCurrentOrUpcomingDisruption = (
+    publishEndDate: string | undefined,
+    publishEndTime: string | undefined,
+) => {
+    const currentDatetime = getDate();
+
+    if (publishEndDate && publishEndTime) {
+        const endDatetime = getDatetimeFromDateAndTime(publishEndDate, publishEndTime);
+
+        if (currentDatetime.isAfter(endDatetime)) {
+            return false;
+        }
+    }
+
+    return true;
+};
