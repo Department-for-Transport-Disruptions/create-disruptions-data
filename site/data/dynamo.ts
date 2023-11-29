@@ -595,7 +595,7 @@ export const upsertSocialMediaPost = async (
     );
 
     const currentDisruption = await getDisruptionById(socialMediaPost.disruptionId, id, isTemplate);
-    const currentSocialMediaPost = currentDisruption?.socialMediaPosts
+    const existingSocialMediaPost = currentDisruption?.socialMediaPosts
         ? currentDisruption?.socialMediaPosts[socialMediaPost.socialMediaPostIndex]
         : null;
     const isPending =
@@ -612,7 +612,7 @@ export const upsertSocialMediaPost = async (
                 SK: `${socialMediaPost.disruptionId}#SOCIALMEDIAPOST#${socialMediaPost.socialMediaPostIndex}${
                     forcePublish ? "" : isPending ? "#PENDING" : isEditing ? "#EDIT" : ""
                 }`,
-                ...(currentSocialMediaPost ?? {}),
+                ...(existingSocialMediaPost ?? {}),
                 ...socialMediaPost,
             },
         }),
