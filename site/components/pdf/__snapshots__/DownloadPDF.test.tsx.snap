@@ -99,7 +99,7 @@ exports[`DownloadPDF > should render correctly 1`] = `
           }
         }
       >
-        start
+        start date
       </TEXT>
       <TEXT
         style={
@@ -108,7 +108,7 @@ exports[`DownloadPDF > should render correctly 1`] = `
           }
         }
       >
-        end
+        end date
       </TEXT>
       <TEXT
         style={
@@ -117,7 +117,7 @@ exports[`DownloadPDF > should render correctly 1`] = `
           }
         }
       >
-        publish start
+        publish start date
       </TEXT>
       <TEXT
         style={
@@ -126,7 +126,7 @@ exports[`DownloadPDF > should render correctly 1`] = `
           }
         }
       >
-        publish end
+        publish end date
       </TEXT>
       <TEXT
         style={

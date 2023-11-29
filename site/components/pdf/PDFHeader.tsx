@@ -38,10 +38,10 @@ const PDFHeader = () => (
         <Text style={PDFStyles.column}>network wide</Text>
         <Text style={PDFStyles.column}>services affected</Text>
         <Text style={PDFStyles.column}>stops affected</Text>
-        <Text style={PDFStyles.date}>start</Text>
-        <Text style={PDFStyles.date}>end</Text>
-        <Text style={PDFStyles.date}>publish start</Text>
-        <Text style={PDFStyles.date}>publish end</Text>
+        <Text style={PDFStyles.date}>start date</Text>
+        <Text style={PDFStyles.date}>end date</Text>
+        <Text style={PDFStyles.date}>publish start date</Text>
+        <Text style={PDFStyles.date}>publish end date</Text>
         <Text style={PDFStyles.column}>severity</Text>
         <Text style={PDFStyles.column}>live</Text>
         <Text style={PDFStyles.status}>status</Text>
