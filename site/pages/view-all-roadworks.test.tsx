@@ -15,7 +15,7 @@ describe("ViewAllRoadworks", () => {
         const tree = renderer.create(<ViewAllRoadworks liveRoadworks={mockLiveRoadworks} />).toJSON();
         expect(tree).toMatchSnapshot();
     });
-    it("should render correctly when social media posts are not present", () => {
+    it("should render correctly when no roadworks data is present", () => {
         const tree = renderer.create(<ViewAllRoadworks liveRoadworks={[]} />).toJSON();
         expect(tree).toMatchSnapshot();
     });
