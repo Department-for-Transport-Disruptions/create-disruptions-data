@@ -1,3 +1,4 @@
+import { getDate, sortEarliestDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import SortableTable, { TableColumn } from "../components/form/SortableTable";
@@ -23,65 +24,12 @@ const columns: TableColumn<RoadworksTable>[] = [
     {
         displayName: "Dates affected",
         key: "datesAffected",
-        widthClass: "w-[1=40%]",
+        widthClass: "w-[1=30%]",
     },
     {
         displayName: "Description",
         key: "description",
-        widthClass: "w-[1=60%]",
-    },
-];
-
-const mockRoadworks: Roadwork[] = [
-    {
-        permitReferenceNumber: "LM213MB10186822-01",
-        actualStartDateTime: "2023-10-29T08:36:00.000Z",
-        actualEndDateTime: "2023-11-01T00:00:00.000Z",
-        proposedStartDateTime: "2023-10-29T08:36:00.000Z",
-        proposedEndDateTime: "2023-11-01T00:00:00.000Z",
-        streetName: "New Station Street",
-        trafficManagementType: "Road closure",
-        workStatus: "planned",
-        highwayAuthority: "",
-        highwayAuthoritySwaCode: 123,
-        worksLocationCoordinates: "123",
-        areaName: "My town",
-        town: "town",
-        workCategory: "Standard",
-        usrn: "1234",
-        activityType: "Utility works",
-        worksLocationType: "Carriageway, Footpath",
-        isTrafficSensitive: "No",
-        permitStatus: "granted",
-        currentTrafficManagementType: null,
-        currentTrafficManagementTypeUpdateDate: null,
-        lastUpdatedDateTime: "2020-06-11T10:11:00.000Z",
-        createdDateTime: "2020-06-11T10:11:00.000Z",
-    },
-    {
-        permitReferenceNumber: "LM213MB10186822-02",
-        actualStartDateTime: "2023-10-29T08:36:00.000Z",
-        actualEndDateTime: "2023-11-01T00:00:00.000Z",
-        proposedStartDateTime: "2023-10-29T08:36:00.000Z",
-        proposedEndDateTime: "2023-11-01T00:00:00.000Z",
-        streetName: "A nice looking street",
-        trafficManagementType: "Road closure",
-        workStatus: "planned",
-        highwayAuthority: "",
-        highwayAuthoritySwaCode: 123,
-        worksLocationCoordinates: "123",
-        areaName: "My town",
-        town: "town",
-        workCategory: "Standard",
-        usrn: "1234",
-        activityType: "Utility works",
-        worksLocationType: "Carriageway, Footpath",
-        isTrafficSensitive: "No",
-        permitStatus: "granted",
-        currentTrafficManagementType: null,
-        currentTrafficManagementTypeUpdateDate: null,
-        lastUpdatedDateTime: "2020-06-11T10:11:00.000Z",
-        createdDateTime: "2020-06-11T10:11:00.000Z",
+        widthClass: "w-[1=70%]",
     },
 ];
 
@@ -89,11 +37,11 @@ const formatRows = (roadworks: Roadwork[]) => {
     return roadworks.map((roadwork) => {
         return {
             datesAffected: `${convertDateTimeToFormat(roadwork.actualStartDateTime ?? "")} - ${convertDateTimeToFormat(
-                roadwork.actualEndDateTime ?? "",
+                roadwork.proposedEndDateTime ?? "",
             )}`,
             description: (
                 <Link className="govuk-link" href={`roadwork-detail/${roadwork.permitReferenceNumber}`}>
-                    {roadwork.streetName} - {roadwork.trafficManagementType}
+                    {roadwork.streetName?.toUpperCase()} - {roadwork.activityType}
                 </Link>
             ),
         };
@@ -144,11 +92,15 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     const roadworks = await fetchRoadworks({ adminAreaCodes: session.adminAreaCodes });
 
-    const liveRoadworks = roadworks.filter((roadwork) => roadwork.workStatus === "Works in progress");
+    const liveRoadworks = roadworks
+        .filter((roadwork) => roadwork.workStatus === "Works in progress" && !roadwork.actualEndDateTime)
+        .sort((a, b) => {
+            return sortEarliestDate(getDate(a.actualStartDateTime ?? ""), getDate(b.actualStartDateTime ?? ""));
+        });
 
     return {
         props: {
-            liveRoadworks: mockRoadworks,
+            liveRoadworks: liveRoadworks,
         },
     };
 };

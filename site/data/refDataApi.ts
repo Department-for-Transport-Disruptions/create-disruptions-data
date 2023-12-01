@@ -291,7 +291,7 @@ export const fetchRoadworks = async (input: FetchRoadworksInput) => {
         method: "GET",
     });
 
-    const parseResult = makeFilteredArraySchema(roadworkSchema).safeParse(await res.json());
+    const parseResult = z.array(roadworkSchema).safeParse(await res.json());
 
     if (!parseResult.success) {
         return [];
