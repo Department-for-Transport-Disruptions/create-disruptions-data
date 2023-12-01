@@ -1,7 +1,6 @@
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
 import { describe, expect, it } from "vitest";
-import { randomUUID } from "crypto";
 import RoadworkDetail from "./[permitReferenceNumber].page";
 import { Roadwork } from "../../schemas/roadwork.schema";
 
