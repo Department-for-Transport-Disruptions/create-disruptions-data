@@ -34,4 +34,21 @@ export const checkOverlap = (
     );
 };
 
+export const isCurrentOrUpcomingDisruption = (
+    publishEndDate: string | undefined,
+    publishEndTime: string | undefined,
+) => {
+    const currentDatetime = getDate();
+
+    if (publishEndDate && publishEndTime) {
+        const endDatetime = getDatetimeFromDateAndTime(publishEndDate, publishEndTime);
+
+        if (currentDatetime.isAfter(endDatetime)) {
+            return false;
+        }
+    }
+
+    return true;
+};
+
 export const sortEarliestDate = (firstDate: Dayjs, secondDate: Dayjs) => (firstDate.isBefore(secondDate) ? -1 : 1);

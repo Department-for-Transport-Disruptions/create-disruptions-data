@@ -9,7 +9,7 @@ import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import PageNumbers from "../components/layout/PageNumbers";
 import Tabs from "../components/layout/Tabs";
-import { DASHBOARD_PAGE_PATH, VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../constants";
+import { DASHBOARD_PAGE_PATH, STAGE, VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../constants";
 import { getPendingDisruptionsIdsFromDynamo, getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
 import { filterDisruptionsForOperatorUser, reduceStringWithEllipsis } from "../utils";
 import { canPublish, getSessionWithOrgDetail } from "../utils/apiUtils/auth";
@@ -37,6 +37,7 @@ export interface DashboardProps {
     canPublish: boolean;
     orgName: string;
     isOperatorUser: boolean;
+    stage: string;
 }
 
 const mapDisruptions = (disruptions: Disruption[]) => {
@@ -103,6 +104,7 @@ const Dashboard = ({
     canPublish,
     orgName,
     isOperatorUser = false,
+    stage,
 }: DashboardProps): ReactElement => {
     const hasInitialised = useRef(false);
     const numberOfLiveDisruptionsPages = Math.ceil(liveDisruptions.length / 10);
@@ -262,6 +264,11 @@ const Dashboard = ({
                     <h2 className="govuk-heading-s text-govBlue">Templates</h2>
                 </Link>
             )}
+            {stage !== "prod" && stage !== "preprod" && (
+                <Link className="govuk-link" href="/roadworks-overview">
+                    <h2 className="govuk-heading-s text-govBlue">Create disruptions from roadworks in your area</h2>
+                </Link>
+            )}
         </BaseLayout>
     );
 };
@@ -278,6 +285,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             canPublish: false,
             orgName: "",
             isOperatorUser: false,
+            stage: "dev",
         },
     };
 
@@ -370,6 +378,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                 canPublish: canPublish(sessionWithOrg),
                 orgName: sessionWithOrg.orgName,
                 isOperatorUser: sessionWithOrg.isOperatorUser,
+                stage: STAGE,
             },
         };
     }

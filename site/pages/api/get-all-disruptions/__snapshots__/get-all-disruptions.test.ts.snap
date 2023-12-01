@@ -16,8 +16,6 @@ exports[`getAllDisruptions > formatSortedDisruptions > correctly formats disrupt
   "operators": [
     "TEST",
   ],
-  "publishEndDate": "",
-  "publishStartDate": "2023-03-10T12:00:00.000Z",
   "serviceIds": [
     "123",
   ],

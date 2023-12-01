@@ -6,7 +6,7 @@ import {
     ScanCommand,
     ScanCommandInput,
 } from "@aws-sdk/lib-dynamodb";
-import { getDate, getDatetimeFromDateAndTime } from "./dates";
+import { getDate, getDatetimeFromDateAndTime, isCurrentOrUpcomingDisruption } from "./dates";
 import { makeZodArray } from "./zod";
 import { Disruption } from "../disruptionTypes";
 import { disruptionSchema } from "../disruptionTypes.zod";
@@ -17,7 +17,7 @@ import {
     organisationSchema,
     OrganisationWithStats,
 } from "../organisationTypes";
-import { Logger, notEmpty } from "./index";
+import { Logger, notEmpty, sortDisruptionsByStartDate } from "./index";
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
 
@@ -165,18 +165,44 @@ export const getPublishedDisruptionsDataFromDynamo = async (
 export const getCurrentAndFutureDisruptions = async (tableName: string, logger: Logger): Promise<Disruption[]> => {
     const disruptions = await getPublishedDisruptionsDataFromDynamo(tableName, logger);
 
+    return disruptions.filter((disruption) =>
+        isCurrentOrUpcomingDisruption(disruption.publishEndDate, disruption.publishEndTime),
+    );
+};
+
+export const getActiveDisruptions = async (
+    tableName: string,
+    logger: Logger,
+    orgId?: string,
+): Promise<Disruption[]> => {
+    const disruptions = await getPublishedDisruptionsDataFromDynamo(tableName, logger, orgId);
+    const sortedDisruptions = sortDisruptionsByStartDate(disruptions);
+
     const currentDatetime = getDate();
 
-    return disruptions.filter((disruption) => {
-        if (disruption.publishEndDate && disruption.publishEndTime) {
-            const endDatetime = getDatetimeFromDateAndTime(disruption.publishEndDate, disruption.publishEndTime);
+    return sortedDisruptions.filter((disruption) => {
+        const firstValidity = disruption.validity?.[0];
+        const finalValidity = disruption.validity?.[disruption.validity.length - 1];
 
-            if (currentDatetime.isAfter(endDatetime)) {
-                return false;
-            }
+        if (!firstValidity || !finalValidity) {
+            return false;
         }
 
-        return true;
+        const startDatetime = getDatetimeFromDateAndTime(
+            firstValidity.disruptionStartDate,
+            firstValidity.disruptionStartTime,
+        );
+
+        const endDatetime =
+            finalValidity.disruptionEndDate && finalValidity.disruptionEndTime
+                ? getDatetimeFromDateAndTime(finalValidity.disruptionEndDate, finalValidity.disruptionEndTime)
+                : null;
+
+        if (!endDatetime) {
+            return currentDatetime.isAfter(startDatetime);
+        }
+
+        return currentDatetime.isBetween(startDatetime, endDatetime);
     });
 };
 

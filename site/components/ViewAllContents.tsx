@@ -78,6 +78,8 @@ export interface TableContents {
         startTime: string;
         endTime: string | null;
     }[];
+    publishStartDate: string;
+    publishEndDate?: string;
     severity: string;
     status: Progress;
     serviceIds: string[];
@@ -671,6 +673,8 @@ const ViewAllContents = ({
                 "stopsAffectedCount",
                 "startDate",
                 "endDate",
+                "publishStartDate",
+                "publishEndDate",
                 "severity",
                 "isLive",
                 "status",

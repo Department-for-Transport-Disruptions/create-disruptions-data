@@ -88,7 +88,7 @@ exports[`PDFHeader > should render correctly 1`] = `
       }
     }
   >
-    start
+    start date
   </TEXT>
   <TEXT
     style={
@@ -97,7 +97,25 @@ exports[`PDFHeader > should render correctly 1`] = `
       }
     }
   >
-    end
+    end date
+  </TEXT>
+  <TEXT
+    style={
+      {
+        "width": "4.5%",
+      }
+    }
+  >
+    publish start date
+  </TEXT>
+  <TEXT
+    style={
+      {
+        "width": "4.5%",
+      }
+    }
+  >
+    publish end date
   </TEXT>
   <TEXT
     style={

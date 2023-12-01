@@ -147,6 +147,7 @@ export const sendTweet = async (
                 {
                     ...post,
                     status: SocialMediaPostStatus.successful,
+                    publishStatus: "PUBLISHED",
                 },
                 orgId,
                 isUserStaff,
