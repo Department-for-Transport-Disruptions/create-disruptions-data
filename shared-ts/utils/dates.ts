@@ -21,8 +21,6 @@ export const getDatetimeFromDateAndTime = (date: string, time: string) =>
 
 export const getFormattedDate = (date: string | Date) => dayjs(date, "DD/MM/YYYY");
 
-export const getFormattedTime = (date: string | Date) => dayjs(date, "HHmm");
-
 export const checkOverlap = (
     firstStartDate: dayjs.Dayjs,
     firstEndDate: dayjs.Dayjs,

@@ -111,7 +111,7 @@ export const getServerSideProps = async (
         throw new Error("No context request");
     }
 
-    const permitReferenceNumber = ctx.query.permitReferenceNumber?.toString() ?? "";
+    const permitReferenceNumber = decodeURIComponent(ctx.query.permitReferenceNumber?.toString() ?? "");
 
     const roadwork = await fetchRoadworkById({ permitReferenceNumber });
 
