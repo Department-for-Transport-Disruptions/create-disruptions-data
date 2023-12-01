@@ -40,7 +40,10 @@ const formatRows = (roadworks: Roadwork[]) => {
                 roadwork.proposedEndDateTime ?? "",
             )}`,
             description: (
-                <Link className="govuk-link" href={`roadwork-detail/${roadwork.permitReferenceNumber}`}>
+                <Link
+                    className="govuk-link"
+                    href={`roadwork-detail/${encodeURIComponent(roadwork.permitReferenceNumber)}`}
+                >
                     {roadwork.streetName?.toUpperCase()} - {roadwork.activityType}
                 </Link>
             ),
