@@ -265,7 +265,7 @@ const Dashboard = ({
                 </Link>
             )}
             {stage !== "prod" && stage !== "preprod" && (
-                <Link className="govuk-link" href="/roadworks-overview">
+                <Link className="govuk-link" href="/view-all-roadworks">
                     <h2 className="govuk-heading-s text-govBlue">Create disruptions from roadworks in your area</h2>
                 </Link>
             )}

@@ -255,7 +255,7 @@ exports[`RoadworkDetail > should render correctly when roadwork data is present 
         className="govuk-button mt-8 mr-5"
         data-module="govuk-button"
         draggable="false"
-        href="/disruption-detail/0030ef59-29dd-4a7c-84e5-bdf0dc7df57b"
+        href="/disruption-detail/d7991c1b-f332-4f6e-a150-faffebcd1ff6"
         id="create-new-button"
         onClick={[Function]}
         onMouseEnter={[Function]}
@@ -724,7 +724,7 @@ exports[`RoadworkDetail > should render correctly when roadwork data is present 
         className="govuk-button mt-8 mr-5"
         data-module="govuk-button"
         draggable="false"
-        href="/disruption-detail/0030ef59-29dd-4a7c-84e5-bdf0dc7df57b"
+        href="/disruption-detail/d7991c1b-f332-4f6e-a150-faffebcd1ff6"
         id="create-new-button"
         onClick={[Function]}
         onMouseEnter={[Function]}
@@ -1193,7 +1193,7 @@ exports[`RoadworkDetail > should render correctly when roadworks data is present
         className="govuk-button mt-8 mr-5"
         data-module="govuk-button"
         draggable="false"
-        href="/create-disruption/0030ef59-29dd-4a7c-84e5-bdf0dc7df57b"
+        href="/create-disruption/d7991c1b-f332-4f6e-a150-faffebcd1ff6"
         id="create-new-button"
         onClick={[Function]}
         onMouseEnter={[Function]}

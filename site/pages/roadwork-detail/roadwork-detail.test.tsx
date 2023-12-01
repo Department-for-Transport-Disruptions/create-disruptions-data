@@ -5,7 +5,7 @@ import { randomUUID } from "crypto";
 import RoadworkDetail from "./[permitReferenceNumber].page";
 import { Roadwork } from "../../schemas/roadwork.schema";
 
-const mockNewDisruptionId = randomUUID();
+const mockNewDisruptionId = "d7991c1b-f332-4f6e-a150-faffebcd1ff6";
 
 const mockRoadwork: Roadwork = {
     permitReferenceNumber: "JG222OC_CAP-1436121A-02",
