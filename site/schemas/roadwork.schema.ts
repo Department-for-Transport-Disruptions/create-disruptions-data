@@ -83,6 +83,10 @@ export const roadworkSchema = z.object({
     permitStatus: permitStatus.nullish(),
     town: z.string().nullish(),
     administrativeAreaCode: z.string(),
+    workCategory: workCategory.nullish(),
+    trafficManagementType: z.string().nullish(),
+    createdDateTime: z.string().datetime().nullish(),
+    lastUpdatedDateTime: z.string().datetime().nullish(),
 });
 
 export type Roadwork = z.infer<typeof roadworkSchema>;
