@@ -22,6 +22,7 @@ const mockRoadwork: Roadwork = {
     actualEndDateTime: null,
     permitStatus: "granted",
     workStatus: "Works in progress",
+    workCategory: "Standard",
     administrativeAreaCode: "083",
     createdDateTime: "2023-12-01T08:54:05.351Z",
     lastUpdatedDateTime: "2023-12-01T08:54:05.351Z",

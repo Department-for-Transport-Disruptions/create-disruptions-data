@@ -126,7 +126,7 @@ exports[`RoadworkDetail > should render correctly when roadwork data is present 
             <td
               className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
-              Not provided
+              Standard
             </td>
           </tr>
           <tr
@@ -595,7 +595,7 @@ exports[`RoadworkDetail > should render correctly when roadwork data is present 
             <td
               className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
-              Not provided
+              Standard
             </td>
           </tr>
           <tr
@@ -1064,7 +1064,7 @@ exports[`RoadworkDetail > should render correctly when roadworks data is present
             <td
               className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
-              Not provided
+              Standard
             </td>
           </tr>
           <tr
