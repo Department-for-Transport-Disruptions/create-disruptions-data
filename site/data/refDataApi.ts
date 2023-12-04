@@ -311,6 +311,10 @@ export const fetchRoadworkById = async (input: FetchRoadworkByIdInput) => {
         method: "GET",
     });
 
+    if (res.status === 404) {
+        return null;
+    }
+
     const parseResult = roadworkSchema.safeParse(await res.json());
 
     if (!parseResult.success) {

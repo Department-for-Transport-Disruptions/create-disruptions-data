@@ -1,11 +1,12 @@
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
-import { NextPageContext, Redirect } from "next";
+import { NextPageContext } from "next";
 import Link from "next/link";
 import { randomUUID } from "crypto";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 import { fetchRoadworkById } from "../../data/refDataApi";
 import { Roadwork } from "../../schemas/roadwork.schema";
+import { toTitleCase } from "../../utils";
 import { convertDateTimeToFormat } from "../../utils/dates";
 
 const title = "View Roadwork Detail";
@@ -20,9 +21,9 @@ interface RoadworkDetailProps {
 
 const getRows = (roadwork: Roadwork) => {
     return [
-        { header: "Street name", cells: [roadwork.streetName] },
-        { header: "Area name", cells: [roadwork.areaName ?? "Not provided"] },
-        { header: "Highway authority", cells: [roadwork.highwayAuthority] },
+        { header: "Street name", cells: [toTitleCase(roadwork.streetName ?? "")] },
+        { header: "Area name", cells: [toTitleCase(roadwork.areaName ?? "Not provided")] },
+        { header: "Highway authority", cells: [toTitleCase(roadwork.highwayAuthority ?? "Not Provided")] },
         { header: "Work category", cells: [roadwork.workCategory ?? "Not provided"] },
         { header: "Activity type", cells: [roadwork.activityType ?? "Not provided"] },
         { header: "Traffic management type", cells: [roadwork.trafficManagementType] },
@@ -69,7 +70,7 @@ const RoadworkDetail = ({ roadwork, newDisruptionId, disruptionId, disruptionPub
                     draggable="false"
                     className="govuk-button mt-8 mr-5"
                     data-module="govuk-button"
-                    id="create-new-button"
+                    id="view-disruption-button"
                 >
                     View disruption
                 </Link>
@@ -77,12 +78,12 @@ const RoadworkDetail = ({ roadwork, newDisruptionId, disruptionId, disruptionPub
 
             {disruptionId && disruptionPublishStatus === PublishStatus.draft && (
                 <Link
-                    href={`/disruption-detail/${disruptionId}`}
+                    href={`/review-disruption/${disruptionId}`}
                     role="button"
                     draggable="false"
                     className="govuk-button mt-8 mr-5"
                     data-module="govuk-button"
-                    id="create-new-button"
+                    id="view-draft-disruption-button"
                 >
                     View draft disruption
                 </Link>
@@ -94,7 +95,7 @@ const RoadworkDetail = ({ roadwork, newDisruptionId, disruptionId, disruptionPub
                 draggable="false"
                 className="govuk-button mt-8 govuk-button--secondary"
                 data-module="govuk-button"
-                id="create-new-button"
+                id="return-roadworks-overview-button"
             >
                 Return to roadworks
             </Link>
@@ -104,7 +105,7 @@ const RoadworkDetail = ({ roadwork, newDisruptionId, disruptionId, disruptionPub
 
 export const getServerSideProps = async (
     ctx: NextPageContext,
-): Promise<{ props: RoadworkDetailProps } | { redirect: Redirect }> => {
+): Promise<{ props: RoadworkDetailProps } | { notFound: boolean }> => {
     const newDisruptionId = randomUUID();
 
     if (!ctx.req) {
@@ -117,10 +118,7 @@ export const getServerSideProps = async (
 
     if (!roadwork) {
         return {
-            redirect: {
-                destination: "/404",
-                statusCode: 302,
-            },
+            notFound: true,
         };
     }
 
