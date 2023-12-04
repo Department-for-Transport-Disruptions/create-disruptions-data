@@ -81,7 +81,7 @@ exports[`RoadworkDetail > should render correctly when roadwork data is present 
             <td
               className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
-              KING STREET EAST
+              King Street East
             </td>
           </tr>
           <tr
@@ -96,7 +96,7 @@ exports[`RoadworkDetail > should render correctly when roadwork data is present 
             <td
               className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
-              MILKSTONE
+              Milkstone
             </td>
           </tr>
           <tr
@@ -111,7 +111,7 @@ exports[`RoadworkDetail > should render correctly when roadwork data is present 
             <td
               className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
-              ROCHDALE BOROUGH COUNCIL
+              Rochdale Borough Council
             </td>
           </tr>
           <tr
@@ -255,8 +255,8 @@ exports[`RoadworkDetail > should render correctly when roadwork data is present 
         className="govuk-button mt-8 mr-5"
         data-module="govuk-button"
         draggable="false"
-        href="/disruption-detail/d7991c1b-f332-4f6e-a150-faffebcd1ff6"
-        id="create-new-button"
+        href="/review-disruption/d7991c1b-f332-4f6e-a150-faffebcd1ff6"
+        id="view-draft-disruption-button"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
@@ -269,7 +269,7 @@ exports[`RoadworkDetail > should render correctly when roadwork data is present 
         data-module="govuk-button"
         draggable="false"
         href="/view-all-roadworks"
-        id="create-new-button"
+        id="return-roadworks-overview-button"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
@@ -550,7 +550,7 @@ exports[`RoadworkDetail > should render correctly when roadwork data is present 
             <td
               className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
-              KING STREET EAST
+              King Street East
             </td>
           </tr>
           <tr
@@ -565,7 +565,7 @@ exports[`RoadworkDetail > should render correctly when roadwork data is present 
             <td
               className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
-              MILKSTONE
+              Milkstone
             </td>
           </tr>
           <tr
@@ -580,7 +580,7 @@ exports[`RoadworkDetail > should render correctly when roadwork data is present 
             <td
               className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
-              ROCHDALE BOROUGH COUNCIL
+              Rochdale Borough Council
             </td>
           </tr>
           <tr
@@ -725,7 +725,7 @@ exports[`RoadworkDetail > should render correctly when roadwork data is present 
         data-module="govuk-button"
         draggable="false"
         href="/disruption-detail/d7991c1b-f332-4f6e-a150-faffebcd1ff6"
-        id="create-new-button"
+        id="view-disruption-button"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
@@ -738,7 +738,7 @@ exports[`RoadworkDetail > should render correctly when roadwork data is present 
         data-module="govuk-button"
         draggable="false"
         href="/view-all-roadworks"
-        id="create-new-button"
+        id="return-roadworks-overview-button"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
@@ -1019,7 +1019,7 @@ exports[`RoadworkDetail > should render correctly when roadworks data is present
             <td
               className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
-              KING STREET EAST
+              King Street East
             </td>
           </tr>
           <tr
@@ -1034,7 +1034,7 @@ exports[`RoadworkDetail > should render correctly when roadworks data is present
             <td
               className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
-              MILKSTONE
+              Milkstone
             </td>
           </tr>
           <tr
@@ -1049,7 +1049,7 @@ exports[`RoadworkDetail > should render correctly when roadworks data is present
             <td
               className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
-              ROCHDALE BOROUGH COUNCIL
+              Rochdale Borough Council
             </td>
           </tr>
           <tr
@@ -1207,7 +1207,7 @@ exports[`RoadworkDetail > should render correctly when roadworks data is present
         data-module="govuk-button"
         draggable="false"
         href="/view-all-roadworks"
-        id="create-new-button"
+        id="return-roadworks-overview-button"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
