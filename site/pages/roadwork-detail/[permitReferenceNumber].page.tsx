@@ -4,9 +4,11 @@ import Link from "next/link";
 import { randomUUID } from "crypto";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
+import { getDisruptionInfoByPermitReferenceNumber } from "../../data/dynamo";
 import { fetchRoadworkById } from "../../data/refDataApi";
 import { Roadwork } from "../../schemas/roadwork.schema";
 import { toTitleCase } from "../../utils";
+import { getSession } from "../../utils/apiUtils/auth";
 import { convertDateTimeToFormat } from "../../utils/dates";
 
 const title = "View Roadwork Detail";
@@ -42,6 +44,17 @@ const getRows = (roadwork: Roadwork) => {
     ];
 };
 
+const getRoadworkQueryParam = (roadwork: Roadwork) => {
+    const roadworkSummary = `${toTitleCase(roadwork.streetName ?? "")} - ${roadwork.activityType}`;
+    return `?permitReferenceNumber=${encodeURIComponent(
+        roadwork.permitReferenceNumber,
+    )}&roadworkStartDateTime=${encodeURIComponent(
+        roadwork.actualStartDateTime ?? "",
+    )}&roadworkEndDateTime=${encodeURIComponent(
+        roadwork.proposedEndDateTime ?? "",
+    )}&roadworkSummary=${encodeURIComponent(roadworkSummary)}`;
+};
+
 const RoadworkDetail = ({ roadwork, newDisruptionId, disruptionId, disruptionPublishStatus }: RoadworkDetailProps) => {
     return (
         <BaseLayout title={title} description={description}>
@@ -52,7 +65,7 @@ const RoadworkDetail = ({ roadwork, newDisruptionId, disruptionId, disruptionPub
             <Table rows={getRows(roadwork)} />
             {!disruptionId && (
                 <Link
-                    href={`/create-disruption/${newDisruptionId}`}
+                    href={`/create-disruption/${newDisruptionId}${getRoadworkQueryParam(roadwork)}`}
                     role="button"
                     draggable="false"
                     className="govuk-button mt-8 mr-5"
@@ -112,6 +125,12 @@ export const getServerSideProps = async (
         throw new Error("No context request");
     }
 
+    const session = getSession(ctx.req);
+
+    if (!session) {
+        throw new Error("No session found");
+    }
+
     const permitReferenceNumber = decodeURIComponent(ctx.query.permitReferenceNumber?.toString() ?? "");
 
     const roadwork = await fetchRoadworkById({ permitReferenceNumber });
@@ -122,10 +141,25 @@ export const getServerSideProps = async (
         };
     }
 
+    const disruptionInfoForRoadwork = await getDisruptionInfoByPermitReferenceNumber(
+        permitReferenceNumber,
+        session.orgId,
+    );
+
+    if (!disruptionInfoForRoadwork) {
+        return {
+            props: {
+                roadwork: roadwork,
+                newDisruptionId,
+            },
+        };
+    }
     return {
         props: {
             roadwork: roadwork,
             newDisruptionId,
+            disruptionId: disruptionInfoForRoadwork.disruptionId,
+            disruptionPublishStatus: disruptionInfoForRoadwork.publishStatus,
         },
     };
 };
