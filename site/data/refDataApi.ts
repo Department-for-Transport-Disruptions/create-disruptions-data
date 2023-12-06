@@ -305,7 +305,15 @@ interface FetchRoadworkByIdInput {
 }
 
 export const fetchRoadworkById = async (input: FetchRoadworkByIdInput) => {
-    const res = await fetch(`${API_BASE_URL}/roadworks/${input.permitReferenceNumber}`, {
+    const searchApiUrl = `${API_BASE_URL}/roadworks/${input.permitReferenceNumber}`;
+
+    const isValidPermitReferenceInput = /^[\w.\-]+$/.test(input.permitReferenceNumber);
+
+    if (!isValidPermitReferenceInput) {
+        return null;
+    }
+
+    const res = await fetch(searchApiUrl, {
         method: "GET",
     });
 
