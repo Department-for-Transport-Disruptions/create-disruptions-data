@@ -305,9 +305,7 @@ interface FetchRoadworkByIdInput {
 }
 
 export const fetchRoadworkById = async (input: FetchRoadworkByIdInput) => {
-    const searchApiUrl = `${API_BASE_URL}/roadworks/${input.permitReferenceNumber}`;
-
-    const res = await fetch(searchApiUrl, {
+    const res = await fetch(`${API_BASE_URL}/roadworks/${input.permitReferenceNumber}`, {
         method: "GET",
     });
 
