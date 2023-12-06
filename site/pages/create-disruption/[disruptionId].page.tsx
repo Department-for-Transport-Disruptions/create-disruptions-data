@@ -41,7 +41,6 @@ const description = "Create Disruptions page for the Create Transport Disruption
 export interface DisruptionPageProps extends PageState<Partial<DisruptionInfo>> {
     disruptionExists?: boolean;
     consequenceIndex?: number;
-    permitReferenceNumber?: string;
 }
 
 const arrayDateFields = ["disruptionStartDate", "disruptionEndDate", "publishStartDate", "publishEndDate"];
@@ -643,7 +642,14 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                     <input type="hidden" name="disruptionId" value={props.disruptionId} />
                     <input type="hidden" name="displayId" value={pageState.inputs.displayId} />
                     <input type="hidden" name="consequenceIndex" value={props.consequenceIndex} />
-                    <input type="hidden" name="permitReferenceNumber" value={props.permitReferenceNumber} />
+
+                    {pageState.inputs.permitReferenceNumber && (
+                        <input
+                            type="hidden"
+                            name="permitReferenceNumber"
+                            value={pageState.inputs.permitReferenceNumber}
+                        />
+                    )}
 
                     <button className="govuk-button" data-module="govuk-button">
                         Save and continue
@@ -704,6 +710,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const disruptionId = ctx.query.disruptionId?.toString() ?? "";
     const disruption = await getDisruptionById(disruptionId, session.orgId, !!ctx.query.template);
 
+    const pageState = getPageState(errorCookie, disruptionInfoSchema, disruptionId, disruption ?? undefined);
+
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, ctx.res);
 
     if (
@@ -715,12 +723,14 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         const permitReferenceNumber = decodeURIComponent(ctx.query.permitReferenceNumber.toString());
         const roadworkStartDateTime = decodeURIComponent(ctx.query.roadworkStartDateTime.toString());
         const roadworkEndDateTime = decodeURIComponent(ctx.query.roadworkEndDateTime.toString());
+
         return {
             props: {
-                ...getPageState(errorCookie, disruptionInfoSchema, disruptionId),
+                ...pageState,
                 consequenceIndex: 0,
-                permitReferenceNumber: permitReferenceNumber,
                 inputs: {
+                    ...pageState.inputs,
+                    permitReferenceNumber: permitReferenceNumber,
                     summary: decodeURIComponent(ctx.query.roadworkSummary.toString()),
                     disruptionReason: MiscellaneousReason.roadworks,
                     disruptionStartDate: convertDateTimeToFormat(roadworkStartDateTime),
@@ -737,7 +747,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     if (!disruption) {
         return {
             props: {
-                ...getPageState(errorCookie, disruptionInfoSchema, disruptionId),
+                ...pageState,
                 consequenceIndex: 0,
             },
         };
@@ -745,7 +755,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     return {
         props: {
-            ...getPageState(errorCookie, disruptionInfoSchema, disruption.disruptionId, disruption),
+            ...pageState,
             disruptionExists: true,
             consequenceIndex: disruption.consequences?.[0]?.consequenceIndex ?? 0,
         },

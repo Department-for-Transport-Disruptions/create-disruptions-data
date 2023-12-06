@@ -99,6 +99,8 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             orgId: session.orgId,
         });
 
+        console.log(formattedBody);
+
         if (!validatedBody.success) {
             setCookieOnResponseObject(
                 COOKIES_DISRUPTION_ERRORS,
@@ -112,9 +114,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             if (body.permitReferenceNumber) {
                 redirectTo(
                     res,
-                    `${CREATE_DISRUPTION_PAGE_PATH}/${body.disruptionId}?permitReferenceNumber=${encodeURIComponent(
-                        body.permitReferenceNumber,
-                    )}`,
+                    `${CREATE_DISRUPTION_PAGE_PATH}/${body.disruptionId}?permitReferenceNumber=${body.permitReferenceNumber}`,
                 );
                 return;
             }
