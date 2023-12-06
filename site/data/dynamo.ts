@@ -517,7 +517,10 @@ export const upsertDisruptionInfo = async (
         )})...`,
     );
 
+    console.log(disruptionInfo);
+
     const currentDisruption = await getDisruptionById(disruptionInfo.disruptionId, id, isTemplate);
+    console.log("CURRENT:", currentDisruption);
     const isPending =
         isUserStaff &&
         !isTemplate &&

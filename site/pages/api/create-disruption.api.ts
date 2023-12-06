@@ -99,8 +99,6 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             orgId: session.orgId,
         });
 
-        console.log(formattedBody);
-
         if (!validatedBody.success) {
             setCookieOnResponseObject(
                 COOKIES_DISRUPTION_ERRORS,

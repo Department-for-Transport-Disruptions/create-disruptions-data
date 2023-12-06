@@ -251,7 +251,6 @@ export const disruptionInfoSchema = z.object({
     createdByOperatorOrgId: z.string().uuid().optional(),
     creationTime: z.string().datetime().optional().nullable(),
     permitReferenceNumber: z.string().nullish(),
-    publishStatus: z.nativeEnum(PublishStatus).optional(),
 });
 
 export const disruptionInfoSchemaRefined = disruptionInfoSchema
