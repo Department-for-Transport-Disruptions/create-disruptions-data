@@ -299,3 +299,27 @@ export const fetchRoadworks = async (input: FetchRoadworksInput) => {
 
     return parseResult.data;
 };
+
+interface FetchRoadworkByIdInput {
+    permitReferenceNumber: string;
+}
+
+export const fetchRoadworkById = async (input: FetchRoadworkByIdInput) => {
+    const searchApiUrl = `${API_BASE_URL}/roadworks/${input.permitReferenceNumber}`;
+
+    const res = await fetch(searchApiUrl, {
+        method: "GET",
+    });
+
+    if (res.status === 404) {
+        return null;
+    }
+
+    const parseResult = roadworkSchema.safeParse(await res.json());
+
+    if (!parseResult.success) {
+        return null;
+    }
+
+    return parseResult.data;
+};
