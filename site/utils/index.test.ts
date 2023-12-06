@@ -141,6 +141,7 @@ describe("toTitleCase", () => {
         ["HYPHENATED-STREET", "Hyphenated-Street"],
         ["hyphenated-street", "Hyphenated-Street"],
         ["RanDoM cAsE", "Random Case"],
+        ["", ""],
     ])("should convert text to title case", (text, formattedText) => {
         expect(toTitleCase(text)).toEqual(formattedText);
     });

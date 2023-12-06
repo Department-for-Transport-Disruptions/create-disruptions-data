@@ -216,7 +216,5 @@ export const getStopsForRoutes = async (
 };
 
 export const toTitleCase = (text: string) => {
-    return text.replace(/([^\W_]+[^\s-]*) */g, function (txt) {
-        return txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase();
-    });
+    return text.replace(/([^\W_]+[^\s-]*) */g, (txt) => txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase());
 };
