@@ -57,7 +57,7 @@ const ViewAllRoadworks = ({ liveRoadworks }: ViewAllRoadworksProps) => {
         <BaseLayout title={title} description={description}>
             <h1 className="govuk-heading-xl">Roadworks in your area</h1>
 
-            {liveRoadworks.length === 0 && <Warning text={"There are no current roadworks in your area"} />}
+            {liveRoadworks.length === 0 && <Warning text="There are no current roadworks in your area" />}
 
             <Tabs
                 tabs={[
