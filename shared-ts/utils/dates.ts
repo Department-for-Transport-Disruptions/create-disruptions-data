@@ -1,5 +1,5 @@
 /* eslint-disable import/no-named-as-default-member */
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import isBetween from "dayjs/plugin/isBetween";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
@@ -50,3 +50,5 @@ export const isCurrentOrUpcomingDisruption = (
 
     return true;
 };
+
+export const sortEarliestDate = (firstDate: Dayjs, secondDate: Dayjs) => (firstDate.isBefore(secondDate) ? -1 : 1);

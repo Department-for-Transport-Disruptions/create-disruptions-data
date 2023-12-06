@@ -5,7 +5,7 @@ import renderer, { act } from "react-test-renderer";
 import { describe, it, expect, vi, afterEach } from "vitest";
 import ViewAllContents, { Filter, TableContents, filterContents } from "./ViewAllContents";
 import { getWorstSeverity, isClosingOrClosed } from "../pages/api/get-all-disruptions/[organisationId].api";
-import { DEFAULT_ORG_ID, mockServices, mockViewAllData } from "../testData/mockData";
+import { DEFAULT_ORG_ID, mockServices, mockViewAllDisruptionsData } from "../testData/mockData";
 
 type Renderer = {
     toJSON: () => void;
@@ -17,7 +17,7 @@ const defaultRenderer: Renderer = {
     },
 };
 
-const disruptions: TableContents[] = mockViewAllData;
+const disruptions: TableContents[] = mockViewAllDisruptionsData;
 
 const defaultNewDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 

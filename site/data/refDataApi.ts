@@ -7,6 +7,7 @@ import { z } from "zod";
 import { API_BASE_URL } from "../constants";
 import { LargePolygonError, NoStopsError } from "../errors";
 import { operatorSchema, serviceWithStopsAndRoutesSchema } from "../schemas/consequence.schema";
+import { roadworkSchema } from "../schemas/roadwork.schema";
 import { filterServices } from "../utils/formUtils";
 
 interface FetchStopsInput {
@@ -269,6 +270,61 @@ export const fetchAdminAreas = async () => {
 
     if (!parseResult.success) {
         return [];
+    }
+
+    return parseResult.data;
+};
+
+interface FetchRoadworksInput {
+    adminAreaCodes?: string[];
+}
+export const fetchRoadworks = async (input: FetchRoadworksInput) => {
+    const searchApiUrl = `${API_BASE_URL}/roadworks`;
+
+    const queryStringItems = [];
+
+    if (input.adminAreaCodes) {
+        queryStringItems.push(`adminAreaCodes=${input.adminAreaCodes.join(",")}`);
+    }
+
+    const res = await fetch(`${searchApiUrl}${queryStringItems.length > 0 ? `?${queryStringItems.join("&")}` : ""}`, {
+        method: "GET",
+    });
+
+    const parseResult = z.array(roadworkSchema).safeParse(await res.json());
+
+    if (!parseResult.success) {
+        return [];
+    }
+
+    return parseResult.data;
+};
+
+interface FetchRoadworkByIdInput {
+    permitReferenceNumber: string;
+}
+
+export const fetchRoadworkById = async (input: FetchRoadworkByIdInput) => {
+    const searchApiUrl = `${API_BASE_URL}/roadworks/${input.permitReferenceNumber}`;
+
+    const isValidPermitReferenceInput = /^[\w.\-]+$/.test(input.permitReferenceNumber);
+
+    if (!isValidPermitReferenceInput) {
+        return null;
+    }
+
+    const res = await fetch(searchApiUrl, {
+        method: "GET",
+    });
+
+    if (res.status === 404) {
+        return null;
+    }
+
+    const parseResult = roadworkSchema.safeParse(await res.json());
+
+    if (!parseResult.success) {
+        return null;
     }
 
     return parseResult.data;

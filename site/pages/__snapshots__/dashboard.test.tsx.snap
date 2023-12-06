@@ -443,7 +443,7 @@ exports[`pages > dashboard > should render correctly when there are all three li
       </a>
       <a
         className="govuk-link"
-        href="/roadworks-overview"
+        href="/view-all-roadworks"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
@@ -950,7 +950,7 @@ exports[`pages > dashboard > should render correctly when there are no disruptio
       </a>
       <a
         className="govuk-link"
-        href="/roadworks-overview"
+        href="/view-all-roadworks"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
@@ -1594,7 +1594,7 @@ exports[`pages > dashboard > should render correctly when there are only live di
       </a>
       <a
         className="govuk-link"
-        href="/roadworks-overview"
+        href="/view-all-roadworks"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
@@ -2238,7 +2238,7 @@ exports[`pages > dashboard > should render correctly when there are only recentl
       </a>
       <a
         className="govuk-link"
-        href="/roadworks-overview"
+        href="/view-all-roadworks"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
@@ -2882,7 +2882,7 @@ exports[`pages > dashboard > should render correctly when there are only upcomin
       </a>
       <a
         className="govuk-link"
-        href="/roadworks-overview"
+        href="/view-all-roadworks"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}

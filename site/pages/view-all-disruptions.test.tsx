@@ -2,7 +2,7 @@ import renderer, { act } from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import ViewAllDisruptions from "./view-all-disruptions.page";
 import { TableContents } from "../components/ViewAllContents";
-import { DEFAULT_ORG_ID, mockViewAllData } from "../testData/mockData";
+import { DEFAULT_ORG_ID, mockViewAllDisruptionsData } from "../testData/mockData";
 
 type Renderer = {
     toJSON: () => void;
@@ -14,7 +14,7 @@ const defaultRenderer: Renderer = {
     },
 };
 
-const disruptions: TableContents[] = mockViewAllData;
+const disruptions: TableContents[] = mockViewAllDisruptionsData;
 
 const defaultNewDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
