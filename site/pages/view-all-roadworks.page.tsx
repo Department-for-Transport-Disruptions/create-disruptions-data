@@ -2,6 +2,7 @@ import { getDate, sortEarliestDate } from "@create-disruptions-data/shared-ts/ut
 import { NextPageContext } from "next";
 import Link from "next/link";
 import SortableTable, { TableColumn } from "../components/form/SortableTable";
+import Warning from "../components/form/Warning";
 import { BaseLayout } from "../components/layout/Layout";
 import Tabs from "../components/layout/Tabs";
 import { fetchRoadworks } from "../data/refDataApi";
@@ -55,6 +56,9 @@ const ViewAllRoadworks = ({ liveRoadworks }: ViewAllRoadworksProps) => {
     return (
         <BaseLayout title={title} description={description}>
             <h1 className="govuk-heading-xl">Roadworks in your area</h1>
+
+            {liveRoadworks.length === 0 && <Warning text="There are no current roadworks in your area" />}
+
             <Tabs
                 tabs={[
                     {

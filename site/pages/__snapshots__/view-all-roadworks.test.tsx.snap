@@ -50,6 +50,26 @@ exports[`ViewAllRoadworks > should render correctly when no roadworks data is pr
         Roadworks in your area
       </h1>
       <div
+        className="govuk-warning-text"
+      >
+        <span
+          aria-hidden="true"
+          className="govuk-warning-text__icon"
+        >
+          !
+        </span>
+        <strong
+          className="govuk-warning-text__text"
+        >
+          <span
+            className="govuk-warning-text__assistive"
+          >
+            Warning
+          </span>
+          There are no current roadworks in your area
+        </strong>
+      </div>
+      <div
         className="govuk-tabs"
         data-module="govuk-tabs"
       >
