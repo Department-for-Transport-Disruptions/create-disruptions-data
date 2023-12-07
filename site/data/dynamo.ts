@@ -26,7 +26,7 @@ import {
 } from "../schemas/organisation.schema";
 import { SocialMediaAccount, dynamoSocialAccountSchema } from "../schemas/social-media-accounts.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../schemas/social-media.schema";
-import { notEmpty, splitCamelCaseToString } from "../utils";
+import { flattenZodErrors, notEmpty, splitCamelCaseToString } from "../utils";
 import logger from "../utils/logger";
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
@@ -996,7 +996,7 @@ export const getDisruptionById = async (
     });
 
     if (!parsedDisruption.success) {
-        logger.warn(parsedDisruption.error);
+        logger.warn(inspect(flattenZodErrors(parsedDisruption.error)));
         logger.warn(`Invalid disruption ${disruptionId} in Dynamo`);
         return null;
     }

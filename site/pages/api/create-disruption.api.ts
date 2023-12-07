@@ -109,14 +109,6 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
                 res,
             );
 
-            if (body.permitReferenceNumber) {
-                redirectTo(
-                    res,
-                    `${CREATE_DISRUPTION_PAGE_PATH}/${body.disruptionId}?permitReferenceNumber=${body.permitReferenceNumber}`,
-                );
-                return;
-            }
-
             redirectToWithQueryParams(
                 req,
                 res,
