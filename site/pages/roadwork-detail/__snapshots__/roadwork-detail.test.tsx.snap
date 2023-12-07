@@ -1193,7 +1193,7 @@ exports[`RoadworkDetail > should render correctly when roadworks data is present
         className="govuk-button mt-8 mr-5"
         data-module="govuk-button"
         draggable="false"
-        href="/create-disruption/d7991c1b-f332-4f6e-a150-faffebcd1ff6"
+        href="/create-disruption/d7991c1b-f332-4f6e-a150-faffebcd1ff6?permitReferenceNumber=JG222OC_CAP-1436121A-02&roadworkStartDateTime=2023-11-27T09%3A00%3A00.000Z&roadworkEndDateTime=2023-12-08T00%3A00%3A00.000Z&roadworkSummary=King%20Street%20East%20-%20Utility%20repair%20and%20maintenance%20works"
         id="create-new-button"
         onClick={[Function]}
         onMouseEnter={[Function]}

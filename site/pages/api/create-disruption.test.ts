@@ -1138,4 +1138,107 @@ describe("create-disruption API", () => {
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: `/type-of-consequence/${defaultDisruptionId}/0` });
     });
+
+    it("should redirect to /type-of-consequence when all required inputs are passed for a disruption created from a roadwork", async () => {
+        const disruptionData = {
+            ...defaultDisruptionData,
+            publishStartTime: "0900",
+            disruptionStartDate: getFutureDateAsString(40),
+            disruptionStartTime: "1200",
+            validity1: [
+                defaultDisruptionStartDate,
+                "1000",
+                defaultDisruptionStartDate,
+                "1100",
+                "",
+                "daily",
+                getFutureDateAsString(11),
+            ],
+            validity2: [
+                getFutureDateAsString(11),
+                "0900",
+                getFutureDateAsString(13),
+                "1100",
+                "",
+                "weekly",
+                getFutureDateAsString(40),
+            ],
+            permitReferenceNumber: "testPermitRef-123",
+        };
+        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+
+        await createDisruption(req, res);
+
+        expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
+        expect(upsertDisruptionSpy).toHaveBeenCalledWith(
+            {
+                disruptionId: defaultDisruptionId,
+                disruptionType: "unplanned",
+                orgId: DEFAULT_ORG_ID,
+                summary: "Lorem ipsum dolor sit amet",
+                description:
+                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+                associatedLink: "",
+                disruptionReason: MiscellaneousReason.roadworks,
+                publishStartDate: defaultPublishStartDate,
+                publishStartTime: "0900",
+                publishEndDate: "",
+                publishEndTime: "",
+                disruptionStartDate: getFutureDateAsString(40),
+                disruptionStartTime: "1200",
+                disruptionEndDate: "",
+                disruptionEndTime: "",
+                disruptionNoEndDateTime: "true",
+                displayId: "8fg3ha",
+                validity: [
+                    {
+                        disruptionStartDate: defaultDisruptionStartDate,
+                        disruptionStartTime: "1000",
+                        disruptionEndDate: defaultDisruptionStartDate,
+                        disruptionEndTime: "1100",
+                        disruptionNoEndDateTime: "",
+                        disruptionRepeats: "daily",
+                        disruptionRepeatsEndDate: getFutureDateAsString(11),
+                    },
+                    {
+                        disruptionStartDate: getFutureDateAsString(11),
+                        disruptionStartTime: "0900",
+                        disruptionEndDate: getFutureDateAsString(13),
+                        disruptionEndTime: "1100",
+                        disruptionNoEndDateTime: "",
+                        disruptionRepeats: "weekly",
+                        disruptionRepeatsEndDate: getFutureDateAsString(40),
+                    },
+                ],
+                permitReferenceNumber: "testPermitRef-123",
+            },
+            DEFAULT_ORG_ID,
+            mockSession.isOrgStaff,
+            false,
+            null,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/type-of-consequence/${defaultDisruptionId}/0` });
+    });
+
+    it("should redirect back to /create-disruption with permitReferenceNumber in the cookie value if invalid disruption is created from a roadwork", async () => {
+        const disruptionData = {
+            ...defaultDisruptionData,
+            disruptionReason: "Incorrect Value",
+            permitReferenceNumber: "testPermitRef-123",
+        };
+
+        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+
+        await createDisruption(req, res);
+
+        const errors: ErrorInfo[] = [{ errorMessage: "Select a reason from the dropdown", id: "disruptionReason" }];
+        const inputs = formatCreateDisruptionBody(req.body);
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_DISRUPTION_ERRORS,
+            JSON.stringify({ inputs, errors }),
+            res,
+        );
+    });
 });

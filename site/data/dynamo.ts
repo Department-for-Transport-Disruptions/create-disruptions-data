@@ -8,7 +8,7 @@ import {
     QueryCommand,
 } from "@aws-sdk/lib-dynamodb";
 import { Consequence, Disruption, DisruptionInfo } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { MAX_CONSEQUENCES } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { disruptionSchema, MAX_CONSEQUENCES } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { getDate, isCurrentOrUpcomingDisruption } from "@create-disruptions-data/shared-ts/utils/dates";
 import { recursiveQuery } from "@create-disruptions-data/shared-ts/utils/dynamo";
@@ -1637,4 +1637,40 @@ export const getOrgSocialAccount = async (orgId: string, socialId: string) => {
     }
 
     return parsedSocialAccount.data;
+};
+
+export const getDisruptionInfoByPermitReferenceNumber = async (
+    permitReferenceNumber: string,
+    orgId: string,
+): Promise<Disruption | null> => {
+    logger.info(
+        `Retrieving disruption info associated with road permit reference (${permitReferenceNumber}) from DynamoDB table (${disruptionsTableName})...`,
+    );
+    const disruptionInfo = await ddbDocClient.send(
+        new QueryCommand({
+            TableName: disruptionsTableName,
+            KeyConditionExpression: "PK = :1",
+            FilterExpression: "permitReferenceNumber = :3",
+            ExpressionAttributeValues: {
+                ":1": orgId,
+                ":3": permitReferenceNumber,
+            },
+        }),
+    );
+
+    if (!disruptionInfo.Items || disruptionInfo.Items.length === 0) {
+        logger.info(`No disruption found for roadwork permit reference (${permitReferenceNumber}) in Dynamo`);
+        return null;
+    }
+
+    const parsedDisruptionInfo = disruptionSchema.safeParse(disruptionInfo.Items[0]);
+
+    if (!parsedDisruptionInfo.success) {
+        logger.warn(`Invalid disruption found for roadwork permit reference (${permitReferenceNumber}) in Dynamo`);
+        logger.warn(inspect(parsedDisruptionInfo.error, false, null));
+
+        return null;
+    }
+
+    return parsedDisruptionInfo.data;
 };

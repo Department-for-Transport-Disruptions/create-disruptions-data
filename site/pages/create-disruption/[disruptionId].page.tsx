@@ -4,6 +4,7 @@ import {
     validitySchema,
     validitySchemaRefined,
 } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -642,6 +643,14 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                     <input type="hidden" name="displayId" value={pageState.inputs.displayId} />
                     <input type="hidden" name="consequenceIndex" value={props.consequenceIndex} />
 
+                    {pageState.inputs.permitReferenceNumber && (
+                        <input
+                            type="hidden"
+                            name="permitReferenceNumber"
+                            value={pageState.inputs.permitReferenceNumber}
+                        />
+                    )}
+
                     <button className="govuk-button" data-module="govuk-button">
                         Save and continue
                     </button>
@@ -701,12 +710,44 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const disruptionId = ctx.query.disruptionId?.toString() ?? "";
     const disruption = await getDisruptionById(disruptionId, session.orgId, !!ctx.query.template);
 
+    const pageState = getPageState(errorCookie, disruptionInfoSchema, disruptionId, disruption ?? undefined);
+
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_DISRUPTION_ERRORS, ctx.res);
+
+    if (
+        ctx.query.permitReferenceNumber &&
+        ctx.query.roadworkStartDateTime &&
+        ctx.query.roadworkEndDateTime &&
+        ctx.query.roadworkSummary
+    ) {
+        const permitReferenceNumber = decodeURIComponent(ctx.query.permitReferenceNumber.toString());
+        const roadworkStartDateTime = decodeURIComponent(ctx.query.roadworkStartDateTime.toString());
+        const roadworkEndDateTime = decodeURIComponent(ctx.query.roadworkEndDateTime.toString());
+
+        return {
+            props: {
+                ...pageState,
+                consequenceIndex: 0,
+                inputs: {
+                    ...pageState.inputs,
+                    permitReferenceNumber: permitReferenceNumber,
+                    summary: decodeURIComponent(ctx.query.roadworkSummary.toString()),
+                    disruptionReason: MiscellaneousReason.roadworks,
+                    disruptionStartDate: convertDateTimeToFormat(roadworkStartDateTime),
+                    disruptionEndDate: convertDateTimeToFormat(roadworkEndDateTime),
+                    disruptionStartTime: convertDateTimeToFormat(roadworkStartDateTime, "HHmm"),
+                    disruptionEndTime: convertDateTimeToFormat(roadworkEndDateTime, "HHmm"),
+                    disruptionRepeats: "doesntRepeat",
+                    disruptionRepeatsEndDate: "",
+                },
+            },
+        };
+    }
 
     if (!disruption) {
         return {
             props: {
-                ...getPageState(errorCookie, disruptionInfoSchema, disruptionId),
+                ...pageState,
                 consequenceIndex: 0,
             },
         };
@@ -714,7 +755,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     return {
         props: {
-            ...getPageState(errorCookie, disruptionInfoSchema, disruption.disruptionId, disruption),
+            ...pageState,
             disruptionExists: true,
             consequenceIndex: disruption.consequences?.[0]?.consequenceIndex ?? 0,
         },
