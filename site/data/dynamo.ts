@@ -8,7 +8,7 @@ import {
     QueryCommand,
 } from "@aws-sdk/lib-dynamodb";
 import { Consequence, Disruption, DisruptionInfo } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { disruptionInfoSchema, MAX_CONSEQUENCES } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { disruptionSchema, MAX_CONSEQUENCES } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { getDate, isCurrentOrUpcomingDisruption } from "@create-disruptions-data/shared-ts/utils/dates";
 import { recursiveQuery } from "@create-disruptions-data/shared-ts/utils/dynamo";
@@ -26,7 +26,7 @@ import {
 } from "../schemas/organisation.schema";
 import { SocialMediaAccount, dynamoSocialAccountSchema } from "../schemas/social-media-accounts.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../schemas/social-media.schema";
-import { flattenZodErrors, notEmpty, splitCamelCaseToString } from "../utils";
+import { notEmpty, splitCamelCaseToString } from "../utils";
 import logger from "../utils/logger";
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
@@ -517,10 +517,7 @@ export const upsertDisruptionInfo = async (
         )})...`,
     );
 
-    console.log(disruptionInfo);
-
     const currentDisruption = await getDisruptionById(disruptionInfo.disruptionId, id, isTemplate);
-    console.log("CURRENT:", currentDisruption);
     const isPending =
         isUserStaff &&
         !isTemplate &&
@@ -999,7 +996,7 @@ export const getDisruptionById = async (
     });
 
     if (!parsedDisruption.success) {
-        logger.warn(inspect(flattenZodErrors(parsedDisruption.error)));
+        logger.warn(parsedDisruption.error);
         logger.warn(`Invalid disruption ${disruptionId} in Dynamo`);
         return null;
     }
@@ -1645,7 +1642,7 @@ export const getOrgSocialAccount = async (orgId: string, socialId: string) => {
 export const getDisruptionInfoByPermitReferenceNumber = async (
     permitReferenceNumber: string,
     orgId: string,
-): Promise<DisruptionInfo | null> => {
+): Promise<Disruption | null> => {
     logger.info(
         `Retrieving disruption info associated with road permit reference (${permitReferenceNumber}) from DynamoDB table (${disruptionsTableName})...`,
     );
@@ -1666,7 +1663,7 @@ export const getDisruptionInfoByPermitReferenceNumber = async (
         return null;
     }
 
-    const parsedDisruptionInfo = disruptionInfoSchema.safeParse(disruptionInfo.Items[0]);
+    const parsedDisruptionInfo = disruptionSchema.safeParse(disruptionInfo.Items[0]);
 
     if (!parsedDisruptionInfo.success) {
         logger.warn(`Invalid disruption found for roadwork permit reference (${permitReferenceNumber}) in Dynamo`);
