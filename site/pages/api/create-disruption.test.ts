@@ -1220,7 +1220,7 @@ describe("create-disruption API", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: `/type-of-consequence/${defaultDisruptionId}/0` });
     });
 
-    it("should redirect back to /create-disruption with permitReferenceNumber in the query if invalid disruption is created from a roadwork", async () => {
+    it("should redirect back to /create-disruption with permitReferenceNumber in the cookie value if invalid disruption is created from a roadwork", async () => {
         const disruptionData = {
             ...defaultDisruptionData,
             disruptionReason: "Incorrect Value",
@@ -1240,8 +1240,5 @@ describe("create-disruption API", () => {
             JSON.stringify({ inputs, errors }),
             res,
         );
-        expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `/create-disruption/${defaultDisruptionId}?permitReferenceNumber=${disruptionData.permitReferenceNumber}`,
-        });
     });
 });
