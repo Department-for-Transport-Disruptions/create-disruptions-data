@@ -95,6 +95,7 @@ export const FullColumnLayout = ({
         errors={errors}
         hideCookieBanner={hideCookieBanner}
         hideHelp={hideHelp}
+        disableBackButton={disableBackButton}
     >
         <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">{children}</div>
@@ -117,6 +118,7 @@ export const TwoThirdsLayout = ({
         errors={errors}
         hideCookieBanner={hideCookieBanner}
         hideHelp={hideHelp}
+        disableBackButton={disableBackButton}
     >
         <div className="govuk-grid-row">
             <div className="govuk-grid-column-two-thirds">{children}</div>
