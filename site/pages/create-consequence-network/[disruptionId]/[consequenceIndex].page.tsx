@@ -53,6 +53,20 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
 
     return (
         <BaseLayout title={title} description={description}>
+            <Link
+                href={
+                    returnToTemplateOverview
+                        ? `${returnPath}/${pageState.disruptionId || ""}?template=true`
+                        : returnPath
+                        ? `${returnPath}/${pageState.disruptionId || ""}`
+                        : `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${pageState.disruptionId || ""}/${
+                              props.consequenceIndex || 0
+                          }`
+                }
+                className="govuk-back-link"
+            >
+                Back
+            </Link>
             <CsrfForm
                 action={`/api/create-consequence-network${isTemplate ? "?template=true" : ""}`}
                 method="post"

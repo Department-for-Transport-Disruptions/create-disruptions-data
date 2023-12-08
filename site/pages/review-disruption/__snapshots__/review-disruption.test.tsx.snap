@@ -70,6 +70,13 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
           </p>
         </div>
       </div>
+      <button
+        className="govuk-back-link"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <form
         action="/api/publish"
         method="post"
@@ -2134,6 +2141,13 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <form
         action="/api/publish"
         method="post"
@@ -4198,6 +4212,13 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <form
         action="/api/publish"
         method="post"
@@ -5715,6 +5736,13 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <form
         action="/api/publish"
         method="post"
@@ -7232,6 +7260,13 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <form
         action="/api/publish"
         method="post"
@@ -8749,6 +8784,13 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <form
         action="/api/publish"
         method="post"

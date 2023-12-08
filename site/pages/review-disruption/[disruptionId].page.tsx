@@ -58,13 +58,14 @@ const ReviewDisruption = ({
     isOperatorUser,
 }: ReviewDisruptionProps): ReactElement => {
     const hasInitialised = useRef(false);
+    const router = useRouter();
     const [popUpState, setPopUpState] = useState<{ name: string; hiddenInputs: { name: string; value: string }[] }>();
     const [socialMediaPostPopUpState, setSocialMediaPostPopUpState] = useState<{
         name: string;
         hiddenInputs: { name: string; value: string }[];
     }>();
 
-    const queryParams = useRouter().query;
+    const queryParams = router.query;
 
     const isEditingAllowed = operatorOrgId
         ? disruption.createdByOperatorOrgId === operatorOrgId
@@ -382,6 +383,9 @@ const ReviewDisruption = ({
                 />
             ) : null}
 
+            <button type="button" onClick={() => router.back()} className="govuk-back-link">
+                Back
+            </button>
             <CsrfForm
                 action={`/api/publish${queryParams["template"] ? "?template=true" : ""}`}
                 method="post"

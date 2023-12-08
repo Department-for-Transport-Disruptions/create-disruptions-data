@@ -44,6 +44,13 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <form
         action="/api/publish-edit"
         method="post"
@@ -1878,6 +1885,13 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <form
         action="/api/publish-edit?template=true"
         method="post"
@@ -3695,6 +3709,13 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <form
         action="/api/publish-edit"
         method="post"
@@ -5018,6 +5039,13 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <form
         action="/api/publish-edit"
         method="post"
@@ -6341,6 +6369,13 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <form
         action="/api/publish-edit"
         method="post"
@@ -7664,6 +7699,13 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <form
         action="/api/publish-edit?template=true"
         method="post"
@@ -9485,6 +9527,13 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <form
         action="/api/publish-edit"
         method="post"

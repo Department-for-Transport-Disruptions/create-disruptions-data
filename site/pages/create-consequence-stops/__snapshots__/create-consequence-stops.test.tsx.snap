@@ -44,6 +44,15 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <a
+        className="govuk-back-link"
+        href="/type-of-consequence//0"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        Back
+      </a>
       <form
         action="/api/create-consequence-stops"
         method="post"
@@ -890,6 +899,15 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <a
+        className="govuk-back-link"
+        href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        Back
+      </a>
       <form
         action="/api/create-consequence-stops"
         method="post"
@@ -1668,6 +1686,15 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <a
+        className="govuk-back-link"
+        href="/type-of-consequence//0"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        Back
+      </a>
       <form
         action="/api/create-consequence-stops"
         method="post"
@@ -2389,6 +2416,15 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <a
+        className="govuk-back-link"
+        href="/review-disruption/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        Back
+      </a>
       <form
         action="/api/create-consequence-stops"
         method="post"
