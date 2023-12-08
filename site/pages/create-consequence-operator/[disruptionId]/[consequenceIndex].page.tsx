@@ -103,7 +103,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
 
     return (
         <BaseLayout title={title} description={description}>
-                <Link
+            <Link
                 href={
                     returnToTemplateOverview
                         ? `${returnPath}/${pageState.disruptionId || ""}?template=true`
