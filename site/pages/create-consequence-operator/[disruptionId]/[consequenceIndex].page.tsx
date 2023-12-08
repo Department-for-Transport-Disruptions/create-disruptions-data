@@ -57,7 +57,8 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
 
     const operatorStateUpdate = operatorStateUpdater(setConsequenceOperatorPageState, pageState);
 
-    const queryParams = useRouter().query;
+    const router = useRouter();
+    const queryParams = router.query;
     const displayCancelButton = showCancelButton(queryParams);
 
     const returnToTemplateOverview = returnTemplateOverview(queryParams);
@@ -103,20 +104,9 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
 
     return (
         <BaseLayout title={title} description={description}>
-            <Link
-                href={
-                    returnToTemplateOverview
-                        ? `${returnPath}/${pageState.disruptionId || ""}?template=true`
-                        : returnPath
-                        ? `${returnPath}/${pageState.disruptionId || ""}`
-                        : `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${pageState.disruptionId || ""}/${
-                              props.consequenceIndex || 0
-                          }`
-                }
-                className="govuk-back-link"
-            >
+            <button type="button" onClick={() => router.back()} className="govuk-back-link">
                 Back
-            </Link>
+            </button>
             <CsrfForm
                 action={`/api/create-consequence-operator${isTemplate ? "?template=true" : ""}`}
                 method="post"

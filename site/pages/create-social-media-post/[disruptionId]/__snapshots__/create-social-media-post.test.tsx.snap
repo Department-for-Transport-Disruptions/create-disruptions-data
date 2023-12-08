@@ -44,6 +44,13 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <form
         action="/api/create-social-media-post?_csrf="
         encType="multipart/form-data"
@@ -405,6 +412,13 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <form
         action="/api/create-social-media-post?_csrf="
         encType="multipart/form-data"

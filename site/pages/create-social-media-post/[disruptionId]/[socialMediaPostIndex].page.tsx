@@ -37,7 +37,8 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
     const [pageState, setPageState] = useState<PageState<Partial<HootsuitePost>>>(props);
     const [errorsMessageContent, setErrorsMessageContent] = useState<ErrorInfo[]>(pageState.errors);
 
-    const queryParams = useRouter().query;
+    const router = useRouter();
+    const queryParams = router.query;
     const displayCancelButton = showCancelButton(queryParams);
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
@@ -48,6 +49,9 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
 
     return (
         <BaseLayout title={title} description={description}>
+            <button type="button" onClick={() => router.back()} className="govuk-back-link">
+                Back
+            </button>
             <form
                 encType="multipart/form-data"
                 action={`/api/create-social-media-post?_csrf=${props.csrfToken || ""}${

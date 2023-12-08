@@ -44,15 +44,13 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
       className="govuk-main-wrapper"
       id="main-content"
     >
-      <a
+      <button
         className="govuk-back-link"
-        href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0"
         onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
+        type="button"
       >
         Back
-      </a>
+      </button>
       <form
         action="/api/create-consequence-services"
         method="post"
@@ -1111,15 +1109,13 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
       className="govuk-main-wrapper"
       id="main-content"
     >
-      <a
+      <button
         className="govuk-back-link"
-        href="/type-of-consequence//0"
         onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
+        type="button"
       >
         Back
-      </a>
+      </button>
       <form
         action="/api/create-consequence-services"
         method="post"
@@ -2220,15 +2216,13 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
       className="govuk-main-wrapper"
       id="main-content"
     >
-      <a
+      <button
         className="govuk-back-link"
-        href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0"
         onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
+        type="button"
       >
         Back
-      </a>
+      </button>
       <form
         action="/api/create-consequence-services"
         method="post"
@@ -3261,15 +3255,13 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
       className="govuk-main-wrapper"
       id="main-content"
     >
-      <a
+      <button
         className="govuk-back-link"
-        href="/type-of-consequence//0"
         onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
+        type="button"
       >
         Back
-      </a>
+      </button>
       <form
         action="/api/create-consequence-services"
         method="post"
@@ -4205,15 +4197,13 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
       className="govuk-main-wrapper"
       id="main-content"
     >
-      <a
+      <button
         className="govuk-back-link"
-        href="/review-disruption/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
         onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
+        type="button"
       >
         Back
-      </a>
+      </button>
       <form
         action="/api/create-consequence-services"
         method="post"
