@@ -34,7 +34,8 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
 
-    const queryParams = useRouter().query;
+    const router = useRouter();
+    const queryParams = router.query;
     const displayCancelButton = showCancelButton(queryParams);
 
     const returnToTemplateOverview = returnTemplateOverview(queryParams);
@@ -46,16 +47,9 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
 
     return (
         <TwoThirdsLayout title={title} description={description} errors={props.errors}>
-            <Link
-                href={
-                    returnToTemplateOverview
-                        ? `${returnPath}/${pageState.disruptionId || ""}?template=true`
-                        : `${returnPath || CREATE_DISRUPTION_PAGE_PATH}/${pageState.disruptionId || ""}`
-                }
-                className="govuk-back-link"
-            >
+            <button type="button" onClick={() => router.back()} className="govuk-back-link">
                 Back
-            </Link>
+            </button>
             <CsrfForm
                 action={`/api/type-of-consequence${isTemplate ? "?template=true" : ""}`}
                 method="post"

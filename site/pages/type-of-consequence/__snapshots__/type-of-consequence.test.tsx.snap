@@ -50,15 +50,13 @@ exports[`pages > CreateDisruption > should render correctly for operator user wi
         <div
           className="govuk-grid-column-two-thirds"
         >
-          <a
+          <button
             className="govuk-back-link"
-            href="/create-disruption"
             onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
+            type="button"
           >
             Back
-          </a>
+          </button>
           <form
             action="/api/type-of-consequence"
             method="post"
@@ -407,15 +405,13 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
         <div
           className="govuk-grid-column-two-thirds"
         >
-          <a
+          <button
             className="govuk-back-link"
-            href="/create-disruption"
             onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
+            type="button"
           >
             Back
-          </a>
+          </button>
           <form
             action="/api/type-of-consequence"
             method="post"
@@ -852,15 +848,13 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
         <div
           className="govuk-grid-column-two-thirds"
         >
-          <a
+          <button
             className="govuk-back-link"
-            href="/create-disruption"
             onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
+            type="button"
           >
             Back
-          </a>
+          </button>
           <form
             action="/api/type-of-consequence"
             method="post"
@@ -1249,15 +1243,13 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
         <div
           className="govuk-grid-column-two-thirds"
         >
-          <a
+          <button
             className="govuk-back-link"
-            href="/create-disruption"
             onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
+            type="button"
           >
             Back
-          </a>
+          </button>
           <form
             action="/api/type-of-consequence"
             method="post"
@@ -1646,15 +1638,13 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
         <div
           className="govuk-grid-column-two-thirds"
         >
-          <a
+          <button
             className="govuk-back-link"
-            href="/review-disruption"
             onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
+            type="button"
           >
             Back
-          </a>
+          </button>
           <form
             action="/api/type-of-consequence"
             method="post"
