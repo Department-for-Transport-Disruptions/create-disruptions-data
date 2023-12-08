@@ -44,6 +44,13 @@ exports[`pages > cookies > should display a confirmation box when the user saves
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link mb-7"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <div
         className="govuk-grid-row"
       >

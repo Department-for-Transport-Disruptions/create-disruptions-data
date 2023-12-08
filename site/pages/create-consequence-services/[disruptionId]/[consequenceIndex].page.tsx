@@ -191,8 +191,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageState.inputs.services]);
 
-    const router = useRouter();
-    const queryParams = router.query;
+    const queryParams = useRouter().query;
     const displayCancelButton = showCancelButton(queryParams);
 
     const returnToTemplateOverview = returnTemplateOverview(queryParams);
@@ -457,9 +456,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
     return (
         <BaseLayout title={title} description={description}>
-            <button type="button" onClick={() => router.back()} className="govuk-back-link">
-                Back
-            </button>
             <CsrfForm
                 action={`/api/create-consequence-services${isTemplate ? "?template=true" : ""}`}
                 method="post"

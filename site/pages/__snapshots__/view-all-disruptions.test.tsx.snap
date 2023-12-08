@@ -44,6 +44,13 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link mb-7"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <h1
         className="govuk-heading-xl"
       >
@@ -566,6 +573,13 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link mb-7"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <h1
         className="govuk-heading-xl"
       >
@@ -1499,6 +1513,13 @@ exports[`ViewAllDisruption > viewAllDisruptions > should render correctly when t
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link mb-7"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <h1
         className="govuk-heading-xl"
       >

@@ -45,7 +45,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
       id="main-content"
     >
       <button
-        className="govuk-back-link"
+        className="govuk-back-link mb-7"
         onClick={[Function]}
         type="button"
       >
@@ -648,7 +648,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
       id="main-content"
     >
       <button
-        className="govuk-back-link"
+        className="govuk-back-link mb-7"
         onClick={[Function]}
         type="button"
       >
@@ -1259,7 +1259,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
       id="main-content"
     >
       <button
-        className="govuk-back-link"
+        className="govuk-back-link mb-7"
         onClick={[Function]}
         type="button"
       >
@@ -1314,7 +1314,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0?return=%2Freview-disruption"
+                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -1609,16 +1609,6 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
           >
             Save and continue
           </button>
-          <a
-            className="govuk-button mt-8 ml-5 govuk-button--secondary"
-            href="/review-disruption/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
-            role="button"
-          >
-            Cancel Changes
-          </a>
           <button
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"

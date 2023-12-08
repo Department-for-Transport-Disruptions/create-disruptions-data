@@ -44,6 +44,13 @@ exports[`manageOrgs > should render correctly when there are no inputs 1`] = `
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link mb-7"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <div
         className="govuk-grid-row"
       >
@@ -491,6 +498,13 @@ exports[`manageOrgs > should render correctly with inputs 1`] = `
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link mb-7"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <div
         className="govuk-grid-row"
       >

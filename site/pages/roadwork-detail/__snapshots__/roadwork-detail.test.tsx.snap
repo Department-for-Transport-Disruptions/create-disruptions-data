@@ -44,6 +44,13 @@ exports[`RoadworkDetail > should render correctly when roadwork data is present 
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link mb-7"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <h1
         className="govuk-heading-xl"
       >
@@ -513,6 +520,13 @@ exports[`RoadworkDetail > should render correctly when roadwork data is present 
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link mb-7"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <h1
         className="govuk-heading-xl"
       >
@@ -982,6 +996,13 @@ exports[`RoadworkDetail > should render correctly when roadworks data is present
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link mb-7"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <h1
         className="govuk-heading-xl"
       >

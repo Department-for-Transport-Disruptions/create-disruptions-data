@@ -44,6 +44,13 @@ exports[`accountSettings > should render correctly for operator 1`] = `
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link mb-7"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <div
         className="govuk-grid-row"
       >
@@ -759,6 +766,13 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link mb-7"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <div
         className="govuk-grid-row"
       >
@@ -1438,6 +1452,13 @@ exports[`accountSettings > should render correctly for staff or publisher user 1
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link mb-7"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <div
         className="govuk-grid-row"
       >

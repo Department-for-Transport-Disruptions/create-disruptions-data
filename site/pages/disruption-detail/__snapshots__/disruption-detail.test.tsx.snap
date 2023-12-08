@@ -45,7 +45,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
       id="main-content"
     >
       <button
-        className="govuk-back-link"
+        className="govuk-back-link mb-7"
         onClick={[Function]}
         type="button"
       >
@@ -1886,7 +1886,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
       id="main-content"
     >
       <button
-        className="govuk-back-link"
+        className="govuk-back-link mb-7"
         onClick={[Function]}
         type="button"
       >
@@ -3710,7 +3710,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
       id="main-content"
     >
       <button
-        className="govuk-back-link"
+        className="govuk-back-link mb-7"
         onClick={[Function]}
         type="button"
       >
@@ -5040,7 +5040,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
       id="main-content"
     >
       <button
-        className="govuk-back-link"
+        className="govuk-back-link mb-7"
         onClick={[Function]}
         type="button"
       >
@@ -6370,7 +6370,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
       id="main-content"
     >
       <button
-        className="govuk-back-link"
+        className="govuk-back-link mb-7"
         onClick={[Function]}
         type="button"
       >
@@ -7700,7 +7700,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
       id="main-content"
     >
       <button
-        className="govuk-back-link"
+        className="govuk-back-link mb-7"
         onClick={[Function]}
         type="button"
       >
@@ -9528,7 +9528,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
       id="main-content"
     >
       <button
-        className="govuk-back-link"
+        className="govuk-back-link mb-7"
         onClick={[Function]}
         type="button"
       >

@@ -44,6 +44,13 @@ exports[`pages > dashboard > should render correctly when there are all three li
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link mb-7"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <h1
         className="govuk-heading-xl"
       >
@@ -690,6 +697,13 @@ exports[`pages > dashboard > should render correctly when there are no disruptio
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link mb-7"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <h1
         className="govuk-heading-xl"
       >
@@ -1197,6 +1211,13 @@ exports[`pages > dashboard > should render correctly when there are only live di
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link mb-7"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <h1
         className="govuk-heading-xl"
       >
@@ -1841,6 +1862,13 @@ exports[`pages > dashboard > should render correctly when there are only recentl
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link mb-7"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <h1
         className="govuk-heading-xl"
       >
@@ -2485,6 +2513,13 @@ exports[`pages > dashboard > should render correctly when there are only upcomin
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link mb-7"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <h1
         className="govuk-heading-xl"
       >

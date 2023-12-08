@@ -41,8 +41,7 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
 
     const stateUpdater = getStateUpdater(setConsequenceNetworkPageState, pageState);
 
-    const router = useRouter();
-    const queryParams = router.query;
+    const queryParams = useRouter().query;
     const displayCancelButton = showCancelButton(queryParams);
 
     const returnToTemplateOverview = returnTemplateOverview(queryParams);
@@ -54,9 +53,6 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
 
     return (
         <BaseLayout title={title} description={description}>
-            <button type="button" onClick={() => router.back()} className="govuk-back-link">
-                Back
-            </button>
             <CsrfForm
                 action={`/api/create-consequence-network${isTemplate ? "?template=true" : ""}`}
                 method="post"

@@ -13,7 +13,6 @@ import {
     CONSEQUENCE_TYPES,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
     OPERATOR_USER_CONSEQUENCE_TYPES,
-    CREATE_DISRUPTION_PAGE_PATH,
 } from "../../../constants/index";
 import { getDisruptionById } from "../../../data/dynamo";
 import { PageState } from "../../../interfaces/index";
@@ -47,9 +46,6 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
 
     return (
         <TwoThirdsLayout title={title} description={description} errors={props.errors}>
-            <button type="button" onClick={() => router.back()} className="govuk-back-link">
-                Back
-            </button>
             <CsrfForm
                 action={`/api/type-of-consequence${isTemplate ? "?template=true" : ""}`}
                 method="post"

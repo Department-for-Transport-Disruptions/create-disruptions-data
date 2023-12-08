@@ -44,6 +44,13 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link mb-7"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <form
         action="/api/create-disruption"
         method="post"
@@ -1703,6 +1710,13 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link mb-7"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <form
         action="/api/create-disruption"
         method="post"
@@ -3278,6 +3292,13 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link mb-7"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <form
         action="/api/create-disruption"
         method="post"
@@ -4672,16 +4693,6 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
         >
           Save and continue
         </button>
-        <a
-          className="govuk-button ml-5 govuk-button--secondary"
-          href="/review-disruption/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
-          role="button"
-        >
-          Cancel Changes
-        </a>
         <a
           className="govuk-button ml-5 govuk-button--secondary"
           href="/dashboard"

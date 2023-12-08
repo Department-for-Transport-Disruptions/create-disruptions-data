@@ -44,6 +44,13 @@ exports[`ViewAllRoadworks > should render correctly when no roadworks data is pr
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link mb-7"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <h1
         className="govuk-heading-xl"
       >
@@ -366,6 +373,13 @@ exports[`ViewAllRoadworks > should render correctly when roadworks data is prese
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link mb-7"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <h1
         className="govuk-heading-xl"
       >

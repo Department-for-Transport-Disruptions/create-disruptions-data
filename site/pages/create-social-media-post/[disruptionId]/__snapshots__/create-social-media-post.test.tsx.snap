@@ -45,7 +45,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
       id="main-content"
     >
       <button
-        className="govuk-back-link"
+        className="govuk-back-link mb-7"
         onClick={[Function]}
         type="button"
       >
@@ -413,7 +413,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
       id="main-content"
     >
       <button
-        className="govuk-back-link"
+        className="govuk-back-link mb-7"
         onClick={[Function]}
         type="button"
       >

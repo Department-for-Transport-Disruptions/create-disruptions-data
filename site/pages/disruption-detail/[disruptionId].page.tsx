@@ -360,8 +360,7 @@ const DisruptionDetail = ({
                   .socialMediaPostIndex + 1
             : 0;
 
-    const router = useRouter();
-    const queryParams = router.query;
+    const queryParams = useRouter().query;
 
     const deleteUrl = (popUpStateName: string) =>
         popUpStateName === "consequence" ? "/api/delete-consequence" : "/api/delete-disruption";
@@ -401,9 +400,6 @@ const DisruptionDetail = ({
                     questionText="Are you sure you wish to duplicate the disruption?"
                 />
             ) : null}
-            <button type="button" onClick={() => router.back()} className="govuk-back-link">
-                Back
-            </button>
             <CsrfForm
                 action={`/api/publish-edit${disruption.template ? "?template=true" : ""}`}
                 method="post"

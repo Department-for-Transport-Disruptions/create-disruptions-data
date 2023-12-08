@@ -44,6 +44,13 @@ exports[`pages > feedback > should render correctly after feedback has been succ
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link mb-7"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <div
         className="govuk-grid-row"
       >
@@ -491,6 +498,13 @@ exports[`pages > feedback > should render correctly after the user tries to subm
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link mb-7"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <div
         className="govuk-grid-row"
       >
@@ -938,6 +952,13 @@ exports[`pages > feedback > should render correctly when the page is first visit
       className="govuk-main-wrapper"
       id="main-content"
     >
+      <button
+        className="govuk-back-link mb-7"
+        onClick={[Function]}
+        type="button"
+      >
+        Back
+      </button>
       <div
         className="govuk-grid-row"
       >

@@ -60,8 +60,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
     const [searchInput, setSearchInput] = useState("");
     const [changePlaceholder, setChangePlaceHolder] = useState(false);
 
-    const router = useRouter();
-    const queryParams = router.query;
+    const queryParams = useRouter().query;
     const displayCancelButton = showCancelButton(queryParams);
 
     const returnToTemplateOverview = returnTemplateOverview(queryParams);
@@ -194,9 +193,6 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
 
     return (
         <BaseLayout title={title} description={description}>
-            <button type="button" onClick={() => router.back()} className="govuk-back-link">
-                Back
-            </button>
             <CsrfForm
                 action={`/api/create-consequence-stops${isTemplate ? "?template=true" : ""}`}
                 method="post"

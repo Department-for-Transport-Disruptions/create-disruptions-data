@@ -1,5 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { PropsWithChildren, ReactElement, useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import CookieBanner from "./CookieBanner";
@@ -47,6 +48,7 @@ export const BaseLayout = ({
         element = document.getElementById("js-cookie-banner");
     }
 
+    const router = useRouter();
     return (
         <>
             <Head>
@@ -62,6 +64,9 @@ export const BaseLayout = ({
 
             <div className="govuk-width-container">
                 <main className="govuk-main-wrapper" id="main-content">
+                    <button type="button" onClick={() => router.back()} className="govuk-back-link mb-7">
+                        Back
+                    </button>
                     {children}
                 </main>
                 {!hideHelp && <Help />}
