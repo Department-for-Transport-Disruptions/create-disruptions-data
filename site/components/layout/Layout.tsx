@@ -15,6 +15,7 @@ interface LayoutProps {
     errors?: ErrorInfo[];
     hideCookieBanner?: boolean;
     hideHelp?: boolean;
+    disableBackButton?: boolean;
 }
 
 const Help = (): ReactElement => (
@@ -36,6 +37,7 @@ export const BaseLayout = ({
     hideCookieBanner,
     children,
     hideHelp,
+    disableBackButton = false,
 }: PropsWithChildren<LayoutProps>): ReactElement => {
     const [showBanner, setShowBanner] = useState(false);
 
@@ -63,10 +65,12 @@ export const BaseLayout = ({
             <PhaseBanner />
 
             <div className="govuk-width-container">
-                <main className="govuk-main-wrapper" id="main-content">
+                {!disableBackButton && (
                     <button type="button" onClick={() => router.back()} className="govuk-back-link mb-7">
                         Back
                     </button>
+                )}
+                <main className="govuk-main-wrapper" id="main-content">
                     {children}
                 </main>
                 {!hideHelp && <Help />}
@@ -83,6 +87,7 @@ export const FullColumnLayout = ({
     children,
     hideCookieBanner = false,
     hideHelp = false,
+    disableBackButton = false,
 }: PropsWithChildren<LayoutProps>): ReactElement => (
     <BaseLayout
         title={title}
@@ -104,6 +109,7 @@ export const TwoThirdsLayout = ({
     children,
     hideCookieBanner = false,
     hideHelp = false,
+    disableBackButton = false,
 }: PropsWithChildren<LayoutProps>): ReactElement => (
     <BaseLayout
         title={title}

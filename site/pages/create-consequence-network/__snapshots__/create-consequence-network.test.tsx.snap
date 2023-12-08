@@ -40,17 +40,17 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
     >
-      <button
-        className="govuk-back-link mb-7"
-        onClick={[Function]}
-        type="button"
-      >
-        Back
-      </button>
       <form
         action="/api/create-consequence-network"
         method="post"
@@ -643,17 +643,17 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
     >
-      <button
-        className="govuk-back-link mb-7"
-        onClick={[Function]}
-        type="button"
-      >
-        Back
-      </button>
       <form
         action="/api/create-consequence-network"
         method="post"
@@ -1254,17 +1254,17 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
     >
-      <button
-        className="govuk-back-link mb-7"
-        onClick={[Function]}
-        type="button"
-      >
-        Back
-      </button>
       <form
         action="/api/create-consequence-network"
         method="post"

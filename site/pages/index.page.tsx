@@ -7,7 +7,7 @@ const description =
 
 const Home = () => {
     return (
-        <BaseLayout title={title} description={description}>
+        <BaseLayout title={title} description={description} disableBackButton={true}>
             <h1 className="govuk-heading-xl">Create transport disruption data</h1>
 
             <p className="govuk-body">

@@ -40,17 +40,17 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
     >
-      <button
-        className="govuk-back-link mb-7"
-        onClick={[Function]}
-        type="button"
-      >
-        Back
-      </button>
       <form
         action="/api/publish-edit"
         method="post"
@@ -1881,17 +1881,17 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
     >
-      <button
-        className="govuk-back-link mb-7"
-        onClick={[Function]}
-        type="button"
-      >
-        Back
-      </button>
       <form
         action="/api/publish-edit?template=true"
         method="post"
@@ -3705,17 +3705,17 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
     >
-      <button
-        className="govuk-back-link mb-7"
-        onClick={[Function]}
-        type="button"
-      >
-        Back
-      </button>
       <form
         action="/api/publish-edit"
         method="post"
@@ -5035,17 +5035,17 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
     >
-      <button
-        className="govuk-back-link mb-7"
-        onClick={[Function]}
-        type="button"
-      >
-        Back
-      </button>
       <form
         action="/api/publish-edit"
         method="post"
@@ -6365,17 +6365,17 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
     >
-      <button
-        className="govuk-back-link mb-7"
-        onClick={[Function]}
-        type="button"
-      >
-        Back
-      </button>
       <form
         action="/api/publish-edit"
         method="post"
@@ -7695,17 +7695,17 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
     >
-      <button
-        className="govuk-back-link mb-7"
-        onClick={[Function]}
-        type="button"
-      >
-        Back
-      </button>
       <form
         action="/api/publish-edit?template=true"
         method="post"
@@ -9523,17 +9523,17 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
     >
-      <button
-        className="govuk-back-link mb-7"
-        onClick={[Function]}
-        type="button"
-      >
-        Back
-      </button>
       <form
         action="/api/publish-edit"
         method="post"
