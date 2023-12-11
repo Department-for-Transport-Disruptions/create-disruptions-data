@@ -3,6 +3,7 @@
 exports[`getAllDisruptions > formatSortedDisruptions > correctly formats disruptions 1`] = `
 {
   "consequenceLength": 3,
+  "dataSource": "tnds",
   "displayId": "8fg3ha",
   "id": "test",
   "isLive": true,
@@ -16,8 +17,13 @@ exports[`getAllDisruptions > formatSortedDisruptions > correctly formats disrupt
   "operators": [
     "TEST",
   ],
-  "serviceIds": [
-    "123",
+  "publishEndDate": "",
+  "publishStartDate": "2023-03-10T12:00:00.000Z",
+  "services": [
+    {
+      "dataSource": "tnds",
+      "ref": "1234",
+    },
   ],
   "severity": "severe",
   "status": "draft",
