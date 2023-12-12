@@ -19,6 +19,7 @@ interface RoadworkDetailProps {
     newDisruptionId: string;
     disruptionId?: string;
     disruptionPublishStatus?: PublishStatus;
+    isOperatorUser: boolean;
 }
 
 const getRows = (roadwork: Roadwork) => {
@@ -55,7 +56,13 @@ const getRoadworkQueryParam = (roadwork: Roadwork) => {
     )}&roadworkSummary=${encodeURIComponent(roadworkSummary)}`;
 };
 
-const RoadworkDetail = ({ roadwork, newDisruptionId, disruptionId, disruptionPublishStatus }: RoadworkDetailProps) => {
+const RoadworkDetail = ({
+    roadwork,
+    newDisruptionId,
+    disruptionId,
+    disruptionPublishStatus,
+    isOperatorUser,
+}: RoadworkDetailProps) => {
     return (
         <BaseLayout title={title} description={description}>
             <h1 className="govuk-heading-xl">Roadworks in your area</h1>
@@ -63,7 +70,7 @@ const RoadworkDetail = ({ roadwork, newDisruptionId, disruptionId, disruptionPub
                 {roadwork?.streetName} - {roadwork?.activityType}
             </h2>
             <Table rows={getRows(roadwork)} />
-            {!disruptionId && (
+            {!disruptionId && !isOperatorUser && (
                 <Link
                     href={`/create-disruption/${newDisruptionId}${getRoadworkQueryParam(roadwork)}`}
                     role="button"
@@ -89,7 +96,7 @@ const RoadworkDetail = ({ roadwork, newDisruptionId, disruptionId, disruptionPub
                 </Link>
             )}
 
-            {disruptionId && disruptionPublishStatus === PublishStatus.draft && (
+            {disruptionId && !isOperatorUser && disruptionPublishStatus === PublishStatus.draft && (
                 <Link
                     href={`/review-disruption/${disruptionId}`}
                     role="button"
@@ -151,6 +158,7 @@ export const getServerSideProps = async (
             props: {
                 roadwork: roadwork,
                 newDisruptionId,
+                isOperatorUser: session.isOperatorUser,
             },
         };
     }
@@ -160,6 +168,7 @@ export const getServerSideProps = async (
             newDisruptionId,
             disruptionId: disruptionInfoForRoadwork.disruptionId,
             disruptionPublishStatus: disruptionInfoForRoadwork.publishStatus,
+            isOperatorUser: session.isOperatorUser,
         },
     };
 };

@@ -178,6 +178,24 @@ describe("pages", () => {
             expect(tree).toMatchSnapshot();
         });
 
+        it("should render correctly when there are all three live, upcoming and recently closed disruptions for an operator user", () => {
+            const tree = renderer
+                .create(
+                    <Dashboard
+                        liveDisruptions={[disruptions[0]]}
+                        upcomingDisruptions={[disruptions[1], disruptions[2]]}
+                        recentlyClosedDisruptions={[disruptions[3]]}
+                        newDisruptionId={defaultNewDisruptionId}
+                        canPublish
+                        orgName="Test Org"
+                        isOperatorUser={true}
+                        stage={"dev"}
+                    />,
+                )
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+
         describe("getServerSideProps", () => {
             afterEach(() => {
                 vi.resetAllMocks();
