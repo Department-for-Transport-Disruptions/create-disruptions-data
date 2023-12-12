@@ -230,13 +230,16 @@ export const disruptionInfoSchema = z.object({
     ),
     publishStartDate: zodDate("Enter publication start date"),
     publishStartTime: zodTime("Enter publication start time"),
-    publishEndDate: zodDate("Invalid publish end date").optional().or(z.literal("")),
-    publishEndTime: zodTime("Invalid publish end date").optional().or(z.literal("")),
+    publishEndDate: zodDate("Invalid publish end date").optional().or(z.literal("")).default(""),
+    publishEndTime: zodTime("Invalid publish end date").optional().or(z.literal("")).default(""),
     disruptionStartDate: zodDate("Enter a start date"),
     disruptionStartTime: zodTime("Enter a start time"),
-    disruptionEndDate: zodDate("Invalid publish end date").optional().or(z.literal("")),
-    disruptionEndTime: zodTime("Invalid publish end date").optional().or(z.literal("")),
-    disruptionNoEndDateTime: z.union([z.literal("true"), z.literal("")]).optional(),
+    disruptionEndDate: zodDate("Invalid publish end date").optional().or(z.literal("")).default(""),
+    disruptionEndTime: zodTime("Invalid publish end date").optional().or(z.literal("")).default(""),
+    disruptionNoEndDateTime: z
+        .union([z.literal("true"), z.literal("")])
+        .optional()
+        .default(""),
     disruptionRepeats: z.union([z.literal("doesntRepeat"), z.literal("daily"), z.literal("weekly")]).optional(),
     disruptionRepeatsEndDate: zodDate("Invalid disruption end date").optional().or(z.literal("")),
     validity: z

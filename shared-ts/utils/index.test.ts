@@ -17,6 +17,10 @@ const disruptionInfo: DisruptionInfo = {
     disruptionStartDate: "10/03/2023",
     disruptionStartTime: "1200",
     disruptionNoEndDateTime: "true",
+    disruptionEndDate: "",
+    disruptionEndTime: "",
+    publishEndDate: "",
+    publishEndTime: "",
     displayId: "8fg3ha",
     orgId: DEFAULT_ORG_ID,
 };
@@ -206,6 +210,11 @@ describe("getSortedDisruptionFinalEndDate", () => {
             orgId: DEFAULT_ORG_ID,
             disruptionStartDate: "25/03/2021",
             disruptionStartTime: "1123",
+            disruptionEndDate: "",
+            disruptionEndTime: "",
+            publishEndDate: "",
+            publishEndTime: "",
+            disruptionNoEndDateTime: "true",
             validity: [
                 {
                     disruptionStartDate: "25/03/2021",
@@ -249,6 +258,11 @@ describe("getSortedDisruptionFinalEndDate", () => {
             orgId: DEFAULT_ORG_ID,
             disruptionStartDate: "25/03/2021",
             disruptionStartTime: "1123",
+            disruptionEndDate: "",
+            disruptionEndTime: "",
+            publishEndDate: "",
+            publishEndTime: "",
+            disruptionNoEndDateTime: "true",
             validity: [
                 {
                     disruptionStartDate: "25/03/2021",

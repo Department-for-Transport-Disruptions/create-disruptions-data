@@ -120,10 +120,6 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             return;
         }
 
-        if (!validatedBody.data.disruptionNoEndDateTime) {
-            validatedBody.data.disruptionNoEndDateTime = "";
-        }
-
         await upsertDisruptionInfo(
             validatedBody.data,
             session.orgId,

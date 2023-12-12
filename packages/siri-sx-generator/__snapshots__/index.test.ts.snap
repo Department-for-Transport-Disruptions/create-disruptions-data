@@ -58,6 +58,8 @@ exports[`SIRI-SX Generator > correctly generates Disruptions JSON 1`] = `
       "id": "6f6435e3-a485-4c8c-8c29-e121b1e76802",
       "name": "Test Org",
     },
+    "publishEndDate": "",
+    "publishEndTime": "",
     "publishStartDate": "10/03/2023",
     "publishStartTime": "1200",
     "summary": "Some summary",
@@ -69,6 +71,8 @@ exports[`SIRI-SX Generator > correctly generates Disruptions JSON 1`] = `
         "disruptionStartTime": "1200",
       },
       {
+        "disruptionEndDate": "",
+        "disruptionEndTime": "",
         "disruptionStartDate": "18/03/2023",
         "disruptionStartTime": "1200",
       },

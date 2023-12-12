@@ -280,7 +280,7 @@ describe("pages", () => {
                         disruptionStartTime: "1300",
                         disruptionEndDate: recentlyClosedDate,
                         disruptionEndTime: "1300",
-                        disruptionNoEndDateTime: undefined,
+                        disruptionNoEndDateTime: "",
                     },
                 ]);
 
