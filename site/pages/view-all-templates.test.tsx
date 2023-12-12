@@ -1,7 +1,6 @@
 import renderer, { act } from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import ViewAllTemplates from "./view-all-templates.page";
-import { TableContents } from "../components/ViewAllContents";
 import { DEFAULT_ORG_ID, mockViewAllDisruptionsData } from "../testData/mockData";
 
 type Renderer = {
@@ -14,7 +13,7 @@ const defaultRenderer: Renderer = {
     },
 };
 
-const templates: TableContents[] = mockViewAllDisruptionsData;
+const templates = mockViewAllDisruptionsData;
 
 const defaultNewDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
