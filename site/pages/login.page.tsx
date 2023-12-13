@@ -22,7 +22,7 @@ const Login = (props: LoginPageProps): ReactElement => {
     const stateUpdater = getStateUpdater(setPageState, pageState);
 
     return (
-        <BaseLayout title={title} description={description} errors={pageState.errors}>
+        <BaseLayout title={title} description={description} errors={pageState.errors} disableBackButton>
             <h1 className="govuk-heading-xl">Sign in</h1>
             <div className="govuk-grid-row">
                 <div className="govuk-grid-column-two-thirds">
