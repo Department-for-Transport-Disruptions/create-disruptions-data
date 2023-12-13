@@ -12,20 +12,32 @@ const PDFStyles = StyleSheet.create({
         borderRightWidth: 0,
         borderLeftWidth: 0,
         borderBottomWidth: 4,
-        margin: 5,
+        margin: 2,
         fontFamily: "Helvetica-Bold",
     },
     column: {
-        width: "6.5%",
+        width: "6.7%",
+        flex: 1,
+        wordWrap: "break-word",
+        maxWidth: "6.7%",
     },
     title: {
-        width: "30.5%",
+        width: "12.5%",
+        flex: 1,
+        wordWrap: "break-word",
+        maxWidth: "12.5%",
     },
     date: {
-        width: "4.5%",
+        width: "5.5%",
+        flex: 1,
+        wordWrap: "break-word",
+        maxWidth: "5.5%",
     },
     status: {
-        width: "8.5%",
+        width: "9%",
+        flex: 1,
+        wordWrap: "break-word",
+        maxWidth: "9%",
     },
 });
 
@@ -42,9 +54,14 @@ const PDFHeader = () => (
         <Text style={PDFStyles.date}>end date</Text>
         <Text style={PDFStyles.date}>publish start date</Text>
         <Text style={PDFStyles.date}>publish end date</Text>
-        <Text style={PDFStyles.column}>severity</Text>
-        <Text style={PDFStyles.column}>live</Text>
+        <Text style={PDFStyles.status}>severity</Text>
+        <Text style={PDFStyles.status}>live</Text>
         <Text style={PDFStyles.status}>status</Text>
+        <Text style={PDFStyles.title}>description of disruption</Text>
+        <Text style={PDFStyles.status}>planned / unplanned</Text>
+        <Text style={PDFStyles.date}>date added</Text>
+        <Text style={PDFStyles.column}>reason for disruption</Text>
+        <Text style={PDFStyles.column}>list of services affected</Text>
     </View>
 );
 
