@@ -398,7 +398,7 @@ exports[`DownloadPDF > should render correctly 1`] = `
           }
         }
       >
-        Tue 24 May 2023
+        24/11/2023
       </TEXT>
       <TEXT
         style={
@@ -411,7 +411,7 @@ exports[`DownloadPDF > should render correctly 1`] = `
           }
         }
       >
-        Tue 24 May 2023
+        25/11/2023
       </TEXT>
       <TEXT
         style={
@@ -424,7 +424,7 @@ exports[`DownloadPDF > should render correctly 1`] = `
           }
         }
       >
-        Mon 23 May 2023
+        24/11/2023
       </TEXT>
       <TEXT
         style={
@@ -437,7 +437,7 @@ exports[`DownloadPDF > should render correctly 1`] = `
           }
         }
       >
-        Wed 25 May 2023
+        25/11/2023
       </TEXT>
       <TEXT
         style={
@@ -490,7 +490,9 @@ exports[`DownloadPDF > should render correctly 1`] = `
             "wordWrap": "break-word",
           }
         }
-      />
+      >
+        A description
+      </TEXT>
       <TEXT
         style={
           {
@@ -501,7 +503,9 @@ exports[`DownloadPDF > should render correctly 1`] = `
             "wordWrap": "break-word",
           }
         }
-      />
+      >
+        Planned
+      </TEXT>
       <TEXT
         style={
           {
@@ -512,7 +516,9 @@ exports[`DownloadPDF > should render correctly 1`] = `
             "wordWrap": "break-word",
           }
         }
-      />
+      >
+        24/11/2023
+      </TEXT>
       <TEXT
         hyphenationCallback={[Function]}
         style={
@@ -524,7 +530,9 @@ exports[`DownloadPDF > should render correctly 1`] = `
             "wordWrap": "break-word",
           }
         }
-      />
+      >
+        roadworks
+      </TEXT>
       <TEXT
         style={
           {
