@@ -1,4 +1,4 @@
-import { disruptionSchema, historySchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { History, disruptionSchema, historySchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Datasource, Progress } from "@create-disruptions-data/shared-ts/enums";
 import {
     environmentReasonSchema,
@@ -6,10 +6,16 @@ import {
     miscellaneousReasonSchema,
     personnelReasonSchema,
 } from "@create-disruptions-data/shared-ts/siriTypes.zod";
+import { getDisruptionCreationTime } from "@create-disruptions-data/shared-ts/utils";
 import { z } from "zod";
 import { socialMediaPostSchema } from "./social-media.schema";
 import { setZodDefaultError, splitCamelCaseToString, toTitleCase } from "../utils";
 import { getDateForExporter } from "../utils/dates";
+
+const getCreationTime = (history: History[], creationTime: string | null) => {
+    const date = getDisruptionCreationTime(history, creationTime || null);
+    return date ? getDateForExporter(date) : "N/A";
+};
 
 export const fullDisruptionSchema = disruptionSchema.and(
     z.object({
@@ -75,6 +81,7 @@ export const exportDisruptionsSchema = z.array(
             ]),
             creationTime: z.string().datetime().nullish(),
             services: z.array(disruptionsTableServiceSchema),
+            history: z.array(historySchema).optional(),
         })
         .transform((item) => {
             return {
@@ -95,7 +102,7 @@ export const exportDisruptionsSchema = z.array(
                 description: item.description,
                 disruptionType: toTitleCase(item.disruptionType),
                 disruptionReason: item.disruptionReason,
-                creationTime: item.creationTime ? getDateForExporter(item.creationTime) : "N/A",
+                creationTime: getCreationTime(item.history, item.creationTime) ?? "N/A",
                 servicesAffected:
                     item.services?.map((service) => `${service.lineName} - ${service.nocCode}`).join(", ") || "N/A",
             };
@@ -139,6 +146,7 @@ export const disruptionsTableSchema = z.object({
         equipmentReasonSchema,
     ]),
     creationTime: z.string().datetime().nullish(),
+    history: z.array(historySchema).optional(),
 });
 
 export type TableDisruption = z.infer<typeof disruptionsTableSchema>;

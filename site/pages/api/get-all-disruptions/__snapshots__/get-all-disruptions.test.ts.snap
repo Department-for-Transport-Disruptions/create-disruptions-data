@@ -9,6 +9,7 @@ exports[`getAllDisruptions > formatSortedDisruptions > correctly formats disrupt
   "displayId": "8fg3ha",
   "disruptionReason": "accident",
   "disruptionType": "planned",
+  "history": undefined,
   "id": "test",
   "isLive": true,
   "isNetworkWideCq": true,

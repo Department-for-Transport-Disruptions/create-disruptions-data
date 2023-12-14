@@ -195,6 +195,7 @@ export const formatSortedDisruption = (disruption: Disruption): TableDisruption 
         description: disruption.description,
         disruptionReason: disruption.disruptionReason,
         creationTime: disruption.creationTime,
+        history: disruption.history,
     };
 };
 
@@ -234,6 +235,7 @@ const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResp
     );
 
     let disruptionsData = disruptions;
+
 
     if (session.isOperatorUser) {
         disruptionsData = filterDisruptionsForOperatorUser(disruptionsData, session.operatorOrgId);

@@ -42,6 +42,7 @@ const getTableName = (isTemplate: boolean) => {
 const collectDisruptionsData = (
     disruptionItems: Record<string, unknown>[],
     disruptionId: string,
+    isTemplate?: boolean,
 ): FullDisruption | null => {
     let info = disruptionItems.find((item) => item.SK === `${disruptionId}#INFO`);
 
@@ -66,12 +67,17 @@ const collectDisruptionsData = (
     const isEdited = disruptionItems.some((item) => (item.SK as string).includes("#EDIT"));
     const isPending = disruptionItems.some((item) => (item.SK as string).includes("#PENDING"));
 
+    const history = disruptionItems.filter(
+        (item) => (item.SK as string).startsWith(`${disruptionId}#HISTORY`) ?? false,
+    );
+
+
     if (isPending) {
         info = disruptionItems.find((item) => item.SK === `${disruptionId}#INFO#PENDING`) ?? info;
         const pendingConsequences = disruptionItems.filter(
             (item) =>
                 ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
-                    (item.SK as string).endsWith("#PENDING")) ??
+                    (item.SK as string).includes("#PENDING")) ??
                 false,
         );
         pendingConsequences.forEach((pendingConsequence) => {
@@ -148,6 +154,7 @@ const collectDisruptionsData = (
         ...info,
         consequences,
         socialMediaPosts,
+        history: isTemplate ? [] : history,
     });
 
     if (!parsedDisruption.success) {
