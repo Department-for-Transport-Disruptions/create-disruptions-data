@@ -3,7 +3,7 @@ import { NextPageContext, Redirect } from "next";
 import { ReactElement } from "react";
 import { randomUUID } from "crypto";
 import { BaseLayout } from "../components/layout/Layout";
-import ViewAllTemplateContents, { ViewAllTemplatesProps } from "../components/ViewAllTemplates";
+import ViewAllTemplateContents, { ViewAllContentProps } from "../components/ViewAllTemplates";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 
 const title = "Templates";
@@ -15,7 +15,7 @@ const ViewAllTemplates = ({
     filterStatus,
     enableLoadingSpinnerOnPageLoad = true,
     orgId,
-}: ViewAllTemplatesProps): ReactElement => {
+}: ViewAllContentProps): ReactElement => {
     return (
         <BaseLayout title={title} description={description}>
             <ViewAllTemplateContents
@@ -31,7 +31,7 @@ const ViewAllTemplates = ({
 
 export const getServerSideProps = async (
     ctx: NextPageContext,
-): Promise<{ props: ViewAllTemplatesProps } | { redirect: Redirect }> => {
+): Promise<{ props: ViewAllContentProps } | { redirect: Redirect }> => {
     const baseProps = {
         props: {
             newContentId: randomUUID(),

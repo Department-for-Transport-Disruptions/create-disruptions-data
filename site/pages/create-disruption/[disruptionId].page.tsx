@@ -4,8 +4,7 @@ import {
     validitySchema,
     validitySchemaRefined,
 } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
-import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
-import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
+import { PublishStatus, MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
