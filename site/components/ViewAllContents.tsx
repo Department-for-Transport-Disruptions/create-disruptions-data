@@ -641,7 +641,6 @@ const ViewAllContents = ({
     };
 
     const generateCsv = () => {
-       
         const parseDisruptions = exportDisruptionsSchema.safeParse(contentsToDisplay);
 
         const csvData = Papa.unparse({
