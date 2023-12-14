@@ -236,7 +236,6 @@ const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResp
 
     let disruptionsData = disruptions;
 
-
     if (session.isOperatorUser) {
         disruptionsData = filterDisruptionsForOperatorUser(disruptionsData, session.operatorOrgId);
     }
