@@ -71,7 +71,6 @@ const collectDisruptionsData = (
         (item) => (item.SK as string).startsWith(`${disruptionId}#HISTORY`) ?? false,
     );
 
-
     if (isPending) {
         info = disruptionItems.find((item) => item.SK === `${disruptionId}#INFO#PENDING`) ?? info;
         const pendingConsequences = disruptionItems.filter(
