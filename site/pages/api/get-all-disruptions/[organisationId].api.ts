@@ -1,5 +1,5 @@
 import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { Progress, PublishStatus, Severity } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, Progress, PublishStatus, Severity } from "@create-disruptions-data/shared-ts/enums";
 import { getSortedDisruptionFinalEndDate, sortDisruptionsByStartDate } from "@create-disruptions-data/shared-ts/utils";
 import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { Dayjs } from "dayjs";
@@ -7,6 +7,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
 import { VEHICLE_MODES } from "../../../constants";
 import { getDisruptionsDataFromDynamo } from "../../../data/dynamo";
+import { TableDisruption } from "../../../schemas/disruption.schema";
 import {
     filterDisruptionsForOperatorUser,
     getDisplayByValue,
@@ -90,10 +91,10 @@ export const getWorstSeverity = (severitys: Severity[]): Severity => {
     return worstSeverity;
 };
 
-export const formatSortedDisruption = (disruption: Disruption) => {
+export const formatSortedDisruption = (disruption: Disruption): TableDisruption => {
     const modes: string[] = [];
     const severitys: Severity[] = [];
-    const serviceIds: string[] = [];
+    const services: TableDisruption["services"] = [];
     const disruptionOperators: string[] = [];
     const atcoCodeSet = new Set<string>();
 
@@ -104,6 +105,8 @@ export const formatSortedDisruption = (disruption: Disruption) => {
     const getEndDateTime = getSortedDisruptionFinalEndDate(disruption);
 
     const isLive = disruption.validity ? isLiveDisruption(disruption.validity, getEndDateTime) : false;
+
+    let dataSource: Datasource | undefined = undefined;
 
     if (disruption.consequences) {
         disruption.consequences.forEach((consequence) => {
@@ -117,7 +120,10 @@ export const formatSortedDisruption = (disruption: Disruption) => {
             switch (consequence.consequenceType) {
                 case "services":
                     consequence.services.forEach((service) => {
-                        serviceIds.push(service.id.toString());
+                        services.push({
+                            ref: service.dataSource === Datasource.bods ? service.lineId : service.serviceCode,
+                            dataSource: service.dataSource,
+                        });
                     });
 
                     consequence.stops?.map((stop) => {
@@ -126,6 +132,9 @@ export const formatSortedDisruption = (disruption: Disruption) => {
                             stopsAffectedCount++;
                         }
                     });
+
+                    dataSource = consequence.services[0].dataSource;
+
                     break;
 
                 case "operatorWide":
@@ -159,7 +168,8 @@ export const formatSortedDisruption = (disruption: Disruption) => {
         consequenceLength: disruption.consequences ? disruption.consequences.length : 0,
         status,
         severity: getWorstSeverity(severitys),
-        serviceIds,
+        services,
+        dataSource,
         operators: disruptionOperators,
         id: disruption.disruptionId,
         summary: reduceStringWithEllipsis(disruption.summary, 95),

@@ -17,7 +17,7 @@ import { Mock, vi } from "vitest";
 import { ParsedUrlQuery } from "querystring";
 import { COOKIES_ID_TOKEN, COOKIES_POLICY_COOKIE } from "../constants";
 import { Operator, ServiceApiResponse } from "../schemas/consequence.schema";
-import { ExportDisruptions, FullDisruption } from "../schemas/disruption.schema";
+import { ExportDisruptions, FullDisruption, TableDisruption } from "../schemas/disruption.schema";
 import { defaultModes } from "../schemas/organisation.schema";
 import { Roadwork } from "../schemas/roadwork.schema";
 import { Session, SessionWithOrgDetail } from "../schemas/session.schema";
@@ -306,7 +306,7 @@ export const mockServices: Service[] = [
         nocCode: "BB",
         startDate: "2023-07-23",
         serviceCode: "NW_04_SCMN_149_1",
-        dataSource: Datasource.tnds,
+        dataSource: Datasource.bods,
         lineId: "SL1",
         endDate: "2023-08-10",
     },
@@ -331,7 +331,7 @@ export const mockServices: Service[] = [
         origin: "Station",
         nocCode: "BB",
         startDate: "2023-07-23",
-        serviceCode: "NW_04_SCMN_149_1",
+        serviceCode: "NW_04_SCMN_149_2",
         dataSource: Datasource.tnds,
         lineId: "SL1",
         endDate: "2023-08-10",
@@ -886,7 +886,7 @@ export const mockDeleteAdminUser = Promise.resolve({
     body: {},
     $metadata: { httpStatusCode: 302 },
 });
-export const mockViewAllDisruptionsData = [
+export const mockViewAllDisruptionsData: TableDisruption[] = [
     {
         id: "c58ba826-ac18-41c5-8476-8172dfa6ea24",
         summary: "Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...",
@@ -895,7 +895,17 @@ export const mockViewAllDisruptionsData = [
         modes: ["Tram"],
         status: Progress.open,
         severity: Severity.verySevere,
-        serviceIds: ["1212", "323"],
+        services: [
+            {
+                ref: "SL1",
+                dataSource: Datasource.bods,
+            },
+            {
+                ref: "323",
+                dataSource: Datasource.bods,
+            },
+        ],
+        dataSource: Datasource.bods,
         operators: ["BB"],
         displayId: "8fg3ha",
         isOperatorWideCq: true,
@@ -912,7 +922,13 @@ export const mockViewAllDisruptionsData = [
         modes: ["Tram"],
         status: Progress.open,
         severity: Severity.verySevere,
-        serviceIds: ["42545"],
+        services: [
+            {
+                ref: "NW_04_SCMN_149_1",
+                dataSource: Datasource.tnds,
+            },
+        ],
+        dataSource: Datasource.tnds,
         operators: ["DB"],
         displayId: "8fg3ha",
         isOperatorWideCq: true,
@@ -933,7 +949,13 @@ export const mockViewAllDisruptionsData = [
         modes: ["Tram", "Ferry", "Train"],
         status: Progress.draft,
         severity: Severity.severe,
-        serviceIds: ["6758"],
+        services: [
+            {
+                ref: "NW_04_SCMN_149_2",
+                dataSource: Datasource.tnds,
+            },
+        ],
+        dataSource: Datasource.tnds,
         operators: ["BB", "SB"],
         displayId: "8fg3ha",
         isOperatorWideCq: true,
