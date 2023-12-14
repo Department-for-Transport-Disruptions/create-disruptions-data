@@ -131,11 +131,10 @@ export const getDisruptionData = async (
     const { disruptions, nextKey: newNextKey } = await res.json();
 
     const parsedDisruptions = makeFilteredArraySchema(disruptionsTableSchema).safeParse(disruptions);
-    console.log(disruptions);
+
     if (!parsedDisruptions.success) {
         return [];
     }
-    console.log(parsedDisruptions.success, parsedDisruptions.data);
 
     if (newNextKey) {
         return [...parsedDisruptions.data, ...(await getDisruptionData(orgId, isTemplate, newNextKey as string))];
@@ -593,10 +592,8 @@ const ViewAllContents = ({
         setInitialFilters(filter, setContentsToDisplay, contents); // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [filter]);
 
-    console.log(contentsToDisplay);
     useEffect(() => {
         const generatePdf = async () => {
-            console.log(JSON.stringify(contentsToDisplay), "---------------------------");
             if (downloadPdf) {
                 const parseDisruptions = exportDisruptionsSchema.safeParse(contentsToDisplay);
                 const blob = await pdf(
@@ -644,7 +641,7 @@ const ViewAllContents = ({
     };
 
     const generateCsv = () => {
-        console.log(JSON.stringify(contentsToDisplay), "---------------------------");
+       
         const parseDisruptions = exportDisruptionsSchema.safeParse(contentsToDisplay);
 
         const csvData = Papa.unparse({
@@ -678,11 +675,10 @@ const ViewAllContents = ({
     };
 
     const generateExcel = async () => {
-        console.log(JSON.stringify(contentsToDisplay), "---------------------------");
         const parseDisruptions = exportDisruptionsSchema.safeParse(contentsToDisplay);
 
         const data = parseDisruptions.success ? parseDisruptions.data : [];
-        console.log(parseDisruptions.success);
+
         const exportSchema: Schema<ExportDisruptionData> = getExportSchema();
 
         await writeXlsxFile(data, {
