@@ -144,7 +144,7 @@ const Dashboard = ({
     }, [currentRecentlyClosedPage, recentlyClosedDisruptions]);
 
     return (
-        <BaseLayout title={title} description={description} errors={[]}>
+        <BaseLayout title={title} description={description} errors={[]} disableBackButton>
             <h1 className="govuk-heading-xl">{orgName} disruptions data</h1>
             {pendingApprovalCount && pendingApprovalCount > 0 && canPublish && !isOperatorUser ? (
                 <div className="govuk-warning-text">
