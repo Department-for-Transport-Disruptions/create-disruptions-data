@@ -40,6 +40,13 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
@@ -486,6 +493,13 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
@@ -884,6 +898,13 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
@@ -1272,6 +1293,13 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"

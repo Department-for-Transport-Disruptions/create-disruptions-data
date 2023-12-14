@@ -1,5 +1,5 @@
 import { disruptionSchema, historySchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
-import { Progress } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, Progress } from "@create-disruptions-data/shared-ts/enums";
 import { z } from "zod";
 import { socialMediaPostSchema } from "./social-media.schema";
 import { setZodDefaultError, splitCamelCaseToString } from "../utils";
@@ -46,6 +46,8 @@ export const exportDisruptionsSchema = z.array(
             serviceIds: z.array(z.string()).optional(),
             stopsAffectedCount: z.number(),
             validityPeriods: z.array(displayValidityPeriod),
+            publishStartDate: z.string(),
+            publishEndDate: z.string().optional(),
             severity: z.string(),
             isLive: z.boolean(),
             status: z.string(),
@@ -61,6 +63,8 @@ export const exportDisruptionsSchema = z.array(
                 stopsAffectedCount: item.stopsAffectedCount,
                 startDate: getDateForExporter(item.validityPeriods[0].startTime),
                 endDate: item.validityPeriods[0].endTime ? getDateForExporter(item.validityPeriods[0].endTime) : "",
+                publishStartDate: getDateForExporter(item.publishStartDate),
+                publishEndDate: item.publishEndDate ? getDateForExporter(item.publishEndDate) : "",
                 severity: splitCamelCaseToString(item.severity),
                 isLive: item.isLive ? "yes" : "no",
                 status: splitCamelCaseToString(item.status),
@@ -71,6 +75,11 @@ export const exportDisruptionsSchema = z.array(
 export type ExportDisruptions = z.infer<typeof exportDisruptionsSchema>;
 
 export type ExportDisruptionData = ExportDisruptions[0];
+
+const disruptionsTableServiceSchema = z.object({
+    ref: z.string(),
+    dataSource: z.nativeEnum(Datasource),
+});
 
 export const disruptionsTableSchema = z.object({
     displayId: z.string(),
@@ -83,9 +92,12 @@ export const disruptionsTableSchema = z.object({
             endTime: z.string().nullable(),
         }),
     ),
+    publishStartDate: z.string(),
+    publishEndDate: z.string().optional(),
     severity: z.string(),
     status: z.nativeEnum(Progress),
-    serviceIds: z.array(z.string()),
+    services: z.array(disruptionsTableServiceSchema),
+    dataSource: z.nativeEnum(Datasource).optional(),
     operators: z.array(z.string()),
     isOperatorWideCq: z.boolean(),
     isNetworkWideCq: z.boolean(),
@@ -93,3 +105,5 @@ export const disruptionsTableSchema = z.object({
     stopsAffectedCount: z.number(),
     consequenceLength: z.number().optional(),
 });
+
+export type TableDisruption = z.infer<typeof disruptionsTableSchema>;

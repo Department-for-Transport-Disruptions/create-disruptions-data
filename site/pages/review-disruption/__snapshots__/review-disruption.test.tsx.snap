@@ -40,36 +40,17 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
     >
-      <div
-        aria-labelledby="govuk-notification-banner-title"
-        className="govuk-notification-banner"
-        data-module="govuk-notification-banner"
-        role="region"
-      >
-        <div
-          className="govuk-notification-banner__header"
-        >
-          <h2
-            className="govuk-notification-banner__title"
-            id="govuk-notification-banner-title"
-          >
-            Important
-          </h2>
-        </div>
-        <div
-          className="govuk-notification-banner__content"
-        >
-          <p
-            className="govuk-notification-banner__heading"
-          >
-            You have successfully duplicated the disruption. The new disruption has been created below.
-          </p>
-        </div>
-      </div>
       <form
         action="/api/publish"
         method="post"
@@ -2123,6 +2104,13 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
@@ -4180,6 +4168,13 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
@@ -5691,6 +5686,13 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
@@ -7202,6 +7204,13 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"

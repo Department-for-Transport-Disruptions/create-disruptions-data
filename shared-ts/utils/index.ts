@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Dayjs } from "dayjs";
-import { getDatetimeFromDateAndTime, getFormattedDate } from "./dates";
+import { getDatetimeFromDateAndTime, getFormattedDate, sortEarliestDate } from "./dates";
 import { Disruption, Validity } from "../disruptionTypes";
 
 export const notEmpty = <T>(value: T | null | undefined): value is T => {
@@ -45,8 +45,6 @@ export type ApiDisruption = Awaited<ReturnType<typeof getApiDisruptions>>[0];
 export type ApiConsequence = ApiDisruption["consequences"][0];
 
 export const sortDisruptionsByStartDate = (disruptions: Disruption[]): Disruption[] => {
-    const sortEarliestDate = (firstDate: Dayjs, secondDate: Dayjs) => (firstDate.isBefore(secondDate) ? -1 : 1);
-
     const disruptionsWithSortedValidityPeriods = disruptions.map((disruption) => {
         const validityPeriods: Validity[] = [
             ...(disruption.validity ?? []),

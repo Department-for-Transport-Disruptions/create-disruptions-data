@@ -40,6 +40,13 @@ exports[`pages > CreateTemplateConsequenceStops > should render correctly with e
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
@@ -886,6 +893,13 @@ exports[`pages > CreateTemplateConsequenceStops > should render correctly with i
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
@@ -1674,6 +1688,13 @@ exports[`pages > CreateTemplateConsequenceStops > should render correctly with n
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
@@ -2395,6 +2416,13 @@ exports[`pages > CreateTemplateConsequenceStops > should render correctly with q
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"

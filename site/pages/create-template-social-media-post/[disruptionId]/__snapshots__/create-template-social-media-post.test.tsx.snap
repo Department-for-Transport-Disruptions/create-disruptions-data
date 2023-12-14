@@ -40,6 +40,13 @@ exports[`pages > CreateTemplateSocialMediaPost > should render correctly with in
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
@@ -397,6 +404,13 @@ exports[`pages > CreateTemplateSocialMediaPost > should render correctly with no
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"

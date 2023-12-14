@@ -28,9 +28,14 @@ import {
     VEHICLE_MODES,
 } from "../constants";
 import { fetchOperators, fetchServices } from "../data/refDataApi";
-import { Operator, ServiceApiResponse } from "../schemas/consequence.schema";
-import { ExportDisruptionData, disruptionsTableSchema, exportDisruptionsSchema } from "../schemas/disruption.schema";
-import { getDisplayByValue, getServiceLabel, splitCamelCaseToString } from "../utils";
+import { Operator } from "../schemas/consequence.schema";
+import {
+    ExportDisruptionData,
+    TableDisruption,
+    disruptionsTableSchema,
+    exportDisruptionsSchema,
+} from "../schemas/disruption.schema";
+import { getDisplayByValue, getServiceLabel, sortServices, splitCamelCaseToString } from "../utils";
 import {
     convertDateTimeToFormat,
     dateIsSameOrBeforeSecondDate,
@@ -66,26 +71,6 @@ export interface FilterOperator {
     operatorRef: string;
 }
 
-export interface TableContents {
-    displayId: string;
-    id: string;
-    summary: string;
-    modes: string[];
-    validityPeriods: {
-        startTime: string;
-        endTime: string | null;
-    }[];
-    severity: string;
-    status: Progress;
-    serviceIds: string[];
-    operators: string[];
-    isOperatorWideCq: boolean;
-    isNetworkWideCq: boolean;
-    isLive: boolean;
-    stopsAffectedCount: number;
-    consequenceLength?: number;
-}
-
 export interface ContentTable {
     id: JSX.Element;
     summary: string;
@@ -111,7 +96,7 @@ const sortFunction = (contents: ContentTable[], sortField: keyof ContentTable, s
     });
 };
 
-export const getDisruptionData = async (orgId: string, nextKey?: string): Promise<TableContents[]> => {
+export const getDisruptionData = async (orgId: string, nextKey?: string): Promise<TableDisruption[]> => {
     const options: RequestInit = {
         method: "GET",
         headers: {
@@ -147,22 +132,20 @@ export const getDisruptionData = async (orgId: string, nextKey?: string): Promis
     return parsedDisruptions.data;
 };
 
-export const filterContents = (contents: TableContents[], filter: Filter): TableContents[] => {
+export const filterContents = (contents: TableDisruption[], filter: Filter): TableDisruption[] => {
     let disruptionsToDisplay = contents.filter((disruption) => {
         if (filter.services.length > 0) {
-            const filterServiceRefs = filter.services.map((service) => service.id.toString());
-            const disruptionServiceRefs = disruption.serviceIds;
-            let showService = false;
+            const disruptionServices = disruption.services;
 
-            disruptionServiceRefs.forEach((disruptionServiceRef) => {
-                if (filterServiceRefs.includes(disruptionServiceRef)) {
-                    showService = true;
-                }
-            });
-
-            if (!showService) {
-                return false;
-            }
+            return disruptionServices.some((service) =>
+                filter.services.some(
+                    (filterService) =>
+                        filterService.dataSource === service.dataSource &&
+                        (filterService.dataSource === Datasource.bods
+                            ? filterService.lineId === service.ref
+                            : filterService.serviceCode === service.ref),
+                ),
+            );
         }
 
         if (filter.mode && filter.mode !== "any") {
@@ -215,12 +198,12 @@ export const filterContents = (contents: TableContents[], filter: Filter): Table
 };
 
 export const applyDateFilters = (
-    contents: TableContents[],
+    contents: TableDisruption[],
     period: {
         startTime: string;
         endTime: string;
     },
-): TableContents[] => {
+): TableDisruption[] => {
     return contents.filter((content) =>
         content.validityPeriods.some((valPeriod) => {
             const { startTime, endTime } = valPeriod;
@@ -239,8 +222,8 @@ export const applyDateFilters = (
 };
 
 export const applyFiltersToContents = (
-    disruptions: TableContents[],
-    setContentsToDisplay: Dispatch<SetStateAction<TableContents[]>>,
+    disruptions: TableDisruption[],
+    setContentsToDisplay: Dispatch<SetStateAction<TableDisruption[]>>,
     filter: Filter,
 ): void => {
     const disruptionsToDisplay = filterContents(disruptions, filter);
@@ -360,13 +343,13 @@ export const handleDateFilterUpdate = (dateFilterProps: HandleDateFilterProps) =
     }
 };
 
-export const getContentPage = (pageNumber: number, contents: TableContents[]): TableContents[] => {
+export const getContentPage = (pageNumber: number, contents: TableDisruption[]): TableDisruption[] => {
     const startPoint = (pageNumber - 1) * 10;
     const endPoint = pageNumber * 10;
     return contents.slice(startPoint, endPoint);
 };
 
-const formatContentsIntoRows = (contents: TableContents[]): ContentTable[] => {
+const formatContentsIntoRows = (contents: TableDisruption[]): ContentTable[] => {
     return contents.map((content) => {
         const earliestPeriod: {
             startTime: string;
@@ -448,8 +431,8 @@ const columns: TableColumn<ContentTable>[] = [
 
 const setInitialFilters = (
     filter: Filter,
-    setContentsToDisplay: Dispatch<SetStateAction<TableContents[]>>,
-    contents: TableContents[],
+    setContentsToDisplay: Dispatch<SetStateAction<TableDisruption[]>>,
+    contents: TableDisruption[],
 ) => {
     if (filterIsEmpty(filter)) {
         setContentsToDisplay(contents);
@@ -481,8 +464,8 @@ const ViewAllContents = ({
     const [showFilters, setShowFilters] = useState(false);
     const [filtersLoading, setFiltersLoading] = useState(false);
     const [clearButtonClicked, setClearButtonClicked] = useState(false);
-    const [contentsToDisplay, setContentsToDisplay] = useState<TableContents[]>([]);
-    const [contents, setContents] = useState<TableContents[]>([]);
+    const [contentsToDisplay, setContentsToDisplay] = useState<TableDisruption[]>([]);
+    const [contents, setContents] = useState<TableDisruption[]>([]);
     const [startDateFilter, setStartDateFilter] = useState("");
     const [endDateFilter, setEndDateFilter] = useState("");
     const [startDateFilterError, setStartDateFilterError] = useState(false);
@@ -645,6 +628,8 @@ const ViewAllContents = ({
                 "stopsAffectedCount",
                 "startDate",
                 "endDate",
+                "publishStartDate",
+                "publishEndDate",
                 "severity",
                 "isLive",
                 "status",
@@ -677,13 +662,13 @@ const ViewAllContents = ({
             fetchServices({ adminAreaCodes: adminAreaCodes, dataSource: Datasource.tnds }),
         ]);
 
-        let services: ServiceApiResponse[] = [];
-
-        const combinedServices = (servicesBodsData ?? []).concat(servicesTndsData ?? []);
-        services = filterServices(combinedServices) ?? [];
+        const combinedServices = sortServices([
+            ...filterServices(servicesBodsData),
+            ...filterServices(servicesTndsData),
+        ]);
 
         setOperatorsList(operators);
-        setServicesList(services);
+        setServicesList(combinedServices);
     };
 
     const cancelActionHandler = (): void => {

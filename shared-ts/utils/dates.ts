@@ -1,5 +1,5 @@
 /* eslint-disable import/no-named-as-default-member */
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import isBetween from "dayjs/plugin/isBetween";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
@@ -33,3 +33,22 @@ export const checkOverlap = (
         firstStartDate.isSame(secondStartDate)
     );
 };
+
+export const isCurrentOrUpcomingDisruption = (
+    publishEndDate: string | undefined,
+    publishEndTime: string | undefined,
+) => {
+    const currentDatetime = getDate();
+
+    if (publishEndDate && publishEndTime) {
+        const endDatetime = getDatetimeFromDateAndTime(publishEndDate, publishEndTime);
+
+        if (currentDatetime.isAfter(endDatetime)) {
+            return false;
+        }
+    }
+
+    return true;
+};
+
+export const sortEarliestDate = (firstDate: Dayjs, secondDate: Dayjs) => (firstDate.isBefore(secondDate) ? -1 : 1);

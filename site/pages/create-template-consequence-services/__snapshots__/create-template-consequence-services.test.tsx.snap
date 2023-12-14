@@ -40,6 +40,13 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
@@ -1108,6 +1115,13 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
@@ -2208,6 +2222,13 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
@@ -3250,6 +3271,13 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
@@ -4185,6 +4213,13 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"

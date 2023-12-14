@@ -7,11 +7,10 @@ import {
     GetCommand,
     QueryCommand,
 } from "@aws-sdk/lib-dynamodb";
-import { Consequence, Disruption, DisruptionInfo, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { MAX_CONSEQUENCES } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { Consequence, Disruption, DisruptionInfo } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { disruptionSchema, MAX_CONSEQUENCES } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
-import { getSortedDisruptionFinalEndDate } from "@create-disruptions-data/shared-ts/utils";
-import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
+import { getDate, isCurrentOrUpcomingDisruption } from "@create-disruptions-data/shared-ts/utils/dates";
 import { recursiveQuery } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { makeFilteredArraySchema } from "@create-disruptions-data/shared-ts/utils/zod";
 import { randomUUID } from "crypto";
@@ -28,7 +27,6 @@ import {
 import { SocialMediaAccount, dynamoSocialAccountSchema } from "../schemas/social-media-accounts.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../schemas/social-media.schema";
 import { flattenZodErrors, notEmpty, splitCamelCaseToString } from "../utils";
-import { isLiveDisruption, isUpcomingDisruption } from "../utils/dates";
 import logger from "../utils/logger";
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
@@ -254,40 +252,11 @@ export const getPublishedSocialMediaPosts = async (orgId: string): Promise<Socia
 
     const disruptions = await getPublishedDisruptionsDataFromDynamo(orgId);
 
-    return disruptions
-        .filter((disruption) => {
-            const validityPeriods: Validity[] = [
-                ...(disruption.validity ?? []),
-                {
-                    disruptionStartDate: disruption.disruptionStartDate,
-                    disruptionStartTime: disruption.disruptionStartTime,
-                    disruptionEndDate: disruption.disruptionEndDate,
-                    disruptionEndTime: disruption.disruptionEndTime,
-                    disruptionNoEndDateTime: disruption.disruptionNoEndDateTime,
-                    disruptionRepeats: disruption.disruptionRepeats,
-                    disruptionRepeatsEndDate: disruption.disruptionRepeatsEndDate,
-                },
-            ];
-            const today = getDate();
-            const shouldNotDisplayDisruption = validityPeriods.every(
-                (period) =>
-                    !!period.disruptionEndDate &&
-                    !!period.disruptionEndTime &&
-                    getDatetimeFromDateAndTime(period.disruptionEndDate, period.disruptionEndTime).isBefore(today),
-            );
+    const currentAndUpcomingDisruptions = disruptions.filter((disruption) =>
+        isCurrentOrUpcomingDisruption(disruption.publishEndDate, disruption.publishEndTime),
+    );
 
-            const getEndDateTime = getSortedDisruptionFinalEndDate({
-                ...disruption,
-                validity: validityPeriods,
-            });
-
-            return (
-                !shouldNotDisplayDisruption &&
-                (isLiveDisruption(validityPeriods, getEndDateTime) || isUpcomingDisruption(validityPeriods, today))
-            );
-        })
-        .flatMap((item) => item.socialMediaPosts)
-        .filter(notEmpty);
+    return currentAndUpcomingDisruptions.flatMap((item) => item.socialMediaPosts).filter(notEmpty);
 };
 
 export const getOrganisationInfoById = async (orgId: string): Promise<Organisation | null> => {
@@ -643,6 +612,9 @@ export const upsertSocialMediaPost = async (
     );
 
     const currentDisruption = await getDisruptionById(socialMediaPost.disruptionId, id, isTemplate);
+    const existingSocialMediaPost = currentDisruption?.socialMediaPosts
+        ? currentDisruption?.socialMediaPosts[socialMediaPost.socialMediaPostIndex]
+        : null;
     const isPending =
         isUserStaff &&
         (currentDisruption?.publishStatus === PublishStatus.published ||
@@ -657,6 +629,7 @@ export const upsertSocialMediaPost = async (
                 SK: `${socialMediaPost.disruptionId}#SOCIALMEDIAPOST#${socialMediaPost.socialMediaPostIndex}${
                     forcePublish ? "" : isPending ? "#PENDING" : isEditing ? "#EDIT" : ""
                 }`,
+                ...(existingSocialMediaPost ?? {}),
                 ...socialMediaPost,
             },
         }),
@@ -1683,4 +1656,40 @@ export const getOrgSocialAccount = async (orgId: string, socialId: string) => {
     }
 
     return parsedSocialAccount.data;
+};
+
+export const getDisruptionInfoByPermitReferenceNumber = async (
+    permitReferenceNumber: string,
+    orgId: string,
+): Promise<Disruption | null> => {
+    logger.info(
+        `Retrieving disruption info associated with road permit reference (${permitReferenceNumber}) from DynamoDB table (${disruptionsTableName})...`,
+    );
+    const disruptionInfo = await ddbDocClient.send(
+        new QueryCommand({
+            TableName: disruptionsTableName,
+            KeyConditionExpression: "PK = :1",
+            FilterExpression: "permitReferenceNumber = :3",
+            ExpressionAttributeValues: {
+                ":1": orgId,
+                ":3": permitReferenceNumber,
+            },
+        }),
+    );
+
+    if (!disruptionInfo.Items || disruptionInfo.Items.length === 0) {
+        logger.info(`No disruption found for roadwork permit reference (${permitReferenceNumber}) in Dynamo`);
+        return null;
+    }
+
+    const parsedDisruptionInfo = disruptionSchema.safeParse(disruptionInfo.Items[0]);
+
+    if (!parsedDisruptionInfo.success) {
+        logger.warn(`Invalid disruption found for roadwork permit reference (${permitReferenceNumber}) in Dynamo`);
+        logger.warn(inspect(parsedDisruptionInfo.error, false, null));
+
+        return null;
+    }
+
+    return parsedDisruptionInfo.data;
 };

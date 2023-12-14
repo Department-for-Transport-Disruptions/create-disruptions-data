@@ -9,7 +9,7 @@ import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import PageNumbers from "../components/layout/PageNumbers";
 import Tabs from "../components/layout/Tabs";
-import { VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../constants";
+import { STAGE, VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../constants";
 import { getPendingDisruptionsIdsFromDynamo, getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
 import { filterDisruptionsForOperatorUser, reduceStringWithEllipsis } from "../utils";
 import { canPublish, getSessionWithOrgDetail } from "../utils/apiUtils/auth";
@@ -37,6 +37,7 @@ export interface DashboardProps {
     canPublish: boolean;
     orgName: string;
     isOperatorUser: boolean;
+    stage: string;
 }
 
 const mapDisruptions = (disruptions: Disruption[]) => {
@@ -102,6 +103,7 @@ const Dashboard = ({
     canPublish,
     orgName,
     isOperatorUser = false,
+    stage,
 }: DashboardProps): ReactElement => {
     const hasInitialised = useRef(false);
     const numberOfLiveDisruptionsPages = Math.ceil(liveDisruptions.length / 10);
@@ -141,7 +143,7 @@ const Dashboard = ({
     }, [currentRecentlyClosedPage, recentlyClosedDisruptions]);
 
     return (
-        <BaseLayout title={title} description={description} errors={[]}>
+        <BaseLayout title={title} description={description} errors={[]} disableBackButton>
             <h1 className="govuk-heading-xl">{orgName} disruptions data</h1>
             {pendingApprovalCount && pendingApprovalCount > 0 && canPublish && !isOperatorUser ? (
                 <div className="govuk-warning-text">
@@ -261,6 +263,15 @@ const Dashboard = ({
                     <h2 className="govuk-heading-s text-govBlue">Templates</h2>
                 </Link>
             )}
+            {stage !== "prod" && stage !== "preprod" && (
+                <Link className="govuk-link" href="/view-all-roadworks">
+                    <h2 className="govuk-heading-s text-govBlue">
+                        {isOperatorUser
+                            ? "View roadworks in your area"
+                            : "Create disruptions from roadworks in your area"}
+                    </h2>
+                </Link>
+            )}
         </BaseLayout>
     );
 };
@@ -277,6 +288,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             canPublish: false,
             orgName: "",
             isOperatorUser: false,
+            stage: "dev",
         },
     };
 
@@ -369,6 +381,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                 canPublish: canPublish(sessionWithOrg),
                 orgName: sessionWithOrg.orgName,
                 isOperatorUser: sessionWithOrg.isOperatorUser,
+                stage: STAGE,
             },
         };
     }

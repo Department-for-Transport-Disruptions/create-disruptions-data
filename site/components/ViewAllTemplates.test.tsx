@@ -3,9 +3,9 @@ import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/u
 import { Dayjs } from "dayjs";
 import renderer, { act } from "react-test-renderer";
 import { describe, it, expect, vi, afterEach } from "vitest";
-import ViewAllTemplates, { Filter, TableContents, filterContents } from "./ViewAllTemplates";
+import ViewAllTemplates, { Filter, filterContents } from "./ViewAllTemplates";
 import { getWorstSeverity, isClosingOrClosed } from "../pages/api/get-all-templates/[organisationId].api";
-import { DEFAULT_ORG_ID, mockServices, mockViewAllData } from "../testData/mockData";
+import { DEFAULT_ORG_ID, mockServices, mockViewAllDisruptionsData } from "../testData/mockData";
 
 type Renderer = {
     toJSON: () => void;
@@ -17,7 +17,7 @@ const defaultRenderer: Renderer = {
     },
 };
 
-const templates: TableContents[] = mockViewAllData;
+const templates = mockViewAllDisruptionsData;
 
 const defaultNewDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
@@ -188,7 +188,7 @@ describe("filterContents", () => {
         };
         const resultTwo = filterContents(templates, filterTwo);
 
-        expect(resultTwo).toStrictEqual([templates[0], templates[2]]);
+        expect(resultTwo).toStrictEqual([templates[1], templates[2]]);
     });
 
     it("correctly applies operator filters to the templates", () => {

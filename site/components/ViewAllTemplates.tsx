@@ -28,9 +28,14 @@ import {
     VEHICLE_MODES,
 } from "../constants";
 import { fetchOperators, fetchServices } from "../data/refDataApi";
-import { Operator, ServiceApiResponse } from "../schemas/consequence.schema";
-import { ExportDisruptionData, disruptionsTableSchema, exportDisruptionsSchema } from "../schemas/disruption.schema";
-import { getDisplayByValue, getServiceLabel, splitCamelCaseToString } from "../utils";
+import { Operator } from "../schemas/consequence.schema";
+import {
+    ExportDisruptionData,
+    TableDisruption,
+    disruptionsTableSchema,
+    exportDisruptionsSchema,
+} from "../schemas/disruption.schema";
+import { getDisplayByValue, getServiceLabel, sortServices, splitCamelCaseToString } from "../utils";
 import {
     convertDateTimeToFormat,
     dateIsSameOrBeforeSecondDate,
@@ -39,7 +44,7 @@ import {
 import { getExportSchema } from "../utils/exportUtils";
 import { filterServices } from "../utils/formUtils";
 
-export interface ViewAllTemplatesProps {
+export interface ViewAllContentProps {
     adminAreaCodes: string[];
     newContentId: string;
     orgId: string;
@@ -64,26 +69,6 @@ export interface Filter {
 export interface FilterOperator {
     operatorName: string;
     operatorRef: string;
-}
-
-export interface TableContents {
-    displayId: string;
-    id: string;
-    summary: string;
-    modes: string[];
-    validityPeriods: {
-        startTime: string;
-        endTime: string | null;
-    }[];
-    severity: string;
-    status: Progress;
-    serviceIds: string[];
-    operators: string[];
-    isOperatorWideCq: boolean;
-    isNetworkWideCq: boolean;
-    isLive: boolean;
-    stopsAffectedCount: number;
-    consequenceLength?: number;
 }
 
 export interface ContentTable {
@@ -111,7 +96,7 @@ const sortFunction = (contents: ContentTable[], sortField: keyof ContentTable, s
     });
 };
 
-export const getTemplateData = async (orgId: string, nextKey?: string): Promise<TableContents[]> => {
+export const getTemplateData = async (orgId: string, nextKey?: string): Promise<TableDisruption[]> => {
     const options: RequestInit = {
         method: "GET",
         headers: {
@@ -147,22 +132,20 @@ export const getTemplateData = async (orgId: string, nextKey?: string): Promise<
     return parsedTemplates.data;
 };
 
-export const filterContents = (contents: TableContents[], filter: Filter): TableContents[] => {
+export const filterContents = (contents: TableDisruption[], filter: Filter): TableDisruption[] => {
     let templatesToDisplay = contents.filter((disruption) => {
         if (filter.services.length > 0) {
-            const filterServiceRefs = filter.services.map((service) => service.id.toString());
-            const templateServiceRefs = disruption.serviceIds;
-            let showService = false;
+            const templateServices = disruption.services;
 
-            templateServiceRefs.forEach((disruptionServiceRef) => {
-                if (filterServiceRefs.includes(disruptionServiceRef)) {
-                    showService = true;
-                }
-            });
-
-            if (!showService) {
-                return false;
-            }
+            return templateServices.some((service) =>
+                filter.services.some(
+                    (filterService) =>
+                        filterService.dataSource === service.dataSource &&
+                        (filterService.dataSource === Datasource.bods
+                            ? filterService.lineId === service.ref
+                            : filterService.serviceCode === service.ref),
+                ),
+            );
         }
 
         if (filter.mode && filter.mode !== "any") {
@@ -215,12 +198,12 @@ export const filterContents = (contents: TableContents[], filter: Filter): Table
 };
 
 export const applyDateFilters = (
-    contents: TableContents[],
+    contents: TableDisruption[],
     period: {
         startTime: string;
         endTime: string;
     },
-): TableContents[] => {
+): TableDisruption[] => {
     return contents.filter((content) =>
         content.validityPeriods.some((valPeriod) => {
             const { startTime, endTime } = valPeriod;
@@ -239,8 +222,8 @@ export const applyDateFilters = (
 };
 
 export const applyFiltersToContents = (
-    disruptions: TableContents[],
-    setContentsToDisplay: Dispatch<SetStateAction<TableContents[]>>,
+    disruptions: TableDisruption[],
+    setContentsToDisplay: Dispatch<SetStateAction<TableDisruption[]>>,
     filter: Filter,
 ): void => {
     const templatesToDisplay = filterContents(disruptions, filter);
@@ -360,13 +343,13 @@ export const handleDateFilterUpdate = (dateFilterProps: HandleDateFilterProps) =
     }
 };
 
-export const getContentPage = (pageNumber: number, contents: TableContents[]): TableContents[] => {
+export const getContentPage = (pageNumber: number, contents: TableDisruption[]): TableDisruption[] => {
     const startPoint = (pageNumber - 1) * 10;
     const endPoint = pageNumber * 10;
     return contents.slice(startPoint, endPoint);
 };
 
-const formatContentsIntoRows = (contents: TableContents[]): ContentTable[] => {
+const formatContentsIntoRows = (contents: TableDisruption[]): ContentTable[] => {
     return contents.map((content) => {
         const earliestPeriod: {
             startTime: string;
@@ -448,8 +431,8 @@ const columns: TableColumn<ContentTable>[] = [
 
 const setInitialFilters = (
     filter: Filter,
-    setContentsToDisplay: Dispatch<SetStateAction<TableContents[]>>,
-    contents: TableContents[],
+    setContentsToDisplay: Dispatch<SetStateAction<TableDisruption[]>>,
+    contents: TableDisruption[],
 ) => {
     if (filterIsEmpty(filter)) {
         setContentsToDisplay(contents);
@@ -458,13 +441,13 @@ const setInitialFilters = (
     }
 };
 
-const ViewAllTemplateContents = ({
+const ViewAllTemplates = ({
     newContentId,
     adminAreaCodes,
     filterStatus,
     enableLoadingSpinnerOnPageLoad = true,
     orgId,
-}: ViewAllTemplatesProps): ReactElement => {
+}: ViewAllContentProps): ReactElement => {
     const [selectedServices, setSelectedServices] = useState<Service[]>([]);
     const [selectedOperators, setSelectedOperators] = useState<ConsequenceOperators[]>([]);
 
@@ -481,8 +464,8 @@ const ViewAllTemplateContents = ({
     const [showFilters, setShowFilters] = useState(false);
     const [filtersLoading, setFiltersLoading] = useState(false);
     const [clearButtonClicked, setClearButtonClicked] = useState(false);
-    const [contentsToDisplay, setContentsToDisplay] = useState<TableContents[]>([]);
-    const [contents, setContents] = useState<TableContents[]>([]);
+    const [contentsToDisplay, setContentsToDisplay] = useState<TableDisruption[]>([]);
+    const [contents, setContents] = useState<TableDisruption[]>([]);
     const [startDateFilter, setStartDateFilter] = useState("");
     const [endDateFilter, setEndDateFilter] = useState("");
     const [startDateFilterError, setStartDateFilterError] = useState(false);
@@ -586,16 +569,16 @@ const ViewAllTemplateContents = ({
     useEffect(() => {
         const generatePdf = async () => {
             if (downloadPdf) {
-                const parseDisruptions = exportDisruptionsSchema.safeParse(contentsToDisplay);
+                const parseTemplates = exportDisruptionsSchema.safeParse(contentsToDisplay);
                 const blob = await pdf(
-                    <PDFDoc disruptions={parseDisruptions.success ? parseDisruptions.data : []} />,
+                    <PDFDoc disruptions={parseTemplates.success ? parseTemplates.data : []} />,
                 ).toBlob();
-                saveAs(blob, "Disruptions_list.pdf");
+                saveAs(blob, "Templates_list.pdf");
                 setDownloadPdf(false);
             }
         };
         generatePdf().catch(() => {
-            saveAs(new Blob(["There was an error. Contact your admin team"]), "Disruptions.pdf");
+            saveAs(new Blob(["There was an error. Contact your admin team"]), "Templates.pdf");
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [downloadPdf]);
@@ -605,7 +588,7 @@ const ViewAllTemplateContents = ({
             generateExcel().catch(async () => {
                 await writeXlsxFile(["There was an error. Contact your admin team"], {
                     schema: [{ column: "error", type: String, value: (objectData: string) => objectData }],
-                    fileName: "Disruptions_list.xlsx",
+                    fileName: "Templates_list.xlsx",
                 });
             });
             setDownloadExcel(false);
@@ -632,7 +615,7 @@ const ViewAllTemplateContents = ({
     };
 
     const generateCsv = () => {
-        const parseDisruptions = exportDisruptionsSchema.safeParse(contentsToDisplay);
+        const parseTemplates = exportDisruptionsSchema.safeParse(contentsToDisplay);
 
         const csvData = Papa.unparse({
             fields: [
@@ -645,11 +628,13 @@ const ViewAllTemplateContents = ({
                 "stopsAffectedCount",
                 "startDate",
                 "endDate",
+                "publishStartDate",
+                "publishEndDate",
                 "severity",
                 "isLive",
                 "status",
             ],
-            data: parseDisruptions.success ? parseDisruptions.data : [],
+            data: parseTemplates.success ? parseTemplates.data : [],
         });
 
         const blob = new Blob([csvData], { type: "text/csv;charset=utf-8" });
@@ -658,9 +643,9 @@ const ViewAllTemplateContents = ({
     };
 
     const generateExcel = async () => {
-        const parseDisruptions = exportDisruptionsSchema.safeParse(contentsToDisplay);
+        const parseTemplates = exportDisruptionsSchema.safeParse(contentsToDisplay);
 
-        const data = parseDisruptions.success ? parseDisruptions.data : [];
+        const data = parseTemplates.success ? parseTemplates.data : [];
 
         const exportSchema: Schema<ExportDisruptionData> = getExportSchema();
 
@@ -677,13 +662,13 @@ const ViewAllTemplateContents = ({
             fetchServices({ adminAreaCodes: adminAreaCodes, dataSource: Datasource.tnds }),
         ]);
 
-        let services: ServiceApiResponse[] = [];
-
-        const combinedServices = (servicesBodsData ?? []).concat(servicesTndsData ?? []);
-        services = filterServices(combinedServices) ?? [];
+        const combinedServices = sortServices([
+            ...filterServices(servicesBodsData),
+            ...filterServices(servicesTndsData),
+        ]);
 
         setOperatorsList(operators);
-        setServicesList(services);
+        setServicesList(combinedServices);
     };
 
     const cancelActionHandler = (): void => {
@@ -973,4 +958,4 @@ const ViewAllTemplateContents = ({
     );
 };
 
-export default memo(ViewAllTemplateContents);
+export default memo(ViewAllTemplates);
