@@ -40,6 +40,13 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
@@ -796,6 +803,13 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
@@ -1523,6 +1537,13 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
@@ -1576,7 +1597,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
                 >
                   <a
                     className="govuk-link"
-                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0?return=%2Freview-disruption"
+                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0"
                     onClick={[Function]}
                     onMouseEnter={[Function]}
                     onTouchStart={[Function]}
@@ -2031,16 +2052,6 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
           >
             Save and continue
           </button>
-          <a
-            className="govuk-button mt-8 ml-5 govuk-button--secondary"
-            href="/review-disruption/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
-            role="button"
-          >
-            Cancel Changes
-          </a>
           <button
             className="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"

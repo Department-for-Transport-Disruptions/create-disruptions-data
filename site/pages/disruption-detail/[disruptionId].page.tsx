@@ -359,6 +359,7 @@ const DisruptionDetail = ({
             ? disruption.socialMediaPosts?.reduce((p, s) => (p.socialMediaPostIndex > s.socialMediaPostIndex ? p : s))
                   .socialMediaPostIndex + 1
             : 0;
+
     const queryParams = useRouter().query;
 
     const deleteUrl = (popUpStateName: string) =>

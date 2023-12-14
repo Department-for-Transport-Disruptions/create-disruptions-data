@@ -33,7 +33,8 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
 
-    const queryParams = useRouter().query;
+    const router = useRouter();
+    const queryParams = router.query;
     const displayCancelButton = showCancelButton(queryParams);
 
     const returnToTemplateOverview = returnTemplateOverview(queryParams);

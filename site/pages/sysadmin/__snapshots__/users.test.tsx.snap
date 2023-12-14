@@ -40,6 +40,13 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
@@ -151,7 +158,6 @@ exports[`addUser > should render correctly when there are no inputs 1`] = `
         <input
           name="orgId"
           type="hidden"
-          value="016f954c-0e14-11ee-be56-0242ac120002"
         />
         <input
           name="group"
@@ -448,6 +454,13 @@ exports[`addUser > should render correctly with inputs 1`] = `
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
@@ -562,7 +575,6 @@ exports[`addUser > should render correctly with inputs 1`] = `
         <input
           name="orgId"
           type="hidden"
-          value="016f954c-0e14-11ee-be56-0242ac120002"
         />
         <input
           name="group"
