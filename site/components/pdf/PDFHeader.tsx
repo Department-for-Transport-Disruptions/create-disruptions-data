@@ -20,24 +20,28 @@ const PDFStyles = StyleSheet.create({
         flex: 1,
         wordWrap: "break-word",
         maxWidth: "6.7%",
+        padding: "0 5px",
     },
     title: {
         width: "12.5%",
         flex: 1,
         wordWrap: "break-word",
         maxWidth: "12.5%",
+        padding: "0 5px",
     },
     date: {
         width: "5.5%",
         flex: 1,
         wordWrap: "break-word",
         maxWidth: "5.5%",
+        padding: "0 5px",
     },
     status: {
         width: "9%",
         flex: 1,
         wordWrap: "break-word",
         maxWidth: "9%",
+        padding: "0 5px",
     },
 });
 
