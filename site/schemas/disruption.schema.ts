@@ -102,7 +102,7 @@ export const exportDisruptionsSchema = z.array(
                 description: item.description,
                 disruptionType: toTitleCase(item.disruptionType),
                 disruptionReason: item.disruptionReason,
-                creationTime: getCreationTime(item.history, item.creationTime) ?? "N/A",
+                creationTime: getCreationTime(item.history || [], item.creationTime || null) ?? "N/A",
                 servicesAffected:
                     item.services?.map((service) => `${service.lineName} - ${service.nocCode}`).join(", ") || "N/A",
             };
