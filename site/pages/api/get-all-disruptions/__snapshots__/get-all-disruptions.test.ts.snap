@@ -3,8 +3,12 @@
 exports[`getAllDisruptions > formatSortedDisruptions > correctly formats disruptions 1`] = `
 {
   "consequenceLength": 3,
+  "creationTime": undefined,
   "dataSource": "tnds",
+  "description": "Test description",
   "displayId": "8fg3ha",
+  "disruptionReason": "accident",
+  "disruptionType": "planned",
   "id": "test",
   "isLive": true,
   "isNetworkWideCq": true,
@@ -22,9 +26,12 @@ exports[`getAllDisruptions > formatSortedDisruptions > correctly formats disrupt
   "services": [
     {
       "dataSource": "tnds",
+      "lineName": "Line",
+      "nocCode": "NOC",
       "ref": "1234",
     },
   ],
+  "servicesAffectedCount": 1,
   "severity": "severe",
   "status": "draft",
   "stopsAffectedCount": 0,
