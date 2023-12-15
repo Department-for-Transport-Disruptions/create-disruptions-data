@@ -1,9 +1,21 @@
-import { disruptionSchema, historySchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { History, disruptionSchema, historySchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Datasource, Progress } from "@create-disruptions-data/shared-ts/enums";
+import {
+    environmentReasonSchema,
+    equipmentReasonSchema,
+    miscellaneousReasonSchema,
+    personnelReasonSchema,
+} from "@create-disruptions-data/shared-ts/siriTypes.zod";
+import { getDisruptionCreationTime } from "@create-disruptions-data/shared-ts/utils";
 import { z } from "zod";
 import { socialMediaPostSchema } from "./social-media.schema";
-import { setZodDefaultError, splitCamelCaseToString } from "../utils";
+import { setZodDefaultError, splitCamelCaseToString, toTitleCase } from "../utils";
 import { getDateForExporter } from "../utils/dates";
+
+const getCreationTime = (history: History[], creationTime: string | null) => {
+    const date = getDisruptionCreationTime(history, creationTime || null);
+    return date ? getDateForExporter(date) : "N/A";
+};
 
 export const fullDisruptionSchema = disruptionSchema.and(
     z.object({
@@ -35,6 +47,13 @@ const displayValidityPeriod = z.object({
     endTime: z.string().optional().nullish(),
 });
 
+const disruptionsTableServiceSchema = z.object({
+    nocCode: z.string(),
+    lineName: z.string(),
+    ref: z.string(),
+    dataSource: z.nativeEnum(Datasource),
+});
+
 export const exportDisruptionsSchema = z.array(
     z
         .object({
@@ -43,14 +62,25 @@ export const exportDisruptionsSchema = z.array(
             modes: z.array(z.string()),
             isOperatorWideCq: z.boolean(),
             isNetworkWideCq: z.boolean(),
-            serviceIds: z.array(z.string()).optional(),
             stopsAffectedCount: z.number(),
+            servicesAffectedCount: z.number(),
             validityPeriods: z.array(displayValidityPeriod),
             publishStartDate: z.string(),
             publishEndDate: z.string().optional(),
             severity: z.string(),
             isLive: z.boolean(),
             status: z.string(),
+            disruptionType: z.union([z.literal("planned"), z.literal("unplanned")]),
+            description: z.string().min(1).max(1000),
+            disruptionReason: z.union([
+                miscellaneousReasonSchema,
+                environmentReasonSchema,
+                personnelReasonSchema,
+                equipmentReasonSchema,
+            ]),
+            creationTime: z.string().datetime().nullish(),
+            services: z.array(disruptionsTableServiceSchema),
+            history: z.array(historySchema).optional(),
         })
         .transform((item) => {
             return {
@@ -59,15 +89,21 @@ export const exportDisruptionsSchema = z.array(
                 serviceModes: item.modes.map((mode) => splitCamelCaseToString(mode)).join(", ") || "N/A",
                 operatorWide: item.isOperatorWideCq ? "yes" : "no",
                 networkWide: item.isNetworkWideCq ? "yes" : "no",
-                servicesAffectedCount: item.serviceIds ? item.serviceIds.length : 0,
+                servicesAffectedCount: item.servicesAffectedCount,
                 stopsAffectedCount: item.stopsAffectedCount,
                 startDate: getDateForExporter(item.validityPeriods[0].startTime),
-                endDate: item.validityPeriods[0].endTime ? getDateForExporter(item.validityPeriods[0].endTime) : "",
+                endDate: item.validityPeriods[0].endTime ? getDateForExporter(item.validityPeriods[0].endTime) : "N/A",
                 publishStartDate: getDateForExporter(item.publishStartDate),
-                publishEndDate: item.publishEndDate ? getDateForExporter(item.publishEndDate) : "",
+                publishEndDate: item.publishEndDate ? getDateForExporter(item.publishEndDate) : "N/A",
                 severity: splitCamelCaseToString(item.severity),
                 isLive: item.isLive ? "yes" : "no",
                 status: splitCamelCaseToString(item.status),
+                description: item.description,
+                disruptionType: toTitleCase(item.disruptionType),
+                disruptionReason: item.disruptionReason,
+                creationTime: getCreationTime(item.history || [], item.creationTime || null) ?? "N/A",
+                servicesAffected:
+                    item.services?.map((service) => `${service.lineName} - ${service.nocCode}`).join(", ") || "N/A",
             };
         }),
 );
@@ -75,11 +111,6 @@ export const exportDisruptionsSchema = z.array(
 export type ExportDisruptions = z.infer<typeof exportDisruptionsSchema>;
 
 export type ExportDisruptionData = ExportDisruptions[0];
-
-const disruptionsTableServiceSchema = z.object({
-    ref: z.string(),
-    dataSource: z.nativeEnum(Datasource),
-});
 
 export const disruptionsTableSchema = z.object({
     displayId: z.string(),
@@ -103,7 +134,18 @@ export const disruptionsTableSchema = z.object({
     isNetworkWideCq: z.boolean(),
     isLive: z.boolean(),
     stopsAffectedCount: z.number(),
+    servicesAffectedCount: z.number(),
     consequenceLength: z.number().optional(),
+    disruptionType: z.union([z.literal("planned"), z.literal("unplanned")]),
+    description: z.string().min(1).max(1000),
+    disruptionReason: z.union([
+        miscellaneousReasonSchema,
+        environmentReasonSchema,
+        personnelReasonSchema,
+        equipmentReasonSchema,
+    ]),
+    creationTime: z.string().datetime().nullish(),
+    history: z.array(historySchema).optional(),
 });
 
 export type TableDisruption = z.infer<typeof disruptionsTableSchema>;

@@ -101,6 +101,7 @@ export const formatSortedTemplate = (disruption: Disruption): TableDisruption =>
     let isOperatorWideCq = false;
     let isNetworkWideCq = false;
     let stopsAffectedCount = 0;
+    let servicesAffectedCount = 0;
 
     const getEndDateTime = getSortedDisruptionFinalEndDate(disruption);
 
@@ -121,9 +122,12 @@ export const formatSortedTemplate = (disruption: Disruption): TableDisruption =>
                 case "services":
                     consequence.services.forEach((service) => {
                         services.push({
+                            nocCode: service.nocCode,
+                            lineName: service.lineName,
                             ref: service.dataSource === Datasource.bods ? service.lineId : service.serviceCode,
                             dataSource: service.dataSource,
                         });
+                        servicesAffectedCount++;
                     });
 
                     consequence.stops?.map((stop) => {
@@ -186,6 +190,12 @@ export const formatSortedTemplate = (disruption: Disruption): TableDisruption =>
         isNetworkWideCq: isNetworkWideCq,
         isLive: isLive,
         stopsAffectedCount: stopsAffectedCount,
+        servicesAffectedCount,
+        disruptionType: disruption.disruptionType,
+        description: disruption.description,
+        disruptionReason: disruption.disruptionReason,
+        creationTime: disruption.creationTime,
+        history: disruption.history,
     };
 };
 

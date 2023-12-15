@@ -73,5 +73,25 @@ export const getExportSchema = (): Schema<ExportDisruptionData> => {
             type: String,
             value: (objectData: ExportDisruptionData) => objectData.severity,
         },
+        {
+            column: "Planned/Unplanned",
+            type: String,
+            value: (objectData: ExportDisruptionData) => objectData.disruptionType,
+        },
+        {
+            column: "Date added",
+            type: String,
+            value: (objectData: ExportDisruptionData) => objectData.creationTime,
+        },
+        {
+            column: "Reason for disruption",
+            type: String,
+            value: (objectData: ExportDisruptionData) => objectData.disruptionReason,
+        },
+        {
+            column: "List of Services Affected",
+            type: String,
+            value: (objectData: ExportDisruptionData) => objectData.servicesAffected,
+        },
     ];
 };

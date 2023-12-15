@@ -633,6 +633,11 @@ const ViewAllTemplates = ({
                 "severity",
                 "isLive",
                 "status",
+                "description",
+                "disruptionType",
+                "creationTime",
+                "disruptionReason",
+                "servicesAffected",
             ],
             data: parseTemplates.success ? parseTemplates.data : [],
         });
