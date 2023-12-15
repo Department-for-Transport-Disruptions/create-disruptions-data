@@ -228,7 +228,7 @@ export const disruptionInfoSchema = z.object({
         [miscellaneousReasonSchema, environmentReasonSchema, personnelReasonSchema, equipmentReasonSchema],
         setZodDefaultError("Select a reason from the dropdown"),
     ),
-    publishStartDate: zodDate("Enter publication start date"),
+    publishStartDate: zodDate("Invalid publication start date"),
     publishStartTime: zodTime("Invalid publication start time"),
     publishEndDate: zodDate("Invalid publish end date").optional().or(z.literal("")),
     publishEndTime: zodTime("Invalid publish end date").optional().or(z.literal("")),

@@ -274,7 +274,7 @@ describe("create-template API", () => {
             { errorMessage: "Enter a summary for this disruption", id: "summary" },
             { errorMessage: "Enter a description for this disruption", id: "description" },
             { errorMessage: "Select a reason from the dropdown", id: "disruptionReason" },
-            { errorMessage: "Enter publication start date", id: "publishStartDate" },
+            { errorMessage: "Invalid publication start date", id: "publishStartDate" },
             { errorMessage: "Invalid publication start time", id: "publishStartTime" },
             { errorMessage: "Invalid start date", id: "disruptionStartDate" },
             { errorMessage: "Invalid start time", id: "disruptionStartTime" },
