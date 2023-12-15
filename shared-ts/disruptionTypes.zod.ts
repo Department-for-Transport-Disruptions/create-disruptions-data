@@ -12,8 +12,8 @@ import { checkOverlap, getDatetimeFromDateAndTime, getFormattedDate } from "./ut
 import { isValidTime, setZodDefaultError, zodDate, zodTime, zodTimeInMinutes } from "./utils/zod";
 
 export const validitySchema = z.object({
-    disruptionStartDate: zodDate("Enter a start date"),
-    disruptionStartTime: zodTime("Enter a start time"),
+    disruptionStartDate: zodDate("Invalid start date"),
+    disruptionStartTime: zodTime("Invalid start time"),
     disruptionEndDate: zodDate("Invalid disruption end date").optional().or(z.literal("")),
     disruptionEndTime: zodTime("Invalid disruption end time").optional().or(z.literal("")),
     disruptionNoEndDateTime: z.union([z.literal("true"), z.literal("")]).optional(),
@@ -237,12 +237,12 @@ export const disruptionInfoSchema = z.object({
         [miscellaneousReasonSchema, environmentReasonSchema, personnelReasonSchema, equipmentReasonSchema],
         setZodDefaultError("Select a reason from the dropdown"),
     ),
-    publishStartDate: zodDate("Enter publication start date"),
-    publishStartTime: zodTime("Enter publication start time"),
+    publishStartDate: zodDate("Invalid publication start date"),
+    publishStartTime: zodTime("Invalid publication start time"),
     publishEndDate: zodDate("Invalid publish end date").optional().or(z.literal("")),
     publishEndTime: zodTime("Invalid publish end time").optional().or(z.literal("")),
-    disruptionStartDate: zodDate("Enter a start date"),
-    disruptionStartTime: zodTime("Enter a start time"),
+    disruptionStartDate: zodDate("Invalid start date"),
+    disruptionStartTime: zodTime("Invalid start time"),
     disruptionEndDate: zodDate("Invalid publish end date").optional().or(z.literal("")),
     disruptionEndTime: zodTime("Invalid publish end time").optional().or(z.literal("")),
     disruptionNoEndDateTime: z.union([z.literal("true"), z.literal("")]).optional(),
