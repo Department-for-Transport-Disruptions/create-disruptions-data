@@ -163,6 +163,10 @@ export const validitySchemaRefined = validitySchema
     )
     .refine(
         (val) => {
+            // This is to address a bug with zod where refine still run if there is an error within a regex check
+            if (val.disruptionEndTime && !isValidTime(val.disruptionEndTime)) {
+                return true;
+            }
             if (
                 !val.disruptionNoEndDateTime &&
                 val.disruptionEndDate &&
@@ -183,6 +187,11 @@ export const validitySchemaRefined = validitySchema
     )
     .refine(
         (val) => {
+            // This is to address a bug with zod where refine still run if there is an error within a regex check
+            if (val.disruptionEndTime && !isValidTime(val.disruptionEndTime)) {
+                return;
+            }
+
             if (
                 !val.disruptionNoEndDateTime &&
                 val.disruptionEndDate &&
@@ -231,11 +240,11 @@ export const disruptionInfoSchema = z.object({
     publishStartDate: zodDate("Enter publication start date"),
     publishStartTime: zodTime("Enter publication start time"),
     publishEndDate: zodDate("Invalid publish end date").optional().or(z.literal("")),
-    publishEndTime: zodTime("Invalid publish end date").optional().or(z.literal("")),
+    publishEndTime: zodTime("Invalid publish end time").optional().or(z.literal("")),
     disruptionStartDate: zodDate("Enter a start date"),
     disruptionStartTime: zodTime("Enter a start time"),
     disruptionEndDate: zodDate("Invalid publish end date").optional().or(z.literal("")),
-    disruptionEndTime: zodTime("Invalid publish end date").optional().or(z.literal("")),
+    disruptionEndTime: zodTime("Invalid publish end time").optional().or(z.literal("")),
     disruptionNoEndDateTime: z.union([z.literal("true"), z.literal("")]).optional(),
     disruptionRepeats: z.union([z.literal("doesntRepeat"), z.literal("daily"), z.literal("weekly")]).optional(),
     disruptionRepeatsEndDate: zodDate("Invalid disruption end date").optional().or(z.literal("")),
@@ -264,6 +273,13 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
     })
     .refine(
         (val) => {
+            // This is to address a bug with zod where refine still run if there is an error within a regex check
+            if (
+                !isValidTime(val.disruptionStartTime) ||
+                (val.disruptionEndTime && !isValidTime(val.disruptionEndTime))
+            ) {
+                return true;
+            }
             if (val.disruptionEndDate && val.disruptionEndTime && val.disruptionStartDate && val.disruptionStartTime) {
                 return getDatetimeFromDateAndTime(val.disruptionEndDate, val.disruptionEndTime).isAfter(
                     getDatetimeFromDateAndTime(val.disruptionStartDate, val.disruptionStartTime),
@@ -300,6 +316,10 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
     })
     .refine(
         (val) => {
+            // This is to address a bug with zod where refine still run if there is an error within a regex check
+            if (!isValidTime(val.publishStartTime) || (val.publishEndTime && !isValidTime(val.publishEndTime))) {
+                return true;
+            }
             if (val.publishEndDate && val.publishEndTime && val.publishStartDate && val.publishStartTime) {
                 return getDatetimeFromDateAndTime(val.publishEndDate, val.publishEndTime).isAfter(
                     getDatetimeFromDateAndTime(val.publishStartDate, val.publishStartTime),
@@ -425,6 +445,10 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
     )
     .refine(
         (val) => {
+            // This is to address a bug with zod where refine still run if there is an error within a regex check
+            if (!isValidTime(val.disruptionStartTime)) {
+                return true;
+            }
             if (
                 !val.disruptionNoEndDateTime &&
                 val.disruptionRepeats === "daily" &&
@@ -446,6 +470,10 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
     )
     .refine(
         (val) => {
+            // This is to address a bug with zod where refine still run if there is an error within a regex check
+            if (!isValidTime(val.disruptionStartTime)) {
+                return true;
+            }
             if (
                 !val.disruptionNoEndDateTime &&
                 val.disruptionRepeats === "weekly" &&
@@ -467,6 +495,13 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
     )
     .refine(
         (val) => {
+            // This is to address a bug with zod where refine still run if there is an error within a regex check
+            if (
+                !isValidTime(val.disruptionStartTime) ||
+                (val.disruptionEndTime && !isValidTime(val.disruptionEndTime))
+            ) {
+                return true;
+            }
             if (
                 !val.disruptionNoEndDateTime &&
                 val.disruptionEndDate &&
@@ -489,6 +524,13 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
     )
     .refine(
         (val) => {
+            // This is to address a bug with zod where refine still run if there is an error within a regex check
+            if (
+                !isValidTime(val.disruptionStartTime) ||
+                (val.disruptionEndTime && !isValidTime(val.disruptionEndTime))
+            ) {
+                return true;
+            }
             if (
                 !val.disruptionNoEndDateTime &&
                 val.disruptionEndDate &&
@@ -520,7 +562,6 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
                 disruptionRepeats,
                 disruptionRepeatsEndDate,
             } = val;
-
             if (
                 !val.disruptionNoEndDateTime &&
                 (!val.disruptionStartDate ||
@@ -532,6 +573,11 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
             }
 
             if (val.disruptionNoEndDateTime && (!val.disruptionStartDate || !val.disruptionStartTime)) {
+                return true;
+            }
+
+            // This is to address a bug with zod where refine still run if there is an error within a regex check
+            if (!isValidTime(disruptionStartTime) || (disruptionEndTime && !isValidTime(disruptionEndTime))) {
                 return true;
             }
 
