@@ -3,6 +3,7 @@
 exports[`DownloadPDF > should render correctly 1`] = `
 <DOCUMENT>
   <PAGE
+    orientation="landscape"
     size="A1"
     style={
       {
@@ -24,7 +25,7 @@ exports[`DownloadPDF > should render correctly 1`] = `
           "flexDirection": "row",
           "fontFamily": "Helvetica-Bold",
           "fontStyle": "bold",
-          "margin": 5,
+          "margin": 2,
           "textAlign": "left",
         }
       }
@@ -32,7 +33,11 @@ exports[`DownloadPDF > should render correctly 1`] = `
       <TEXT
         style={
           {
-            "width": "6.5%",
+            "flex": 1,
+            "maxWidth": "6.7%",
+            "padding": "0 5px",
+            "width": "6.7%",
+            "wordWrap": "break-word",
           }
         }
       >
@@ -41,7 +46,11 @@ exports[`DownloadPDF > should render correctly 1`] = `
       <TEXT
         style={
           {
-            "width": "30.5%",
+            "flex": 1,
+            "maxWidth": "12.5%",
+            "padding": "0 5px",
+            "width": "12.5%",
+            "wordWrap": "break-word",
           }
         }
       >
@@ -50,7 +59,11 @@ exports[`DownloadPDF > should render correctly 1`] = `
       <TEXT
         style={
           {
-            "width": "6.5%",
+            "flex": 1,
+            "maxWidth": "6.7%",
+            "padding": "0 5px",
+            "width": "6.7%",
+            "wordWrap": "break-word",
           }
         }
       >
@@ -59,7 +72,11 @@ exports[`DownloadPDF > should render correctly 1`] = `
       <TEXT
         style={
           {
-            "width": "6.5%",
+            "flex": 1,
+            "maxWidth": "6.7%",
+            "padding": "0 5px",
+            "width": "6.7%",
+            "wordWrap": "break-word",
           }
         }
       >
@@ -68,7 +85,11 @@ exports[`DownloadPDF > should render correctly 1`] = `
       <TEXT
         style={
           {
-            "width": "6.5%",
+            "flex": 1,
+            "maxWidth": "6.7%",
+            "padding": "0 5px",
+            "width": "6.7%",
+            "wordWrap": "break-word",
           }
         }
       >
@@ -77,7 +98,11 @@ exports[`DownloadPDF > should render correctly 1`] = `
       <TEXT
         style={
           {
-            "width": "6.5%",
+            "flex": 1,
+            "maxWidth": "6.7%",
+            "padding": "0 5px",
+            "width": "6.7%",
+            "wordWrap": "break-word",
           }
         }
       >
@@ -86,7 +111,11 @@ exports[`DownloadPDF > should render correctly 1`] = `
       <TEXT
         style={
           {
-            "width": "6.5%",
+            "flex": 1,
+            "maxWidth": "6.7%",
+            "padding": "0 5px",
+            "width": "6.7%",
+            "wordWrap": "break-word",
           }
         }
       >
@@ -95,7 +124,11 @@ exports[`DownloadPDF > should render correctly 1`] = `
       <TEXT
         style={
           {
-            "width": "4.5%",
+            "flex": 1,
+            "maxWidth": "5.5%",
+            "padding": "0 5px",
+            "width": "5.5%",
+            "wordWrap": "break-word",
           }
         }
       >
@@ -104,7 +137,11 @@ exports[`DownloadPDF > should render correctly 1`] = `
       <TEXT
         style={
           {
-            "width": "4.5%",
+            "flex": 1,
+            "maxWidth": "5.5%",
+            "padding": "0 5px",
+            "width": "5.5%",
+            "wordWrap": "break-word",
           }
         }
       >
@@ -113,7 +150,11 @@ exports[`DownloadPDF > should render correctly 1`] = `
       <TEXT
         style={
           {
-            "width": "4.5%",
+            "flex": 1,
+            "maxWidth": "5.5%",
+            "padding": "0 5px",
+            "width": "5.5%",
+            "wordWrap": "break-word",
           }
         }
       >
@@ -122,7 +163,11 @@ exports[`DownloadPDF > should render correctly 1`] = `
       <TEXT
         style={
           {
-            "width": "4.5%",
+            "flex": 1,
+            "maxWidth": "5.5%",
+            "padding": "0 5px",
+            "width": "5.5%",
+            "wordWrap": "break-word",
           }
         }
       >
@@ -131,7 +176,11 @@ exports[`DownloadPDF > should render correctly 1`] = `
       <TEXT
         style={
           {
-            "width": "6.5%",
+            "flex": 1,
+            "maxWidth": "9%",
+            "padding": "0 5px",
+            "width": "9%",
+            "wordWrap": "break-word",
           }
         }
       >
@@ -140,7 +189,11 @@ exports[`DownloadPDF > should render correctly 1`] = `
       <TEXT
         style={
           {
-            "width": "6.5%",
+            "flex": 1,
+            "maxWidth": "9%",
+            "padding": "0 5px",
+            "width": "9%",
+            "wordWrap": "break-word",
           }
         }
       >
@@ -149,11 +202,80 @@ exports[`DownloadPDF > should render correctly 1`] = `
       <TEXT
         style={
           {
-            "width": "8.5%",
+            "flex": 1,
+            "maxWidth": "9%",
+            "padding": "0 5px",
+            "width": "9%",
+            "wordWrap": "break-word",
           }
         }
       >
         status
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "flex": 1,
+            "maxWidth": "12.5%",
+            "padding": "0 5px",
+            "width": "12.5%",
+            "wordWrap": "break-word",
+          }
+        }
+      >
+        description of disruption
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "flex": 1,
+            "maxWidth": "9%",
+            "padding": "0 5px",
+            "width": "9%",
+            "wordWrap": "break-word",
+          }
+        }
+      >
+        planned / unplanned
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "flex": 1,
+            "maxWidth": "5.5%",
+            "padding": "0 5px",
+            "width": "5.5%",
+            "wordWrap": "break-word",
+          }
+        }
+      >
+        date added
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "flex": 1,
+            "maxWidth": "6.7%",
+            "padding": "0 5px",
+            "width": "6.7%",
+            "wordWrap": "break-word",
+          }
+        }
+      >
+        reason for disruption
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "flex": 1,
+            "maxWidth": "6.7%",
+            "padding": "0 5px",
+            "width": "6.7%",
+            "wordWrap": "break-word",
+          }
+        }
+      >
+        list of services affected
       </TEXT>
     </VIEW>
     <VIEW
@@ -166,25 +288,35 @@ exports[`DownloadPDF > should render correctly 1`] = `
           "borderTopWidth": 0,
           "flexDirection": "row",
           "fontFamily": "Helvetica",
-          "margin": 5,
+          "margin": 2,
           "paddingBottom": 5,
           "textAlign": "left",
         }
       }
+      wrap={false}
     >
       <TEXT
         style={
           {
-            "width": "6.5%",
+            "flex": 1,
+            "maxWidth": "6.7%",
+            "padding": "0 5px",
+            "width": "6.7%",
+            "wordWrap": "break-word",
           }
         }
       >
         8fg3ha
       </TEXT>
       <TEXT
+        hyphenationCallback={[Function]}
         style={
           {
-            "width": "30.5%",
+            "flex": 1,
+            "maxWidth": "12.5%",
+            "padding": "0 5px",
+            "width": "12.5%",
+            "wordWrap": "break-word",
           }
         }
       >
@@ -193,7 +325,11 @@ exports[`DownloadPDF > should render correctly 1`] = `
       <TEXT
         style={
           {
-            "width": "6.5%",
+            "flex": 1,
+            "maxWidth": "6.7%",
+            "padding": "0 5px",
+            "width": "6.7%",
+            "wordWrap": "break-word",
           }
         }
       >
@@ -202,7 +338,11 @@ exports[`DownloadPDF > should render correctly 1`] = `
       <TEXT
         style={
           {
-            "width": "6.5%",
+            "flex": 1,
+            "maxWidth": "6.7%",
+            "padding": "0 5px",
+            "width": "6.7%",
+            "wordWrap": "break-word",
           }
         }
       >
@@ -211,7 +351,11 @@ exports[`DownloadPDF > should render correctly 1`] = `
       <TEXT
         style={
           {
-            "width": "6.5%",
+            "flex": 1,
+            "maxWidth": "6.7%",
+            "padding": "0 5px",
+            "width": "6.7%",
+            "wordWrap": "break-word",
           }
         }
       >
@@ -220,7 +364,11 @@ exports[`DownloadPDF > should render correctly 1`] = `
       <TEXT
         style={
           {
-            "width": "6.5%",
+            "flex": 1,
+            "maxWidth": "6.7%",
+            "padding": "0 5px",
+            "width": "6.7%",
+            "wordWrap": "break-word",
           }
         }
       >
@@ -229,7 +377,11 @@ exports[`DownloadPDF > should render correctly 1`] = `
       <TEXT
         style={
           {
-            "width": "6.5%",
+            "flex": 1,
+            "maxWidth": "6.7%",
+            "padding": "0 5px",
+            "width": "6.7%",
+            "wordWrap": "break-word",
           }
         }
       >
@@ -238,43 +390,63 @@ exports[`DownloadPDF > should render correctly 1`] = `
       <TEXT
         style={
           {
-            "width": "4.5%",
+            "flex": 1,
+            "maxWidth": "5.5%",
+            "padding": "0 5px",
+            "width": "5.5%",
+            "wordWrap": "break-word",
           }
         }
       >
-        Tue 24 May 2023
+        24/11/2023
       </TEXT>
       <TEXT
         style={
           {
-            "width": "4.5%",
+            "flex": 1,
+            "maxWidth": "5.5%",
+            "padding": "0 5px",
+            "width": "5.5%",
+            "wordWrap": "break-word",
           }
         }
       >
-        Tue 24 May 2023
+        25/11/2023
       </TEXT>
       <TEXT
         style={
           {
-            "width": "4.5%",
+            "flex": 1,
+            "maxWidth": "5.5%",
+            "padding": "0 5px",
+            "width": "5.5%",
+            "wordWrap": "break-word",
           }
         }
       >
-        Mon 23 May 2023
+        24/11/2023
       </TEXT>
       <TEXT
         style={
           {
-            "width": "4.5%",
+            "flex": 1,
+            "maxWidth": "5.5%",
+            "padding": "0 5px",
+            "width": "5.5%",
+            "wordWrap": "break-word",
           }
         }
       >
-        Wed 25 May 2023
+        25/11/2023
       </TEXT>
       <TEXT
         style={
           {
-            "width": "6.5%",
+            "flex": 1,
+            "maxWidth": "9%",
+            "padding": "0 5px",
+            "width": "9%",
+            "wordWrap": "break-word",
           }
         }
       >
@@ -284,7 +456,11 @@ exports[`DownloadPDF > should render correctly 1`] = `
         hyphenationCallback={[Function]}
         style={
           {
-            "width": "6.5%",
+            "flex": 1,
+            "maxWidth": "9%",
+            "padding": "0 5px",
+            "width": "9%",
+            "wordWrap": "break-word",
           }
         }
       >
@@ -293,12 +469,81 @@ exports[`DownloadPDF > should render correctly 1`] = `
       <TEXT
         style={
           {
-            "width": "8.5%",
+            "flex": 1,
+            "maxWidth": "9%",
+            "padding": "0 5px",
+            "width": "9%",
+            "wordWrap": "break-word",
           }
         }
       >
         Pending Approval
       </TEXT>
+      <TEXT
+        hyphenationCallback={[Function]}
+        style={
+          {
+            "flex": 1,
+            "maxWidth": "12.5%",
+            "padding": "0 5px",
+            "width": "12.5%",
+            "wordWrap": "break-word",
+          }
+        }
+      >
+        A description
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "flex": 1,
+            "maxWidth": "9%",
+            "padding": "0 5px",
+            "width": "9%",
+            "wordWrap": "break-word",
+          }
+        }
+      >
+        Planned
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "flex": 1,
+            "maxWidth": "5.5%",
+            "padding": "0 5px",
+            "width": "5.5%",
+            "wordWrap": "break-word",
+          }
+        }
+      >
+        24/11/2023
+      </TEXT>
+      <TEXT
+        hyphenationCallback={[Function]}
+        style={
+          {
+            "flex": 1,
+            "maxWidth": "6.7%",
+            "padding": "0 5px",
+            "width": "6.7%",
+            "wordWrap": "break-word",
+          }
+        }
+      >
+        roadworks
+      </TEXT>
+      <TEXT
+        style={
+          {
+            "flex": 1,
+            "maxWidth": "6.7%",
+            "padding": "0 5px",
+            "width": "6.7%",
+            "wordWrap": "break-word",
+          }
+        }
+      />
     </VIEW>
   </PAGE>
 </DOCUMENT>
