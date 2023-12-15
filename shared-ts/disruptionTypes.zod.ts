@@ -9,7 +9,7 @@ import {
     personnelReasonSchema,
 } from "./siriTypes.zod";
 import { checkOverlap, getDatetimeFromDateAndTime, getFormattedDate } from "./utils/dates";
-import { setZodDefaultError, zodDate, zodTime, zodTimeInMinutes } from "./utils/zod";
+import { isValidTime, setZodDefaultError, zodDate, zodTime, zodTimeInMinutes } from "./utils/zod";
 
 export const validitySchema = z.object({
     disruptionStartDate: zodDate("Enter a start date"),
@@ -635,6 +635,14 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
 
         // This is to address a bug with zod where super refines still run if there is an error within a regex check
         if (!disruptionStartDate || !disruptionStartTime || !publishStartDate || !publishStartTime) {
+            return;
+        }
+        if (
+            !isValidTime(disruptionStartTime) ||
+            !isValidTime(publishStartTime) ||
+            (disruptionEndTime && !isValidTime(disruptionEndTime)) ||
+            (publishEndTime && !isValidTime(publishEndTime))
+        ) {
             return;
         }
 
