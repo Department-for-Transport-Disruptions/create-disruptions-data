@@ -9,7 +9,24 @@ exports[`getAllDisruptions > formatSortedDisruptions > correctly formats disrupt
   "displayId": "8fg3ha",
   "disruptionReason": "accident",
   "disruptionType": "planned",
-  "history": undefined,
+  "history": [
+    {
+      "datetime": "2023-05-19T14:40:00Z",
+      "historyItems": [
+        "some text",
+      ],
+      "status": "PENDING_APPROVAL",
+      "user": "user",
+    },
+    {
+      "datetime": "2023-05-13T14:45:00Z",
+      "historyItems": [
+        "Disruption created and published",
+      ],
+      "status": "PUBLISHED",
+      "user": "user",
+    },
+  ],
   "id": "test",
   "isLive": true,
   "isNetworkWideCq": true,

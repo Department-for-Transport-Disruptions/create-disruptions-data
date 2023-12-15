@@ -611,6 +611,20 @@ export const sortedDisruption: Disruption = {
             disruptionEndTime: "1123",
         },
     ],
+    history: [
+        {
+            datetime: "2023-05-19T14:40:00Z",
+            historyItems: ["some text"],
+            status: PublishStatus.pendingApproval,
+            user: "user",
+        },
+        {
+            datetime: "2023-05-13T14:45:00Z",
+            historyItems: ["Disruption created and published"],
+            status: PublishStatus.published,
+            user: "user",
+        },
+    ],
 };
 
 export const mockTndsServicesNoDuplicates: ServiceApiResponse[] = [
