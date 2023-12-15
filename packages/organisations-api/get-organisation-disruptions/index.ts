@@ -1,7 +1,7 @@
 import { Disruption, Service, ServiceGeoJSON, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Datasource } from "@create-disruptions-data/shared-ts/enums";
 import { getActiveDisruptions } from "@create-disruptions-data/shared-ts/utils/dynamo";
-import { fetchServiceRoutes } from "@create-disruptions-data/shared-ts/utils/refDataApi";
+import { fetchService } from "@create-disruptions-data/shared-ts/utils/refDataApi";
 import { APIGatewayEvent } from "aws-lambda";
 import * as logger from "lambda-log";
 import { randomUUID } from "crypto";
@@ -85,7 +85,7 @@ const getServicesFromDisruptions = (disruptions: Disruption[]) => {
     );
 };
 
-const getOrganisationStops = async (orgId: string) => {
+const getOrganisationDisruptions = async (orgId: string) => {
     try {
         const disruptionsTableName = process.env.DISRUPTIONS_TABLE_NAME as string;
         const disruptions = await getActiveDisruptions(disruptionsTableName, logger, orgId);
@@ -95,9 +95,21 @@ const getOrganisationStops = async (orgId: string) => {
             getServicesFromDisruptions(disruptions),
         ]);
 
+        const serviceCentrePoint = await Promise.all(
+            services.map(async (service) => {
+                const serviceInfo = await fetchService(
+                    service.dataSource === Datasource.bods ? service.lineId : service.serviceCode,
+                    service.nocCode,
+                    service.dataSource,
+                    logger,
+                );
+
+                return service.
+            }),
+        );
         const routesForMaps = await Promise.all(
             services.map(async (service) => {
-                const routesData = await fetchServiceRoutes(
+                const routesData = await fetchService(
                     service.dataSource === Datasource.bods ? service.lineId : service.serviceCode,
                     service.dataSource,
                     logger,
@@ -133,7 +145,6 @@ export const main = async (event: APIGatewayEvent): Promise<{ statusCode: number
         logger.options.meta = {
             id: randomUUID(),
         };
-        logger.info("Starting get organisation stops data and routes for services data...");
 
         const orgId = event?.pathParameters?.id;
 
@@ -141,13 +152,17 @@ export const main = async (event: APIGatewayEvent): Promise<{ statusCode: number
             throw new Error("An organisation ID must be provided");
         }
 
-        const stopsAndServicesMapData = await getOrganisationStops(orgId);
+        logger.info(`Retrieving disruptions data for orgId: (${orgId}) ...`);
+
+        const disruptionsData = await getOrganisationDisruptions(orgId);
+
+        console.log(disruptionsData);
 
         logger.info(`Successfully retrieved organisation: ${orgId}'s stops from DynamoDB...`);
 
         return {
             statusCode: 200,
-            body: JSON.stringify(stopsAndServicesMapData),
+            body: JSON.stringify(disruptionsData),
         };
     } catch (e) {
         if (e instanceof Error) {
