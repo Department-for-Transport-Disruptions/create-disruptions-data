@@ -20,10 +20,10 @@ const getServiceCentrePoint = async (service: Service) => {
 const getOrganisationDisruptions = async (orgId: string) => {
     try {
         const disruptionsTableName = process.env.DISRUPTIONS_TABLE_NAME as string;
-        const disruptions = await getActiveDisruptions(disruptionsTableName, logger, orgId);
+        const activeDisruptions = await getActiveDisruptions(disruptionsTableName, logger, orgId);
 
-        const disruptionsResponse = await Promise.all(
-            disruptions.flatMap(async (disruption) => {
+        const disruptionsFormattedForMap = await Promise.all(
+            activeDisruptions.flatMap(async (disruption) => {
                 if (!disruption.consequences || disruption.consequences.length === 0) {
                     return null;
                 }
@@ -76,10 +76,10 @@ const getOrganisationDisruptions = async (orgId: string) => {
             }),
         );
 
-        return disruptionsResponse.filter(notEmpty);
+        return disruptionsFormattedForMap.filter(notEmpty);
     } catch (e) {
         if (e instanceof Error) {
-            logger.error(`Error occured while getting stops and services for an organisation: ${orgId} - error: `, e);
+            logger.error(`Error occurred while getting stops and services for an organisation: ${orgId} - error: `, e);
 
             throw e;
         }
