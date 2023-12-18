@@ -23,7 +23,7 @@ export const convertDateTimeToFormat = (dateOrTime: string | Date, format: strin
     return dayjs(dateOrTime).tz("Europe/London").format(format);
 };
 
-export const getDateForExporter = (date: string) => dayjs(date).format("ddd DD MMM YY");
+export const getDateForExporter = (date: string) => dayjs(date).format("DD/MM/YYYY");
 
 export const formatTime = (time: string) => (time.length === 4 ? time.slice(0, -2) + ":" + time.slice(-2) : time);
 

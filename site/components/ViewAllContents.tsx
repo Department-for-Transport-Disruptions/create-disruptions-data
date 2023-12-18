@@ -659,6 +659,11 @@ const ViewAllContents = ({
                 "severity",
                 "isLive",
                 "status",
+                "description",
+                "disruptionType",
+                "creationTime",
+                "disruptionReason",
+                "servicesAffected",
             ],
             data: parseDisruptions.success ? parseDisruptions.data : [],
         });
