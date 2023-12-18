@@ -62,9 +62,9 @@ const PDFHeader = () => (
         <Text style={PDFStyles.status}>live</Text>
         <Text style={PDFStyles.status}>status</Text>
         <Text style={PDFStyles.title}>description of disruption</Text>
-        <Text style={PDFStyles.status}>planned / unplanned</Text>
-        <Text style={PDFStyles.date}>date added</Text>
-        <Text style={PDFStyles.column}>reason for disruption</Text>
+        <Text style={PDFStyles.status}>disruption type</Text>
+        <Text style={PDFStyles.date}>creation time</Text>
+        <Text style={PDFStyles.column}>disruption reason</Text>
         <Text style={PDFStyles.column}>list of services affected</Text>
     </View>
 );
