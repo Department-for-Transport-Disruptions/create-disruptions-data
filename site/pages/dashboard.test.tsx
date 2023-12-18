@@ -99,7 +99,6 @@ describe("pages", () => {
                         canPublish
                         orgName="Test Org"
                         isOperatorUser={false}
-                        stage={"dev"}
                     />,
                 )
                 .toJSON();
@@ -117,7 +116,6 @@ describe("pages", () => {
                         canPublish
                         orgName="Test Org"
                         isOperatorUser={false}
-                        stage={"dev"}
                     />,
                 )
                 .toJSON();
@@ -135,7 +133,6 @@ describe("pages", () => {
                         canPublish
                         orgName="Test Org"
                         isOperatorUser={false}
-                        stage={"dev"}
                     />,
                 )
                 .toJSON();
@@ -153,7 +150,6 @@ describe("pages", () => {
                         canPublish
                         orgName="Test Org"
                         isOperatorUser={false}
-                        stage={"dev"}
                     />,
                 )
                 .toJSON();
@@ -171,7 +167,6 @@ describe("pages", () => {
                         canPublish
                         orgName="Test Org"
                         isOperatorUser={false}
-                        stage={"dev"}
                     />,
                 )
                 .toJSON();
@@ -189,7 +184,6 @@ describe("pages", () => {
                         canPublish
                         orgName="Test Org"
                         isOperatorUser={true}
-                        stage={"dev"}
                     />,
                 )
                 .toJSON();
@@ -220,7 +214,6 @@ describe("pages", () => {
                     canPublish: true,
                     orgName: "Test Org",
                     isOperatorUser: false,
-                    stage: "dev",
                 });
             });
 
@@ -251,7 +244,6 @@ describe("pages", () => {
                     canPublish: true,
                     orgName: "Test Org",
                     isOperatorUser: false,
-                    stage: "dev",
                 });
             });
 
@@ -285,7 +277,6 @@ describe("pages", () => {
                     canPublish: true,
                     orgName: "Test Org",
                     isOperatorUser: false,
-                    stage: "dev",
                 });
             });
 
@@ -327,7 +318,6 @@ describe("pages", () => {
                     canPublish: true,
                     orgName: "Test Org",
                     isOperatorUser: false,
-                    stage: "dev",
                 });
             });
 
@@ -393,7 +383,6 @@ describe("pages", () => {
                     canPublish: true,
                     orgName: "Test Org",
                     isOperatorUser: false,
-                    stage: "dev",
                 });
             });
 
@@ -467,7 +456,6 @@ describe("pages", () => {
                     pendingApprovalCount: 0,
                     recentlyClosedDisruptions: [],
                     upcomingDisruptions: [],
-                    stage: "dev",
                 });
             });
         });

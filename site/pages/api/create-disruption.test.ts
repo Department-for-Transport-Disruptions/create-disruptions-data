@@ -367,6 +367,338 @@ describe("create-disruption API", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
     });
 
+    it("should redirect to /create-disruption when publish start time is not numeric", async () => {
+        const disruptionData = {
+            ...defaultDisruptionData,
+            publishStartTime: "uuuu",
+            disruptionStartDate: getFutureDateAsString(40),
+            disruptionStartTime: "1200",
+            validity1: [
+                defaultDisruptionStartDate,
+                "1000",
+                defaultDisruptionStartDate,
+                "1100",
+                "",
+                "daily",
+                getFutureDateAsString(11),
+            ],
+            validity2: [
+                getFutureDateAsString(11),
+                "0900",
+                getFutureDateAsString(13),
+                "1100",
+                "",
+                "weekly",
+                getFutureDateAsString(40),
+            ],
+        };
+        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+
+        await createDisruption(req, res);
+
+        const errors: ErrorInfo[] = [{ errorMessage: "Invalid publication start time", id: "publishStartTime" }];
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+
+        const inputs = formatCreateDisruptionBody(req.body);
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_DISRUPTION_ERRORS,
+            JSON.stringify({ inputs, errors }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+    });
+
+    it("should redirect to /create-disruption when disruption start time is not numeric", async () => {
+        const disruptionData = {
+            ...defaultDisruptionData,
+            publishStartTime: "1200",
+            disruptionStartDate: getFutureDateAsString(40),
+            disruptionStartTime: "uuu",
+            validity1: [
+                defaultDisruptionStartDate,
+                "1000",
+                defaultDisruptionStartDate,
+                "1100",
+                "",
+                "daily",
+                getFutureDateAsString(11),
+            ],
+            validity2: [
+                getFutureDateAsString(11),
+                "0900",
+                getFutureDateAsString(13),
+                "1100",
+                "",
+                "weekly",
+                getFutureDateAsString(40),
+            ],
+        };
+        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+
+        await createDisruption(req, res);
+
+        const errors: ErrorInfo[] = [{ errorMessage: "Invalid start time", id: "disruptionStartTime" }];
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+
+        const inputs = formatCreateDisruptionBody(req.body);
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_DISRUPTION_ERRORS,
+            JSON.stringify({ inputs, errors }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+    });
+
+    it("should redirect to /create-disruption when disruption and publish start time are not numeric", async () => {
+        const disruptionData = {
+            ...defaultDisruptionData,
+            publishStartTime: "uuuu",
+            disruptionStartDate: getFutureDateAsString(40),
+            disruptionStartTime: "uuuu",
+            validity1: [
+                defaultDisruptionStartDate,
+                "1000",
+                defaultDisruptionStartDate,
+                "1100",
+                "",
+                "daily",
+                getFutureDateAsString(11),
+            ],
+            validity2: [
+                getFutureDateAsString(11),
+                "0900",
+                getFutureDateAsString(13),
+                "1100",
+                "",
+                "weekly",
+                getFutureDateAsString(40),
+            ],
+        };
+        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+
+        await createDisruption(req, res);
+
+        const errors: ErrorInfo[] = [
+            { errorMessage: "Invalid publication start time", id: "publishStartTime" },
+            { errorMessage: "Invalid start time", id: "disruptionStartTime" },
+        ];
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+
+        const inputs = formatCreateDisruptionBody(req.body);
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_DISRUPTION_ERRORS,
+            JSON.stringify({ inputs, errors }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+    });
+
+    it("should redirect to /create-disruption when all dates are not numeric", async () => {
+        const disruptionData = {
+            ...defaultDisruptionData,
+            publishStartTime: "uuuu",
+            disruptionNoEndDateTime: "",
+            disruptionStartDate: getFutureDateAsString(40),
+            disruptionEndDate: getFutureDateAsString(48),
+            publishEndDate: getFutureDateAsString(48),
+            publishEndTime: "uuuu",
+            disruptionStartTime: "uuuu",
+            disruptionEndTime: "uuuu",
+            validity1: [
+                defaultDisruptionStartDate,
+                "1000",
+                defaultDisruptionStartDate,
+                "1100",
+                "",
+                "daily",
+                getFutureDateAsString(11),
+            ],
+            validity2: [
+                getFutureDateAsString(11),
+                "0900",
+                getFutureDateAsString(13),
+                "1100",
+                "",
+                "weekly",
+                getFutureDateAsString(40),
+            ],
+        };
+        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+
+        await createDisruption(req, res);
+
+        const errors: ErrorInfo[] = [
+            { errorMessage: "Invalid publication start time", id: "publishStartTime" },
+            { errorMessage: "Invalid publish end time", id: "publishEndTime" },
+            { errorMessage: "Invalid start time", id: "disruptionStartTime" },
+            { errorMessage: "Invalid publish end time", id: "disruptionEndTime" },
+        ];
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+
+        const inputs = formatCreateDisruptionBody(req.body);
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_DISRUPTION_ERRORS,
+            JSON.stringify({ inputs, errors }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+    });
+
+    it("should redirect to /create-disruption when publishEndTime and disruptionEndTime are not numeric", async () => {
+        const disruptionData = {
+            ...defaultDisruptionData,
+            publishStartTime: "1200",
+            disruptionNoEndDateTime: "",
+            disruptionStartDate: getFutureDateAsString(40),
+            disruptionEndDate: getFutureDateAsString(48),
+            publishEndDate: getFutureDateAsString(48),
+            publishEndTime: "uuuu",
+            disruptionStartTime: "1200",
+            disruptionEndTime: "uuuu",
+            validity1: [
+                defaultDisruptionStartDate,
+                "1000",
+                defaultDisruptionStartDate,
+                "1100",
+                "",
+                "daily",
+                getFutureDateAsString(11),
+            ],
+            validity2: [
+                getFutureDateAsString(11),
+                "0900",
+                getFutureDateAsString(13),
+                "1100",
+                "",
+                "weekly",
+                getFutureDateAsString(40),
+            ],
+        };
+        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+
+        await createDisruption(req, res);
+
+        const errors: ErrorInfo[] = [
+            { errorMessage: "Invalid publish end time", id: "publishEndTime" },
+            { errorMessage: "Invalid publish end time", id: "disruptionEndTime" },
+        ];
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+
+        const inputs = formatCreateDisruptionBody(req.body);
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_DISRUPTION_ERRORS,
+            JSON.stringify({ inputs, errors }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+    });
+
+    it("should redirect to /create-disruption when publishEndTime is not numeric", async () => {
+        const disruptionData = {
+            ...defaultDisruptionData,
+            publishStartTime: "1200",
+            disruptionNoEndDateTime: "",
+            disruptionStartDate: getFutureDateAsString(40),
+            disruptionEndDate: getFutureDateAsString(48),
+            publishEndDate: getFutureDateAsString(48),
+            publishEndTime: "uuuu",
+            disruptionStartTime: "1200",
+            disruptionEndTime: "1200",
+            validity1: [
+                defaultDisruptionStartDate,
+                "1000",
+                defaultDisruptionStartDate,
+                "1100",
+                "",
+                "daily",
+                getFutureDateAsString(11),
+            ],
+            validity2: [
+                getFutureDateAsString(11),
+                "0900",
+                getFutureDateAsString(13),
+                "1100",
+                "",
+                "weekly",
+                getFutureDateAsString(40),
+            ],
+        };
+        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+
+        await createDisruption(req, res);
+
+        const errors: ErrorInfo[] = [{ errorMessage: "Invalid publish end time", id: "publishEndTime" }];
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+
+        const inputs = formatCreateDisruptionBody(req.body);
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_DISRUPTION_ERRORS,
+            JSON.stringify({ inputs, errors }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+    });
+
+    it("should redirect to /create-disruption when disruptionEndTime is not numeric", async () => {
+        const disruptionData = {
+            ...defaultDisruptionData,
+            publishStartTime: "1200",
+            disruptionNoEndDateTime: "",
+            disruptionStartDate: getFutureDateAsString(40),
+            disruptionEndDate: getFutureDateAsString(48),
+            publishEndDate: getFutureDateAsString(48),
+            publishEndTime: "1200",
+            disruptionStartTime: "1200",
+            disruptionEndTime: "uuuu",
+            validity1: [
+                defaultDisruptionStartDate,
+                "1000",
+                defaultDisruptionStartDate,
+                "1100",
+                "",
+                "daily",
+                getFutureDateAsString(11),
+            ],
+            validity2: [
+                getFutureDateAsString(11),
+                "0900",
+                getFutureDateAsString(13),
+                "1100",
+                "",
+                "weekly",
+                getFutureDateAsString(40),
+            ],
+        };
+        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+
+        await createDisruption(req, res);
+
+        const errors: ErrorInfo[] = [{ errorMessage: "Invalid publish end time", id: "disruptionEndTime" }];
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+
+        const inputs = formatCreateDisruptionBody(req.body);
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_DISRUPTION_ERRORS,
+            JSON.stringify({ inputs, errors }),
+            res,
+        );
+        expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-disruption/${defaultDisruptionId}` });
+    });
+
     it("should redirect back to /create-disruption when no form inputs are passed to the API", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: { disruptionId: defaultDisruptionId },
@@ -379,10 +711,10 @@ describe("create-disruption API", () => {
             { errorMessage: "Enter a summary for this disruption", id: "summary" },
             { errorMessage: "Enter a description for this disruption", id: "description" },
             { errorMessage: "Select a reason from the dropdown", id: "disruptionReason" },
-            { errorMessage: "Enter publication start date", id: "publishStartDate" },
-            { errorMessage: "Enter publication start time", id: "publishStartTime" },
-            { errorMessage: "Enter a start date", id: "disruptionStartDate" },
-            { errorMessage: "Enter a start time", id: "disruptionStartTime" },
+            { errorMessage: "Invalid publication start date", id: "publishStartDate" },
+            { errorMessage: "Invalid publication start time", id: "publishStartTime" },
+            { errorMessage: "Invalid start date", id: "disruptionStartDate" },
+            { errorMessage: "Invalid start time", id: "disruptionStartTime" },
         ];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
 
