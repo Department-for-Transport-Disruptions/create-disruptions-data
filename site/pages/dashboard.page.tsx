@@ -259,20 +259,18 @@ const Dashboard = ({
             <Link className="govuk-link" href="/view-all-disruptions?draft=true">
                 <h2 className="govuk-heading-s text-govBlue">Draft disruptions</h2>
             </Link>
+
             {!isOperatorUser && (
                 <Link className="govuk-link" href="/view-all-templates">
                     <h2 className="govuk-heading-s text-govBlue">Templates</h2>
                 </Link>
             )}
-            {stage !== "prod" && stage !== "preprod" && (
-                <Link className="govuk-link" href="/view-all-roadworks">
-                    <h2 className="govuk-heading-s text-govBlue">
-                        {isOperatorUser
-                            ? "View roadworks in your area"
-                            : "Create disruptions from roadworks in your area"}
-                    </h2>
-                </Link>
-            )}
+
+            <Link className="govuk-link" href="/view-all-roadworks">
+                <h2 className="govuk-heading-s text-govBlue">
+                    {isOperatorUser ? "View roadworks in your area" : "Create disruptions from roadworks in your area"}
+                </h2>
+            </Link>
         </BaseLayout>
     );
 };
