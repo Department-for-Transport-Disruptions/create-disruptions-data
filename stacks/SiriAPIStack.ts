@@ -72,9 +72,9 @@ export const SiriAPIStack = ({ stack }: StackContext) => {
                 },
                 cdk: { method: { apiKeyRequired: true } },
             },
-            "GET    /organisations/{id}/impacted/stops": {
+            "GET    /organisations/{id}/disruptions": {
                 function: {
-                    handler: "packages/organisations-api/get-organisation-stops/index.main",
+                    handler: "packages/organisations-api/get-organisation-disruptions/index.main",
                     permissions: [
                         new PolicyStatement({
                             resources: [disruptionsTable.tableArn],
