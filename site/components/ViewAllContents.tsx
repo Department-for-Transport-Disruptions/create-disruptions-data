@@ -866,7 +866,7 @@ const ViewAllContents = ({
                         selectedServices={selectedServices}
                         reset={clearButtonClicked}
                         showToggle
-                        handleDataSourceUpdate={(dataSource) => setServicesDataSource(dataSource)}
+                        handleDataSourceUpdate={(dataSource) => setServicesDataSource(dataSource as Datasource)}
                         dataSource={servicesDataSource}
                     />
 
