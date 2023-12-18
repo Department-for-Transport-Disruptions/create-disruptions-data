@@ -224,7 +224,7 @@ exports[`PDFHeader > should render correctly 1`] = `
       }
     }
   >
-    planned / unplanned
+    disruption type
   </TEXT>
   <TEXT
     style={
@@ -237,7 +237,7 @@ exports[`PDFHeader > should render correctly 1`] = `
       }
     }
   >
-    date added
+    creation time
   </TEXT>
   <TEXT
     style={
@@ -250,7 +250,7 @@ exports[`PDFHeader > should render correctly 1`] = `
       }
     }
   >
-    reason for disruption
+    disruption reason
   </TEXT>
   <TEXT
     style={
