@@ -80,8 +80,6 @@ const getOrganisationDisruptions = async (orgId: string) => {
     } catch (e) {
         if (e instanceof Error) {
             logger.error(`Error occurred while getting stops and services for an organisation: ${orgId} - error: `, e);
-
-            throw e;
         }
 
         throw e;
@@ -116,8 +114,6 @@ export const main = async (event: APIGatewayEvent): Promise<{ statusCode: number
     } catch (e) {
         if (e instanceof Error) {
             logger.error(e);
-
-            throw e;
         }
 
         throw e;
