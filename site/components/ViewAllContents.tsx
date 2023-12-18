@@ -8,7 +8,7 @@ import { pdf } from "@react-pdf/renderer";
 import saveAs from "file-saver";
 import Link from "next/link";
 import Papa from "papaparse";
-import { Dispatch, ReactElement, SetStateAction, memo, useEffect, useState } from "react";
+import { Dispatch, ReactElement, SetStateAction, memo, useCallback, useEffect, useState } from "react";
 import writeXlsxFile, { Schema } from "write-excel-file";
 import { z } from "zod";
 import DateSelector from "./form/DateSelector";
@@ -476,6 +476,7 @@ const ViewAllContents = ({
 }: ViewAllContentProps): ReactElement => {
     const [selectedServices, setSelectedServices] = useState<Service[]>([]);
     const [selectedOperators, setSelectedOperators] = useState<ConsequenceOperators[]>([]);
+    const [servicesDataSource, setServicesDataSource] = useState<Datasource | undefined>();
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const stateUpdater = (change: ConsequenceOperators[], _field: string): void => {
@@ -501,6 +502,7 @@ const ViewAllContents = ({
     const [servicesList, setServicesList] = useState<Service[]>([]);
     const [operatorsList, setOperatorsList] = useState<Operator[]>([]);
     const [popUpState, setPopUpState] = useState(false);
+    const [combinedServicesList, setCombinedServicesList] = useState<Service[]>([]);
     const [downloadPdf, setDownloadPdf] = useState(false);
     const [downloadExcel, setDownloadExcel] = useState(false);
     const [downloadCsv, setDownloadCsv] = useState(false);
@@ -698,9 +700,21 @@ const ViewAllContents = ({
             ...filterServices(servicesTndsData),
         ]);
 
+        setCombinedServicesList(combinedServices);
+
         setOperatorsList(operators);
         setServicesList(combinedServices);
     };
+
+    useEffect(() => {
+        if (servicesDataSource === Datasource.bods) {
+            setServicesList(combinedServicesList.filter((service) => service.dataSource === Datasource.bods));
+        } else if (servicesDataSource === Datasource.tnds) {
+            setServicesList(combinedServicesList.filter((service) => service.dataSource === Datasource.tnds));
+        } else {
+            setServicesList(combinedServicesList);
+        }
+    }, [servicesDataSource, combinedServicesList]);
 
     const cancelActionHandler = (): void => {
         setPopUpState(false);
@@ -851,6 +865,9 @@ const ViewAllContents = ({
                         setSelectedServices={setSelectedServices}
                         selectedServices={selectedServices}
                         reset={clearButtonClicked}
+                        showToggle
+                        handleDataSourceUpdate={(dataSource) => setServicesDataSource(dataSource)}
+                        dataSource={servicesDataSource}
                     />
 
                     {filter.services.length > 0 ? <Table rows={formatServicesIntoRows(filter, setFilter)} /> : null}
