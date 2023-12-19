@@ -863,7 +863,6 @@ const ViewAllContents = ({
                         setSelectedServices={setSelectedServices}
                         selectedServices={selectedServices}
                         reset={clearButtonClicked}
-                        showToggle
                         handleDataSourceUpdate={(dataSource) => setServicesDataSource(dataSource as Datasource)}
                         dataSource={servicesDataSource}
                     />
