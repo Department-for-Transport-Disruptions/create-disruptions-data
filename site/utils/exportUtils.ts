@@ -74,6 +74,11 @@ export const getExportSchema = (): Schema<ExportDisruptionData> => {
             value: (objectData: ExportDisruptionData) => objectData.severity,
         },
         {
+            column: "description",
+            type: String,
+            value: (objectData: ExportDisruptionData) => objectData.description,
+        },
+        {
             column: "disruptionType",
             type: String,
             value: (objectData: ExportDisruptionData) => objectData.disruptionType,
