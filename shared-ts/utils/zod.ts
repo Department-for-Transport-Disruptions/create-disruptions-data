@@ -66,3 +66,5 @@ export const makeFilteredArraySchema = <T extends ZodSchema>(schema: T) =>
     z
         .array(z.unknown())
         .transform((items) => items?.filter((item): item is z.infer<T> => schema.safeParse(item).success));
+
+export const isValidTime = (time: string) => time.match(timeRegex);

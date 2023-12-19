@@ -13,7 +13,7 @@ exports[`PDFHeader > should render correctly 1`] = `
       "flexDirection": "row",
       "fontFamily": "Helvetica-Bold",
       "fontStyle": "bold",
-      "margin": 5,
+      "margin": 2,
       "textAlign": "left",
     }
   }
@@ -21,7 +21,11 @@ exports[`PDFHeader > should render correctly 1`] = `
   <TEXT
     style={
       {
-        "width": "6.5%",
+        "flex": 1,
+        "maxWidth": "6.7%",
+        "padding": "0 5px",
+        "width": "6.7%",
+        "wordWrap": "break-word",
       }
     }
   >
@@ -30,7 +34,11 @@ exports[`PDFHeader > should render correctly 1`] = `
   <TEXT
     style={
       {
-        "width": "30.5%",
+        "flex": 1,
+        "maxWidth": "12.5%",
+        "padding": "0 5px",
+        "width": "12.5%",
+        "wordWrap": "break-word",
       }
     }
   >
@@ -39,7 +47,11 @@ exports[`PDFHeader > should render correctly 1`] = `
   <TEXT
     style={
       {
-        "width": "6.5%",
+        "flex": 1,
+        "maxWidth": "6.7%",
+        "padding": "0 5px",
+        "width": "6.7%",
+        "wordWrap": "break-word",
       }
     }
   >
@@ -48,7 +60,11 @@ exports[`PDFHeader > should render correctly 1`] = `
   <TEXT
     style={
       {
-        "width": "6.5%",
+        "flex": 1,
+        "maxWidth": "6.7%",
+        "padding": "0 5px",
+        "width": "6.7%",
+        "wordWrap": "break-word",
       }
     }
   >
@@ -57,7 +73,11 @@ exports[`PDFHeader > should render correctly 1`] = `
   <TEXT
     style={
       {
-        "width": "6.5%",
+        "flex": 1,
+        "maxWidth": "6.7%",
+        "padding": "0 5px",
+        "width": "6.7%",
+        "wordWrap": "break-word",
       }
     }
   >
@@ -66,7 +86,11 @@ exports[`PDFHeader > should render correctly 1`] = `
   <TEXT
     style={
       {
-        "width": "6.5%",
+        "flex": 1,
+        "maxWidth": "6.7%",
+        "padding": "0 5px",
+        "width": "6.7%",
+        "wordWrap": "break-word",
       }
     }
   >
@@ -75,7 +99,11 @@ exports[`PDFHeader > should render correctly 1`] = `
   <TEXT
     style={
       {
-        "width": "6.5%",
+        "flex": 1,
+        "maxWidth": "6.7%",
+        "padding": "0 5px",
+        "width": "6.7%",
+        "wordWrap": "break-word",
       }
     }
   >
@@ -84,7 +112,11 @@ exports[`PDFHeader > should render correctly 1`] = `
   <TEXT
     style={
       {
-        "width": "4.5%",
+        "flex": 1,
+        "maxWidth": "5.5%",
+        "padding": "0 5px",
+        "width": "5.5%",
+        "wordWrap": "break-word",
       }
     }
   >
@@ -93,7 +125,11 @@ exports[`PDFHeader > should render correctly 1`] = `
   <TEXT
     style={
       {
-        "width": "4.5%",
+        "flex": 1,
+        "maxWidth": "5.5%",
+        "padding": "0 5px",
+        "width": "5.5%",
+        "wordWrap": "break-word",
       }
     }
   >
@@ -102,7 +138,11 @@ exports[`PDFHeader > should render correctly 1`] = `
   <TEXT
     style={
       {
-        "width": "4.5%",
+        "flex": 1,
+        "maxWidth": "5.5%",
+        "padding": "0 5px",
+        "width": "5.5%",
+        "wordWrap": "break-word",
       }
     }
   >
@@ -111,7 +151,11 @@ exports[`PDFHeader > should render correctly 1`] = `
   <TEXT
     style={
       {
-        "width": "4.5%",
+        "flex": 1,
+        "maxWidth": "5.5%",
+        "padding": "0 5px",
+        "width": "5.5%",
+        "wordWrap": "break-word",
       }
     }
   >
@@ -120,7 +164,11 @@ exports[`PDFHeader > should render correctly 1`] = `
   <TEXT
     style={
       {
-        "width": "6.5%",
+        "flex": 1,
+        "maxWidth": "9%",
+        "padding": "0 5px",
+        "width": "9%",
+        "wordWrap": "break-word",
       }
     }
   >
@@ -129,7 +177,11 @@ exports[`PDFHeader > should render correctly 1`] = `
   <TEXT
     style={
       {
-        "width": "6.5%",
+        "flex": 1,
+        "maxWidth": "9%",
+        "padding": "0 5px",
+        "width": "9%",
+        "wordWrap": "break-word",
       }
     }
   >
@@ -138,11 +190,80 @@ exports[`PDFHeader > should render correctly 1`] = `
   <TEXT
     style={
       {
-        "width": "8.5%",
+        "flex": 1,
+        "maxWidth": "9%",
+        "padding": "0 5px",
+        "width": "9%",
+        "wordWrap": "break-word",
       }
     }
   >
     status
+  </TEXT>
+  <TEXT
+    style={
+      {
+        "flex": 1,
+        "maxWidth": "12.5%",
+        "padding": "0 5px",
+        "width": "12.5%",
+        "wordWrap": "break-word",
+      }
+    }
+  >
+    description of disruption
+  </TEXT>
+  <TEXT
+    style={
+      {
+        "flex": 1,
+        "maxWidth": "9%",
+        "padding": "0 5px",
+        "width": "9%",
+        "wordWrap": "break-word",
+      }
+    }
+  >
+    disruption type
+  </TEXT>
+  <TEXT
+    style={
+      {
+        "flex": 1,
+        "maxWidth": "5.5%",
+        "padding": "0 5px",
+        "width": "5.5%",
+        "wordWrap": "break-word",
+      }
+    }
+  >
+    creation time
+  </TEXT>
+  <TEXT
+    style={
+      {
+        "flex": 1,
+        "maxWidth": "6.7%",
+        "padding": "0 5px",
+        "width": "6.7%",
+        "wordWrap": "break-word",
+      }
+    }
+  >
+    disruption reason
+  </TEXT>
+  <TEXT
+    style={
+      {
+        "flex": 1,
+        "maxWidth": "6.7%",
+        "padding": "0 5px",
+        "width": "6.7%",
+        "wordWrap": "break-word",
+      }
+    }
+  >
+    list of services affected
   </TEXT>
 </VIEW>
 `;
