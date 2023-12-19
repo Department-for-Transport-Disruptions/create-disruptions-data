@@ -46,7 +46,7 @@ export const SiriGeneratorStack = ({ stack }: StackContext) => {
         handler: "packages/siri-sx-generator/index.main",
         timeout: 60,
         memorySize: 1536,
-        runtime: "nodejs18.x",
+        runtime: "nodejs20.x",
     });
 
     new Cron(stack, "cdd-siri-sx-generator-cron", {

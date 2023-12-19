@@ -13,7 +13,7 @@ The site is deployed using [SST](https://sst.dev/), this allows the creation of 
 
 ### Requirements
 
--   Node.js 18+
+-   Node.js 20+
 
 ### Process
 
