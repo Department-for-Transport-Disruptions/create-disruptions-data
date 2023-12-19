@@ -42,7 +42,7 @@ const Register = (props: RegisterPageProps): ReactElement => {
     };
 
     return (
-        <BaseLayout title={title} description={description} errors={pageState.errors}>
+        <BaseLayout title={title} description={description} errors={pageState.errors} disableBackButton>
             <h1 className="govuk-heading-xl">Create an account</h1>
             <div className="govuk-grid-row">
                 <div className="govuk-grid-column-two-thirds">

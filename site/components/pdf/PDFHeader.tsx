@@ -12,20 +12,36 @@ const PDFStyles = StyleSheet.create({
         borderRightWidth: 0,
         borderLeftWidth: 0,
         borderBottomWidth: 4,
-        margin: 5,
+        margin: 2,
         fontFamily: "Helvetica-Bold",
     },
     column: {
-        width: "6.5%",
+        width: "6.7%",
+        flex: 1,
+        wordWrap: "break-word",
+        maxWidth: "6.7%",
+        padding: "0 5px",
     },
     title: {
-        width: "30.5%",
+        width: "12.5%",
+        flex: 1,
+        wordWrap: "break-word",
+        maxWidth: "12.5%",
+        padding: "0 5px",
     },
     date: {
-        width: "4.5%",
+        width: "5.5%",
+        flex: 1,
+        wordWrap: "break-word",
+        maxWidth: "5.5%",
+        padding: "0 5px",
     },
     status: {
-        width: "8.5%",
+        width: "9%",
+        flex: 1,
+        wordWrap: "break-word",
+        maxWidth: "9%",
+        padding: "0 5px",
     },
 });
 
@@ -38,13 +54,18 @@ const PDFHeader = () => (
         <Text style={PDFStyles.column}>network wide</Text>
         <Text style={PDFStyles.column}>services affected</Text>
         <Text style={PDFStyles.column}>stops affected</Text>
-        <Text style={PDFStyles.date}>start</Text>
-        <Text style={PDFStyles.date}>end</Text>
-        <Text style={PDFStyles.date}>publish start</Text>
-        <Text style={PDFStyles.date}>publish end</Text>
-        <Text style={PDFStyles.column}>severity</Text>
-        <Text style={PDFStyles.column}>live</Text>
+        <Text style={PDFStyles.date}>start date</Text>
+        <Text style={PDFStyles.date}>end date</Text>
+        <Text style={PDFStyles.date}>publish start date</Text>
+        <Text style={PDFStyles.date}>publish end date</Text>
+        <Text style={PDFStyles.status}>severity</Text>
+        <Text style={PDFStyles.status}>live</Text>
         <Text style={PDFStyles.status}>status</Text>
+        <Text style={PDFStyles.title}>description of disruption</Text>
+        <Text style={PDFStyles.status}>disruption type</Text>
+        <Text style={PDFStyles.date}>creation time</Text>
+        <Text style={PDFStyles.column}>disruption reason</Text>
+        <Text style={PDFStyles.column}>list of services affected</Text>
     </View>
 );
 

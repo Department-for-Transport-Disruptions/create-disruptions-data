@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Dayjs } from "dayjs";
-import { getDatetimeFromDateAndTime, getFormattedDate } from "./dates";
+import { History } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { getDate, getDatetimeFromDateAndTime, getFormattedDate, sortEarliestDate } from "./dates";
 import { Disruption, Validity } from "../disruptionTypes";
 
 export const notEmpty = <T>(value: T | null | undefined): value is T => {
@@ -46,8 +47,6 @@ export type ApiDisruption = Awaited<ReturnType<typeof getApiDisruptions>>[0];
 export type ApiConsequence = ApiDisruption["consequences"][0];
 
 export const sortDisruptionsByStartDate = (disruptions: Disruption[]): Disruption[] => {
-    const sortEarliestDate = (firstDate: Dayjs, secondDate: Dayjs) => (firstDate.isBefore(secondDate) ? -1 : 1);
-
     const disruptionsWithSortedValidityPeriods = disruptions.map((disruption) => {
         const validityPeriods: Validity[] = [
             ...(disruption.validity ?? []),
@@ -116,4 +115,18 @@ export type Logger = {
     error: (message: string | Error) => void;
     warn: (message: string) => void;
     debug: (message: string) => void;
+};
+
+export const getDisruptionCreationTime = (disruptionHistory: History[] | null, creationTime: string | null): string => {
+    const currentTime = getDate().toISOString();
+    if (creationTime) {
+        return creationTime;
+    } else if (disruptionHistory && disruptionHistory.length > 0) {
+        return (
+            disruptionHistory.find((h) => !!h.historyItems.find((item) => item === "Disruption created and published"))
+                ?.datetime ?? currentTime
+        );
+    } else {
+        return currentTime;
+    }
 };

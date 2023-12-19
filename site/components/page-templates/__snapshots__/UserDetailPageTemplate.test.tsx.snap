@@ -40,6 +40,13 @@ exports[`UserDetailPageTemplate > should render the add-user page correctly 1`] 
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
@@ -537,6 +544,13 @@ exports[`UserDetailPageTemplate > should render the edit-user page correctly 1`]
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"

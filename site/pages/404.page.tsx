@@ -16,7 +16,7 @@ const Error = (): ReactElement => (
                 <Link className="govuk-link" id="contact-link" href="/contact">
                     contact
                 </Link>{" "}
-                us about your fares data.
+                us about your disruptions data.
             </p>
         </div>
 

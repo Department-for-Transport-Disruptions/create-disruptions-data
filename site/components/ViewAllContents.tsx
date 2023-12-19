@@ -30,9 +30,14 @@ import {
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../constants";
 import { fetchOperators, fetchServices } from "../data/refDataApi";
-import { Operator, ServiceApiResponse } from "../schemas/consequence.schema";
-import { ExportDisruptionData, disruptionsTableSchema, exportDisruptionsSchema } from "../schemas/disruption.schema";
-import { getDisplayByValue, getServiceLabel, splitCamelCaseToString } from "../utils";
+import { Operator } from "../schemas/consequence.schema";
+import {
+    ExportDisruptionData,
+    TableDisruption,
+    disruptionsTableSchema,
+    exportDisruptionsSchema,
+} from "../schemas/disruption.schema";
+import { getDisplayByValue, getServiceLabel, sortServices, splitCamelCaseToString } from "../utils";
 import {
     convertDateTimeToFormat,
     dateIsSameOrBeforeSecondDate,
@@ -69,28 +74,6 @@ export interface FilterOperator {
     operatorRef: string;
 }
 
-export interface TableContents {
-    displayId: string;
-    id: string;
-    summary: string;
-    modes: string[];
-    validityPeriods: {
-        startTime: string;
-        endTime: string | null;
-    }[];
-    publishStartDate: string;
-    publishEndDate?: string;
-    severity: string;
-    status: Progress;
-    serviceIds: string[];
-    operators: string[];
-    isOperatorWideCq: boolean;
-    isNetworkWideCq: boolean;
-    isLive: boolean;
-    stopsAffectedCount: number;
-    consequenceLength?: number;
-}
-
 export interface ContentTable {
     id: JSX.Element;
     summary: string;
@@ -120,7 +103,7 @@ export const getDisruptionData = async (
     orgId: string,
     isTemplate?: boolean,
     nextKey?: string,
-): Promise<TableContents[]> => {
+): Promise<TableDisruption[]> => {
     const options: RequestInit = {
         method: "GET",
         headers: {
@@ -160,22 +143,20 @@ export const getDisruptionData = async (
     return parsedDisruptions.data;
 };
 
-export const filterContents = (contents: TableContents[], filter: Filter): TableContents[] => {
+export const filterContents = (contents: TableDisruption[], filter: Filter): TableDisruption[] => {
     let disruptionsToDisplay = contents.filter((disruption) => {
         if (filter.services.length > 0) {
-            const filterServiceRefs = filter.services.map((service) => service.id.toString());
-            const disruptionServiceRefs = disruption.serviceIds;
-            let showService = false;
+            const disruptionServices = disruption.services;
 
-            disruptionServiceRefs.forEach((disruptionServiceRef) => {
-                if (filterServiceRefs.includes(disruptionServiceRef)) {
-                    showService = true;
-                }
-            });
-
-            if (!showService) {
-                return false;
-            }
+            return disruptionServices.some((service) =>
+                filter.services.some(
+                    (filterService) =>
+                        filterService.dataSource === service.dataSource &&
+                        (filterService.dataSource === Datasource.bods
+                            ? filterService.lineId === service.ref
+                            : filterService.serviceCode === service.ref),
+                ),
+            );
         }
 
         if (filter.mode && filter.mode !== "any") {
@@ -228,12 +209,12 @@ export const filterContents = (contents: TableContents[], filter: Filter): Table
 };
 
 export const applyDateFilters = (
-    contents: TableContents[],
+    contents: TableDisruption[],
     period: {
         startTime: string;
         endTime: string;
     },
-): TableContents[] => {
+): TableDisruption[] => {
     return contents.filter((content) =>
         content.validityPeriods.some((valPeriod) => {
             const { startTime, endTime } = valPeriod;
@@ -252,8 +233,8 @@ export const applyDateFilters = (
 };
 
 export const applyFiltersToContents = (
-    disruptions: TableContents[],
-    setContentsToDisplay: Dispatch<SetStateAction<TableContents[]>>,
+    disruptions: TableDisruption[],
+    setContentsToDisplay: Dispatch<SetStateAction<TableDisruption[]>>,
     filter: Filter,
 ): void => {
     const disruptionsToDisplay = filterContents(disruptions, filter);
@@ -373,13 +354,13 @@ export const handleDateFilterUpdate = (dateFilterProps: HandleDateFilterProps) =
     }
 };
 
-export const getContentPage = (pageNumber: number, contents: TableContents[]): TableContents[] => {
+export const getContentPage = (pageNumber: number, contents: TableDisruption[]): TableDisruption[] => {
     const startPoint = (pageNumber - 1) * 10;
     const endPoint = pageNumber * 10;
     return contents.slice(startPoint, endPoint);
 };
 
-const formatContentsIntoRows = (contents: TableContents[], isTemplate: boolean): ContentTable[] => {
+const formatContentsIntoRows = (contents: TableDisruption[], isTemplate: boolean): ContentTable[] => {
     return contents.map((content) => {
         const earliestPeriod: {
             startTime: string;
@@ -475,8 +456,8 @@ const columns: TableColumn<ContentTable>[] = [
 
 const setInitialFilters = (
     filter: Filter,
-    setContentsToDisplay: Dispatch<SetStateAction<TableContents[]>>,
-    contents: TableContents[],
+    setContentsToDisplay: Dispatch<SetStateAction<TableDisruption[]>>,
+    contents: TableDisruption[],
 ) => {
     if (filterIsEmpty(filter)) {
         setContentsToDisplay(contents);
@@ -495,6 +476,7 @@ const ViewAllContents = ({
 }: ViewAllContentProps): ReactElement => {
     const [selectedServices, setSelectedServices] = useState<Service[]>([]);
     const [selectedOperators, setSelectedOperators] = useState<ConsequenceOperators[]>([]);
+    const [servicesDataSource, setServicesDataSource] = useState<Datasource | "all">("all");
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const stateUpdater = (change: ConsequenceOperators[], _field: string): void => {
@@ -509,8 +491,8 @@ const ViewAllContents = ({
     const [showFilters, setShowFilters] = useState(false);
     const [filtersLoading, setFiltersLoading] = useState(false);
     const [clearButtonClicked, setClearButtonClicked] = useState(false);
-    const [contentsToDisplay, setContentsToDisplay] = useState<TableContents[]>([]);
-    const [contents, setContents] = useState<TableContents[]>([]);
+    const [contentsToDisplay, setContentsToDisplay] = useState<TableDisruption[]>([]);
+    const [contents, setContents] = useState<TableDisruption[]>([]);
     const [startDateFilter, setStartDateFilter] = useState("");
     const [endDateFilter, setEndDateFilter] = useState("");
     const [startDateFilterError, setStartDateFilterError] = useState(false);
@@ -520,6 +502,7 @@ const ViewAllContents = ({
     const [servicesList, setServicesList] = useState<Service[]>([]);
     const [operatorsList, setOperatorsList] = useState<Operator[]>([]);
     const [popUpState, setPopUpState] = useState(false);
+    const [combinedServicesList, setCombinedServicesList] = useState<Service[]>([]);
     const [downloadPdf, setDownloadPdf] = useState(false);
     const [downloadExcel, setDownloadExcel] = useState(false);
     const [downloadCsv, setDownloadCsv] = useState(false);
@@ -678,6 +661,11 @@ const ViewAllContents = ({
                 "severity",
                 "isLive",
                 "status",
+                "description",
+                "disruptionType",
+                "creationTime",
+                "disruptionReason",
+                "servicesAffected",
             ],
             data: parseDisruptions.success ? parseDisruptions.data : [],
         });
@@ -707,14 +695,24 @@ const ViewAllContents = ({
             fetchServices({ adminAreaCodes: adminAreaCodes, dataSource: Datasource.tnds }),
         ]);
 
-        let services: ServiceApiResponse[] = [];
+        const combinedServices = sortServices([
+            ...filterServices(servicesBodsData),
+            ...filterServices(servicesTndsData),
+        ]);
 
-        const combinedServices = (servicesBodsData ?? []).concat(servicesTndsData ?? []);
-        services = filterServices(combinedServices) ?? [];
+        setCombinedServicesList(combinedServices);
 
         setOperatorsList(operators);
-        setServicesList(services);
+        setServicesList(combinedServices);
     };
+
+    useEffect(() => {
+        setServicesList(
+            servicesDataSource === "all"
+                ? combinedServicesList
+                : combinedServicesList.filter((service) => service.dataSource === servicesDataSource),
+        );
+    }, [servicesDataSource, combinedServicesList]);
 
     const cancelActionHandler = (): void => {
         setPopUpState(false);
@@ -865,6 +863,8 @@ const ViewAllContents = ({
                         setSelectedServices={setSelectedServices}
                         selectedServices={selectedServices}
                         reset={clearButtonClicked}
+                        handleDataSourceUpdate={(dataSource) => setServicesDataSource(dataSource as Datasource)}
+                        dataSource={servicesDataSource}
                     />
 
                     {filter.services.length > 0 ? <Table rows={formatServicesIntoRows(filter, setFilter)} /> : null}

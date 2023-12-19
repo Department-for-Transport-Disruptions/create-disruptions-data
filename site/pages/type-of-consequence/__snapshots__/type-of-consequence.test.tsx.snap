@@ -40,6 +40,13 @@ exports[`pages > CreateDisruption > should render correctly for operator user wi
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
@@ -388,6 +395,13 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
@@ -824,6 +838,13 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
@@ -1212,6 +1233,13 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
@@ -1600,6 +1628,13 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
   <div
     className="govuk-width-container"
   >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
     <main
       className="govuk-main-wrapper"
       id="main-content"
@@ -1751,16 +1786,6 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                 >
                   Save and continue
                 </button>
-                <a
-                  className="govuk-button mt-8 ml-1 govuk-button--secondary"
-                  href="/review-disruption"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
-                  role="button"
-                >
-                  Cancel Changes
-                </a>
               </div>
             </div>
           </form>

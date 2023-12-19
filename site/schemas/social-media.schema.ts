@@ -25,6 +25,7 @@ const baseSchema = {
     status: z.nativeEnum(SocialMediaPostStatus).default(SocialMediaPostStatus.pending),
     createdByOperatorOrgId: z.string().optional(),
     image: socialMediaImageSchema.optional(),
+    publishStatus: z.string().optional(),
 };
 
 const hootsuiteSchema = z.object({

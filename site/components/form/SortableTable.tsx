@@ -12,6 +12,7 @@ interface SortableTableProps<T> {
     columns: TableColumn<T>[];
     rows: T[];
     sortFunction?: (rows: T[], sortField: keyof T, sortOrder: SortOrder) => T[];
+    caption?: { text: string; size: "s" | "m" | "l" };
 }
 
 export enum SortOrder {
@@ -31,7 +32,12 @@ const formatRows = <T extends object>(rows: T[], currentPage: number) => {
     return pages;
 };
 
-const SortableTable = <T extends object>({ columns, rows, sortFunction }: SortableTableProps<T>): ReactElement => {
+const SortableTable = <T extends object>({
+    columns,
+    rows,
+    sortFunction,
+    caption,
+}: SortableTableProps<T>): ReactElement => {
     const [sortedField, setSortedField] = useState<keyof T | null>(null);
     const [sortOrder, setSortOrder] = useState(SortOrder.asc);
     const [sortFlag, setSortFlag] = useState(false);
@@ -82,6 +88,13 @@ const SortableTable = <T extends object>({ columns, rows, sortFunction }: Sortab
     return (
         <>
             <table className="govuk-table">
+                {caption ? (
+                    <caption className={`govuk-table__caption govuk-table__caption--${caption.size}`}>
+                        {caption.text}
+                    </caption>
+                ) : (
+                    ""
+                )}
                 <thead className="govuk-table__head">
                     <tr className="govuk-table__row">
                         {columns.map((column) => {

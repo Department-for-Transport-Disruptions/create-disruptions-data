@@ -10,7 +10,7 @@ import { getPageState } from "./apiUtils";
 import { getFutureDateAsString } from "./dates";
 import { CD_DATE_FORMAT } from "../constants";
 import { DEFAULT_ORG_ID, disruptionWithNoConsequences } from "../testData/mockData";
-import { filterDisruptionsForOperatorUser, splitCamelCaseToString } from ".";
+import { filterDisruptionsForOperatorUser, splitCamelCaseToString, toTitleCase } from ".";
 
 describe("utils tests", () => {
     it.each([
@@ -131,5 +131,18 @@ describe("filterDisruptionsForOperatorUser", () => {
         const result = filterDisruptionsForOperatorUser(disruptionsArray, "test operator");
 
         expect(result).toEqual(disruptionsArray);
+    });
+});
+
+describe("toTitleCase", () => {
+    it.each([
+        ["KING STREET", "King Street"],
+        ["king street", "King Street"],
+        ["HYPHENATED-STREET", "Hyphenated-Street"],
+        ["hyphenated-street", "Hyphenated-Street"],
+        ["RanDoM cAsE", "Random Case"],
+        ["", ""],
+    ])("should convert text to title case", (text, formattedText) => {
+        expect(toTitleCase(text)).toEqual(formattedText);
     });
 });

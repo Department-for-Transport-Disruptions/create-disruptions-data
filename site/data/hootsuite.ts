@@ -388,6 +388,7 @@ export const publishToHootsuite = async (
             {
                 ...socialMediaPost,
                 status: SocialMediaPostStatus.rejected,
+                publishStatus: "PUBLISHED",
             },
             orgId,
             isUserStaff,
