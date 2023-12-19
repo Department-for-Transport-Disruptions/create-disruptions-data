@@ -476,7 +476,7 @@ const ViewAllContents = ({
 }: ViewAllContentProps): ReactElement => {
     const [selectedServices, setSelectedServices] = useState<Service[]>([]);
     const [selectedOperators, setSelectedOperators] = useState<ConsequenceOperators[]>([]);
-    const [servicesDataSource, setServicesDataSource] = useState<Datasource | undefined>();
+    const [servicesDataSource, setServicesDataSource] = useState<Datasource | "all">("all");
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const stateUpdater = (change: ConsequenceOperators[], _field: string): void => {
@@ -707,13 +707,11 @@ const ViewAllContents = ({
     };
 
     useEffect(() => {
-        if (servicesDataSource === Datasource.bods) {
-            setServicesList(combinedServicesList.filter((service) => service.dataSource === Datasource.bods));
-        } else if (servicesDataSource === Datasource.tnds) {
-            setServicesList(combinedServicesList.filter((service) => service.dataSource === Datasource.tnds));
-        } else {
-            setServicesList(combinedServicesList);
-        }
+        setServicesList(
+            servicesDataSource === "all"
+                ? combinedServicesList
+                : combinedServicesList.filter((service) => service.dataSource === servicesDataSource),
+        );
     }, [servicesDataSource, combinedServicesList]);
 
     const cancelActionHandler = (): void => {

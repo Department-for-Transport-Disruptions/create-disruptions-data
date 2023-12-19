@@ -9,10 +9,9 @@ interface ServiceSearchProps {
     services: Service[];
     setSelectedServices: Dispatch<SetStateAction<Service[]>>;
     selectedServices: Service[];
+    handleDataSourceUpdate: Dispatch<SetStateAction<string>>;
+    dataSource: string;
     reset?: boolean;
-    showToggle?: boolean;
-    dataSource?: string;
-    handleDataSourceUpdate?: Dispatch<SetStateAction<string>>;
 }
 
 const ServiceSearch = ({
@@ -20,7 +19,6 @@ const ServiceSearch = ({
     setSelectedServices,
     selectedServices,
     reset = false,
-    showToggle = false,
     dataSource,
     handleDataSourceUpdate,
 }: ServiceSearchProps): ReactElement => {
@@ -86,24 +84,22 @@ const ServiceSearch = ({
                     value={null}
                 />
             </div>
-            {showToggle && handleDataSourceUpdate && (
-                <div className="w-1/3">
-                    <Dropdown
-                        inputName="servicesDataSource"
-                        display="Services data source"
-                        value={dataSource || "all"}
-                        defaultDisplay="Select a services data source"
-                        selectValues={[
-                            { display: "All sources", value: "all" },
-                            { display: "BODs", value: Datasource.bods },
-                            { display: "TNDs", value: Datasource.tnds },
-                        ]}
-                        stateUpdater={handleDataSourceUpdate}
-                        width="1/4"
-                        useDefaultValue={false}
-                    />
-                </div>
-            )}
+            <div className="w-1/3">
+                <Dropdown
+                    inputName="servicesDataSource"
+                    display="Services data source"
+                    value={dataSource || "all"}
+                    defaultDisplay="Select a services data source"
+                    selectValues={[
+                        { display: "All sources", value: "all" },
+                        { display: "BODS", value: Datasource.bods },
+                        { display: "TNDS", value: Datasource.tnds },
+                    ]}
+                    stateUpdater={handleDataSourceUpdate}
+                    width="1/4"
+                    useDefaultValue={false}
+                />
+            </div>
         </div>
     );
 };
