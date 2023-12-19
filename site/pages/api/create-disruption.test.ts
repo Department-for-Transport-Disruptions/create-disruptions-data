@@ -437,7 +437,7 @@ describe("create-disruption API", () => {
             { errorMessage: "Invalid publication start time", id: "publishStartTime" },
             { errorMessage: "Invalid publication end time", id: "publishEndTime" },
             { errorMessage: "Invalid start time", id: "disruptionStartTime" },
-            { errorMessage: "Invalid publication end time", id: "disruptionEndTime" },
+            { errorMessage: "Invalid end time", id: "disruptionEndTime" },
         ];
 
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
@@ -488,7 +488,7 @@ describe("create-disruption API", () => {
 
         const errors: ErrorInfo[] = [
             { errorMessage: "Invalid publication end time", id: "publishEndTime" },
-            { errorMessage: "Invalid publication end time", id: "disruptionEndTime" },
+            { errorMessage: "Invalid end time", id: "disruptionEndTime" },
         ];
 
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
@@ -585,7 +585,7 @@ describe("create-disruption API", () => {
 
         await createDisruption(req, res);
 
-        const errors: ErrorInfo[] = [{ errorMessage: "Invalid publication end time", id: "disruptionEndTime" }];
+        const errors: ErrorInfo[] = [{ errorMessage: "Invalid end time", id: "disruptionEndTime" }];
 
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
 

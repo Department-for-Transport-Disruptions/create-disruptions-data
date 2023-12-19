@@ -28,6 +28,15 @@ export type OperatorConsequence = z.infer<typeof operatorConsequenceSchema>;
 export type StopsConsequence = z.infer<typeof stopsConsequenceSchema>;
 export type ServicesConsequence = z.infer<typeof servicesConsequenceSchema>;
 
+export const serviceWithCentrePointSchema = serviceSchema.and(
+    z.object({
+        centrePointLat: z.string(),
+        centrePointLon: z.string(),
+    }),
+);
+
+export type ServiceWithCentrePoint = z.infer<typeof serviceWithCentrePointSchema>;
+
 export const routesSchema = z.object({
     inbound: z.array(stopSchema.partial()),
     outbound: z.array(stopSchema.partial()),
