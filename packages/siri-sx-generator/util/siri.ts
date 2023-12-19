@@ -1,5 +1,4 @@
 import { Disruption, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { History } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Progress, SourceType } from "@create-disruptions-data/shared-ts/enums";
 import {
     isEnvironmentReason,
@@ -9,6 +8,7 @@ import {
     Reason,
     Period,
 } from "@create-disruptions-data/shared-ts/siriTypes";
+import { getDisruptionCreationTime } from "@create-disruptions-data/shared-ts/utils";
 import { getDate, getDatetimeFromDateAndTime, getFormattedDate } from "@create-disruptions-data/shared-ts/utils/dates";
 
 export const getValidityPeriod = (period: Validity): Period[] => {
@@ -59,20 +59,6 @@ const getPeriod = (period: Validity): Period => ({
           }
         : {}),
 });
-
-const getDisruptionCreationTime = (disruptionHistory: History[] | null, creationTime: string | null): string => {
-    const currentTime = getDate().toISOString();
-    if (creationTime) {
-        return creationTime;
-    } else if (disruptionHistory && disruptionHistory.length > 0) {
-        return (
-            disruptionHistory.find((h) => !!h.historyItems.find((item) => item === "Disruption created and published"))
-                ?.datetime ?? currentTime
-        );
-    } else {
-        return currentTime;
-    }
-};
 
 export const getPtSituationElementFromSiteDisruption = (
     disruption: Disruption & { organisation: { id: string; name: string } },

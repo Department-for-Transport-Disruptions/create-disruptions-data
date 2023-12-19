@@ -16,7 +16,7 @@ export interface PDFProps {
 
 const PDFDoc = ({ disruptions }: PDFProps) => (
     <Document>
-        <Page size="A1" style={PDFStyles.page} wrap>
+        <Page size="A1" style={PDFStyles.page} wrap orientation="landscape">
             <PDFHeader />
             <PDFRows disruptions={disruptions} />
         </Page>
