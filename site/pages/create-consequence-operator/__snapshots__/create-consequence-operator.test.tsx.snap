@@ -194,6 +194,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                     aria-live="polite"
                     aria-relevant="additions text"
                     className="css-1f43avz-a11yText-A11yText"
+                    role="log"
                   />
                   <div
                     className=" css-1efjb9t-control"
@@ -214,6 +215,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
                         data-value=""
                       >
                         <input
+                          aria-activedescendant=""
                           aria-autocomplete="list"
                           aria-describedby="react-select-operator-dropdown-placeholder"
                           aria-expanded={false}
@@ -957,6 +959,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                     aria-live="polite"
                     aria-relevant="additions text"
                     className="css-1f43avz-a11yText-A11yText"
+                    role="log"
                   />
                   <div
                     className=" css-1efjb9t-control"
@@ -977,6 +980,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with no inp
                         data-value=""
                       >
                         <input
+                          aria-activedescendant=""
                           aria-autocomplete="list"
                           aria-describedby="react-select-operator-dropdown-placeholder"
                           aria-expanded={false}
@@ -1691,6 +1695,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
                     aria-live="polite"
                     aria-relevant="additions text"
                     className="css-1f43avz-a11yText-A11yText"
+                    role="log"
                   />
                   <div
                     className=" css-1efjb9t-control"
@@ -1711,6 +1716,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
                         data-value=""
                       >
                         <input
+                          aria-activedescendant=""
                           aria-autocomplete="list"
                           aria-describedby="react-select-operator-dropdown-placeholder"
                           aria-expanded={false}
