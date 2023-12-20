@@ -57,13 +57,10 @@ const SearchSelect = <T extends object>({
     onBlur,
 }: SearchSelectProps<T>): ReactElement => {
     const handleInputChange = (value: string, { action }: InputActionMeta) => {
-        if (action !== "input-blur" && action !== "menu-close") {
+        if (action === "menu-close" || action === "input-blur" || action === "set-value") {
+            return;
+        } else {
             setSearchInput(value);
-            if (value.trim() === "") {
-                setSearchInput("");
-            } else {
-                setSearchInput(value);
-            }
         }
     };
 
@@ -106,6 +103,8 @@ const SearchSelect = <T extends object>({
                             }),
                         }}
                         value={selected}
+                        backspaceRemovesValue
+                        closeMenuOnSelect={false}
                         placeholder={placeholder}
                         getOptionLabel={getOptionLabel}
                         getOptionValue={getOptionValue}
