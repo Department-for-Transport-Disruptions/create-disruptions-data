@@ -32,6 +32,8 @@ interface SearchSelectProps<T> {
     width?: string;
     onFocus?: () => void;
     onBlur?: () => void;
+    closeMenuOnSelect?: boolean;
+    backspaceRemovesValue?: boolean;
 }
 const SearchSelect = <T extends object>({
     selected,
@@ -55,6 +57,8 @@ const SearchSelect = <T extends object>({
     width,
     onFocus,
     onBlur,
+    closeMenuOnSelect = true,
+    backspaceRemovesValue = false,
 }: SearchSelectProps<T>): ReactElement => {
     const handleInputChange = (value: string, { action }: InputActionMeta) => {
         if (action === "menu-close" || action === "input-blur" || action === "set-value") {
@@ -103,8 +107,8 @@ const SearchSelect = <T extends object>({
                             }),
                         }}
                         value={selected}
-                        backspaceRemovesValue
-                        closeMenuOnSelect={false}
+                        backspaceRemovesValue={backspaceRemovesValue}
+                        closeMenuOnSelect={closeMenuOnSelect}
                         placeholder={placeholder}
                         getOptionLabel={getOptionLabel}
                         getOptionValue={getOptionValue}

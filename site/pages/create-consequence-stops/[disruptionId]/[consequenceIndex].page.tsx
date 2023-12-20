@@ -235,6 +235,8 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                         />
 
                         <SearchSelect<Stop>
+                            backspaceRemovesValue
+                            closeMenuOnSelect={false}
                             selected={selected}
                             inputName="stop"
                             initialErrors={pageState.errors}

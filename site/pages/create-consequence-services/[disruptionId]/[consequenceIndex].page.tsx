@@ -508,6 +508,8 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                         />
 
                         <SearchSelect<Service>
+                            backspaceRemovesValue
+                            closeMenuOnSelect={false}
                             selected={selectedService}
                             inputName="service"
                             initialErrors={pageState.errors}
@@ -531,6 +533,8 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                         />
 
                         <SearchSelect<Stop>
+                            backspaceRemovesValue
+                            closeMenuOnSelect={false}
                             selected={selected}
                             inputName="stop"
                             initialErrors={pageState.errors}
