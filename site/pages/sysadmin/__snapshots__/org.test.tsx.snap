@@ -128,6 +128,7 @@ exports[`manageOrgs > should render correctly when there are no inputs 1`] = `
                       aria-live="polite"
                       aria-relevant="additions text"
                       className="css-1f43avz-a11yText-A11yText"
+                      role="log"
                     />
                     <div
                       className=" css-178nxlf-control"
@@ -148,6 +149,7 @@ exports[`manageOrgs > should render correctly when there are no inputs 1`] = `
                           data-value=""
                         >
                           <input
+                            aria-activedescendant=""
                             aria-autocomplete="list"
                             aria-describedby="react-select-dropdown-adminAreaCodes-placeholder"
                             aria-expanded={false}
@@ -583,6 +585,7 @@ exports[`manageOrgs > should render correctly with inputs 1`] = `
                       aria-live="polite"
                       aria-relevant="additions text"
                       className="css-1f43avz-a11yText-A11yText"
+                      role="log"
                     />
                     <div
                       className=" css-178nxlf-control"
@@ -603,6 +606,7 @@ exports[`manageOrgs > should render correctly with inputs 1`] = `
                           data-value=""
                         >
                           <input
+                            aria-activedescendant=""
                             aria-autocomplete="list"
                             aria-describedby="react-select-dropdown-adminAreaCodes-placeholder"
                             aria-expanded={false}
