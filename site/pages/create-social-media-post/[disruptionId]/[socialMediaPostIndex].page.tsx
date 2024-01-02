@@ -59,7 +59,6 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                     <ErrorSummary errors={props.errors} />
                     <div className="govuk-form-group">
                         <h1 className="govuk-heading-xl">Social media message</h1>
-
                         <div className="govuk-form-group govuk-!-padding-top-3">
                             <Select<SocialMediaPost>
                                 inputName="socialAccount"
@@ -98,7 +97,6 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                 />
                             )}
                         </div>
-
                         <FormGroupWrapper errorIds={["messageContent"]} errors={errorsMessageContent}>
                             <div className="govuk-form-group" id={"message-content"}>
                                 <FormElementWrapper
@@ -121,7 +119,6 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                 </FormElementWrapper>
                             </div>
                         </FormGroupWrapper>
-
                         {!pageState.inputs.messageContent ||
                         (pageState.inputs && pageState.inputs.messageContent.length === 0) ? (
                             <button
@@ -137,38 +134,34 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                 <p className="text-govBlue govuk-body-m">Copy from disruption description</p>
                             </button>
                         ) : null}
-
                         <br />
-
-                        {accountType === "Hootsuite" && (
-                            <FormGroupWrapper errorIds={["image"]} errors={pageState.errors}>
-                                <fieldset className="govuk-fieldset">
-                                    <legend className="govuk-fieldset__legend govuk-fieldset__legend--m">
-                                        <h2
-                                            className="govuk-fieldset__heading govuk-visually-hidden"
-                                            id="passenger-type-page-heading"
-                                        >
-                                            Upload file
-                                        </h2>
-                                    </legend>
-                                    <FormElementWrapper
-                                        errorId="image"
-                                        errorClass="govuk-file-upload--error"
-                                        errors={pageState.errors}
+                        <FormGroupWrapper errorIds={["image"]} errors={pageState.errors}>
+                            <fieldset className="govuk-fieldset">
+                                <legend className="govuk-fieldset__legend govuk-fieldset__legend--m">
+                                    <h2
+                                        className="govuk-fieldset__heading govuk-visually-hidden"
+                                        id="passenger-type-page-heading"
                                     >
-                                        <>
-                                            <input
-                                                className="govuk-file-upload"
-                                                type="file"
-                                                id="image"
-                                                name="image"
-                                                accept="image/png, image/jpeg, image/jpg"
-                                            />
-                                        </>
-                                    </FormElementWrapper>
-                                </fieldset>
-                            </FormGroupWrapper>
-                        )}
+                                        Upload file
+                                    </h2>
+                                </legend>
+                                <FormElementWrapper
+                                    errorId="image"
+                                    errorClass="govuk-file-upload--error"
+                                    errors={pageState.errors}
+                                >
+                                    <>
+                                        <input
+                                            className="govuk-file-upload"
+                                            type="file"
+                                            id="image"
+                                            name="image"
+                                            accept="image/png, image/jpeg, image/jpg"
+                                        />
+                                    </>
+                                </FormElementWrapper>
+                            </fieldset>
+                        </FormGroupWrapper>
                     </div>
 
                     {accountType === "Hootsuite" && !queryParams["template"] && (

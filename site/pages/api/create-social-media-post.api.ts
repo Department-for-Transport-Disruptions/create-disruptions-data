@@ -89,7 +89,7 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
             return;
         }
 
-        if (validatedBody.data.accountType === "Hootsuite" && validatedBody.data.image) {
+        if (validatedBody.data.image) {
             const imageContents = await readFile(validatedBody.data.image?.filepath || "");
 
             await putItem(process.env.IMAGE_BUCKET_NAME || "", validatedBody.data.image.key, imageContents);
