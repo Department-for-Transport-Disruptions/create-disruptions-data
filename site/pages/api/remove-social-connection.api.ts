@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH } from "../../constants";
 import { removeSocialAccountFromOrg } from "../../data/dynamo";
 import { deleteParameter } from "../../data/ssm";
+import { getTwitterSsmAccessSecretKey, getTwitterSsmAccessTokenKey } from "../../data/twitter";
 import { getSession } from "../../utils/apiUtils/auth";
 import { redirectToError, redirectTo } from "../../utils/apiUtils/index";
 
@@ -29,9 +30,11 @@ const removeHootsuiteConnection = async (req: RemoveHootsuiteConnectionApiReques
             throw new Error("Invalid type");
         }
 
-        const key = `/social/${session.orgId}/${type.toLowerCase()}/${profileId}/refresh_token`;
-
-        await Promise.all([deleteParameter(key), removeSocialAccountFromOrg(session.orgId, profileId)]);
+        await Promise.all([
+            deleteParameter(getTwitterSsmAccessSecretKey(session.orgId, profileId)),
+            deleteParameter(getTwitterSsmAccessTokenKey(session.orgId, profileId)),
+            removeSocialAccountFromOrg(session.orgId, profileId),
+        ]);
 
         redirectTo(res, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH);
         return;

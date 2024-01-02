@@ -1,7 +1,7 @@
 import { ConsequenceOperators } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import kebabCase from "lodash/kebabCase";
 import { ReactElement, useEffect, useState } from "react";
-import Select, { ControlProps, GroupBase, OptionProps } from "react-select";
+import Select, { CSSObjectWithLabel, ControlProps, GroupBase, OptionProps } from "react-select";
 import { ErrorInfo } from "../../interfaces";
 import { Operator } from "../../schemas/consequence.schema";
 import FormElementWrapper, { FormGroupWrapper } from "../form/FormElementWrapper";
@@ -47,7 +47,7 @@ const OperatorSearch = <T extends object>({
         }
     }, [reset, stateUpdater, inputName]);
 
-    const controlStyles = (state: ControlProps<Operator, false, GroupBase<Operator>>) => ({
+    const controlStyles = (state: ControlProps<Operator, false, GroupBase<Operator>>): CSSObjectWithLabel => ({
         fontFamily: "GDS Transport, arial, sans-serif",
         border: "#0b0c0c solid 2px",
         outline: state.isFocused ? "#ffdd00 solid 3px" : "none",
@@ -57,7 +57,7 @@ const OperatorSearch = <T extends object>({
         width: "75%",
     });
 
-    const optionStyles = (state: OptionProps<Operator, false, GroupBase<Operator>>) => ({
+    const optionStyles = (state: OptionProps<Operator, false, GroupBase<Operator>>): CSSObjectWithLabel => ({
         color: state.isFocused ? "white" : "#0b0c0c",
         backgroundColor: state.isFocused ? "#3399ff" : "white",
     });

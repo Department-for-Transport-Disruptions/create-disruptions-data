@@ -30,8 +30,8 @@ export type ServicesConsequence = z.infer<typeof servicesConsequenceSchema>;
 
 export const serviceWithCentrePointSchema = serviceSchema.and(
     z.object({
-        centrePointLat: z.string(),
-        centrePointLon: z.string(),
+        centrePointLat: z.string().nullable(),
+        centrePointLon: z.string().nullable(),
     }),
 );
 

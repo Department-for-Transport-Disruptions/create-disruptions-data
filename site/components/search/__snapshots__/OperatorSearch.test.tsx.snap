@@ -31,6 +31,7 @@ exports[`OperatorSearch > should render correctly with errors 1`] = `
           aria-live="polite"
           aria-relevant="additions text"
           className="css-1f43avz-a11yText-A11yText"
+          role="log"
         />
         <div
           className=" css-1efjb9t-control"
@@ -51,6 +52,7 @@ exports[`OperatorSearch > should render correctly with errors 1`] = `
               data-value=""
             >
               <input
+                aria-activedescendant=""
                 aria-autocomplete="list"
                 aria-describedby="react-select-operator-dropdown-placeholder"
                 aria-expanded={false}
@@ -152,6 +154,7 @@ exports[`OperatorSearch > should render correctly with no errors 1`] = `
           aria-live="polite"
           aria-relevant="additions text"
           className="css-1f43avz-a11yText-A11yText"
+          role="log"
         />
         <div
           className=" css-1efjb9t-control"
@@ -172,6 +175,7 @@ exports[`OperatorSearch > should render correctly with no errors 1`] = `
               data-value=""
             >
               <input
+                aria-activedescendant=""
                 aria-autocomplete="list"
                 aria-describedby="react-select-operator-dropdown-placeholder"
                 aria-expanded={false}

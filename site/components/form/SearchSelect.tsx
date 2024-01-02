@@ -1,5 +1,13 @@
 import { Dispatch, Fragment, ReactElement, SetStateAction } from "react";
-import Select, { ControlProps, GroupBase, OptionProps, SingleValue, InputActionMeta, ActionMeta } from "react-select";
+import Select, {
+    ControlProps,
+    GroupBase,
+    OptionProps,
+    SingleValue,
+    InputActionMeta,
+    ActionMeta,
+    CSSObjectWithLabel,
+} from "react-select";
 import type { FilterOptionOption } from "react-select/dist/declarations/src/filters";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import Table from "./Table";
@@ -66,7 +74,7 @@ const SearchSelect = <T extends object>({
         }
     };
 
-    const controlStyles = (state: ControlProps<T, false, GroupBase<T>>) => ({
+    const controlStyles = (state: ControlProps<T, false, GroupBase<T>>): CSSObjectWithLabel => ({
         fontFamily: "GDS Transport, arial, sans-serif",
         border: "black solid 3px",
         outline: state.isFocused ? "#ffdd00 solid 3px" : "none",
@@ -76,7 +84,7 @@ const SearchSelect = <T extends object>({
         width: width ? width : "75%",
     });
 
-    const optionStyles = (state: OptionProps<T, false, GroupBase<T>>) => ({
+    const optionStyles = (state: OptionProps<T, false, GroupBase<T>>): CSSObjectWithLabel => ({
         color: state.isFocused ? "white" : "black",
         backgroundColor: state.isFocused ? "#3399ff" : "white",
     });

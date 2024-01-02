@@ -34,7 +34,7 @@ const ViewAllSocialMedia = ({ socialMediaPosts }: ViewAllSocialMediaProps): Reac
             {
                 header: "Image",
                 cells: [
-                    post.accountType === "Hootsuite" && post.image ? (
+                    post.image ? (
                         <Link className="govuk-link text-govBlue" key={post.image.key} href={post.image?.url ?? ""}>
                             {post.image.originalFilename}
                         </Link>
@@ -134,7 +134,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     if (socialMediaPosts && process.env.IMAGE_BUCKET_NAME) {
         socialMediaWithImageLinks = await Promise.all(
             socialMediaPosts.map(async (s) => {
-                if (s.accountType === "Hootsuite" && s.image) {
+                if (s.image) {
                     const url =
                         (await getItem(process.env.IMAGE_BUCKET_NAME || "", s.image?.key, s.image?.originalFilename)) ||
                         "";
