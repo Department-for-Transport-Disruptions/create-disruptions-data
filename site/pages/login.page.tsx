@@ -1,14 +1,15 @@
-import { NextPageContext } from "next";
+import { NextPageContext, Redirect } from "next";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
 import CsrfForm from "../components/form/CsrfForm";
 import ErrorSummary from "../components/form/ErrorSummary";
 import TextInput from "../components/form/TextInput";
 import { BaseLayout } from "../components/layout/Layout";
-import { COOKIES_LOGIN_ERRORS } from "../constants";
+import { COOKIES_LOGIN_ERRORS, DASHBOARD_PAGE_PATH } from "../constants";
 import { PageState } from "../interfaces";
 import { LoginSchema, loginSchema } from "../schemas/login.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../utils/apiUtils";
+import { getSession } from "../utils/apiUtils/auth";
 import { getStateUpdater } from "../utils/formUtils";
 
 const title = "Sign in - Create Transport Disruptions Service";
@@ -72,12 +73,24 @@ const Login = (props: LoginPageProps): ReactElement => {
     );
 };
 
-export const getServerSideProps = (ctx: NextPageContext): { props: LoginPageProps } => {
+export const getServerSideProps = (ctx: NextPageContext): { props: LoginPageProps } | { redirect: Redirect } => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_LOGIN_ERRORS];
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_LOGIN_ERRORS, ctx.res);
 
+    if (ctx.req) {
+        const session = getSession(ctx.req);
+
+        if (session) {
+            return {
+                redirect: {
+                    destination: DASHBOARD_PAGE_PATH,
+                    statusCode: 302,
+                },
+            };
+        }
+    }
     return {
         props: {
             ...getPageState(errorCookie, loginSchema),
