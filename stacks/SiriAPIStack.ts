@@ -38,7 +38,7 @@ export const SiriAPIStack = ({ stack }: StackContext) => {
         defaults: {
             function: {
                 timeout: 20,
-                runtime: "nodejs18.x",
+                runtime: "nodejs20.x",
             },
         },
         routes: {
