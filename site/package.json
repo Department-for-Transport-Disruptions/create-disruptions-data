@@ -17,11 +17,11 @@
         "winston": false
     },
     "dependencies": {
-        "@aws-sdk/client-cognito-identity-provider": "^3.388.0",
-        "@aws-sdk/client-s3": "^3.388.0",
-        "@aws-sdk/client-ses": "^3.388.0",
-        "@aws-sdk/client-ssm": "^3.388.0",
-        "@aws-sdk/s3-request-presigner": "^3.388.0",
+        "@aws-sdk/client-cognito-identity-provider": "^3.476.0",
+        "@aws-sdk/client-s3": "^3.476.0",
+        "@aws-sdk/client-ses": "^3.476.0",
+        "@aws-sdk/client-ssm": "^3.476.0",
+        "@aws-sdk/s3-request-presigner": "^3.476.0",
         "@create-disruptions-data/shared-ts": "file:../shared-ts",
         "@emotion/react": "^11.10.6",
         "@emotion/styled": "^11.10.6",
@@ -53,7 +53,7 @@
         "react-accessible-dropdown-menu-hook": "^4.0.0",
         "react-dom": "18.2.0",
         "react-map-gl": "^7.0.21",
-        "react-select": "^5.7.1",
+        "react-select": "^5.8.0",
         "twitter-api-v2": "^1.15.1",
         "write-excel-file": "^1.4.27"
     },
