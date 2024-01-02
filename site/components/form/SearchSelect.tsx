@@ -1,5 +1,5 @@
 import { Dispatch, Fragment, ReactElement, SetStateAction } from "react";
-import Select, { ControlProps, GroupBase, OptionProps, SingleValue, InputActionMeta } from "react-select";
+import Select, { ControlProps, GroupBase, OptionProps, SingleValue, InputActionMeta, ActionMeta } from "react-select";
 import type { FilterOptionOption } from "react-select/dist/declarations/src/filters";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import Table from "./Table";
@@ -10,7 +10,7 @@ interface SearchSelectProps<T> {
     inputName: string;
     initialErrors?: ErrorInfo[];
     getOptionLabel?: (value: T) => string;
-    handleChange: (value: SingleValue<T>) => void;
+    handleChange: (value: SingleValue<T>, actionMeta: ActionMeta<T>) => void;
     tableData: T[] | undefined;
     getRows: () =>
         | {
@@ -33,7 +33,6 @@ interface SearchSelectProps<T> {
     onFocus?: () => void;
     onBlur?: () => void;
     closeMenuOnSelect?: boolean;
-    backspaceRemovesValue?: boolean;
 }
 const SearchSelect = <T extends object>({
     selected,
@@ -58,7 +57,6 @@ const SearchSelect = <T extends object>({
     onFocus,
     onBlur,
     closeMenuOnSelect = true,
-    backspaceRemovesValue = false,
 }: SearchSelectProps<T>): ReactElement => {
     const handleInputChange = (value: string, { action }: InputActionMeta) => {
         if (action === "menu-close" || action === "input-blur" || action === "set-value") {
@@ -107,7 +105,6 @@ const SearchSelect = <T extends object>({
                             }),
                         }}
                         value={selected}
-                        backspaceRemovesValue={backspaceRemovesValue}
                         closeMenuOnSelect={closeMenuOnSelect}
                         placeholder={placeholder}
                         getOptionLabel={getOptionLabel}

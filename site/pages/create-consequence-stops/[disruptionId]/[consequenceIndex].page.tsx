@@ -10,7 +10,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
-import { SingleValue } from "react-select";
+import { ActionMeta, SingleValue } from "react-select";
 import DeleteDisruptionButton from "../../../components/buttons/DeleteDisruptionButton";
 import CsrfForm from "../../../components/form/CsrfForm";
 import ErrorSummary from "../../../components/form/ErrorSummary";
@@ -70,7 +70,10 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
 
     const { consequenceCount = 0 } = props;
 
-    const handleChange = (value: SingleValue<Stop>) => {
+    const handleChange = (value: SingleValue<Stop>, actionMeta: ActionMeta<Stop>) => {
+        if (actionMeta.action === "clear") {
+            setSearchInput("");
+        }
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
             addStop(value);
         }
@@ -235,7 +238,6 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                         />
 
                         <SearchSelect<Stop>
-                            backspaceRemovesValue
                             closeMenuOnSelect={false}
                             selected={selected}
                             inputName="stop"

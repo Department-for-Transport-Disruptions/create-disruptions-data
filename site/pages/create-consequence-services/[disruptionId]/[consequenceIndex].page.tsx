@@ -11,7 +11,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
-import { createFilter, SingleValue } from "react-select";
+import { ActionMeta, createFilter, SingleValue } from "react-select";
 import type { FilterOptionOption } from "react-select/dist/declarations/src/filters";
 import DeleteDisruptionButton from "../../../components/buttons/DeleteDisruptionButton";
 import CsrfForm from "../../../components/form/CsrfForm";
@@ -199,7 +199,10 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
     const isTemplate = queryParams["template"]?.toString() ?? "";
     const returnPath = queryParams["return"]?.toString() ?? "";
 
-    const handleStopChange = async (value: SingleValue<Stop>) => {
+    const handleStopChange = async (value: SingleValue<Stop>, actionMeta: ActionMeta<Stop>) => {
+        if (actionMeta.action === "clear") {
+            setStopsSearchInput("");
+        }
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
             await addStop(value);
         }
@@ -299,7 +302,10 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
         }
     };
 
-    const handleServiceChange = (value: SingleValue<Service>) => {
+    const handleServiceChange = (value: SingleValue<Service>, actionMeta: ActionMeta<Service>) => {
+        if (actionMeta.action === "clear") {
+            setServicesSearchInput("");
+        }
         setSelectedService(value);
         if (!pageState.inputs.services || !pageState.inputs.services.some((data) => data.id === value?.id)) {
             addService(value);
@@ -508,7 +514,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                         />
 
                         <SearchSelect<Service>
-                            backspaceRemovesValue
                             closeMenuOnSelect={false}
                             selected={selectedService}
                             inputName="service"
@@ -533,7 +538,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                         />
 
                         <SearchSelect<Stop>
-                            backspaceRemovesValue
                             closeMenuOnSelect={false}
                             selected={selected}
                             inputName="stop"
