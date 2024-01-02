@@ -14,7 +14,7 @@ const getServiceCentrePoint = async (service: Service) => {
         service.dataSource,
         logger,
     );
-    return [serviceInfo?.centrePointLat, serviceInfo?.centrePointLon];
+    return { latitude: serviceInfo?.centrePointLat ?? null, longitude: serviceInfo?.centrePointLon ?? null };
 };
 
 const getOrganisationDisruptions = async (orgId: string) => {
@@ -34,7 +34,7 @@ const getOrganisationDisruptions = async (orgId: string) => {
                             atcoCode: stop.atcoCode,
                             commonName: stop.commonName,
                             bearing: stop.bearing,
-                            coordinates: [stop.latitude, stop.longitude],
+                            coordinates: { latitude: stop.latitude, longitude: stop.longitude },
                         }));
                     } else return [];
                 });
@@ -51,7 +51,10 @@ const getOrganisationDisruptions = async (orgId: string) => {
                                     origin: service.origin,
                                     nocCode: service.nocCode,
                                     operatorName: service.operatorShortName,
-                                    coordinates: [serviceCentrePoint[0], serviceCentrePoint[1]],
+                                    coordinates: {
+                                        latitude: serviceCentrePoint.latitude,
+                                        longitude: serviceCentrePoint.longitude,
+                                    },
                                 };
                             });
                         } else return [];
