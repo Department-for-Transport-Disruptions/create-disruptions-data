@@ -118,7 +118,10 @@ describe("remove-social-connection", () => {
         await removeSocialConnection(req, res);
 
         expect(deleteParameterSpy).toHaveBeenCalledWith(
-            "/social/35bae327-4af0-4bbf-8bfa-2c085f214483/twitter/123/refresh_token",
+            "/social/35bae327-4af0-4bbf-8bfa-2c085f214483/twitter/123/access_secret",
+        );
+        expect(deleteParameterSpy).toHaveBeenCalledWith(
+            "/social/35bae327-4af0-4bbf-8bfa-2c085f214483/twitter/123/access_token",
         );
         expect(removeSocialAccountFromOrgSpy).toHaveBeenCalledWith("35bae327-4af0-4bbf-8bfa-2c085f214483", "123");
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -139,7 +142,10 @@ describe("remove-social-connection", () => {
         await removeSocialConnection(req, res);
 
         expect(deleteParameterSpy).toHaveBeenCalledWith(
-            "/social/35bae327-4af0-4bbf-8bfa-2c085f214483/twitter/123/refresh_token",
+            "/social/35bae327-4af0-4bbf-8bfa-2c085f214483/twitter/123/access_secret",
+        );
+        expect(deleteParameterSpy).toHaveBeenCalledWith(
+            "/social/35bae327-4af0-4bbf-8bfa-2c085f214483/twitter/123/access_token",
         );
         expect(removeSocialAccountFromOrgSpy).toHaveBeenCalledWith("35bae327-4af0-4bbf-8bfa-2c085f214483", "123");
         expect(writeHeadMock).toBeCalledWith(302, {

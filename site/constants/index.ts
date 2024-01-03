@@ -288,13 +288,14 @@ export const ADD_OPERATOR_PAGE_PATH = "/admin/add-operator";
 export const REGISTER_PAGE_PATH = "/register";
 export const EXPIRED_LINK_PAGE_PATH = "/expired-link";
 export const HOME_PAGE_PATH = "/";
-export const SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH = "/social-media-accounts";
+export const SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH = "/admin/social-media-accounts";
 export const CREATE_SOCIAL_MEDIA_POST_PAGE_PATH = "/create-social-media-post";
 export const CREATE_TEMPLATE_SOCIAL_MEDIA_POST_PAGE_PATH = "/create-template-social-media-post";
 export const SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH = "/sysadmin/manage-organisations";
 export const SYSADMIN_ADD_USERS_PAGE_PATH = "/sysadmin/users";
 export const SYSADMIN_ADD_ORG_PAGE_PATH = "/sysadmin/org";
 export const DISRUPTION_NOT_FOUND_ERROR_PAGE = "/disruption-not-found";
+export const TWITTER_CALLBACK = "/api/twitter-callback";
 
 // COOKIES
 export const COOKIES_DISRUPTION_ERRORS = "cdd-disruption-errors";
@@ -326,12 +327,12 @@ export const COOKIES_REFRESH_TOKEN = "cdd-refresh-token";
 export const COOKIE_CSRF = "_csrf";
 export const COOKIES_REVIEW_DISRUPTION_ERRORS = "cdd-consequence-review-disruption-errors";
 export const COOKIES_DISRUPTION_DETAIL_ERRORS = "cdd-disruption-detail-errors";
-export const COOKIES_SOCIAL_MEDIA_ERRORS = "cdd-social-media-errors";
-export const COOKIES_TWITTER_CODE_VERIFIER = "cdd-twitter-code-verifier";
+export const COOKIES_SOCIAL_MEDIA_ERRORS = "cdd-consequence-network-errors";
+export const COOKIES_TWITTER_OAUTH_TOKEN = "cdd-twitter-oauth-token";
+export const COOKIES_TWITTER_OAUTH_SECRET = "cdd-twitter-oauth-secret";
 export const COOKIES_REVIEW_TEMPLATE_ERRORS = "cdd-consequence-review-template-errors";
 export const COOKIES_TEMPLATE_OVERVIEW_ERRORS = "cdd-template_overview-errors";
 export const COOKIES_TEMPLATE_SOCIAL_MEDIA_ERRORS = "cdd-template-social-media-errors";
-export const COOKIES_TWITTER_STATE = "cdd-twitter-state";
 export const COOKIES_HOOTSUITE_STATE = "cdd-hootsuite-state";
 export const COOKIES_LOGIN_REDIRECT = "cdd-login-redirect";
 

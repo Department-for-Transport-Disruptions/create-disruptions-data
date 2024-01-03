@@ -450,6 +450,7 @@ const ViewAllContents = ({
 }: ViewAllContentProps): ReactElement => {
     const [selectedServices, setSelectedServices] = useState<Service[]>([]);
     const [selectedOperators, setSelectedOperators] = useState<ConsequenceOperators[]>([]);
+    const [servicesDataSource, setServicesDataSource] = useState<Datasource | "all">("all");
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const stateUpdater = (change: ConsequenceOperators[], _field: string): void => {
@@ -475,6 +476,7 @@ const ViewAllContents = ({
     const [servicesList, setServicesList] = useState<Service[]>([]);
     const [operatorsList, setOperatorsList] = useState<Operator[]>([]);
     const [popUpState, setPopUpState] = useState(false);
+    const [combinedServicesList, setCombinedServicesList] = useState<Service[]>([]);
     const [downloadPdf, setDownloadPdf] = useState(false);
     const [downloadExcel, setDownloadExcel] = useState(false);
     const [downloadCsv, setDownloadCsv] = useState(false);
@@ -672,9 +674,19 @@ const ViewAllContents = ({
             ...filterServices(servicesTndsData),
         ]);
 
+        setCombinedServicesList(combinedServices);
+
         setOperatorsList(operators);
         setServicesList(combinedServices);
     };
+
+    useEffect(() => {
+        setServicesList(
+            servicesDataSource === "all"
+                ? combinedServicesList
+                : combinedServicesList.filter((service) => service.dataSource === servicesDataSource),
+        );
+    }, [servicesDataSource, combinedServicesList]);
 
     const cancelActionHandler = (): void => {
         setPopUpState(false);
@@ -823,6 +835,8 @@ const ViewAllContents = ({
                         setSelectedServices={setSelectedServices}
                         selectedServices={selectedServices}
                         reset={clearButtonClicked}
+                        handleDataSourceUpdate={(dataSource) => setServicesDataSource(dataSource as Datasource)}
+                        dataSource={servicesDataSource}
                     />
 
                     {filter.services.length > 0 ? <Table rows={formatServicesIntoRows(filter, setFilter)} /> : null}

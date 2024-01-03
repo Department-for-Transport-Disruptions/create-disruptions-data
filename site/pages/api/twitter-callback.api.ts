@@ -1,7 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { parseCookies } from "nookies";
-import { COOKIES_TWITTER_CODE_VERIFIER, COOKIES_TWITTER_STATE, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH } from "../../constants";
-import { addTwitterAccount } from "../../data/twitter";
+import { COOKIES_TWITTER_OAUTH_SECRET, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH } from "../../constants";
+import { addSocialAccountToOrg } from "../../data/dynamo";
+import { putParameter } from "../../data/ssm";
+import { getTwitterClient, getTwitterSsmAccessSecretKey, getTwitterSsmAccessTokenKey } from "../../data/twitter";
 import { redirectTo, redirectToError } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 
@@ -13,21 +15,47 @@ const twitterCallback = async (req: NextApiRequest, res: NextApiResponse) => {
             throw new Error("Not authorised");
         }
 
-        const { code, state } = req.query;
+        const { oauth_token: oauthToken, oauth_verifier: oauthVerifier } = req.query;
         const cookies = parseCookies({ req });
 
-        const savedState = cookies[COOKIES_TWITTER_STATE];
-        const codeVerifier = cookies[COOKIES_TWITTER_CODE_VERIFIER];
+        const oauthSecret = cookies[COOKIES_TWITTER_OAUTH_SECRET];
 
-        if (!code || !state || !savedState || !codeVerifier) {
+        if (!oauthToken || !oauthVerifier || !oauthSecret) {
             throw new Error("Missing required data");
         }
 
-        if (state !== savedState) {
-            throw new Error("States do not match");
-        }
+        const client = await getTwitterClient({
+            oauthToken: oauthToken.toString(),
+            oauthSecret,
+        });
 
-        await addTwitterAccount(code.toString(), codeVerifier, session.orgId, session.name, session.operatorOrgId);
+        const { client: authedClient, accessToken, accessSecret } = await client.login(oauthVerifier.toString());
+
+        const twitterDetails = await authedClient.v2.me();
+
+        await addSocialAccountToOrg(
+            session.orgId,
+            twitterDetails.data.id,
+            twitterDetails.data.name,
+            session.name,
+            "Twitter",
+            session.operatorOrgId,
+        );
+
+        await Promise.all([
+            putParameter(
+                getTwitterSsmAccessTokenKey(session.orgId, twitterDetails.data.id),
+                accessToken,
+                "SecureString",
+                true,
+            ),
+            putParameter(
+                getTwitterSsmAccessSecretKey(session.orgId, twitterDetails.data.id),
+                accessSecret,
+                "SecureString",
+                true,
+            ),
+        ]);
 
         redirectTo(res, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH);
         return;

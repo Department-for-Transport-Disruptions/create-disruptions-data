@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`pages > CreateSocialMediaPost > should render correctly with inputs and no errors 1`] = `
+exports[`socialMediaAccounts > should render correctly when there are no inputs 1`] = `
 [
   <div
     className="app-phase-banner__wrapper"
@@ -51,160 +51,82 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
       className="govuk-main-wrapper"
       id="main-content"
     >
-      <form
-        action="/api/create-social-media-post?_csrf="
-        encType="multipart/form-data"
-        method="post"
+      <h1
+        className="govuk-heading-xl"
       >
-        <div
-          className="govuk-form-group"
+        Social media accounts
+      </h1>
+      <table
+        className="govuk-table"
+      >
+        <thead
+          className="govuk-table__head"
         >
-          <h1
-            className="govuk-heading-xl"
+          <tr
+            className="govuk-table__row"
           >
-            Social media message
-          </h1>
-          <div
-            className="govuk-form-group govuk-!-padding-top-3"
-          >
-            <div
-              className="govuk-form-group"
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
             >
-              <div
-                className="govuk-form-group"
-                id="social-account"
-              >
-                <label
-                  className="govuk-label govuk-label--l"
-                  htmlFor="social-account-input"
-                >
-                  Select social media account
-                </label>
-                <div
-                  className=""
-                >
-                  <select
-                    className="govuk-select w-3/4"
-                    defaultValue="13958638"
-                    id="social-account-input"
-                    name="socialAccount"
-                    onChange={[Function]}
-                  >
-                    <option
-                      disabled={true}
-                      value=""
-                    >
-                      Social account
-                    </option>
-                    <option
-                      value="138196022"
-                    >
-                      testemail@gmail.com (Hootsuite)
-                    </option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className="govuk-form-group"
-          >
-            <div
-              className="govuk-form-group"
-              id="message-content"
+              Account type
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
             >
-              <div
-                className=""
-              >
-                <div
-                  className="govuk-form-group"
-                >
-                  <div
-                    className="govuk-form-group"
-                    id="message-content"
-                  >
-                    <label
-                      className="govuk-label govuk-label--l"
-                      htmlFor="message-content-input"
-                    >
-                      Message content
-                    </label>
-                    <div
-                      className="govuk-hint"
-                      id="message-content-hint"
-                    >
-                      You can enter up to 280 characters
-                    </div>
-                    <div
-                      className=""
-                    >
-                      <textarea
-                        aria-describedby="message-content-hint"
-                        className="govuk-textarea w-3/4"
-                        defaultValue="Test post 12345"
-                        id="message-content-input"
-                        maxLength={280}
-                        name="messageContent"
-                        onChange={[Function]}
-                        rows={3}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <br />
-          <div
-            className="govuk-form-group"
-          >
-            <fieldset
-              className="govuk-fieldset"
+              Username/page
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
             >
-              <legend
-                className="govuk-fieldset__legend govuk-fieldset__legend--m"
-              >
-                <h2
-                  className="govuk-fieldset__heading govuk-visually-hidden"
-                  id="passenger-type-page-heading"
-                >
-                  Upload file
-                </h2>
-              </legend>
-              <div
-                className=""
-              >
-                <input
-                  accept="image/png, image/jpeg, image/jpg"
-                  className="govuk-file-upload"
-                  id="image"
-                  name="image"
-                  type="file"
-                />
-              </div>
-            </fieldset>
-          </div>
-        </div>
-        <input
-          name="disruptionId"
-          type="hidden"
+              Added by
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
+            >
+              Expires in
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
+            >
+              Hootsuite Profiles
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
+            >
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          className="govuk-table__body"
         />
-        <input
-          name="socialMediaPostIndex"
-          type="hidden"
-          value={0}
-        />
-        <input
-          name="createdByOperatorOrgId"
-          type="hidden"
-        />
-        <button
-          className="govuk-button mt-8"
-          data-module="govuk-button"
-        >
-          Save and continue
-        </button>
-      </form>
+      </table>
+      <a
+        className="govuk-button mt-8 mr-4"
+        data-module="govuk-button"
+        href="https://hootsuite-test-auth.com"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        Connect Hootsuite
+      </a>
+      <a
+        className="govuk-button mt-8"
+        data-module="govuk-button"
+        href="https://twitter-test-auth.com"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        Connect Twitter
+      </a>
     </main>
     <div>
       <h2
@@ -397,7 +319,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
 ]
 `;
 
-exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 1`] = `
+exports[`socialMediaAccounts > should render correctly with inputs 1`] = `
 [
   <div
     className="app-phase-banner__wrapper"
@@ -448,165 +370,155 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
       className="govuk-main-wrapper"
       id="main-content"
     >
-      <form
-        action="/api/create-social-media-post?_csrf="
-        encType="multipart/form-data"
-        method="post"
+      <h1
+        className="govuk-heading-xl"
       >
-        <div
-          className="govuk-form-group"
+        Social media accounts
+      </h1>
+      <table
+        className="govuk-table"
+      >
+        <thead
+          className="govuk-table__head"
         >
-          <h1
-            className="govuk-heading-xl"
+          <tr
+            className="govuk-table__row"
           >
-            Social media message
-          </h1>
-          <div
-            className="govuk-form-group govuk-!-padding-top-3"
-          >
-            <div
-              className="govuk-form-group"
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
             >
-              <div
-                className="govuk-form-group"
-                id="social-account"
-              >
-                <label
-                  className="govuk-label govuk-label--l"
-                  htmlFor="social-account-input"
-                >
-                  Select social media account
-                </label>
-                <div
-                  className=""
-                >
-                  <select
-                    className="govuk-select w-3/4"
-                    defaultValue=""
-                    id="social-account-input"
-                    name="socialAccount"
-                    onChange={[Function]}
-                  >
-                    <option
-                      disabled={true}
-                      value=""
-                    >
-                      Social account
-                    </option>
-                  </select>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div
-            className="govuk-form-group"
-          >
-            <div
-              className="govuk-form-group"
-              id="message-content"
+              Account type
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
             >
-              <div
-                className=""
-              >
-                <div
-                  className="govuk-form-group"
-                >
-                  <div
-                    className="govuk-form-group"
-                    id="message-content"
-                  >
-                    <label
-                      className="govuk-label govuk-label--l"
-                      htmlFor="message-content-input"
-                    >
-                      Message content
-                    </label>
-                    <div
-                      className="govuk-hint"
-                      id="message-content-hint"
-                    >
-                      You can enter up to 280 characters
-                    </div>
-                    <div
-                      className=""
-                    >
-                      <textarea
-                        aria-describedby="message-content-hint"
-                        className="govuk-textarea w-3/4"
-                        id="message-content-input"
-                        maxLength={280}
-                        name="messageContent"
-                        onChange={[Function]}
-                        rows={3}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <button
-            className="govuk-link"
-            data-module="govuk-button"
-            onClick={[Function]}
-          >
-            <p
-              className="text-govBlue govuk-body-m"
+              Username/page
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
             >
-              Copy from disruption description
-            </p>
-          </button>
-          <br />
-          <div
-            className="govuk-form-group"
-          >
-            <fieldset
-              className="govuk-fieldset"
+              Added by
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
             >
-              <legend
-                className="govuk-fieldset__legend govuk-fieldset__legend--m"
-              >
-                <h2
-                  className="govuk-fieldset__heading govuk-visually-hidden"
-                  id="passenger-type-page-heading"
-                >
-                  Upload file
-                </h2>
-              </legend>
-              <div
-                className=""
-              >
-                <input
-                  accept="image/png, image/jpeg, image/jpg"
-                  className="govuk-file-upload"
-                  id="image"
-                  name="image"
-                  type="file"
-                />
-              </div>
-            </fieldset>
-          </div>
-        </div>
-        <input
-          name="disruptionId"
-          type="hidden"
-        />
-        <input
-          name="socialMediaPostIndex"
-          type="hidden"
-          value={0}
-        />
-        <input
-          name="createdByOperatorOrgId"
-          type="hidden"
-        />
-        <button
-          className="govuk-button mt-8"
-          data-module="govuk-button"
+              Expires in
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
+            >
+              Hootsuite Profiles
+            </th>
+            <th
+              className="govuk-table__header align-middle px-2"
+              scope="col"
+            >
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody
+          className="govuk-table__body"
         >
-          Save and continue
-        </button>
-      </form>
+          <tr
+            className="govuk-table__row"
+          >
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              <p>
+                Hootsuite
+              </p>
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              <p>
+                testemail@gmail.com
+              </p>
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              <p>
+                Test Account
+              </p>
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              <p>
+                Never
+              </p>
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              <li
+                className="list-none"
+              >
+                <a
+                  className="govuk-link text-govBlue"
+                  href="https://twitter.com/intent/user?user_id=1560718270506380122/"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
+                >
+                  Twitter/188295022
+                </a>
+              </li>
+              <li
+                className="list-none"
+              >
+                <a
+                  className="govuk-link text-govBlue"
+                  href="https://www.facebook.com/app_scoped_user_id/990838348810590/"
+                  onClick={[Function]}
+                  onMouseEnter={[Function]}
+                  onTouchStart={[Function]}
+                >
+                  Facebook/138296272
+                </a>
+              </li>
+            </td>
+            <td
+              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              <button
+                className="govuk-link text-govBlue"
+                onClick={[Function]}
+              >
+                Remove
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <a
+        className="govuk-button mt-8 mr-4"
+        data-module="govuk-button"
+        href="https://hootsuite-test-auth.com"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        Connect Hootsuite
+      </a>
+      <a
+        className="govuk-button mt-8"
+        data-module="govuk-button"
+        href="https://twitter-test-auth.com"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        Connect Twitter
+      </a>
     </main>
     <div>
       <h2

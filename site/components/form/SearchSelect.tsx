@@ -1,5 +1,13 @@
 import { Dispatch, Fragment, ReactElement, SetStateAction } from "react";
-import Select, { ControlProps, GroupBase, OptionProps, SingleValue, InputActionMeta } from "react-select";
+import Select, {
+    ControlProps,
+    GroupBase,
+    OptionProps,
+    SingleValue,
+    InputActionMeta,
+    ActionMeta,
+    CSSObjectWithLabel,
+} from "react-select";
 import type { FilterOptionOption } from "react-select/dist/declarations/src/filters";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import Table from "./Table";
@@ -10,7 +18,7 @@ interface SearchSelectProps<T> {
     inputName: string;
     initialErrors?: ErrorInfo[];
     getOptionLabel?: (value: T) => string;
-    handleChange: (value: SingleValue<T>) => void;
+    handleChange: (value: SingleValue<T>, actionMeta: ActionMeta<T>) => void;
     tableData: T[] | undefined;
     getRows: () =>
         | {
@@ -32,6 +40,7 @@ interface SearchSelectProps<T> {
     width?: string;
     onFocus?: () => void;
     onBlur?: () => void;
+    closeMenuOnSelect?: boolean;
 }
 const SearchSelect = <T extends object>({
     selected,
@@ -55,19 +64,17 @@ const SearchSelect = <T extends object>({
     width,
     onFocus,
     onBlur,
+    closeMenuOnSelect = true,
 }: SearchSelectProps<T>): ReactElement => {
     const handleInputChange = (value: string, { action }: InputActionMeta) => {
-        if (action !== "input-blur" && action !== "menu-close") {
+        if (action === "menu-close" || action === "input-blur" || action === "set-value") {
+            return;
+        } else {
             setSearchInput(value);
-            if (value.trim() === "") {
-                setSearchInput("");
-            } else {
-                setSearchInput(value);
-            }
         }
     };
 
-    const controlStyles = (state: ControlProps<T, false, GroupBase<T>>) => ({
+    const controlStyles = (state: ControlProps<T, false, GroupBase<T>>): CSSObjectWithLabel => ({
         fontFamily: "GDS Transport, arial, sans-serif",
         border: "black solid 3px",
         outline: state.isFocused ? "#ffdd00 solid 3px" : "none",
@@ -77,7 +84,7 @@ const SearchSelect = <T extends object>({
         width: width ? width : "75%",
     });
 
-    const optionStyles = (state: OptionProps<T, false, GroupBase<T>>) => ({
+    const optionStyles = (state: OptionProps<T, false, GroupBase<T>>): CSSObjectWithLabel => ({
         color: state.isFocused ? "white" : "black",
         backgroundColor: state.isFocused ? "#3399ff" : "white",
     });
@@ -106,6 +113,7 @@ const SearchSelect = <T extends object>({
                             }),
                         }}
                         value={selected}
+                        closeMenuOnSelect={closeMenuOnSelect}
                         placeholder={placeholder}
                         getOptionLabel={getOptionLabel}
                         getOptionValue={getOptionValue}
