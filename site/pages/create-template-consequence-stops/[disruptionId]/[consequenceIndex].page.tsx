@@ -9,7 +9,7 @@ import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
-import { SingleValue } from "react-select";
+import { ActionMeta, SingleValue } from "react-select";
 import DeleteTemplateButton from "../../../components/buttons/DeleteTemplateButton";
 import CsrfForm from "../../../components/form/CsrfForm";
 import ErrorSummary from "../../../components/form/ErrorSummary";
