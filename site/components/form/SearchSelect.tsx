@@ -5,6 +5,7 @@ import Select, {
     OptionProps,
     SingleValue,
     InputActionMeta,
+    ActionMeta,
     CSSObjectWithLabel,
 } from "react-select";
 import type { FilterOptionOption } from "react-select/dist/declarations/src/filters";
@@ -17,7 +18,7 @@ interface SearchSelectProps<T> {
     inputName: string;
     initialErrors?: ErrorInfo[];
     getOptionLabel?: (value: T) => string;
-    handleChange: (value: SingleValue<T>) => void;
+    handleChange: (value: SingleValue<T>, actionMeta: ActionMeta<T>) => void;
     tableData: T[] | undefined;
     getRows: () =>
         | {
@@ -39,6 +40,7 @@ interface SearchSelectProps<T> {
     width?: string;
     onFocus?: () => void;
     onBlur?: () => void;
+    closeMenuOnSelect?: boolean;
 }
 const SearchSelect = <T extends object>({
     selected,
@@ -62,15 +64,13 @@ const SearchSelect = <T extends object>({
     width,
     onFocus,
     onBlur,
+    closeMenuOnSelect = true,
 }: SearchSelectProps<T>): ReactElement => {
     const handleInputChange = (value: string, { action }: InputActionMeta) => {
-        if (action !== "input-blur" && action !== "menu-close") {
+        if (action === "menu-close" || action === "input-blur" || action === "set-value") {
+            return;
+        } else {
             setSearchInput(value);
-            if (value.trim() === "") {
-                setSearchInput("");
-            } else {
-                setSearchInput(value);
-            }
         }
     };
 
@@ -113,6 +113,7 @@ const SearchSelect = <T extends object>({
                             }),
                         }}
                         value={selected}
+                        closeMenuOnSelect={closeMenuOnSelect}
                         placeholder={placeholder}
                         getOptionLabel={getOptionLabel}
                         getOptionValue={getOptionValue}

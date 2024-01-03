@@ -53,6 +53,7 @@ export const SiteStack = ({ stack }: StackContext) => {
 
     const site = new NextjsSite(stack, "Site", {
         path: "site/",
+        runtime: "nodejs20.x",
         warm: stack.stage === "prod" || stack.stage === "preprod" ? 50 : 10,
         dev: {
             deploy: false,

@@ -10,11 +10,11 @@
         "import-sirisx": "node --experimental-specifier-resolution=node --experimental-modules --no-warnings --loader ts-node/esm  index.ts"
     },
     "devDependencies": {
-        "@tsconfig/node18": "^18.2.2",
+        "@tsconfig/node20": "^20.1.2",
         "@types/aws-lambda": "^8.10.110",
         "@types/jstoxml": "^2.0.2",
         "@types/lambda-log": "^2.2.1",
-        "@types/node": "^18.18.6",
+        "@types/node": "^20.10.5",
         "@types/xml2js": "^0.4.11",
         "aws-sdk-client-mock": "^2.1.0",
         "dayjs": "^1.11.7",
