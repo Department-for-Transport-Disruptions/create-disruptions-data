@@ -108,6 +108,33 @@ export const SiriAPIStack = ({ stack }: StackContext) => {
                     },
                 },
             },
+            "GET    /organisations/{id}/disruptions/{disruptionId}": {
+                function: {
+                    handler: "packages/organisations-api/get-organisation-disruption/index.main",
+                    permissions: [
+                        new PolicyStatement({
+                            resources: [disruptionsTable.tableArn],
+                            actions: ["dynamodb:Query"],
+                        }),
+                    ],
+                    environment: {
+                        DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
+                        API_BASE_URL: apiUrl,
+                    },
+                },
+                cdk: {
+                    integration: {
+                        cacheKeyParameters: ["method.request.path.id", "method.request.path.disruptionId"],
+                    },
+                    method: {
+                        apiKeyRequired: true,
+                        requestParameters: {
+                            "method.request.path.id": true,
+                            "method.request.path.disruptionId": true,
+                        },
+                    },
+                },
+            },
         },
     });
 

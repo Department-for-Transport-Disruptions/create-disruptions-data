@@ -6,6 +6,7 @@ import {
     ScanCommand,
     ScanCommandInput,
 } from "@aws-sdk/lib-dynamodb";
+import { inspect } from "util";
 import { getDate, getDatetimeFromDateAndTime, isCurrentOrUpcomingDisruption } from "./dates";
 import { makeZodArray } from "./zod";
 import { Disruption } from "../disruptionTypes";
@@ -329,4 +330,49 @@ export const getOrganisationInfoAndStats = async (
 
         throw e;
     }
+};
+
+export const getPublishedDisruptionById = async (
+    orgId: string,
+    disruptionId: string,
+    tableName: string,
+    logger: Logger,
+): Promise<Disruption | null> => {
+    logger.info(`Retrieving (${disruptionId}) from DynamoDB table...`);
+    const disruptionItems = await recursiveQuery(
+        {
+            TableName: tableName,
+            KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
+            ExpressionAttributeValues: {
+                ":1": orgId,
+                ":2": `${disruptionId}`,
+            },
+        },
+        logger,
+    );
+
+    if (!disruptionItems) {
+        return null;
+    }
+
+    const info = disruptionItems.find((item) => item.SK === `${disruptionId}#INFO`);
+
+    const consequences = disruptionItems.filter(
+        (item) =>
+            ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
+                !((item.SK as string).includes("#EDIT") || (item.SK as string).includes("#PENDING"))) ??
+            false,
+    );
+
+    const parsedDisruption = disruptionSchema.safeParse({
+        ...info,
+        consequences: consequences,
+    });
+
+    if (!parsedDisruption.success) {
+        logger.warn(inspect(parsedDisruption.error));
+        logger.warn(`Invalid disruption ${disruptionId} in Dynamo`);
+        return null;
+    }
+    return parsedDisruption.data;
 };
