@@ -1,4 +1,4 @@
-import { getDisruptionById } from "@create-disruptions-data/shared-ts/utils/dynamo";
+import { getPublishedDisruptionById } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { APIGatewayEvent } from "aws-lambda";
 import * as logger from "lambda-log";
 import { randomUUID } from "crypto";
@@ -7,7 +7,7 @@ const getOrganisationDisruptionById = async (orgId: string, disruptionId: string
     try {
         const disruptionsTableName = process.env.DISRUPTIONS_TABLE_NAME as string;
 
-        const disruption = getDisruptionById(orgId, disruptionId, disruptionsTableName, logger);
+        const disruption = getPublishedDisruptionById(orgId, disruptionId, disruptionsTableName, logger);
 
         return disruption;
     } catch (e) {
@@ -42,7 +42,7 @@ export const main = async (event: APIGatewayEvent): Promise<{ statusCode: number
             throw new Error("A disruption ID must be provided");
         }
 
-        logger.info(`Retrieving disruptions data for orgId: (${orgId}) ...`);
+        logger.info(`Retrieving disruption data for orgId: (${orgId}), disruption id: (${disruptionId}) ...`);
 
         const disruptionData = await getOrganisationDisruptionById(orgId, disruptionId);
 

@@ -332,7 +332,6 @@ const ReviewDisruption = ({
                         : "",
                     false,
                     disruption.template,
-                    ,
                 ],
             };
         });

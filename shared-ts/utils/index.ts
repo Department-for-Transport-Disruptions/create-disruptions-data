@@ -1,8 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Dayjs } from "dayjs";
-import lowerCase from "lodash/lowerCase";
-import startCase from "lodash/startCase";
-import upperFirst from "lodash/upperFirst";
 import { History } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { getDate, getDatetimeFromDateAndTime, getFormattedDate, sortEarliestDate } from "./dates";
 import { Disruption, Validity } from "../disruptionTypes";
@@ -133,5 +130,3 @@ export const getDisruptionCreationTime = (disruptionHistory: History[] | null, c
         return currentTime;
     }
 };
-
-export const splitCamelCaseToString = (s: string) => upperFirst(lowerCase(startCase(s)));
