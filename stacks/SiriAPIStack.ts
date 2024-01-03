@@ -88,6 +88,22 @@ export const SiriAPIStack = ({ stack }: StackContext) => {
                 },
                 cdk: { method: { apiKeyRequired: true } },
             },
+            "GET    /organisations/{id}/disruptions/{disruptionId}": {
+                function: {
+                    handler: "packages/organisations-api/get-organisation-disruption/index.main",
+                    permissions: [
+                        new PolicyStatement({
+                            resources: [disruptionsTable.tableArn],
+                            actions: ["dynamodb:Query"],
+                        }),
+                    ],
+                    environment: {
+                        DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
+                        API_BASE_URL: apiUrl,
+                    },
+                },
+                cdk: { method: { apiKeyRequired: true } },
+            },
         },
     });
 

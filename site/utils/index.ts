@@ -11,9 +11,7 @@ import {
 } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Datasource, Modes, VehicleMode, PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
-import lowerCase from "lodash/lowerCase";
 import startCase from "lodash/startCase";
-import upperFirst from "lodash/upperFirst";
 import { NextApiResponse, NextPageContext } from "next";
 import { ZodError, ZodErrorMap } from "zod";
 import { ServerResponse } from "http";
@@ -61,8 +59,6 @@ export const redirectTo = (res: NextApiResponse | ServerResponse, location: stri
 
 export const getCsrfToken = (ctx: NextPageContext): string =>
     ctx.res?.getHeader("x-csrf-token")?.toString() ?? "missing";
-
-export const splitCamelCaseToString = (s: string) => upperFirst(lowerCase(startCase(s)));
 
 export const getDisplayByValue = (items: DisplayValuePair[], value: string) =>
     items.find((item) => item.value === value)?.display;

@@ -6,6 +6,7 @@ import {
     ScanCommand,
     ScanCommandInput,
 } from "@aws-sdk/lib-dynamodb";
+import { inspect } from "util";
 import { getDate, getDatetimeFromDateAndTime, isCurrentOrUpcomingDisruption } from "./dates";
 import { makeZodArray } from "./zod";
 import { Disruption } from "../disruptionTypes";
@@ -17,7 +18,7 @@ import {
     organisationSchema,
     OrganisationWithStats,
 } from "../organisationTypes";
-import { Logger, notEmpty, sortDisruptionsByStartDate } from "./index";
+import { Logger, notEmpty, sortDisruptionsByStartDate, splitCamelCaseToString } from "./index";
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
 
@@ -329,4 +330,204 @@ export const getOrganisationInfoAndStats = async (
 
         throw e;
     }
+};
+
+export const getDisruptionById = async (
+    orgId: string,
+    disruptionId: string,
+    tableName: string,
+    logger: Logger,
+): Promise<Disruption | null> => {
+    logger.info(`Retrieving (${disruptionId}) from DynamoDB table...`);
+    const disruptionItems = await recursiveQuery(
+        {
+            TableName: tableName,
+            KeyConditionExpression: "PK = :1 and begins_with(SK, :2)",
+            ExpressionAttributeValues: {
+                ":1": orgId,
+                ":2": `${disruptionId}`,
+            },
+        },
+        logger,
+    );
+
+    if (!disruptionItems) {
+        return null;
+    }
+    const isEdited = disruptionItems.some((item) => (item.SK as string).includes("#EDIT"));
+    const isPending = disruptionItems.some((item) => (item.SK as string).includes("#PENDING"));
+
+    let info = disruptionItems.find((item) => item.SK === `${disruptionId}#INFO`);
+
+    const consequences = disruptionItems.filter(
+        (item) =>
+            ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
+                !((item.SK as string).includes("#EDIT") || (item.SK as string).includes("#PENDING"))) ??
+            false,
+    );
+    const socialMediaPosts = disruptionItems.filter(
+        (item) =>
+            ((item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
+                !((item.SK as string).includes("#EDIT") || (item.SK as string).includes("#PENDING"))) ??
+            false,
+    );
+
+    const history = disruptionItems.filter(
+        (item) => (item.SK as string).startsWith(`${disruptionId}#HISTORY`) ?? false,
+    );
+
+    const newHistoryItems: string[] = [];
+
+    if (isPending) {
+        info = disruptionItems.find((item) => item.SK === `${disruptionId}#INFO#PENDING`) ?? info;
+        const pendingConsequences = disruptionItems.filter(
+            (item) =>
+                ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
+                    (item.SK as string).includes("#PENDING")) ??
+                false,
+        );
+        pendingConsequences.forEach((pendingConsequence) => {
+            const existingIndex = consequences.findIndex(
+                (c) => c.consequenceIndex === pendingConsequence.consequenceIndex,
+            );
+            if (existingIndex > -1) {
+                consequences[existingIndex] = pendingConsequence;
+            } else {
+                consequences.push(pendingConsequence);
+            }
+        });
+
+        const pendingSocialMediaPosts = disruptionItems.filter(
+            (item) =>
+                ((item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
+                    (item.SK as string).includes("#PENDING")) ??
+                false,
+        );
+        pendingSocialMediaPosts.forEach((pendingSocialMediaPost) => {
+            const existingIndex = socialMediaPosts.findIndex(
+                (s) => s.socialMediaPostIndex === pendingSocialMediaPost.socialMediaPostIndex,
+            );
+            if (existingIndex > -1) {
+                socialMediaPosts[existingIndex] = pendingSocialMediaPost;
+            } else {
+                socialMediaPosts.push(pendingSocialMediaPost);
+            }
+        });
+    }
+
+    if (isEdited) {
+        const editedInfo = disruptionItems.find((item) => item.SK === `${disruptionId}#INFO#EDIT`);
+
+        if (editedInfo) {
+            newHistoryItems.push("Disruption Overview: Edited");
+        }
+
+        info = editedInfo
+            ? {
+                  ...editedInfo,
+                  isEdited: true,
+              }
+            : info;
+
+        const editedSocialMediaPosts = disruptionItems.filter(
+            (item) =>
+                ((item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
+                    (item.SK as string).includes("#EDIT")) ??
+                false,
+        );
+        editedSocialMediaPosts.forEach((editedSocialMediaPost) => {
+            const existingIndex = socialMediaPosts.findIndex(
+                (s) => s.socialMediaPostIndex === editedSocialMediaPost.socialMediaPostIndex,
+            );
+            if (existingIndex > -1) {
+                socialMediaPosts[existingIndex] = editedSocialMediaPost;
+            } else {
+                socialMediaPosts.push(editedSocialMediaPost);
+            }
+        });
+
+        const editedConsequences = disruptionItems.filter(
+            (item) =>
+                ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
+                    (item.SK as string).includes("#EDIT")) ??
+                false,
+        );
+        editedConsequences.forEach((editedConsequence) => {
+            const existingIndex = consequences.findIndex(
+                (c) => c.consequenceIndex === editedConsequence.consequenceIndex,
+            );
+            if (existingIndex > -1) {
+                if (editedConsequence.isDeleted) {
+                    newHistoryItems.push(
+                        `Disruption Consequence - ${splitCamelCaseToString(
+                            consequences[existingIndex].consequenceType as string,
+                        )}: Deleted`,
+                    );
+                } else {
+                    newHistoryItems.push(
+                        `Disruption Consequence - ${splitCamelCaseToString(
+                            editedConsequence.consequenceType as string,
+                        )}: Edited`,
+                    );
+                }
+
+                consequences[existingIndex] = editedConsequence;
+            } else {
+                if (editedConsequence.consequenceType) {
+                    newHistoryItems.push(
+                        `Disruption Consequence - ${splitCamelCaseToString(
+                            editedConsequence.consequenceType as string,
+                        )}: Added`,
+                    );
+
+                    consequences.push(editedConsequence);
+                }
+            }
+        });
+    }
+
+    const consequencesToShow: Record<string, unknown>[] = [];
+    const socialMediaPostsToShow: Record<string, unknown>[] = [];
+    const deletedSocialMediaPosts: Record<string, unknown>[] = [];
+    const deletedConsequences: Record<string, unknown>[] = [];
+
+    consequences.forEach((consequence) => {
+        if (consequence.isDeleted) {
+            deletedConsequences.push(consequence);
+        } else {
+            consequencesToShow.push(consequence);
+        }
+    });
+
+    socialMediaPosts.forEach((socialMediaPost) => {
+        if (socialMediaPost.isDeleted) {
+            deletedSocialMediaPosts.push(socialMediaPost);
+        } else {
+            socialMediaPostsToShow.push(socialMediaPost);
+        }
+    });
+
+    const parsedDisruption = disruptionSchema.safeParse({
+        ...info,
+        consequences: consequencesToShow,
+        socialMediaPosts: socialMediaPostsToShow,
+        deletedConsequences,
+        history: history,
+        newHistory: newHistoryItems,
+        template: false,
+        publishStatus:
+            (isPending && (info?.publishStatus === PublishStatus.published || !info?.publishStatus)) ||
+            (isPending && isEdited)
+                ? PublishStatus.pendingAndEditing
+                : isEdited
+                ? PublishStatus.editing
+                : (info?.publishStatus as string),
+    });
+
+    if (!parsedDisruption.success) {
+        logger.warn(inspect(parsedDisruption.error));
+        logger.warn(`Invalid disruption ${disruptionId} in Dynamo`);
+        return null;
+    }
+    return parsedDisruption.data;
 };
