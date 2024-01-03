@@ -70,7 +70,17 @@ export const SiriAPIStack = ({ stack }: StackContext) => {
                         ORGANISATIONS_TABLE_NAME: organisationsTable.tableName,
                     },
                 },
-                cdk: { method: { apiKeyRequired: true } },
+                cdk: {
+                    integration: {
+                        cacheKeyParameters: ["method.request.path.id"],
+                    },
+                    method: {
+                        apiKeyRequired: true,
+                        requestParameters: {
+                            "method.request.path.id": true,
+                        },
+                    },
+                },
             },
             "GET    /organisations/{id}/disruptions": {
                 function: {
@@ -86,7 +96,17 @@ export const SiriAPIStack = ({ stack }: StackContext) => {
                         API_BASE_URL: apiUrl,
                     },
                 },
-                cdk: { method: { apiKeyRequired: true } },
+                cdk: {
+                    integration: {
+                        cacheKeyParameters: ["method.request.path.id"],
+                    },
+                    method: {
+                        apiKeyRequired: true,
+                        requestParameters: {
+                            "method.request.path.id": true,
+                        },
+                    },
+                },
             },
         },
     });
