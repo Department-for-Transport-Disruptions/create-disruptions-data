@@ -10,7 +10,7 @@ import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
-import { createFilter, SingleValue } from "react-select";
+import { ActionMeta, createFilter, SingleValue } from "react-select";
 import type { FilterOptionOption } from "react-select/dist/declarations/src/filters";
 import DeleteTemplateButton from "../../../components/buttons/DeleteTemplateButton";
 import CsrfForm from "../../../components/form/CsrfForm";
@@ -199,7 +199,10 @@ const CreateTemplateConsequenceServices = (props: CreateConsequenceServicesProps
 
     const displayCancelButton = isEditing || !!props.inputs.description;
 
-    const handleStopChange = async (value: SingleValue<Stop>) => {
+    const handleStopChange = async (value: SingleValue<Stop>, actionMeta: ActionMeta<Stop>) => {
+        if (actionMeta.action === "clear") {
+            setStopsSearchInput("");
+        }
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
             await addStop(value);
         }
@@ -299,7 +302,10 @@ const CreateTemplateConsequenceServices = (props: CreateConsequenceServicesProps
         }
     };
 
-    const handleServiceChange = (value: SingleValue<Service>) => {
+    const handleServiceChange = (value: SingleValue<Service>, actionMeta: ActionMeta<Service>) => {
+        if (actionMeta.action === "clear") {
+            setServicesSearchInput("");
+        }
         setSelectedService(value);
         if (!pageState.inputs.services || !pageState.inputs.services.some((data) => data.id === value?.id)) {
             addService(value);
@@ -500,6 +506,7 @@ const CreateTemplateConsequenceServices = (props: CreateConsequenceServicesProps
                         />
 
                         <SearchSelect<Service>
+                            closeMenuOnSelect={false}
                             selected={selectedService}
                             inputName="service"
                             initialErrors={pageState.errors}
@@ -523,6 +530,7 @@ const CreateTemplateConsequenceServices = (props: CreateConsequenceServicesProps
                         />
 
                         <SearchSelect<Stop>
+                            closeMenuOnSelect={false}
                             selected={selected}
                             inputName="stop"
                             initialErrors={pageState.errors}

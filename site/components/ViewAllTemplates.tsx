@@ -450,6 +450,7 @@ const ViewAllTemplates = ({
 }: ViewAllContentProps): ReactElement => {
     const [selectedServices, setSelectedServices] = useState<Service[]>([]);
     const [selectedOperators, setSelectedOperators] = useState<ConsequenceOperators[]>([]);
+    const [servicesDataSource, setServicesDataSource] = useState<Datasource | "all">("all");
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const stateUpdater = (change: ConsequenceOperators[], _field: string): void => {
@@ -823,6 +824,8 @@ const ViewAllTemplates = ({
                         setSelectedServices={setSelectedServices}
                         selectedServices={selectedServices}
                         reset={clearButtonClicked}
+                        handleDataSourceUpdate={(dataSource) => setServicesDataSource(dataSource as Datasource)}
+                        dataSource={servicesDataSource}
                     />
 
                     {filter.services.length > 0 ? <Table rows={formatServicesIntoRows(filter, setFilter)} /> : null}

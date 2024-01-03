@@ -65,7 +65,10 @@ const CreateTemplateConsequenceStops = (props: CreateConsequenceStopsProps): Rea
 
     const { consequenceCount = 0 } = props;
 
-    const handleChange = (value: SingleValue<Stop>) => {
+    const handleChange = (value: SingleValue<Stop>, actionMeta: ActionMeta<Stop>) => {
+        if (actionMeta.action === "clear") {
+            setSearchInput("");
+        }
         if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
             addStop(value);
         }
@@ -222,6 +225,7 @@ const CreateTemplateConsequenceStops = (props: CreateConsequenceStopsProps): Rea
                         />
 
                         <SearchSelect<Stop>
+                            closeMenuOnSelect={false}
                             selected={selected}
                             inputName="stop"
                             initialErrors={pageState.errors}
