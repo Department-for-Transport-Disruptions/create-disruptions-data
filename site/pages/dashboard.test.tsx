@@ -1,22 +1,11 @@
-import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, MiscellaneousReason, Progress, Severity } from "@create-disruptions-data/shared-ts/enums";
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import renderer from "react-test-renderer";
-import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
-import Dashboard, { DashboardDisruption, getServerSideProps } from "./dashboard.page";
-import { CD_DATE_FORMAT } from "../constants";
-import * as dynamo from "../data/dynamo";
-import {
-    disruptionArray,
-    disruptionWithConsequencesAndSocialMediaPosts,
-    getMockContext,
-    mockSessionWithOrgDetail,
-} from "../testData/mockData";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import Dashboard, { formatDisruptions } from "./dashboard.page";
+import { TableDisruption } from "../schemas/disruption.schema";
+import { mockSessionWithOrgDetail } from "../testData/mockData";
 import * as session from "../utils/apiUtils/auth";
-import { formatDate } from "../utils/dates";
-
-const getDisruptionsSpy = vi.spyOn(dynamo, "getPublishedDisruptionsDataFromDynamo");
-const getPendingDisruptionsSpy = vi.spyOn(dynamo, "getPendingDisruptionsIdsFromDynamo");
-vi.mock("../data/dynamo");
 
 const getSessionWithOrgDetailSpy = vi.spyOn(session, "getSessionWithOrgDetail");
 vi.mock("../utils/apiUtils/auth", async () => ({
@@ -29,75 +18,16 @@ beforeEach(() => {
 });
 const defaultNewDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
-const recentlyClosedDate = getDate().subtract(4, "day").format(CD_DATE_FORMAT);
-
-const disruptions: DashboardDisruption[] = [
-    {
-        id: "12",
-        summary: "A bad disruption",
-        validityPeriods: [
-            {
-                startTime: "2023-03-21T11:23:24.529Z",
-                endTime: null,
-            },
-        ],
-        displayId: "8fg3ha",
-    },
-    {
-        id: "33",
-        summary: "A more ok disruption",
-        validityPeriods: [
-            {
-                startTime: "2023-03-21T11:23:24.529Z",
-                endTime: "2023-03-22T11:23:24.529Z",
-            },
-        ],
-        displayId: "8fg3ha",
-    },
-    {
-        id: "44",
-        summary: "Another disruption",
-        validityPeriods: [
-            {
-                startTime: "2023-04-21T11:23:24.529Z",
-                endTime: "2024-03-22T11:23:24.529Z",
-            },
-            {
-                startTime: "2023-04-22T11:23:24.529Z",
-                endTime: null,
-            },
-        ],
-        displayId: "8fg3ha",
-    },
-    {
-        id: "55",
-        summary: "Another disruption",
-        validityPeriods: [
-            {
-                startTime: "2023-04-21T11:23:24.529Z",
-                endTime: "2024-03-22T11:23:24.529Z",
-            },
-            {
-                startTime: "2023-04-22T11:23:24.529Z",
-                endTime: null,
-            },
-        ],
-        displayId: "8fg3ha",
-    },
-];
-
 describe("pages", () => {
     describe("dashboard", () => {
-        it("should render correctly when there are no disruptions", () => {
+        it("should render correctly", () => {
             const tree = renderer
                 .create(
                     <Dashboard
-                        liveDisruptions={[]}
-                        upcomingDisruptions={[]}
-                        recentlyClosedDisruptions={[]}
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
                         orgName="Test Org"
+                        orgId="test-id"
                         isOperatorUser={false}
                     />,
                 )
@@ -105,84 +35,14 @@ describe("pages", () => {
             expect(tree).toMatchSnapshot();
         });
 
-        it("should render correctly when there are only live disruptions", () => {
+        it("should render correctly for an operator user", () => {
             const tree = renderer
                 .create(
                     <Dashboard
-                        liveDisruptions={disruptions}
-                        upcomingDisruptions={[]}
-                        recentlyClosedDisruptions={[]}
                         newDisruptionId={defaultNewDisruptionId}
                         canPublish
                         orgName="Test Org"
-                        isOperatorUser={false}
-                    />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
-        });
-
-        it("should render correctly when there are only upcoming disruptions", () => {
-            const tree = renderer
-                .create(
-                    <Dashboard
-                        liveDisruptions={[]}
-                        upcomingDisruptions={disruptions}
-                        recentlyClosedDisruptions={[]}
-                        newDisruptionId={defaultNewDisruptionId}
-                        canPublish
-                        orgName="Test Org"
-                        isOperatorUser={false}
-                    />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
-        });
-
-        it("should render correctly when there are only recently closed disruptions", () => {
-            const tree = renderer
-                .create(
-                    <Dashboard
-                        liveDisruptions={[]}
-                        upcomingDisruptions={[]}
-                        recentlyClosedDisruptions={disruptions}
-                        newDisruptionId={defaultNewDisruptionId}
-                        canPublish
-                        orgName="Test Org"
-                        isOperatorUser={false}
-                    />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
-        });
-
-        it("should render correctly when there are all three live, upcoming and recently closed disruptions", () => {
-            const tree = renderer
-                .create(
-                    <Dashboard
-                        liveDisruptions={[disruptions[0]]}
-                        upcomingDisruptions={[disruptions[1], disruptions[2]]}
-                        recentlyClosedDisruptions={[disruptions[3]]}
-                        newDisruptionId={defaultNewDisruptionId}
-                        canPublish
-                        orgName="Test Org"
-                        isOperatorUser={false}
-                    />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
-        });
-
-        it("should render correctly when there are all three live, upcoming and recently closed disruptions for an operator user", () => {
-            const tree = renderer
-                .create(
-                    <Dashboard
-                        liveDisruptions={[disruptions[0]]}
-                        upcomingDisruptions={[disruptions[1], disruptions[2]]}
-                        recentlyClosedDisruptions={[disruptions[3]]}
-                        newDisruptionId={defaultNewDisruptionId}
-                        canPublish
-                        orgName="Test Org"
+                        orgId="test-id"
                         isOperatorUser={true}
                     />,
                 )
@@ -190,272 +50,299 @@ describe("pages", () => {
             expect(tree).toMatchSnapshot();
         });
 
-        describe("getServerSideProps", () => {
-            afterEach(() => {
-                vi.resetAllMocks();
+        describe("format disruptions", () => {
+            it("correctly groups live disruptions", () => {
+                const disruptions: TableDisruption[] = [
+                    {
+                        id: "c58ba826-ac18-41c5-8476-8172dfa6ea24",
+                        summary: "Alien attack",
+                        validityPeriods: [{ startTime: getDate().subtract(5, "days").toISOString(), endTime: null }],
+                        publishStartDate: "2022-01-05T04:42:17.239Z",
+                        modes: ["Tram"],
+                        services: [],
+                        status: Progress.open,
+                        severity: Severity.verySevere,
+                        dataSource: Datasource.bods,
+                        operators: ["BB"],
+                        displayId: "8fg3ha",
+                        isOperatorWideCq: false,
+                        isNetworkWideCq: true,
+                        isLive: true,
+                        stopsAffectedCount: 0,
+                        servicesAffectedCount: 2,
+                        consequenceLength: 1,
+                        description: "A description",
+                        disruptionReason: MiscellaneousReason.roadworks,
+                        creationTime: "24/11/2023",
+                        disruptionType: "planned",
+                    },
+                    {
+                        id: "12319560-99c1-4da6-8a73-de1220f37056",
+                        summary: "Bigfoot is attacking Parliament",
+                        validityPeriods: [{ startTime: "2023-04-14T04:21:29.085Z", endTime: null }],
+                        publishStartDate: "2022-01-19T11:41:12.445Z",
+                        modes: ["Tram", "Ferry", "Train"],
+                        status: Progress.open,
+                        severity: Severity.severe,
+                        services: [],
+                        dataSource: Datasource.tnds,
+                        operators: ["BB", "SB"],
+                        displayId: "8fg3ha",
+                        isOperatorWideCq: true,
+                        isNetworkWideCq: true,
+                        isLive: true,
+                        stopsAffectedCount: 0,
+                        servicesAffectedCount: 1,
+                        consequenceLength: 1,
+                        description: "A description",
+                        disruptionReason: MiscellaneousReason.roadworks,
+                        creationTime: "24/11/2023",
+                        disruptionType: "planned",
+                    },
+                ];
+                expect(formatDisruptions(disruptions).liveDisruptions).toHaveLength(2);
             });
 
-            beforeEach(() => {
-                getPendingDisruptionsSpy.mockResolvedValue(new Set<string>());
+            it("correctly groups upcoming disruptions", () => {
+                const disruptions: TableDisruption[] = [
+                    {
+                        id: "c58ba826-ac18-41c5-8476-8172dfa6ea24",
+                        summary: "Alien attack",
+                        validityPeriods: [{ startTime: getDate().subtract(10, "days").toISOString(), endTime: null }],
+                        publishStartDate: "2022-01-05T04:42:17.239Z",
+                        modes: ["Tram"],
+                        services: [],
+                        status: Progress.open,
+                        severity: Severity.verySevere,
+                        dataSource: Datasource.bods,
+                        operators: ["BB"],
+                        displayId: "8fg3ha",
+                        isOperatorWideCq: false,
+                        isNetworkWideCq: true,
+                        isLive: false,
+                        stopsAffectedCount: 0,
+                        servicesAffectedCount: 2,
+                        consequenceLength: 1,
+                        description: "A description",
+                        disruptionReason: MiscellaneousReason.roadworks,
+                        creationTime: "24/11/2023",
+                        disruptionType: "planned",
+                    },
+                    {
+                        id: "12319560-99c1-4da6-8a73-de1220f37056",
+                        summary: "Bigfoot is attacking Parliament",
+                        validityPeriods: [{ startTime: "2023-04-14T04:21:29.085Z", endTime: null }],
+                        publishStartDate: "2022-01-19T11:41:12.445Z",
+                        modes: ["Tram", "Ferry", "Train"],
+                        status: Progress.open,
+                        severity: Severity.severe,
+                        services: [],
+                        dataSource: Datasource.tnds,
+                        operators: ["BB", "SB"],
+                        displayId: "8fg3ha",
+                        isOperatorWideCq: true,
+                        isNetworkWideCq: true,
+                        isLive: false,
+                        stopsAffectedCount: 0,
+                        servicesAffectedCount: 1,
+                        consequenceLength: 1,
+                        description: "A description",
+                        disruptionReason: MiscellaneousReason.roadworks,
+                        creationTime: "24/11/2023",
+                        disruptionType: "planned",
+                    },
+                ];
+                expect(formatDisruptions(disruptions).upcomingDisruptions).toHaveLength(2);
             });
 
-            it("should return no disruptions if there is no data returned from the database call", async () => {
-                getDisruptionsSpy.mockResolvedValue([]);
+            it("correctly groups disruptions that have closed in the last 7 days", () => {
+                const disruptions: TableDisruption[] = [
+                    {
+                        id: "c58ba826-ac18-41c5-8476-8172dfa6ea24",
+                        summary: "Alien attack",
+                        validityPeriods: [
+                            {
+                                startTime: getDate().subtract(10, "days").toISOString(),
+                                endTime: getDate().subtract(4, "days").toISOString(),
+                            },
+                        ],
+                        publishStartDate: "2022-01-05T04:42:17.239Z",
+                        modes: ["Tram"],
+                        services: [],
+                        status: Progress.closed,
+                        severity: Severity.verySevere,
+                        dataSource: Datasource.bods,
+                        operators: ["BB"],
+                        displayId: "8fg3ha",
+                        isOperatorWideCq: false,
+                        isNetworkWideCq: true,
+                        isLive: false,
+                        stopsAffectedCount: 0,
+                        servicesAffectedCount: 2,
+                        consequenceLength: 1,
+                        description: "A description",
+                        disruptionReason: MiscellaneousReason.roadworks,
+                        creationTime: "24/11/2023",
+                        disruptionType: "planned",
+                    },
+                    {
+                        id: "12319560-99c1-4da6-8a73-de1220f37056",
+                        summary: "Bigfoot is attacking Parliament",
+                        validityPeriods: [
+                            {
+                                startTime: "2023-04-14T04:21:29.085Z",
+                                endTime: getDate().subtract(8, "days").toISOString(),
+                            },
+                        ],
+                        publishStartDate: "2022-01-19T11:41:12.445Z",
+                        modes: ["Tram", "Ferry", "Train"],
+                        status: Progress.closed,
+                        severity: Severity.severe,
+                        services: [],
+                        dataSource: Datasource.tnds,
+                        operators: ["BB", "SB"],
+                        displayId: "8fg3ha",
+                        isOperatorWideCq: true,
+                        isNetworkWideCq: true,
+                        isLive: false,
+                        stopsAffectedCount: 0,
+                        servicesAffectedCount: 1,
+                        consequenceLength: 1,
+                        description: "A description",
+                        disruptionReason: MiscellaneousReason.roadworks,
+                        creationTime: "24/11/2023",
+                        disruptionType: "planned",
+                    },
+                ];
+                expect(formatDisruptions(disruptions).recentlyClosedDisruptions).toHaveLength(1);
+            });
 
-                const ctx = getMockContext();
+            it("correctly adds up disruptions pending review", () => {
+                const disruptions: TableDisruption[] = [
+                    {
+                        id: "c58ba826-ac18-41c5-8476-8172dfa6ea24",
+                        summary: "Alien attack",
+                        validityPeriods: [
+                            {
+                                startTime: getDate().subtract(10, "days").toISOString(),
+                                endTime: getDate().subtract(4, "days").toISOString(),
+                            },
+                        ],
+                        publishStartDate: "2022-01-05T04:42:17.239Z",
+                        modes: ["Tram"],
+                        services: [],
+                        status: Progress.editPendingApproval,
+                        severity: Severity.verySevere,
+                        dataSource: Datasource.bods,
+                        operators: ["BB"],
+                        displayId: "8fg3ha",
+                        isOperatorWideCq: false,
+                        isNetworkWideCq: true,
+                        isLive: false,
+                        stopsAffectedCount: 0,
+                        servicesAffectedCount: 2,
+                        consequenceLength: 1,
+                        description: "A description",
+                        disruptionReason: MiscellaneousReason.roadworks,
+                        creationTime: "24/11/2023",
+                        disruptionType: "planned",
+                    },
+                    {
+                        id: "12319560-99c1-4da6-8a73-de1220f37056",
+                        summary: "Bigfoot is attacking Parliament",
+                        validityPeriods: [
+                            {
+                                startTime: "2023-04-14T04:21:29.085Z",
+                                endTime: getDate().subtract(8, "days").toISOString(),
+                            },
+                        ],
+                        publishStartDate: "2022-01-19T11:41:12.445Z",
+                        modes: ["Tram", "Ferry", "Train"],
+                        status: Progress.draftPendingApproval,
+                        severity: Severity.severe,
+                        services: [],
+                        dataSource: Datasource.tnds,
+                        operators: ["BB", "SB"],
+                        displayId: "8fg3ha",
+                        isOperatorWideCq: true,
+                        isNetworkWideCq: true,
+                        isLive: false,
+                        stopsAffectedCount: 0,
+                        servicesAffectedCount: 1,
+                        consequenceLength: 1,
+                        description: "A description",
+                        disruptionReason: MiscellaneousReason.roadworks,
+                        creationTime: "24/11/2023",
+                        disruptionType: "planned",
+                    },
+                ];
+                expect(formatDisruptions(disruptions).pendingApprovalCount).toBe(2);
+            });
 
-                const actualProps = await getServerSideProps(ctx);
-                expect(actualProps.props).toStrictEqual({
+            it("ignores draft disruptions", () => {
+                const disruptions: TableDisruption[] = [
+                    {
+                        id: "c58ba826-ac18-41c5-8476-8172dfa6ea24",
+                        summary: "Alien attack",
+                        validityPeriods: [
+                            {
+                                startTime: getDate().subtract(10, "days").toISOString(),
+                                endTime: getDate().subtract(4, "days").toISOString(),
+                            },
+                        ],
+                        publishStartDate: "2022-01-05T04:42:17.239Z",
+                        modes: ["Tram"],
+                        services: [],
+                        status: Progress.draft,
+                        severity: Severity.verySevere,
+                        dataSource: Datasource.bods,
+                        operators: ["BB"],
+                        displayId: "8fg3ha",
+                        isOperatorWideCq: false,
+                        isNetworkWideCq: true,
+                        isLive: false,
+                        stopsAffectedCount: 0,
+                        servicesAffectedCount: 2,
+                        consequenceLength: 1,
+                        description: "A description",
+                        disruptionReason: MiscellaneousReason.roadworks,
+                        creationTime: "24/11/2023",
+                        disruptionType: "planned",
+                    },
+                    {
+                        id: "12319560-99c1-4da6-8a73-de1220f37056",
+                        summary: "Bigfoot is attacking Parliament",
+                        validityPeriods: [
+                            {
+                                startTime: "2023-04-14T04:21:29.085Z",
+                                endTime: getDate().subtract(8, "days").toISOString(),
+                            },
+                        ],
+                        publishStartDate: "2022-01-19T11:41:12.445Z",
+                        modes: ["Tram", "Ferry", "Train"],
+                        status: Progress.draftPendingApproval,
+                        severity: Severity.severe,
+                        services: [],
+                        dataSource: Datasource.tnds,
+                        operators: ["BB", "SB"],
+                        displayId: "8fg3ha",
+                        isOperatorWideCq: true,
+                        isNetworkWideCq: true,
+                        isLive: false,
+                        stopsAffectedCount: 0,
+                        servicesAffectedCount: 1,
+                        consequenceLength: 1,
+                        description: "A description",
+                        disruptionReason: MiscellaneousReason.roadworks,
+                        creationTime: "24/11/2023",
+                        disruptionType: "planned",
+                    },
+                ];
+                expect(formatDisruptions(disruptions)).toEqual({
                     liveDisruptions: [],
                     upcomingDisruptions: [],
                     recentlyClosedDisruptions: [],
-                    newDisruptionId: expect.any(String) as string,
-                    pendingApprovalCount: 0,
-                    canPublish: true,
-                    orgName: "Test Org",
-                    isOperatorUser: false,
-                });
-            });
-
-            it("should return live disruptions if the data returned from the database has live dates", async () => {
-                getDisruptionsSpy.mockResolvedValue([disruptionWithConsequencesAndSocialMediaPosts]);
-                const ctx = getMockContext();
-
-                const actualProps = await getServerSideProps(ctx);
-                expect(actualProps.props).toStrictEqual({
-                    liveDisruptions: [
-                        {
-                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-                            summary: "Some summary",
-                            validityPeriods: [
-                                {
-                                    startTime: "2023-03-10T12:00:00.000Z",
-                                    endTime: null,
-                                },
-                                { startTime: "2023-03-18T12:00:00.000Z", endTime: null },
-                            ],
-                            displayId: "8fg3ha",
-                        },
-                    ],
-                    upcomingDisruptions: [],
-                    recentlyClosedDisruptions: [],
-                    newDisruptionId: expect.any(String) as string,
-                    pendingApprovalCount: 0,
-                    canPublish: true,
-                    orgName: "Test Org",
-                    isOperatorUser: false,
-                });
-            });
-
-            it("should return upcoming disruptions if the data returned from the database has upcoming dates", async () => {
-                getDisruptionsSpy.mockResolvedValue([
-                    {
-                        ...disruptionWithConsequencesAndSocialMediaPosts,
-                        validity: [],
-                        disruptionStartDate: "12/02/2999",
-                        disruptionStartTime: "1300",
-                    },
-                ]);
-
-                const ctx = getMockContext();
-
-                const actualProps = await getServerSideProps(ctx);
-
-                expect(actualProps.props).toStrictEqual({
-                    liveDisruptions: [],
-                    upcomingDisruptions: [
-                        {
-                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-                            summary: "Some summary",
-                            validityPeriods: [{ startTime: "2999-02-12T13:00:00.000Z", endTime: null }],
-                            displayId: "8fg3ha",
-                        },
-                    ],
-                    recentlyClosedDisruptions: [],
-                    newDisruptionId: expect.any(String) as string,
-                    pendingApprovalCount: 0,
-                    canPublish: true,
-                    orgName: "Test Org",
-                    isOperatorUser: false,
-                });
-            });
-
-            it("should return recently closed disruptions if the data returned from the database has end dates within 7 days", async () => {
-                getDisruptionsSpy.mockResolvedValue([
-                    {
-                        ...disruptionWithConsequencesAndSocialMediaPosts,
-                        validity: [],
-                        disruptionStartDate: "12/02/2023",
-                        disruptionStartTime: "1300",
-                        disruptionEndDate: recentlyClosedDate,
-                        disruptionEndTime: "1300",
-                        disruptionNoEndDateTime: undefined,
-                    },
-                ]);
-
-                const ctx = getMockContext();
-
-                const actualProps = await getServerSideProps(ctx);
-
-                expect(actualProps.props).toStrictEqual({
-                    liveDisruptions: [],
-                    recentlyClosedDisruptions: [
-                        {
-                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-                            summary: "Some summary",
-                            validityPeriods: [
-                                {
-                                    startTime: "2023-02-12T13:00:00.000Z",
-                                    endTime: formatDate(recentlyClosedDate, "1300"),
-                                },
-                            ],
-                            displayId: "8fg3ha",
-                        },
-                    ],
-                    upcomingDisruptions: [],
-                    newDisruptionId: expect.any(String) as string,
-                    pendingApprovalCount: 0,
-                    canPublish: true,
-                    orgName: "Test Org",
-                    isOperatorUser: false,
-                });
-            });
-
-            it("should return live and upcoming disruptions if the data returned from the database has live and upcoming dates", async () => {
-                getDisruptionsSpy.mockResolvedValue([
-                    ...disruptionArray,
-                    {
-                        ...disruptionWithConsequencesAndSocialMediaPosts,
-                        validity: [],
-                        disruptionStartDate: "12/02/2999",
-                        disruptionStartTime: "1200",
-                    },
-                ]);
-
-                const ctx = getMockContext();
-
-                const actualProps = await getServerSideProps(ctx);
-
-                expect(actualProps.props).toStrictEqual({
-                    liveDisruptions: [
-                        {
-                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-                            summary: "Some summary",
-                            validityPeriods: [{ startTime: "2022-03-10T11:00:00.000Z", endTime: null }],
-                            displayId: "8fg3ha",
-                        },
-                        {
-                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-                            summary: "Some summary",
-                            validityPeriods: [
-                                {
-                                    startTime: "2023-03-10T12:00:00.000Z",
-                                    endTime: null,
-                                },
-                                { startTime: "2023-03-18T12:00:00.000Z", endTime: null },
-                            ],
-                            displayId: "8fg3ha",
-                        },
-                        {
-                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-                            summary: "Some summary",
-                            validityPeriods: [
-                                {
-                                    startTime: "2023-03-10T12:00:00.000Z",
-                                    endTime: null,
-                                },
-                                { startTime: "2023-03-18T12:00:00.000Z", endTime: null },
-                            ],
-                            displayId: "8fg3ha",
-                        },
-                    ],
-                    upcomingDisruptions: [
-                        {
-                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-                            summary: "Some summary",
-                            validityPeriods: [{ startTime: "2999-02-12T12:00:00.000Z", endTime: null }],
-                            displayId: "8fg3ha",
-                        },
-                    ],
-                    recentlyClosedDisruptions: [],
-                    newDisruptionId: expect.any(String) as string,
-                    pendingApprovalCount: 0,
-                    canPublish: true,
-                    orgName: "Test Org",
-                    isOperatorUser: false,
-                });
-            });
-
-            it("should filter disruptions for operator user", async () => {
-                getDisruptionsSpy.mockResolvedValue([
-                    {
-                        ...disruptionArray[0],
-                        publishStatus: PublishStatus.published,
-                        createdByOperatorOrgId: undefined,
-                    },
-                    {
-                        ...disruptionArray[0],
-                        displayId: "show this disruption",
-                        publishStatus: PublishStatus.published,
-                        createdByOperatorOrgId: "test-operator",
-                    },
-                    {
-                        ...disruptionArray[0],
-                        displayId: "don't show this disruption",
-                        publishStatus: PublishStatus.published,
-                        createdByOperatorOrgId: "a-different-operator",
-                    },
-                ]);
-
-                getSessionWithOrgDetailSpy.mockResolvedValue({
-                    ...mockSessionWithOrgDetail,
-                    isOperatorUser: true,
-                    operatorOrgId: "test-operator",
-                });
-                const ctx = getMockContext();
-
-                const actualProps = await getServerSideProps(ctx);
-
-                expect(actualProps.props).toStrictEqual({
-                    canPublish: true,
-                    isOperatorUser: true,
-                    liveDisruptions: [
-                        {
-                            displayId: "8fg3ha",
-                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-                            summary: "Some summary",
-                            validityPeriods: [
-                                {
-                                    endTime: null,
-                                    startTime: "2023-03-10T12:00:00.000Z",
-                                },
-                                {
-                                    endTime: null,
-                                    startTime: "2023-03-18T12:00:00.000Z",
-                                },
-                            ],
-                        },
-                        {
-                            displayId: "show this disruption",
-                            id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-                            summary: "Some summary",
-                            validityPeriods: [
-                                {
-                                    endTime: null,
-                                    startTime: "2023-03-10T12:00:00.000Z",
-                                },
-                                {
-                                    endTime: null,
-                                    startTime: "2023-03-18T12:00:00.000Z",
-                                },
-                            ],
-                        },
-                    ],
-                    newDisruptionId: expect.any(String) as string,
-                    orgName: "Test Org",
-                    pendingApprovalCount: 0,
-                    recentlyClosedDisruptions: [],
-                    upcomingDisruptions: [],
+                    pendingApprovalCount: 1,
                 });
             });
         });

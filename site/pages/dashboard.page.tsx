@@ -1,6 +1,6 @@
-import { Disruption, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { sortDisruptionsByStartDate, getSortedDisruptionFinalEndDate } from "@create-disruptions-data/shared-ts/utils";
-import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
+import { Progress } from "@create-disruptions-data/shared-ts/enums";
+import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
+import { LoadingBox } from "@govuk-react/loading-box";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { ReactElement, useEffect, useRef, useState } from "react";
@@ -9,11 +9,12 @@ import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import PageNumbers from "../components/layout/PageNumbers";
 import Tabs from "../components/layout/Tabs";
+import { getDisruptionData } from "../components/ViewAllContents";
 import { DASHBOARD_PAGE_PATH, VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../constants";
-import { getPendingDisruptionsIdsFromDynamo, getPublishedDisruptionsDataFromDynamo } from "../data/dynamo";
-import { filterDisruptionsForOperatorUser, reduceStringWithEllipsis } from "../utils";
+import { TableDisruption } from "../schemas/disruption.schema";
+import { reduceStringWithEllipsis } from "../utils";
 import { canPublish, getSessionWithOrgDetail } from "../utils/apiUtils/auth";
-import { convertDateTimeToFormat, isLiveDisruption, isUpcomingDisruption } from "../utils/dates";
+import { convertDateTimeToFormat } from "../utils/dates";
 
 const title = "Create Disruptions Dashboard";
 const description = "Create Disruptions Dashboard page for the Create Transport Disruptions Service";
@@ -29,34 +30,12 @@ export interface DashboardDisruption {
 }
 
 export interface DashboardProps {
-    liveDisruptions: DashboardDisruption[];
-    upcomingDisruptions: DashboardDisruption[];
-    recentlyClosedDisruptions: DashboardDisruption[];
     newDisruptionId: string;
-    pendingApprovalCount?: number;
     canPublish: boolean;
     orgName: string;
+    orgId: string;
     isOperatorUser: boolean;
 }
-
-const mapDisruptions = (disruptions: Disruption[]) => {
-    return sortDisruptionsByStartDate(disruptions).map((disruption) => {
-        const maxEndDate = getSortedDisruptionFinalEndDate(disruption);
-
-        return {
-            id: disruption.disruptionId,
-            summary: disruption.summary,
-            validityPeriods: (disruption.validity || []).map((period) => ({
-                startTime: getDatetimeFromDateAndTime(
-                    period.disruptionStartDate,
-                    period.disruptionStartTime,
-                ).toISOString(),
-                endTime: maxEndDate ? maxEndDate.toISOString() : null,
-            })),
-            displayId: disruption.displayId,
-        };
-    });
-};
 
 const formatContentsIntoRows = (disruptions: DashboardDisruption[]) => {
     return disruptions.map((disruption) => {
@@ -94,32 +73,103 @@ const getPageOfDisruptions = (pageNumber: number, disruptions: DashboardDisrupti
     return disruptions.slice(startPoint, endPoint);
 };
 
+const sortDisruptions = (disruptions: TableDisruption[]) =>
+    disruptions.sort((a, b) => {
+        const aStartDateTime = getDate(a.validityPeriods[0].startTime);
+        const bStartDateTime = getDate(b.validityPeriods[0].startTime);
+
+        return aStartDateTime.isBefore(bStartDateTime) ? -1 : 1;
+    });
+
+export const formatDisruptions = (disruptions: TableDisruption[]) => {
+    const liveDisruptions: TableDisruption[] = [];
+    const upcomingDisruptions: TableDisruption[] = [];
+    const recentlyClosedDisruptions: TableDisruption[] = [];
+    const today = getDate();
+    const disruptionsPending = disruptions
+        .filter(
+            (disruption) =>
+                disruption.status === Progress.editPendingApproval ||
+                disruption.status === Progress.draftPendingApproval,
+        )
+        .map((disruption) => disruption.id);
+
+    disruptions
+        .filter(
+            (disruption) =>
+                disruption.validityPeriods.length > 0 &&
+                (disruption.status === Progress.open ||
+                    disruption.status === Progress.closing ||
+                    disruption.status === Progress.closed),
+        )
+        .forEach((disruption) => {
+            const disruptionClosed = disruption.status === Progress.closed;
+            const lastTime = disruption.validityPeriods.at(-1)?.endTime;
+            const endDateTime = lastTime ? getDate(lastTime) : null;
+
+            if (!disruptionClosed) {
+                if (disruption.isLive) {
+                    liveDisruptions.push(disruption);
+                } else {
+                    upcomingDisruptions.push(disruption);
+                }
+            } else {
+                const isRecentlyClosed = !!endDateTime && endDateTime.isAfter(today.subtract(7, "day"));
+
+                if (isRecentlyClosed) {
+                    recentlyClosedDisruptions.push(disruption);
+                }
+            }
+        });
+
+    return {
+        liveDisruptions,
+        upcomingDisruptions,
+        recentlyClosedDisruptions,
+        pendingApprovalCount: disruptionsPending.length,
+    };
+};
+
+const getNumberOfPages = (disruptions: TableDisruption[]) => Math.ceil(disruptions.length / 10);
+
 const Dashboard = ({
-    liveDisruptions,
-    upcomingDisruptions,
-    recentlyClosedDisruptions,
     newDisruptionId,
-    pendingApprovalCount,
     canPublish,
     orgName,
+    orgId,
     isOperatorUser = false,
 }: DashboardProps): ReactElement => {
     const hasInitialised = useRef(false);
-    const numberOfLiveDisruptionsPages = Math.ceil(liveDisruptions.length / 10);
-    const numberOfUpcomingDisruptionsPages = Math.ceil(upcomingDisruptions.length / 10);
-    const numberOfRecentlyClosedDisruptionsPages = Math.ceil(recentlyClosedDisruptions.length / 10);
     const [currentLivePage, setCurrentLivePage] = useState(1);
     const [currentUpcomingPage, setCurrentUpcomingPage] = useState(1);
     const [currentRecentlyClosedPage, setCurrentRecentlyClosedPage] = useState(1);
-    const [liveDisruptionsToDisplay, setLiveDisruptionsToDisplay] = useState(
-        getPageOfDisruptions(currentLivePage, liveDisruptions),
-    );
-    const [upcomingDisruptionsToDisplay, setUpcomingDisruptionsToDisplay] = useState(
-        getPageOfDisruptions(currentUpcomingPage, upcomingDisruptions),
-    );
-    const [recentlyClosedDisruptionsToDisplay, setRecentlyClosedToDisplay] = useState(
-        getPageOfDisruptions(currentRecentlyClosedPage, recentlyClosedDisruptions),
-    );
+    const [liveDisruptions, setLiveDisruptions] = useState<TableDisruption[]>([]);
+    const [upcomingDisruptions, setUpcomingDisruptions] = useState<TableDisruption[]>([]);
+    const [recentlyClosedDisruptions, setRecentlyClosedDisruptions] = useState<TableDisruption[]>([]);
+    const [pendingApprovalCount, setPendingApprovalCount] = useState(0);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            setIsLoading(true);
+
+            const data = await getDisruptionData(orgId);
+
+            const disruptions = formatDisruptions(sortDisruptions(data));
+
+            setLiveDisruptions(disruptions.liveDisruptions);
+            setUpcomingDisruptions(disruptions.upcomingDisruptions);
+            setRecentlyClosedDisruptions(disruptions.recentlyClosedDisruptions);
+            setPendingApprovalCount(disruptions.pendingApprovalCount);
+        };
+
+        fetchData()
+            .then(() => setIsLoading(false))
+            .catch(() => {
+                setIsLoading(false);
+            });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     useEffect(() => {
         if (window.GOVUKFrontend && !hasInitialised.current) {
@@ -128,18 +178,6 @@ const Dashboard = ({
 
         hasInitialised.current = true;
     });
-
-    useEffect(() => {
-        setLiveDisruptionsToDisplay(getPageOfDisruptions(currentLivePage, liveDisruptions));
-    }, [currentLivePage, liveDisruptions]);
-
-    useEffect(() => {
-        setUpcomingDisruptionsToDisplay(getPageOfDisruptions(currentUpcomingPage, upcomingDisruptions));
-    }, [currentUpcomingPage, upcomingDisruptions]);
-
-    useEffect(() => {
-        setRecentlyClosedToDisplay(getPageOfDisruptions(currentRecentlyClosedPage, recentlyClosedDisruptions));
-    }, [currentRecentlyClosedPage, recentlyClosedDisruptions]);
 
     return (
         <BaseLayout title={title} description={description} errors={[]} disableBackButton>
@@ -194,52 +232,58 @@ const Dashboard = ({
                     {
                         tabHeader: "Live",
                         content: (
-                            <>
+                            <LoadingBox loading={isLoading}>
                                 <Table
                                     caption={{ text: "Live disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
-                                    rows={formatContentsIntoRows(liveDisruptionsToDisplay)}
+                                    rows={formatContentsIntoRows(
+                                        getPageOfDisruptions(currentLivePage, liveDisruptions),
+                                    )}
                                 />
                                 <PageNumbers
-                                    numberOfPages={numberOfLiveDisruptionsPages}
+                                    numberOfPages={getNumberOfPages(liveDisruptions)}
                                     currentPage={currentLivePage}
                                     setCurrentPage={setCurrentLivePage}
                                 />
-                            </>
+                            </LoadingBox>
                         ),
                     },
                     {
                         tabHeader: "Upcoming",
                         content: (
-                            <>
+                            <LoadingBox loading={isLoading}>
                                 <Table
                                     caption={{ text: "Upcoming disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
-                                    rows={formatContentsIntoRows(upcomingDisruptionsToDisplay)}
+                                    rows={formatContentsIntoRows(
+                                        getPageOfDisruptions(currentUpcomingPage, upcomingDisruptions),
+                                    )}
                                 />
                                 <PageNumbers
-                                    numberOfPages={numberOfUpcomingDisruptionsPages}
+                                    numberOfPages={getNumberOfPages(upcomingDisruptions)}
                                     currentPage={currentUpcomingPage}
                                     setCurrentPage={setCurrentUpcomingPage}
                                 />
-                            </>
+                            </LoadingBox>
                         ),
                     },
                     {
                         tabHeader: "Recently closed",
                         content: (
-                            <>
+                            <LoadingBox loading={isLoading}>
                                 <Table
                                     caption={{ text: "Closed disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
-                                    rows={formatContentsIntoRows(recentlyClosedDisruptionsToDisplay)}
+                                    rows={formatContentsIntoRows(
+                                        getPageOfDisruptions(currentRecentlyClosedPage, recentlyClosedDisruptions),
+                                    )}
                                 />
                                 <PageNumbers
-                                    numberOfPages={numberOfRecentlyClosedDisruptionsPages}
+                                    numberOfPages={getNumberOfPages(recentlyClosedDisruptions)}
                                     currentPage={currentRecentlyClosedPage}
                                     setCurrentPage={setCurrentRecentlyClosedPage}
                                 />
-                            </>
+                            </LoadingBox>
                         ),
                     },
                 ]}
@@ -277,112 +321,35 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const newDisruptionId = randomUUID();
 
     const baseProps = {
-        props: {
-            liveDisruptions: [],
-            upcomingDisruptions: [],
-            recentlyClosedDisruptions: [],
-            newDisruptionId,
-            canPublish: false,
-            orgName: "",
-            isOperatorUser: false,
-            stage: "dev",
-        },
+        newDisruptionId,
+        canPublish: false,
+        orgName: "",
+        orgId: "",
+        isOperatorUser: false,
     };
 
     if (!ctx.req) {
-        return baseProps;
+        return {
+            props: baseProps,
+        };
     }
 
     const sessionWithOrg = await getSessionWithOrgDetail(ctx.req);
     if (!sessionWithOrg) {
-        return baseProps;
-    }
-
-    const data = await Promise.all([
-        getPublishedDisruptionsDataFromDynamo(sessionWithOrg.orgId),
-        getPendingDisruptionsIdsFromDynamo(sessionWithOrg.orgId),
-    ]);
-
-    let publishedDisruption = data[0];
-    const pendingDisruption = data[1];
-
-    if (sessionWithOrg.isOperatorUser) {
-        publishedDisruption = filterDisruptionsForOperatorUser(publishedDisruption, sessionWithOrg.operatorOrgId);
-    }
-
-    if (publishedDisruption) {
-        const liveDisruptions: Disruption[] = [];
-        const upcomingDisruptions: Disruption[] = [];
-        const recentlyClosedDisruptions: Disruption[] = [];
-        const today = getDate();
-        const pendingApprovalCount = pendingDisruption.size;
-
-        publishedDisruption
-            .filter((data) => !pendingDisruption.has(data.disruptionId))
-            .forEach((disruption) => {
-                // end time before today --> dont show
-                const validityPeriods: Validity[] = [
-                    ...(disruption.validity ?? []),
-                    {
-                        disruptionStartDate: disruption.disruptionStartDate,
-                        disruptionStartTime: disruption.disruptionStartTime,
-                        disruptionEndDate: disruption.disruptionEndDate,
-                        disruptionEndTime: disruption.disruptionEndTime,
-                        disruptionNoEndDateTime: disruption.disruptionNoEndDateTime,
-                        disruptionRepeats: disruption.disruptionRepeats,
-                        disruptionRepeatsEndDate: disruption.disruptionRepeatsEndDate,
-                    },
-                ];
-
-                const shouldNotDisplayDisruption = validityPeriods.every(
-                    (period) =>
-                        !!period.disruptionEndDate &&
-                        !!period.disruptionEndTime &&
-                        getDatetimeFromDateAndTime(period.disruptionEndDate, period.disruptionEndTime).isBefore(today),
-                );
-
-                const getEndDateTime = getSortedDisruptionFinalEndDate({
-                    ...disruption,
-                    validity: validityPeriods,
-                });
-
-                if (!shouldNotDisplayDisruption) {
-                    // Between when the first validity period has started and the last validity has yet to end
-                    const isLive = isLiveDisruption(validityPeriods, getEndDateTime);
-
-                    if (isLive) {
-                        liveDisruptions.push(disruption);
-                    }
-
-                    // Prior to the first validity period starting
-                    const isUpcoming = isUpcomingDisruption(validityPeriods, today);
-
-                    if (isUpcoming) {
-                        upcomingDisruptions.push(disruption);
-                    }
-                } else {
-                    // Up to 7 days after the last validity period has ended
-                    const isRecentlyClosed = !!getEndDateTime && getEndDateTime.isAfter(today.subtract(7, "day"));
-
-                    if (isRecentlyClosed) recentlyClosedDisruptions.push(disruption);
-                }
-            });
-
         return {
-            props: {
-                liveDisruptions: mapDisruptions(liveDisruptions),
-                upcomingDisruptions: mapDisruptions(upcomingDisruptions),
-                recentlyClosedDisruptions: mapDisruptions(recentlyClosedDisruptions),
-                newDisruptionId,
-                pendingApprovalCount: pendingApprovalCount,
-                canPublish: canPublish(sessionWithOrg),
-                orgName: sessionWithOrg.orgName,
-                isOperatorUser: sessionWithOrg.isOperatorUser,
-            },
+            props: baseProps,
         };
     }
 
-    return baseProps;
+    return {
+        props: {
+            ...baseProps,
+            orgId: sessionWithOrg.orgId,
+            canPublish: canPublish(sessionWithOrg),
+            orgName: sessionWithOrg.orgName,
+            isOperatorUser: sessionWithOrg.isOperatorUser,
+        },
+    };
 };
 
 export default Dashboard;
