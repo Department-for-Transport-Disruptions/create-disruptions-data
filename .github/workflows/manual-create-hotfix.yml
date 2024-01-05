@@ -1,22 +1,16 @@
 name: Create hotfix
 
-on:
-  workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Name of the branch to create hotfix release for'
-        type: string
-        required: true
+on: workflow_dispatch
 
 jobs:
   build:
-    name: Build
+    name: Build - ${{ github.ref_name }}
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.branch }}
+          ref: ${{ github.ref_name }}
 
       - name: Setup Node.js and cache
         uses: actions/setup-node@v3
