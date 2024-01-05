@@ -222,6 +222,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                     aria-live="polite"
                     aria-relevant="additions text"
                     className="css-1f43avz-a11yText-A11yText"
+                    role="log"
                   />
                   <div
                     className=" css-1kxfjwu-control"
@@ -242,6 +243,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                         data-value=""
                       >
                         <input
+                          aria-activedescendant=""
                           aria-autocomplete="list"
                           aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
@@ -1032,6 +1034,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                     aria-live="polite"
                     aria-relevant="additions text"
                     className="css-1f43avz-a11yText-A11yText"
+                    role="log"
                   />
                   <div
                     className=" css-1kxfjwu-control"
@@ -1052,6 +1055,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                         data-value=""
                       >
                         <input
+                          aria-activedescendant=""
                           aria-autocomplete="list"
                           aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
@@ -1810,6 +1814,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                     aria-live="polite"
                     aria-relevant="additions text"
                     className="css-1f43avz-a11yText-A11yText"
+                    role="log"
                   />
                   <div
                     className=" css-1kxfjwu-control"
@@ -1830,6 +1835,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                         data-value=""
                       >
                         <input
+                          aria-activedescendant=""
                           aria-autocomplete="list"
                           aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
@@ -2531,6 +2537,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
                     aria-live="polite"
                     aria-relevant="additions text"
                     className="css-1f43avz-a11yText-A11yText"
+                    role="log"
                   />
                   <div
                     className=" css-1kxfjwu-control"
@@ -2551,6 +2558,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
                         data-value=""
                       >
                         <input
+                          aria-activedescendant=""
                           aria-autocomplete="list"
                           aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}

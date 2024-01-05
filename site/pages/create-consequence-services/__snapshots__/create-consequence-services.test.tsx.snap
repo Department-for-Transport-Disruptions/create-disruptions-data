@@ -218,6 +218,7 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
                     aria-live="polite"
                     aria-relevant="additions text"
                     className="css-1f43avz-a11yText-A11yText"
+                    role="log"
                   />
                   <div
                     className=" css-1kxfjwu-control"
@@ -238,6 +239,7 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
                         data-value=""
                       >
                         <input
+                          aria-activedescendant=""
                           aria-autocomplete="list"
                           aria-describedby="react-select-dropdown-service-placeholder"
                           aria-expanded={false}
@@ -379,6 +381,7 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
                     aria-live="polite"
                     aria-relevant="additions text"
                     className="css-1f43avz-a11yText-A11yText"
+                    role="log"
                   />
                   <div
                     className=" css-1kxfjwu-control"
@@ -399,6 +402,7 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
                         data-value=""
                       >
                         <input
+                          aria-activedescendant=""
                           aria-autocomplete="list"
                           aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
@@ -1286,6 +1290,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                     aria-live="polite"
                     aria-relevant="additions text"
                     className="css-1f43avz-a11yText-A11yText"
+                    role="log"
                   />
                   <div
                     className=" css-1kxfjwu-control"
@@ -1306,6 +1311,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                         data-value=""
                       >
                         <input
+                          aria-activedescendant=""
                           aria-autocomplete="list"
                           aria-describedby="react-select-dropdown-service-placeholder"
                           aria-expanded={false}
@@ -1447,6 +1453,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                     aria-live="polite"
                     aria-relevant="additions text"
                     className="css-1f43avz-a11yText-A11yText"
+                    role="log"
                   />
                   <div
                     className=" css-1kxfjwu-control"
@@ -1467,6 +1474,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                         data-value=""
                       >
                         <input
+                          aria-activedescendant=""
                           aria-autocomplete="list"
                           aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
@@ -2350,6 +2358,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                     aria-live="polite"
                     aria-relevant="additions text"
                     className="css-1f43avz-a11yText-A11yText"
+                    role="log"
                   />
                   <div
                     className=" css-1kxfjwu-control"
@@ -2370,6 +2379,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                         data-value=""
                       >
                         <input
+                          aria-activedescendant=""
                           aria-autocomplete="list"
                           aria-describedby="react-select-dropdown-service-placeholder"
                           aria-expanded={false}
@@ -2511,6 +2521,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                     aria-live="polite"
                     aria-relevant="additions text"
                     className="css-1f43avz-a11yText-A11yText"
+                    role="log"
                   />
                   <div
                     className=" css-1kxfjwu-control"
@@ -2531,6 +2542,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                         data-value=""
                       >
                         <input
+                          aria-activedescendant=""
                           aria-autocomplete="list"
                           aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
@@ -3382,6 +3394,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                     aria-live="polite"
                     aria-relevant="additions text"
                     className="css-1f43avz-a11yText-A11yText"
+                    role="log"
                   />
                   <div
                     className=" css-1kxfjwu-control"
@@ -3402,6 +3415,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                         data-value=""
                       >
                         <input
+                          aria-activedescendant=""
                           aria-autocomplete="list"
                           aria-describedby="react-select-dropdown-service-placeholder"
                           aria-expanded={false}
@@ -3503,6 +3517,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                     aria-live="polite"
                     aria-relevant="additions text"
                     className="css-1f43avz-a11yText-A11yText"
+                    role="log"
                   />
                   <div
                     className=" css-1kxfjwu-control"
@@ -3523,6 +3538,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                         data-value=""
                       >
                         <input
+                          aria-activedescendant=""
                           aria-autocomplete="list"
                           aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
@@ -4317,6 +4333,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                     aria-live="polite"
                     aria-relevant="additions text"
                     className="css-1f43avz-a11yText-A11yText"
+                    role="log"
                   />
                   <div
                     className=" css-1kxfjwu-control"
@@ -4337,6 +4354,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                         data-value=""
                       >
                         <input
+                          aria-activedescendant=""
                           aria-autocomplete="list"
                           aria-describedby="react-select-dropdown-service-placeholder"
                           aria-expanded={false}
@@ -4478,6 +4496,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                     aria-live="polite"
                     aria-relevant="additions text"
                     className="css-1f43avz-a11yText-A11yText"
+                    role="log"
                   />
                   <div
                     className=" css-1kxfjwu-control"
@@ -4498,6 +4517,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                         data-value=""
                       >
                         <input
+                          aria-activedescendant=""
                           aria-autocomplete="list"
                           aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}

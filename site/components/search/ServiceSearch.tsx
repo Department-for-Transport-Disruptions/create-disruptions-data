@@ -1,6 +1,6 @@
 import { Service } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Dispatch, ReactElement, SetStateAction, useEffect, useState } from "react";
-import Select, { ControlProps, GroupBase, OptionProps } from "react-select";
+import Select, { CSSObjectWithLabel, ControlProps, GroupBase, OptionProps } from "react-select";
 import { getServiceLabel } from "../../utils";
 
 interface ServiceSearchProps {
@@ -24,7 +24,7 @@ const ServiceSearch = ({
         }
     }, [reset, setSelectedServices]);
 
-    const controlStyles = (state: ControlProps<Service, false, GroupBase<Service>>) => ({
+    const controlStyles = (state: ControlProps<Service, false, GroupBase<Service>>): CSSObjectWithLabel => ({
         fontFamily: "GDS Transport, arial, sans-serif",
         border: "#0b0c0c solid 2px",
         outline: state.isFocused ? "#ffdd00 solid 3px" : "none",
@@ -34,7 +34,7 @@ const ServiceSearch = ({
         width: "75%",
     });
 
-    const optionStyles = (state: OptionProps<Service, false, GroupBase<Service>>) => ({
+    const optionStyles = (state: OptionProps<Service, false, GroupBase<Service>>): CSSObjectWithLabel => ({
         color: state.isFocused ? "white" : "#0b0c0c",
         backgroundColor: state.isFocused ? "#3399ff" : "white",
     });
