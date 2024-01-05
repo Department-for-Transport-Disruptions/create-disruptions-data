@@ -81,7 +81,7 @@ const sortDisruptions = (disruptions: TableDisruption[]) =>
         return aStartDateTime.isBefore(bStartDateTime) ? -1 : 1;
     });
 
-const formatDisruptions = (disruptions: TableDisruption[]) => {
+export const formatDisruptions = (disruptions: TableDisruption[]) => {
     const liveDisruptions: TableDisruption[] = [];
     const upcomingDisruptions: TableDisruption[] = [];
     const recentlyClosedDisruptions: TableDisruption[] = [];
@@ -89,42 +89,36 @@ const formatDisruptions = (disruptions: TableDisruption[]) => {
     const disruptionsPending = disruptions
         .filter(
             (disruption) =>
-                disruption.status === Progress.editPendingApproval || disruption.status === Progress.pendingApproval,
+                disruption.status === Progress.editPendingApproval ||
+                disruption.status === Progress.draftPendingApproval,
         )
         .map((disruption) => disruption.id);
 
     disruptions
         .filter(
             (disruption) =>
-                disruption.status === Progress.open ||
-                disruption.status === Progress.closing ||
-                disruption.status === Progress.editPendingApproval ||
-                disruption.status === Progress.closed,
+                disruption.validityPeriods.length > 0 &&
+                (disruption.status === Progress.open ||
+                    disruption.status === Progress.closing ||
+                    disruption.status === Progress.closed),
         )
         .forEach((disruption) => {
-            const shouldNotDisplayDisruption =
-                disruption.status === Progress.closed || disruption.validityPeriods.length === 0;
-
+            const disruptionClosed = disruption.status === Progress.closed;
             const lastTime = disruption.validityPeriods.at(-1)?.endTime;
-
-            const startDateTime = getDate(disruption.validityPeriods[0].startTime);
             const endDateTime = lastTime ? getDate(lastTime) : null;
 
-            if (!shouldNotDisplayDisruption) {
-                // Between when the first validity period has started and the last validity has yet to end
-                const isLive =
-                    startDateTime.isSameOrBefore(today) && (!endDateTime || endDateTime.isSameOrAfter(today));
-
-                if (isLive) {
+            if (!disruptionClosed) {
+                if (disruption.isLive) {
                     liveDisruptions.push(disruption);
                 } else {
                     upcomingDisruptions.push(disruption);
                 }
             } else {
-                // Up to 7 days after the last validity period has ended
                 const isRecentlyClosed = !!endDateTime && endDateTime.isAfter(today.subtract(7, "day"));
 
-                if (isRecentlyClosed) recentlyClosedDisruptions.push(disruption);
+                if (isRecentlyClosed) {
+                    recentlyClosedDisruptions.push(disruption);
+                }
             }
         });
 
