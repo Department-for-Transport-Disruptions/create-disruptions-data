@@ -54,7 +54,7 @@ const approvalEmailBody = (
                     </div>
                                  </div>
                                </div>
-                             </body>
+                             </body>gco 
                            </html>`;
 
 export const createDisruptionApprovalEmail = (

@@ -1,5 +1,6 @@
+import * as logger from "lambda-log";
 import fetch from "node-fetch";
-import { serviceWithCentrePointSchema } from "../disruptionTypes";
+import { Service, serviceWithCentrePointSchema } from "../disruptionTypes";
 import { Datasource } from "../enums";
 import { Logger } from ".";
 
@@ -22,4 +23,14 @@ export const fetchService = async (serviceRef: string, nocCode: string, dataSour
     }
 
     return parseResult.data;
+};
+
+export const getServiceCentrePoint = async (service: Service) => {
+    const serviceInfo = await fetchService(
+        service.dataSource === Datasource.bods ? service.lineId : service.serviceCode,
+        service.nocCode,
+        service.dataSource,
+        logger,
+    );
+    return { latitude: serviceInfo?.centrePointLat ?? null, longitude: serviceInfo?.centrePointLon ?? null };
 };

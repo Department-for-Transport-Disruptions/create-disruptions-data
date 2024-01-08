@@ -1,15 +1,55 @@
+import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { getPublishedDisruptionById } from "@create-disruptions-data/shared-ts/utils/dynamo";
+import { getServiceCentrePoint } from "@create-disruptions-data/shared-ts/utils/refDataApi";
 import { APIGatewayEvent } from "aws-lambda";
 import * as logger from "lambda-log";
 import { randomUUID } from "crypto";
+
+const formatServiceConsequences = (consequences: Consequence[]) => {
+    return Promise.all(
+        consequences.flatMap(async (consequence) => {
+            if (consequence.consequenceType === "services") {
+                return {
+                    ...consequence,
+                    services: await Promise.all(
+                        consequence.services.map(async (service) => {
+                            const serviceCentrePoint = await getServiceCentrePoint(service);
+
+                            return {
+                                ...service,
+                                coordinates: {
+                                    latitude: serviceCentrePoint.latitude,
+                                    longitude: serviceCentrePoint.longitude,
+                                },
+                            };
+                        }),
+                    ),
+                };
+            } else return consequence;
+        }),
+    );
+};
 
 const getOrganisationDisruptionById = async (orgId: string, disruptionId: string) => {
     try {
         const disruptionsTableName = process.env.DISRUPTIONS_TABLE_NAME as string;
 
-        const disruption = getPublishedDisruptionById(orgId, disruptionId, disruptionsTableName, logger);
+        const disruption = await getPublishedDisruptionById(orgId, disruptionId, disruptionsTableName, logger);
 
-        return disruption;
+        const consequencesWithServiceCentrePointIncluded = await formatServiceConsequences(
+            disruption?.consequences ?? [],
+        );
+
+        console.log(consequencesWithServiceCentrePointIncluded);
+
+        const formattedDisruption = {
+            ...disruption,
+            consequences: consequencesWithServiceCentrePointIncluded,
+        };
+
+        console.log(JSON.stringify(formattedDisruption));
+
+        return formattedDisruption;
     } catch (e) {
         if (e instanceof Error) {
             logger.error(
