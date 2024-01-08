@@ -14,7 +14,10 @@ const getServiceCentrePoint = async (service: Service) => {
         service.dataSource,
         logger,
     );
-    return { latitude: serviceInfo?.centrePointLat ?? null, longitude: serviceInfo?.centrePointLon ?? null };
+
+    return serviceInfo?.centrePointLat && serviceInfo?.centrePointLon
+        ? { latitude: serviceInfo.centrePointLat, longitude: serviceInfo.centrePointLon }
+        : null;
 };
 
 const getOrganisationDisruptions = async (orgId: string) => {
@@ -52,8 +55,8 @@ const getOrganisationDisruptions = async (orgId: string) => {
                                     nocCode: service.nocCode,
                                     operatorName: service.operatorShortName,
                                     coordinates: {
-                                        latitude: serviceCentrePoint.latitude,
-                                        longitude: serviceCentrePoint.longitude,
+                                        latitude: serviceCentrePoint?.latitude ?? null,
+                                        longitude: serviceCentrePoint?.longitude ?? null,
                                     },
                                 };
                             });
