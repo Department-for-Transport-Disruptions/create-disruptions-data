@@ -36,18 +36,19 @@ const getOrganisationDisruptionById = async (orgId: string, disruptionId: string
 
         const disruption = await getPublishedDisruptionById(orgId, disruptionId, disruptionsTableName, logger);
 
+        if (!disruption) {
+            logger.warn(`Disruption not found for disruption id: ${disruptionId} for organisation id: ${orgId}`);
+            return null;
+        }
+
         const consequencesWithServiceCentrePointIncluded = await formatServiceConsequences(
             disruption?.consequences ?? [],
         );
-
-        console.log(consequencesWithServiceCentrePointIncluded);
 
         const formattedDisruption = {
             ...disruption,
             consequences: consequencesWithServiceCentrePointIncluded,
         };
-
-        console.log(JSON.stringify(formattedDisruption));
 
         return formattedDisruption;
     } catch (e) {
@@ -86,7 +87,16 @@ export const main = async (event: APIGatewayEvent): Promise<{ statusCode: number
 
         const disruptionData = await getOrganisationDisruptionById(orgId, disruptionId);
 
-        logger.info(`Successfully retrieved organisation: ${orgId}'s stops from DynamoDB...`);
+        if (!disruptionData) {
+            return {
+                statusCode: 404,
+                body: `Disruption not found`,
+            };
+        }
+
+        logger.info(
+            `Successfully retrieved disruption id: ${disruptionId} for organisation: ${orgId} from DynamoDB...`,
+        );
 
         return {
             statusCode: 200,

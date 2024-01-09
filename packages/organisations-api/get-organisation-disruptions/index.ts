@@ -40,8 +40,8 @@ const getOrganisationDisruptions = async (orgId: string) => {
                                     nocCode: service.nocCode,
                                     operatorName: service.operatorShortName,
                                     coordinates: {
-                                        latitude: serviceCentrePoint.latitude,
-                                        longitude: serviceCentrePoint.longitude,
+                                        latitude: serviceCentrePoint?.latitude ?? null,
+                                        longitude: serviceCentrePoint?.longitude ?? null,
                                     },
                                 };
                             });
