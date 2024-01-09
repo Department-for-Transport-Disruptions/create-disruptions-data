@@ -376,3 +376,20 @@ export const getPublishedDisruptionById = async (
     }
     return parsedDisruption.data;
 };
+
+export const getAllDisruptionsForOrg = async (orgId: string, tableName: string, logger: Logger) => {
+    const disruptions = await recursiveQuery(
+        {
+            TableName: tableName,
+            KeyConditionExpression: "PK = :1",
+            ExpressionAttributeValues: {
+                ":1": orgId,
+            },
+        },
+        logger,
+    );
+
+    return disruptions.map((disruption) =>
+        collectDisruptionsData(disruptions, disruption.disruptionId as string, logger),
+    );
+};

@@ -5,11 +5,13 @@ import { NextjsSite, StackContext, use } from "sst/constructs";
 import { getDomain, isSandbox } from "@create-disruptions-data/shared-ts/utils/domain";
 import { CognitoStack } from "./CognitoStack";
 import { DynamoDBStack } from "./DynamoDBStack";
+import { OrgDisruptionsGeneratorStack } from "./OrgDisruptionsGenerator";
 import { createBucket } from "./utils";
 
 export const SiteStack = ({ stack }: StackContext) => {
     const { disruptionsTable, organisationsTableV2: organisationsTable, templateDisruptionsTable } = use(DynamoDBStack);
     const { clientId, clientSecret, cognitoIssuer, userPoolId, userPoolArn } = use(CognitoStack);
+    const { orgDisruptionsBucket } = use(OrgDisruptionsGeneratorStack);
 
     const siteImageBucket = createBucket(stack, "cdd-image-bucket", true);
 
@@ -77,6 +79,7 @@ export const SiteStack = ({ stack }: StackContext) => {
             DOMAIN_NAME: `${isSandbox(stack.stage) ? "http://" : "https://"}${
                 isSandbox(stack.stage) ? "localhost:3000" : getDomain(stack.stage)
             }`,
+            ORG_DISRUPTIONS_BUCKET_NAME: orgDisruptionsBucket.bucketName,
         },
         customDomain: {
             domainName:
@@ -98,6 +101,10 @@ export const SiteStack = ({ stack }: StackContext) => {
             new PolicyStatement({
                 resources: [`${siteImageBucket.bucketArn}/*`],
                 actions: ["s3:GetObject", "s3:PutObject"],
+            }),
+            new PolicyStatement({
+                resources: [`${orgDisruptionsBucket.bucketArn}/*`],
+                actions: ["s3:GetObject"],
             }),
             new PolicyStatement({
                 resources: [disruptionsTable.tableArn, organisationsTable.tableArn, templateDisruptionsTable.tableArn],
