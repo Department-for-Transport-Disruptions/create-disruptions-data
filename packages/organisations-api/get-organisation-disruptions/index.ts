@@ -1,24 +1,9 @@
-import { Service } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { Datasource } from "@create-disruptions-data/shared-ts/enums";
 import { notEmpty } from "@create-disruptions-data/shared-ts/utils";
 import { getActiveDisruptions } from "@create-disruptions-data/shared-ts/utils/dynamo";
-import { fetchService } from "@create-disruptions-data/shared-ts/utils/refDataApi";
+import { getServiceCentrePoint } from "@create-disruptions-data/shared-ts/utils/refDataApi";
 import { APIGatewayEvent } from "aws-lambda";
 import * as logger from "lambda-log";
 import { randomUUID } from "crypto";
-
-const getServiceCentrePoint = async (service: Service) => {
-    const serviceInfo = await fetchService(
-        service.dataSource === Datasource.bods ? service.lineId : service.serviceCode,
-        service.nocCode,
-        service.dataSource,
-        logger,
-    );
-
-    return serviceInfo?.centrePointLat && serviceInfo?.centrePointLon
-        ? { latitude: serviceInfo.centrePointLat, longitude: serviceInfo.centrePointLon }
-        : null;
-};
 
 const getOrganisationDisruptions = async (orgId: string) => {
     try {
