@@ -389,7 +389,7 @@ export const getAllDisruptionsForOrg = async (orgId: string, tableName: string, 
         logger,
     );
 
-    return disruptions.map((disruption) =>
-        collectDisruptionsData(disruptions, disruption.disruptionId as string, logger),
-    );
+    return disruptions
+        .map((disruption) => collectDisruptionsData(disruptions, disruption.disruptionId as string, logger))
+        .filter(notEmpty);
 };
