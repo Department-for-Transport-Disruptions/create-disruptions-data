@@ -329,3 +329,5 @@ export const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png"];
 export const HOOTSUITE_URL = "https://platform.hootsuite.com/";
 
 export const MAX_OPERATOR_NOC_CODES = 5;
+
+export const ORG_DISRUPTIONS_BUCKET_NAME = process.env.ORG_DISRUPTIONS_BUCKET_NAME || "";

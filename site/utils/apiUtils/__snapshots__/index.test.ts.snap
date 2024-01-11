@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`getAllDisruptions > formatSortedDisruptions > correctly formats disruptions 1`] = `
+exports[`formatSortedDisruptions > correctly formats disruptions 1`] = `
 {
   "consequenceLength": 3,
   "creationTime": undefined,

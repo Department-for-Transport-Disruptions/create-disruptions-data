@@ -31,7 +31,7 @@ export const putItem = async (
     }
 };
 
-export const getItem = async (bucket: string, key: string, originalFilename: string): Promise<string> => {
+export const getS3SignedUrl = async (bucket: string, key: string, originalFilename: string): Promise<string> => {
     logger.info("", {
         context: "data.s3",
         message: "getting item from s3",
@@ -55,21 +55,29 @@ export const getItem = async (bucket: string, key: string, originalFilename: str
     }
 };
 
-export const getObject = async (bucket: string, key: string, originalFilename: string): Promise<Uint8Array | null> => {
+export const getObject = async (
+    bucket: string,
+    key: string,
+    originalFilename?: string,
+): Promise<Uint8Array | string | null> => {
     logger.info("", {
         context: "data.s3",
         message: "getting item from s3",
     });
 
+    const isDownload = !!originalFilename;
+
     try {
         const input = {
             Bucket: bucket,
             Key: key,
-            ResponseContentDisposition: 'attachment; filename ="' + originalFilename + '"',
+            ...(isDownload ? { ResponseContentDisposition: 'attachment; filename ="' + originalFilename + '"' } : {}),
         };
         const command = new GetObjectCommand(input);
         const response = await s3.send(command);
-        return (await response.Body?.transformToByteArray()) ?? null;
+        return isDownload
+            ? (await response.Body?.transformToByteArray()) ?? null
+            : (await response.Body?.transformToString()) ?? null;
     } catch (error) {
         if (error instanceof Error) {
             throw new Error(`Failed to get item from s3: ${error.stack || ""}`);
