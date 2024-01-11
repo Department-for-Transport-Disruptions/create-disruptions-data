@@ -1,7 +1,7 @@
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import MockDate from "mockdate";
 import { describe, it, expect, afterEach, beforeEach, vi, afterAll } from "vitest";
-import getAllDisruptions, { getDashboardDisruptions } from "./[organisationId].api";
+import getAllDisruptions, { getDisruptionsForTable } from "./[organisationId].api";
 import * as s3 from "../../../data/s3";
 import {
     DEFAULT_ORG_ID,
@@ -103,7 +103,7 @@ describe("getAllDisruptions", () => {
         it("should correctly parse disruptions", async () => {
             getDisruptionsSpy.mockResolvedValue(JSON.stringify(disruptionArray));
 
-            const disruptions = await getDashboardDisruptions(DEFAULT_ORG_ID, false);
+            const disruptions = await getDisruptionsForTable(DEFAULT_ORG_ID, false);
 
             expect(getDisruptionsSpy).toHaveBeenCalledOnce();
 
@@ -122,7 +122,7 @@ describe("getAllDisruptions", () => {
 
             getDisruptionsSpy.mockResolvedValue(JSON.stringify(disruptionsToStringify));
 
-            const disruptions = await getDashboardDisruptions(DEFAULT_ORG_ID, false);
+            const disruptions = await getDisruptionsForTable(DEFAULT_ORG_ID, false);
 
             expect(getDisruptionsSpy).toHaveBeenCalledOnce();
 

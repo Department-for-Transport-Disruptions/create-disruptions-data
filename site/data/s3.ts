@@ -34,7 +34,7 @@ export const putItem = async (
 export const getS3SignedUrl = async (bucket: string, key: string, originalFilename: string): Promise<string> => {
     logger.info("", {
         context: "data.s3",
-        message: "getting item from s3",
+        message: `creating signed url for s3 object at ${key}`,
     });
 
     try {
@@ -48,7 +48,7 @@ export const getS3SignedUrl = async (bucket: string, key: string, originalFilena
         return url;
     } catch (error) {
         if (error instanceof Error) {
-            throw new Error(`Failed to get item from s3: ${error.stack || ""}`);
+            throw new Error(`Failed to create signed url for s3 object at ${key}: ${error.stack || ""}`);
         }
 
         throw error;
@@ -62,7 +62,7 @@ export const getObject = async (
 ): Promise<Uint8Array | string | null> => {
     logger.info("", {
         context: "data.s3",
-        message: "getting item from s3",
+        message: `getting item from s3 at ${key}`,
     });
 
     const isDownload = !!originalFilename;
@@ -80,7 +80,7 @@ export const getObject = async (
             : (await response.Body?.transformToString()) ?? null;
     } catch (error) {
         if (error instanceof Error) {
-            throw new Error(`Failed to get item from s3: ${error.stack || ""}`);
+            throw new Error(`Failed to get object from s3: ${error.stack || ""}`);
         }
 
         throw error;

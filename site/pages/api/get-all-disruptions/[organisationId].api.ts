@@ -17,7 +17,7 @@ export interface GetDisruptionsApiRequest extends NextApiRequest {
     };
 }
 
-export const getDashboardDisruptions = async (orgId: string, isTemplate: boolean) => {
+export const getDisruptionsForTable = async (orgId: string, isTemplate: boolean) => {
     let disruptions: FullDisruption[] = [];
 
     try {
@@ -74,7 +74,7 @@ const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResp
     }
 
     try {
-        const disruptions = await getDashboardDisruptions(reqOrgId, template === "true");
+        const disruptions = await getDisruptionsForTable(reqOrgId, template === "true");
 
         res.status(200).json({ disruptions });
     } catch (e) {
