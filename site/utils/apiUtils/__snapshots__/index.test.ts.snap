@@ -1,0 +1,72 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`formatSortedDisruptions > correctly formats disruptions 1`] = `
+{
+  "consequenceLength": 3,
+  "creationTime": undefined,
+  "dataSource": "tnds",
+  "description": "Test description",
+  "displayId": "8fg3ha",
+  "disruptionReason": "accident",
+  "disruptionType": "planned",
+  "history": [
+    {
+      "datetime": "2023-05-19T14:40:00Z",
+      "historyItems": [
+        "some text",
+      ],
+      "status": "PENDING_APPROVAL",
+      "user": "user",
+    },
+    {
+      "datetime": "2023-05-13T14:45:00Z",
+      "historyItems": [
+        "Disruption created and published",
+      ],
+      "status": "PUBLISHED",
+      "user": "user",
+    },
+  ],
+  "id": "test",
+  "isLive": true,
+  "isNetworkWideCq": true,
+  "isOperatorWideCq": true,
+  "modes": [
+    "Bus",
+    "Tram",
+    "Train",
+  ],
+  "operators": [
+    "TEST",
+  ],
+  "publishEndDate": "",
+  "publishStartDate": "2023-03-10T12:00:00.000Z",
+  "services": [
+    {
+      "dataSource": "tnds",
+      "lineName": "Line",
+      "nocCode": "NOC",
+      "ref": "1234",
+    },
+  ],
+  "servicesAffectedCount": 1,
+  "severity": "severe",
+  "status": "draft",
+  "stopsAffectedCount": 0,
+  "summary": "Some summary",
+  "validityPeriods": [
+    {
+      "endTime": "2021-03-30T10:23:00.000Z",
+      "startTime": "2021-03-25T11:23:00.000Z",
+    },
+    {
+      "endTime": "2025-12-30T11:23:00.000Z",
+      "startTime": "2025-12-25T11:23:00.000Z",
+    },
+    {
+      "endTime": "2030-03-30T11:23:00.000Z",
+      "startTime": "2030-03-25T11:23:00.000Z",
+    },
+  ],
+}
+`;

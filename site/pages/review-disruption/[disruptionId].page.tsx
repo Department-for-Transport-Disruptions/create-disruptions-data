@@ -26,7 +26,7 @@ import {
     DISRUPTION_DETAIL_PAGE_PATH,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
-import { getItem } from "../../data/s3";
+import { getS3SignedUrl } from "../../data/s3";
 import { ErrorInfo, PageState } from "../../interfaces";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../../schemas/social-media.schema";
@@ -847,8 +847,11 @@ export const getServerSideProps = async (
             disruption.socialMediaPosts.map(async (s) => {
                 if (s.image) {
                     const url =
-                        (await getItem(process.env.IMAGE_BUCKET_NAME || "", s.image?.key, s.image?.originalFilename)) ||
-                        "";
+                        (await getS3SignedUrl(
+                            process.env.IMAGE_BUCKET_NAME || "",
+                            s.image?.key,
+                            s.image?.originalFilename,
+                        )) || "";
                     return {
                         ...s,
                         image: {

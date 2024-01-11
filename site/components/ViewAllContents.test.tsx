@@ -4,8 +4,8 @@ import { Dayjs } from "dayjs";
 import renderer, { act } from "react-test-renderer";
 import { describe, it, expect, vi, afterEach } from "vitest";
 import ViewAllContents, { Filter, filterContents } from "./ViewAllContents";
-import { getWorstSeverity, isClosingOrClosed } from "../pages/api/get-all-disruptions/[organisationId].api";
 import { DEFAULT_ORG_ID, mockServices, mockViewAllDisruptionsData } from "../testData/mockData";
+import { getWorstSeverity, isClosingOrClosed } from "../utils/apiUtils";
 
 type Renderer = {
     toJSON: () => void;
