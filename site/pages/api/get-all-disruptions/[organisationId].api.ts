@@ -3,8 +3,9 @@ import { notEmpty, sortDisruptionsByStartDate } from "@create-disruptions-data/s
 import { makeFilteredArraySchema } from "@create-disruptions-data/shared-ts/utils/zod";
 import { NextApiRequest, NextApiResponse } from "next";
 import { ORG_DISRUPTIONS_BUCKET_NAME } from "../../../constants";
+import { getDisruptionsDataFromDynamo } from "../../../data/dynamo";
 import { getObject } from "../../../data/s3";
-import { fullDisruptionSchema } from "../../../schemas/disruption.schema";
+import { FullDisruption, fullDisruptionSchema } from "../../../schemas/disruption.schema";
 import { formatSortedDisruption } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
 import logger from "../../../utils/logger";
@@ -16,15 +17,21 @@ export interface GetDisruptionsApiRequest extends NextApiRequest {
     };
 }
 
-export const getDashboardDisruptions = async (orgId: string) => {
-    const s3Disruptions = await getObject(ORG_DISRUPTIONS_BUCKET_NAME, `${orgId}/disruptions.json`);
-
-    if (!s3Disruptions) {
-        return [];
-    }
+export const getDashboardDisruptions = async (orgId: string, isTemplate: boolean) => {
+    let disruptions: FullDisruption[] = [];
 
     try {
-        const disruptions = makeFilteredArraySchema(fullDisruptionSchema).parse(JSON.parse(s3Disruptions.toString()));
+        if (isTemplate) {
+            disruptions = await getDisruptionsDataFromDynamo(orgId, true);
+        } else {
+            const s3Disruptions = await getObject(ORG_DISRUPTIONS_BUCKET_NAME, `${orgId}/disruptions.json`);
+
+            if (!s3Disruptions) {
+                return [];
+            }
+
+            disruptions = makeFilteredArraySchema(fullDisruptionSchema).parse(JSON.parse(s3Disruptions.toString()));
+        }
 
         const filteredDisruptions = disruptions
             .filter(
@@ -67,7 +74,7 @@ const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResp
     }
 
     try {
-        const disruptions = await getDashboardDisruptions(reqOrgId);
+        const disruptions = await getDashboardDisruptions(reqOrgId, template === "true");
 
         res.status(200).json({ disruptions });
     } catch (e) {

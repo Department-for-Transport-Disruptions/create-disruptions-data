@@ -217,33 +217,25 @@ export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise
     return disruptionIds?.map((id) => collectDisruptionsData(dbData || [], id)).filter(notEmpty) ?? [];
 };
 
-export const getDisruptionsDataFromDynamo = async (
-    id: string,
-    isTemplate?: boolean,
-    nextKey?: Record<string, unknown>,
-): Promise<{ disruptions: FullDisruption[]; nextKey?: string }> => {
+export const getDisruptionsDataFromDynamo = async (id: string, isTemplate?: boolean): Promise<FullDisruption[]> => {
     logger.info(`Getting disruptions data from DynamoDB table for org ${id}...`);
 
-    const dbData = await ddbDocClient.send(
-        new QueryCommand({
+    const dbData = await recursiveQuery(
+        {
             TableName: isTemplate ? templateDisruptionsTableName : disruptionsTableName,
             KeyConditionExpression: "PK = :1",
             ExpressionAttributeValues: {
                 ":1": id,
             },
-            Limit: 200,
-            ExclusiveStartKey: nextKey,
-        }),
+        },
+        logger,
     );
 
-    const disruptionIds = dbData.Items?.map((item) => (item as Disruption).disruptionId).filter(
-        (value, index, array) => array.indexOf(value) === index,
-    );
+    const disruptionIds = dbData
+        .map((item) => (item as Disruption).disruptionId)
+        .filter((value, index, array) => array.indexOf(value) === index);
 
-    return {
-        disruptions: disruptionIds?.map((id) => collectDisruptionsData(dbData.Items || [], id)).filter(notEmpty) ?? [],
-        nextKey: dbData.LastEvaluatedKey ? JSON.stringify(dbData.LastEvaluatedKey) : undefined,
-    };
+    return disruptionIds?.map((id) => collectDisruptionsData(dbData || [], id)).filter(notEmpty) ?? [];
 };
 
 export const getPublishedSocialMediaPosts = async (orgId: string): Promise<SocialMediaPost[]> => {

@@ -331,3 +331,5 @@ export const HOOTSUITE_URL = "https://platform.hootsuite.com/";
 export const MAX_OPERATOR_NOC_CODES = 5;
 
 export const ORG_DISRUPTIONS_BUCKET_NAME = process.env.ORG_DISRUPTIONS_BUCKET_NAME || "";
+
+export const TEMPLATE_DISRUPTIONS_TABLE_NAME = process.env.TEMPLATE_DISRUPTIONS_TABLE_NAME || "";

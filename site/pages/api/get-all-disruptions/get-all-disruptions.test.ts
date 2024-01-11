@@ -1,8 +1,15 @@
+import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import MockDate from "mockdate";
 import { describe, it, expect, afterEach, beforeEach, vi, afterAll } from "vitest";
-import getAllDisruptions from "./[organisationId].api";
+import getAllDisruptions, { getDashboardDisruptions } from "./[organisationId].api";
 import * as s3 from "../../../data/s3";
-import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession } from "../../../testData/mockData";
+import {
+    DEFAULT_ORG_ID,
+    disruptionArray,
+    disruptionWithConsequencesAndSocialMediaPosts,
+    getMockRequestAndResponse,
+    mockSession,
+} from "../../../testData/mockData";
 import * as session from "../../../utils/apiUtils/auth";
 
 describe("getAllDisruptions", () => {
@@ -90,5 +97,36 @@ describe("getAllDisruptions", () => {
         expect(getDisruptionsSpy).not.toHaveBeenCalledOnce();
 
         expect(res.status).toHaveBeenCalledWith(403);
+    });
+
+    describe("getDashboardDisruptions", () => {
+        it("should correctly parse disruptions", async () => {
+            getDisruptionsSpy.mockResolvedValue(JSON.stringify(disruptionArray));
+
+            const disruptions = await getDashboardDisruptions(DEFAULT_ORG_ID, false);
+
+            expect(getDisruptionsSpy).toHaveBeenCalledOnce();
+
+            expect(disruptions).toMatchSnapshot();
+        });
+
+        it("should filter out duplicate disruptions", async () => {
+            const disruptionsToStringify = [
+                ...disruptionArray,
+                {
+                    ...disruptionWithConsequencesAndSocialMediaPosts,
+                    disruptionId: "ca090776-57c6-46a1-a03a-6e0236ee17c8",
+                },
+            ];
+            disruptionsToStringify[2].publishStatus = PublishStatus.pendingAndEditing;
+
+            getDisruptionsSpy.mockResolvedValue(JSON.stringify(disruptionsToStringify));
+
+            const disruptions = await getDashboardDisruptions(DEFAULT_ORG_ID, false);
+
+            expect(getDisruptionsSpy).toHaveBeenCalledOnce();
+
+            expect(disruptions.length).toBe(3);
+        });
     });
 });
