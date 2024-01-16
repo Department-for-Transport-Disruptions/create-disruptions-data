@@ -1,55 +1,69 @@
-import { LoadingBox } from "@govuk-react/loading-box";
-import { FeatureCollection } from "geojson";
-import { CSSProperties, ReactElement, useState } from "react";
-import MapBox, { Layer, Source, SymbolLayer, ViewState, useMap } from "react-map-gl";
+import { FeatureCollection, Point } from "geojson";
+import { GeoJSONSource } from "mapbox-gl";
+import { CSSProperties, ReactElement, useRef } from "react";
+import MapBox, {
+    Layer,
+    LayerProps,
+    MapLayerMouseEvent,
+    MapRef,
+    Source,
+    SymbolLayer,
+    ViewState,
+    useMap,
+} from "react-map-gl";
 import MapControls from "./MapControls";
 import cone from "../../public/assets/images/cone.png";
+import { RoadworkWithCoordinates } from "../../schemas/roadwork.schema";
 
 interface MapProps {
     initialViewState: Partial<ViewState>;
     style: CSSProperties;
     mapStyle: string;
-    roadworks: {
-        permitReferenceNumber: string;
-        highwayAuthoritySwaCode: number;
-        worksLocationCoordinates: {
-            type: "Feature";
-            geometry: {
-                type: "Point";
-                coordinates: [number, number];
-            };
-        };
-        streetName: string;
-        areaName: string;
-        proposedStartDateTime: string;
-        proposedEndDateTime: string;
-        actualStartDateTime: string;
-        actualEndDateTime: null;
-        workStatus: string;
-        activityType: string;
-        permitStatus: string;
-        town: string;
-        administrativeAreaCode: string;
-    }[];
+    roadworks: RoadworkWithCoordinates[];
 }
+
+const clusterLayer: LayerProps = {
+    id: "clusters",
+    type: "circle",
+    source: "roadwork-icon-disruptions",
+    filter: ["has", "point_count"],
+    paint: {
+        "circle-color": ["step", ["get", "point_count"], "#51bbd6", 100, "#f1f075", 750, "#f28cb1"],
+        "circle-radius": ["step", ["get", "point_count"], 20, 100, 30, 750, 40],
+    },
+};
+
+const clusterCountLayer: LayerProps = {
+    id: "cluster-count",
+    type: "symbol",
+    source: "roadwork-icon-disruptions",
+    filter: ["has", "point_count"],
+    layout: {
+        "text-field": "{point_count_abbreviated}",
+        "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+        "text-size": 12,
+    },
+};
+
+const roadworkLayer: SymbolLayer = {
+    id: "unclustered-point",
+    type: "symbol",
+    source: "roadwork-icon-disruptions",
+    filter: ["!", ["has", "point_count"]],
+    layout: {
+        "icon-image": "cone",
+        "icon-size": 0.08,
+    },
+};
 
 const Map = ({ initialViewState, style, mapStyle, roadworks }: MapProps): ReactElement | null => {
     const mapboxAccessToken = process.env.MAP_BOX_ACCESS_TOKEN;
-    const [loading, setLoading] = useState(false);
+
+    const mapRef = useRef<MapRef>(null);
 
     const roadworkSource: FeatureCollection = {
         type: "FeatureCollection",
         features: roadworks.map((r) => ({ ...r.worksLocationCoordinates, properties: {} })),
-    };
-
-    const roadworkLayer: SymbolLayer = {
-        id: "roadwork-icon-disruptions",
-        type: "symbol",
-        source: "roadwork-icon-disruptions",
-        layout: {
-            "icon-image": "cone",
-            "icon-size": 0.1,
-        },
     };
 
     const MapImage = () => {
@@ -67,23 +81,59 @@ const Map = ({ initialViewState, style, mapStyle, roadworks }: MapProps): ReactE
         return null;
     };
 
+    const onClick = (event: MapLayerMouseEvent) => {
+        const feature = event.features?.[0];
+        if (feature && feature.properties) {
+            const clusterId = feature.properties.cluster_id as number;
+
+            if (mapRef.current) {
+                const mapboxSource: GeoJSONSource = mapRef.current.getSource(
+                    "roadwork-icon-disruptions",
+                ) as GeoJSONSource;
+
+                mapboxSource.getClusterExpansionZoom(clusterId, (err, zoom) => {
+                    if (err) {
+                        return;
+                    }
+                    if (mapRef.current) {
+                        mapRef.current.easeTo({
+                            center: (feature.geometry as Point).coordinates as [number, number],
+                            zoom,
+                            duration: 500,
+                        });
+                    }
+                });
+            }
+        }
+    };
+
     return mapboxAccessToken ? (
         <>
-            <LoadingBox loading={loading}>
-                <MapBox
-                    initialViewState={initialViewState}
-                    style={style}
-                    mapStyle={mapStyle}
-                    mapboxAccessToken={mapboxAccessToken}
-                    onRender={(event) => event.target.resize()}
+            <MapBox
+                initialViewState={initialViewState}
+                style={style}
+                mapStyle={mapStyle}
+                mapboxAccessToken={mapboxAccessToken}
+                onRender={(event) => event.target.resize()}
+                interactiveLayerIds={[clusterLayer.id || ""]}
+                onClick={onClick}
+                ref={mapRef}
+            >
+                <MapControls onUpdate={() => {}} onDelete={() => {}} trash={false} polygon={false} />
+                <Source
+                    id="roadwork-icon-disruptions"
+                    type="geojson"
+                    data={roadworkSource}
+                    cluster={true}
+                    clusterMaxZoom={14}
+                    clusterRadius={50}
                 >
-                    <MapControls onUpdate={() => {}} onDelete={() => {}} trash={false} polygon={false} />
-                    <Source id="roadwork-icon-disruptions" type="geojson" data={roadworkSource}>
-                        <Layer {...roadworkLayer} />
-                    </Source>
-                    <MapImage />
-                </MapBox>
-            </LoadingBox>
+                    <Layer {...clusterLayer} />
+                    <Layer {...clusterCountLayer} />
+                    <Layer {...roadworkLayer} />
+                </Source>
+                <MapImage />
+            </MapBox>
         </>
     ) : null;
 };

@@ -78,3 +78,33 @@ export const roadworkSchema = z.object({
 });
 
 export type Roadwork = z.infer<typeof roadworkSchema>;
+
+export const roadworkWithCoordinatesSchema = z.object({
+    permitReferenceNumber: z.string(),
+    highwayAuthority: z.string().optional(),
+    highwayAuthoritySwaCode: z.coerce.number(),
+    worksLocationCoordinates: z.object({
+        type: z.literal("Feature"),
+        geometry: z.object({
+            type: z.literal("Point"),
+            coordinates: z.array(z.number()),
+        }),
+    }),
+    streetName: z.string().nullish(),
+    areaName: z.string().nullish(),
+    proposedStartDateTime: z.string().datetime().nullish(),
+    proposedEndDateTime: z.string().datetime().nullish(),
+    actualStartDateTime: z.string().datetime().nullish(),
+    actualEndDateTime: z.string().datetime().nullish(),
+    workStatus: workStatus.nullish(),
+    activityType: z.string().nullish(),
+    permitStatus: permitStatus.nullish(),
+    town: z.string().nullish(),
+    administrativeAreaCode: z.string(),
+    workCategory: workCategory.nullish(),
+    trafficManagementType: z.string().nullish(),
+    createdDateTime: z.string().datetime().nullish(),
+    lastUpdatedDateTime: z.string().datetime().nullish(),
+});
+
+export type RoadworkWithCoordinates = z.infer<typeof roadworkWithCoordinatesSchema>;

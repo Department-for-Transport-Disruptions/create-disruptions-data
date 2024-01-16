@@ -1,6 +1,7 @@
 import { getDate, sortEarliestDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import center from "@turf/center";
 import { getCoords } from "@turf/invariant";
+import { Point } from "geojson";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import proj4 from "proj4";
@@ -11,7 +12,7 @@ import { BaseLayout } from "../components/layout/Layout";
 import Tabs from "../components/layout/Tabs";
 import Map from "../components/map/RoadWorksMap";
 import { fetchRoadworks } from "../data/refDataApi";
-import { Roadwork } from "../schemas/roadwork.schema";
+import { Roadwork, RoadworkWithCoordinates } from "../schemas/roadwork.schema";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 import { convertDateTimeToFormat } from "../utils/dates";
 
@@ -399,52 +400,57 @@ const test = [
         town: "MANCHESTER",
         administrativeAreaCode: "083",
     },
-].map((item) => {
-    const worksLocationCoordinates: GeoJSONFeature = {
-        type: "Feature",
-        geometry: {
-            type: "Point",
-            coordinates: [0, 0],
-        },
-    };
+];
 
-    const geometry = parse(item.worksLocationCoordinates) || worksLocationCoordinates.geometry;
-    worksLocationCoordinates.geometry = geometry;
+const roadWorkCoordinates = (roadworks: Roadwork[]): RoadworkWithCoordinates[] => {
+    return roadworks.map((item: Roadwork) => {
+        const worksLocationCoordinates: GeoJSONFeature = {
+            type: "Feature",
+            geometry: {
+                type: "Point",
+                coordinates: [0, 0],
+            },
+        };
 
-    if (isPolygon(geometry) || isLineString(geometry)) {
-        const middle = center(geometry);
+        const geometry = parse(item.worksLocationCoordinates || "") || worksLocationCoordinates.geometry;
+        worksLocationCoordinates.geometry = geometry;
+
+        if (isPolygon(geometry) || isLineString(geometry)) {
+            const middle = center(geometry);
+
+            worksLocationCoordinates.geometry = {
+                type: "Point",
+                coordinates: getCoords(middle) as [number, number],
+            };
+        }
+
+        const easting: number = (worksLocationCoordinates.geometry as Point).coordinates[0] || 0;
+        const northing: number = (worksLocationCoordinates.geometry as Point).coordinates[1] || 0;
+
+        // Define the British National Grid (BNG) coordinate reference system
+        const sourceCRS: string =
+            "+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.060,0.1502,0.2470,0.8421,-20.4894 +units=m +no_defs"; // OSGB36
+
+        // Define the target coordinate reference system for longitude and latitude
+        const targetCRS: string = "+proj=longlat +datum=WGS84 +no_defs";
+
+        // Perform the coordinate transformation
+
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        const coordinates: [number, number] = proj4(sourceCRS, targetCRS, [easting, northing]) as [number, number];
 
         worksLocationCoordinates.geometry = {
             type: "Point",
-            coordinates: getCoords(middle),
-        } as GeoJSONGeometry;
-    }
+            coordinates: coordinates as [number, number],
+        };
 
-    // Example coordinates in British National Grid (easting, northing)
-    const easting = worksLocationCoordinates.geometry.coordinates[0];
-    const northing = worksLocationCoordinates.geometry.coordinates[1];
+        return {
+            ...item,
+            worksLocationCoordinates,
+        };
+    }) as RoadworkWithCoordinates[];
+};
 
-    // Define the British National Grid (BNG) coordinate reference system
-    const sourceCRS =
-        "+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.060,0.1502,0.2470,0.8421,-20.4894 +units=m +no_defs"; // OSGB36
-
-    // Define the target coordinate reference system for longitude and latitude
-    const targetCRS = "+proj=longlat +datum=WGS84 +no_defs";
-
-    // Perform the coordinate transformation
-    const coordinates = proj4(sourceCRS, targetCRS, [easting, northing]);
-    worksLocationCoordinates.geometry = {
-        type: "Point",
-        coordinates: coordinates,
-    } as GeoJSONGeometry;
-
-    return {
-        ...item,
-        worksLocationCoordinates,
-    };
-});
-
-console.log(test);
 export interface RoadworksTable {
     datesAffected: string;
     description: JSX.Element;
@@ -495,7 +501,7 @@ const ViewAllRoadworks = ({ liveRoadworks }: ViewAllRoadworksProps) => {
                 }}
                 style={{ width: "100%", height: "40vh", marginBottom: 20 }}
                 mapStyle="mapbox://styles/mapbox/streets-v12"
-                roadworks={test}
+                roadworks={roadWorkCoordinates(liveRoadworks)}
             />
             <Tabs
                 tabs={[
