@@ -1,11 +1,14 @@
 import { FeatureCollection, Point } from "geojson";
+import { lowerCase, startCase, uniqueId } from "lodash";
 import { GeoJSONSource } from "mapbox-gl";
-import { CSSProperties, ReactElement, useRef } from "react";
+import Link from "next/link";
+import { CSSProperties, ReactElement, useCallback, useRef, useState } from "react";
 import MapBox, {
     Layer,
     LayerProps,
     MapLayerMouseEvent,
     MapRef,
+    Popup,
     Source,
     SymbolLayer,
     ViewState,
@@ -14,6 +17,7 @@ import MapBox, {
 import MapControls from "./MapControls";
 import cone from "../../public/assets/images/cone.png";
 import { RoadworkWithCoordinates } from "../../schemas/roadwork.schema";
+import { convertDateTimeToFormat } from "../../utils/dates";
 
 interface MapProps {
     initialViewState: Partial<ViewState>;
@@ -61,9 +65,38 @@ const Map = ({ initialViewState, style, mapStyle, roadworks }: MapProps): ReactE
 
     const mapRef = useRef<MapRef>(null);
 
+    const [popupInfo, setPopupInfo] = useState<
+        Partial<{
+            streetName: string;
+            startDateTime: string;
+            endDateTime: string;
+            longitude: number;
+            latitude: number;
+            permitReferenceNumber: string;
+        }>
+    >({});
+
     const roadworkSource: FeatureCollection = {
         type: "FeatureCollection",
-        features: roadworks.map((r) => ({ ...r.worksLocationCoordinates, properties: {} })),
+        features: roadworks.map((r) => ({
+            ...r.worksLocationCoordinates,
+            properties: {
+                streetName: startCase(lowerCase(r.streetName || "")),
+                startDateTime: r.actualStartDateTime
+                    ? convertDateTimeToFormat(r.actualStartDateTime, "DD/MM/YYYY HHmm")
+                    : r.proposedStartDateTime
+                    ? convertDateTimeToFormat(r.proposedStartDateTime, "DD/MM/YYYY HHmm")
+                    : "",
+                endDateTime: r.actualEndDateTime
+                    ? convertDateTimeToFormat(r.actualEndDateTime, "DD/MM/YYYY HHmm")
+                    : r.proposedEndDateTime
+                    ? convertDateTimeToFormat(r.proposedEndDateTime, "DD/MM/YYYY HHmm")
+                    : "",
+                longitude: r.worksLocationCoordinates.geometry.coordinates[0],
+                latitude: r.worksLocationCoordinates.geometry.coordinates[1],
+                permitReferenceNumber: r.permitReferenceNumber,
+            },
+        })),
     };
 
     const MapImage = () => {
@@ -81,31 +114,39 @@ const Map = ({ initialViewState, style, mapStyle, roadworks }: MapProps): ReactE
         return null;
     };
 
-    const onClick = (event: MapLayerMouseEvent) => {
+    const onClick = useCallback((event: MapLayerMouseEvent) => {
         const feature = event.features?.[0];
-        if (feature && feature.properties) {
-            const clusterId = feature.properties.cluster_id as number;
 
-            if (mapRef.current) {
-                const mapboxSource: GeoJSONSource = mapRef.current.getSource(
-                    "roadwork-icon-disruptions",
-                ) as GeoJSONSource;
+        if (feature?.layer.id === "clusters") {
+            if (feature && feature.properties) {
+                const clusterId = feature.properties.cluster_id as number;
 
-                mapboxSource.getClusterExpansionZoom(clusterId, (err, zoom) => {
-                    if (err) {
-                        return;
-                    }
-                    if (mapRef.current) {
-                        mapRef.current.easeTo({
-                            center: (feature.geometry as Point).coordinates as [number, number],
-                            zoom,
-                            duration: 500,
-                        });
-                    }
-                });
+                if (mapRef.current) {
+                    const mapboxSource: GeoJSONSource = mapRef.current.getSource(
+                        "roadwork-icon-disruptions",
+                    ) as GeoJSONSource;
+
+                    mapboxSource.getClusterExpansionZoom(clusterId, (err, zoom) => {
+                        if (err) {
+                            return;
+                        }
+                        if (mapRef.current) {
+                            mapRef.current.easeTo({
+                                center: (feature.geometry as Point).coordinates as [number, number],
+                                zoom,
+                                duration: 500,
+                            });
+                        }
+                    });
+                }
             }
         }
-    };
+        const featureLayer = event.features?.find((f) => f.layer.id === "unclustered-point");
+
+        if (featureLayer && featureLayer.properties) {
+            setPopupInfo(featureLayer.properties);
+        }
+    }, []);
 
     return mapboxAccessToken ? (
         <>
@@ -115,7 +156,7 @@ const Map = ({ initialViewState, style, mapStyle, roadworks }: MapProps): ReactE
                 mapStyle={mapStyle}
                 mapboxAccessToken={mapboxAccessToken}
                 onRender={(event) => event.target.resize()}
-                interactiveLayerIds={[clusterLayer.id || ""]}
+                interactiveLayerIds={[clusterLayer.id || "", roadworkLayer.id || ""]}
                 onClick={onClick}
                 ref={mapRef}
             >
@@ -133,6 +174,31 @@ const Map = ({ initialViewState, style, mapStyle, roadworks }: MapProps): ReactE
                     <Layer {...roadworkLayer} />
                 </Source>
                 <MapImage />
+                {popupInfo.longitude && popupInfo.latitude && (
+                    <Popup
+                        anchor="top"
+                        longitude={popupInfo.longitude}
+                        latitude={popupInfo.latitude}
+                        onClose={() => setPopupInfo({})}
+                        closeButton={false}
+                        closeOnMove
+                        closeOnClick
+                        key={uniqueId(popupInfo.permitReferenceNumber)}
+                    >
+                        <div>
+                            <p className="govuk-body-xs mb-1 font-bold">{`Roadworks - ${popupInfo.streetName}`}</p>
+                            <p className="govuk-body-xxs mb-1 w-max">{`${popupInfo.startDateTime} - ${
+                                popupInfo.endDateTime || "No end date"
+                            }`}</p>
+                            <Link
+                                className="govuk-link font-bold"
+                                href={`roadwork-detail/${encodeURIComponent(popupInfo.permitReferenceNumber || "")}`}
+                            >
+                                See more
+                            </Link>
+                        </div>
+                    </Popup>
+                )}
             </MapBox>
         </>
     ) : null;
