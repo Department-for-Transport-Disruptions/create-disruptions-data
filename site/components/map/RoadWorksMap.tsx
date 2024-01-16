@@ -1,6 +1,7 @@
 import { FeatureCollection, Point } from "geojson";
 import { lowerCase, startCase, uniqueId } from "lodash";
 import { GeoJSONSource } from "mapbox-gl";
+import { StaticImageData } from "next/image";
 import Link from "next/link";
 import { CSSProperties, ReactElement, useCallback, useRef, useState } from "react";
 import MapBox, {
@@ -104,7 +105,7 @@ const Map = ({ initialViewState, style, mapStyle, roadworks }: MapProps): ReactE
 
         if (map) {
             if (!map.hasImage("cone")) {
-                map.loadImage(cone.src || "", (error, image) => {
+                map.loadImage(cone.src, (error, image) => {
                     if (error) throw error;
                     if (!map.hasImage("cone") && image) map.addImage("cone", image, { sdf: false });
                 });
