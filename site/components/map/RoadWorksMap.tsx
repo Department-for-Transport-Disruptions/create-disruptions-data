@@ -104,7 +104,7 @@ const Map = ({ initialViewState, style, mapStyle, roadworks }: MapProps): ReactE
 
         if (map) {
             if (!map.hasImage("cone")) {
-                map.loadImage(cone.src, (error, image) => {
+                map.loadImage(cone.src || "", (error, image) => {
                     if (error) throw error;
                     if (!map.hasImage("cone") && image) map.addImage("cone", image, { sdf: false });
                 });
