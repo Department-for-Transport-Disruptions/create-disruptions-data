@@ -122,9 +122,7 @@ const Map = ({ initialViewState, style, mapStyle, roadworks }: MapProps): ReactE
                 const clusterId = feature.properties.cluster_id as number;
 
                 if (mapRef.current) {
-                    const mapboxSource: GeoJSONSource = mapRef.current.getSource(
-                        "roadwork-icon-disruptions",
-                    ) as GeoJSONSource;
+                    const mapboxSource = mapRef.current.getSource("roadwork-icon-disruptions") as GeoJSONSource;
 
                     mapboxSource.getClusterExpansionZoom(clusterId, (err, zoom) => {
                         if (err) {
