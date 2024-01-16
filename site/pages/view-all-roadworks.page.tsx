@@ -28,7 +28,6 @@ const isPolygon = (geometry: GeoJSONGeometry): geometry is GeoJSONPolygon => geo
 const isLineString = (geometry: GeoJSONGeometry): geometry is GeoJSONLineString =>
     geometry && geometry.type === "LineString";
 
-
 const roadWorkCoordinates = (roadworks: Roadwork[]): RoadworkWithCoordinates[] => {
     return roadworks.map((item: Roadwork) => {
         const worksLocationCoordinates: GeoJSONFeature = {
