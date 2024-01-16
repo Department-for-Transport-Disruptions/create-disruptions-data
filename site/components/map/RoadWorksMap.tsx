@@ -1,7 +1,6 @@
 import { FeatureCollection, Point } from "geojson";
 import { lowerCase, startCase, uniqueId } from "lodash";
 import { GeoJSONSource } from "mapbox-gl";
-import { StaticImageData } from "next/image";
 import Link from "next/link";
 import { CSSProperties, ReactElement, useCallback, useRef, useState } from "react";
 import MapBox, {
