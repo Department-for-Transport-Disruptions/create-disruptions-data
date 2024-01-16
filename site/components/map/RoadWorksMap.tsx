@@ -104,6 +104,7 @@ const Map = ({ initialViewState, style, mapStyle, roadworks }: MapProps): ReactE
 
         if (map) {
             if (!map.hasImage("cone")) {
+                // @typescript-eslint/no-unsafe-argument @typescript-eslint/no-unsafe-member-access
                 map.loadImage(cone.src, (error, image) => {
                     if (error) throw error;
                     if (!map.hasImage("cone") && image) map.addImage("cone", image, { sdf: false });
