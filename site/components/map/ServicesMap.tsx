@@ -17,6 +17,7 @@ import {
 } from "react";
 import MapBox, { Layer, Popup, Source, ViewState } from "react-map-gl";
 import { z } from "zod";
+import { stat } from "fs";
 import { PolygonFeature } from "./DrawControl";
 import MapControls from "./MapControls";
 import Markers from "./Markers";
@@ -114,6 +115,12 @@ const Map = ({
 
     const [selectedServicesRoutes, setSelectedServicesRoutes] =
         useState<Partial<(Routes & { serviceId: number })[]>>(searchedRoutes);
+
+    useEffect(() => {
+        if (state.inputs.stops?.length === 0) {
+            setShowSelectAllText(true);
+        }
+    }, [state.inputs?.stops]);
 
     useEffect(() => {
         setSelectedServicesRoutes(searchedRoutes);
