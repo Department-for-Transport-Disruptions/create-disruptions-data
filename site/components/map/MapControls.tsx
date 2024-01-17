@@ -6,9 +6,11 @@ import GeocoderControl from "./GeocoderControl";
 interface MapControlsProps {
     onUpdate: (evt: { features: PolygonFeature[] }) => void;
     onDelete: () => void;
+    trash?: boolean;
+    polygon?: boolean;
 }
 
-const MapControls = ({ onUpdate, onDelete }: MapControlsProps): ReactElement | null => {
+const MapControls = ({ onUpdate, onDelete, trash = true, polygon = true }: MapControlsProps): ReactElement | null => {
     const mapboxAccessToken = process.env.MAP_BOX_ACCESS_TOKEN;
 
     return mapboxAccessToken ? (
@@ -20,8 +22,8 @@ const MapControls = ({ onUpdate, onDelete }: MapControlsProps): ReactElement | n
                 position="top-left"
                 displayControlsDefault={false}
                 controls={{
-                    polygon: true,
-                    trash: true,
+                    polygon: polygon,
+                    trash: trash,
                 }}
                 defaultMode="draw_polygon"
                 onCreate={(evt) => {

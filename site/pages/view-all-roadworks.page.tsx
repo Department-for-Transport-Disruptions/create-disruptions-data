@@ -1,12 +1,18 @@
 import { getDate, sortEarliestDate } from "@create-disruptions-data/shared-ts/utils/dates";
+import center from "@turf/center";
+import { getCoords } from "@turf/invariant";
+import { Point } from "geojson";
 import { NextPageContext } from "next";
 import Link from "next/link";
+import proj4 from "proj4";
+import { GeoJSONPolygon, parse, GeoJSONFeature, GeoJSONGeometry, GeoJSONLineString } from "wellknown";
 import SortableTable, { TableColumn } from "../components/form/SortableTable";
 import Warning from "../components/form/Warning";
 import { BaseLayout } from "../components/layout/Layout";
 import Tabs from "../components/layout/Tabs";
+import Map from "../components/map/RoadWorksMap";
 import { fetchRoadworks } from "../data/refDataApi";
-import { Roadwork } from "../schemas/roadwork.schema";
+import { Roadwork, RoadworkWithCoordinates } from "../schemas/roadwork.schema";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 import { convertDateTimeToFormat } from "../utils/dates";
 
@@ -16,6 +22,60 @@ const description = "View All Roadworks page for the Create Transport Disruption
 export interface ViewAllRoadworksProps {
     liveRoadworks: Roadwork[];
 }
+
+const isPolygon = (geometry: GeoJSONGeometry): geometry is GeoJSONPolygon => geometry && geometry.type === "Polygon";
+
+const isLineString = (geometry: GeoJSONGeometry): geometry is GeoJSONLineString =>
+    geometry && geometry.type === "LineString";
+
+const roadWorkCoordinates = (roadworks: Roadwork[]): RoadworkWithCoordinates[] => {
+    return roadworks.map((item: Roadwork) => {
+        const worksLocationCoordinates: GeoJSONFeature = {
+            type: "Feature",
+            geometry: {
+                type: "Point",
+                coordinates: [0, 0],
+            },
+        };
+
+        const geometry = parse(item.worksLocationCoordinates || "") || worksLocationCoordinates.geometry;
+        worksLocationCoordinates.geometry = geometry;
+
+        if (isPolygon(geometry) || isLineString(geometry)) {
+            const middle = center(geometry);
+
+            worksLocationCoordinates.geometry = {
+                type: "Point",
+                coordinates: getCoords(middle) as [number, number],
+            };
+        }
+
+        const easting: number = (worksLocationCoordinates.geometry as Point).coordinates[0] || 0;
+        const northing: number = (worksLocationCoordinates.geometry as Point).coordinates[1] || 0;
+
+        // Define the British National Grid (BNG) coordinate reference system
+        const sourceCRS: string =
+            "+proj=tmerc +lat_0=49 +lon_0=-2 +k=0.9996012717 +x_0=400000 +y_0=-100000 +ellps=airy +towgs84=446.448,-125.157,542.060,0.1502,0.2470,0.8421,-20.4894 +units=m +no_defs"; // OSGB36
+
+        // Define the target coordinate reference system for longitude and latitude
+        const targetCRS: string = "+proj=longlat +datum=WGS84 +no_defs";
+
+        // Perform the coordinate transformation
+
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        const coordinates: [number, number] = proj4(sourceCRS, targetCRS, [easting, northing]) as [number, number];
+
+        worksLocationCoordinates.geometry = {
+            type: "Point",
+            coordinates: coordinates as [number, number],
+        };
+
+        return {
+            ...item,
+            worksLocationCoordinates,
+        };
+    }) as RoadworkWithCoordinates[];
+};
 
 export interface RoadworksTable {
     datesAffected: string;
@@ -59,6 +119,16 @@ const ViewAllRoadworks = ({ liveRoadworks }: ViewAllRoadworksProps) => {
 
             {liveRoadworks.length === 0 && <Warning text="There are no current roadworks in your area" />}
 
+            <Map
+                initialViewState={{
+                    longitude: -1.7407941662903283,
+                    latitude: 53.05975866591879,
+                    zoom: 4.5,
+                }}
+                style={{ width: "100%", height: "40vh", marginBottom: 20 }}
+                mapStyle="mapbox://styles/mapbox/streets-v12"
+                roadworks={roadWorkCoordinates(liveRoadworks)}
+            />
             <Tabs
                 tabs={[
                     {
