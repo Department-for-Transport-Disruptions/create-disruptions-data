@@ -36,7 +36,8 @@
         "./tailwind.config.js",
         "./postcss.config.js",
         "./babel.config.js",
-        "./public/scripts/all.js"
+        "./public/scripts/all.js",
+        "./declaration.d.ts"
     ],
     "exclude": ["node_modules"]
 }
