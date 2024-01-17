@@ -118,26 +118,24 @@ const Map = ({ initialViewState, style, mapStyle, roadworks }: MapProps): ReactE
     const onClick = useCallback((event: MapLayerMouseEvent) => {
         const feature = event.features?.[0];
 
-        if (feature?.layer.id === "clusters") {
-            if (feature && feature.properties) {
-                const clusterId = feature.properties.cluster_id as number;
+        if (feature && feature.properties && feature?.layer.id === "clusters") {
+            const clusterId = feature.properties.cluster_id as number;
 
-                if (mapRef.current) {
-                    const mapboxSource = mapRef.current.getSource("roadwork-icon-disruptions") as GeoJSONSource;
+            if (mapRef.current) {
+                const mapboxSource = mapRef.current.getSource("roadwork-icon-disruptions") as GeoJSONSource;
 
-                    mapboxSource.getClusterExpansionZoom(clusterId, (err, zoom) => {
-                        if (err) {
-                            return;
-                        }
-                        if (mapRef.current) {
-                            mapRef.current.easeTo({
-                                center: (feature.geometry as Point).coordinates as [number, number],
-                                zoom,
-                                duration: 500,
-                            });
-                        }
-                    });
-                }
+                mapboxSource.getClusterExpansionZoom(clusterId, (err, zoom) => {
+                    if (err) {
+                        return;
+                    }
+                    if (mapRef.current) {
+                        mapRef.current.easeTo({
+                            center: (feature.geometry as Point).coordinates as [number, number],
+                            zoom,
+                            duration: 500,
+                        });
+                    }
+                });
             }
         }
         const featureLayer = event.features?.find((f) => f.layer.id === "unclustered-point");
