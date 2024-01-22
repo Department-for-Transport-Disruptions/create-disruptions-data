@@ -7,7 +7,7 @@ import {
     CognitoIdentityProviderClient,
     ListUserPoolsCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
-import { UserGroups } from "../../../../shared-ts/enums";
+import { UserGroups } from "../../../../shared-ts/enums.js";
 import { z } from "zod";
 import inquirer from "inquirer";
 

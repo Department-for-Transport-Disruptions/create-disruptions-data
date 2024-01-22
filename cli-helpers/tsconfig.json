@@ -3,10 +3,14 @@
     "compilerOptions": {
         "declaration": true,
         "importHelpers": true,
-        "module": "commonjs",
+        "module": "es2022",
         "outDir": "dist",
         "strict": true,
-        "target": "es2019"
+        "target": "es2022",
+        "moduleResolution": "bundler",
+    },
+    "ts-node": {
+        "esm": true
     },
     "include": ["src/**/*", "../shared-ts"]
 }
