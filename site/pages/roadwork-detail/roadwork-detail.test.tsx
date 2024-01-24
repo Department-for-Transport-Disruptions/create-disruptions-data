@@ -1,8 +1,8 @@
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
+import { Roadwork } from "@create-disruptions-data/shared-ts/roadwork.zod";
 import renderer from "react-test-renderer";
 import { describe, expect, it } from "vitest";
 import RoadworkDetail from "./[permitReferenceNumber].page";
-import { Roadwork } from "../../schemas/roadwork.schema";
 
 const mockNewDisruptionId = "d7991c1b-f332-4f6e-a150-faffebcd1ff6";
 

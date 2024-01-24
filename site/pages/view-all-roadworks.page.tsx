@@ -1,3 +1,4 @@
+import { Roadwork, RoadworkWithCoordinates } from "@create-disruptions-data/shared-ts/roadwork.zod";
 import { getDate, sortEarliestDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import center from "@turf/center";
 import { getCoords } from "@turf/invariant";
@@ -12,7 +13,6 @@ import { BaseLayout } from "../components/layout/Layout";
 import Tabs from "../components/layout/Tabs";
 import Map from "../components/map/RoadWorksMap";
 import { fetchRoadworks } from "../data/refDataApi";
-import { Roadwork, RoadworkWithCoordinates } from "../schemas/roadwork.schema";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 import { convertDateTimeToFormat } from "../utils/dates";
 

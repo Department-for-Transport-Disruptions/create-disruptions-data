@@ -1,7 +1,9 @@
 import * as logger from "lambda-log";
 import fetch from "node-fetch";
+import { z } from "zod";
 import { Service, ServiceWithCentrePoint, serviceWithCentrePointSchema } from "../disruptionTypes";
 import { Datasource } from "../enums";
+import { roadwork } from "../roadwork.zod";
 import { Logger } from ".";
 
 export const fetchService = async (
@@ -54,4 +56,37 @@ export const getServiceCentrePoint = async (service: Service) => {
         logger,
     );
     return { latitude: serviceInfo?.centrePointLat ?? null, longitude: serviceInfo?.centrePointLon ?? null };
+};
+
+export const getRecentlyCancelledRoadworks = async () => {
+    try {
+        const searchApiUrl = `${process.env.API_BASE_URL}/roadworks?permitStatus=cancelled&lastUpdatedTimeDelta=5`;
+
+        console.log(searchApiUrl);
+        const res = await fetch(searchApiUrl, {
+            method: "GET",
+        });
+
+        if (!res.ok) {
+            throw new Error(
+                `Failed to fetch roadworks cancelled in the last 5 minutes with response code: ${res.status}`,
+            );
+        }
+
+        const parseResult = z.array(roadwork).safeParse(await res.json());
+
+        if (!parseResult.success) {
+            return null;
+        }
+
+        return parseResult.data;
+    } catch (e) {
+        if (e instanceof Error) {
+            logger.warn(`Error fetching recently cancelled roadworks`);
+
+            logger.warn(e.stack || e.message);
+        }
+
+        return null;
+    }
 };
