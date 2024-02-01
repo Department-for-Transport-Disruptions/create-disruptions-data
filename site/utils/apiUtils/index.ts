@@ -1,21 +1,12 @@
-import { Consequence, Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { MAX_CONSEQUENCES } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
-import {
-    Datasource,
-    Progress,
-    PublishStatus,
-    Severity,
-    SocialMediaPostStatus,
-} from "@create-disruptions-data/shared-ts/enums";
-import { getSortedDisruptionFinalEndDate } from "@create-disruptions-data/shared-ts/utils";
-import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
-import { Dayjs } from "dayjs";
+import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import { parseCookies, setCookie } from "nookies";
 import { TwitterApi } from "twitter-api-v2";
 import { z } from "zod";
 import { IncomingMessage, ServerResponse } from "http";
-import { getDisplayByValue, mapValidityPeriods, notEmpty, reduceStringWithEllipsis } from "..";
+import { notEmpty } from "..";
 import {
     COOKIES_POLICY_COOKIE,
     COOKIE_CSRF,
@@ -24,16 +15,13 @@ import {
     DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
     COOKIES_REFRESH_TOKEN,
-    VEHICLE_MODES,
 } from "../../constants";
 import { upsertConsequence } from "../../data/dynamo";
 import { getAccessToken, publishToHootsuite } from "../../data/hootsuite";
 import { getTwitterClient, sendTweet } from "../../data/twitter";
 import { TooManyConsequencesError } from "../../errors";
 import { PageState } from "../../interfaces";
-import { TableDisruption } from "../../schemas/disruption.schema";
 import { SocialMediaPost } from "../../schemas/social-media.schema";
-import { isLiveDisruption } from "../../utils/dates";
 import logger from "../logger";
 
 export const setCookieOnResponseObject = (
@@ -254,180 +242,5 @@ export const formatAddOrEditUserBody = (body: object) => {
     return {
         ...cleansedBody,
         operatorOrg: operatorOrg[1] ? (JSON.parse(operatorOrg[1] as string) as object) : undefined,
-    };
-};
-
-export const getDisruptionStatus = (disruption: Disruption): Progress => {
-    if (disruption.publishStatus === PublishStatus.draft) {
-        return Progress.draft;
-    }
-
-    if (disruption.publishStatus === PublishStatus.rejected) {
-        return Progress.rejected;
-    }
-
-    if (disruption.publishStatus === PublishStatus.pendingApproval) {
-        return Progress.draftPendingApproval;
-    }
-
-    if (
-        disruption.publishStatus === PublishStatus.editPendingApproval ||
-        disruption.publishStatus === PublishStatus.pendingAndEditing
-    ) {
-        return Progress.editPendingApproval;
-    }
-
-    if (!disruption.validity && !disruption.template) {
-        return Progress.closed;
-    }
-
-    const today = getDate();
-    const disruptionEndDate = getSortedDisruptionFinalEndDate(disruption);
-
-    if (!!disruptionEndDate && !disruption.template) {
-        return isClosingOrClosed(disruptionEndDate, today);
-    }
-
-    return Progress.open;
-};
-
-export const isClosingOrClosed = (endDate: Dayjs, today: Dayjs): Progress => {
-    if (endDate.isBefore(today)) {
-        return Progress.closed;
-    } else if (endDate.diff(today, "hour") < 24) {
-        return Progress.closing;
-    }
-
-    return Progress.open;
-};
-
-export const getWorstSeverity = (severitys: Severity[]): Severity => {
-    const severityScoringMap: { [key in Severity]: number } = {
-        unknown: 0,
-        verySlight: 1,
-        slight: 2,
-        normal: 3,
-        severe: 4,
-        verySevere: 5,
-    };
-
-    let worstSeverity: Severity = Severity.unknown;
-
-    severitys.forEach((severity) => {
-        if (!worstSeverity) {
-            worstSeverity = severity;
-        } else if (severityScoringMap[worstSeverity] < severityScoringMap[severity]) {
-            worstSeverity = severity;
-        }
-    });
-
-    return worstSeverity;
-};
-
-export const formatSortedDisruption = (disruption: Disruption): TableDisruption => {
-    const modes: string[] = [];
-    const severitys: Severity[] = [];
-    const services: TableDisruption["services"] = [];
-    const disruptionOperators: string[] = [];
-    const atcoCodeSet = new Set<string>();
-
-    let isOperatorWideCq = false;
-    let isNetworkWideCq = false;
-    let stopsAffectedCount = 0;
-    let servicesAffectedCount = 0;
-
-    const getEndDateTime = getSortedDisruptionFinalEndDate(disruption);
-
-    const isLive = disruption.validity ? isLiveDisruption(disruption.validity, getEndDateTime) : false;
-
-    let dataSource: Datasource | undefined = undefined;
-
-    if (disruption.consequences) {
-        disruption.consequences.forEach((consequence) => {
-            const modeToAdd = getDisplayByValue(VEHICLE_MODES, consequence.vehicleMode);
-            if (!!modeToAdd && !modes.includes(modeToAdd)) {
-                modes.push(modeToAdd);
-            }
-
-            severitys.push(consequence.disruptionSeverity);
-
-            switch (consequence.consequenceType) {
-                case "services":
-                    consequence.services.forEach((service) => {
-                        services.push({
-                            nocCode: service.nocCode,
-                            lineName: service.lineName,
-                            ref: service.dataSource === Datasource.bods ? service.lineId : service.serviceCode,
-                            dataSource: service.dataSource,
-                        });
-                        servicesAffectedCount++;
-                    });
-
-                    consequence.stops?.map((stop) => {
-                        if (!atcoCodeSet.has(stop.atcoCode)) {
-                            atcoCodeSet.add(stop.atcoCode);
-                            stopsAffectedCount++;
-                        }
-                    });
-
-                    dataSource = consequence.services[0].dataSource;
-
-                    break;
-
-                case "operatorWide":
-                    isOperatorWideCq = true;
-                    consequence.consequenceOperators.forEach((op) => {
-                        disruptionOperators.push(op.operatorNoc);
-                    });
-                    break;
-
-                case "networkWide":
-                    isNetworkWideCq = true;
-                    break;
-
-                case "stops":
-                    consequence.stops?.map((stop) => {
-                        if (!atcoCodeSet.has(stop.atcoCode)) {
-                            atcoCodeSet.add(stop.atcoCode);
-                            stopsAffectedCount++;
-                        }
-                    });
-                    break;
-            }
-        });
-    }
-
-    const status = getDisruptionStatus(disruption);
-
-    return {
-        displayId: disruption.displayId,
-        modes,
-        consequenceLength: disruption.consequences ? disruption.consequences.length : 0,
-        status,
-        severity: getWorstSeverity(severitys),
-        services,
-        dataSource,
-        operators: disruptionOperators,
-        id: disruption.disruptionId,
-        summary: reduceStringWithEllipsis(disruption.summary, 95),
-        validityPeriods: mapValidityPeriods(disruption),
-        publishStartDate: getDatetimeFromDateAndTime(
-            disruption.publishStartDate,
-            disruption.publishStartTime,
-        ).toISOString(),
-        publishEndDate:
-            disruption.publishEndDate && disruption.publishEndTime
-                ? getDatetimeFromDateAndTime(disruption.publishEndDate, disruption.publishEndTime).toISOString()
-                : "",
-        isOperatorWideCq: isOperatorWideCq,
-        isNetworkWideCq: isNetworkWideCq,
-        isLive: isLive,
-        stopsAffectedCount: stopsAffectedCount,
-        servicesAffectedCount,
-        disruptionType: disruption.disruptionType,
-        description: disruption.description,
-        disruptionReason: disruption.disruptionReason,
-        creationTime: disruption.creationTime,
-        history: disruption.history,
     };
 };
