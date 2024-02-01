@@ -245,17 +245,12 @@ export const disruptionArray: FullDisruption[] = [
     disruptionWithConsequencesAndSocialMediaPosts,
     {
         ...disruptionWithConsequencesAndSocialMediaPosts,
-        disruptionId: "ca090776-57c6-46a1-a03a-6e0236ee17c8",
-        publishStatus: PublishStatus.published,
         validity: [],
-        disruptionStartDate: "10/03/2024",
-        disruptionStartTime: "1000",
+        disruptionStartDate: "10/03/2022",
+        disruptionStartTime: "1100",
         disruptionNoEndDateTime: "true",
     },
-    {
-        ...disruptionWithNoConsequences,
-        disruptionId: "8e9b35a8-1c72-453d-93d5-27983bbf4eba",
-    },
+    disruptionWithNoConsequences,
 ];
 
 export const ptSituationElementWithMultipleConsequences = {
