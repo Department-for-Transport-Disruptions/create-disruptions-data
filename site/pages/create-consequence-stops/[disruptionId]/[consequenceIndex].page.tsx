@@ -280,7 +280,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                                         errors: pageState.errors,
                                     });
                                 }}
-                                disabled={pageState.inputs.stops?.length === 0}
+                                disabled={!pageState.inputs.stops || pageState.inputs.stops?.length === 0}
                             >
                                 <p className="text-govBlue govuk-body-m">Remove all stops</p>
                             </button>

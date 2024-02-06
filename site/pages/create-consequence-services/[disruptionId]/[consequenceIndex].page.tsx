@@ -553,7 +553,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                                         errors: pageState.errors,
                                     });
                                 }}
-                                disabled={pageState.inputs.stops?.length === 0}
+                                disabled={!pageState.inputs.services || pageState.inputs.services?.length === 0}
                             >
                                 <p className="text-govBlue govuk-body-m">Remove all services</p>
                             </button>
@@ -597,7 +597,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                                         errors: pageState.errors,
                                     });
                                 }}
-                                disabled={pageState.inputs.stops?.length === 0}
+                                disabled={!pageState.inputs.stops || pageState.inputs.stops?.length === 0}
                             >
                                 <p className="text-govBlue govuk-body-m">Remove all stops</p>
                             </button>
