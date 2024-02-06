@@ -3,7 +3,7 @@
     "version": "0.0.0",
     "description": "Helpers for the CDD tool",
     "bin": {
-        "cdd-helpers": "bin/run"
+        "cdd-helpers": "bin/run.js"
     },
     "homepage": "https://github.com/Department-for-Transport-Disruptions/create-disruptions-data",
     "license": "MIT",
@@ -23,7 +23,7 @@
         "@aws-sdk/client-dynamodb": "^3.388.0",
         "@aws-sdk/lib-dynamodb": "^3.388.0",
         "@create-disruptions-data/shared-ts": "file:../shared-ts",
-        "@oclif/core": "^2",
+        "@oclif/core": "^3.18.1",
         "@oclif/plugin-help": "^5",
         "@oclif/plugin-plugins": "^2.4.7",
         "@oclif/test": "^2.3.17",
@@ -33,15 +33,15 @@
         "@types/node": "^18.18.6",
         "chai": "^4",
         "eslint": "^7.32.0",
-        "eslint-config-oclif": "^4",
-        "eslint-config-oclif-typescript": "^1.0.3",
+        "eslint-config-oclif": "^5",
+        "eslint-config-oclif-typescript": "^3.0.39",
         "inquirer": "^8.2.6",
         "mocha": "^9",
         "oclif": "^3",
         "shx": "^0.3.3",
         "ts-node": "^10.9.1",
         "tslib": "^2.5.0",
-        "typescript": "^4.9.5"
+        "typescript": "^5.3.3"
     },
     "oclif": {
         "bin": "cdd-helpers",
@@ -71,5 +71,6 @@
     "keywords": [
         "oclif"
     ],
+    "type": "module",
     "types": "dist/index.d.ts"
 }

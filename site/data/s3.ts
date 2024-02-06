@@ -31,10 +31,10 @@ export const putItem = async (
     }
 };
 
-export const getS3SignedUrl = async (bucket: string, key: string, originalFilename: string): Promise<string> => {
+export const getItem = async (bucket: string, key: string, originalFilename: string): Promise<string> => {
     logger.info("", {
         context: "data.s3",
-        message: `creating signed url for s3 object at ${key}`,
+        message: "getting item from s3",
     });
 
     try {
@@ -48,39 +48,31 @@ export const getS3SignedUrl = async (bucket: string, key: string, originalFilena
         return url;
     } catch (error) {
         if (error instanceof Error) {
-            throw new Error(`Failed to create signed url for s3 object at ${key}: ${error.stack || ""}`);
+            throw new Error(`Failed to get item from s3: ${error.stack || ""}`);
         }
 
         throw error;
     }
 };
 
-export const getObject = async (
-    bucket: string,
-    key: string,
-    originalFilename?: string,
-): Promise<Uint8Array | string | null> => {
+export const getObject = async (bucket: string, key: string, originalFilename: string): Promise<Uint8Array | null> => {
     logger.info("", {
         context: "data.s3",
-        message: `getting item from s3 at ${key}`,
+        message: "getting item from s3",
     });
-
-    const isDownload = !!originalFilename;
 
     try {
         const input = {
             Bucket: bucket,
             Key: key,
-            ...(isDownload ? { ResponseContentDisposition: 'attachment; filename ="' + originalFilename + '"' } : {}),
+            ResponseContentDisposition: 'attachment; filename ="' + originalFilename + '"',
         };
         const command = new GetObjectCommand(input);
         const response = await s3.send(command);
-        return isDownload
-            ? (await response.Body?.transformToByteArray()) ?? null
-            : (await response.Body?.transformToString()) ?? null;
+        return (await response.Body?.transformToByteArray()) ?? null;
     } catch (error) {
         if (error instanceof Error) {
-            throw new Error(`Failed to get object from s3: ${error.stack || ""}`);
+            throw new Error(`Failed to get item from s3: ${error.stack || ""}`);
         }
 
         throw error;

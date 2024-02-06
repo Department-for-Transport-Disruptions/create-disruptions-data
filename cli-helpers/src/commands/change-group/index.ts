@@ -1,4 +1,3 @@
-import { Command, Flags } from "@oclif/core";
 import {
     AdminAddUserToGroupCommand,
     AdminListGroupsForUserCommand,
@@ -8,9 +7,10 @@ import {
     ListUsersCommand,
     UserType,
 } from "@aws-sdk/client-cognito-identity-provider";
-import { UserGroups } from "../../../../shared-ts/enums";
+import { Command, Flags } from "@oclif/core";
 import inquirer from "inquirer";
-import { notEmpty } from "../../../../shared-ts/utils";
+
+import { UserGroups } from "../../../../shared-ts/enums.js";
 
 const cognito = new CognitoIdentityProviderClient({
     region: "eu-west-2",
@@ -19,9 +19,9 @@ const cognito = new CognitoIdentityProviderClient({
 const getUsers = async (poolId: string | undefined, paginationToken?: string): Promise<UserType[]> => {
     const users = await cognito.send(
         new ListUsersCommand({
-            UserPoolId: poolId,
             AttributesToGet: ["email"],
             Limit: 5,
+            UserPoolId: poolId,
             ...(paginationToken ? { PaginationToken: paginationToken } : {}),
         }),
     );
@@ -32,17 +32,17 @@ const getUsers = async (poolId: string | undefined, paginationToken?: string): P
 
     if (users.PaginationToken) {
         return [...users.Users, ...(await getUsers(poolId, users.PaginationToken))];
-    } else {
-        return users.Users;
     }
+
+    return users.Users;
 };
 
 export default class CreateUser extends Command {
     static description = "Create user";
 
     static flags = {
-        group: Flags.string({ description: "Cognito group to add user to" }),
         email: Flags.string({ description: "Email for user" }),
+        group: Flags.string({ description: "Cognito group to add user to" }),
         poolId: Flags.string({ description: "ID of user pool to add user to" }),
         stage: Flags.string({ description: "SST stage to use", required: true }),
     };
@@ -50,7 +50,7 @@ export default class CreateUser extends Command {
     async run(): Promise<void> {
         const { flags } = await this.parse(CreateUser);
 
-        let { group, email, stage, poolId } = flags;
+        let { email, group, poolId, stage } = flags;
 
         if (!poolId) {
             const userPoolsResult = await cognito.send(
@@ -63,10 +63,10 @@ export default class CreateUser extends Command {
 
             const responses = await inquirer.prompt([
                 {
-                    name: "poolId",
-                    message: "Select the user pool",
-                    type: "list",
                     choices: userPools.map((pool) => ({ name: pool.Name, value: pool.Id })),
+                    message: "Select the user pool",
+                    name: "poolId",
+                    type: "list",
                 },
             ]);
 
@@ -76,10 +76,10 @@ export default class CreateUser extends Command {
         if (!group) {
             const responses = await inquirer.prompt([
                 {
-                    name: "group",
-                    message: "Select a group",
-                    type: "list",
                     choices: Object.values(UserGroups).map((group) => ({ name: group })),
+                    message: "Select a group",
+                    name: "group",
+                    type: "list",
                 },
             ]);
 
@@ -93,7 +93,7 @@ export default class CreateUser extends Command {
                 throw new Error("No users found");
             }
 
-            const emails = userList.map((user) => user.Attributes?.[0].Value).filter(notEmpty);
+            const emails = userList.map((user) => user.Attributes?.[0].Value).filter((value) => value !== null && value !== undefined);
 
             if (!emails || emails.length === 0) {
                 throw new Error("No users found");
@@ -101,10 +101,10 @@ export default class CreateUser extends Command {
 
             const responses = await inquirer.prompt([
                 {
-                    name: "email",
-                    message: "Select user",
-                    type: "list",
                     choices: emails,
+                    message: "Select user",
+                    name: "email",
+                    type: "list",
                 },
             ]);
 
@@ -113,8 +113,8 @@ export default class CreateUser extends Command {
 
         const existingGroups = await cognito.send(
             new AdminListGroupsForUserCommand({
-                Username: email,
                 UserPoolId: poolId,
+                Username: email,
             }),
         );
 
@@ -122,9 +122,9 @@ export default class CreateUser extends Command {
             for (const existingGroup of existingGroups.Groups) {
                 await cognito.send(
                     new AdminRemoveUserFromGroupCommand({
-                        Username: email,
-                        UserPoolId: poolId,
                         GroupName: existingGroup.GroupName,
+                        UserPoolId: poolId,
+                        Username: email,
                     }),
                 );
             }
@@ -133,8 +133,8 @@ export default class CreateUser extends Command {
         await cognito.send(
             new AdminAddUserToGroupCommand({
                 GroupName: group,
-                Username: email,
                 UserPoolId: poolId,
+                Username: email,
             }),
         );
 
