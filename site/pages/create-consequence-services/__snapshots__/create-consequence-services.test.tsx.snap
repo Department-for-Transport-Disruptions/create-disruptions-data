@@ -3620,7 +3620,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
             <button
               className="govuk-link"
               data-module="govuk-button"
-              disabled={false}
+              disabled={true}
               onClick={[Function]}
             >
               <p
@@ -3760,7 +3760,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
             <button
               className="govuk-link"
               data-module="govuk-button"
-              disabled={false}
+              disabled={true}
               onClick={[Function]}
             >
               <p

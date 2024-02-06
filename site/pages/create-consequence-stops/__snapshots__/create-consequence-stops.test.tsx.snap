@@ -1965,7 +1965,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
             <button
               className="govuk-link"
               data-module="govuk-button"
-              disabled={false}
+              disabled={true}
               onClick={[Function]}
             >
               <p
