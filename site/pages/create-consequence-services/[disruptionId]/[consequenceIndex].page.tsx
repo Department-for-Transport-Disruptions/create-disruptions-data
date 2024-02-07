@@ -537,27 +537,29 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             filterOptions={createFilter(filterConfig)}
                         />
 
-                        <div className="my-3">
-                            <button
-                                className="govuk-link"
-                                data-module="govuk-button"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    setPageState({
-                                        ...pageState,
-                                        inputs: {
-                                            ...pageState.inputs,
-                                            services: [],
-                                            stops: [],
-                                        },
-                                        errors: pageState.errors,
-                                    });
-                                }}
-                                disabled={!pageState.inputs.services || pageState.inputs.services?.length === 0}
-                            >
-                                <p className="text-govBlue govuk-body-m">Remove all services</p>
-                            </button>
-                        </div>
+                        {pageState.inputs.services && pageState.inputs.services?.length >= 1 && (
+                            <div className="my-3">
+                                <button
+                                    className="govuk-link"
+                                    data-module="govuk-button"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setPageState({
+                                            ...pageState,
+                                            inputs: {
+                                                ...pageState.inputs,
+                                                services: [],
+                                                stops: [],
+                                            },
+                                            errors: pageState.errors,
+                                        });
+                                    }}
+                                    disabled={!pageState.inputs.services || pageState.inputs.services?.length === 0}
+                                >
+                                    <p className="text-govBlue govuk-body-m">Remove all services</p>
+                                </button>
+                            </div>
+                        )}
                         <br />
 
                         <SearchSelect<Stop>
@@ -582,26 +584,28 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             setSearchInput={setStopsSearchInput}
                         />
 
-                        <div className="my-3">
-                            <button
-                                className="govuk-link"
-                                data-module="govuk-button"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    setPageState({
-                                        ...pageState,
-                                        inputs: {
-                                            ...pageState.inputs,
-                                            stops: [],
-                                        },
-                                        errors: pageState.errors,
-                                    });
-                                }}
-                                disabled={!pageState.inputs.stops || pageState.inputs.stops?.length === 0}
-                            >
-                                <p className="text-govBlue govuk-body-m">Remove all stops</p>
-                            </button>
-                        </div>
+                        {pageState.inputs.stops && pageState.inputs.stops?.length >= 1 && (
+                            <div className="my-3">
+                                <button
+                                    className="govuk-link"
+                                    data-module="govuk-button"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setPageState({
+                                            ...pageState,
+                                            inputs: {
+                                                ...pageState.inputs,
+                                                stops: [],
+                                            },
+                                            errors: pageState.errors,
+                                        });
+                                    }}
+                                    disabled={!pageState.inputs.stops || pageState.inputs.stops?.length === 0}
+                                >
+                                    <p className="text-govBlue govuk-body-m">Remove all stops</p>
+                                </button>
+                            </div>
+                        )}
                         <br />
 
                         <Map
