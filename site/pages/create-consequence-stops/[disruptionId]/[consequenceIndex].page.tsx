@@ -265,26 +265,28 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             }}
                         />
 
-                        <div className="my-3">
-                            <button
-                                className="govuk-link"
-                                data-module="govuk-button"
-                                onClick={(e) => {
-                                    e.preventDefault();
-                                    setPageState({
-                                        ...pageState,
-                                        inputs: {
-                                            ...pageState.inputs,
-                                            stops: [],
-                                        },
-                                        errors: pageState.errors,
-                                    });
-                                }}
-                                disabled={!pageState.inputs.stops || pageState.inputs.stops?.length === 0}
-                            >
-                                <p className="text-govBlue govuk-body-m">Remove all stops</p>
-                            </button>
-                        </div>
+                        {pageState.inputs.stops && pageState.inputs.stops?.length >= 1 && (
+                            <div className="my-3">
+                                <button
+                                    className="govuk-link"
+                                    data-module="govuk-button"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setPageState({
+                                            ...pageState,
+                                            inputs: {
+                                                ...pageState.inputs,
+                                                stops: [],
+                                            },
+                                            errors: pageState.errors,
+                                        });
+                                    }}
+                                    disabled={!pageState.inputs.stops || pageState.inputs.stops?.length === 0}
+                                >
+                                    <p className="text-govBlue govuk-body-m">Remove all stops</p>
+                                </button>
+                            </div>
+                        )}
                         <br />
 
                         <Map

@@ -1959,22 +1959,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
               </div>
             </div>
           </div>
-          <div
-            className="my-3"
-          >
-            <button
-              className="govuk-link"
-              data-module="govuk-button"
-              disabled={true}
-              onClick={[Function]}
-            >
-              <p
-                className="text-govBlue govuk-body-m"
-              >
-                Remove all stops
-              </p>
-            </button>
-          </div>
           <br />
           <div
             className="govuk-form-group"
