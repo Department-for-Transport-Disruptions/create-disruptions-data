@@ -29,6 +29,7 @@ describe("pages", () => {
                         orgName="Test Org"
                         orgId="test-id"
                         isOperatorUser={false}
+                        enableLoadingSpinnerOnPageLoad={false}
                     />,
                 )
                 .toJSON();
@@ -44,6 +45,7 @@ describe("pages", () => {
                         orgName="Test Org"
                         orgId="test-id"
                         isOperatorUser={true}
+                        enableLoadingSpinnerOnPageLoad={false}
                     />,
                 )
                 .toJSON();

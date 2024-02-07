@@ -35,6 +35,7 @@ export interface DashboardProps {
     orgName: string;
     orgId: string;
     isOperatorUser: boolean;
+    enableLoadingSpinnerOnPageLoad?: boolean;
 }
 
 const formatContentsIntoRows = (disruptions: DashboardDisruption[]) => {
@@ -138,6 +139,7 @@ const Dashboard = ({
     orgName,
     orgId,
     isOperatorUser = false,
+    enableLoadingSpinnerOnPageLoad = true,
 }: DashboardProps): ReactElement => {
     const hasInitialised = useRef(false);
     const [currentLivePage, setCurrentLivePage] = useState(1);
@@ -231,7 +233,7 @@ const Dashboard = ({
                 tabs={[
                     {
                         tabHeader: "Live",
-                        content: (
+                        content: enableLoadingSpinnerOnPageLoad ? (
                             <LoadingBox loading={isLoading}>
                                 <Table
                                     caption={{ text: "Live disruptions", size: "l" }}
@@ -246,11 +248,26 @@ const Dashboard = ({
                                     setCurrentPage={setCurrentLivePage}
                                 />
                             </LoadingBox>
+                        ) : (
+                            <>
+                                <Table
+                                    caption={{ text: "Live disruptions", size: "l" }}
+                                    columns={["ID", "Summary", "Affected dates"]}
+                                    rows={formatContentsIntoRows(
+                                        getPageOfDisruptions(currentLivePage, liveDisruptions),
+                                    )}
+                                />
+                                <PageNumbers
+                                    numberOfPages={getNumberOfPages(liveDisruptions)}
+                                    currentPage={currentLivePage}
+                                    setCurrentPage={setCurrentLivePage}
+                                />
+                            </>
                         ),
                     },
                     {
                         tabHeader: "Upcoming",
-                        content: (
+                        content: enableLoadingSpinnerOnPageLoad ? (
                             <LoadingBox loading={isLoading}>
                                 <Table
                                     caption={{ text: "Upcoming disruptions", size: "l" }}
@@ -265,11 +282,26 @@ const Dashboard = ({
                                     setCurrentPage={setCurrentUpcomingPage}
                                 />
                             </LoadingBox>
+                        ) : (
+                            <>
+                                <Table
+                                    caption={{ text: "Upcoming disruptions", size: "l" }}
+                                    columns={["ID", "Summary", "Affected dates"]}
+                                    rows={formatContentsIntoRows(
+                                        getPageOfDisruptions(currentUpcomingPage, upcomingDisruptions),
+                                    )}
+                                />
+                                <PageNumbers
+                                    numberOfPages={getNumberOfPages(upcomingDisruptions)}
+                                    currentPage={currentUpcomingPage}
+                                    setCurrentPage={setCurrentUpcomingPage}
+                                />
+                            </>
                         ),
                     },
                     {
                         tabHeader: "Recently closed",
-                        content: (
+                        content: enableLoadingSpinnerOnPageLoad ? (
                             <LoadingBox loading={isLoading}>
                                 <Table
                                     caption={{ text: "Closed disruptions", size: "l" }}
@@ -284,6 +316,21 @@ const Dashboard = ({
                                     setCurrentPage={setCurrentRecentlyClosedPage}
                                 />
                             </LoadingBox>
+                        ) : (
+                            <>
+                                <Table
+                                    caption={{ text: "Closed disruptions", size: "l" }}
+                                    columns={["ID", "Summary", "Affected dates"]}
+                                    rows={formatContentsIntoRows(
+                                        getPageOfDisruptions(currentRecentlyClosedPage, recentlyClosedDisruptions),
+                                    )}
+                                />
+                                <PageNumbers
+                                    numberOfPages={getNumberOfPages(recentlyClosedDisruptions)}
+                                    currentPage={currentRecentlyClosedPage}
+                                    setCurrentPage={setCurrentRecentlyClosedPage}
+                                />
+                            </>
                         ),
                     },
                 ]}
