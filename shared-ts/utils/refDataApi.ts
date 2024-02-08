@@ -62,7 +62,6 @@ export const getRecentlyCancelledRoadworks = async () => {
     try {
         const searchApiUrl = `${process.env.API_BASE_URL}/roadworks?permitStatus=cancelled&lastUpdatedTimeDelta=5`;
 
-        console.log(searchApiUrl);
         const res = await fetch(searchApiUrl, {
             method: "GET",
         });
