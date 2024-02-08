@@ -393,3 +393,36 @@ export const getAllDisruptionsForOrg = async (orgId: string, tableName: string, 
         .map((disruption) => collectDisruptionsData(disruptions, disruption.disruptionId as string, logger))
         .filter(notEmpty);
 };
+
+export const getDisruptionsWithRoadworks = async (
+    permitReferenceNumbers: string[],
+    tableName: string,
+    publishStatus: PublishStatus,
+    logger: Logger,
+) => {
+    const queries = permitReferenceNumbers.map((_, i) => `permitReferenceNumber = :${i + 2}`);
+    const joinedQueries = queries && queries.length > 0 ? queries.join(" or ") : queries[0];
+    const filterExpression = `publishStatus = :1 and ${joinedQueries}`;
+    const expressionAttributeValues = permitReferenceNumbers
+        .map((permitReferenceNumber, i) => ({ [`:${i + 2}`]: permitReferenceNumber }))
+        .reduce((prev, curr) => {
+            Object.assign(prev, curr);
+            return prev;
+        }, {});
+
+    const disruptions = await recursiveScan(
+        {
+            TableName: tableName,
+            FilterExpression: filterExpression,
+            ExpressionAttributeValues: {
+                ":1": publishStatus,
+                ...expressionAttributeValues,
+            },
+        },
+        logger,
+    );
+
+    return disruptions
+        .map((disruption) => collectDisruptionsData(disruptions, disruption.disruptionId as string, logger))
+        .filter(notEmpty);
+};
