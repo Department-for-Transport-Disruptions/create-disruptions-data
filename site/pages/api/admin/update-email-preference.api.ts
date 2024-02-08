@@ -16,8 +16,6 @@ const updateEmailPreference = async (req: NextApiRequest, res: NextApiResponse) 
 
         if (!session) {
             throw new Error("No session found");
-        } else if (!session.isOrgAdmin) {
-            throw new Error("Invalid user accessing the page");
         }
 
         const validatedBody = updateEmailPreferenceSchema.safeParse(req.body);

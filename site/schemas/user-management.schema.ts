@@ -24,6 +24,8 @@ export const user = z
                 operatorOrgId: c.Name === "custom:operatorOrgId" ? c.Value : p.operatorOrgId,
                 disruptionEmailPreference:
                     c.Name === "custom:disruptionEmailPref" ? c.Value : p.disruptionEmailPreference,
+                streetManagerEmailPreference:
+                    c.Name === "custom:streetManagerPref" ? c.Value : p.streetManagerEmailPreference,
             }),
             {
                 userStatus: item.UserStatus,
@@ -35,6 +37,7 @@ export const user = z
                 orgId: "N/A",
                 operatorOrgId: "N/A",
                 disruptionEmailPreference: "N/A",
+                streetManagerEmailPreference: "N/A",
             },
         ),
     );
@@ -86,6 +89,8 @@ export const userManagementSchema = z.array(
                     operatorOrgId: c.Name === "custom:operatorOrgId" ? c.Value : p.operatorOrgId,
                     disruptionEmailPreference:
                         c.Name === "custom:disruptionEmailPref" ? c.Value : p.disruptionEmailPreference,
+                    streetManagerEmailPreference:
+                        c.Name === "custom:streetManagerPref" ? c.Value : p.streetManagerEmailPreference,
                 }),
                 {
                     userStatus: item.UserStatus,
@@ -97,6 +102,7 @@ export const userManagementSchema = z.array(
                     organisation: "N/A",
                     operatorOrgId: "N/A",
                     disruptionEmailPreference: "N/A",
+                    streetManagerEmailPreference: "N/A",
                 },
             ),
         ),

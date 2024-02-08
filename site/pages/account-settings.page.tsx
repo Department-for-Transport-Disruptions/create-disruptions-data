@@ -12,7 +12,7 @@ import { ErrorInfo } from "../interfaces";
 import { OperatorOrgSchema, ModeType } from "../schemas/organisation.schema";
 import { SessionWithOrgDetail } from "../schemas/session.schema";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
-import { getDisruptionEmailPreference } from "../utils/user";
+import { getDisruptionEmailPreference, getStreetManagerEmailPreference } from "../utils/user";
 
 const title = "Account settings - Create Transport Disruption Data Service";
 const description = "Account settings page for the Create Transport Disruption Data Service";
@@ -21,6 +21,7 @@ interface AccountSettingsProps {
     sessionWithOrg: SessionWithOrgDetail;
     csrfToken?: string;
     disruptionEmailPreference?: boolean;
+    streetManagerPreference?: boolean;
     operator?: OperatorOrgSchema | null;
 }
 
@@ -28,12 +29,14 @@ const AccountSettings = ({
     sessionWithOrg,
     csrfToken,
     disruptionEmailPreference,
+    streetManagerPreference,
     operator,
 }: AccountSettingsProps): ReactElement => {
     const [mode, setMode] = useState<ModeType>(sessionWithOrg.mode);
     const [errors, setErrors] = useState<ErrorInfo[]>([]);
     const [disruptionApprovalEmailPreference, setDisruptionApprovalEmailPreference] =
         useState(disruptionEmailPreference);
+    const [streetManagerEmailPreference, setStreetManagerEmailPreference] = useState(streetManagerPreference);
 
     const updateOrg = async (key: string, value: Datasource) => {
         const previousValue = mode[key as keyof ModeType];
@@ -132,6 +135,37 @@ const AccountSettings = ({
         });
         if (!res.ok) {
             setDisruptionApprovalEmailPreference(!emailPreference);
+            setErrors([
+                {
+                    id: "disruptionApprovalEmailPreferences",
+                    errorMessage: "Retry changing email preferences later",
+                },
+            ]);
+        } else {
+            setErrors([]);
+        }
+    };
+
+    const updateStreetManagerEmailPreferences = async (emailPreference: boolean) => {
+        setStreetManagerEmailPreference(emailPreference);
+        const url = new URL("/api/admin/update-email-preference", window.location.origin);
+        csrfToken ? url.searchParams.append("_csrf", csrfToken) : null;
+        const res = await fetch(url.toString(), {
+            method: "POST",
+            headers: csrfToken
+                ? {
+                      "Content-Type": "application/json",
+                      "X-CSRF-TOKEN": csrfToken,
+                  }
+                : { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                username: sessionWithOrg.username,
+                attributeName: "custom:streetManagerPref",
+                attributeValue: emailPreference ? "true" : "false",
+            }),
+        });
+        if (!res.ok) {
+            setStreetManagerEmailPreference(!emailPreference);
             setErrors([
                 {
                     id: "disruptionApprovalEmailPreferences",
@@ -277,6 +311,51 @@ const AccountSettings = ({
                                             </div>
                                         </div>
                                     </div>
+                                    <div className="flex flex-row items-center">
+                                        <p className="font-bold mr-28">Street manager notifications</p>
+                                        <div className="govuk-radios govuk-radios--inline" data-module="govuk-radios">
+                                            <div className="govuk-radios__item">
+                                                <input
+                                                    className="govuk-radios__input"
+                                                    id={`street-manager-notification-on`}
+                                                    name={`street-manager-notification-on`}
+                                                    type="radio"
+                                                    value="true"
+                                                    checked={streetManagerEmailPreference}
+                                                    onChange={async () => {
+                                                        await updateStreetManagerEmailPreferences(true);
+                                                    }}
+                                                />
+                                                <label
+                                                    key={`street-manager-notification-on`}
+                                                    htmlFor={`street-manager-notification-on`}
+                                                    className="govuk-label govuk-radios__label"
+                                                >
+                                                    On
+                                                </label>
+                                            </div>
+                                            <div className="govuk-radios__item">
+                                                <input
+                                                    className="govuk-radios__input"
+                                                    id={`street-manager-notification-off`}
+                                                    name={`street-manager-notification-off`}
+                                                    type="radio"
+                                                    value="false"
+                                                    checked={!streetManagerEmailPreference}
+                                                    onChange={async () => {
+                                                        await updateStreetManagerEmailPreferences(false);
+                                                    }}
+                                                />
+                                                <label
+                                                    key={`street-manager-notification-off`}
+                                                    htmlFor={`street-manager-email-notification-off`}
+                                                    className="govuk-label govuk-radios__label"
+                                                >
+                                                    Off
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </FormElementWrapper>
                         </FormGroupWrapper>
@@ -324,12 +403,18 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("No session found");
     }
 
+    const streetManagerEmailPreference = await getStreetManagerEmailPreference(
+        sessionWithOrg.username,
+        (sessionWithOrg.group ?? "").toString(),
+    );
+
     if (sessionWithOrg.isOrgAdmin) {
         const disruptionEmailPreference = await getDisruptionEmailPreference(sessionWithOrg.username);
         return {
             props: {
                 sessionWithOrg,
                 disruptionEmailPreference,
+                streetManagerPreference: streetManagerEmailPreference,
             },
         };
     }
@@ -346,6 +431,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             props: {
                 operator,
                 sessionWithOrg,
+                streetManagerPreference: streetManagerEmailPreference,
             },
         };
     }
@@ -353,6 +439,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     return {
         props: {
             sessionWithOrg,
+            streetManagerPreference: streetManagerEmailPreference,
         },
     };
 };
