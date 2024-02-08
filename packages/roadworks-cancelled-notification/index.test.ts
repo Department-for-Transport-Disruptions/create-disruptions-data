@@ -8,7 +8,7 @@ import * as refDataApi from "@create-disruptions-data/shared-ts/utils/refDataApi
 
 const sesMock = mockClient(SESClient);
 
-describe("SIRI-SX Generator", () => {
+describe("roadWorksCancelledNotification", () => {
     beforeAll(() => {
         process.env.DISRUPTIONS_TABLE_NAME = "test-table";
         process.env.ORGANISATIONS_TABLE_NAME = "org-test-table";
@@ -24,7 +24,7 @@ describe("SIRI-SX Generator", () => {
         vi.resetAllMocks();
     });
 
-    it("roadWorksCancelledNotification", () => {
+    it("It should send an email when there is a cancelled roadwork", () => {
         vi.spyOn(refDataApi, "getRecentlyCancelledRoadworks").mockResolvedValue([
             {
                 permitReferenceNumber: "HZ73101328453-2339467-02",
