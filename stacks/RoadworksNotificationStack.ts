@@ -16,7 +16,7 @@ export const RoadworksNotificationStack = ({ stack }: StackContext) => {
             ? "https://disruption-data.dft.gov.uk"
             : !["preprod", "test"].includes(stack.stage)
             ? "http://localhost:3000"
-            : `https://${stage}.cdd.dft-create-data.com`;
+            : `https://${stack.stage}.cdd.dft-create-data.com`;
 
     const cancelledRoadworkNotification = new Function(stack, "cdd-roadworks-cancelled-notification", {
         functionName: `cdd-roadworks-cancelled-notification-${stack.stage}`,
