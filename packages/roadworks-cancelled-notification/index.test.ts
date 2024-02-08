@@ -92,4 +92,14 @@ describe("roadWorksCancelledNotification", () => {
             ToAddresses: ["test_email@.ac.uk", "test_email@hotmail.com"],
         });
     });
+
+    it("It should not send an email when there is no cancelled roadwork", () => {
+        vi.spyOn(refDataApi, "getRecentlyCancelledRoadworks").mockResolvedValue([]);
+
+        vi.spyOn(dynamo, "getDisruptionsWithRoadworks").mockResolvedValue([]);
+
+        vi.spyOn(cognito, "getAllUsersEmailsInGroups").mockResolvedValue([]);
+
+        expect(sesMock.send.calledOnce).toBeFalsy();
+    });
 });
