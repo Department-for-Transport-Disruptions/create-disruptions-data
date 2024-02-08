@@ -45,7 +45,7 @@ const roadworksCancellationEmailBody = (disruptionLinks: string[]) =>
                                   <div style="font-family: Arial, sans-serif; padding-left: 30px">
                        <h1>Notification of cancelled Street Manager roadworks</h1>
                        <p>There has been a cancelled roadwork update from Street manager. This may effect the end date showing in your disruption. Please review the roadwork and edit the disruption accordingly.The following disruptions are attached to cancelled roadworks;</p>
-                       ${disruptionLinks.map((link, i) => `<a href=${link}>Link to disruption ${i}</a>`).join(" ")}
+                       ${disruptionLinks.map((link, i) => `<a href=${link}>Link to disruption ${i + 1}</a>`).join(" ")}
                        <p>Amend the data accordingly, if needed.</p>
                     </div>
                                  </div>
@@ -158,7 +158,7 @@ export const main = async (): Promise<void> => {
             domainName || "",
             stage || "",
         );
-
+        console.log(roadworksCancellationEmail.input.Message);
         await sesClient.send(roadworksCancellationEmail);
     } catch (e) {
         if (e instanceof Error) {
