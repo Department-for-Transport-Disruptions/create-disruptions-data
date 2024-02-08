@@ -385,6 +385,23 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
             </div>
           </div>
           <div
+            className="my-3"
+          >
+            <button
+              className="govuk-link"
+              data-module="govuk-button"
+              disabled={false}
+              onClick={[Function]}
+            >
+              <p
+                className="text-govBlue govuk-body-m"
+              >
+                Remove all stops
+              </p>
+            </button>
+          </div>
+          <br />
+          <div
             className="govuk-form-group govuk-form-group--error"
           >
             <div
@@ -1204,6 +1221,23 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
             </div>
           </div>
           <div
+            className="my-3"
+          >
+            <button
+              className="govuk-link"
+              data-module="govuk-button"
+              disabled={false}
+              onClick={[Function]}
+            >
+              <p
+                className="text-govBlue govuk-body-m"
+              >
+                Remove all stops
+              </p>
+            </button>
+          </div>
+          <br />
+          <div
             className="govuk-form-group"
           >
             <div
@@ -1925,6 +1959,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
               </div>
             </div>
           </div>
+          <br />
           <div
             className="govuk-form-group"
           >
@@ -2720,6 +2755,23 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
               />
             </div>
           </div>
+          <div
+            className="my-3"
+          >
+            <button
+              className="govuk-link"
+              data-module="govuk-button"
+              disabled={false}
+              onClick={[Function]}
+            >
+              <p
+                className="text-govBlue govuk-body-m"
+              >
+                Remove all stops
+              </p>
+            </button>
+          </div>
+          <br />
           <div
             className="govuk-form-group"
           >

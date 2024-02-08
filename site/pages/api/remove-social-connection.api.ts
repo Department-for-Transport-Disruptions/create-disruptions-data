@@ -6,14 +6,14 @@ import { getTwitterSsmAccessSecretKey, getTwitterSsmAccessTokenKey } from "../..
 import { getSession } from "../../utils/apiUtils/auth";
 import { redirectToError, redirectTo } from "../../utils/apiUtils/index";
 
-interface RemoveSocialConnectionApiRequest extends NextApiRequest {
+interface RemoveHootsuiteConnectionApiRequest extends NextApiRequest {
     body: {
         profileId: string;
         type: string;
     };
 }
 
-const removeSocialConnection = async (req: RemoveSocialConnectionApiRequest, res: NextApiResponse) => {
+const removeHootsuiteConnection = async (req: RemoveHootsuiteConnectionApiRequest, res: NextApiResponse) => {
     try {
         const { profileId, type } = req.body;
         const session = getSession(req);
@@ -30,25 +30,18 @@ const removeSocialConnection = async (req: RemoveSocialConnectionApiRequest, res
             throw new Error("Invalid type");
         }
 
-        if (type === "Twitter") {
-            await Promise.all([
-                deleteParameter(getTwitterSsmAccessSecretKey(session.orgId, profileId)),
-                deleteParameter(getTwitterSsmAccessTokenKey(session.orgId, profileId)),
-                removeSocialAccountFromOrg(session.orgId, profileId),
-            ]);
-        } else if (type === "Hootsuite") {
-            await Promise.all([
-                deleteParameter(`/social/${session.orgId}/hootsuite/${profileId}/refresh_token`),
-                removeSocialAccountFromOrg(session.orgId, profileId),
-            ]);
-        }
+        await Promise.all([
+            deleteParameter(getTwitterSsmAccessSecretKey(session.orgId, profileId)),
+            deleteParameter(getTwitterSsmAccessTokenKey(session.orgId, profileId)),
+            removeSocialAccountFromOrg(session.orgId, profileId),
+        ]);
 
         redirectTo(res, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH);
         return;
     } catch (e) {
         if (e instanceof Error) {
             const message = "There was a problem with removing the social media connection.";
-            redirectToError(res, message, "api.remove-social-connection", e);
+            redirectToError(res, message, "api.remove-hootsuite-connection", e);
             return;
         }
 
@@ -57,4 +50,4 @@ const removeSocialConnection = async (req: RemoveSocialConnectionApiRequest, res
     }
 };
 
-export default removeSocialConnection;
+export default removeHootsuiteConnection;

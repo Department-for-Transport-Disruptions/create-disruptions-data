@@ -116,6 +116,12 @@ const Map = ({
         useState<Partial<(Routes & { serviceId: number })[]>>(searchedRoutes);
 
     useEffect(() => {
+        if (state.inputs.stops?.length === 0) {
+            setShowSelectAllText(true);
+        }
+    }, [state.inputs?.stops]);
+
+    useEffect(() => {
         setSelectedServicesRoutes(searchedRoutes);
     }, [searchedRoutes]);
 

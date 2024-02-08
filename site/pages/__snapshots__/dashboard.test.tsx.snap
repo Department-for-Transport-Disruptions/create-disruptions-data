@@ -124,610 +124,130 @@ exports[`pages > dashboard > should render correctly 1`] = `
           className="govuk-tabs__panel"
           id="live"
         >
-          <div
-            className="src__StyledContainer-sc-gm1edz-0 cnqmnX"
+          <table
+            className="govuk-table"
           >
-            <div
-              backgroundColor="#ffffff"
-              backgroundColorOpacity={0.85}
-              className="src__Innerwrap-sc-gm1edz-1 bnLgAY"
-              timeIn={800}
-              timeOut={200}
+            <caption
+              className="govuk-table__caption govuk-table__caption--l"
             >
-              <svg
-                className="SVGBase__StyledSvg-sc-16k4s64-0 ftIFsY icon-loading"
-                fill="#0b0c0c"
-                height="50px"
-                preserveAspectRatio="xMidYMid meet"
-                version="1.1"
-                viewBox="-25 -25 50 50"
-                width="50px"
-              >
-                <title>
-                  Loading
-                </title>
-                <rect
-                  animationDelay={0}
-                  className="Spinner__Rect-sc-1f5b0zr-0 hmnJwC"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(0, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={1}
-                  className="Spinner__Rect-sc-1f5b0zr-0 bCNWMN"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(30, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={2}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gMEKWL"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(60, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={3}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gJkjcZ"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(90, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={4}
-                  className="Spinner__Rect-sc-1f5b0zr-0 grtpEE"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(120, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={5}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gmXQva"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(150, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={6}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gWBytL"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(180, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={7}
-                  className="Spinner__Rect-sc-1f5b0zr-0 fTcEii"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(210, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={8}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gCDaoO"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(240, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={9}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gxkXWW"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(270, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={10}
-                  className="Spinner__Rect-sc-1f5b0zr-0 ghsdLB"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(300, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={11}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gcqsxd"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(330, 0, 2) translate(10 0)"
-                  width="12"
-                />
-              </svg>
-              <div
-                className="src__Overlay-sc-gm1edz-2 kvKIBx overlay"
-              />
-            </div>
-            <table
-              className="govuk-table"
+              Live disruptions
+            </caption>
+            <thead
+              className="govuk-table__head"
             >
-              <caption
-                className="govuk-table__caption govuk-table__caption--l"
+              <tr
+                className="govuk-table__row"
               >
-                Live disruptions
-              </caption>
-              <thead
-                className="govuk-table__head"
-              >
-                <tr
-                  className="govuk-table__row"
+                <th
+                  className="govuk-table__header align-middle px-2"
+                  scope="col"
                 >
-                  <th
-                    className="govuk-table__header align-middle px-2"
-                    scope="col"
-                  >
-                    ID
-                  </th>
-                  <th
-                    className="govuk-table__header align-middle px-2"
-                    scope="col"
-                  >
-                    Summary
-                  </th>
-                  <th
-                    className="govuk-table__header align-middle px-2"
-                    scope="col"
-                  >
-                    Affected dates
-                  </th>
-                </tr>
-              </thead>
-              <tbody
-                className="govuk-table__body"
-              />
-            </table>
-          </div>
+                  ID
+                </th>
+                <th
+                  className="govuk-table__header align-middle px-2"
+                  scope="col"
+                >
+                  Summary
+                </th>
+                <th
+                  className="govuk-table__header align-middle px-2"
+                  scope="col"
+                >
+                  Affected dates
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              className="govuk-table__body"
+            />
+          </table>
         </div>
         <div
           className="govuk-tabs__panel govuk-tabs__panel--hidden"
           id="upcoming"
         >
-          <div
-            className="src__StyledContainer-sc-gm1edz-0 cnqmnX"
+          <table
+            className="govuk-table"
           >
-            <div
-              backgroundColor="#ffffff"
-              backgroundColorOpacity={0.85}
-              className="src__Innerwrap-sc-gm1edz-1 bnLgAY"
-              timeIn={800}
-              timeOut={200}
+            <caption
+              className="govuk-table__caption govuk-table__caption--l"
             >
-              <svg
-                className="SVGBase__StyledSvg-sc-16k4s64-0 ftIFsY icon-loading"
-                fill="#0b0c0c"
-                height="50px"
-                preserveAspectRatio="xMidYMid meet"
-                version="1.1"
-                viewBox="-25 -25 50 50"
-                width="50px"
-              >
-                <title>
-                  Loading
-                </title>
-                <rect
-                  animationDelay={0}
-                  className="Spinner__Rect-sc-1f5b0zr-0 hmnJwC"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(0, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={1}
-                  className="Spinner__Rect-sc-1f5b0zr-0 bCNWMN"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(30, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={2}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gMEKWL"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(60, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={3}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gJkjcZ"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(90, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={4}
-                  className="Spinner__Rect-sc-1f5b0zr-0 grtpEE"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(120, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={5}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gmXQva"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(150, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={6}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gWBytL"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(180, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={7}
-                  className="Spinner__Rect-sc-1f5b0zr-0 fTcEii"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(210, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={8}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gCDaoO"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(240, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={9}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gxkXWW"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(270, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={10}
-                  className="Spinner__Rect-sc-1f5b0zr-0 ghsdLB"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(300, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={11}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gcqsxd"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(330, 0, 2) translate(10 0)"
-                  width="12"
-                />
-              </svg>
-              <div
-                className="src__Overlay-sc-gm1edz-2 kvKIBx overlay"
-              />
-            </div>
-            <table
-              className="govuk-table"
+              Upcoming disruptions
+            </caption>
+            <thead
+              className="govuk-table__head"
             >
-              <caption
-                className="govuk-table__caption govuk-table__caption--l"
+              <tr
+                className="govuk-table__row"
               >
-                Upcoming disruptions
-              </caption>
-              <thead
-                className="govuk-table__head"
-              >
-                <tr
-                  className="govuk-table__row"
+                <th
+                  className="govuk-table__header align-middle px-2"
+                  scope="col"
                 >
-                  <th
-                    className="govuk-table__header align-middle px-2"
-                    scope="col"
-                  >
-                    ID
-                  </th>
-                  <th
-                    className="govuk-table__header align-middle px-2"
-                    scope="col"
-                  >
-                    Summary
-                  </th>
-                  <th
-                    className="govuk-table__header align-middle px-2"
-                    scope="col"
-                  >
-                    Affected dates
-                  </th>
-                </tr>
-              </thead>
-              <tbody
-                className="govuk-table__body"
-              />
-            </table>
-          </div>
+                  ID
+                </th>
+                <th
+                  className="govuk-table__header align-middle px-2"
+                  scope="col"
+                >
+                  Summary
+                </th>
+                <th
+                  className="govuk-table__header align-middle px-2"
+                  scope="col"
+                >
+                  Affected dates
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              className="govuk-table__body"
+            />
+          </table>
         </div>
         <div
           className="govuk-tabs__panel govuk-tabs__panel--hidden"
           id="recently-closed"
         >
-          <div
-            className="src__StyledContainer-sc-gm1edz-0 cnqmnX"
+          <table
+            className="govuk-table"
           >
-            <div
-              backgroundColor="#ffffff"
-              backgroundColorOpacity={0.85}
-              className="src__Innerwrap-sc-gm1edz-1 bnLgAY"
-              timeIn={800}
-              timeOut={200}
+            <caption
+              className="govuk-table__caption govuk-table__caption--l"
             >
-              <svg
-                className="SVGBase__StyledSvg-sc-16k4s64-0 ftIFsY icon-loading"
-                fill="#0b0c0c"
-                height="50px"
-                preserveAspectRatio="xMidYMid meet"
-                version="1.1"
-                viewBox="-25 -25 50 50"
-                width="50px"
-              >
-                <title>
-                  Loading
-                </title>
-                <rect
-                  animationDelay={0}
-                  className="Spinner__Rect-sc-1f5b0zr-0 hmnJwC"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(0, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={1}
-                  className="Spinner__Rect-sc-1f5b0zr-0 bCNWMN"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(30, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={2}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gMEKWL"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(60, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={3}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gJkjcZ"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(90, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={4}
-                  className="Spinner__Rect-sc-1f5b0zr-0 grtpEE"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(120, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={5}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gmXQva"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(150, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={6}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gWBytL"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(180, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={7}
-                  className="Spinner__Rect-sc-1f5b0zr-0 fTcEii"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(210, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={8}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gCDaoO"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(240, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={9}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gxkXWW"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(270, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={10}
-                  className="Spinner__Rect-sc-1f5b0zr-0 ghsdLB"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(300, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={11}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gcqsxd"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(330, 0, 2) translate(10 0)"
-                  width="12"
-                />
-              </svg>
-              <div
-                className="src__Overlay-sc-gm1edz-2 kvKIBx overlay"
-              />
-            </div>
-            <table
-              className="govuk-table"
+              Closed disruptions
+            </caption>
+            <thead
+              className="govuk-table__head"
             >
-              <caption
-                className="govuk-table__caption govuk-table__caption--l"
+              <tr
+                className="govuk-table__row"
               >
-                Closed disruptions
-              </caption>
-              <thead
-                className="govuk-table__head"
-              >
-                <tr
-                  className="govuk-table__row"
+                <th
+                  className="govuk-table__header align-middle px-2"
+                  scope="col"
                 >
-                  <th
-                    className="govuk-table__header align-middle px-2"
-                    scope="col"
-                  >
-                    ID
-                  </th>
-                  <th
-                    className="govuk-table__header align-middle px-2"
-                    scope="col"
-                  >
-                    Summary
-                  </th>
-                  <th
-                    className="govuk-table__header align-middle px-2"
-                    scope="col"
-                  >
-                    Affected dates
-                  </th>
-                </tr>
-              </thead>
-              <tbody
-                className="govuk-table__body"
-              />
-            </table>
-          </div>
+                  ID
+                </th>
+                <th
+                  className="govuk-table__header align-middle px-2"
+                  scope="col"
+                >
+                  Summary
+                </th>
+                <th
+                  className="govuk-table__header align-middle px-2"
+                  scope="col"
+                >
+                  Affected dates
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              className="govuk-table__body"
+            />
+          </table>
         </div>
       </div>
       <a
@@ -1111,610 +631,130 @@ exports[`pages > dashboard > should render correctly for an operator user 1`] = 
           className="govuk-tabs__panel"
           id="live"
         >
-          <div
-            className="src__StyledContainer-sc-gm1edz-0 cnqmnX"
+          <table
+            className="govuk-table"
           >
-            <div
-              backgroundColor="#ffffff"
-              backgroundColorOpacity={0.85}
-              className="src__Innerwrap-sc-gm1edz-1 bnLgAY"
-              timeIn={800}
-              timeOut={200}
+            <caption
+              className="govuk-table__caption govuk-table__caption--l"
             >
-              <svg
-                className="SVGBase__StyledSvg-sc-16k4s64-0 ftIFsY icon-loading"
-                fill="#0b0c0c"
-                height="50px"
-                preserveAspectRatio="xMidYMid meet"
-                version="1.1"
-                viewBox="-25 -25 50 50"
-                width="50px"
-              >
-                <title>
-                  Loading
-                </title>
-                <rect
-                  animationDelay={0}
-                  className="Spinner__Rect-sc-1f5b0zr-0 hmnJwC"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(0, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={1}
-                  className="Spinner__Rect-sc-1f5b0zr-0 bCNWMN"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(30, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={2}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gMEKWL"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(60, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={3}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gJkjcZ"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(90, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={4}
-                  className="Spinner__Rect-sc-1f5b0zr-0 grtpEE"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(120, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={5}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gmXQva"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(150, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={6}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gWBytL"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(180, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={7}
-                  className="Spinner__Rect-sc-1f5b0zr-0 fTcEii"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(210, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={8}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gCDaoO"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(240, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={9}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gxkXWW"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(270, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={10}
-                  className="Spinner__Rect-sc-1f5b0zr-0 ghsdLB"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(300, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={11}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gcqsxd"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(330, 0, 2) translate(10 0)"
-                  width="12"
-                />
-              </svg>
-              <div
-                className="src__Overlay-sc-gm1edz-2 kvKIBx overlay"
-              />
-            </div>
-            <table
-              className="govuk-table"
+              Live disruptions
+            </caption>
+            <thead
+              className="govuk-table__head"
             >
-              <caption
-                className="govuk-table__caption govuk-table__caption--l"
+              <tr
+                className="govuk-table__row"
               >
-                Live disruptions
-              </caption>
-              <thead
-                className="govuk-table__head"
-              >
-                <tr
-                  className="govuk-table__row"
+                <th
+                  className="govuk-table__header align-middle px-2"
+                  scope="col"
                 >
-                  <th
-                    className="govuk-table__header align-middle px-2"
-                    scope="col"
-                  >
-                    ID
-                  </th>
-                  <th
-                    className="govuk-table__header align-middle px-2"
-                    scope="col"
-                  >
-                    Summary
-                  </th>
-                  <th
-                    className="govuk-table__header align-middle px-2"
-                    scope="col"
-                  >
-                    Affected dates
-                  </th>
-                </tr>
-              </thead>
-              <tbody
-                className="govuk-table__body"
-              />
-            </table>
-          </div>
+                  ID
+                </th>
+                <th
+                  className="govuk-table__header align-middle px-2"
+                  scope="col"
+                >
+                  Summary
+                </th>
+                <th
+                  className="govuk-table__header align-middle px-2"
+                  scope="col"
+                >
+                  Affected dates
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              className="govuk-table__body"
+            />
+          </table>
         </div>
         <div
           className="govuk-tabs__panel govuk-tabs__panel--hidden"
           id="upcoming"
         >
-          <div
-            className="src__StyledContainer-sc-gm1edz-0 cnqmnX"
+          <table
+            className="govuk-table"
           >
-            <div
-              backgroundColor="#ffffff"
-              backgroundColorOpacity={0.85}
-              className="src__Innerwrap-sc-gm1edz-1 bnLgAY"
-              timeIn={800}
-              timeOut={200}
+            <caption
+              className="govuk-table__caption govuk-table__caption--l"
             >
-              <svg
-                className="SVGBase__StyledSvg-sc-16k4s64-0 ftIFsY icon-loading"
-                fill="#0b0c0c"
-                height="50px"
-                preserveAspectRatio="xMidYMid meet"
-                version="1.1"
-                viewBox="-25 -25 50 50"
-                width="50px"
-              >
-                <title>
-                  Loading
-                </title>
-                <rect
-                  animationDelay={0}
-                  className="Spinner__Rect-sc-1f5b0zr-0 hmnJwC"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(0, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={1}
-                  className="Spinner__Rect-sc-1f5b0zr-0 bCNWMN"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(30, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={2}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gMEKWL"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(60, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={3}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gJkjcZ"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(90, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={4}
-                  className="Spinner__Rect-sc-1f5b0zr-0 grtpEE"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(120, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={5}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gmXQva"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(150, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={6}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gWBytL"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(180, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={7}
-                  className="Spinner__Rect-sc-1f5b0zr-0 fTcEii"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(210, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={8}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gCDaoO"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(240, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={9}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gxkXWW"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(270, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={10}
-                  className="Spinner__Rect-sc-1f5b0zr-0 ghsdLB"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(300, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={11}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gcqsxd"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(330, 0, 2) translate(10 0)"
-                  width="12"
-                />
-              </svg>
-              <div
-                className="src__Overlay-sc-gm1edz-2 kvKIBx overlay"
-              />
-            </div>
-            <table
-              className="govuk-table"
+              Upcoming disruptions
+            </caption>
+            <thead
+              className="govuk-table__head"
             >
-              <caption
-                className="govuk-table__caption govuk-table__caption--l"
+              <tr
+                className="govuk-table__row"
               >
-                Upcoming disruptions
-              </caption>
-              <thead
-                className="govuk-table__head"
-              >
-                <tr
-                  className="govuk-table__row"
+                <th
+                  className="govuk-table__header align-middle px-2"
+                  scope="col"
                 >
-                  <th
-                    className="govuk-table__header align-middle px-2"
-                    scope="col"
-                  >
-                    ID
-                  </th>
-                  <th
-                    className="govuk-table__header align-middle px-2"
-                    scope="col"
-                  >
-                    Summary
-                  </th>
-                  <th
-                    className="govuk-table__header align-middle px-2"
-                    scope="col"
-                  >
-                    Affected dates
-                  </th>
-                </tr>
-              </thead>
-              <tbody
-                className="govuk-table__body"
-              />
-            </table>
-          </div>
+                  ID
+                </th>
+                <th
+                  className="govuk-table__header align-middle px-2"
+                  scope="col"
+                >
+                  Summary
+                </th>
+                <th
+                  className="govuk-table__header align-middle px-2"
+                  scope="col"
+                >
+                  Affected dates
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              className="govuk-table__body"
+            />
+          </table>
         </div>
         <div
           className="govuk-tabs__panel govuk-tabs__panel--hidden"
           id="recently-closed"
         >
-          <div
-            className="src__StyledContainer-sc-gm1edz-0 cnqmnX"
+          <table
+            className="govuk-table"
           >
-            <div
-              backgroundColor="#ffffff"
-              backgroundColorOpacity={0.85}
-              className="src__Innerwrap-sc-gm1edz-1 bnLgAY"
-              timeIn={800}
-              timeOut={200}
+            <caption
+              className="govuk-table__caption govuk-table__caption--l"
             >
-              <svg
-                className="SVGBase__StyledSvg-sc-16k4s64-0 ftIFsY icon-loading"
-                fill="#0b0c0c"
-                height="50px"
-                preserveAspectRatio="xMidYMid meet"
-                version="1.1"
-                viewBox="-25 -25 50 50"
-                width="50px"
-              >
-                <title>
-                  Loading
-                </title>
-                <rect
-                  animationDelay={0}
-                  className="Spinner__Rect-sc-1f5b0zr-0 hmnJwC"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(0, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={1}
-                  className="Spinner__Rect-sc-1f5b0zr-0 bCNWMN"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(30, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={2}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gMEKWL"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(60, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={3}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gJkjcZ"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(90, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={4}
-                  className="Spinner__Rect-sc-1f5b0zr-0 grtpEE"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(120, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={5}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gmXQva"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(150, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={6}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gWBytL"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(180, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={7}
-                  className="Spinner__Rect-sc-1f5b0zr-0 fTcEii"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(210, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={8}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gCDaoO"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(240, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={9}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gxkXWW"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(270, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={10}
-                  className="Spinner__Rect-sc-1f5b0zr-0 ghsdLB"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(300, 0, 2) translate(10 0)"
-                  width="12"
-                />
-                <rect
-                  animationDelay={11}
-                  className="Spinner__Rect-sc-1f5b0zr-0 gcqsxd"
-                  fill="#0b0c0c"
-                  height="5"
-                  opacity="0"
-                  rx="2.5"
-                  ry="2.5"
-                  transform="rotate(330, 0, 2) translate(10 0)"
-                  width="12"
-                />
-              </svg>
-              <div
-                className="src__Overlay-sc-gm1edz-2 kvKIBx overlay"
-              />
-            </div>
-            <table
-              className="govuk-table"
+              Closed disruptions
+            </caption>
+            <thead
+              className="govuk-table__head"
             >
-              <caption
-                className="govuk-table__caption govuk-table__caption--l"
+              <tr
+                className="govuk-table__row"
               >
-                Closed disruptions
-              </caption>
-              <thead
-                className="govuk-table__head"
-              >
-                <tr
-                  className="govuk-table__row"
+                <th
+                  className="govuk-table__header align-middle px-2"
+                  scope="col"
                 >
-                  <th
-                    className="govuk-table__header align-middle px-2"
-                    scope="col"
-                  >
-                    ID
-                  </th>
-                  <th
-                    className="govuk-table__header align-middle px-2"
-                    scope="col"
-                  >
-                    Summary
-                  </th>
-                  <th
-                    className="govuk-table__header align-middle px-2"
-                    scope="col"
-                  >
-                    Affected dates
-                  </th>
-                </tr>
-              </thead>
-              <tbody
-                className="govuk-table__body"
-              />
-            </table>
-          </div>
+                  ID
+                </th>
+                <th
+                  className="govuk-table__header align-middle px-2"
+                  scope="col"
+                >
+                  Summary
+                </th>
+                <th
+                  className="govuk-table__header align-middle px-2"
+                  scope="col"
+                >
+                  Affected dates
+                </th>
+              </tr>
+            </thead>
+            <tbody
+              className="govuk-table__body"
+            />
+          </table>
         </div>
       </div>
       <a

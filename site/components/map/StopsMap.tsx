@@ -55,6 +55,12 @@ const Map = ({
     const [loading, setLoading] = useState(false);
     const [warningMessage, setWarningMessage] = useState("");
 
+    useEffect(() => {
+        if (state.inputs.stops?.length === 0) {
+            setShowSelectAllText(true);
+        }
+    }, [state.inputs?.stops]);
+
     const handleMouseEnter = useCallback(
         (id: string) => {
             const searchedAtcoCodes = stopOptions.map((searchItem) => searchItem.atcoCode);

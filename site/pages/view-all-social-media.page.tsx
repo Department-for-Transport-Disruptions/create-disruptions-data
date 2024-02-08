@@ -5,7 +5,7 @@ import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import NotificationBanner from "../components/layout/NotificationBanner";
 import { getPublishedSocialMediaPosts } from "../data/dynamo";
-import { getS3SignedUrl } from "../data/s3";
+import { getItem } from "../data/s3";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../schemas/social-media.schema";
 import { getSession } from "../utils/apiUtils/auth";
 
@@ -136,11 +136,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             socialMediaPosts.map(async (s) => {
                 if (s.image) {
                     const url =
-                        (await getS3SignedUrl(
-                            process.env.IMAGE_BUCKET_NAME || "",
-                            s.image?.key,
-                            s.image?.originalFilename,
-                        )) || "";
+                        (await getItem(process.env.IMAGE_BUCKET_NAME || "", s.image?.key, s.image?.originalFilename)) ||
+                        "";
                     return {
                         ...s,
                         image: {
