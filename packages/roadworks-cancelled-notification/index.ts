@@ -158,7 +158,7 @@ export const main = async (): Promise<void> => {
             domainName || "",
             stage || "",
         );
-        console.log(roadworksCancellationEmail.input.Message);
+
         await sesClient.send(roadworksCancellationEmail);
     } catch (e) {
         if (e instanceof Error) {
