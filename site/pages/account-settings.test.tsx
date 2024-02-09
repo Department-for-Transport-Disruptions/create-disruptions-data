@@ -7,18 +7,21 @@ import * as user from "../utils/user";
 
 describe("accountSettings", () => {
     vi.mock("../utils/user", () => ({
-        getDisruptionEmailPreference: vi.fn(),
+        getEmailPreferences: vi.fn(),
     }));
 
     beforeEach(() => {
-        getDisruptionEmailPreferenceSpy.mockResolvedValue(false);
+        getEmailPreferencesSpy.mockResolvedValue({
+            streetManagerEmailPreference: false,
+            disruptionApprovalEmailPreference: false,
+        });
     });
 
     afterEach(() => {
         vi.resetAllMocks();
     });
 
-    const getDisruptionEmailPreferenceSpy = vi.spyOn(user, "getDisruptionEmailPreference");
+    const getEmailPreferencesSpy = vi.spyOn(user, "getEmailPreferences");
     it("should render correctly for organisation admin", () => {
         const tree = renderer.create(<AccountSettings sessionWithOrg={mockSessionWithOrgDetail} />).toJSON();
         expect(tree).toMatchSnapshot();

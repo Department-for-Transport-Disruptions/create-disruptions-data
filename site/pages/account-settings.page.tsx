@@ -12,7 +12,7 @@ import { ErrorInfo } from "../interfaces";
 import { OperatorOrgSchema, ModeType } from "../schemas/organisation.schema";
 import { SessionWithOrgDetail } from "../schemas/session.schema";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
-import { getDisruptionEmailPreference, getStreetManagerEmailPreference } from "../utils/user";
+import { getEmailPreferences } from "../utils/user";
 
 const title = "Account settings - Create Transport Disruption Data Service";
 const description = "Account settings page for the Create Transport Disruption Data Service";
@@ -408,18 +408,17 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         throw new Error("No session found");
     }
 
-    const streetManagerEmailPreference = await getStreetManagerEmailPreference(
+    const emailPreferences = await getEmailPreferences(
         sessionWithOrg.username,
         (sessionWithOrg.group ?? "").toString(),
     );
 
     if (sessionWithOrg.isOrgAdmin) {
-        const disruptionEmailPreference = await getDisruptionEmailPreference(sessionWithOrg.username);
         return {
             props: {
                 sessionWithOrg,
-                disruptionEmailPreference,
-                streetManagerPreference: streetManagerEmailPreference,
+                disruptionEmailPreference: emailPreferences.disruptionApprovalEmailPreference,
+                streetManagerPreference: emailPreferences.streetManagerEmailPreference,
             },
         };
     }
@@ -436,7 +435,6 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             props: {
                 operator,
                 sessionWithOrg,
-                streetManagerPreference: streetManagerEmailPreference,
             },
         };
     }
@@ -444,7 +442,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     return {
         props: {
             sessionWithOrg,
-            streetManagerPreference: streetManagerEmailPreference,
+            streetManagerPreference: emailPreferences.streetManagerEmailPreference,
         },
     };
 };
