@@ -115,39 +115,14 @@ const AccountSettings = ({
         );
     };
 
-    const updateDisruptionApprovalEmailPreferences = async (emailPreference: boolean) => {
-        setDisruptionApprovalEmailPreference(emailPreference);
-        const url = new URL("/api/admin/update-email-preference", window.location.origin);
-        csrfToken ? url.searchParams.append("_csrf", csrfToken) : null;
-        const res = await fetch(url.toString(), {
-            method: "POST",
-            headers: csrfToken
-                ? {
-                      "Content-Type": "application/json",
-                      "X-CSRF-TOKEN": csrfToken,
-                  }
-                : { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                username: sessionWithOrg.username,
-                attributeName: "custom:disruptionEmailPref",
-                attributeValue: emailPreference ? "true" : "false",
-            }),
-        });
-        if (!res.ok) {
-            setDisruptionApprovalEmailPreference(!emailPreference);
-            setErrors([
-                {
-                    id: "disruptionApprovalEmailPreferences",
-                    errorMessage: "Retry changing email preferences later",
-                },
-            ]);
-        } else {
-            setErrors([]);
-        }
-    };
+    const updateEmailPreference = async (
+        emailPreferenceName: "disruptionApproval" | "streetManager",
+        emailPreference: boolean,
+    ) => {
+        emailPreferenceName === "disruptionApproval"
+            ? setDisruptionApprovalEmailPreference(emailPreference)
+            : setStreetManagerEmailPreference(emailPreference);
 
-    const updateStreetManagerEmailPreferences = async (emailPreference: boolean) => {
-        setStreetManagerEmailPreference(emailPreference);
         const url = new URL("/api/admin/update-email-preference", window.location.origin);
         csrfToken ? url.searchParams.append("_csrf", csrfToken) : null;
         const res = await fetch(url.toString(), {
@@ -160,15 +135,23 @@ const AccountSettings = ({
                 : { "Content-Type": "application/json" },
             body: JSON.stringify({
                 username: sessionWithOrg.username,
-                attributeName: "custom:streetManagerPref",
+                attributeName:
+                    emailPreferenceName === "disruptionApproval"
+                        ? "custom:disruptionEmailPref"
+                        : "custom:streetManagerPref",
                 attributeValue: emailPreference ? "true" : "false",
             }),
         });
         if (!res.ok) {
-            setStreetManagerEmailPreference(!emailPreference);
+            emailPreferenceName === "disruptionApproval"
+                ? setDisruptionApprovalEmailPreference(!emailPreference)
+                : setStreetManagerEmailPreference(!emailPreference);
             setErrors([
                 {
-                    id: "streetManagerEmailPreferences",
+                    id:
+                        emailPreferenceName === "disruptionApproval"
+                            ? "disruptionApprovalEmailPreferences"
+                            : "streetManagerEmailPreferences",
                     errorMessage: "Retry changing email preferences later",
                 },
             ]);
@@ -282,7 +265,7 @@ const AccountSettings = ({
                                                     value="true"
                                                     checked={streetManagerEmailPreference}
                                                     onChange={async () => {
-                                                        await updateStreetManagerEmailPreferences(true);
+                                                        await updateEmailPreference("streetManager", true);
                                                     }}
                                                 />
                                                 <label
@@ -302,7 +285,7 @@ const AccountSettings = ({
                                                     value="false"
                                                     checked={!streetManagerEmailPreference}
                                                     onChange={async () => {
-                                                        await updateStreetManagerEmailPreferences(false);
+                                                        await updateEmailPreference("streetManager", false);
                                                     }}
                                                 />
                                                 <label
@@ -341,7 +324,7 @@ const AccountSettings = ({
                                                 value="true"
                                                 checked={disruptionApprovalEmailPreference}
                                                 onChange={async () => {
-                                                    await updateDisruptionApprovalEmailPreferences(true);
+                                                    await updateEmailPreference("disruptionApproval", true);
                                                 }}
                                             />
                                             <label
@@ -361,7 +344,7 @@ const AccountSettings = ({
                                                 value="false"
                                                 checked={!disruptionApprovalEmailPreference}
                                                 onChange={async () => {
-                                                    await updateDisruptionApprovalEmailPreferences(false);
+                                                    await updateEmailPreference("disruptionApproval", false);
                                                 }}
                                             />
                                             <label
