@@ -41,7 +41,22 @@ describe("accountSettings", () => {
         unmount();
     });
 
-    it("should render correctly for staff or publisher user", () => {
+    it("should render correctly for staff user", () => {
+        const tree = renderer
+            .create(
+                <AccountSettings
+                    sessionWithOrg={{
+                        ...mockSessionWithOrgDetail,
+                        isOrgAdmin: false,
+                        isOrgStaff: true,
+                    }}
+                />,
+            )
+            .toJSON();
+        expect(tree).toMatchSnapshot();
+    });
+
+    it("should render correctly for publisher user", () => {
         const tree = renderer
             .create(
                 <AccountSettings
@@ -62,6 +77,7 @@ describe("accountSettings", () => {
                 <AccountSettings
                     sessionWithOrg={{
                         ...mockSessionWithOrgDetail,
+                        isOrgAdmin: false,
                         isOperatorUser: true,
                         operatorOrgId: DEFAULT_OPERATOR_ORG_ID,
                     }}

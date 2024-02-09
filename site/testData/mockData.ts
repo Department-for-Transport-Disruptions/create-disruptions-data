@@ -8,6 +8,7 @@ import {
     PublishStatus,
     Severity,
     SocialMediaPostStatus,
+    UserGroups,
     VehicleMode,
 } from "@create-disruptions-data/shared-ts/enums";
 import { mockRequest, mockResponse } from "mock-req-res";
@@ -849,6 +850,7 @@ export const mockBodsServicesWithDuplicates: ServiceApiResponse[] = [
 
 export const mockSession: Session = {
     email: "test@example.com",
+    group: [UserGroups.systemAdmins],
     isOrgAdmin: false,
     isOrgPublisher: false,
     isOrgStaff: false,
@@ -863,6 +865,7 @@ export const mockSession: Session = {
 export const mockSessionWithOrgDetail: SessionWithOrgDetail = {
     email: "test@example.com",
     username: "test@example.com",
+    group: [UserGroups.orgAdmins],
     orgId: DEFAULT_ORG_ID,
     adminAreaCodes: [],
     orgName: "Test Org",

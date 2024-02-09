@@ -168,7 +168,7 @@ const AccountSettings = ({
             setStreetManagerEmailPreference(!emailPreference);
             setErrors([
                 {
-                    id: "disruptionApprovalEmailPreferences",
+                    id: "streetManagerEmailPreferences",
                     errorMessage: "Retry changing email preferences later",
                 },
             ]);
@@ -256,64 +256,23 @@ const AccountSettings = ({
                               ]
                     }
                 />
-                {sessionWithOrg.isOrgAdmin ? (
-                    <>
-                        <FormGroupWrapper errorIds={["disruptionApprovalEmailPreferences"]} errors={errors}>
-                            <FormElementWrapper
-                                errors={errors}
-                                errorId={"disruptionApprovalEmailPreferences"}
-                                errorClass="govuk-radios--disrption-approval-email-preferences--error"
-                            >
-                                <div className="mb-12">
-                                    <h2 className="govuk-heading-m">Email Notifications</h2>
+
+                <div className="mb-12">
+                    {!sessionWithOrg.isOperatorUser && !sessionWithOrg.isSystemAdmin ? (
+                        <>
+                            <h2 className="govuk-heading-m">Email Notifications</h2>
+                            <FormGroupWrapper errorIds={["streetManagerEmailPreferences"]} errors={errors}>
+                                <FormElementWrapper
+                                    errors={errors}
+                                    errorId={"streetManagerEmailPreferences"}
+                                    errorClass="govuk-radios--street-manager-email-preferences--error"
+                                >
                                     <div className="flex flex-row items-center">
-                                        <p className="font-bold mr-28">Disruptions requiring approval</p>
-                                        <div className="govuk-radios govuk-radios--inline" data-module="govuk-radios">
-                                            <div className="govuk-radios__item">
-                                                <input
-                                                    className="govuk-radios__input"
-                                                    id={`disruption-approval-email-notification-on`}
-                                                    name={`disruption-approval-email-notification-on`}
-                                                    type="radio"
-                                                    value="true"
-                                                    checked={disruptionApprovalEmailPreference}
-                                                    onChange={async () => {
-                                                        await updateDisruptionApprovalEmailPreferences(true);
-                                                    }}
-                                                />
-                                                <label
-                                                    key={`disruption-approval-email-notification-on`}
-                                                    htmlFor={`disruption-approval-email-notification-on`}
-                                                    className="govuk-label govuk-radios__label"
-                                                >
-                                                    On
-                                                </label>
-                                            </div>
-                                            <div className="govuk-radios__item">
-                                                <input
-                                                    className="govuk-radios__input"
-                                                    id={`disruption-approval-email-notification-off`}
-                                                    name={`disruption-approval-email-notification-off`}
-                                                    type="radio"
-                                                    value="false"
-                                                    checked={!disruptionApprovalEmailPreference}
-                                                    onChange={async () => {
-                                                        await updateDisruptionApprovalEmailPreferences(false);
-                                                    }}
-                                                />
-                                                <label
-                                                    key={`disruption-approval-email-notification-off`}
-                                                    htmlFor={`disruption-approval-email-notification-off`}
-                                                    className="govuk-label govuk-radios__label"
-                                                >
-                                                    Off
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="flex flex-row items-center">
-                                        <p className="font-bold mr-28">Street manager notifications</p>
-                                        <div className="govuk-radios govuk-radios--inline" data-module="govuk-radios">
+                                        <p className="font-bold mr-28">Street manager roadworks</p>
+                                        <div
+                                            className="govuk-radios govuk-radios--inline ml-auto"
+                                            data-module="govuk-radios"
+                                        >
                                             <div className="govuk-radios__item">
                                                 <input
                                                     className="govuk-radios__input"
@@ -356,9 +315,72 @@ const AccountSettings = ({
                                             </div>
                                         </div>
                                     </div>
+                                </FormElementWrapper>
+                            </FormGroupWrapper>
+                        </>
+                    ) : null}
+                    {sessionWithOrg.isOrgAdmin ? (
+                        <FormGroupWrapper errorIds={["disruptionApprovalEmailPreferences"]} errors={errors}>
+                            <FormElementWrapper
+                                errors={errors}
+                                errorId={"disruptionApprovalEmailPreferences"}
+                                errorClass="govuk-radios--disrption-approval-email-preferences--error"
+                            >
+                                <div className="flex flex-row items-center">
+                                    <p className="font-bold mr-28">Disruptions requiring approval</p>
+                                    <div
+                                        className="govuk-radios govuk-radios--inline ml-auto"
+                                        data-module="govuk-radios"
+                                    >
+                                        <div className="govuk-radios__item">
+                                            <input
+                                                className="govuk-radios__input"
+                                                id={`disruption-approval-email-notification-on`}
+                                                name={`disruption-approval-email-notification-on`}
+                                                type="radio"
+                                                value="true"
+                                                checked={disruptionApprovalEmailPreference}
+                                                onChange={async () => {
+                                                    await updateDisruptionApprovalEmailPreferences(true);
+                                                }}
+                                            />
+                                            <label
+                                                key={`disruption-approval-email-notification-on`}
+                                                htmlFor={`disruption-approval-email-notification-on`}
+                                                className="govuk-label govuk-radios__label"
+                                            >
+                                                On
+                                            </label>
+                                        </div>
+                                        <div className="govuk-radios__item">
+                                            <input
+                                                className="govuk-radios__input"
+                                                id={`disruption-approval-email-notification-off`}
+                                                name={`disruption-approval-email-notification-off`}
+                                                type="radio"
+                                                value="false"
+                                                checked={!disruptionApprovalEmailPreference}
+                                                onChange={async () => {
+                                                    await updateDisruptionApprovalEmailPreferences(false);
+                                                }}
+                                            />
+                                            <label
+                                                key={`disruption-approval-email-notification-off`}
+                                                htmlFor={`disruption-approval-email-notification-off`}
+                                                className="govuk-label govuk-radios__label"
+                                            >
+                                                Off
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
                             </FormElementWrapper>
                         </FormGroupWrapper>
+                    ) : null}
+                </div>
+
+                {sessionWithOrg.isOrgAdmin ? (
+                    <>
                         <h2 className="govuk-heading-m">From which source shall we acquire your data</h2>
                         <FormGroupWrapper errorIds={["modes"]} errors={errors}>
                             <FormElementWrapper
