@@ -89,3 +89,34 @@ export const getRecentlyCancelledRoadworks = async () => {
         return null;
     }
 };
+
+export const getRecentlyNewRoadworks = async () => {
+    try {
+        // 1440 minutes in 24 hours
+        const searchApiUrl = `${process.env.API_BASE_URL}/roadworks?createdTimeDelta=1440`;
+
+        const res = await fetch(searchApiUrl, {
+            method: "GET",
+        });
+
+        if (!res.ok) {
+            throw new Error(`Failed to fetch new roadworks in the last 24 hours with response code: ${res.status}`);
+        }
+
+        const parseResult = z.array(roadwork).safeParse(await res.json());
+
+        if (!parseResult.success) {
+            return null;
+        }
+
+        return parseResult.data;
+    } catch (e) {
+        if (e instanceof Error) {
+            logger.warn(`Error fetching recently new roadworks`);
+
+            logger.warn(e.stack || e.message);
+        }
+
+        return null;
+    }
+};

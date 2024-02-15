@@ -2,6 +2,7 @@ import {
     CognitoIdentityProviderClient,
     ListUsersInGroupCommand,
     UserType,
+    ListUsersCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 
 const {
@@ -62,4 +63,38 @@ export const getAllUsersEmailsInGroups = async (
         }
     }
     return usersEmailsOrgIds;
+};
+
+export const getUsersEmailsByAttribute = async (
+    attributeToHave: string,
+    attributeToGet: string,
+    attributeToHaveValue: string,
+): Promise<string[]> => {
+    const params = {
+        UserPoolId: userPoolId,
+        AttributesToGet: [attributeToGet],
+    };
+
+    const command = new ListUsersCommand(params);
+    const data = await cognito.send(command);
+
+    if (!data.Users) {
+        return [];
+    }
+
+    const users: UserType[] = data.Users ?? [];
+    const emails: string[] = [];
+    for (const user of users) {
+        if (user.Attributes) {
+            const shouldEmail = user.Attributes.find((attr) => attr.Name === attributeToHave);
+            if (shouldEmail && shouldEmail.Value === attributeToHaveValue) {
+                const emailAttribute = user.Attributes.find((attr) => attr.Name === attributeToGet);
+                if (emailAttribute && emailAttribute.Value) {
+                    emails.push(emailAttribute.Value);
+                }
+            }
+        }
+    }
+
+    return emails;
 };
