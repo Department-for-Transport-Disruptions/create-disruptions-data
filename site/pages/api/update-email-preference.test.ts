@@ -8,7 +8,7 @@ import * as session from "../../utils/apiUtils/auth";
 describe("update-email-preference", () => {
     const writeHeadMock = vi.fn();
 
-    vi.mock("../../../data/cognito", () => ({
+    vi.mock("../../data/cognito", () => ({
         updateUserCustomAttribute: vi.fn(),
     }));
 
