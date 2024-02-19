@@ -123,7 +123,7 @@ const AccountSettings = ({
             ? setDisruptionApprovalEmailPreference(emailPreference)
             : setStreetManagerEmailPreference(emailPreference);
 
-        const url = new URL("/api/admin/update-email-preference", window.location.origin);
+        const url = new URL("/api/update-email-preference", window.location.origin);
         csrfToken ? url.searchParams.append("_csrf", csrfToken) : null;
         const res = await fetch(url.toString(), {
             method: "POST",

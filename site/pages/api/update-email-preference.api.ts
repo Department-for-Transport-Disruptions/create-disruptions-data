@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
-import { updateUserCustomAttribute } from "../../../data/cognito";
-import { getSession } from "../../../utils/apiUtils/auth";
-import logger from "../../../utils/logger";
+import { updateUserCustomAttribute } from "../../data/cognito";
+import { getSession } from "../../utils/apiUtils/auth";
+import logger from "../../utils/logger";
 
 export const updateEmailPreferenceSchema = z.object({
     username: z.string(),
