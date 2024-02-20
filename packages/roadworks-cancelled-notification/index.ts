@@ -44,8 +44,10 @@ const roadworksCancellationEmailBody = (disruptionLinks: string[]) =>
                                    </header>
                                   <div style="font-family: Arial, sans-serif; padding-left: 30px">
                        <h1>Notification of cancelled Street Manager roadworks</h1>
-                       <p>There has been a cancelled roadwork update from Street manager. This may effect the end date showing in your disruption. Please review the roadwork and edit the disruption accordingly.The following disruptions are attached to cancelled roadworks;</p>
-                       ${disruptionLinks.map((link, i) => `<a href=${link}>Link to disruption ${i + 1}</a>`).join(" ")}
+                       <p>There has been a cancelled roadwork update from Street manager. This may affect the end date showing in your disruption. Please review the roadwork and edit the disruption accordingly.The following disruptions are attached to cancelled roadworks;</p>
+                       ${disruptionLinks
+                           .map((link, i) => `<a href=${link}>Link to disruption ${i + 1}</a>`)
+                           .join("<br/>")}
                        <p>Amend the data accordingly, if needed.</p>
                     </div>
                                  </div>
@@ -106,6 +108,10 @@ export const main = async (): Promise<void> => {
             STAGE: stage,
         } = process.env;
 
+        if (!disruptionsTableName || !orgTableName || !domainName || !stage) {
+            throw new Error("Environment variables not correctly set.");
+        }
+
         if (!disruptionsTableName || !orgTableName) {
             throw new Error("Dynamo table names not set");
         }
@@ -144,7 +150,7 @@ export const main = async (): Promise<void> => {
         const orgIdsToEmail = Object.keys(groupByOrgId);
 
         const usersInOrgs = await getAllUsersEmailsInGroups(
-            ["org-admins", "org-publishers", "org-staff", "system-admins"],
+            ["org-admins", "org-publishers", "org-staff"],
             orgIdsToEmail,
         );
 
@@ -153,11 +159,7 @@ export const main = async (): Promise<void> => {
             disruptionIds: groupByOrgId[user.orgId].map((disruption) => disruption.disruptionId),
         }));
 
-        const roadworksCancellationEmail = createRoadworksCancellationEmail(
-            contentsForEmail,
-            domainName || "",
-            stage || "",
-        );
+        const roadworksCancellationEmail = createRoadworksCancellationEmail(contentsForEmail, domainName, stage);
 
         await sesClient.send(roadworksCancellationEmail);
     } catch (e) {
