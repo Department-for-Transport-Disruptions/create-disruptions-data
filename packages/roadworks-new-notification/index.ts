@@ -86,7 +86,7 @@ export const createNewRoadworksEmail = (
             },
             Subject: {
                 Charset: "UTF-8",
-                Data: "Notification of cancelled Street Manager roadworks",
+                Data: "Notification of new Street Manager roadworks",
             },
         },
         Source: sourceEmail,
