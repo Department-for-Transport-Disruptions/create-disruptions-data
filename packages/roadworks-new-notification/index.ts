@@ -144,15 +144,10 @@ export const main = async (): Promise<void> => {
             logger,
         );
 
-        console.log(orgIdsAndAdminAreaCodes);
         if (!orgIdsAndAdminAreaCodes) {
             logger.info("No organisations found with admin area codes provided...");
             return;
         }
-        // get orgIds with admin area codes
-        // get the users within those orgs emails that have street manager notifications enabled and get their admin area codes
-        // for every email map the admin area codes to the recently new roadwork and make the email
-        // send the email
 
         const emailsByOrg = await getUsersByAttributeByOrgIds(
             "custom:streetManagerPref",
@@ -160,8 +155,6 @@ export const main = async (): Promise<void> => {
             "true",
             orgIdsAndAdminAreaCodes,
         );
-
-        console.log(emailsByOrg);
 
         if (!emailsByOrg) {
             logger.info("No emails to send new roadworks notifications to...");
@@ -203,7 +196,6 @@ export const main = async (): Promise<void> => {
             }
         });
 
-        console.log(roadworksNewEmailCommands);
         if (!roadworksNewEmailCommands || (roadworksNewEmailCommands && roadworksNewEmailCommands.length === 0)) {
             logger.info("No emails to send new roadworks notifications to...");
             return;
