@@ -40,7 +40,7 @@ const getRows = (roadwork: Roadwork) => {
         { header: "Permit reference number", cells: [roadwork.permitReferenceNumber] },
         {
             header: "Roadwork last updated",
-            cells: [`${convertDateTimeToFormat(roadwork.lastUpdatedDateTime ?? "", "DD/MM/YY HH:mm")}`],
+            cells: [`${convertDateTimeToFormat(roadwork.lastUpdatedDatetime ?? "", "DD/MM/YY HH:mm")}`],
         },
     ];
 };
