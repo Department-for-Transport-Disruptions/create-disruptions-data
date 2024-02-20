@@ -54,7 +54,7 @@ const roadworksNewEmailBody = (
                                    `<p>Street name: ${roadwork.streetName}</p>
                                     <p>Activity type: ${roadwork.activityType}</p>
                                     <p>Dates affected: ${roadwork.datesAffected}</p>
-                                    <p><a href=${domainName}/roadwork-detail/${roadwork.permitReferenceNumber}</p>`,
+                                    <p><a href=${domainName}/roadwork-detail/${roadwork.permitReferenceNumber}>Link to roadwork</a></p>`,
                            )
                            .join("<br/>")}
                     </div>
