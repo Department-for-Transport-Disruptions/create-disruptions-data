@@ -4,7 +4,6 @@ import {
     UserType,
     ListUsersCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
-import { orgId } from "../../packages/siri-sx-generator/test/testData";
 
 const {
     COGNITO_CLIENT_ID: cognitoClientId,

@@ -1,13 +1,12 @@
 import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
 import * as logger from "lambda-log";
 import { randomUUID } from "crypto";
-import { Roadwork, roadwork } from "@create-disruptions-data/shared-ts/roadwork.zod";
+import { Roadwork } from "@create-disruptions-data/shared-ts/roadwork.zod";
 import { getUsersByAttributeByOrgIds } from "@create-disruptions-data/shared-ts/utils/cognito";
 import { convertDateTimeToFormat } from "@create-disruptions-data/shared-ts/utils/dates";
 import { isSandbox } from "@create-disruptions-data/shared-ts/utils/domain";
 import { getOrgIdsFromDynamoByAdminAreaCodes } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { getRecentlyNewRoadworks } from "@create-disruptions-data/shared-ts/utils/refDataApi";
-import { orgId } from "../siri-sx-generator/test/testData";
 
 const sesClient = new SESClient({ region: "eu-west-2" });
 
