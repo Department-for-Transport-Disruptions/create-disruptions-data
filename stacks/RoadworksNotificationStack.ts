@@ -64,12 +64,17 @@ export const RoadworksNotificationStack = ({ stack }: StackContext) => {
             COGNITO_USER_POOL_ID: userPoolId,
             DOMAIN_NAME: url,
             STAGE: stack.stage,
+            ORGANISATIONS_TABLE_NAME: organisationsTable.tableName,
         },
         handler: "packages/roadworks-new-notification/index.main",
         permissions: [
             new PolicyStatement({
                 resources: ["*"],
                 actions: ["ses:SendEmail", "ses:SendRawEmail"],
+            }),
+            new PolicyStatement({
+                resources: [organisationsTable.tableArn],
+                actions: ["dynamodb:Scan"],
             }),
             new PolicyStatement({
                 resources: [userPoolArn],

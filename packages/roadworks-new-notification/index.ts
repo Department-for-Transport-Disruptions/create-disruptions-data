@@ -1,10 +1,13 @@
 import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
 import * as logger from "lambda-log";
 import { randomUUID } from "crypto";
-import { getUsersEmailsByAttribute } from "@create-disruptions-data/shared-ts/utils/cognito";
+import { Roadwork, roadwork } from "@create-disruptions-data/shared-ts/roadwork.zod";
+import { getUsersByAttributeByOrgIds } from "@create-disruptions-data/shared-ts/utils/cognito";
 import { convertDateTimeToFormat } from "@create-disruptions-data/shared-ts/utils/dates";
 import { isSandbox } from "@create-disruptions-data/shared-ts/utils/domain";
+import { getOrgIdsFromDynamoByAdminAreaCodes } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { getRecentlyNewRoadworks } from "@create-disruptions-data/shared-ts/utils/refDataApi";
+import { orgId } from "../siri-sx-generator/test/testData";
 
 const sesClient = new SESClient({ region: "eu-west-2" });
 
@@ -91,6 +94,25 @@ export const createNewRoadworksEmail = (
     });
 };
 
+const formatRoadwork = (roadwork: Roadwork) => ({
+    permitReferenceNumber: roadwork.permitReferenceNumber || "",
+    streetName: roadwork.streetName || "",
+    activityType: roadwork.activityType || "",
+    datesAffected: `${
+        roadwork.actualStartDateTime
+            ? convertDateTimeToFormat(roadwork.actualStartDateTime, "DD/MM/YY HH:mm")
+            : roadwork.proposedStartDateTime
+            ? convertDateTimeToFormat(roadwork.proposedStartDateTime, "DD/MM/YY HH:mm")
+            : "No start datetime"
+    } -  ${
+        roadwork.actualEndDateTime
+            ? convertDateTimeToFormat(roadwork.actualEndDateTime, "DD/MM/YY HH:mm")
+            : roadwork.proposedEndDateTime
+            ? convertDateTimeToFormat(roadwork.proposedEndDateTime, "DD/MM/YY HH:mm")
+            : "No end datetime"
+    }`,
+});
+
 export const main = async (): Promise<void> => {
     try {
         logger.options.dev = process.env.NODE_ENV !== "production";
@@ -102,9 +124,9 @@ export const main = async (): Promise<void> => {
 
         logger.info("Checking for new roadworks...");
 
-        const { DOMAIN_NAME: domainName, STAGE: stage } = process.env;
+        const { DOMAIN_NAME: domainName, STAGE: stage, ORGANISATIONS_TABLE_NAME: orgTableName } = process.env;
 
-        if (!domainName || !stage) {
+        if (!domainName || !stage || !orgTableName) {
             throw new Error("Environment variables not set");
         }
 
@@ -115,35 +137,79 @@ export const main = async (): Promise<void> => {
             return;
         }
 
-        const newRoadworks = recentlyNewRoadworks.map((roadwork) => ({
-            permitReferenceNumber: roadwork.permitReferenceNumber || "",
-            streetName: roadwork.streetName || "",
-            activityType: roadwork.activityType || "",
-            datesAffected: `${
-                roadwork.actualStartDateTime
-                    ? convertDateTimeToFormat(roadwork.actualStartDateTime, "DD/MM/YY HH:mm")
-                    : roadwork.proposedStartDateTime
-                    ? convertDateTimeToFormat(roadwork.proposedStartDateTime, "DD/MM/YY HH:mm")
-                    : "No start datetime"
-            } -  ${
-                roadwork.actualEndDateTime
-                    ? convertDateTimeToFormat(roadwork.actualEndDateTime, "DD/MM/YY HH:mm")
-                    : roadwork.proposedEndDateTime
-                    ? convertDateTimeToFormat(roadwork.proposedEndDateTime, "DD/MM/YY HH:mm")
-                    : "No end datetime"
-            }`,
-        }));
+        const administrativeAreaCodes = recentlyNewRoadworks.map((roadwork) => roadwork.administrativeAreaCode);
+        const orgIdsAndAdminAreaCodes = await getOrgIdsFromDynamoByAdminAreaCodes(
+            orgTableName,
+            administrativeAreaCodes,
+            logger,
+        );
 
-        const emails = await getUsersEmailsByAttribute("custom:streetManagerPref", "email", "true");
+        console.log(orgIdsAndAdminAreaCodes);
+        if (!orgIdsAndAdminAreaCodes) {
+            logger.info("No organisations found with admin area codes provided...");
+            return;
+        }
+        // get orgIds with admin area codes
+        // get the users within those orgs emails that have street manager notifications enabled and get their admin area codes
+        // for every email map the admin area codes to the recently new roadwork and make the email
+        // send the email
 
-        if (!emails || (emails && emails.length === 0)) {
+        const emailsByOrg = await getUsersByAttributeByOrgIds(
+            "custom:streetManagerPref",
+            "email",
+            "true",
+            orgIdsAndAdminAreaCodes,
+        );
+
+        console.log(emailsByOrg);
+
+        if (!emailsByOrg) {
             logger.info("No emails to send new roadworks notifications to...");
             return;
         }
 
-        const roadworksNewEmail = createNewRoadworksEmail(newRoadworks, emails, domainName || "", stage || "");
+        const emailData: {
+            [key: string]: {
+                emails: string[];
+                adminAreaCodes: string[];
+                content?: {
+                    permitReferenceNumber: string;
+                    streetName: string;
+                    activityType: string;
+                    datesAffected: string;
+                }[];
+            };
+        } = emailsByOrg;
+        Object.entries(emailsByOrg).forEach((orgData) => {
+            orgData[1].adminAreaCodes.forEach((adminAreaCode) => {
+                recentlyNewRoadworks.forEach((roadwork) => {
+                    if (roadwork.administrativeAreaCode === adminAreaCode) {
+                        if (emailData[orgData[0]].content) {
+                            emailData[orgData[0]].content?.push(formatRoadwork(roadwork));
+                        } else {
+                            emailData[orgData[0]].content = [formatRoadwork(roadwork)];
+                        }
+                    }
+                });
+            });
+        });
 
-        await sesClient.send(roadworksNewEmail);
+        const roadworksNewEmailCommands: SendEmailCommand[] = [];
+        Object.entries(emailData).forEach((data) => {
+            if (data[1].content) {
+                roadworksNewEmailCommands.push(
+                    createNewRoadworksEmail(data[1].content, data[1].emails, domainName, stage),
+                );
+            }
+        });
+
+        console.log(roadworksNewEmailCommands);
+        if (!roadworksNewEmailCommands || (roadworksNewEmailCommands && roadworksNewEmailCommands.length === 0)) {
+            logger.info("No emails to send new roadworks notifications to...");
+            return;
+        }
+
+        await Promise.all(roadworksNewEmailCommands.map((roadworkEmail) => sesClient.send(roadworkEmail)));
     } catch (e) {
         if (e instanceof Error) {
             logger.error(e);

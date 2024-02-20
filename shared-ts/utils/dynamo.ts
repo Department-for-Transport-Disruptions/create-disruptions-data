@@ -426,3 +426,45 @@ export const getDisruptionsWithRoadworks = async (
         .map((disruption) => collectDisruptionsData(disruptions, disruption.disruptionId as string, logger))
         .filter(notEmpty);
 };
+
+export const getOrgIdsFromDynamoByAdminAreaCodes = async (
+    tableName: string,
+    administrativeAreaCodes: string[],
+    logger: Logger,
+): Promise<{ [key: string]: string[] } | null> => {
+    const dbData = await recursiveScan(
+        {
+            TableName: tableName,
+            FilterExpression: "SK = :info",
+            ExpressionAttributeValues: {
+                ":info": "INFO",
+            },
+        },
+        logger,
+    );
+
+    const parsedOrgs = makeZodArray(organisationSchema).safeParse(dbData);
+
+    if (!parsedOrgs.success) {
+        return null;
+    }
+
+    const filteredOrgIdsWithAdminAreaCodes: { [key: string]: string[] } = {};
+    parsedOrgs.data.forEach((org: Organisation) => {
+        org.adminAreaCodes.forEach((adminAreaCode: string) => {
+            if (administrativeAreaCodes.includes(adminAreaCode)) {
+                if (filteredOrgIdsWithAdminAreaCodes[org.id]) {
+                    filteredOrgIdsWithAdminAreaCodes[org.id].push(adminAreaCode);
+                } else {
+                    filteredOrgIdsWithAdminAreaCodes[org.id] = [adminAreaCode];
+                }
+            }
+        });
+    });
+
+    if (Object.keys(filteredOrgIdsWithAdminAreaCodes).length === 0) {
+        return null;
+    }
+
+    return filteredOrgIdsWithAdminAreaCodes;
+};

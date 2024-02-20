@@ -4,6 +4,7 @@ import {
     UserType,
     ListUsersCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
+import { orgId } from "../../packages/siri-sx-generator/test/testData";
 
 const {
     COGNITO_CLIENT_ID: cognitoClientId,
@@ -65,11 +66,12 @@ export const getAllUsersEmailsInGroups = async (
     return usersEmailsOrgIds;
 };
 
-export const getUsersEmailsByAttribute = async (
+export const getUsersByAttributeByOrgIds = async (
     attributeToHave: string,
     attributeToGet: string,
     attributeToHaveValue: string,
-): Promise<string[]> => {
+    orgIdsAndAdminAreaCodes: { [key: string]: string[] },
+): Promise<{ [key: string]: { emails: string[]; adminAreaCodes: string[] } } | null> => {
     const params = {
         UserPoolId: userPoolId,
     };
@@ -78,22 +80,39 @@ export const getUsersEmailsByAttribute = async (
     const data = await cognito.send(command);
 
     if (!data.Users) {
-        return [];
+        return null;
     }
 
     const users: UserType[] = data.Users ?? [];
-    const emails: string[] = [];
+    const emailsAndOrgId: { [key: string]: { emails: string[]; adminAreaCodes: string[] } } = {};
     for (const user of users) {
         if (user.Attributes) {
             const shouldEmail = user.Attributes.find((attr) => attr.Name === attributeToHave);
             if (shouldEmail && shouldEmail.Value === attributeToHaveValue) {
                 const emailAttribute = user.Attributes.find((attr) => attr.Name === attributeToGet);
-                if (emailAttribute && emailAttribute.Value) {
-                    emails.push(emailAttribute.Value);
+                const orgIdAttribute = user.Attributes.find((attr) => attr.Name === "custom:orgId");
+                if (
+                    emailAttribute &&
+                    emailAttribute.Value &&
+                    orgIdAttribute &&
+                    orgIdAttribute.Value &&
+                    Object.keys(orgIdsAndAdminAreaCodes).includes(orgIdAttribute.Value)
+                ) {
+                    if (emailsAndOrgId[orgIdAttribute.Value]) {
+                        emailsAndOrgId[orgIdAttribute.Value].emails.push(emailAttribute.Value);
+                    } else {
+                        emailsAndOrgId[orgIdAttribute.Value] = {
+                            emails: [emailAttribute.Value],
+                            adminAreaCodes: orgIdsAndAdminAreaCodes[orgIdAttribute.Value],
+                        };
+                    }
                 }
             }
         }
     }
 
-    return emails;
+    if (Object.keys(emailsAndOrgId).length === 0) {
+        return null;
+    }
+    return emailsAndOrgId;
 };

@@ -2,6 +2,7 @@ import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
 import { mockClient } from "aws-sdk-client-mock";
 import { describe, it, vi, beforeAll, beforeEach, afterEach, expect } from "vitest";
 import * as cognito from "@create-disruptions-data/shared-ts/utils/cognito";
+import * as dynamo from "@create-disruptions-data/shared-ts/utils/dynamo";
 import * as refDataApi from "@create-disruptions-data/shared-ts/utils/refDataApi";
 
 const sesMock = mockClient(SESClient);
@@ -10,6 +11,7 @@ describe("roadWorksCancelledNotification", () => {
     beforeAll(() => {
         process.env.DOMAIN_NAME = "http://localhost:3000";
         process.env.STAGE = "sandbox";
+        process.env.ORGANISATIONS_TABLE_NAME = "org-test-table";
     });
 
     beforeEach(() => {
@@ -40,10 +42,12 @@ describe("roadWorksCancelledNotification", () => {
             },
         ]);
 
-        vi.spyOn(cognito, "getUsersEmailsByAttribute").mockResolvedValue([
-            "test_email@.ac.uk",
-            "test_email@hotmail.com",
-        ]);
+        vi.spyOn(dynamo, "getOrgIdsFromDynamoByAdminAreaCodes").mockResolvedValue({
+            "242ff2b2-19a0-421f-976f-22905262ebda": ["083"],
+        });
+        vi.spyOn(cognito, "getUsersByAttributeByOrgIds").mockResolvedValue({
+            "242ff2b2-19a0-421f-976f-22905262ebda": { emails: ["alaina.jaffer@kpmg.co.uk"], adminAreaCodes: ["083"] },
+        });
 
         expect(sesMock.send.calledOnce).toBeTruthy();
         expect(sesMock.commandCalls(SendEmailCommand)[0].args[0].input.Destination).toEqual({
@@ -54,7 +58,7 @@ describe("roadWorksCancelledNotification", () => {
     it("It should not send an email when there is no cancelled roadwork", () => {
         vi.spyOn(refDataApi, "getRecentlyNewRoadworks").mockResolvedValue([]);
 
-        vi.spyOn(cognito, "getUsersEmailsByAttribute").mockResolvedValue([]);
+        vi.spyOn(cognito, "getUsersByAttributeByOrgIds").mockResolvedValue(null);
 
         expect(sesMock.send.calledOnce).toBeFalsy();
     });
