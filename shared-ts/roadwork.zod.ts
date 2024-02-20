@@ -74,7 +74,7 @@ export const roadwork = z.object({
     workCategory: workCategory.nullish(),
     trafficManagementType: z.string().nullish(),
     createdDateTime: z.string().datetime().nullish(),
-    lastUpdatedDateTime: z.string().datetime().nullish(),
+    lastUpdatedDatetime: z.string().datetime().nullish(),
 });
 
 export type Roadwork = z.infer<typeof roadwork>;
@@ -104,7 +104,7 @@ export const roadworkWithCoordinatesSchema = z.object({
     workCategory: workCategory.nullish(),
     trafficManagementType: z.string().nullish(),
     createdDateTime: z.string().datetime().nullish(),
-    lastUpdatedDateTime: z.string().datetime().nullish(),
+    lastUpdatedDatetime: z.string().datetime().nullish(),
 });
 
 export type RoadworkWithCoordinates = z.infer<typeof roadworkWithCoordinatesSchema>;
