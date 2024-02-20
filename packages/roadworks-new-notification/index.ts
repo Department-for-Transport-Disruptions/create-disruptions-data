@@ -2,6 +2,7 @@ import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
 import * as logger from "lambda-log";
 import { randomUUID } from "crypto";
 import { Roadwork } from "@create-disruptions-data/shared-ts/roadwork.zod";
+import { getLiveRoadworks } from "@create-disruptions-data/shared-ts/utils";
 import { getUsersByAttributeByOrgIds } from "@create-disruptions-data/shared-ts/utils/cognito";
 import { convertDateTimeToFormat } from "@create-disruptions-data/shared-ts/utils/dates";
 import { isSandbox } from "@create-disruptions-data/shared-ts/utils/domain";
@@ -136,7 +137,9 @@ export const main = async (): Promise<void> => {
             return;
         }
 
-        const administrativeAreaCodes = recentlyNewRoadworks.map((roadwork) => roadwork.administrativeAreaCode);
+        const liveRoadworks = getLiveRoadworks(recentlyNewRoadworks);
+
+        const administrativeAreaCodes = liveRoadworks.map((roadwork) => roadwork.administrativeAreaCode);
         const orgIdsAndAdminAreaCodes = await getOrgIdsFromDynamoByAdminAreaCodes(
             orgTableName,
             administrativeAreaCodes,
@@ -174,7 +177,7 @@ export const main = async (): Promise<void> => {
         } = emailsByOrg;
         Object.entries(emailsByOrg).forEach((orgData) => {
             orgData[1].adminAreaCodes.forEach((adminAreaCode) => {
-                recentlyNewRoadworks.forEach((roadwork) => {
+                liveRoadworks.forEach((roadwork) => {
                     if (roadwork.administrativeAreaCode === adminAreaCode) {
                         if (emailData[orgData[0]].content) {
                             emailData[orgData[0]].content?.push(formatRoadwork(roadwork));
