@@ -136,6 +136,11 @@ export const main = async (): Promise<void> => {
 
         const emails = await getUsersEmailsByAttribute("custom:streetManagerPref", "email", "true");
 
+        if (!emails || (emails && emails.length === 0)) {
+            logger.info("No emails to send new roadworks notifications to...");
+            return;
+        }
+
         const roadworksNewEmail = createNewRoadworksEmail(newRoadworks, emails, domainName || "", stage || "");
 
         await sesClient.send(roadworksNewEmail);

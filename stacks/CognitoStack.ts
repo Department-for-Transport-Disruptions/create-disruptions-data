@@ -37,6 +37,7 @@ export const CognitoStack = ({ stack }: StackContext) => {
             orgId: new StringAttribute({ minLen: 1, mutable: true }),
             disruptionEmailPref: new StringAttribute({ mutable: true }),
             operatorOrgId: new StringAttribute({ mutable: true }),
+            streetManagerPref: new StringAttribute({ mutable: true }),
         },
         standardAttributes: {
             email: {

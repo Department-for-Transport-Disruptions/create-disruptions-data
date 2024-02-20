@@ -72,7 +72,6 @@ export const getUsersEmailsByAttribute = async (
 ): Promise<string[]> => {
     const params = {
         UserPoolId: userPoolId,
-        AttributesToGet: [attributeToGet],
     };
 
     const command = new ListUsersCommand(params);

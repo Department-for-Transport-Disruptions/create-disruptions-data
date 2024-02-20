@@ -73,7 +73,7 @@ export const RoadworksNotificationStack = ({ stack }: StackContext) => {
             }),
             new PolicyStatement({
                 resources: [userPoolArn],
-                actions: ["cognito-idp:ListUsersInGroup"],
+                actions: ["cognito-idp:ListUsers"],
             }),
         ],
         timeout: 60,
