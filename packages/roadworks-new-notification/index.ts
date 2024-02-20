@@ -104,6 +104,10 @@ export const main = async (): Promise<void> => {
 
         const { DOMAIN_NAME: domainName, STAGE: stage } = process.env;
 
+        if (!domainName || !stage) {
+            throw new Error("Environment variables not set");
+        }
+
         const recentlyNewRoadworks = await getRecentlyNewRoadworks();
 
         if (!recentlyNewRoadworks || recentlyNewRoadworks.length === 0) {

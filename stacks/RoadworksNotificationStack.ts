@@ -65,7 +65,7 @@ export const RoadworksNotificationStack = ({ stack }: StackContext) => {
             DOMAIN_NAME: url,
             STAGE: stack.stage,
         },
-        handler: "packages/roadworks-cancelled-notification/index.main",
+        handler: "packages/roadworks-new-notification/index.main",
         permissions: [
             new PolicyStatement({
                 resources: ["*"],
