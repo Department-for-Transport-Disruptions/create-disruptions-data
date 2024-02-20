@@ -83,6 +83,6 @@ export const RoadworksNotificationStack = ({ stack }: StackContext) => {
 
     new Cron(stack, "cdd-roadworks-new-notification-cron", {
         job: newRoadworkNotification,
-        schedule: `cron(${stack.stage === "prod" || stack.stage === "preprod" ? "0 8 * * *" : "0 8 * * *"})`,
+        schedule: "cron(0 8 * * ? *)",
     });
 };
