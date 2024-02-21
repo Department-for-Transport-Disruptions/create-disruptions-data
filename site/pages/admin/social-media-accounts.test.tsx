@@ -6,6 +6,7 @@ const blankInputs: SocialMediaAccountsPageProps = {
     socialMediaDetails: [],
     hootsuiteAuthUrl: "https://hootsuite-test-auth.com",
     twitterAuthUrl: "https://twitter-test-auth.com",
+    nextdoorAuthUrl: "https://nextdoor-test-auth.com",
 };
 
 const withInputs: SocialMediaAccountsPageProps = {
@@ -24,6 +25,7 @@ const withInputs: SocialMediaAccountsPageProps = {
     ],
     hootsuiteAuthUrl: "https://hootsuite-test-auth.com",
     twitterAuthUrl: "https://twitter-test-auth.com",
+    nextdoorAuthUrl: "https://nextdoor-test-auth.com",
 };
 
 describe("socialMediaAccounts", () => {
