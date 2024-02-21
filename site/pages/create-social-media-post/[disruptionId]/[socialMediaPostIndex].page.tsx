@@ -2,10 +2,12 @@ import { NextPageContext } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
-import { ReactElement, useState } from "react";
+import { ReactElement, SyntheticEvent, useState } from "react";
+import { ActionMeta } from "react-select";
 import DateSelector from "../../../components/form/DateSelector";
 import ErrorSummary from "../../../components/form/ErrorSummary";
 import FormElementWrapper, { FormGroupWrapper } from "../../../components/form/FormElementWrapper";
+import SearchSelect from "../../../components/form/SearchSelect";
 import Select from "../../../components/form/Select";
 import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
@@ -13,10 +15,18 @@ import { BaseLayout } from "../../../components/layout/Layout";
 import { COOKIES_SOCIAL_MEDIA_ERRORS } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { getHootsuiteAccountList } from "../../../data/hootsuite";
+import { getNextdoorAccountList, getNextdoorGroupIds } from "../../../data/nextdoor";
 import { getTwitterAccountList } from "../../../data/twitter";
 import { PageState, ErrorInfo } from "../../../interfaces";
+import { GroupId } from "../../../schemas/nextdoor.schema";
 import { SocialMediaAccount } from "../../../schemas/social-media-accounts.schema";
-import { HootsuitePost, SocialMediaPost, socialMediaPostSchema } from "../../../schemas/social-media.schema";
+import {
+    HootsuitePost,
+    NextdoorPost,
+    SocialMediaPost,
+    TwitterPost,
+    socialMediaPostSchema,
+} from "../../../schemas/social-media.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
 import { getStateUpdater, showCancelButton } from "../../../utils/formUtils";
@@ -24,18 +34,21 @@ import { getStateUpdater, showCancelButton } from "../../../utils/formUtils";
 const title = "Create social media message";
 const description = "Create social media message page for the Create Transport Disruptions Service";
 
-export interface CreateSocialMediaPostPageProps extends PageState<Partial<HootsuitePost>> {
+export interface CreateSocialMediaPostPageProps extends PageState<Partial<HootsuitePost | TwitterPost | NextdoorPost>> {
     disruptionDescription: string;
     socialMediaPostIndex: number;
     csrfToken?: string;
     socialAccounts: SocialMediaAccount[];
     template?: string;
     operatorOrgId?: string;
+    nextdoorGroupIds?: number[];
 }
 
 const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElement => {
-    const [pageState, setPageState] = useState<PageState<Partial<HootsuitePost>>>(props);
+    const [pageState, setPageState] = useState<PageState<Partial<HootsuitePost | TwitterPost | NextdoorPost>>>(props);
     const [errorsMessageContent, setErrorsMessageContent] = useState<ErrorInfo[]>(pageState.errors);
+    const [searchInput, setSearchInput] = useState("");
+    const [selected, setSelected] = useState<{ label: GroupId; groupId: GroupId } | null>(null);
 
     const queryParams = useRouter().query;
     const displayCancelButton = showCancelButton(queryParams);
@@ -45,6 +58,70 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
     const accountType = props.socialAccounts?.find(
         (account) => account.id === pageState.inputs.socialAccount,
     )?.accountType;
+
+    const removeGroupId = (e: SyntheticEvent, index: number) => {
+        e.preventDefault();
+        if (pageState.inputs.accountType === "Nextdoor" && pageState.inputs.groupIds) {
+            const groupIds = [...pageState.inputs.groupIds];
+            groupIds.splice(index, 1);
+            setPageState({
+                ...pageState,
+                inputs: {
+                    ...pageState.inputs,
+                    groupIds,
+                },
+            });
+        }
+    };
+
+    const getGroupIdRows = () => {
+        if (pageState.inputs.accountType === "Nextdoor" && pageState.inputs.groupIds) {
+            return pageState.inputs.groupIds.map((groupId, i) => ({
+                cells: [
+                    groupId.toString(),
+                    <button
+                        id={`remove-groupId-${groupId}`}
+                        key={`remove-groupId-${groupId}`}
+                        className="govuk-link"
+                        onClick={(e) => removeGroupId(e, i)}
+                    >
+                        Remove
+                    </button>,
+                ],
+            }));
+        }
+        return [];
+    };
+
+    const addGroupId = (value: string) => {
+        if (pageState.inputs.accountType === "Nextdoor") {
+            setPageState({
+                ...pageState,
+                inputs: {
+                    ...pageState.inputs,
+                    groupIds: [...(pageState.inputs.groupIds || []), Number(value)],
+                },
+            });
+        }
+    };
+    const handleChange = (
+        value: { label: GroupId; groupId: GroupId } | null,
+        actionMeta: ActionMeta<{ label: GroupId; groupId: GroupId }>,
+    ) => {
+        if (actionMeta.action === "clear") {
+            setSearchInput("");
+        }
+        if (value) {
+            if (
+                pageState.inputs.accountType === "Nextdoor" &&
+                (!pageState.inputs.groupIds ||
+                    !pageState.inputs.groupIds.some((data: number) => data === Number(value?.groupId)))
+            ) {
+                addGroupId(value.groupId);
+            }
+            setSelected(null);
+        }
+    };
 
     return (
         <BaseLayout title={title} description={description}>
@@ -162,6 +239,38 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                 </FormElementWrapper>
                             </fieldset>
                         </FormGroupWrapper>
+
+                        {pageState.inputs.accountType === "Nextdoor" && (
+                            <SearchSelect<{ label: GroupId; groupId: GroupId }>
+                                closeMenuOnSelect={false}
+                                selected={selected}
+                                inputName="groupIds"
+                                initialErrors={pageState.errors}
+                                placeholder={"Select groupIds"}
+                                getOptionLabel={(value) => value.groupId}
+                                handleChange={handleChange}
+                                tableData={
+                                    pageState.inputs.groupIds?.map((groupId) => ({
+                                        label: groupId.toString(),
+                                        groupId: groupId.toString(),
+                                    })) || []
+                                }
+                                getRows={getGroupIdRows}
+                                getOptionValue={(value) => value.groupId}
+                                display="Group Ids"
+                                displaySize="l"
+                                inputId="groupIds"
+                                inputValue={searchInput}
+                                setSearchInput={setSearchInput}
+                                isClearable
+                                options={
+                                    props.nextdoorGroupIds?.map((id) => ({
+                                        label: id.toString(),
+                                        groupId: id.toString(),
+                                    })) || []
+                                }
+                            />
+                        )}
                     </div>
 
                     {accountType === "Hootsuite" && !queryParams["template"] && (
@@ -245,15 +354,17 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     const hootsuiteAccounts = await getHootsuiteAccountList(session.orgId, session.operatorOrgId ?? "");
     const twitterAccounts = await getTwitterAccountList(session.orgId, session.operatorOrgId ?? "");
-
+    const nextdoorAccounts = await getNextdoorAccountList(session.orgId, session.operatorOrgId ?? "");
+    const nextdoorGroupIds = getNextdoorGroupIds();
     return {
         props: {
             ...getPageState(errorCookie, socialMediaPostSchema, disruptionId, socialMediaPost || undefined),
             disruptionDescription: disruption?.description || "",
             socialMediaPostIndex: index,
-            socialAccounts: [...hootsuiteAccounts, ...twitterAccounts],
+            socialAccounts: [...hootsuiteAccounts, ...twitterAccounts, ...nextdoorAccounts],
             template: disruption?.template?.toString() || "",
             operatorOrgId: session.operatorOrgId ?? "",
+            nextDoorGroupIds: nextdoorGroupIds,
         },
     };
 };

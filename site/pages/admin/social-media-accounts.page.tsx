@@ -5,6 +5,7 @@ import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPopup";
 import { getHootsuiteAuthUrl, getHootsuiteAccountList } from "../../data/hootsuite";
+import { getNextdoorAccountList, getNextdoorAuthUrl } from "../../data/nextdoor";
 import { getTwitterAuthUrl, getTwitterAccountList } from "../../data/twitter";
 import { SocialMediaAccount } from "../../schemas/social-media-accounts.schema";
 import { toLowerStartCase } from "../../utils";
@@ -17,6 +18,7 @@ export interface SocialMediaAccountsPageProps {
     socialMediaDetails: SocialMediaAccount[];
     hootsuiteAuthUrl: string;
     twitterAuthUrl: string;
+    nextdoorAuthUrl: string;
     csrfToken?: string;
 }
 
@@ -24,6 +26,7 @@ const SocialMediaAccounts = ({
     socialMediaDetails,
     hootsuiteAuthUrl,
     twitterAuthUrl,
+    nextdoorAuthUrl,
     csrfToken,
 }: SocialMediaAccountsPageProps): ReactElement => {
     const [socialAccountToDelete, setSocialAccountToDelete] = useState<SocialMediaAccount | null>(null);
@@ -83,7 +86,11 @@ const SocialMediaAccounts = ({
                 {socialAccountToDelete ? (
                     <DeleteConfirmationPopup
                         entityName={`the ${
-                            socialAccountToDelete.accountType === "Hootsuite" ? "hootsuite" : "twitter"
+                            socialAccountToDelete.accountType === "Hootsuite"
+                                ? "hootsuite"
+                                : socialAccountToDelete.accountType === "Twitter"
+                                ? "twitter"
+                                : "nextdoor"
                         } connection`}
                         deleteUrl="/api/remove-social-connection"
                         cancelActionHandler={cancelActionHandler}
@@ -115,8 +122,11 @@ const SocialMediaAccounts = ({
                 <Link className="govuk-button mt-8 mr-4" data-module="govuk-button" href={hootsuiteAuthUrl}>
                     Connect Hootsuite
                 </Link>
-                <Link className="govuk-button mt-8" data-module="govuk-button" href={twitterAuthUrl}>
+                <Link className="govuk-button mt-8 mr-4" data-module="govuk-button" href={twitterAuthUrl}>
                     Connect Twitter
+                </Link>
+                <Link className="govuk-button mt-8" data-module="govuk-button" href={nextdoorAuthUrl}>
+                    Connect Nextdoor
                 </Link>
             </>
         </BaseLayout>
@@ -135,18 +145,28 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     }
 
     const operatorOrgId = session.operatorOrgId || "";
-    const [hootsuiteAccountList, twitterAccountList, hootsuiteAuthUrl, twitterAuthUrl] = await Promise.all([
+    const [
+        hootsuiteAccountList,
+        twitterAccountList,
+        nextdoorAccountList,
+        hootsuiteAuthUrl,
+        twitterAuthUrl,
+        nextdoorAuthUrl,
+    ] = await Promise.all([
         getHootsuiteAccountList(session.orgId, operatorOrgId),
         getTwitterAccountList(session.orgId, operatorOrgId),
+        getNextdoorAccountList(session.orgId, operatorOrgId),
         getHootsuiteAuthUrl(ctx),
         getTwitterAuthUrl(ctx),
+        getNextdoorAuthUrl(),
     ]);
 
     return {
         props: {
-            socialMediaDetails: [...hootsuiteAccountList, ...twitterAccountList],
+            socialMediaDetails: [...hootsuiteAccountList, ...twitterAccountList, ...nextdoorAccountList],
             hootsuiteAuthUrl,
             twitterAuthUrl,
+            nextdoorAuthUrl,
         },
     };
 };
