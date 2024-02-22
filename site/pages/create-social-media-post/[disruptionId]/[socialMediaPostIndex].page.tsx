@@ -16,7 +16,12 @@ import { getHootsuiteAccountList } from "../../../data/hootsuite";
 import { getTwitterAccountList } from "../../../data/twitter";
 import { PageState, ErrorInfo } from "../../../interfaces";
 import { SocialMediaAccount } from "../../../schemas/social-media-accounts.schema";
-import { HootsuitePost, SocialMediaPost, socialMediaPostSchema } from "../../../schemas/social-media.schema";
+import {
+    CreateSocialMediaPostPage,
+    HootsuitePost,
+    SocialMediaPost,
+    socialMediaPostSchema,
+} from "../../../schemas/social-media.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
 import { getStateUpdater, showCancelButton } from "../../../utils/formUtils";
@@ -24,7 +29,7 @@ import { getStateUpdater, showCancelButton } from "../../../utils/formUtils";
 const title = "Create social media message";
 const description = "Create social media message page for the Create Transport Disruptions Service";
 
-export interface CreateSocialMediaPostPageProps extends PageState<Partial<HootsuitePost>> {
+export interface CreateSocialMediaPostPageProps extends PageState<Partial<CreateSocialMediaPostPage>> {
     disruptionDescription: string;
     socialMediaPostIndex: number;
     csrfToken?: string;
@@ -34,7 +39,7 @@ export interface CreateSocialMediaPostPageProps extends PageState<Partial<Hootsu
 }
 
 const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElement => {
-    const [pageState, setPageState] = useState<PageState<Partial<HootsuitePost>>>(props);
+    const [pageState, setPageState] = useState<PageState<Partial<CreateSocialMediaPostPage>>>(props);
     const [errorsMessageContent, setErrorsMessageContent] = useState<ErrorInfo[]>(pageState.errors);
 
     const queryParams = useRouter().query;
@@ -74,7 +79,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                 display="Select social media account"
                             />
                             {accountType === "Hootsuite" && (
-                                <Select<HootsuitePost>
+                                <Select<Partial<HootsuitePost>>
                                     inputName="hootsuiteProfile"
                                     defaultDisplay="Social account"
                                     display={"Select Hootsuite profile"}
@@ -168,7 +173,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                         <div className="govuk-form-group">
                             <h2 className="govuk-heading-l">Publish time and date</h2>
 
-                            <DateSelector<HootsuitePost>
+                            <DateSelector<Partial<HootsuitePost>>
                                 display="Date"
                                 hint={{ hidden: false, text: "Enter in format DD/MM/YYYY" }}
                                 value={
