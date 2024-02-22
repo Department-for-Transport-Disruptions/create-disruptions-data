@@ -41,9 +41,15 @@ const twitterSchema = z.object({
     accountType: z.literal("Twitter"),
 });
 
+const nextdoorSchema = z.object({
+    ...baseSchema,
+    accountType: z.literal("Nextdoor"),
+    groupIds: z.array(z.number()),
+});
+
 export const socialMediaPostSchema = z.discriminatedUnion(
     "accountType",
-    [hootsuiteSchema, twitterSchema],
+    [hootsuiteSchema, twitterSchema, nextdoorSchema],
     setZodDefaultError("Select a social media profile"),
 );
 
@@ -52,13 +58,18 @@ const createSocialMediaPostPageSchema = z.object({
     hootsuiteProfile: z.string(setZodDefaultError("Select a Hootsuite profile")).optional(),
     publishDate: z.string().optional(),
     publishTime: z.string().optional(),
-    accountType: z.union([z.literal("Hootsuite"), z.literal("Twitter")]),
+    accountType: z.union([z.literal("Hootsuite"), z.literal("Twitter"), z.literal("Nextdoor")]),
+    groupIds: z.array(z.number()).optional(),
 });
 
 export const refineImageSchema = socialMediaPostSchema
     .refine((item) => (item.accountType === "Hootsuite" ? !!item.hootsuiteProfile : true), {
         path: ["hootsuiteProfile"],
         message: "Select a Hootsuite profile",
+    })
+    .refine((item) => (item.accountType === "Nextdoor" ? !!item.groupIds : true), {
+        path: ["groupIds"],
+        message: "Select group Ids",
     })
     .refine((item) => (item.accountType === "Hootsuite" && !!item.publishTime ? !!item.publishDate : true), {
         path: ["publishDate"],
@@ -94,6 +105,7 @@ export type CreateSocialMediaPostPage = z.infer<typeof createSocialMediaPostPage
 export type SocialMediaPost = z.infer<typeof socialMediaPostSchema>;
 export type HootsuitePost = z.infer<typeof hootsuiteSchema>;
 export type TwitterPost = z.infer<typeof twitterSchema>;
+export type NextdoorPost = z.infer<typeof nextdoorSchema>;
 
 export type SocialMediaImage = z.infer<typeof socialMediaImageSchema>;
 
