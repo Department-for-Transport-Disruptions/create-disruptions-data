@@ -74,11 +74,11 @@ export const nextdoorTokenSchema = z
         token_type: z.string(),
         access_token: z.string(),
         id_token: z.string(),
-        expires_in: z.string(),
+        expires_in: z.number(),
     })
     .transform((res) => ({
         accessToken: res.access_token,
         tokenType: z.string(),
         idToken: z.string(),
-        expiresIn: z.string(),
+        expiresIn: z.number(),
     }));

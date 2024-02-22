@@ -1,6 +1,6 @@
 import { addSocialAccountToOrg, getOrgSocialAccounts } from "./dynamo";
 import { getParameter, putParameter } from "./ssm";
-import { NEXTDOOR_URL } from "../constants";
+import { NEXTDOOR_AUTH_URL, NEXTDOOR_URL } from "../constants";
 import { nextdoorMeSchema, nextdoorTokenSchema } from "../schemas/nextdoor.schema";
 import { SocialMediaAccount } from "../schemas/social-media-accounts.schema";
 
@@ -23,7 +23,7 @@ export const addNextdoorAccount = async (
 ) => {
     const authHeader = await getNextdoorAuthHeader();
 
-    const tokenResponse = await fetch(`${NEXTDOOR_URL}v2/token`, {
+    const tokenResponse = await fetch(`${NEXTDOOR_AUTH_URL}v2/token`, {
         method: "POST",
         body: new URLSearchParams({
             grant_type: "authorization_code",
@@ -37,7 +37,7 @@ export const addNextdoorAccount = async (
     });
 
     if (!tokenResponse.ok) {
-        const message = `An error has occurred: ${tokenResponse.status}`;
+        const message = `An error has occurred whilst authenticating Nextdoor user: ${tokenResponse.status}`;
         throw new Error(message);
     }
 
@@ -47,11 +47,12 @@ export const addNextdoorAccount = async (
         method: "GET",
         headers: {
             Authorization: `Bearer ${tokenResult.accessToken}`,
+            Accept: "application/json",
         },
     });
 
     if (!userDetailsResponse.ok) {
-        const message = `An error has occurred: ${userDetailsResponse.status}`;
+        const message = `An error has occurred retrieving account information: ${userDetailsResponse.status}`;
         throw new Error(message);
     }
 
@@ -86,7 +87,7 @@ export const getNextdoorClientIdAndSecret = async () => {
 
 export const getNextdoorAuthUrl = async () => {
     const { nextdoorClientId } = await getNextdoorClientIdAndSecret();
-    const url = `https://www.nextdoor.com/v3/authorize/?scope=openid%20post:write%20post:read%20agency.boundary%20profile:read&client_id=${nextdoorClientId}&redirect_uri=${nextdoorRedirectUri}`;
+    const url = `https://www.nextdoor.com/v3/authorize/?scope=openid%20post:write%20post:read%20agency.boundary:read%20profile:read&client_id=${nextdoorClientId}&redirect_uri=${nextdoorRedirectUri}`;
 
     return url;
 };
