@@ -165,8 +165,15 @@ export const publishSocialMedia = async (
             if (post.accountType === "Twitter") {
                 return sendTweet(orgId, post, isUserStaff, canPublish, authedTwitterClients[post.socialAccount]);
             }
-
-            return publishToHootsuite(post, orgId, isUserStaff, canPublish, hootsuiteAccessTokens[post.socialAccount]);
+            if (post.accountType === "Hootsuite") {
+                return publishToHootsuite(
+                    post,
+                    orgId,
+                    isUserStaff,
+                    canPublish,
+                    hootsuiteAccessTokens[post.socialAccount],
+                );
+            }
         }
 
         return null;

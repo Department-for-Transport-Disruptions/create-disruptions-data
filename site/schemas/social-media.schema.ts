@@ -53,6 +53,15 @@ export const socialMediaPostSchema = z.discriminatedUnion(
     setZodDefaultError("Select a social media profile"),
 );
 
+const createSocialMediaPostPageSchema = z.object({
+    ...baseSchema,
+    hootsuiteProfile: z.string(setZodDefaultError("Select a Hootsuite profile")).optional(),
+    publishDate: z.string().optional(),
+    publishTime: z.string().optional(),
+    accountType: z.union([z.literal("Hootsuite"), z.literal("Twitter"), z.literal("Nextdoor")]),
+    groupIds: z.array(z.number()).optional(),
+});
+
 export const refineImageSchema = socialMediaPostSchema
     .refine((item) => (item.accountType === "Hootsuite" ? !!item.hootsuiteProfile : true), {
         path: ["hootsuiteProfile"],
@@ -92,6 +101,7 @@ export const refineImageSchema = socialMediaPostSchema
         },
     );
 
+export type CreateSocialMediaPostPage = z.infer<typeof createSocialMediaPostPageSchema>;
 export type SocialMediaPost = z.infer<typeof socialMediaPostSchema>;
 export type HootsuitePost = z.infer<typeof hootsuiteSchema>;
 export type TwitterPost = z.infer<typeof twitterSchema>;
