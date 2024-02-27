@@ -1,4 +1,5 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
+import { Fields } from "formidable";
 import { NextApiRequest, NextApiResponse } from "next";
 import { readFile } from "fs/promises";
 import {
@@ -43,6 +44,26 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
             throw new Error("No form fields parsed");
         }
 
+        let values: string = JSON.stringify(fields);
+
+        const hasKeysStartingWithGroup = (obj: Fields) => Object.keys(obj).some((key) => key.startsWith("group"));
+        if (hasKeysStartingWithGroup(fields)) {
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+            const groupKeys = Object.keys(JSON.parse(JSON.stringify(fields))).filter((key) => key.startsWith("group"));
+
+            const groupIdsArray: { name: string; groupId: number }[] = [];
+
+            groupKeys.forEach((key) => {
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
+                const { name, groupId } = JSON.parse(JSON.parse(JSON.stringify(fields))[key] as string) as {
+                    name: string;
+                    groupId: number;
+                };
+                groupIdsArray.push({ name, groupId: Number(groupId) });
+            });
+
+            values = JSON.stringify({ ...JSON.parse(values), groupIds: groupIdsArray });
+        }
         const socialMediaAccountDetail = await getOrgSocialAccount(session.orgId, fields.socialAccount?.toString());
 
         const imageFile =
@@ -56,7 +77,7 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
                 : null;
 
         const validatedBody = refineImageSchema.safeParse({
-            ...fields,
+            ...JSON.parse(values),
             ...(imageFile ? { image: imageFile } : {}),
             display: socialMediaAccountDetail?.display,
             accountType: socialMediaAccountDetail?.accountType,
@@ -97,7 +118,9 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
 
         // publishTime and publishDate set to blank to prevent error when creating a disruption (as templates prior had these populated)
         const socialMediaToUpsert =
-            template === "true" || validatedBody.data.accountType === "Twitter"
+            template === "true" ||
+            validatedBody.data.accountType === "Twitter" ||
+            validatedBody.data.accountType === "Nextdoor"
                 ? {
                       ...validatedBody.data,
                       publishTime: "",

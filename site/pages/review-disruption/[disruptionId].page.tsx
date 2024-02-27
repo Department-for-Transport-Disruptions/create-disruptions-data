@@ -29,6 +29,7 @@ import { getDisruptionById } from "../../data/dynamo";
 import { getItem } from "../../data/s3";
 import { ErrorInfo, PageState } from "../../interfaces";
 import { FullDisruption } from "../../schemas/disruption.schema";
+import { GroupIds } from "../../schemas/nextdoor.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../../schemas/social-media.schema";
 import { getLargestConsequenceIndex, splitCamelCaseToString } from "../../utils";
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
@@ -213,6 +214,30 @@ const ReviewDisruption = ({
                                       true,
                                       false,
                                       disruption.template,
+                                  )
+                                : "",
+                    },
+                ],
+            },
+            {
+                header: "Nextdoor area boundaries",
+                cells: [
+                    {
+                        value:
+                            post.accountType === "Nextdoor"
+                                ? post.groupIds.map((group) => group.name).join(", ")
+                                : "N/A",
+                    },
+                    {
+                        value:
+                            isPendingOrRejected && isEditingAllowed
+                                ? createChangeLink(
+                                      "groupIds",
+                                      CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                      disruption.disruptionId,
+                                      post.socialMediaPostIndex,
+                                      true,
+                                      false,
                                   )
                                 : "",
                     },

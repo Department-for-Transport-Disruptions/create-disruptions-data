@@ -47,17 +47,22 @@ export const nextdoorMeSchema = z
     }));
 
 export const nextdoorAgencyBoundaryResultSchema = z.array(
-    z.object({
-        name: z.string(),
-        group_id: z.number(),
-        geometry: z.string(),
-    }),
+    z
+        .object({
+            name: z.string(),
+            group_id: z.number(),
+            geometry_id: z.number(),
+            type: z.string(),
+        })
+        .transform((item) => ({
+            name: item.name,
+            groupId: item.group_id,
+            geometryId: item.geometry_id,
+            type: item.type,
+        })),
 );
 
-export const nextdoorAgencyBoundarySchema = z.object({
-    has_next_page: z.boolean().default(false),
-    result: nextdoorAgencyBoundaryResultSchema,
-});
+export type GroupIds = z.infer<typeof nextdoorAgencyBoundaryResultSchema>;
 
 export const nextdoorGroupIdsSchema = z.string();
 

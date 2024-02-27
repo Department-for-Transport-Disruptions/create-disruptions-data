@@ -17,7 +17,7 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         const { code, state } = req.query;
 
         if (!state || !code) {
-            throw new NoStateOrCodeHootsuiteError();
+            throw new NoStateOrCodeError();
         }
 
         const savedState = parseCookies({ req })[COOKIES_HOOTSUITE_STATE];
@@ -31,7 +31,7 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         redirectTo(res, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH);
         return;
     } catch (e) {
-        if (e instanceof NoStateOrCodeHootsuiteError) {
+        if (e instanceof NoStateOrCodeError) {
             redirectTo(res, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH);
             return;
         }

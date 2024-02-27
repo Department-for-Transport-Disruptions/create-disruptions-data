@@ -85,13 +85,7 @@ const SocialMediaAccounts = ({
                 <h1 className="govuk-heading-xl">Social media accounts</h1>
                 {socialAccountToDelete ? (
                     <DeleteConfirmationPopup
-                        entityName={`the ${
-                            socialAccountToDelete.accountType === "Hootsuite"
-                                ? "hootsuite"
-                                : socialAccountToDelete.accountType === "Twitter"
-                                ? "twitter"
-                                : "nextdoor"
-                        } connection`}
+                        entityName={`the ${socialAccountToDelete.accountType.toLowerCase()} connection`}
                         deleteUrl="/api/remove-social-connection"
                         cancelActionHandler={cancelActionHandler}
                         csrfToken={csrfToken || ""}

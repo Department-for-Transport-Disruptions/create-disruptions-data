@@ -1,8 +1,16 @@
-import { addSocialAccountToOrg, getOrgSocialAccounts } from "./dynamo";
+import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
+import { addSocialAccountToOrg, getOrgSocialAccounts, upsertSocialMediaPost } from "./dynamo";
 import { getParameter, putParameter } from "./ssm";
 import { NEXTDOOR_AUTH_URL, NEXTDOOR_URL } from "../constants";
-import { nextdoorMeSchema, nextdoorTokenSchema } from "../schemas/nextdoor.schema";
+import {
+    GroupIds,
+    nextdoorAgencyBoundaryResultSchema,
+    nextdoorMeSchema,
+    nextdoorTokenSchema,
+} from "../schemas/nextdoor.schema";
 import { SocialMediaAccount } from "../schemas/social-media-accounts.schema";
+import { NextdoorPost } from "../schemas/social-media.schema";
+import logger from "../utils/logger";
 
 export const nextdoorRedirectUri = `${process.env.DOMAIN_NAME as string}/api/nextdoor-callback`;
 
@@ -14,6 +22,18 @@ export const getNextdoorAuthHeader = async () => {
 };
 
 export const getNextdoorSsmKey = (orgId: string, id: string) => `/social/${orgId}/nextdoor/${id}/refresh_token`;
+
+export const getNextdoorAccessToken = async (orgId: string, socialId: string) => {
+    const refreshTokenParam = await getParameter(getNextdoorSsmKey(orgId, socialId), true);
+
+    if (!refreshTokenParam.Parameter?.Value) {
+        throw new Error("Refresh token not found");
+    }
+
+    const refreshToken = refreshTokenParam.Parameter.Value;
+
+    return refreshToken;
+};
 
 export const addNextdoorAccount = async (
     code: string,
@@ -108,4 +128,81 @@ export const getNextdoorAccountList = async (orgId: string, operatorOrgId?: stri
     return nextdoorDetail;
 };
 
-export const getNextdoorGroupIds = (): number[] => [1, 2];
+export const getNextdoorGroupIds = async (orgId: string, socialId: string): Promise<GroupIds> => {
+    if (!socialId) {
+        return [];
+    }
+    const accessToken = await getNextdoorAccessToken(orgId, socialId);
+    const agencyBoundaryResponse = await fetch(`${NEXTDOOR_URL}external/api/partner/v1/agency/boundary/`, {
+        method: "GET",
+        headers: {
+            Authorization: `Bearer ${accessToken}`,
+            Accept: "application/json",
+        },
+    });
+
+    if (!agencyBoundaryResponse.ok) {
+        const message = `An error has occurred retrieving agency boundary results: ${agencyBoundaryResponse.status}`;
+        throw new Error(message);
+    }
+
+    const boundaryDetails = nextdoorAgencyBoundaryResultSchema.parse(await agencyBoundaryResponse.json());
+
+    return boundaryDetails;
+};
+
+export const publishToNextdoor = async (
+    socialMediaPost: NextdoorPost,
+    orgId: string,
+    isUserStaff: boolean,
+    canPublish: boolean,
+    accessToken: string,
+) => {
+    try {
+        if (!accessToken) {
+            throw new Error("Not authenticated to Nextdoor");
+        }
+
+        const createSocialPostResponse = await fetch(`${NEXTDOOR_URL}external/api/partner/v1/post/create/`, {
+            method: "POST",
+            body: JSON.stringify({
+                body_text: socialMediaPost.messageContent,
+                ...(socialMediaPost.groupIds
+                    ? { group_ids: socialMediaPost.groupIds.map((group) => group.groupId) }
+                    : {}),
+            }),
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${accessToken}`,
+            },
+        });
+
+        if (!createSocialPostResponse.ok) {
+            logger.error(await createSocialPostResponse.text());
+            throw new Error("Failed to create social media post");
+        }
+
+        await upsertSocialMediaPost(
+            {
+                ...socialMediaPost,
+                status: SocialMediaPostStatus.successful,
+            },
+            orgId,
+            isUserStaff,
+            canPublish,
+            undefined,
+        );
+    } catch (e) {
+        logger.error(e);
+        await upsertSocialMediaPost(
+            {
+                ...socialMediaPost,
+                status: SocialMediaPostStatus.rejected,
+                publishStatus: "PUBLISHED",
+            },
+            orgId,
+            isUserStaff,
+            canPublish,
+        );
+    }
+};

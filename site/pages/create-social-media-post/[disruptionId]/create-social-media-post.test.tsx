@@ -63,6 +63,17 @@ describe("pages", () => {
                                 expiresIn: "Never",
                                 id: "138196022",
                             },
+                            {
+                                display: "nextdoor@example.com",
+                                accountType: "Nextdoor",
+                                addedBy: "Test User",
+                                expiresIn: "Never",
+                                id: "985654341",
+                                groupIds: [
+                                    { name: "Test Area 1", groupId: 1234 },
+                                    { name: "Test Area 2", groupId: 1264 },
+                                ],
+                            },
                         ]}
                     />,
                 )
@@ -119,6 +130,17 @@ describe("pages", () => {
                             expiresIn: "Never",
                             id: "987654321",
                         },
+                        {
+                            display: "nextdoor@example.com",
+                            accountType: "Nextdoor",
+                            addedBy: "Test User",
+                            expiresIn: "Never",
+                            id: "985654341",
+                            groupIds: [
+                                { name: "Test Area 1", groupId: 1234 },
+                                { name: "Test Area 2", groupId: 1264 },
+                            ],
+                        },
                     ]}
                 />,
             );
@@ -166,6 +188,17 @@ describe("pages", () => {
                             expiresIn: "Never",
                             id: "987654321",
                         },
+                        {
+                            display: "nextdoor@example.com",
+                            accountType: "Nextdoor",
+                            addedBy: "Test User",
+                            expiresIn: "Never",
+                            id: "985654341",
+                            groupIds: [
+                                { name: "Test Area 1", groupId: 1234 },
+                                { name: "Test Area 2", groupId: 1264 },
+                            ],
+                        },
                     ]}
                 />,
             );
@@ -178,5 +211,61 @@ describe("pages", () => {
 
             unmount();
         });
+    });
+
+    it("should show all fields when nextdoor account selected", async () => {
+        const { unmount, getByLabelText, queryAllByLabelText } = render(
+            <CreateSocialMediaPost
+                disruptionDescription="test summary 123"
+                socialMediaPostIndex={0}
+                errors={[]}
+                inputs={previousCreateSocialMediaPostInformation}
+                socialAccounts={[
+                    {
+                        display: "hootsuite@example.com",
+                        accountType: "Hootsuite",
+                        hootsuiteProfiles: [
+                            {
+                                id: "138196022",
+                                socialNetworkId: "138196022",
+                                type: "TWITTER",
+                            },
+                            {
+                                id: "138196178",
+                                socialNetworkId: "138196178",
+                                type: "FACEBOOK",
+                            },
+                        ],
+                        addedBy: "Test User",
+                        expiresIn: "Never",
+                        id: "138196022",
+                    },
+                    {
+                        display: "twitter@example.com",
+                        accountType: "Twitter",
+                        addedBy: "Test User",
+                        expiresIn: "Never",
+                        id: "987654321",
+                    },
+                    {
+                        display: "nextdoor@example.com",
+                        accountType: "Nextdoor",
+                        addedBy: "Test User",
+                        expiresIn: "Never",
+                        id: "985654341",
+                        groupIds: [
+                            { name: "Test Area 1", groupId: 1234 },
+                            { name: "Test Area 2", groupId: 1264 },
+                        ],
+                    },
+                ]}
+            />,
+        );
+
+        await userEvent.selectOptions(getByLabelText("Select social media account"), "985654341");
+
+        expect(queryAllByLabelText("Area boundaries").length).toBe(1);
+
+        unmount();
     });
 });

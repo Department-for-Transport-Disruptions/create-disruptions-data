@@ -163,7 +163,7 @@ export const getHootsuiteAuthHeader = async () => {
     return `Basic ${Buffer.from(key).toString("base64")}`;
 };
 
-export const getAccessToken = async (orgId: string, socialId: string) => {
+export const getHootsuiteAccessToken = async (orgId: string, socialId: string) => {
     const refreshTokenParam = await getParameter(getHootsuiteSsmKey(orgId, socialId), true);
 
     if (!refreshTokenParam.Parameter?.Value) {
@@ -183,7 +183,7 @@ export const getHootsuiteDetails = async (
     createdByOperatorOrgId?: string,
 ): Promise<SocialMediaAccount | null> => {
     try {
-        const hootsuiteAccessToken = await getAccessToken(orgId, socialId);
+        const hootsuiteAccessToken = await getHootsuiteAccessToken(orgId, socialId);
 
         const [hootsuiteUserDetails, hootsuiteProfiles] = await Promise.all([
             getHootsuiteUserDetails(hootsuiteAccessToken),

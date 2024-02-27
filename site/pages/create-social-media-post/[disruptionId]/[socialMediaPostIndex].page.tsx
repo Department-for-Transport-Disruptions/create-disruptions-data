@@ -18,7 +18,7 @@ import { getHootsuiteAccountList } from "../../../data/hootsuite";
 import { getNextdoorAccountList, getNextdoorGroupIds } from "../../../data/nextdoor";
 import { getTwitterAccountList } from "../../../data/twitter";
 import { PageState, ErrorInfo } from "../../../interfaces";
-import { GroupId } from "../../../schemas/nextdoor.schema";
+import { GroupId, GroupIds } from "../../../schemas/nextdoor.schema";
 import { SocialMediaAccount } from "../../../schemas/social-media-accounts.schema";
 import {
     CreateSocialMediaPostPage,
@@ -40,14 +40,14 @@ export interface CreateSocialMediaPostPageProps extends PageState<Partial<Create
     socialAccounts: SocialMediaAccount[];
     template?: string;
     operatorOrgId?: string;
-    nextdoorGroupIds?: number[];
+    nextdoorGroupIds?: GroupIds;
 }
 
 const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElement => {
     const [pageState, setPageState] = useState<PageState<Partial<CreateSocialMediaPostPage>>>(props);
     const [errorsMessageContent, setErrorsMessageContent] = useState<ErrorInfo[]>(pageState.errors);
     const [searchInput, setSearchInput] = useState("");
-    const [selected, setSelected] = useState<{ label: GroupId; groupId: GroupId } | null>(null);
+    const [selected, setSelected] = useState<{ name: string; groupId: GroupId } | null>(null);
 
     const queryParams = useRouter().query;
     const displayCancelButton = showCancelButton(queryParams);
@@ -60,7 +60,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
 
     const removeGroupId = (e: SyntheticEvent, index: number) => {
         e.preventDefault();
-        if (pageState.inputs.accountType === "Nextdoor" && pageState.inputs.groupIds) {
+        if (accountType === "Nextdoor" && pageState.inputs.groupIds) {
             const groupIds = [...pageState.inputs.groupIds];
             groupIds.splice(index, 1);
             setPageState({
@@ -74,49 +74,56 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
     };
 
     const getGroupIdRows = () => {
-        if (pageState.inputs.accountType === "Nextdoor" && pageState.inputs.groupIds) {
-            return pageState.inputs.groupIds.map((groupId, i) => ({
-                cells: [
-                    groupId.toString(),
-                    <button
-                        id={`remove-groupId-${groupId}`}
-                        key={`remove-groupId-${groupId}`}
-                        className="govuk-link"
-                        onClick={(e) => removeGroupId(e, i)}
-                    >
-                        Remove
-                    </button>,
-                ],
-            }));
+        if (accountType === "Nextdoor" && pageState.inputs.groupIds) {
+            return pageState.inputs.groupIds.map((group, i) => {
+                const groupValue = props.nextdoorGroupIds?.find((g) => g.groupId === group.groupId);
+                return {
+                    cells: [
+                        groupValue?.name || "",
+                        <button
+                            id={`remove-groupId-${groupValue?.groupId || ""}`}
+                            key={`remove-groupId-${groupValue?.groupId || ""}`}
+                            className="govuk-link"
+                            onClick={(e) => removeGroupId(e, i)}
+                        >
+                            Remove
+                        </button>,
+                    ],
+                };
+            });
         }
         return [];
     };
 
-    const addGroupId = (value: string) => {
-        if (pageState.inputs.accountType === "Nextdoor") {
+    const addGroupId = (value: { name: string; groupId: GroupId }) => {
+        if (accountType === "Nextdoor") {
             setPageState({
                 ...pageState,
                 inputs: {
                     ...pageState.inputs,
-                    groupIds: [...(pageState.inputs.groupIds || []), Number(value)],
+                    groupIds: [
+                        ...(pageState.inputs.groupIds || []),
+                        { name: value.name, groupId: Number(value.groupId) },
+                    ],
                 },
             });
         }
     };
     const handleChange = (
-        value: { label: GroupId; groupId: GroupId } | null,
-        actionMeta: ActionMeta<{ label: GroupId; groupId: GroupId }>,
+        value: { name: string; groupId: GroupId } | null,
+        actionMeta: ActionMeta<{ name: GroupId; groupId: GroupId }>,
     ) => {
         if (actionMeta.action === "clear") {
             setSearchInput("");
         }
+
         if (value) {
             if (
-                pageState.inputs.accountType === "Nextdoor" &&
+                accountType === "Nextdoor" &&
                 (!pageState.inputs.groupIds ||
-                    !pageState.inputs.groupIds.some((data: number) => data === Number(value?.groupId)))
+                    !pageState.inputs.groupIds.some((data) => data.groupId === Number(value?.groupId)))
             ) {
-                addGroupId(value.groupId);
+                addGroupId(value);
             }
             setSelected(null);
         }
@@ -239,33 +246,33 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                             </fieldset>
                         </FormGroupWrapper>
 
-                        {pageState.inputs.accountType === "Nextdoor" && (
-                            <SearchSelect<{ label: GroupId; groupId: GroupId }>
+                        {accountType === "Nextdoor" && (
+                            <SearchSelect<{ name: string; groupId: GroupId }>
                                 closeMenuOnSelect={false}
                                 selected={selected}
                                 inputName="groupIds"
                                 initialErrors={pageState.errors}
-                                placeholder={"Select groupIds"}
-                                getOptionLabel={(value) => value.groupId}
+                                placeholder={"Select area boundaries"}
+                                getOptionLabel={(value) => value.name}
                                 handleChange={handleChange}
                                 tableData={
-                                    pageState.inputs.groupIds?.map((groupId) => ({
-                                        label: groupId.toString(),
-                                        groupId: groupId.toString(),
+                                    pageState.inputs.groupIds?.map((group) => ({
+                                        name: group.name.toString(),
+                                        groupId: group.groupId.toString(),
                                     })) || []
                                 }
                                 getRows={getGroupIdRows}
                                 getOptionValue={(value) => value.groupId}
-                                display="Group Ids"
+                                display="Area boundaries"
                                 displaySize="l"
                                 inputId="groupIds"
                                 inputValue={searchInput}
                                 setSearchInput={setSearchInput}
                                 isClearable
                                 options={
-                                    props.nextdoorGroupIds?.map((id) => ({
-                                        label: id.toString(),
-                                        groupId: id.toString(),
+                                    props.nextdoorGroupIds?.map((group) => ({
+                                        name: group.name,
+                                        groupId: group.groupId.toString(),
                                     })) || []
                                 }
                             />
@@ -354,7 +361,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const hootsuiteAccounts = await getHootsuiteAccountList(session.orgId, session.operatorOrgId ?? "");
     const twitterAccounts = await getTwitterAccountList(session.orgId, session.operatorOrgId ?? "");
     const nextdoorAccounts = await getNextdoorAccountList(session.orgId, session.operatorOrgId ?? "");
-    const nextdoorGroupIds = getNextdoorGroupIds();
+    const nextdoorGroupIds = await getNextdoorGroupIds(session.orgId, nextdoorAccounts.map((n) => n.id)?.[0] ?? "");
     return {
         props: {
             ...getPageState(errorCookie, socialMediaPostSchema, disruptionId, socialMediaPost || undefined),
@@ -363,7 +370,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             socialAccounts: [...hootsuiteAccounts, ...twitterAccounts, ...nextdoorAccounts],
             template: disruption?.template?.toString() || "",
             operatorOrgId: session.operatorOrgId ?? "",
-            nextDoorGroupIds: nextdoorGroupIds,
+            nextdoorGroupIds: nextdoorGroupIds || [],
         },
     };
 };

@@ -101,6 +101,11 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                     >
                       testemail@gmail.com (Hootsuite)
                     </option>
+                    <option
+                      value="985654341"
+                    >
+                      nextdoor@example.com (Nextdoor)
+                    </option>
                   </select>
                 </div>
               </div>

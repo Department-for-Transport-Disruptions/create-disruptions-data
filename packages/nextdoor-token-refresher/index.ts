@@ -24,8 +24,6 @@ export const getNextdoorAuthHeader = async () => {
     return `Basic ${Buffer.from(key).toString("base64")}`;
 };
 
-export const getNextdoorSsmKey = (orgId: string, id: string) => `/social/${orgId}/nextdoor/${id}/refresh_token`;
-
 export const main = async () => {
     try {
         logger.options.dev = process.env.NODE_ENV !== "production";

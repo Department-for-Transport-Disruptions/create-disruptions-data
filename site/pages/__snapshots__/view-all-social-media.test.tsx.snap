@@ -476,6 +476,21 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     className="govuk-table__header align-middle"
                     scope="row"
                   >
+                    Nextdoor area boundaries
+                  </th>
+                  <td
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  >
+                    N/A
+                  </td>
+                </tr>
+                <tr
+                  className="govuk-table__row"
+                >
+                  <th
+                    className="govuk-table__header align-middle"
+                    scope="row"
+                  >
                     Status
                   </th>
                   <td
@@ -622,6 +637,21 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     138196022
+                  </td>
+                </tr>
+                <tr
+                  className="govuk-table__row"
+                >
+                  <th
+                    className="govuk-table__header align-middle"
+                    scope="row"
+                  >
+                    Nextdoor area boundaries
+                  </th>
+                  <td
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  >
+                    N/A
                   </td>
                 </tr>
                 <tr
@@ -786,6 +816,21 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     className="govuk-table__header align-middle"
                     scope="row"
                   >
+                    Nextdoor area boundaries
+                  </th>
+                  <td
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  >
+                    N/A
+                  </td>
+                </tr>
+                <tr
+                  className="govuk-table__row"
+                >
+                  <th
+                    className="govuk-table__header align-middle"
+                    scope="row"
+                  >
                     Status
                   </th>
                   <td
@@ -933,6 +978,21 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     className="govuk-table__header align-middle"
                     scope="row"
                   >
+                    Nextdoor area boundaries
+                  </th>
+                  <td
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  >
+                    N/A
+                  </td>
+                </tr>
+                <tr
+                  className="govuk-table__row"
+                >
+                  <th
+                    className="govuk-table__header align-middle"
+                    scope="row"
+                  >
                     Status
                   </th>
                   <td
@@ -1066,6 +1126,21 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
                     scope="row"
                   >
                     HootSuite profile
+                  </th>
+                  <td
+                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  >
+                    N/A
+                  </td>
+                </tr>
+                <tr
+                  className="govuk-table__row"
+                >
+                  <th
+                    className="govuk-table__header align-middle"
+                    scope="row"
+                  >
+                    Nextdoor area boundaries
                   </th>
                   <td
                     className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
