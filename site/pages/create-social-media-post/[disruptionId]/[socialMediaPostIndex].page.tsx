@@ -218,33 +218,35 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                             </button>
                         ) : null}
                         <br />
-                        <FormGroupWrapper errorIds={["image"]} errors={pageState.errors}>
-                            <fieldset className="govuk-fieldset">
-                                <legend className="govuk-fieldset__legend govuk-fieldset__legend--m">
-                                    <h2
-                                        className="govuk-fieldset__heading govuk-visually-hidden"
-                                        id="passenger-type-page-heading"
+                        {accountType !== "Nextdoor" && (
+                            <FormGroupWrapper errorIds={["image"]} errors={pageState.errors}>
+                                <fieldset className="govuk-fieldset">
+                                    <legend className="govuk-fieldset__legend govuk-fieldset__legend--m">
+                                        <h2
+                                            className="govuk-fieldset__heading govuk-visually-hidden"
+                                            id="passenger-type-page-heading"
+                                        >
+                                            Upload file
+                                        </h2>
+                                    </legend>
+                                    <FormElementWrapper
+                                        errorId="image"
+                                        errorClass="govuk-file-upload--error"
+                                        errors={pageState.errors}
                                     >
-                                        Upload file
-                                    </h2>
-                                </legend>
-                                <FormElementWrapper
-                                    errorId="image"
-                                    errorClass="govuk-file-upload--error"
-                                    errors={pageState.errors}
-                                >
-                                    <>
-                                        <input
-                                            className="govuk-file-upload"
-                                            type="file"
-                                            id="image"
-                                            name="image"
-                                            accept="image/png, image/jpeg, image/jpg"
-                                        />
-                                    </>
-                                </FormElementWrapper>
-                            </fieldset>
-                        </FormGroupWrapper>
+                                        <>
+                                            <input
+                                                className="govuk-file-upload"
+                                                type="file"
+                                                id="image"
+                                                name="image"
+                                                accept="image/png, image/jpeg, image/jpg"
+                                            />
+                                        </>
+                                    </FormElementWrapper>
+                                </fieldset>
+                            </FormGroupWrapper>
+                        )}
 
                         {accountType === "Nextdoor" && (
                             <SearchSelect<{ name: string; groupId: GroupId }>
