@@ -1,7 +1,7 @@
 import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { MAX_CONSEQUENCES } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
-import next, { NextApiRequest, NextApiResponse } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 import { parseCookies, setCookie } from "nookies";
 import { TwitterApi } from "twitter-api-v2";
 import { z } from "zod";
