@@ -328,6 +328,6 @@ export const MAX_FILE_SIZE = 5242880;
 export const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png"];
 export const HOOTSUITE_URL = "https://platform.hootsuite.com/";
 export const NEXTDOOR_AUTH_URL = "https://auth.nextdoor.com/";
-export const NEXTDOOR_URL = "https://nextdoor.com/";
+export const NEXTDOOR_URL = "https://nextdoor.co.uk/";
 
 export const MAX_OPERATOR_NOC_CODES = 5;

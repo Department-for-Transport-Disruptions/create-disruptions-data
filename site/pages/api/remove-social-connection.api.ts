@@ -32,14 +32,21 @@ const removeSocialMediaConnection = async (req: RemoveSocialMediaConnectionApiRe
             throw new Error("Invalid type");
         }
 
-        await Promise.all([
-            deleteParameter(getTwitterSsmAccessSecretKey(session.orgId, profileId)),
-            deleteParameter(getTwitterSsmAccessTokenKey(session.orgId, profileId)),
-            deleteParameter(getHootsuiteSsmKey(session.orgId, profileId)),
-            deleteParameter(getNextdoorSsmKey(session.orgId, profileId)),
-            removeSocialAccountFromOrg(session.orgId, profileId),
-        ]);
+        if (type === "Twitter") {
+            await Promise.all([
+                deleteParameter(getTwitterSsmAccessSecretKey(session.orgId, profileId)),
+                deleteParameter(getTwitterSsmAccessTokenKey(session.orgId, profileId)),
+            ]);
+        }
+        if (type === "Nextdoor") {
+            await deleteParameter(getNextdoorSsmKey(session.orgId, profileId));
+        }
 
+        if (type === "Hootsuite") {
+            await deleteParameter(getHootsuiteSsmKey(session.orgId, profileId));
+        }
+
+        await removeSocialAccountFromOrg(session.orgId, profileId);
         redirectTo(res, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH);
         return;
     } catch (e) {

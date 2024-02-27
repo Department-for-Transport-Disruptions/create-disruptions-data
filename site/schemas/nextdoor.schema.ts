@@ -20,7 +20,7 @@ export const nextdoorMeSchema = z
         first_name: z.string(),
         last_name: z.string(),
         profile_picture: z.string(),
-        status: z.enum(["Activated", "Suspended", "Deactived"]),
+        status: z.string(),
         account_creation_date: z.string(),
         agency_id: z.string(),
         agency_name: z.string(),
