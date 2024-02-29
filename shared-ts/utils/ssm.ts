@@ -84,6 +84,7 @@ export const deleteParameter = async (name: string, logger: Logger): Promise<Del
 export const getParametersByPath = async (
     name: string,
     logger: Logger,
+    recursive?: boolean,
     withDecryption?: boolean,
 ): Promise<GetParametersByPathResult> => {
     logger.info("Get parameters by path from ssm");
@@ -92,6 +93,7 @@ export const getParametersByPath = async (
         const input = {
             Path: name,
             WithDecryption: withDecryption ? withDecryption : true,
+            Recursive: recursive ? recursive : false,
         };
         const command = new GetParametersByPathCommand(input);
         return await ssm.send(command);

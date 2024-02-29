@@ -1,6 +1,6 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
+import { getParameter, putParameter } from "@create-disruptions-data/shared-ts/utils/ssm";
 import { addSocialAccountToOrg, getOrgSocialAccounts, upsertSocialMediaPost } from "./dynamo";
-import { getParameter, putParameter } from "./ssm";
 import { NEXTDOOR_AUTH_URL, NEXTDOOR_URL } from "../constants";
 import {
     GroupIds,
@@ -21,10 +21,10 @@ export const getNextdoorAuthHeader = async () => {
     return `Basic ${Buffer.from(key).toString("base64")}`;
 };
 
-export const getNextdoorSsmKey = (orgId: string) => `/social/${orgId}/nextdoor/refresh_token`;
+export const getNextdoorSsmKey = (orgId: string) => `/social/nextdoor/${orgId}/refresh_token`;
 
 export const getNextdoorAccessToken = async (orgId: string) => {
-    const refreshTokenParam = await getParameter(getNextdoorSsmKey(orgId), true);
+    const refreshTokenParam = await getParameter(getNextdoorSsmKey(orgId), logger, true);
 
     if (!refreshTokenParam.Parameter?.Value) {
         throw new Error("Refresh token not found");
@@ -89,14 +89,14 @@ export const addNextdoorAccount = async (
             "Nextdoor",
             createdByOperatorOrgId,
         ),
-        putParameter(getNextdoorSsmKey(orgId), tokenResult.accessToken, "SecureString", true),
+        putParameter(getNextdoorSsmKey(orgId), tokenResult.accessToken, "SecureString", true, logger),
     ]);
 };
 
 export const getNextdoorClientIdAndSecret = async () => {
     const [nextdoorClientIdKeyParam, nextdoorClientSecretParam] = await Promise.all([
-        getParameter("/social/nextdoor/client_id"),
-        getParameter("/social/nextdoor/client_secret"),
+        getParameter("/social/nextdoor/client_id", logger),
+        getParameter("/social/nextdoor/client_secret", logger),
     ]);
 
     const nextdoorClientId = nextdoorClientIdKeyParam.Parameter?.Value ?? "";

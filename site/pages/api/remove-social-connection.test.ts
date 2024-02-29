@@ -1,8 +1,8 @@
+import * as ssm from "@create-disruptions-data/shared-ts/utils/ssm";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import removeSocialConnection from "./remove-social-connection.api";
 import { ERROR_PATH, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
-import * as ssm from "../../data/ssm";
 import { getMockRequestAndResponse, mockSession } from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
 
@@ -13,7 +13,7 @@ describe("remove-social-connection", () => {
         vi.resetAllMocks();
     });
 
-    vi.mock("../../data/ssm", () => ({
+    vi.mock("@create-disruptions-data/shared-ts/utils/ssm", () => ({
         deleteParameter: vi.fn(),
     }));
 

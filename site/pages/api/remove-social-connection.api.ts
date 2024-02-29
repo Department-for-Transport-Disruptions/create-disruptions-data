@@ -1,12 +1,13 @@
+import { deleteParameter } from "@create-disruptions-data/shared-ts/utils/ssm";
 import { NextApiRequest, NextApiResponse } from "next";
 import { SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH } from "../../constants";
 import { removeSocialAccountFromOrg } from "../../data/dynamo";
 import { getHootsuiteSsmKey } from "../../data/hootsuite";
 import { getNextdoorSsmKey } from "../../data/nextdoor";
-import { deleteParameter } from "../../data/ssm";
 import { getTwitterSsmAccessSecretKey, getTwitterSsmAccessTokenKey } from "../../data/twitter";
 import { getSession } from "../../utils/apiUtils/auth";
 import { redirectToError, redirectTo } from "../../utils/apiUtils/index";
+import logger from "../../utils/logger";
 
 interface RemoveSocialMediaConnectionApiRequest extends NextApiRequest {
     body: {
@@ -34,16 +35,16 @@ const removeSocialMediaConnection = async (req: RemoveSocialMediaConnectionApiRe
 
         if (type === "Twitter") {
             await Promise.all([
-                deleteParameter(getTwitterSsmAccessSecretKey(session.orgId, profileId)),
-                deleteParameter(getTwitterSsmAccessTokenKey(session.orgId, profileId)),
+                deleteParameter(getTwitterSsmAccessSecretKey(session.orgId, profileId), logger),
+                deleteParameter(getTwitterSsmAccessTokenKey(session.orgId, profileId), logger),
             ]);
         }
         if (type === "Nextdoor") {
-            await deleteParameter(getNextdoorSsmKey(session.orgId));
+            await deleteParameter(getNextdoorSsmKey(session.orgId), logger);
         }
 
         if (type === "Hootsuite") {
-            await deleteParameter(getHootsuiteSsmKey(session.orgId, profileId));
+            await deleteParameter(getHootsuiteSsmKey(session.orgId, profileId), logger);
         }
 
         await removeSocialAccountFromOrg(session.orgId, profileId);

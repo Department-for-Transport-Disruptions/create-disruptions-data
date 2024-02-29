@@ -1,9 +1,9 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
+import { getParameter, putParameter } from "@create-disruptions-data/shared-ts/utils/ssm";
 import { NextPageContext } from "next";
 import { randomUUID } from "crypto";
 import { addSocialAccountToOrg, getOrgSocialAccounts, upsertSocialMediaPost } from "./dynamo";
 import { getObject } from "./s3";
-import { getParameter, putParameter } from "./ssm";
 import { COOKIES_HOOTSUITE_STATE, HOOTSUITE_URL } from "../constants";
 import {
     HootsuiteMedia,
@@ -32,8 +32,8 @@ const getHootsuiteClientIdAndSecret = async () => {
     }
 
     const [hootsuiteClientIdParam, hootsuiteClientSecretParam] = await Promise.all([
-        getParameter(`/social/hootsuite/client_id`),
-        getParameter(`/social/hootsuite/client_secret`),
+        getParameter(`/social/hootsuite/client_id`, logger),
+        getParameter(`/social/hootsuite/client_secret`, logger),
     ]);
 
     hootsuiteClientId = hootsuiteClientIdParam.Parameter?.Value ?? "";
@@ -93,7 +93,7 @@ export const addHootsuiteAccount = async (
 
     await Promise.all([
         addSocialAccountToOrg(orgId, userDetails.id, userDetails.email, addedBy, "Hootsuite", createdByOperatorOrgId),
-        putParameter(getHootsuiteSsmKey(orgId, userDetails.id), tokenResult.refreshToken, "SecureString", true),
+        putParameter(getHootsuiteSsmKey(orgId, userDetails.id), tokenResult.refreshToken, "SecureString", true, logger),
     ]);
 };
 
@@ -121,7 +121,7 @@ export const refreshHootsuiteToken = async (
 
     const parsedTokens = hootsuiteTokenSchema.parse(await resp.json());
 
-    await putParameter(getHootsuiteSsmKey(orgId, socialId), parsedTokens.refreshToken, "SecureString", true);
+    await putParameter(getHootsuiteSsmKey(orgId, socialId), parsedTokens.refreshToken, "SecureString", true, logger);
 
     return parsedTokens.accessToken;
 };
@@ -164,7 +164,7 @@ export const getHootsuiteAuthHeader = async () => {
 };
 
 export const getHootsuiteAccessToken = async (orgId: string, socialId: string) => {
-    const refreshTokenParam = await getParameter(getHootsuiteSsmKey(orgId, socialId), true);
+    const refreshTokenParam = await getParameter(getHootsuiteSsmKey(orgId, socialId), logger, true);
 
     if (!refreshTokenParam.Parameter?.Value) {
         throw new Error("Refresh token not found");
