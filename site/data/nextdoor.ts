@@ -21,10 +21,10 @@ export const getNextdoorAuthHeader = async () => {
     return `Basic ${Buffer.from(key).toString("base64")}`;
 };
 
-export const getNextdoorSsmKey = (orgId: string, id: string) => `/social/${orgId}/nextdoor/${id}/refresh_token`;
+export const getNextdoorSsmKey = (orgId: string) => `/social/${orgId}/nextdoor/refresh_token`;
 
-export const getNextdoorAccessToken = async (orgId: string, socialId: string) => {
-    const refreshTokenParam = await getParameter(getNextdoorSsmKey(orgId, socialId), true);
+export const getNextdoorAccessToken = async (orgId: string) => {
+    const refreshTokenParam = await getParameter(getNextdoorSsmKey(orgId), true);
 
     if (!refreshTokenParam.Parameter?.Value) {
         throw new Error("Refresh token not found");
@@ -89,7 +89,7 @@ export const addNextdoorAccount = async (
             "Nextdoor",
             createdByOperatorOrgId,
         ),
-        putParameter(getNextdoorSsmKey(orgId, userDetails.id), tokenResult.accessToken, "SecureString", true),
+        putParameter(getNextdoorSsmKey(orgId), tokenResult.accessToken, "SecureString", true),
     ]);
 };
 
@@ -128,11 +128,8 @@ export const getNextdoorAccountList = async (orgId: string, operatorOrgId?: stri
     return nextdoorDetail;
 };
 
-export const getNextdoorGroupIds = async (orgId: string, socialId: string): Promise<GroupIds> => {
-    if (!socialId) {
-        return [];
-    }
-    const accessToken = await getNextdoorAccessToken(orgId, socialId);
+export const getNextdoorGroupIds = async (orgId: string): Promise<GroupIds> => {
+    const accessToken = await getNextdoorAccessToken(orgId);
     const agencyBoundaryResponse = await fetch(`${NEXTDOOR_URL}external/api/partner/v1/agency/boundary/`, {
         method: "GET",
         headers: {

@@ -363,7 +363,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const hootsuiteAccounts = await getHootsuiteAccountList(session.orgId, session.operatorOrgId ?? "");
     const twitterAccounts = await getTwitterAccountList(session.orgId, session.operatorOrgId ?? "");
     const nextdoorAccounts = await getNextdoorAccountList(session.orgId, session.operatorOrgId ?? "");
-    const nextdoorGroupIds = await getNextdoorGroupIds(session.orgId, nextdoorAccounts.map((n) => n.id)?.[0] ?? "");
+    const nextdoorGroupIds = await getNextdoorGroupIds(session.orgId);
     return {
         props: {
             ...getPageState(errorCookie, socialMediaPostSchema, disruptionId, socialMediaPost || undefined),
