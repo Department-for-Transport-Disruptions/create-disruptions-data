@@ -69,6 +69,7 @@ export const main = async () => {
                         grant_type: "authorization_code",
                         redirect_uri: nextdoorRedirectUri,
                         refresh_token: parameter.Value || "",
+                        scope: "openid post:write post:read profile:read agency.boundary:read",
                     }),
                     headers: {
                         "Content-Type": "application/x-www-form-urlencoded",
