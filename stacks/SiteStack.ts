@@ -169,7 +169,7 @@ export const SiteStack = ({ stack }: StackContext) => {
         functionName: `cdd-nextdoor-token-refresher-${stack.stage}`,
         permissions: [
             new PolicyStatement({
-                resources: [`arn:aws:ssm:${stack.region}:${stack.account}:parameter/social/*`],
+                resources: [`arn:aws:ssm:${stack.region}:${stack.account}:parameter/social`],
                 actions: ["ssm:GetParameter", "ssm:PutParameter", "ssm:DeleteParameter", "ssm:GetParametersByPath"],
             }),
         ],
@@ -179,8 +179,8 @@ export const SiteStack = ({ stack }: StackContext) => {
         runtime: "nodejs20.x",
     });
 
-    new Cron(stack, "nextdoor-token-refresher", {
+    new Cron(stack, "nextdoor-token-refresher-cron", {
         job: nextDoorTokenRefresher,
-        schedule: "rate(4 hour)",
+        schedule: "rate(4 hours)",
     });
 };
