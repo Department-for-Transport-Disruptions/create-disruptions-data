@@ -33,13 +33,21 @@ export const main = async () => {
             id: randomUUID(),
         };
 
-        const socialParameters = await getParametersByPath("/social/nextdoor", logger, true);
+        const socialParameters = await getParametersByPath("/social/nextdoor", logger);
         if (!socialParameters || (socialParameters.Parameters && socialParameters.Parameters.length === 0)) {
             logger.info("No social parameters found to refresh");
             return;
         }
 
-        if (!socialParameters.Parameters || (socialParameters.Parameters && socialParameters.Parameters.length === 0)) {
+        const parametersToRefresh = socialParameters.Parameters?.filter(
+            (parameter) =>
+                parameter.Name &&
+                !parameter.Name.includes("client_id") &&
+                parameter.Name.includes("client_secret") &&
+                parameter.Value,
+        );
+
+        if (!parametersToRefresh || (parametersToRefresh && parametersToRefresh.length === 0)) {
             logger.info("No nextdoor parameters found to refresh");
             return;
         }
@@ -51,7 +59,7 @@ export const main = async () => {
         }
 
         await Promise.all(
-            socialParameters.Parameters.map(async (parameter) => {
+            parametersToRefresh.map(async (parameter) => {
                 const tokenRefreshResponse = await fetch("https://auth.nextdoor.com/v2/token", {
                     method: "POST",
                     body: new URLSearchParams({
