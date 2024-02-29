@@ -40,7 +40,11 @@ export const main = async () => {
         }
 
         const parametersToRefresh = socialParameters.Parameters?.filter(
-            (parameter) => parameter.Name && parameter.Name.includes("nextdoor") && parameter.Value,
+            (parameter) =>
+                parameter.Name &&
+                parameter.Name.includes("nextdoor") &&
+                parameter.Name.includes("refresh_token") &&
+                parameter.Value,
         );
 
         if (!parametersToRefresh || (parametersToRefresh && parametersToRefresh.length === 0)) {
