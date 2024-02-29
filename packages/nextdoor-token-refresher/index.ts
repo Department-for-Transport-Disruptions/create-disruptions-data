@@ -33,7 +33,7 @@ export const main = async () => {
             id: randomUUID(),
         };
 
-        const socialParameters = await getParametersByPath("/social/nextdoor", logger);
+        const socialParameters = await getParametersByPath("/social/nextdoor", logger, true);
         if (!socialParameters || (socialParameters.Parameters && socialParameters.Parameters.length === 0)) {
             logger.info("No social parameters found to refresh");
             return;
