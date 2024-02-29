@@ -63,7 +63,7 @@ Note: If creating an org admin user in your local environment, you must add the 
 
 ```
 USAGE
-  $ ./bin/run create-user --stage <value> [--orgId <value>] [--group <value>] [--email <value>] [--firstName
+  $ ./bin/run.js create-user --stage <value> [--orgId <value>] [--group <value>] [--email <value>] [--firstName
     <value>] [--lastName <value>] [--poolId <value>]
 
 FLAGS
