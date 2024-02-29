@@ -39,7 +39,7 @@ const removeSocialMediaConnection = async (req: RemoveSocialMediaConnectionApiRe
             ]);
         }
         if (type === "Nextdoor") {
-            await deleteParameter(getNextdoorSsmKey(session.orgId, profileId));
+            await deleteParameter(getNextdoorSsmKey(session.orgId));
         }
 
         if (type === "Hootsuite") {
