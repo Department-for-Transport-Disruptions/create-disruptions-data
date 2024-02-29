@@ -89,7 +89,13 @@ export const addNextdoorAccount = async (
             "Nextdoor",
             createdByOperatorOrgId,
         ),
-        putParameter(getNextdoorSsmKey(orgId), tokenResult.accessToken, "SecureString", true, logger),
+        putParameter(
+            getNextdoorSsmKey(createdByOperatorOrgId ? createdByOperatorOrgId : orgId),
+            tokenResult.accessToken,
+            "SecureString",
+            true,
+            logger,
+        ),
     ]);
 };
 
@@ -128,7 +134,7 @@ export const getNextdoorAccountList = async (orgId: string, operatorOrgId?: stri
     return nextdoorDetail;
 };
 
-export const getNextdoorGroupIds = async (orgId: string): Promise<GroupIds> => {
+export const getNextdoorAgencyBoundaries = async (orgId: string): Promise<GroupIds> => {
     const accessToken = await getNextdoorAccessToken(orgId);
     const agencyBoundaryResponse = await fetch(`${NEXTDOOR_URL}external/api/partner/v1/agency/boundary/`, {
         method: "GET",

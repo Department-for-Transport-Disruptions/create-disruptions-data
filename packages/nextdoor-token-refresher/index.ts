@@ -66,7 +66,7 @@ export const main = async () => {
                 const tokenRefreshResponse = await fetch("https://auth.nextdoor.com/v2/token", {
                     method: "POST",
                     body: new URLSearchParams({
-                        grant_type: "authorization_code",
+                        grant_type: "refresh_token",
                         redirect_uri: nextdoorRedirectUri,
                         refresh_token: parameter.Value || "",
                         scope: "openid post:write post:read profile:read agency.boundary:read",
@@ -77,6 +77,12 @@ export const main = async () => {
                     },
                 });
                 const tokenRefreshResult = nextdoorTokenSchema.parse(await tokenRefreshResponse.json());
+                if (tokenRefreshResponse.status !== 200) {
+                    logger.warn(
+                        `An error has occurred whilst authenticating Nextdoor for: ${parameter.Name} with error: ${tokenRefreshResponse.status} ${tokenRefreshResponse.statusText}...`,
+                    );
+                    return;
+                }
                 await putParameter(parameter.Name || "", tokenRefreshResult.accessToken, "SecureString", true, logger);
             }),
         );

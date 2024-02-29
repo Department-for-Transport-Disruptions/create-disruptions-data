@@ -15,7 +15,7 @@ import { BaseLayout } from "../../../components/layout/Layout";
 import { COOKIES_SOCIAL_MEDIA_ERRORS } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { getHootsuiteAccountList } from "../../../data/hootsuite";
-import { getNextdoorAccountList, getNextdoorGroupIds } from "../../../data/nextdoor";
+import { getNextdoorAccountList, getNextdoorAgencyBoundaries } from "../../../data/nextdoor";
 import { getTwitterAccountList } from "../../../data/twitter";
 import { PageState, ErrorInfo } from "../../../interfaces";
 import { GroupId, GroupIds } from "../../../schemas/nextdoor.schema";
@@ -40,7 +40,7 @@ export interface CreateSocialMediaPostPageProps extends PageState<Partial<Create
     socialAccounts: SocialMediaAccount[];
     template?: string;
     operatorOrgId?: string;
-    nextdoorGroupIds?: GroupIds;
+    nextdoorAgencyBoundary?: GroupIds;
 }
 
 const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElement => {
@@ -76,7 +76,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
     const getGroupIdRows = () => {
         if (accountType === "Nextdoor" && pageState.inputs.groupIds) {
             return pageState.inputs.groupIds.map((group, i) => {
-                const groupValue = props.nextdoorGroupIds?.find((g) => g.groupId === group.groupId);
+                const groupValue = props.nextdoorAgencyBoundary?.find((g) => g.groupId === group.groupId);
                 return {
                     cells: [
                         groupValue?.name || "",
@@ -272,7 +272,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                 setSearchInput={setSearchInput}
                                 isClearable
                                 options={
-                                    props.nextdoorGroupIds?.map((group) => ({
+                                    props.nextdoorAgencyBoundary?.map((group) => ({
                                         name: group.name,
                                         groupId: group.groupId.toString(),
                                     })) || []
@@ -363,7 +363,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const hootsuiteAccounts = await getHootsuiteAccountList(session.orgId, session.operatorOrgId ?? "");
     const twitterAccounts = await getTwitterAccountList(session.orgId, session.operatorOrgId ?? "");
     const nextdoorAccounts = await getNextdoorAccountList(session.orgId, session.operatorOrgId ?? "");
-    const nextdoorGroupIds = await getNextdoorGroupIds(session.orgId);
+    const nextdoorAgencyBoundary = await getNextdoorAgencyBoundaries(session.orgId);
     return {
         props: {
             ...getPageState(errorCookie, socialMediaPostSchema, disruptionId, socialMediaPost || undefined),
@@ -372,7 +372,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             socialAccounts: [...hootsuiteAccounts, ...twitterAccounts, ...nextdoorAccounts],
             template: disruption?.template?.toString() || "",
             operatorOrgId: session.operatorOrgId ?? "",
-            nextdoorGroupIds: nextdoorGroupIds || [],
+            nextdoorAgencyBoundary: nextdoorAgencyBoundary || [],
         },
     };
 };
