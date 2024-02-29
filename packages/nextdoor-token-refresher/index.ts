@@ -43,7 +43,7 @@ export const main = async () => {
             (parameter) =>
                 parameter.Name &&
                 !parameter.Name.includes("client_id") &&
-                parameter.Name.includes("client_secret") &&
+                !parameter.Name.includes("client_secret") &&
                 parameter.Value,
         );
 
