@@ -169,7 +169,7 @@ export const SiteStack = ({ stack }: StackContext) => {
         functionName: `cdd-nextdoor-token-refresher-${stack.stage}`,
         permissions: [
             new PolicyStatement({
-                resources: [`arn:aws:ssm:${stack.region}:${stack.account}:parameter/social/nextdoor`],
+                resources: [`arn:aws:ssm:${stack.region}:${stack.account}:parameter/social/*`],
                 actions: ["ssm:GetParameter", "ssm:PutParameter", "ssm:DeleteParameter", "ssm:GetParametersByPath"],
             }),
         ],
