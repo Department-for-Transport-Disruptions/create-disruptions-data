@@ -74,6 +74,7 @@ export const main = async () => {
         );
 
         logger.info("Successfully updated nextdoor tokens...");
+        return;
     } catch (e) {
         if (e instanceof Error) {
             logger.error(e);
