@@ -6,6 +6,7 @@ import { addSocialAccountToOrg } from "../../data/dynamo";
 import { getTwitterClient, getTwitterSsmAccessSecretKey, getTwitterSsmAccessTokenKey } from "../../data/twitter";
 import { redirectTo, redirectToError } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
+import logger from "../../utils/logger";
 
 const twitterCallback = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
@@ -48,12 +49,14 @@ const twitterCallback = async (req: NextApiRequest, res: NextApiResponse) => {
                 accessToken,
                 "SecureString",
                 true,
+                logger,
             ),
             putParameter(
                 getTwitterSsmAccessSecretKey(session.orgId, twitterDetails.data.id),
                 accessSecret,
                 "SecureString",
                 true,
+                logger,
             ),
         ]);
 
