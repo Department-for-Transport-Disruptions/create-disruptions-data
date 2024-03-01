@@ -45,12 +45,7 @@ const twitterSchema = z.object({
 const nextdoorSchema = z.object({
     ...baseSchema,
     accountType: z.literal("Nextdoor"),
-    nextdoorAgencyBoundaries: z
-        .array(nextdoorAgencyBoundaryInput)
-        .nonempty({
-            message: "Select an area boundary",
-        })
-        .optional(),
+    nextdoorAgencyBoundaries: z.array(nextdoorAgencyBoundaryInput).optional(),
 });
 
 export const socialMediaPostSchema = z.discriminatedUnion(
