@@ -18,7 +18,7 @@ import { getHootsuiteAccountList } from "../../../data/hootsuite";
 import { getNextdoorAccountList, getNextdoorAgencyBoundaries } from "../../../data/nextdoor";
 import { getTwitterAccountList } from "../../../data/twitter";
 import { PageState, ErrorInfo } from "../../../interfaces";
-import { GroupId, GroupIds } from "../../../schemas/nextdoor.schema";
+import { NextdoorAgencyBoundaryInput } from "../../../schemas/nextdoor.schema";
 import { SocialMediaAccount } from "../../../schemas/social-media-accounts.schema";
 import {
     CreateSocialMediaPostPage,
@@ -40,14 +40,14 @@ export interface CreateSocialMediaPostPageProps extends PageState<Partial<Create
     socialAccounts: SocialMediaAccount[];
     template?: string;
     operatorOrgId?: string;
-    nextdoorAgencyBoundary?: GroupIds;
+    nextdoorAgencyBoundaries?: NextdoorAgencyBoundaryInput[];
 }
 
 const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElement => {
     const [pageState, setPageState] = useState<PageState<Partial<CreateSocialMediaPostPage>>>(props);
     const [errorsMessageContent, setErrorsMessageContent] = useState<ErrorInfo[]>(pageState.errors);
     const [searchInput, setSearchInput] = useState("");
-    const [selected, setSelected] = useState<{ name: string; groupId: GroupId } | null>(null);
+    const [selected, setSelected] = useState<NextdoorAgencyBoundaryInput | null>(null);
 
     const queryParams = useRouter().query;
     const displayCancelButton = showCancelButton(queryParams);
@@ -58,33 +58,37 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
         (account) => account.id === pageState.inputs.socialAccount,
     )?.accountType;
 
-    const removeGroupId = (e: SyntheticEvent, index: number) => {
+    const isSelectedBoundaryInDropdown = (
+        boundary: NextdoorAgencyBoundaryInput,
+        selectedBoundaries: NextdoorAgencyBoundaryInput[],
+    ) => selectedBoundaries.find((selectedBoundary) => selectedBoundary.groupId === boundary.groupId);
+
+    const removeAgencyBoundary = (e: SyntheticEvent, index: number) => {
         e.preventDefault();
-        if (accountType === "Nextdoor" && pageState.inputs.groupIds) {
-            const groupIds = [...pageState.inputs.groupIds];
-            groupIds.splice(index, 1);
+        if (accountType === "Nextdoor" && pageState.inputs.nextdoorAgencyBoundaries) {
+            const nextdoorAgencyBoundaries = [...pageState.inputs.nextdoorAgencyBoundaries];
+            nextdoorAgencyBoundaries.splice(index, 1);
             setPageState({
                 ...pageState,
                 inputs: {
                     ...pageState.inputs,
-                    groupIds,
+                    nextdoorAgencyBoundaries,
                 },
             });
         }
     };
 
-    const getGroupIdRows = () => {
-        if (accountType === "Nextdoor" && pageState.inputs.groupIds) {
-            return pageState.inputs.groupIds.map((group, i) => {
-                const groupValue = props.nextdoorAgencyBoundary?.find((g) => g.groupId === group.groupId);
+    const getAgencyBoundariesRows = () => {
+        if (accountType === "Nextdoor" && pageState.inputs.nextdoorAgencyBoundaries) {
+            return pageState.inputs.nextdoorAgencyBoundaries.map((boundary, i) => {
                 return {
                     cells: [
-                        groupValue?.name || "",
+                        boundary?.name || "",
                         <button
-                            id={`remove-groupId-${groupValue?.groupId || ""}`}
-                            key={`remove-groupId-${groupValue?.groupId || ""}`}
+                            id={`remove-boundary-${boundary?.groupId || ""}`}
+                            key={`remove-boundary-${boundary?.groupId || ""}`}
                             className="govuk-link"
-                            onClick={(e) => removeGroupId(e, i)}
+                            onClick={(e) => removeAgencyBoundary(e, i)}
                         >
                             Remove
                         </button>,
@@ -95,23 +99,23 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
         return [];
     };
 
-    const addGroupId = (value: { name: string; groupId: GroupId }) => {
+    const addAgencyBoundary = (value: NextdoorAgencyBoundaryInput) => {
         if (accountType === "Nextdoor") {
             setPageState({
                 ...pageState,
                 inputs: {
                     ...pageState.inputs,
-                    groupIds: [
-                        ...(pageState.inputs.groupIds || []),
-                        { name: value.name, groupId: Number(value.groupId) },
+                    nextdoorAgencyBoundaries: [
+                        ...(pageState.inputs.nextdoorAgencyBoundaries || []),
+                        { name: value.name, groupId: value.groupId },
                     ],
                 },
             });
         }
     };
     const handleChange = (
-        value: { name: string; groupId: GroupId } | null,
-        actionMeta: ActionMeta<{ name: GroupId; groupId: GroupId }>,
+        value: NextdoorAgencyBoundaryInput | null,
+        actionMeta: ActionMeta<NextdoorAgencyBoundaryInput>,
     ) => {
         if (actionMeta.action === "clear") {
             setSearchInput("");
@@ -120,10 +124,10 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
         if (value) {
             if (
                 accountType === "Nextdoor" &&
-                (!pageState.inputs.groupIds ||
-                    !pageState.inputs.groupIds.some((data) => data.groupId === Number(value?.groupId)))
+                (!pageState.inputs.nextdoorAgencyBoundaries ||
+                    !pageState.inputs.nextdoorAgencyBoundaries.some((boundary) => boundary.groupId === value?.groupId))
             ) {
-                addGroupId(value);
+                addAgencyBoundary(value);
             }
             setSelected(null);
         }
@@ -249,33 +253,31 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                         )}
 
                         {accountType === "Nextdoor" && (
-                            <SearchSelect<{ name: string; groupId: GroupId }>
+                            <SearchSelect<NextdoorAgencyBoundaryInput>
                                 closeMenuOnSelect={false}
                                 selected={selected}
-                                inputName="groupIds"
+                                inputName="nextdoorAgencyBoundaries"
                                 initialErrors={pageState.errors}
                                 placeholder={"Select area boundaries"}
                                 getOptionLabel={(value) => value.name}
                                 handleChange={handleChange}
-                                tableData={
-                                    pageState.inputs.groupIds?.map((group) => ({
-                                        name: group.name.toString(),
-                                        groupId: group.groupId.toString(),
-                                    })) || []
-                                }
-                                getRows={getGroupIdRows}
-                                getOptionValue={(value) => value.groupId}
+                                tableData={pageState.inputs.nextdoorAgencyBoundaries || []}
+                                getRows={getAgencyBoundariesRows}
+                                getOptionValue={(value) => value.groupId.toString()}
                                 display="Area boundaries"
                                 displaySize="l"
-                                inputId="groupIds"
+                                inputId="nextdoorAgencyBoundaries"
                                 inputValue={searchInput}
                                 setSearchInput={setSearchInput}
                                 isClearable
                                 options={
-                                    props.nextdoorAgencyBoundary?.map((group) => ({
-                                        name: group.name,
-                                        groupId: group.groupId.toString(),
-                                    })) || []
+                                    props.nextdoorAgencyBoundaries?.filter(
+                                        (boundary) =>
+                                            !isSelectedBoundaryInDropdown(
+                                                boundary,
+                                                pageState.inputs.nextdoorAgencyBoundaries || [],
+                                            ),
+                                    ) || []
                                 }
                             />
                         )}
@@ -363,7 +365,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const hootsuiteAccounts = await getHootsuiteAccountList(session.orgId, session.operatorOrgId ?? "");
     const twitterAccounts = await getTwitterAccountList(session.orgId, session.operatorOrgId ?? "");
     const nextdoorAccounts = await getNextdoorAccountList(session.orgId, session.operatorOrgId ?? "");
-    const nextdoorAgencyBoundary = await getNextdoorAgencyBoundaries(session.orgId);
+    const nextdoorAgencyBoundaries = await getNextdoorAgencyBoundaries(session.orgId);
     return {
         props: {
             ...getPageState(errorCookie, socialMediaPostSchema, disruptionId, socialMediaPost || undefined),
@@ -372,7 +374,11 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             socialAccounts: [...hootsuiteAccounts, ...twitterAccounts, ...nextdoorAccounts],
             template: disruption?.template?.toString() || "",
             operatorOrgId: session.operatorOrgId ?? "",
-            nextdoorAgencyBoundary: nextdoorAgencyBoundary || [],
+            nextdoorAgencyBoundaries:
+                nextdoorAgencyBoundaries.map((boundary) => ({
+                    name: boundary.name,
+                    groupId: boundary.groupId,
+                })) || [],
         },
     };
 };

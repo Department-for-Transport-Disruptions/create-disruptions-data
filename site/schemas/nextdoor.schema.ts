@@ -62,14 +62,12 @@ export const nextdoorAgencyBoundaryResultSchema = z.array(
         })),
 );
 
-export type GroupIds = z.infer<typeof nextdoorAgencyBoundaryResultSchema>;
-
-export const nextdoorGroupIdsSchema = z.string();
-
-export const nextdoorAgencyPostSchema = z.object({
-    body_text: z.string().max(8192),
-    media_attachments: z.array(z.string()),
-    group_ids: z.array(nextdoorGroupIdsSchema),
+export const nextdoorAgencyBoundaryInput = z.object({
+    name: z.string(),
+    groupId: z.coerce.number(),
 });
 
-export type GroupId = z.infer<typeof nextdoorGroupIdsSchema>;
+export type NextdoorAgencyBoundaries = z.infer<typeof nextdoorAgencyBoundaryResultSchema>;
+export type NextdoorAgencyBoundaryInput = z.infer<typeof nextdoorAgencyBoundaryInput>;
+
+export const nextdoorGroupIdsSchema = z.string();

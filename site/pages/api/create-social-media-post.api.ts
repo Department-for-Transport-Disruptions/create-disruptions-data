@@ -1,5 +1,4 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
-import { Fields } from "formidable";
 import { NextApiRequest, NextApiResponse } from "next";
 import { readFile } from "fs/promises";
 import {
@@ -10,7 +9,8 @@ import {
 } from "../../constants/index";
 import { getOrgSocialAccount, upsertSocialMediaPost } from "../../data/dynamo";
 import { putItem } from "../../data/s3";
-import { refineImageSchema } from "../../schemas/social-media.schema";
+import { NextdoorAgencyBoundaryInput } from "../../schemas/nextdoor.schema";
+import { refineImageSchema, SocialMediaPost } from "../../schemas/social-media.schema";
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
@@ -21,6 +21,24 @@ import {
 } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 import { formParse } from "../../utils/apiUtils/fileUpload";
+
+const formatCreateSocialMediaPostBody = (body: object) => {
+    const nextdoorAgencyBoundaries = Object.entries(body)
+        .filter((item) => item.toString().startsWith("nextdoorAgencyBoundaries"))
+        .map((arr: string[]) => {
+            const [, values] = arr;
+            return JSON.parse(values) as NextdoorAgencyBoundaryInput[];
+        });
+
+    const cleansedBody = Object.fromEntries(
+        Object.entries(body).filter((item) => !item.toString().startsWith("nextdoorAgencyBoundaries")),
+    );
+
+    return {
+        ...cleansedBody,
+        nextdoorAgencyBoundaries,
+    };
+};
 
 const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
@@ -44,26 +62,10 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
             throw new Error("No form fields parsed");
         }
 
-        let values: string = JSON.stringify(fields);
+        const body = JSON.parse(JSON.stringify(fields)) as SocialMediaPost;
 
-        const hasKeysStartingWithGroup = (obj: Fields) => Object.keys(obj).some((key) => key.startsWith("group"));
-        if (hasKeysStartingWithGroup(fields)) {
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-            const groupKeys = Object.keys(JSON.parse(JSON.stringify(fields))).filter((key) => key.startsWith("group"));
+        const formattedBody = formatCreateSocialMediaPostBody(body);
 
-            const groupIdsArray: { name: string; groupId: number }[] = [];
-
-            groupKeys.forEach((key) => {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-                const { name, groupId } = JSON.parse(JSON.parse(JSON.stringify(fields))[key] as string) as {
-                    name: string;
-                    groupId: number;
-                };
-                groupIdsArray.push({ name, groupId: Number(groupId) });
-            });
-
-            values = JSON.stringify({ ...JSON.parse(values), groupIds: groupIdsArray });
-        }
         const socialMediaAccountDetail = await getOrgSocialAccount(session.orgId, fields.socialAccount?.toString());
 
         const imageFile =
@@ -77,7 +79,7 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
                 : null;
 
         const validatedBody = refineImageSchema.safeParse({
-            ...JSON.parse(values),
+            ...formattedBody,
             ...(imageFile ? { image: imageFile } : {}),
             display: socialMediaAccountDetail?.display,
             accountType: socialMediaAccountDetail?.accountType,

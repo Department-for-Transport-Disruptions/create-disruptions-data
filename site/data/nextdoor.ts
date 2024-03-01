@@ -3,7 +3,7 @@ import { getParameter, putParameter } from "@create-disruptions-data/shared-ts/u
 import { addSocialAccountToOrg, getOrgSocialAccounts, upsertSocialMediaPost } from "./dynamo";
 import { NEXTDOOR_AUTH_URL, NEXTDOOR_URL } from "../constants";
 import {
-    GroupIds,
+    NextdoorAgencyBoundaries,
     nextdoorAgencyBoundaryResultSchema,
     nextdoorMeSchema,
     nextdoorTokenSchema,
@@ -134,7 +134,7 @@ export const getNextdoorAccountList = async (orgId: string, operatorOrgId?: stri
     return nextdoorDetail;
 };
 
-export const getNextdoorAgencyBoundaries = async (orgId: string): Promise<GroupIds> => {
+export const getNextdoorAgencyBoundaries = async (orgId: string): Promise<NextdoorAgencyBoundaries> => {
     const accessToken = await getNextdoorAccessToken(orgId);
     const agencyBoundaryResponse = await fetch(`${NEXTDOOR_URL}external/api/partner/v1/agency/boundary/`, {
         method: "GET",
@@ -170,8 +170,8 @@ export const publishToNextdoor = async (
             method: "POST",
             body: JSON.stringify({
                 body_text: socialMediaPost.messageContent,
-                ...(socialMediaPost.groupIds
-                    ? { group_ids: socialMediaPost.groupIds.map((group) => group.groupId) }
+                ...(socialMediaPost.nextdoorAgencyBoundaries
+                    ? { group_ids: socialMediaPost.nextdoorAgencyBoundaries.map((boundary) => boundary.groupId) }
                     : {}),
             }),
             headers: {
