@@ -1,6 +1,5 @@
 import { Roadwork, RoadworkWithCoordinates } from "@create-disruptions-data/shared-ts/roadwork.zod";
 import { getLiveRoadworks } from "@create-disruptions-data/shared-ts/utils";
-import { getDate, sortEarliestDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import center from "@turf/center";
 import { getCoords } from "@turf/invariant";
 import { Point } from "geojson";
