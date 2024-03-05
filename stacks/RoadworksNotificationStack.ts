@@ -30,7 +30,7 @@ export const RoadworksNotificationStack = ({ stack }: StackContext) => {
             DOMAIN_NAME: url,
             STAGE: stack.stage,
         },
-        handler: "packages/roadworks-cancelled-notification/index.main",
+        handler: "packages/roadworks-notifier/cancelledNotifier.main",
         permissions: [
             new PolicyStatement({
                 resources: ["*"],
@@ -53,5 +53,41 @@ export const RoadworksNotificationStack = ({ stack }: StackContext) => {
     new Cron(stack, "cdd-roadworks-cancelled-notification-cron", {
         job: cancelledRoadworkNotification,
         schedule: "rate(5 minutes)",
+    });
+
+    const newRoadworkNotification = new Function(stack, "cdd-roadworks-new-notification", {
+        functionName: `cdd-roadworks-new-notification-${stack.stage}`,
+        environment: {
+            API_BASE_URL: apiUrl,
+            COGNITO_CLIENT_ID: clientId,
+            COGNITO_CLIENT_SECRET: clientSecret.toString(),
+            COGNITO_USER_POOL_ID: userPoolId,
+            DOMAIN_NAME: url,
+            STAGE: stack.stage,
+            ORGANISATIONS_TABLE_NAME: organisationsTable.tableName,
+        },
+        handler: "packages/roadworks-notifier/newNotifier.main",
+        permissions: [
+            new PolicyStatement({
+                resources: ["*"],
+                actions: ["ses:SendEmail", "ses:SendRawEmail"],
+            }),
+            new PolicyStatement({
+                resources: [organisationsTable.tableArn],
+                actions: ["dynamodb:Scan"],
+            }),
+            new PolicyStatement({
+                resources: [userPoolArn],
+                actions: ["cognito-idp:ListUsers"],
+            }),
+        ],
+        timeout: 60,
+        memorySize: 1536,
+        runtime: "nodejs20.x",
+    });
+
+    new Cron(stack, "cdd-roadworks-new-notification-cron", {
+        job: newRoadworkNotification,
+        schedule: "cron(0 8 * * ? *)",
     });
 };
