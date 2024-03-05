@@ -159,7 +159,7 @@ export const publishSocialMedia = async (
     }
 
     for (const socialAccount of uniqueNextdoorSocialAccounts) {
-        const accessToken = await getNextdoorAccessToken(orgId);
+        const accessToken = await getNextdoorAccessToken(orgId, socialAccount);
         nextdoorAccessTokens[socialAccount] = accessToken;
     }
 
