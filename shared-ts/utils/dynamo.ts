@@ -393,3 +393,78 @@ export const getAllDisruptionsForOrg = async (orgId: string, tableName: string, 
         .map((disruption) => collectDisruptionsData(disruptions, disruption.disruptionId as string, logger))
         .filter(notEmpty);
 };
+
+export const getDisruptionsWithRoadworks = async (
+    permitReferenceNumbers: string[],
+    tableName: string,
+    publishStatus: PublishStatus,
+    logger: Logger,
+) => {
+    const queries = permitReferenceNumbers.map((_, i) => `permitReferenceNumber = :${i + 2}`);
+    const joinedQueries = queries && queries.length > 0 ? queries.join(" or ") : queries[0];
+    const filterExpression = `publishStatus = :1 and ${joinedQueries}`;
+    const expressionAttributeValues = permitReferenceNumbers
+        .map((permitReferenceNumber, i) => ({ [`:${i + 2}`]: permitReferenceNumber }))
+        .reduce((prev, curr) => {
+            Object.assign(prev, curr);
+            return prev;
+        }, {});
+
+    const disruptions = await recursiveScan(
+        {
+            TableName: tableName,
+            FilterExpression: filterExpression,
+            ExpressionAttributeValues: {
+                ":1": publishStatus,
+                ...expressionAttributeValues,
+            },
+        },
+        logger,
+    );
+
+    return disruptions
+        .map((disruption) => collectDisruptionsData(disruptions, disruption.disruptionId as string, logger))
+        .filter(notEmpty);
+};
+
+export const getOrgIdsFromDynamoByAdminAreaCodes = async (
+    tableName: string,
+    administrativeAreaCodes: string[],
+    logger: Logger,
+): Promise<{ [key: string]: string[] } | null> => {
+    const dbData = await recursiveScan(
+        {
+            TableName: tableName,
+            FilterExpression: "SK = :info",
+            ExpressionAttributeValues: {
+                ":info": "INFO",
+            },
+        },
+        logger,
+    );
+
+    const parsedOrgs = makeZodArray(organisationSchema).safeParse(dbData);
+
+    if (!parsedOrgs.success) {
+        return null;
+    }
+
+    const filteredOrgIdsWithAdminAreaCodes: { [key: string]: string[] } = {};
+    parsedOrgs.data.forEach((org: Organisation) => {
+        org.adminAreaCodes.forEach((adminAreaCode: string) => {
+            if (administrativeAreaCodes.includes(adminAreaCode)) {
+                if (filteredOrgIdsWithAdminAreaCodes[org.id]) {
+                    filteredOrgIdsWithAdminAreaCodes[org.id].push(adminAreaCode);
+                } else {
+                    filteredOrgIdsWithAdminAreaCodes[org.id] = [adminAreaCode];
+                }
+            }
+        });
+    });
+
+    if (Object.keys(filteredOrgIdsWithAdminAreaCodes).length === 0) {
+        return null;
+    }
+
+    return filteredOrgIdsWithAdminAreaCodes;
+};

@@ -1,0 +1,20 @@
+{
+    "name": "@create-disruptions-data/roadworks-notifier",
+    "version": "0.1.0",
+    "type": "module",
+    "scripts": {
+        "test": "vitest",
+        "test:updateSnapshots": "vitest -u",
+        "typecheck": "tsc -noEmit"
+    },
+    "devDependencies": {
+        "@tsconfig/node20": "^20.1.2",
+        "@types/aws-lambda": "^8.10.110",
+        "@types/lambda-log": "^2.2.1",
+        "@types/node": "^20.10.5"
+    },
+    "dependencies": {
+        "@create-disruptions-data/shared-ts": "file:../../shared-ts",
+        "lambda-log": "^3.1.0"
+    }
+}
