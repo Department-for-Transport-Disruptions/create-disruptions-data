@@ -147,6 +147,9 @@ export const getNextdoorClientIdAndSecret = async () => {
 
 export const getNextdoorAuthHeader = async () => {
     const { nextdoorClientId, nextdoorClientSecret } = await getNextdoorClientIdAndSecret();
+    if (!nextdoorClientId || !nextdoorClientSecret) {
+        return "";
+    }
     const key = `${nextdoorClientId}:${nextdoorClientSecret}`;
 
     return `Basic ${Buffer.from(key).toString("base64")}`;

@@ -82,3 +82,5 @@ export const nextdoorTokenSchema = z
         idToken: z.string(),
         expiresIn: z.number(),
     }));
+
+export type NextdoorToken = z.infer<typeof nextdoorTokenSchema>;
