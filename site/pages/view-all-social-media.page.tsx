@@ -63,7 +63,11 @@ const ViewAllSocialMedia = ({ socialMediaPosts }: ViewAllSocialMediaProps): Reac
             },
             {
                 header: "Nextdoor area boundaries",
-                cells: [post.accountType === "Nextdoor" ? post.groupIds?.map((group) => group.name).join(", ") : "N/A"],
+                cells: [
+                    post.accountType === "Nextdoor"
+                        ? post.nextdoorAgencyBoundaries?.map((boundary) => boundary.name).join(", ")
+                        : "N/A",
+                ],
             },
             {
                 header: "Status",

@@ -242,14 +242,14 @@ const DisruptionDetail = ({
                     {
                         value:
                             post.accountType === "Nextdoor"
-                                ? post.groupIds?.map((group) => group.name).join(", ")
+                                ? post.nextdoorAgencyBoundaries?.map((group) => group.name).join(", ")
                                 : "N/A",
                     },
                     {
                         value:
                             isPendingOrRejected && isEditingAllowed
                                 ? createChangeLink(
-                                      "groupIds",
+                                      "nextdoorAgencyBoundaries",
                                       CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
                                       disruption.disruptionId,
                                       post.socialMediaPostIndex,
