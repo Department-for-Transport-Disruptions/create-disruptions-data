@@ -1,3 +1,4 @@
+import { RoadworkWithCoordinates } from "@create-disruptions-data/shared-ts/roadwork.zod";
 import { FeatureCollection, Point } from "geojson";
 import { lowerCase, startCase, uniqueId } from "lodash";
 import { GeoJSONSource } from "mapbox-gl";
@@ -16,7 +17,6 @@ import MapBox, {
 } from "react-map-gl";
 import MapControls from "./MapControls";
 import cone from "../../public/assets/images/cone.png";
-import { RoadworkWithCoordinates } from "../../schemas/roadwork.schema";
 import { convertDateTimeToFormat } from "../../utils/dates";
 
 interface MapProps {

@@ -3,6 +3,7 @@ import { Dayjs } from "dayjs";
 import { History } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { getDate, getDatetimeFromDateAndTime, getFormattedDate, sortEarliestDate } from "./dates";
 import { Disruption, Validity } from "../disruptionTypes";
+import { Roadwork } from "../roadwork.zod";
 
 export const notEmpty = <T>(value: T | null | undefined): value is T => {
     return value !== null && value !== undefined;
@@ -130,3 +131,10 @@ export const getDisruptionCreationTime = (disruptionHistory: History[] | null, c
         return currentTime;
     }
 };
+
+export const getLiveRoadworks = (roadworks: Roadwork[]) =>
+    roadworks
+        .filter((roadwork) => roadwork.workStatus === "Works in progress" && !roadwork.actualEndDateTime)
+        .sort((a, b) => {
+            return sortEarliestDate(getDate(a.actualStartDateTime ?? ""), getDate(b.actualStartDateTime ?? ""));
+        });
