@@ -1,13 +1,13 @@
 import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
-import * as logger from "lambda-log";
-import { randomUUID } from "crypto";
 import { Roadwork } from "@create-disruptions-data/shared-ts/roadwork.zod";
-import { getLiveRoadworks } from "@create-disruptions-data/shared-ts/utils";
+import { getLiveRoadworks, notEmpty } from "@create-disruptions-data/shared-ts/utils";
 import { getUsersByAttributeByOrgIds } from "@create-disruptions-data/shared-ts/utils/cognito";
 import { convertDateTimeToFormat } from "@create-disruptions-data/shared-ts/utils/dates";
 import { isSandbox } from "@create-disruptions-data/shared-ts/utils/domain";
 import { getOrgIdsFromDynamoByAdminAreaCodes } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { getRecentlyNewRoadworks } from "@create-disruptions-data/shared-ts/utils/refDataApi";
+import * as logger from "lambda-log";
+import { randomUUID } from "crypto";
 
 const sesClient = new SESClient({ region: "eu-west-2" });
 
@@ -163,47 +163,21 @@ export const main = async (): Promise<void> => {
             return;
         }
 
-        const emailData: {
-            [key: string]: {
-                emails: string[];
-                adminAreaCodes: string[];
-                content?: {
-                    permitReferenceNumber: string;
-                    streetName: string;
-                    activityType: string;
-                    datesAffected: string;
-                }[];
-            };
-        } = emailsByOrg;
-        Object.entries(emailsByOrg).forEach((orgData) => {
-            orgData[1].adminAreaCodes.forEach((adminAreaCode) => {
-                liveRoadworks.forEach((roadwork) => {
-                    if (roadwork.administrativeAreaCode === adminAreaCode) {
-                        if (emailData[orgData[0]].content) {
-                            emailData[orgData[0]].content?.push(formatRoadwork(roadwork));
-                        } else {
-                            emailData[orgData[0]].content = [formatRoadwork(roadwork)];
-                        }
-                    }
-                });
-            });
-        });
+        const emailPromises = Object.entries(emailsByOrg)
+            .map((orgData) => {
+                const roadworks = liveRoadworks
+                    .filter((roadwork) => orgData[1].adminAreaCodes.includes(roadwork.administrativeAreaCode))
+                    .map(formatRoadwork);
 
-        const roadworksNewEmailCommands: SendEmailCommand[] = [];
-        Object.entries(emailData).forEach((data) => {
-            if (data[1].content) {
-                roadworksNewEmailCommands.push(
-                    createNewRoadworksEmail(data[1].content, data[1].emails, domainName, stage),
-                );
-            }
-        });
+                if (roadworks.length === 0) {
+                    return null;
+                }
 
-        if (!roadworksNewEmailCommands || (roadworksNewEmailCommands && roadworksNewEmailCommands.length === 0)) {
-            logger.info("No emails to send new roadworks notifications to...");
-            return;
-        }
+                return sesClient.send(createNewRoadworksEmail(roadworks, orgData[1].emails, domainName, stage));
+            })
+            .filter(notEmpty);
 
-        await Promise.all(roadworksNewEmailCommands.map((roadworkEmail) => sesClient.send(roadworkEmail)));
+        await Promise.all(emailPromises);
     } catch (e) {
         if (e instanceof Error) {
             logger.error(e);

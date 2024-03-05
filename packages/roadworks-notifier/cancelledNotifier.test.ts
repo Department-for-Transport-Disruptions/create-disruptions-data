@@ -1,10 +1,11 @@
 import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
-import { mockClient } from "aws-sdk-client-mock";
-import { describe, it, vi, beforeAll, beforeEach, afterEach, expect } from "vitest";
 import { MiscellaneousReason, PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import * as cognito from "@create-disruptions-data/shared-ts/utils/cognito";
 import * as dynamo from "@create-disruptions-data/shared-ts/utils/dynamo";
 import * as refDataApi from "@create-disruptions-data/shared-ts/utils/refDataApi";
+import { mockClient } from "aws-sdk-client-mock";
+import { describe, it, vi, beforeAll, beforeEach, afterEach, expect } from "vitest";
+import { main } from "./cancelledNotifier";
 
 const sesMock = mockClient(SESClient);
 
@@ -24,7 +25,7 @@ describe("roadWorksCancelledNotification", () => {
         vi.resetAllMocks();
     });
 
-    it("It should send an email when there is a cancelled roadwork", () => {
+    it("should send an email when there is a cancelled roadwork", async () => {
         vi.spyOn(refDataApi, "getRecentlyCancelledRoadworks").mockResolvedValue([
             {
                 permitReferenceNumber: "HZ73101328453-2339467-02",
@@ -87,18 +88,22 @@ describe("roadWorksCancelledNotification", () => {
             },
         ]);
 
+        await main();
+
         expect(sesMock.send.calledOnce).toBeTruthy();
         expect(sesMock.commandCalls(SendEmailCommand)[0].args[0].input.Destination).toEqual({
             ToAddresses: ["test_email@.ac.uk", "test_email@hotmail.com"],
         });
     });
 
-    it("It should not send an email when there is no cancelled roadwork", () => {
+    it("should not send an email when there is no cancelled roadwork", async () => {
         vi.spyOn(refDataApi, "getRecentlyCancelledRoadworks").mockResolvedValue([]);
 
         vi.spyOn(dynamo, "getDisruptionsWithRoadworks").mockResolvedValue([]);
 
         vi.spyOn(cognito, "getAllUsersEmailsInGroups").mockResolvedValue([]);
+
+        await main();
 
         expect(sesMock.send.calledOnce).toBeFalsy();
     });

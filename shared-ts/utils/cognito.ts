@@ -5,15 +5,7 @@ import {
     ListUsersCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 
-const {
-    COGNITO_CLIENT_ID: cognitoClientId,
-    COGNITO_CLIENT_SECRET: cognitoClientSecret,
-    COGNITO_USER_POOL_ID: userPoolId,
-} = process.env;
-
-if (!cognitoClientSecret || !cognitoClientId || !userPoolId) {
-    throw new Error("Cognito env vars not set");
-}
+const { COGNITO_USER_POOL_ID: userPoolId } = process.env;
 
 const cognito = new CognitoIdentityProviderClient({
     region: "eu-west-2",
