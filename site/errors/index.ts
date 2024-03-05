@@ -25,3 +25,10 @@ export class NoStateOrCodeError extends Error {
         Object.setPrototypeOf(this, NoStateOrCodeError.prototype);
     }
 }
+
+export class NotAnAgencyAccountError extends Error {
+    constructor() {
+        super();
+        Object.setPrototypeOf(this, NotAnAgencyAccountError.prototype);
+    }
+}

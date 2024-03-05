@@ -2,6 +2,7 @@ import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums"
 import { getParameter, putParameter } from "@create-disruptions-data/shared-ts/utils/ssm";
 import { addSocialAccountToOrg, getOrgSocialAccounts, upsertSocialMediaPost } from "./dynamo";
 import { NEXTDOOR_AUTH_URL, NEXTDOOR_URL } from "../constants";
+import { NotAnAgencyAccountError } from "../errors";
 import {
     NextdoorAgencyBoundaries,
     nextdoorAgencyBoundaryResultSchema,
@@ -21,10 +22,11 @@ export const getNextdoorAuthHeader = async () => {
     return `Basic ${Buffer.from(key).toString("base64")}`;
 };
 
-export const getNextdoorSsmKey = (orgId: string) => `/social/nextdoor/${orgId}/refresh_token`;
+export const getNextdoorSsmKey = (orgId: string, nextdoorUserId: string) =>
+    `/social/nextdoor/${orgId}/${nextdoorUserId}-refresh_token`;
 
-export const getNextdoorAccessToken = async (orgId: string) => {
-    const refreshTokenParam = await getParameter(getNextdoorSsmKey(orgId), logger, true);
+export const getNextdoorAccessToken = async (orgId: string, nextdoorUserId: string) => {
+    const refreshTokenParam = await getParameter(getNextdoorSsmKey(orgId, nextdoorUserId), logger, true);
 
     if (!refreshTokenParam.Parameter?.Value) {
         throw new Error("Refresh token not found");
@@ -78,6 +80,10 @@ export const addNextdoorAccount = async (
 
     const userDetails = nextdoorMeSchema.parse(await userDetailsResponse.json());
 
+    if (!userDetails.agencyId) {
+        throw new NotAnAgencyAccountError();
+    }
+
     await Promise.all([
         addSocialAccountToOrg(
             orgId,
@@ -90,7 +96,7 @@ export const addNextdoorAccount = async (
             createdByOperatorOrgId,
         ),
         putParameter(
-            getNextdoorSsmKey(createdByOperatorOrgId ? createdByOperatorOrgId : orgId),
+            getNextdoorSsmKey(createdByOperatorOrgId ? createdByOperatorOrgId : orgId, userDetails.id),
             tokenResult.accessToken,
             "SecureString",
             true,
@@ -134,8 +140,11 @@ export const getNextdoorAccountList = async (orgId: string, operatorOrgId?: stri
     return nextdoorDetail;
 };
 
-export const getNextdoorAgencyBoundaries = async (orgId: string): Promise<NextdoorAgencyBoundaries> => {
-    const accessToken = await getNextdoorAccessToken(orgId);
+export const getNextdoorAgencyBoundaries = async (
+    orgId: string,
+    nextdoorUserId: string,
+): Promise<NextdoorAgencyBoundaries> => {
+    const accessToken = await getNextdoorAccessToken(orgId, nextdoorUserId);
     const agencyBoundaryResponse = await fetch(`${NEXTDOOR_URL}external/api/partner/v1/agency/boundary/`, {
         method: "GET",
         headers: {

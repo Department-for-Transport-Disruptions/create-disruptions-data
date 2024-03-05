@@ -2,7 +2,7 @@ import { NextPageContext } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
-import { ReactElement, SyntheticEvent, useState } from "react";
+import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import { ActionMeta } from "react-select";
 import DateSelector from "../../../components/form/DateSelector";
 import ErrorSummary from "../../../components/form/ErrorSummary";
@@ -18,7 +18,7 @@ import { getHootsuiteAccountList } from "../../../data/hootsuite";
 import { getNextdoorAccountList, getNextdoorAgencyBoundaries } from "../../../data/nextdoor";
 import { getTwitterAccountList } from "../../../data/twitter";
 import { PageState, ErrorInfo } from "../../../interfaces";
-import { NextdoorAgencyBoundaryInput } from "../../../schemas/nextdoor.schema";
+import { NextdoorAgencyBoundaries, NextdoorAgencyBoundaryInput } from "../../../schemas/nextdoor.schema";
 import { SocialMediaAccount } from "../../../schemas/social-media-accounts.schema";
 import {
     CreateSocialMediaPostPage,
@@ -40,7 +40,7 @@ export interface CreateSocialMediaPostPageProps extends PageState<Partial<Create
     socialAccounts: SocialMediaAccount[];
     template?: string;
     operatorOrgId?: string;
-    nextdoorAgencyBoundaries?: NextdoorAgencyBoundaryInput[];
+    orgId: string;
 }
 
 const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElement => {
@@ -48,6 +48,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
     const [errorsMessageContent, setErrorsMessageContent] = useState<ErrorInfo[]>(pageState.errors);
     const [searchInput, setSearchInput] = useState("");
     const [selected, setSelected] = useState<NextdoorAgencyBoundaryInput | null>(null);
+    const [nextdoorAgencyBoundaries, setNextdoorAgencyBoundaries] = useState<NextdoorAgencyBoundaries>([]);
 
     const queryParams = useRouter().query;
     const displayCancelButton = showCancelButton(queryParams);
@@ -57,6 +58,22 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
     const accountType = props.socialAccounts?.find(
         (account) => account.id === pageState.inputs.socialAccount,
     )?.accountType;
+
+    useEffect(() => {
+        if (accountType === "Nextdoor" && pageState.inputs && pageState.inputs.socialAccount) {
+            const getNextdoorBoundaries = async () => {
+                const agencyBoundaries = await getNextdoorAgencyBoundaries(
+                    props.orgId,
+                    pageState.inputs.socialAccount || "",
+                );
+                setNextdoorAgencyBoundaries(agencyBoundaries);
+            };
+
+            getNextdoorBoundaries()
+                // eslint-disable-next-line no-console
+                .catch(console.error);
+        }
+    }, [props.orgId, accountType, pageState.inputs]);
 
     const isSelectedBoundaryInDropdown = (
         boundary: NextdoorAgencyBoundaryInput,
@@ -271,7 +288,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                 setSearchInput={setSearchInput}
                                 isClearable
                                 options={
-                                    props.nextdoorAgencyBoundaries?.filter(
+                                    nextdoorAgencyBoundaries?.filter(
                                         (boundary) =>
                                             !isSelectedBoundaryInDropdown(
                                                 boundary,
@@ -365,7 +382,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const hootsuiteAccounts = await getHootsuiteAccountList(session.orgId, session.operatorOrgId ?? "");
     const twitterAccounts = await getTwitterAccountList(session.orgId, session.operatorOrgId ?? "");
     const nextdoorAccounts = await getNextdoorAccountList(session.orgId, session.operatorOrgId ?? "");
-    const nextdoorAgencyBoundaries = await getNextdoorAgencyBoundaries(session.orgId);
+
     return {
         props: {
             ...getPageState(errorCookie, socialMediaPostSchema, disruptionId, socialMediaPost || undefined),
@@ -374,11 +391,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             socialAccounts: [...hootsuiteAccounts, ...twitterAccounts, ...nextdoorAccounts],
             template: disruption?.template?.toString() || "",
             operatorOrgId: session.operatorOrgId ?? "",
-            nextdoorAgencyBoundaries:
-                nextdoorAgencyBoundaries.map((boundary) => ({
-                    name: boundary.name,
-                    groupId: boundary.groupId,
-                })) || [],
+            orgId: session.orgId,
         },
     };
 };
