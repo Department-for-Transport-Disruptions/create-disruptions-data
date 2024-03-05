@@ -1,31 +1,10 @@
-import { getParameter, getParametersByPath, putParameter } from "@create-disruptions-data/shared-ts/utils/ssm";
+import { getNextdoorAuthHeader } from "@create-disruptions-data/shared-ts/utils";
+import { getParametersByPath, putParameter } from "@create-disruptions-data/shared-ts/utils/ssm";
 import { nextdoorTokenSchema } from "@create-disruptions-data/shared-ts/utils/zod";
 import * as logger from "lambda-log";
 import { randomUUID } from "crypto";
 
 export const nextdoorRedirectUri = `${process.env.DOMAIN_NAME as string}/api/nextdoor-callback`;
-
-export const getNextdoorClientIdAndSecret = async () => {
-    const [nextdoorClientIdKeyParam, nextdoorClientSecretParam] = await Promise.all([
-        getParameter("/social/nextdoor/client_id", logger),
-        getParameter("/social/nextdoor/client_secret", logger),
-    ]);
-
-    const nextdoorClientId = nextdoorClientIdKeyParam.Parameter?.Value ?? "";
-    const nextdoorClientSecret = nextdoorClientSecretParam.Parameter?.Value ?? "";
-
-    return { nextdoorClientId, nextdoorClientSecret };
-};
-
-export const getNextdoorAuthHeader = async () => {
-    const { nextdoorClientId, nextdoorClientSecret } = await getNextdoorClientIdAndSecret();
-    if (!nextdoorClientId || !nextdoorClientSecret) {
-        return "";
-    }
-    const key = `${nextdoorClientId}:${nextdoorClientSecret}`;
-
-    return `Basic ${Buffer.from(key).toString("base64")}`;
-};
 
 export const main = async () => {
     try {
@@ -57,7 +36,7 @@ export const main = async () => {
 
         const authHeader = await getNextdoorAuthHeader();
         if (!authHeader) {
-            logger.info("Failed to get auth header for next door");
+            throw new Error("Failed to get auth header for next door");
             return;
         }
 
@@ -78,7 +57,7 @@ export const main = async () => {
                 });
                 const tokenRefreshResult = nextdoorTokenSchema.parse(await tokenRefreshResponse.json());
                 if (tokenRefreshResponse.status !== 200) {
-                    logger.warn(
+                    logger.error(
                         `An error has occurred whilst authenticating Nextdoor for: ${parameter.Name} with error: ${tokenRefreshResponse.status} ${tokenRefreshResponse.statusText}...`,
                     );
                     return;

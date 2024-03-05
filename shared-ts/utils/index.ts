@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Dayjs } from "dayjs";
+import * as logger from "lambda-log";
 import { History } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { getDate, getDatetimeFromDateAndTime, getFormattedDate, sortEarliestDate } from "./dates";
+import { getParameter } from "./ssm";
 import { Disruption, Validity } from "../disruptionTypes";
 
 export const notEmpty = <T>(value: T | null | undefined): value is T => {
@@ -129,4 +131,23 @@ export const getDisruptionCreationTime = (disruptionHistory: History[] | null, c
     } else {
         return currentTime;
     }
+};
+
+export const getNextdoorClientIdAndSecret = async () => {
+    const [nextdoorClientIdKeyParam, nextdoorClientSecretParam] = await Promise.all([
+        getParameter("/social/nextdoor/client_id", logger),
+        getParameter("/social/nextdoor/client_secret", logger),
+    ]);
+
+    const nextdoorClientId = nextdoorClientIdKeyParam.Parameter?.Value ?? "";
+    const nextdoorClientSecret = nextdoorClientSecretParam.Parameter?.Value ?? "";
+
+    return { nextdoorClientId, nextdoorClientSecret };
+};
+
+export const getNextdoorAuthHeader = async () => {
+    const { nextdoorClientId, nextdoorClientSecret } = await getNextdoorClientIdAndSecret();
+    const key = `${nextdoorClientId}:${nextdoorClientSecret}`;
+
+    return `Basic ${Buffer.from(key).toString("base64")}`;
 };

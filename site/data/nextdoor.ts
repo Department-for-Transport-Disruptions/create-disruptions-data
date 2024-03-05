@@ -1,4 +1,5 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
+import { getNextdoorAuthHeader } from "@create-disruptions-data/shared-ts/utils";
 import { getParameter, putParameter } from "@create-disruptions-data/shared-ts/utils/ssm";
 import { addSocialAccountToOrg, getOrgSocialAccounts, upsertSocialMediaPost } from "./dynamo";
 import { NEXTDOOR_AUTH_URL, NEXTDOOR_URL } from "../constants";
@@ -14,13 +15,6 @@ import { NextdoorPost } from "../schemas/social-media.schema";
 import logger from "../utils/logger";
 
 export const nextdoorRedirectUri = `${process.env.DOMAIN_NAME as string}/api/nextdoor-callback`;
-
-export const getNextdoorAuthHeader = async () => {
-    const { nextdoorClientId, nextdoorClientSecret } = await getNextdoorClientIdAndSecret();
-    const key = `${nextdoorClientId}:${nextdoorClientSecret}`;
-
-    return `Basic ${Buffer.from(key).toString("base64")}`;
-};
 
 export const getNextdoorSsmKey = (orgId: string, nextdoorUserId: string) =>
     `/social/nextdoor/${orgId}/${nextdoorUserId}-refresh_token`;
