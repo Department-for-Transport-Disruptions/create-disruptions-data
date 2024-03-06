@@ -6,16 +6,17 @@ import { randomUUID } from "crypto";
 
 export const nextdoorRedirectUri = `${process.env.DOMAIN_NAME as string}/api/nextdoor-callback`;
 
-export const refreshToken = async (
-    refresh_token: string,
+export const fetchRefreshToken = async (
+    refreshToken: string,
+    tokenOwner: string,
     authHeader: string,
-): Promise<{ result: NextdoorToken; status: number }> => {
-    const tokenRefreshResponse = await fetch("https://auth.nextdoor.com/v2/token", {
+): Promise<NextdoorToken | null> => {
+    const refreshTokenResponse = await fetch("https://auth.nextdoor.com/v2/token", {
         method: "POST",
         body: new URLSearchParams({
             grant_type: "refresh_token",
             redirect_uri: nextdoorRedirectUri,
-            refresh_token: refresh_token,
+            refresh_token: refreshToken,
             scope: "openid post:write post:read profile:read agency.boundary:read",
         }),
         headers: {
@@ -23,10 +24,15 @@ export const refreshToken = async (
             Authorization: authHeader,
         },
     });
-    return {
-        result: nextdoorTokenSchema.parse(await tokenRefreshResponse.json()),
-        status: tokenRefreshResponse.status,
-    };
+
+    if (!refreshTokenResponse.ok) {
+        logger.error(
+            `An error has occurred whilst authenticating Nextdoor for: ${tokenOwner} with error: ${refreshTokenResponse.status}`,
+        );
+        return null;
+    }
+
+    return nextdoorTokenSchema.parse(await refreshTokenResponse.json());
 };
 
 export const main = async () => {
@@ -39,12 +45,17 @@ export const main = async () => {
         };
 
         const socialParameters = await getParametersByPath("/social/nextdoor", logger, true);
-        if (!socialParameters || (socialParameters.Parameters && socialParameters.Parameters.length === 0)) {
+
+        if (
+            !socialParameters ||
+            (socialParameters.Parameters && socialParameters.Parameters.length === 0) ||
+            !socialParameters.Parameters
+        ) {
             logger.info("No social parameters found to refresh");
             return;
         }
 
-        const parametersToRefresh = socialParameters.Parameters?.filter(
+        const parametersToRefresh = socialParameters.Parameters.filter(
             (parameter) =>
                 parameter.Name &&
                 !parameter.Name.includes("client_id") &&
@@ -60,21 +71,17 @@ export const main = async () => {
         const authHeader = await getNextdoorAuthHeader();
         if (!authHeader) {
             throw new Error("Failed to get auth header for next door");
-            return;
         }
 
         await Promise.all(
             parametersToRefresh.map(async (parameter) => {
-                const tokenRefreshResponse = await refreshToken(parameter.Value || "", authHeader);
-                console.log(tokenRefreshResponse);
-                const tokenRefreshResult = tokenRefreshResponse.result;
-                if (tokenRefreshResponse.status !== 200) {
-                    logger.error(
-                        `An error has occurred whilst authenticating Nextdoor for: ${parameter.Name} with error: ${tokenRefreshResponse.status} ${tokenRefreshResponse.statusText}...`,
-                    );
+                const refreshToken = await fetchRefreshToken(parameter.Value ?? "", parameter.Name ?? "", authHeader);
+
+                if (!refreshToken) {
                     return;
                 }
-                await putParameter(parameter.Name || "", tokenRefreshResult.accessToken, "SecureString", true, logger);
+
+                await putParameter(parameter.Name || "", refreshToken.accessToken, "SecureString", true, logger);
             }),
         );
 
