@@ -62,14 +62,7 @@ describe("nextdoorTokenRefresher", () => {
     it("should throw an error if nextdoor auth headers aren't found", async () => {
         getNextdoorAuthHeaderSpy.mockResolvedValue("");
 
-        let errorMessage: string = "";
-        try {
-            await main();
-        } catch (e) {
-            errorMessage = (e as Error).toString();
-        }
-
-        expect(errorMessage).toBe("Error: Failed to get auth header for next door");
+        await expect(async () => await main()).rejects.toThrowError("Failed to get auth header for next door");
         expect(putParameterSpy).not.toBeCalled();
     });
 
