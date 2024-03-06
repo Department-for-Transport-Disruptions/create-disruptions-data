@@ -1,8 +1,8 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { z } from "zod";
-import { updateUserCustomAttribute } from "../../../data/cognito";
-import { getSession } from "../../../utils/apiUtils/auth";
-import logger from "../../../utils/logger";
+import { updateUserCustomAttribute } from "../../data/cognito";
+import { getSession } from "../../utils/apiUtils/auth";
+import logger from "../../utils/logger";
 
 export const updateEmailPreferenceSchema = z.object({
     username: z.string(),
@@ -16,8 +16,6 @@ const updateEmailPreference = async (req: NextApiRequest, res: NextApiResponse) 
 
         if (!session) {
             throw new Error("No session found");
-        } else if (!session.isOrgAdmin) {
-            throw new Error("Invalid user accessing the page");
         }
 
         const validatedBody = updateEmailPreferenceSchema.safeParse(req.body);
