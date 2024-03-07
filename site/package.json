@@ -44,7 +44,7 @@
         "formidable": "^2.1.1",
         "geojson": "^0.5.0",
         "govuk-frontend": "^4.4.1",
-        "jose": "^4.14.4",
+        "jose": "^4.15.5",
         "jsonwebtoken": "^9.0.0",
         "lodash": "^4.17.21",
         "mapbox-gl": "^2.13.0",
