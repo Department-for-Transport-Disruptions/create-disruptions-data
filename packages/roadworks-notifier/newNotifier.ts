@@ -1,6 +1,6 @@
 import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
 import { Roadwork } from "@create-disruptions-data/shared-ts/roadwork.zod";
-import { getLiveRoadworks, notEmpty } from "@create-disruptions-data/shared-ts/utils";
+import { chunkArray, getLiveRoadworks, notEmpty } from "@create-disruptions-data/shared-ts/utils";
 import { getUsersByAttributeByOrgIds } from "@create-disruptions-data/shared-ts/utils/cognito";
 import { convertDateTimeToFormat } from "@create-disruptions-data/shared-ts/utils/dates";
 import { isSandbox } from "@create-disruptions-data/shared-ts/utils/domain";
@@ -165,6 +165,8 @@ export const main = async (): Promise<void> => {
 
         const emailPromises = Object.entries(emailsByOrg)
             .map((orgData) => {
+                const emailChunks = chunkArray(orgData[1].emails, 50);
+
                 const roadworks = liveRoadworks
                     .filter((roadwork) => orgData[1].adminAreaCodes.includes(roadwork.administrativeAreaCode))
                     .map(formatRoadwork);
@@ -173,7 +175,9 @@ export const main = async (): Promise<void> => {
                     return null;
                 }
 
-                return sesClient.send(createNewRoadworksEmail(roadworks, orgData[1].emails, domainName, stage));
+                return emailChunks.map((emailChunk) =>
+                    sesClient.send(createNewRoadworksEmail(roadworks, emailChunk, domainName, stage)),
+                );
             })
             .filter(notEmpty);
 
