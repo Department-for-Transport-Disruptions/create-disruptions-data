@@ -19,6 +19,7 @@ const withInputs: UserManagementPageProps = {
             username: "2f99b92e-a86f-4457-a2dc-923db4781c52",
             disruptionEmailPreference: "false",
             operatorOrgId: "N/A",
+            streetManagerEmailPreference: "false",
         },
     ],
 };

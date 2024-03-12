@@ -51,4 +51,8 @@ export const isCurrentOrUpcomingDisruption = (
     return true;
 };
 
+export const convertDateTimeToFormat = (dateOrTime: string | Date, format: string = "DD/MM/YYYY") => {
+    return dayjs(dateOrTime).tz("Europe/London").format(format);
+};
+
 export const sortEarliestDate = (firstDate: Dayjs, secondDate: Dayjs) => (firstDate.isBefore(secondDate) ? -1 : 1);

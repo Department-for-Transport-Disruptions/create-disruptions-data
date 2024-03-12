@@ -1,4 +1,5 @@
-import { getDate, sortEarliestDate } from "@create-disruptions-data/shared-ts/utils/dates";
+import { Roadwork, RoadworkWithCoordinates } from "@create-disruptions-data/shared-ts/roadwork.zod";
+import { getLiveRoadworks } from "@create-disruptions-data/shared-ts/utils";
 import center from "@turf/center";
 import { getCoords } from "@turf/invariant";
 import { Point } from "geojson";
@@ -12,7 +13,6 @@ import { BaseLayout } from "../components/layout/Layout";
 import Tabs from "../components/layout/Tabs";
 import Map from "../components/map/RoadWorksMap";
 import { fetchRoadworks } from "../data/refDataApi";
-import { Roadwork, RoadworkWithCoordinates } from "../schemas/roadwork.schema";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 import { convertDateTimeToFormat } from "../utils/dates";
 
@@ -169,12 +169,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     const roadworks = await fetchRoadworks({ adminAreaCodes: session.adminAreaCodes });
 
-    const liveRoadworks = roadworks
-        .filter((roadwork) => roadwork.workStatus === "Works in progress" && !roadwork.actualEndDateTime)
-        .sort((a, b) => {
-            return sortEarliestDate(getDate(a.actualStartDateTime ?? ""), getDate(b.actualStartDateTime ?? ""));
-        });
-
+    const liveRoadworks = getLiveRoadworks(roadworks);
     return {
         props: {
             liveRoadworks: liveRoadworks,

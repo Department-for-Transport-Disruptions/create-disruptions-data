@@ -8,8 +8,10 @@ import {
     PublishStatus,
     Severity,
     SocialMediaPostStatus,
+    UserGroups,
     VehicleMode,
 } from "@create-disruptions-data/shared-ts/enums";
+import { Roadwork } from "@create-disruptions-data/shared-ts/roadwork.zod";
 import { mockRequest, mockResponse } from "mock-req-res";
 import { NextApiRequest, NextApiResponse, NextPageContext } from "next";
 import React from "react";
@@ -19,7 +21,6 @@ import { COOKIES_ID_TOKEN, COOKIES_POLICY_COOKIE } from "../constants";
 import { Operator, ServiceApiResponse } from "../schemas/consequence.schema";
 import { ExportDisruptions, FullDisruption, TableDisruption } from "../schemas/disruption.schema";
 import { defaultModes } from "../schemas/organisation.schema";
-import { Roadwork } from "../schemas/roadwork.schema";
 import { Session, SessionWithOrgDetail } from "../schemas/session.schema";
 import { HootsuitePost } from "../schemas/social-media.schema";
 import { getFutureDateAsString } from "../utils/dates";
@@ -849,6 +850,7 @@ export const mockBodsServicesWithDuplicates: ServiceApiResponse[] = [
 
 export const mockSession: Session = {
     email: "test@example.com",
+    group: [UserGroups.systemAdmins],
     isOrgAdmin: false,
     isOrgPublisher: false,
     isOrgStaff: false,
@@ -863,6 +865,7 @@ export const mockSession: Session = {
 export const mockSessionWithOrgDetail: SessionWithOrgDetail = {
     email: "test@example.com",
     username: "test@example.com",
+    group: [UserGroups.orgAdmins],
     orgId: DEFAULT_ORG_ID,
     adminAreaCodes: [],
     orgName: "Test Org",
