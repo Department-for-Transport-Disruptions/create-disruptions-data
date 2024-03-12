@@ -5,9 +5,20 @@ import { History } from "@create-disruptions-data/shared-ts/disruptionTypes.zod"
 import { getDate, getDatetimeFromDateAndTime, getFormattedDate, sortEarliestDate } from "./dates";
 import { getParameter } from "./ssm";
 import { Disruption, Validity } from "../disruptionTypes";
+import { Roadwork } from "../roadwork.zod";
 
 export const notEmpty = <T>(value: T | null | undefined): value is T => {
     return value !== null && value !== undefined;
+};
+
+export const chunkArray = <T>(array: T[], chunkSize: number) => {
+    const chunkArray = [];
+
+    for (let i = 0; i < array.length; i += chunkSize) {
+        chunkArray.push(array.slice(i, i + chunkSize));
+    }
+
+    return chunkArray;
 };
 
 export const getApiValidityPeriods = (validityPeriods: Validity[]) =>
@@ -154,3 +165,9 @@ export const getNextdoorAuthHeader = async () => {
 
     return `Basic ${Buffer.from(key).toString("base64")}`;
 };
+export const getLiveRoadworks = (roadworks: Roadwork[]) =>
+    roadworks
+        .filter((roadwork) => roadwork.workStatus === "Works in progress" && !roadwork.actualEndDateTime)
+        .sort((a, b) => {
+            return sortEarliestDate(getDate(a.actualStartDateTime ?? ""), getDate(b.actualStartDateTime ?? ""));
+        });

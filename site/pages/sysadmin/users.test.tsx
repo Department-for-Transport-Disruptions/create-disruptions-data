@@ -30,6 +30,7 @@ const withInputs: SysAdminUserManagementProps = {
             group: UserGroups.orgAdmins,
             disruptionEmailPreference: "false",
             operatorOrgId: "N/A",
+            streetManagerEmailPreference: "false",
         },
         {
             userStatus: "CONFIRMED",
@@ -41,6 +42,7 @@ const withInputs: SysAdminUserManagementProps = {
             group: UserGroups.orgAdmins,
             disruptionEmailPreference: "false",
             operatorOrgId: "N/A",
+            streetManagerEmailPreference: "false",
         },
     ],
 };

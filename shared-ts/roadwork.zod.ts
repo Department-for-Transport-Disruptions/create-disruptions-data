@@ -55,7 +55,7 @@ const workCategory = z.union([
 
 export type WorkCategory = z.infer<typeof workCategory>;
 
-export const roadworkSchema = z.object({
+export const roadwork = z.object({
     permitReferenceNumber: z.string(),
     highwayAuthority: z.string().optional(),
     highwayAuthoritySwaCode: z.coerce.number(),
@@ -74,10 +74,10 @@ export const roadworkSchema = z.object({
     workCategory: workCategory.nullish(),
     trafficManagementType: z.string().nullish(),
     createdDateTime: z.string().datetime().nullish(),
-    lastUpdatedDateTime: z.string().datetime().nullish(),
+    lastUpdatedDatetime: z.string().datetime().nullish(),
 });
 
-export type Roadwork = z.infer<typeof roadworkSchema>;
+export type Roadwork = z.infer<typeof roadwork>;
 
 export const roadworkWithCoordinatesSchema = z.object({
     permitReferenceNumber: z.string(),
@@ -104,7 +104,7 @@ export const roadworkWithCoordinatesSchema = z.object({
     workCategory: workCategory.nullish(),
     trafficManagementType: z.string().nullish(),
     createdDateTime: z.string().datetime().nullish(),
-    lastUpdatedDateTime: z.string().datetime().nullish(),
+    lastUpdatedDatetime: z.string().datetime().nullish(),
 });
 
 export type RoadworkWithCoordinates = z.infer<typeof roadworkWithCoordinatesSchema>;

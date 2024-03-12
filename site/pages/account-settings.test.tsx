@@ -7,18 +7,21 @@ import * as user from "../utils/user";
 
 describe("accountSettings", () => {
     vi.mock("../utils/user", () => ({
-        getDisruptionEmailPreference: vi.fn(),
+        getEmailPreferences: vi.fn(),
     }));
 
     beforeEach(() => {
-        getDisruptionEmailPreferenceSpy.mockResolvedValue(false);
+        getEmailPreferencesSpy.mockResolvedValue({
+            streetManagerEmailPreference: false,
+            disruptionApprovalEmailPreference: false,
+        });
     });
 
     afterEach(() => {
         vi.resetAllMocks();
     });
 
-    const getDisruptionEmailPreferenceSpy = vi.spyOn(user, "getDisruptionEmailPreference");
+    const getEmailPreferencesSpy = vi.spyOn(user, "getEmailPreferences");
     it("should render correctly for organisation admin", () => {
         const tree = renderer.create(<AccountSettings sessionWithOrg={mockSessionWithOrgDetail} />).toJSON();
         expect(tree).toMatchSnapshot();
@@ -41,7 +44,22 @@ describe("accountSettings", () => {
         unmount();
     });
 
-    it("should render correctly for staff or publisher user", () => {
+    it("should render correctly for staff user", () => {
+        const tree = renderer
+            .create(
+                <AccountSettings
+                    sessionWithOrg={{
+                        ...mockSessionWithOrgDetail,
+                        isOrgAdmin: false,
+                        isOrgStaff: true,
+                    }}
+                />,
+            )
+            .toJSON();
+        expect(tree).toMatchSnapshot();
+    });
+
+    it("should render correctly for publisher user", () => {
         const tree = renderer
             .create(
                 <AccountSettings
@@ -62,6 +80,7 @@ describe("accountSettings", () => {
                 <AccountSettings
                     sessionWithOrg={{
                         ...mockSessionWithOrgDetail,
+                        isOrgAdmin: false,
                         isOperatorUser: true,
                         operatorOrgId: DEFAULT_OPERATOR_ORG_ID,
                     }}

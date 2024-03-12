@@ -1,4 +1,5 @@
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
+import { Roadwork } from "@create-disruptions-data/shared-ts/roadwork.zod";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { randomUUID } from "crypto";
@@ -6,7 +7,6 @@ import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 import { getDisruptionInfoByPermitReferenceNumber } from "../../data/dynamo";
 import { fetchRoadworkById } from "../../data/refDataApi";
-import { Roadwork } from "../../schemas/roadwork.schema";
 import { toTitleCase } from "../../utils";
 import { getSession } from "../../utils/apiUtils/auth";
 import { convertDateTimeToFormat } from "../../utils/dates";
@@ -40,7 +40,7 @@ const getRows = (roadwork: Roadwork) => {
         { header: "Permit reference number", cells: [roadwork.permitReferenceNumber] },
         {
             header: "Roadwork last updated",
-            cells: [`${convertDateTimeToFormat(roadwork.lastUpdatedDateTime ?? "", "DD/MM/YY HH:mm")}`],
+            cells: [`${convertDateTimeToFormat(roadwork.lastUpdatedDatetime ?? "", "DD/MM/YY HH:mm")}`],
         },
     ];
 };
