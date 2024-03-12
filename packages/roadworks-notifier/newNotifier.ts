@@ -182,6 +182,8 @@ export const main = async (): Promise<void> => {
             .filter(notEmpty);
 
         await Promise.all(emailPromises);
+
+        logger.info("Successfully sent new roadwork email notification.");
     } catch (e) {
         if (e instanceof Error) {
             logger.error(e);
