@@ -69,7 +69,7 @@ describe("hootsuite-callback", () => {
         });
     });
 
-    it("should redirect to error if code not returned", async () => {
+    it("should redirect to social media accounts page if code not returned", async () => {
         const { req, res } = getMockRequestAndResponse({
             query: {
                 state: "6ab8fd00-4b2d-42a7-beef-8558da21c82d",

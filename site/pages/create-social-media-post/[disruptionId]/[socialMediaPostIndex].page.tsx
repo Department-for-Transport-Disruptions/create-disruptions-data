@@ -2,7 +2,7 @@ import { NextPageContext } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
-import { ReactElement, SyntheticEvent, useState } from "react";
+import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import { ActionMeta } from "react-select";
 import DateSelector from "../../../components/form/DateSelector";
 import ErrorSummary from "../../../components/form/ErrorSummary";
@@ -15,10 +15,10 @@ import { BaseLayout } from "../../../components/layout/Layout";
 import { COOKIES_SOCIAL_MEDIA_ERRORS } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { getHootsuiteAccountList } from "../../../data/hootsuite";
-import { getNextdoorAccountList, getNextdoorGroupIds } from "../../../data/nextdoor";
+import { getNextdoorAccountList, getNextdoorAgencyBoundaries } from "../../../data/nextdoor";
 import { getTwitterAccountList } from "../../../data/twitter";
 import { PageState, ErrorInfo } from "../../../interfaces";
-import { GroupId } from "../../../schemas/nextdoor.schema";
+import { NextdoorAgencyBoundaries, NextdoorAgencyBoundaryInput } from "../../../schemas/nextdoor.schema";
 import { SocialMediaAccount } from "../../../schemas/social-media-accounts.schema";
 import {
     CreateSocialMediaPostPage,
@@ -40,14 +40,15 @@ export interface CreateSocialMediaPostPageProps extends PageState<Partial<Create
     socialAccounts: SocialMediaAccount[];
     template?: string;
     operatorOrgId?: string;
-    nextdoorGroupIds?: number[];
+    agencyBoundaries: { boundaries: NextdoorAgencyBoundaries; nextdoorUserId: string }[];
 }
 
 const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElement => {
     const [pageState, setPageState] = useState<PageState<Partial<CreateSocialMediaPostPage>>>(props);
     const [errorsMessageContent, setErrorsMessageContent] = useState<ErrorInfo[]>(pageState.errors);
     const [searchInput, setSearchInput] = useState("");
-    const [selected, setSelected] = useState<{ label: GroupId; groupId: GroupId } | null>(null);
+    const [selected, setSelected] = useState<NextdoorAgencyBoundaryInput | null>(null);
+    const [nextdoorAgencyBoundaries, setNextdoorAgencyBoundaries] = useState<NextdoorAgencyBoundaries>([]);
 
     const queryParams = useRouter().query;
     const displayCancelButton = showCancelButton(queryParams);
@@ -58,65 +59,85 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
         (account) => account.id === pageState.inputs.socialAccount,
     )?.accountType;
 
-    const removeGroupId = (e: SyntheticEvent, index: number) => {
+    useEffect(() => {
+        if (accountType === "Nextdoor" && pageState.inputs && pageState.inputs.socialAccount) {
+            const agencyBoundaries =
+                props.agencyBoundaries.find((account) => account.nextdoorUserId === pageState.inputs.socialAccount)
+                    ?.boundaries || [];
+            setNextdoorAgencyBoundaries(agencyBoundaries);
+        }
+    }, [accountType, pageState.inputs, props.agencyBoundaries]);
+
+    const isSelectedBoundaryInDropdown = (
+        boundary: NextdoorAgencyBoundaryInput,
+        selectedBoundaries: NextdoorAgencyBoundaryInput[],
+    ) => selectedBoundaries.find((selectedBoundary) => selectedBoundary.groupId === boundary.groupId);
+
+    const removeAgencyBoundary = (e: SyntheticEvent, index: number) => {
         e.preventDefault();
-        if (pageState.inputs.accountType === "Nextdoor" && pageState.inputs.groupIds) {
-            const groupIds = [...pageState.inputs.groupIds];
-            groupIds.splice(index, 1);
+        if (accountType === "Nextdoor" && pageState.inputs.nextdoorAgencyBoundaries) {
+            const nextdoorAgencyBoundaries = [...pageState.inputs.nextdoorAgencyBoundaries];
+            nextdoorAgencyBoundaries.splice(index, 1);
             setPageState({
                 ...pageState,
                 inputs: {
                     ...pageState.inputs,
-                    groupIds,
+                    nextdoorAgencyBoundaries,
                 },
             });
         }
     };
 
-    const getGroupIdRows = () => {
-        if (pageState.inputs.accountType === "Nextdoor" && pageState.inputs.groupIds) {
-            return pageState.inputs.groupIds.map((groupId, i) => ({
-                cells: [
-                    groupId.toString(),
-                    <button
-                        id={`remove-groupId-${groupId}`}
-                        key={`remove-groupId-${groupId}`}
-                        className="govuk-link"
-                        onClick={(e) => removeGroupId(e, i)}
-                    >
-                        Remove
-                    </button>,
-                ],
-            }));
+    const getAgencyBoundariesRows = () => {
+        if (accountType === "Nextdoor" && pageState.inputs.nextdoorAgencyBoundaries) {
+            return pageState.inputs.nextdoorAgencyBoundaries.map((boundary, i) => {
+                return {
+                    cells: [
+                        boundary?.name || "",
+                        <button
+                            id={`remove-boundary-${boundary?.groupId || ""}`}
+                            key={`remove-boundary-${boundary?.groupId || ""}`}
+                            className="govuk-link"
+                            onClick={(e) => removeAgencyBoundary(e, i)}
+                        >
+                            Remove
+                        </button>,
+                    ],
+                };
+            });
         }
         return [];
     };
 
-    const addGroupId = (value: string) => {
-        if (pageState.inputs.accountType === "Nextdoor") {
+    const addAgencyBoundary = (value: NextdoorAgencyBoundaryInput) => {
+        if (accountType === "Nextdoor") {
             setPageState({
                 ...pageState,
                 inputs: {
                     ...pageState.inputs,
-                    groupIds: [...(pageState.inputs.groupIds || []), Number(value)],
+                    nextdoorAgencyBoundaries: [
+                        ...(pageState.inputs.nextdoorAgencyBoundaries || []),
+                        { name: value.name, groupId: value.groupId },
+                    ],
                 },
             });
         }
     };
     const handleChange = (
-        value: { label: GroupId; groupId: GroupId } | null,
-        actionMeta: ActionMeta<{ label: GroupId; groupId: GroupId }>,
+        value: NextdoorAgencyBoundaryInput | null,
+        actionMeta: ActionMeta<NextdoorAgencyBoundaryInput>,
     ) => {
         if (actionMeta.action === "clear") {
             setSearchInput("");
         }
+
         if (value) {
             if (
-                pageState.inputs.accountType === "Nextdoor" &&
-                (!pageState.inputs.groupIds ||
-                    !pageState.inputs.groupIds.some((data: number) => data === Number(value?.groupId)))
+                accountType === "Nextdoor" &&
+                (!pageState.inputs.nextdoorAgencyBoundaries ||
+                    !pageState.inputs.nextdoorAgencyBoundaries.some((boundary) => boundary.groupId === value?.groupId))
             ) {
-                addGroupId(value.groupId);
+                addAgencyBoundary(value);
             }
             setSelected(null);
         }
@@ -211,62 +232,62 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                             </button>
                         ) : null}
                         <br />
-                        <FormGroupWrapper errorIds={["image"]} errors={pageState.errors}>
-                            <fieldset className="govuk-fieldset">
-                                <legend className="govuk-fieldset__legend govuk-fieldset__legend--m">
-                                    <h2
-                                        className="govuk-fieldset__heading govuk-visually-hidden"
-                                        id="passenger-type-page-heading"
+                        {accountType !== "Nextdoor" && (
+                            <FormGroupWrapper errorIds={["image"]} errors={pageState.errors}>
+                                <fieldset className="govuk-fieldset">
+                                    <legend className="govuk-fieldset__legend govuk-fieldset__legend--m">
+                                        <h2
+                                            className="govuk-fieldset__heading govuk-visually-hidden"
+                                            id="passenger-type-page-heading"
+                                        >
+                                            Upload file
+                                        </h2>
+                                    </legend>
+                                    <FormElementWrapper
+                                        errorId="image"
+                                        errorClass="govuk-file-upload--error"
+                                        errors={pageState.errors}
                                     >
-                                        Upload file
-                                    </h2>
-                                </legend>
-                                <FormElementWrapper
-                                    errorId="image"
-                                    errorClass="govuk-file-upload--error"
-                                    errors={pageState.errors}
-                                >
-                                    <>
-                                        <input
-                                            className="govuk-file-upload"
-                                            type="file"
-                                            id="image"
-                                            name="image"
-                                            accept="image/png, image/jpeg, image/jpg"
-                                        />
-                                    </>
-                                </FormElementWrapper>
-                            </fieldset>
-                        </FormGroupWrapper>
+                                        <>
+                                            <input
+                                                className="govuk-file-upload"
+                                                type="file"
+                                                id="image"
+                                                name="image"
+                                                accept="image/png, image/jpeg, image/jpg"
+                                            />
+                                        </>
+                                    </FormElementWrapper>
+                                </fieldset>
+                            </FormGroupWrapper>
+                        )}
 
-                        {pageState.inputs.accountType === "Nextdoor" && (
-                            <SearchSelect<{ label: GroupId; groupId: GroupId }>
+                        {accountType === "Nextdoor" && (
+                            <SearchSelect<NextdoorAgencyBoundaryInput>
                                 closeMenuOnSelect={false}
                                 selected={selected}
-                                inputName="groupIds"
+                                inputName="nextdoorAgencyBoundaries"
                                 initialErrors={pageState.errors}
-                                placeholder={"Select groupIds"}
-                                getOptionLabel={(value) => value.groupId}
+                                placeholder={"Select area boundaries"}
+                                getOptionLabel={(value) => value.name}
                                 handleChange={handleChange}
-                                tableData={
-                                    pageState.inputs.groupIds?.map((groupId) => ({
-                                        label: groupId.toString(),
-                                        groupId: groupId.toString(),
-                                    })) || []
-                                }
-                                getRows={getGroupIdRows}
-                                getOptionValue={(value) => value.groupId}
-                                display="Group Ids"
+                                tableData={pageState.inputs.nextdoorAgencyBoundaries || []}
+                                getRows={getAgencyBoundariesRows}
+                                getOptionValue={(value) => value.groupId.toString()}
+                                display="Area boundaries"
                                 displaySize="l"
-                                inputId="groupIds"
+                                inputId="nextdoorAgencyBoundaries"
                                 inputValue={searchInput}
                                 setSearchInput={setSearchInput}
                                 isClearable
                                 options={
-                                    props.nextdoorGroupIds?.map((id) => ({
-                                        label: id.toString(),
-                                        groupId: id.toString(),
-                                    })) || []
+                                    nextdoorAgencyBoundaries?.filter(
+                                        (boundary) =>
+                                            !isSelectedBoundaryInDropdown(
+                                                boundary,
+                                                pageState.inputs.nextdoorAgencyBoundaries || [],
+                                            ),
+                                    ) || []
                                 }
                             />
                         )}
@@ -354,7 +375,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const hootsuiteAccounts = await getHootsuiteAccountList(session.orgId, session.operatorOrgId ?? "");
     const twitterAccounts = await getTwitterAccountList(session.orgId, session.operatorOrgId ?? "");
     const nextdoorAccounts = await getNextdoorAccountList(session.orgId, session.operatorOrgId ?? "");
-    const nextdoorGroupIds = getNextdoorGroupIds();
+    const agencyBoundaries = await getNextdoorAgencyBoundaries(session.orgId);
+
     return {
         props: {
             ...getPageState(errorCookie, socialMediaPostSchema, disruptionId, socialMediaPost || undefined),
@@ -363,7 +385,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             socialAccounts: [...hootsuiteAccounts, ...twitterAccounts, ...nextdoorAccounts],
             template: disruption?.template?.toString() || "",
             operatorOrgId: session.operatorOrgId ?? "",
-            nextDoorGroupIds: nextdoorGroupIds,
+            agencyBoundaries,
         },
     };
 };

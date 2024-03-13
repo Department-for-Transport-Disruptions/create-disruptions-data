@@ -17,7 +17,7 @@ export const socialMediaAccountSchema = dynamoSocialAccountSchema.and(
         display: z.string(),
         expiresIn: z.string().default("Never"),
         hootsuiteProfiles: z.array(hootsuiteProfileSchema).optional(),
-        groupIds: z.array(z.number()).optional(),
+        groupIds: z.array(z.object({ name: z.string(), groupId: z.number() })).optional(),
     }),
 );
 

@@ -1,6 +1,7 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { z } from "zod";
+import { nextdoorAgencyBoundaryInput } from "./nextdoor.schema";
 import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from "../constants";
 import { setZodDefaultError } from "../utils";
 import { isAtLeast5MinutesAfter } from "../utils/dates";
@@ -44,7 +45,7 @@ const twitterSchema = z.object({
 const nextdoorSchema = z.object({
     ...baseSchema,
     accountType: z.literal("Nextdoor"),
-    groupIds: z.array(z.number()),
+    nextdoorAgencyBoundaries: z.array(nextdoorAgencyBoundaryInput).optional(),
 });
 
 export const socialMediaPostSchema = z.discriminatedUnion(
@@ -59,17 +60,13 @@ const createSocialMediaPostPageSchema = z.object({
     publishDate: z.string().optional(),
     publishTime: z.string().optional(),
     accountType: z.union([z.literal("Hootsuite"), z.literal("Twitter"), z.literal("Nextdoor")]),
-    groupIds: z.array(z.number()).optional(),
+    nextdoorAgencyBoundaries: z.array(nextdoorAgencyBoundaryInput).optional(),
 });
 
 export const refineImageSchema = socialMediaPostSchema
     .refine((item) => (item.accountType === "Hootsuite" ? !!item.hootsuiteProfile : true), {
         path: ["hootsuiteProfile"],
         message: "Select a Hootsuite profile",
-    })
-    .refine((item) => (item.accountType === "Nextdoor" ? !!item.groupIds : true), {
-        path: ["groupIds"],
-        message: "Select group Ids",
     })
     .refine((item) => (item.accountType === "Hootsuite" && !!item.publishTime ? !!item.publishDate : true), {
         path: ["publishDate"],

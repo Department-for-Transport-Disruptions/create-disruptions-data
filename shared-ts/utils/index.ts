@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Dayjs } from "dayjs";
+import * as logger from "lambda-log";
 import { History } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { getDate, getDatetimeFromDateAndTime, getFormattedDate, sortEarliestDate } from "./dates";
+import { getParameter } from "./ssm";
 import { Disruption, Validity } from "../disruptionTypes";
 import { Roadwork } from "../roadwork.zod";
 
@@ -142,6 +144,27 @@ export const getDisruptionCreationTime = (disruptionHistory: History[] | null, c
     }
 };
 
+export const getNextdoorClientIdAndSecret = async () => {
+    const [nextdoorClientIdKeyParam, nextdoorClientSecretParam] = await Promise.all([
+        getParameter("/social/nextdoor/client_id", logger),
+        getParameter("/social/nextdoor/client_secret", logger),
+    ]);
+
+    const nextdoorClientId = nextdoorClientIdKeyParam.Parameter?.Value ?? "";
+    const nextdoorClientSecret = nextdoorClientSecretParam.Parameter?.Value ?? "";
+
+    return { nextdoorClientId, nextdoorClientSecret };
+};
+
+export const getNextdoorAuthHeader = async () => {
+    const { nextdoorClientId, nextdoorClientSecret } = await getNextdoorClientIdAndSecret();
+    if (!nextdoorClientId || !nextdoorClientSecret) {
+        return "";
+    }
+    const key = `${nextdoorClientId}:${nextdoorClientSecret}`;
+
+    return `Basic ${Buffer.from(key).toString("base64")}`;
+};
 export const getLiveRoadworks = (roadworks: Roadwork[]) =>
     roadworks
         .filter((roadwork) => roadwork.workStatus === "Works in progress" && !roadwork.actualEndDateTime)
