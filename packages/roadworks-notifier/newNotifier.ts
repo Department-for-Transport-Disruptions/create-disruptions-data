@@ -55,7 +55,7 @@ const roadworksNewEmailBody = (
                                    `<p>Street name: ${roadwork.streetName}</p>
                                     <p>Activity type: ${roadwork.activityType}</p>
                                     <p>Dates affected: ${roadwork.datesAffected}</p>
-                                    <p><a href=${domainName}/roadwork-detail/${roadwork.permitReferenceNumber}>Link to roadwork</a></p>`,
+                                    <p><a href=${domainName}roadwork-detail/${roadwork.permitReferenceNumber}>Link to roadwork</a></p>`,
                            )
                            .join("<br/>")}
                     </div>
@@ -182,6 +182,8 @@ export const main = async (): Promise<void> => {
             .filter(notEmpty);
 
         await Promise.all(emailPromises);
+
+        logger.info("Successfully sent new roadwork email notification.");
     } catch (e) {
         if (e instanceof Error) {
             logger.error(e);
