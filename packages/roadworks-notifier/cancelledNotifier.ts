@@ -67,7 +67,7 @@ export const createRoadworksCancellationEmail = (
 ) => {
     const domain = new URL(domainName);
     const disruptionLinks = contentsForEmail.flatMap((content) =>
-        content.disruptionIds.map((disruptionId) => `${domain.toString()}/disruption-detail/${disruptionId}`),
+        content.disruptionIds.map((disruptionId) => `${domain.toString()}disruption-detail/${disruptionId}`),
     );
     const sourceEmail = isSandbox(stage) ? "no-reply@sandbox.cdd.dft-create-data.com" : `no-reply@${domain.hostname}`;
 
@@ -165,6 +165,8 @@ export const main = async (): Promise<void> => {
         await Promise.all(
             emailChunks.map((chunk) => sesClient.send(createRoadworksCancellationEmail(chunk, domainName, stage))),
         );
+
+        logger.info("Successfully sent cancelled roadwork email notification.");
     } catch (e) {
         if (e instanceof Error) {
             logger.error(e);
