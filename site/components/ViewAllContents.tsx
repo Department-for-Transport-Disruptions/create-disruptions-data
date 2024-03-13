@@ -702,7 +702,11 @@ const ViewAllContents = ({
 
         setCombinedServicesList(combinedServices);
 
-        setOperatorsList(operators);
+        const uniqueOperatorArray = operators.filter(
+            (obj, index, self) => index === self.findIndex((t) => t.id === obj.id),
+        );
+
+        setOperatorsList(uniqueOperatorArray);
         setServicesList(combinedServices);
     };
 
