@@ -1,4 +1,5 @@
 import { NotAuthorizedException } from "@aws-sdk/client-cognito-identity-provider";
+import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi } from "vitest";
 import { randomUUID } from "crypto";
 import login from "./login.api";
@@ -76,6 +77,7 @@ describe("login", () => {
             email: "dummuser@gmail.com",
             orgId: randomUUID(),
             name: "dummy",
+            group: [UserGroups.orgPublishers],
             isSystemAdmin: false,
             isOrgAdmin: false,
             isOrgPublisher: true,
@@ -115,6 +117,7 @@ describe("login", () => {
             email: "dummuser@gmail.com",
             orgId: randomUUID(),
             name: "dummy",
+            group: [UserGroups.systemAdmins],
             isSystemAdmin: true,
             isOrgAdmin: false,
             isOrgPublisher: false,
@@ -227,6 +230,7 @@ describe("login", () => {
             email: "dummuser@gmail.com",
             orgId: randomUUID(),
             name: "dummy",
+            group: [UserGroups.orgPublishers],
             isSystemAdmin: false,
             isOrgAdmin: false,
             isOrgPublisher: true,

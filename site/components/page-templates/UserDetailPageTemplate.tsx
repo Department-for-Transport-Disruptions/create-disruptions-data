@@ -152,7 +152,9 @@ const UserDetailPageTemplate = ({
                                 <input
                                     type="hidden"
                                     name="operatorOrg"
-                                    value={JSON.stringify(pageState.inputs.operatorOrg)}
+                                    value={
+                                        pageState.inputs.operatorOrg ? JSON.stringify(pageState.inputs.operatorOrg) : ""
+                                    }
                                 />
                             </>
                         )}

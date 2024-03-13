@@ -25,6 +25,7 @@ export const sessionSchema = z
             username: item.sub,
             email: item.email,
             orgId: item["custom:orgId"],
+            group: item["cognito:groups"],
             name: item.given_name && item.family_name ? `${item.given_name} ${item.family_name}` : item.email,
             operatorOrgId: item["custom:operatorOrgId"] ?? null,
             isSystemAdmin,

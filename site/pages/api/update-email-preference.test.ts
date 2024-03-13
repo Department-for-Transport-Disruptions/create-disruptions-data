@@ -1,14 +1,14 @@
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
+import updateOrg from "./admin/update-org.api";
 import updateEmailPreference from "./update-email-preference.api";
-import updateOrg from "./update-org.api";
-import * as cognito from "../../../data/cognito";
-import { getMockRequestAndResponse, mockSession } from "../../../testData/mockData";
-import * as session from "../../../utils/apiUtils/auth";
+import * as cognito from "../../data/cognito";
+import { getMockRequestAndResponse, mockSession } from "../../testData/mockData";
+import * as session from "../../utils/apiUtils/auth";
 
 describe("update-email-preference", () => {
     const writeHeadMock = vi.fn();
 
-    vi.mock("../../../data/cognito", () => ({
+    vi.mock("../../data/cognito", () => ({
         updateUserCustomAttribute: vi.fn(),
     }));
 
