@@ -200,16 +200,6 @@ exports[`socialMediaAccounts > should not show the nextdoor button when there is
       >
         Connect Twitter
       </a>
-      <a
-        className="govuk-button mt-8"
-        data-module="govuk-button"
-        href="https://nextdoor-test-auth.com"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
-      >
-        Connect Nextdoor
-      </a>
     </main>
     <div>
       <h2
@@ -528,6 +518,16 @@ exports[`socialMediaAccounts > should render correctly when there are no inputs 
         onTouchStart={[Function]}
       >
         Connect Twitter
+      </a>
+      <a
+        className="govuk-button mt-8"
+        data-module="govuk-button"
+        href="https://nextdoor-test-auth.com"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        Connect Nextdoor
       </a>
     </main>
     <div>
@@ -920,6 +920,16 @@ exports[`socialMediaAccounts > should render correctly with inputs 1`] = `
         onTouchStart={[Function]}
       >
         Connect Twitter
+      </a>
+      <a
+        className="govuk-button mt-8"
+        data-module="govuk-button"
+        href="https://nextdoor-test-auth.com"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        Connect Nextdoor
       </a>
     </main>
     <div>
@@ -1341,6 +1351,16 @@ exports[`socialMediaAccounts > should render correctly with inputs and an error 
         onTouchStart={[Function]}
       >
         Connect Twitter
+      </a>
+      <a
+        className="govuk-button mt-8"
+        data-module="govuk-button"
+        href="https://nextdoor-test-auth.com"
+        onClick={[Function]}
+        onMouseEnter={[Function]}
+        onTouchStart={[Function]}
+      >
+        Connect Nextdoor
       </a>
     </main>
     <div>
