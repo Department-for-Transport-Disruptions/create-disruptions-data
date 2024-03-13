@@ -2,6 +2,7 @@ import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums"
 import { getNextdoorAuthHeader } from "@create-disruptions-data/shared-ts/utils";
 import { getParameter, getParametersByPath, putParameter } from "@create-disruptions-data/shared-ts/utils/ssm";
 import { addSocialAccountToOrg, getOrgSocialAccounts, upsertSocialMediaPost } from "./dynamo";
+import { getItem } from "./s3";
 import { NEXTDOOR_AUTH_URL, NEXTDOOR_URL } from "../constants";
 import { NotAnAgencyAccountError } from "../errors";
 import {
@@ -197,12 +198,34 @@ export const publishToNextdoor = async (
             throw new Error("Not authenticated to Nextdoor");
         }
 
+        let url: string | null = null;
+
+        if (socialMediaPost.image) {
+            const imageContents = await getItem(
+                process.env.IMAGE_BUCKET_NAME || "",
+                socialMediaPost.image.key,
+                socialMediaPost.image.originalFilename,
+                false,
+            );
+
+            if (!imageContents) {
+                throw new Error("Could not read image file");
+            }
+
+            url = imageContents;
+        }
+
         const createSocialPostResponse = await fetch(`${NEXTDOOR_URL}external/api/partner/v1/post/create/`, {
             method: "POST",
             body: JSON.stringify({
                 body_text: socialMediaPost.messageContent,
                 ...(socialMediaPost.nextdoorAgencyBoundaries
                     ? { group_ids: socialMediaPost.nextdoorAgencyBoundaries.map((boundary) => boundary.groupId) }
+                    : {}),
+                ...(url
+                    ? {
+                          media_attachments: [url],
+                      }
                     : {}),
             }),
             headers: {

@@ -115,7 +115,12 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
         if (validatedBody.data.image) {
             const imageContents = await readFile(validatedBody.data.image?.filepath || "");
 
-            await putItem(process.env.IMAGE_BUCKET_NAME || "", validatedBody.data.image.key, imageContents);
+            await putItem(
+                process.env.IMAGE_BUCKET_NAME || "",
+                validatedBody.data.image.key,
+                imageContents,
+                validatedBody.data.image?.mimetype || "",
+            );
         }
 
         // publishTime and publishDate set to blank to prevent error when creating a disruption (as templates prior had these populated)
