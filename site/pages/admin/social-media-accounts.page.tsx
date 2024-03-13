@@ -128,7 +128,7 @@ const SocialMediaAccounts = ({
                 <Link className="govuk-button mt-8 mr-4" data-module="govuk-button" href={twitterAuthUrl}>
                     Connect Twitter
                 </Link>
-                {isOperator ? (
+                {!isOperator ? (
                     <Link className="govuk-button mt-8" data-module="govuk-button" href={nextdoorAuthUrl}>
                         Connect Nextdoor
                     </Link>
