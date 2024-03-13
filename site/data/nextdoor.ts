@@ -1,6 +1,6 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { getNextdoorAuthHeader } from "@create-disruptions-data/shared-ts/utils";
-import { getParameter, putParameter } from "@create-disruptions-data/shared-ts/utils/ssm";
+import { getParameter, getParametersByPath, putParameter } from "@create-disruptions-data/shared-ts/utils/ssm";
 import { addSocialAccountToOrg, getOrgSocialAccounts, upsertSocialMediaPost } from "./dynamo";
 import { NEXTDOOR_AUTH_URL, NEXTDOOR_URL } from "../constants";
 import { NotAnAgencyAccountError } from "../errors";
@@ -29,6 +29,23 @@ export const getNextdoorAccessToken = async (orgId: string, nextdoorUserId: stri
     const refreshToken = refreshTokenParam.Parameter.Value;
 
     return refreshToken;
+};
+
+export const getNextdoorAccessTokens = async (orgId: string) => {
+    const refreshTokenParams = await getParametersByPath(`/social/nextdoor/${orgId}`, logger, true);
+
+    if (!refreshTokenParams.Parameters) {
+        throw new Error("Refresh token not found");
+    }
+
+    const refreshTokens = refreshTokenParams.Parameters.filter(
+        (token) => token.Name?.includes("refresh_token") || false,
+    ).map((token) => ({
+        nextdoorUserId: token.Name?.split("/")?.[4].replace("-refresh_token", "") || "",
+        value: token.Value,
+    }));
+
+    return refreshTokens;
 };
 
 export const addNextdoorAccount = async (
@@ -136,25 +153,36 @@ export const getNextdoorAccountList = async (orgId: string, operatorOrgId?: stri
 
 export const getNextdoorAgencyBoundaries = async (
     orgId: string,
-    nextdoorUserId: string,
-): Promise<NextdoorAgencyBoundaries> => {
-    const accessToken = await getNextdoorAccessToken(orgId, nextdoorUserId);
-    const agencyBoundaryResponse = await fetch(`${NEXTDOOR_URL}external/api/partner/v1/agency/boundary/`, {
-        method: "GET",
-        headers: {
-            Authorization: `Bearer ${accessToken}`,
-            Accept: "application/json",
-        },
-    });
+): Promise<{ nextdoorUserId: string; boundaries: NextdoorAgencyBoundaries }[]> => {
+    const accessTokens = await getNextdoorAccessTokens(orgId);
 
-    if (!agencyBoundaryResponse.ok) {
-        const message = `An error has occurred retrieving agency boundary results: ${agencyBoundaryResponse.status}`;
-        throw new Error(message);
-    }
+    const agencyBoundaryResponses = await Promise.all(
+        accessTokens.map(async (accessToken) => {
+            const response = await fetch(`${NEXTDOOR_URL}external/api/partner/v1/agency/boundary/`, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${accessToken.value}`,
+                    Accept: "application/json",
+                },
+            });
 
-    const boundaryDetails = nextdoorAgencyBoundaryResultSchema.parse(await agencyBoundaryResponse.json());
+            if (!response.ok) {
+                const message = "An error has occurred retrieving agency boundary results";
+                throw new Error(message);
+            }
 
-    return boundaryDetails;
+            const responseBody = nextdoorAgencyBoundaryResultSchema.parse(await response.json());
+
+            const responseWithUserId = {
+                nextdoorUserId: accessToken.nextdoorUserId,
+                boundaries: responseBody,
+            };
+
+            return responseWithUserId;
+        }),
+    );
+
+    return agencyBoundaryResponses || [];
 };
 
 export const publishToNextdoor = async (

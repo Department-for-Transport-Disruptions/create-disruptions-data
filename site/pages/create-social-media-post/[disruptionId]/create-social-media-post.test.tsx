@@ -5,7 +5,6 @@ import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import CreateSocialMediaPost from "./[socialMediaPostIndex].page";
 import { SocialMediaPost } from "../../../schemas/social-media.schema";
-import { DEFAULT_ORG_ID } from "../../../testData/mockData";
 
 const previousCreateSocialMediaPostInformation: SocialMediaPost = {
     disruptionId: "f8d602b9-6e09-4fd7-b14b-deb1ca5b4f24",
@@ -40,7 +39,15 @@ describe("pages", () => {
             const tree = renderer
                 .create(
                     <CreateSocialMediaPost
-                        orgId={DEFAULT_ORG_ID}
+                        agencyBoundaries={[
+                            {
+                                nextdoorUserId: "985654341",
+                                boundaries: [
+                                    { name: "Test Area 1", groupId: 1234, type: "boundary", geometryId: 1234 },
+                                    { name: "Test Area 2", groupId: 1264, type: "boundary", geometryId: 12345 },
+                                ],
+                            },
+                        ]}
                         disruptionDescription="test summary 123"
                         socialMediaPostIndex={0}
                         errors={[]}
@@ -87,7 +94,7 @@ describe("pages", () => {
             const tree = renderer
                 .create(
                     <CreateSocialMediaPost
-                        orgId={DEFAULT_ORG_ID}
+                        agencyBoundaries={[]}
                         disruptionDescription="test summary 123"
                         socialMediaPostIndex={0}
                         errors={[]}
@@ -102,7 +109,15 @@ describe("pages", () => {
         it("should only show message content input when twitter account selected", async () => {
             const { unmount, getByLabelText, queryAllByLabelText } = render(
                 <CreateSocialMediaPost
-                    orgId={DEFAULT_ORG_ID}
+                    agencyBoundaries={[
+                        {
+                            nextdoorUserId: "985654341",
+                            boundaries: [
+                                { name: "Test Area 1", groupId: 1234, type: "boundary", geometryId: 1234 },
+                                { name: "Test Area 2", groupId: 1264, type: "boundary", geometryId: 12345 },
+                            ],
+                        },
+                    ]}
                     disruptionDescription="test summary 123"
                     socialMediaPostIndex={0}
                     errors={[]}
@@ -161,7 +176,15 @@ describe("pages", () => {
         it("should show all fields when hootsuite account selected", async () => {
             const { unmount, getByLabelText, queryAllByLabelText } = render(
                 <CreateSocialMediaPost
-                    orgId={DEFAULT_ORG_ID}
+                    agencyBoundaries={[
+                        {
+                            nextdoorUserId: "985654341",
+                            boundaries: [
+                                { name: "Test Area 1", groupId: 1234, type: "boundary", geometryId: 1234 },
+                                { name: "Test Area 2", groupId: 1264, type: "boundary", geometryId: 12345 },
+                            ],
+                        },
+                    ]}
                     disruptionDescription="test summary 123"
                     socialMediaPostIndex={0}
                     errors={[]}
@@ -221,7 +244,15 @@ describe("pages", () => {
     it("should show all fields when nextdoor account selected", async () => {
         const { unmount, getByLabelText, queryAllByLabelText } = render(
             <CreateSocialMediaPost
-                orgId={DEFAULT_ORG_ID}
+                agencyBoundaries={[
+                    {
+                        nextdoorUserId: "985654341",
+                        boundaries: [
+                            { name: "Test Area 1", groupId: 1234, type: "boundary", geometryId: 1234 },
+                            { name: "Test Area 2", groupId: 1264, type: "boundary", geometryId: 12345 },
+                        ],
+                    },
+                ]}
                 disruptionDescription="test summary 123"
                 socialMediaPostIndex={0}
                 errors={[]}

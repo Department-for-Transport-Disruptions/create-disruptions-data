@@ -40,7 +40,7 @@ export interface CreateSocialMediaPostPageProps extends PageState<Partial<Create
     socialAccounts: SocialMediaAccount[];
     template?: string;
     operatorOrgId?: string;
-    orgId: string;
+    agencyBoundaries: { boundaries: NextdoorAgencyBoundaries; nextdoorUserId: string }[];
 }
 
 const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElement => {
@@ -61,19 +61,12 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
 
     useEffect(() => {
         if (accountType === "Nextdoor" && pageState.inputs && pageState.inputs.socialAccount) {
-            const getNextdoorBoundaries = async () => {
-                const agencyBoundaries = await getNextdoorAgencyBoundaries(
-                    props.orgId,
-                    pageState.inputs.socialAccount || "",
-                );
-                setNextdoorAgencyBoundaries(agencyBoundaries);
-            };
-
-            getNextdoorBoundaries()
-                // eslint-disable-next-line no-console
-                .catch(console.error);
+            const agencyBoundaries =
+                props.agencyBoundaries.find((account) => account.nextdoorUserId === pageState.inputs.socialAccount)
+                    ?.boundaries || [];
+            setNextdoorAgencyBoundaries(agencyBoundaries);
         }
-    }, [props.orgId, accountType, pageState.inputs]);
+    }, [accountType, pageState.inputs, props.agencyBoundaries]);
 
     const isSelectedBoundaryInDropdown = (
         boundary: NextdoorAgencyBoundaryInput,
@@ -382,6 +375,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const hootsuiteAccounts = await getHootsuiteAccountList(session.orgId, session.operatorOrgId ?? "");
     const twitterAccounts = await getTwitterAccountList(session.orgId, session.operatorOrgId ?? "");
     const nextdoorAccounts = await getNextdoorAccountList(session.orgId, session.operatorOrgId ?? "");
+    const agencyBoundaries = await getNextdoorAgencyBoundaries(session.orgId);
 
     return {
         props: {
@@ -391,7 +385,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             socialAccounts: [...hootsuiteAccounts, ...twitterAccounts, ...nextdoorAccounts],
             template: disruption?.template?.toString() || "",
             operatorOrgId: session.operatorOrgId ?? "",
-            orgId: session.orgId,
+            agencyBoundaries,
         },
     };
 };
