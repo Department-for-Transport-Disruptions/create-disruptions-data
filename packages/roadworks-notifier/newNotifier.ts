@@ -1,6 +1,6 @@
 import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
 import { Roadwork } from "@create-disruptions-data/shared-ts/roadwork.zod";
-import { getLiveRoadworks, notEmpty } from "@create-disruptions-data/shared-ts/utils";
+import { chunkArray, getLiveRoadworks, notEmpty } from "@create-disruptions-data/shared-ts/utils";
 import { getUsersByAttributeByOrgIds } from "@create-disruptions-data/shared-ts/utils/cognito";
 import { convertDateTimeToFormat } from "@create-disruptions-data/shared-ts/utils/dates";
 import { isSandbox } from "@create-disruptions-data/shared-ts/utils/domain";
@@ -55,7 +55,7 @@ const roadworksNewEmailBody = (
                                    `<p>Street name: ${roadwork.streetName}</p>
                                     <p>Activity type: ${roadwork.activityType}</p>
                                     <p>Dates affected: ${roadwork.datesAffected}</p>
-                                    <p><a href=${domainName}/roadwork-detail/${roadwork.permitReferenceNumber}>Link to roadwork</a></p>`,
+                                    <p><a href=${domainName}roadwork-detail/${roadwork.permitReferenceNumber}>Link to roadwork</a></p>`,
                            )
                            .join("<br/>")}
                     </div>
@@ -165,6 +165,8 @@ export const main = async (): Promise<void> => {
 
         const emailPromises = Object.entries(emailsByOrg)
             .map((orgData) => {
+                const emailChunks = chunkArray(orgData[1].emails, 50);
+
                 const roadworks = liveRoadworks
                     .filter((roadwork) => orgData[1].adminAreaCodes.includes(roadwork.administrativeAreaCode))
                     .map(formatRoadwork);
@@ -173,11 +175,15 @@ export const main = async (): Promise<void> => {
                     return null;
                 }
 
-                return sesClient.send(createNewRoadworksEmail(roadworks, orgData[1].emails, domainName, stage));
+                return emailChunks.map((emailChunk) =>
+                    sesClient.send(createNewRoadworksEmail(roadworks, emailChunk, domainName, stage)),
+                );
             })
             .filter(notEmpty);
 
         await Promise.all(emailPromises);
+
+        logger.info("Successfully sent new roadwork email notification.");
     } catch (e) {
         if (e instanceof Error) {
             logger.error(e);
