@@ -15,7 +15,7 @@ import { fetchOperators } from "../../data/refDataApi";
 import { PageState } from "../../interfaces";
 import { addOperatorSchema, AddOperatorSchema } from "../../schemas/add-operator.schema";
 import { Operator, operatorSchema } from "../../schemas/consequence.schema";
-import { flattenZodErrors } from "../../utils";
+import { flattenZodErrors, removeDuplicates } from "../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
 import { getStateUpdater } from "../../utils/formUtils";
@@ -182,15 +182,16 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         adminAreaCodes: session.adminAreaCodes ?? ["undefined"],
     });
 
-    const filteredOperatorsData = allOperatorsData
-        .map((operator) => {
+    const filteredOperatorsData = removeDuplicates(
+        allOperatorsData.map((operator) => {
             return {
                 id: operator.id,
                 nocCode: operator.nocCode,
                 operatorPublicName: operator.operatorPublicName,
             };
-        })
-        .filter((value, index, self) => index === self.findIndex((s) => s.nocCode === value.nocCode));
+        }),
+        "id",
+    );
 
     return {
         props: {
