@@ -218,3 +218,8 @@ export const getStopsForRoutes = async (
 export const toTitleCase = (text: string) => {
     return text.replace(/([^\W_]+[^\s-]*) */g, (txt) => txt.charAt(0).toUpperCase() + txt.substring(1).toLowerCase());
 };
+
+export const removeDuplicates = <T, K extends keyof T>(arrayToRemoveDuplicates: T[], key: K): T[] =>
+    arrayToRemoveDuplicates.filter(
+        (value, index, self) => index === self.findIndex((item) => item[key] === value[key]),
+    );

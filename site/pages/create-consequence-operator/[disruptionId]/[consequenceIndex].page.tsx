@@ -31,7 +31,7 @@ import { fetchOperators } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { Operator } from "../../../schemas/consequence.schema";
 import { ModeType } from "../../../schemas/organisation.schema";
-import { isOperatorConsequence } from "../../../utils";
+import { isOperatorConsequence, removeDuplicates } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import {
@@ -361,19 +361,7 @@ export const getServerSideProps = async (
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, ctx.res);
 
     const operatorsData = await fetchOperators({ adminAreaCodes: session.adminAreaCodes ?? ["undefined"] });
-    const uniqueOperators: Operator[] = [];
-    const uniqueOperatorNames: Set<string> = new Set();
-
-    operatorsData.forEach((operator) => {
-        if (operator.mode === VehicleMode.bus.toString() || operator.mode === "") {
-            if (!uniqueOperatorNames.has(operator.nocCode)) {
-                uniqueOperatorNames.add(operator.nocCode);
-                uniqueOperators.push(operator);
-            }
-        } else {
-            uniqueOperators.push(operator);
-        }
-    });
+    const uniqueOperators: Operator[] = removeDuplicates(operatorsData, "id");
 
     const operatorUserNocCodes =
         session.isOperatorUser && session.operatorOrgId
