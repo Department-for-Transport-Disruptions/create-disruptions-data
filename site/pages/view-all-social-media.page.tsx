@@ -62,6 +62,14 @@ const ViewAllSocialMedia = ({ socialMediaPosts }: ViewAllSocialMediaProps): Reac
                 cells: [post.accountType === "Hootsuite" ? post.hootsuiteProfile : "N/A"],
             },
             {
+                header: "Nextdoor area boundaries",
+                cells: [
+                    post.accountType === "Nextdoor"
+                        ? post.nextdoorAgencyBoundaries?.map((boundary) => boundary.name).join(", ")
+                        : "N/A",
+                ],
+            },
+            {
                 header: "Status",
                 cells: [post.status, ""],
             },

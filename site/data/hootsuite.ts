@@ -1,9 +1,9 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
+import { getParameter, putParameter } from "@create-disruptions-data/shared-ts/utils/ssm";
 import { NextPageContext } from "next";
 import { randomUUID } from "crypto";
 import { addSocialAccountToOrg, getOrgSocialAccounts, upsertSocialMediaPost } from "./dynamo";
 import { getObject } from "./s3";
-import { getParameter, putParameter } from "./ssm";
 import { COOKIES_HOOTSUITE_STATE, HOOTSUITE_URL } from "../constants";
 import {
     HootsuiteMedia,
@@ -32,8 +32,8 @@ const getHootsuiteClientIdAndSecret = async () => {
     }
 
     const [hootsuiteClientIdParam, hootsuiteClientSecretParam] = await Promise.all([
-        getParameter(`/social/hootsuite/client_id`),
-        getParameter(`/social/hootsuite/client_secret`),
+        getParameter(`/social/hootsuite/client_id`, logger),
+        getParameter(`/social/hootsuite/client_secret`, logger),
     ]);
 
     hootsuiteClientId = hootsuiteClientIdParam.Parameter?.Value ?? "";
@@ -47,7 +47,7 @@ const getHootsuiteClientIdAndSecret = async () => {
 
 export const hootsuiteRedirectUri = `${process.env.DOMAIN_NAME as string}/api/hootsuite-callback`;
 
-const getSsmKey = (orgId: string, id: string) => `/social/${orgId}/hootsuite/${id}/refresh_token`;
+export const getHootsuiteSsmKey = (orgId: string, id: string) => `/social/${orgId}/hootsuite/${id}/refresh_token`;
 
 export const addHootsuiteAccount = async (
     code: string,
@@ -93,7 +93,7 @@ export const addHootsuiteAccount = async (
 
     await Promise.all([
         addSocialAccountToOrg(orgId, userDetails.id, userDetails.email, addedBy, "Hootsuite", createdByOperatorOrgId),
-        putParameter(getSsmKey(orgId, userDetails.id), tokenResult.refreshToken, "SecureString", true),
+        putParameter(getHootsuiteSsmKey(orgId, userDetails.id), tokenResult.refreshToken, "SecureString", true, logger),
     ]);
 };
 
@@ -121,7 +121,7 @@ export const refreshHootsuiteToken = async (
 
     const parsedTokens = hootsuiteTokenSchema.parse(await resp.json());
 
-    await putParameter(getSsmKey(orgId, socialId), parsedTokens.refreshToken, "SecureString", true);
+    await putParameter(getHootsuiteSsmKey(orgId, socialId), parsedTokens.refreshToken, "SecureString", true, logger);
 
     return parsedTokens.accessToken;
 };
@@ -163,8 +163,8 @@ export const getHootsuiteAuthHeader = async () => {
     return `Basic ${Buffer.from(key).toString("base64")}`;
 };
 
-export const getAccessToken = async (orgId: string, socialId: string) => {
-    const refreshTokenParam = await getParameter(getSsmKey(orgId, socialId), true);
+export const getHootsuiteAccessToken = async (orgId: string, socialId: string) => {
+    const refreshTokenParam = await getParameter(getHootsuiteSsmKey(orgId, socialId), logger, true);
 
     if (!refreshTokenParam.Parameter?.Value) {
         throw new Error("Refresh token not found");
@@ -183,7 +183,7 @@ export const getHootsuiteDetails = async (
     createdByOperatorOrgId?: string,
 ): Promise<SocialMediaAccount | null> => {
     try {
-        const hootsuiteAccessToken = await getAccessToken(orgId, socialId);
+        const hootsuiteAccessToken = await getHootsuiteAccessToken(orgId, socialId);
 
         const [hootsuiteUserDetails, hootsuiteProfiles] = await Promise.all([
             getHootsuiteUserDetails(hootsuiteAccessToken),

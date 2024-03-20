@@ -237,6 +237,30 @@ const DisruptionDetail = ({
                 ],
             },
             {
+                header: "Nextdoor area boundaries",
+                cells: [
+                    {
+                        value:
+                            post.accountType === "Nextdoor"
+                                ? post.nextdoorAgencyBoundaries?.map((group) => group.name).join(", ")
+                                : "N/A",
+                    },
+                    {
+                        value:
+                            isPendingOrRejected && isEditingAllowed
+                                ? createChangeLink(
+                                      "nextdoorAgencyBoundaries",
+                                      CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                      disruption.disruptionId,
+                                      post.socialMediaPostIndex,
+                                      true,
+                                      true,
+                                  )
+                                : "",
+                    },
+                ],
+            },
+            {
                 header: "Status",
                 cells: [
                     {

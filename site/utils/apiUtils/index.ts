@@ -17,7 +17,8 @@ import {
     COOKIES_REFRESH_TOKEN,
 } from "../../constants";
 import { upsertConsequence } from "../../data/dynamo";
-import { getAccessToken, publishToHootsuite } from "../../data/hootsuite";
+import { getHootsuiteAccessToken, publishToHootsuite } from "../../data/hootsuite";
+import { getNextdoorAccessToken, publishToNextdoor } from "../../data/nextdoor";
 import { getTwitterClient, sendTweet } from "../../data/twitter";
 import { TooManyConsequencesError } from "../../errors";
 import { PageState } from "../../interfaces";
@@ -138,6 +139,7 @@ export const publishSocialMedia = async (
 ) => {
     const authedTwitterClients: Record<string, TwitterApi> = {};
     const hootsuiteAccessTokens: Record<string, string> = {};
+    const nextdoorAccessTokens: Record<string, string> = {};
 
     const uniqueTwitterSocialAccounts = new Set(
         socialMediaPosts.filter((post) => post.accountType === "Twitter").map((post) => post.socialAccount),
@@ -147,9 +149,18 @@ export const publishSocialMedia = async (
         socialMediaPosts.filter((post) => post.accountType === "Hootsuite").map((post) => post.socialAccount),
     );
 
+    const uniqueNextdoorSocialAccounts = new Set(
+        socialMediaPosts.filter((post) => post.accountType === "Nextdoor").map((post) => post.socialAccount),
+    );
+
     for (const socialAccount of uniqueHootsuiteSocialAccounts) {
-        const accessToken = await getAccessToken(orgId, socialAccount);
+        const accessToken = await getHootsuiteAccessToken(orgId, socialAccount);
         hootsuiteAccessTokens[socialAccount] = accessToken;
+    }
+
+    for (const socialAccount of uniqueNextdoorSocialAccounts) {
+        const accessToken = await getNextdoorAccessToken(orgId, socialAccount);
+        nextdoorAccessTokens[socialAccount] = accessToken;
     }
 
     for (const socialAccount of uniqueTwitterSocialAccounts) {
@@ -165,8 +176,24 @@ export const publishSocialMedia = async (
             if (post.accountType === "Twitter") {
                 return sendTweet(orgId, post, isUserStaff, canPublish, authedTwitterClients[post.socialAccount]);
             }
-
-            return publishToHootsuite(post, orgId, isUserStaff, canPublish, hootsuiteAccessTokens[post.socialAccount]);
+            if (post.accountType === "Hootsuite") {
+                return publishToHootsuite(
+                    post,
+                    orgId,
+                    isUserStaff,
+                    canPublish,
+                    hootsuiteAccessTokens[post.socialAccount],
+                );
+            }
+            if (post.accountType === "Nextdoor") {
+                return publishToNextdoor(
+                    post,
+                    orgId,
+                    isUserStaff,
+                    canPublish,
+                    nextdoorAccessTokens[post.socialAccount],
+                );
+            }
         }
 
         return null;
