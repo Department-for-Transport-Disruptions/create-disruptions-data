@@ -6,6 +6,10 @@ import { createBucket } from "./utils";
 export const OrgDisruptionsGeneratorStack = ({ stack }: StackContext) => {
     const { disruptionsTable } = use(DynamoDBStack);
 
+    const apiUrl = !["preprod", "prod"].includes(stack.stage)
+        ? "https://api.test.ref-data.dft-create-data.com/v1"
+        : `https://api.${stack.stage}.ref-data.dft-create-data.com/v1`;
+
     const orgDisruptionsBucket = createBucket(stack, `cdd-org-disruptions`, true);
 
     const orgDisruptionsGeneratorFunction = new Function(stack, "cdd-org-disruptions-generator-function", {
@@ -13,6 +17,7 @@ export const OrgDisruptionsGeneratorStack = ({ stack }: StackContext) => {
         environment: {
             DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
             ORG_DISRUPTIONS_BUCKET_NAME: orgDisruptionsBucket.bucketName,
+            API_BASE_URL: apiUrl,
         },
         permissions: [
             new PolicyStatement({
@@ -25,7 +30,7 @@ export const OrgDisruptionsGeneratorStack = ({ stack }: StackContext) => {
             }),
         ],
         handler: "packages/org-disruptions-generator/index.main",
-        timeout: 120,
+        timeout: 300,
         memorySize: 1024,
         runtime: "nodejs20.x",
     });
