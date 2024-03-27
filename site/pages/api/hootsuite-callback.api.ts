@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { parseCookies } from "nookies";
 import { COOKIES_HOOTSUITE_STATE, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH } from "../../constants";
 import { addHootsuiteAccount } from "../../data/hootsuite";
-import { NoStateOrCodeHootsuiteError } from "../../errors";
+import { NoStateOrCodeError } from "../../errors";
 import { getSession } from "../../utils/apiUtils/auth";
 import { redirectToError, redirectTo } from "../../utils/apiUtils/index";
 
@@ -17,7 +17,7 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         const { code, state } = req.query;
 
         if (!state || !code) {
-            throw new NoStateOrCodeHootsuiteError();
+            throw new NoStateOrCodeError();
         }
 
         const savedState = parseCookies({ req })[COOKIES_HOOTSUITE_STATE];
@@ -31,7 +31,7 @@ const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
         redirectTo(res, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH);
         return;
     } catch (e) {
-        if (e instanceof NoStateOrCodeHootsuiteError) {
+        if (e instanceof NoStateOrCodeError) {
             redirectTo(res, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH);
             return;
         }

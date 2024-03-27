@@ -1,11 +1,16 @@
 import { NextPageContext } from "next";
 import Link from "next/link";
+import { parseCookies } from "nookies";
 import { Fragment, ReactElement, useState } from "react";
+import ErrorSummary from "../../components/form/ErrorSummary";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPopup";
+import { COOKIES_SOCIAL_MEDIA_ACCOUNT_ERRORS } from "../../constants";
 import { getHootsuiteAuthUrl, getHootsuiteAccountList } from "../../data/hootsuite";
+import { getNextdoorAccountList, getNextdoorAuthUrl } from "../../data/nextdoor";
 import { getTwitterAuthUrl, getTwitterAccountList } from "../../data/twitter";
+import { ErrorInfo } from "../../interfaces";
 import { SocialMediaAccount } from "../../schemas/social-media-accounts.schema";
 import { toLowerStartCase } from "../../utils";
 import { getSessionWithOrgDetail } from "../../utils/apiUtils/auth";
@@ -17,14 +22,20 @@ export interface SocialMediaAccountsPageProps {
     socialMediaDetails: SocialMediaAccount[];
     hootsuiteAuthUrl: string;
     twitterAuthUrl: string;
+    nextdoorAuthUrl: string;
     csrfToken?: string;
+    errors: ErrorInfo[];
+    isOperator: boolean;
 }
 
 const SocialMediaAccounts = ({
     socialMediaDetails,
     hootsuiteAuthUrl,
     twitterAuthUrl,
+    nextdoorAuthUrl,
     csrfToken,
+    errors,
+    isOperator,
 }: SocialMediaAccountsPageProps): ReactElement => {
     const [socialAccountToDelete, setSocialAccountToDelete] = useState<SocialMediaAccount | null>(null);
     const getLink = (type: string, id: string) => {
@@ -80,11 +91,10 @@ const SocialMediaAccounts = ({
         <BaseLayout title={title} description={description}>
             <>
                 <h1 className="govuk-heading-xl">Social media accounts</h1>
+                {errors && errors.length > 0 ? <ErrorSummary errors={errors} /> : null}
                 {socialAccountToDelete ? (
                     <DeleteConfirmationPopup
-                        entityName={`the ${
-                            socialAccountToDelete.accountType === "Hootsuite" ? "hootsuite" : "twitter"
-                        } connection`}
+                        entityName={`the ${socialAccountToDelete.accountType.toLowerCase()} connection`}
                         deleteUrl="/api/remove-social-connection"
                         cancelActionHandler={cancelActionHandler}
                         csrfToken={csrfToken || ""}
@@ -115,17 +125,30 @@ const SocialMediaAccounts = ({
                 <Link className="govuk-button mt-8 mr-4" data-module="govuk-button" href={hootsuiteAuthUrl}>
                     Connect Hootsuite
                 </Link>
-                <Link className="govuk-button mt-8" data-module="govuk-button" href={twitterAuthUrl}>
+                <Link className="govuk-button mt-8 mr-4" data-module="govuk-button" href={twitterAuthUrl}>
                     Connect Twitter
                 </Link>
+                {!isOperator ? (
+                    <Link className="govuk-button mt-8" data-module="govuk-button" href={nextdoorAuthUrl}>
+                        Connect Nextdoor
+                    </Link>
+                ) : null}
             </>
         </BaseLayout>
     );
 };
 
 export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: SocialMediaAccountsPageProps }> => {
+    const cookies = parseCookies(ctx);
+    const errorCookie = cookies[COOKIES_SOCIAL_MEDIA_ACCOUNT_ERRORS];
+
     if (!ctx.req) {
         throw new Error("No context request");
+    }
+
+    let errors: ErrorInfo[] = [];
+    if (errorCookie) {
+        errors = (JSON.parse(errorCookie) as { errors: ErrorInfo[] }).errors;
     }
 
     const session = await getSessionWithOrgDetail(ctx.req);
@@ -135,18 +158,30 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     }
 
     const operatorOrgId = session.operatorOrgId || "";
-    const [hootsuiteAccountList, twitterAccountList, hootsuiteAuthUrl, twitterAuthUrl] = await Promise.all([
+    const [
+        hootsuiteAccountList,
+        twitterAccountList,
+        nextdoorAccountList,
+        hootsuiteAuthUrl,
+        twitterAuthUrl,
+        nextdoorAuthUrl,
+    ] = await Promise.all([
         getHootsuiteAccountList(session.orgId, operatorOrgId),
         getTwitterAccountList(session.orgId, operatorOrgId),
+        getNextdoorAccountList(session.orgId, operatorOrgId),
         getHootsuiteAuthUrl(ctx),
         getTwitterAuthUrl(ctx),
+        getNextdoorAuthUrl(),
     ]);
 
     return {
         props: {
-            socialMediaDetails: [...hootsuiteAccountList, ...twitterAccountList],
+            socialMediaDetails: [...hootsuiteAccountList, ...twitterAccountList, ...nextdoorAccountList],
             hootsuiteAuthUrl,
             twitterAuthUrl,
+            nextdoorAuthUrl,
+            errors,
+            isOperator: !!operatorOrgId,
         },
     };
 };

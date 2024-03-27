@@ -1,6 +1,7 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { z } from "zod";
+import { nextdoorAgencyBoundaryInput } from "./nextdoor.schema";
 import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from "../constants";
 import { setZodDefaultError } from "../utils";
 import { isAtLeast5MinutesAfter } from "../utils/dates";
@@ -41,11 +42,26 @@ const twitterSchema = z.object({
     accountType: z.literal("Twitter"),
 });
 
+const nextdoorSchema = z.object({
+    ...baseSchema,
+    accountType: z.literal("Nextdoor"),
+    nextdoorAgencyBoundaries: z.array(nextdoorAgencyBoundaryInput).optional(),
+});
+
 export const socialMediaPostSchema = z.discriminatedUnion(
     "accountType",
-    [hootsuiteSchema, twitterSchema],
+    [hootsuiteSchema, twitterSchema, nextdoorSchema],
     setZodDefaultError("Select a social media profile"),
 );
+
+const createSocialMediaPostPageSchema = z.object({
+    ...baseSchema,
+    hootsuiteProfile: z.string(setZodDefaultError("Select a Hootsuite profile")).optional(),
+    publishDate: z.string().optional(),
+    publishTime: z.string().optional(),
+    accountType: z.union([z.literal("Hootsuite"), z.literal("Twitter"), z.literal("Nextdoor")]),
+    nextdoorAgencyBoundaries: z.array(nextdoorAgencyBoundaryInput).optional(),
+});
 
 export const refineImageSchema = socialMediaPostSchema
     .refine((item) => (item.accountType === "Hootsuite" ? !!item.hootsuiteProfile : true), {
@@ -82,9 +98,11 @@ export const refineImageSchema = socialMediaPostSchema
         },
     );
 
+export type CreateSocialMediaPostPage = z.infer<typeof createSocialMediaPostPageSchema>;
 export type SocialMediaPost = z.infer<typeof socialMediaPostSchema>;
 export type HootsuitePost = z.infer<typeof hootsuiteSchema>;
 export type TwitterPost = z.infer<typeof twitterSchema>;
+export type NextdoorPost = z.infer<typeof nextdoorSchema>;
 
 export type SocialMediaImage = z.infer<typeof socialMediaImageSchema>;
 

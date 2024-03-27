@@ -314,7 +314,8 @@ export const COOKIES_REVIEW_DISRUPTION_REFERER = "cdd-review-disruption-referer"
 export const COOKIE_CSRF = "_csrf";
 export const COOKIES_REVIEW_DISRUPTION_ERRORS = "cdd-consequence-services-errors";
 export const COOKIES_DISRUPTION_DETAIL_ERRORS = "cdd-disruption-detail-errors";
-export const COOKIES_SOCIAL_MEDIA_ERRORS = "cdd-consequence-network-errors";
+export const COOKIES_SOCIAL_MEDIA_ERRORS = "cdd-consequence-social-media-errors";
+export const COOKIES_SOCIAL_MEDIA_ACCOUNT_ERRORS = "cdd-consequence-social-media-account-errors";
 export const COOKIES_TWITTER_OAUTH_TOKEN = "cdd-twitter-oauth-token";
 export const COOKIES_TWITTER_OAUTH_SECRET = "cdd-twitter-oauth-secret";
 export const COOKIES_HOOTSUITE_STATE = "cdd-hootsuite-state";
@@ -327,5 +328,7 @@ export const MIN_PASSWORD_LENGTH = 8;
 export const MAX_FILE_SIZE = 5242880;
 export const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/jpg", "image/png"];
 export const HOOTSUITE_URL = "https://platform.hootsuite.com/";
+export const NEXTDOOR_AUTH_URL = "https://auth.nextdoor.com/";
+export const NEXTDOOR_URL = "https://nextdoor.co.uk/";
 
 export const MAX_OPERATOR_NOC_CODES = 5;

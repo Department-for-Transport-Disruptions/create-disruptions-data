@@ -1,7 +1,7 @@
 import { Certificate } from "aws-cdk-lib/aws-certificatemanager";
 import { AccessKey, ManagedPolicy, PolicyStatement, User } from "aws-cdk-lib/aws-iam";
 import { Secret } from "aws-cdk-lib/aws-secretsmanager";
-import { NextjsSite, StackContext, use } from "sst/constructs";
+import { Cron, NextjsSite, StackContext, use, Function } from "sst/constructs";
 import { getDomain, isSandbox } from "@create-disruptions-data/shared-ts/utils/domain";
 import { CognitoStack } from "./CognitoStack";
 import { DynamoDBStack } from "./DynamoDBStack";
@@ -163,5 +163,27 @@ export const SiteStack = ({ stack }: StackContext) => {
 
     stack.addOutputs({
         URL: site.url || "",
+    });
+
+    const nextDoorTokenRefresher = new Function(stack, "cdd-nextdoor-token-refresher", {
+        functionName: `cdd-nextdoor-token-refresher-${stack.stage}`,
+        permissions: [
+            new PolicyStatement({
+                resources: [
+                    `arn:aws:ssm:${stack.region}:${stack.account}:parameter/social/nextdoor*`,
+                    `arn:aws:ssm:${stack.region}:${stack.account}:parameter/social/nextdoor/*`,
+                ],
+                actions: ["ssm:GetParameter", "ssm:PutParameter", "ssm:DeleteParameter", "ssm:GetParametersByPath"],
+            }),
+        ],
+        handler: "packages/nextdoor-token-refresher/index.main",
+        timeout: 60,
+        memorySize: 1536,
+        runtime: "nodejs20.x",
+    });
+
+    new Cron(stack, "nextdoor-token-refresher-cron", {
+        job: nextDoorTokenRefresher,
+        schedule: "rate(4 hours)",
     });
 };

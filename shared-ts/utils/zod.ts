@@ -68,3 +68,19 @@ export const makeFilteredArraySchema = <T extends ZodSchema>(schema: T) =>
         .transform((items) => items?.filter((item): item is z.infer<T> => schema.safeParse(item).success));
 
 export const isValidTime = (time: string) => time.match(timeRegex);
+
+export const nextdoorTokenSchema = z
+    .object({
+        token_type: z.string(),
+        access_token: z.string(),
+        id_token: z.string(),
+        expires_in: z.number(),
+    })
+    .transform((res) => ({
+        accessToken: res.access_token,
+        tokenType: z.string(),
+        idToken: z.string(),
+        expiresIn: z.number(),
+    }));
+
+export type NextdoorToken = z.infer<typeof nextdoorTokenSchema>;
