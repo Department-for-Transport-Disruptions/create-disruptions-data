@@ -164,7 +164,7 @@ export const main = async (): Promise<void> => {
         }
 
         const emailPromises = Object.entries(emailsByOrg)
-            .map((orgData) => {
+            .flatMap((orgData) => {
                 const emailChunks = chunkArray(orgData[1].emails, 50);
 
                 const roadworks = liveRoadworks
@@ -175,7 +175,7 @@ export const main = async (): Promise<void> => {
                     return null;
                 }
 
-                return emailChunks.map((emailChunk) =>
+                return emailChunks.flatMap((emailChunk) =>
                     sesClient.send(createNewRoadworksEmail(roadworks, emailChunk, domainName, stage)),
                 );
             })
