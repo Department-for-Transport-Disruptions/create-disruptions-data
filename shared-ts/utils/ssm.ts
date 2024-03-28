@@ -9,7 +9,7 @@ import {
     DeleteParameterCommand,
     PutParameterCommandInput,
 } from "@aws-sdk/client-ssm";
-import logger from "../utils/logger";
+import { Logger } from "./index";
 
 const ssm = new SSMClient({ region: "eu-west-2" });
 
@@ -18,11 +18,9 @@ export const putParameter = async (
     value: string,
     type: "String" | "StringList" | "SecureString",
     overwrite: boolean,
+    logger: Logger,
 ): Promise<void> => {
-    logger.info("", {
-        context: "data.ssm",
-        message: "uploading item to ssm",
-    });
+    logger.info("Uploading item to ssm");
 
     try {
         const input: PutParameterCommandInput = {
@@ -42,11 +40,12 @@ export const putParameter = async (
     }
 };
 
-export const getParameter = async (name: string, withDecryption?: boolean): Promise<GetParameterResult> => {
-    logger.info("", {
-        context: "data.ssm",
-        message: "get item from ssm",
-    });
+export const getParameter = async (
+    name: string,
+    logger: Logger,
+    withDecryption?: boolean,
+): Promise<GetParameterResult> => {
+    logger.info("Get item from ssm");
 
     try {
         const input = {
@@ -64,11 +63,8 @@ export const getParameter = async (name: string, withDecryption?: boolean): Prom
     }
 };
 
-export const deleteParameter = async (name: string): Promise<DeleteParameterResult> => {
-    logger.info("", {
-        context: "data.ssm",
-        message: "delete item from ssm",
-    });
+export const deleteParameter = async (name: string, logger: Logger): Promise<DeleteParameterResult> => {
+    logger.info("Delete item from ssm");
 
     try {
         const input = {
@@ -87,17 +83,17 @@ export const deleteParameter = async (name: string): Promise<DeleteParameterResu
 
 export const getParametersByPath = async (
     name: string,
+    logger: Logger,
+    recursive?: boolean,
     withDecryption?: boolean,
 ): Promise<GetParametersByPathResult> => {
-    logger.info("", {
-        context: "data.ssm",
-        message: "get parameters by path from ssm",
-    });
+    logger.info("Get parameters by path from ssm");
 
     try {
         const input = {
             Path: name,
             WithDecryption: withDecryption ? withDecryption : true,
+            Recursive: recursive ? recursive : false,
         };
         const command = new GetParametersByPathCommand(input);
         return await ssm.send(command);

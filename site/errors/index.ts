@@ -19,9 +19,16 @@ export class TooManyConsequencesError extends Error {
     }
 }
 
-export class NoStateOrCodeHootsuiteError extends Error {
+export class NoStateOrCodeError extends Error {
     constructor() {
         super();
-        Object.setPrototypeOf(this, NoStateOrCodeHootsuiteError.prototype);
+        Object.setPrototypeOf(this, NoStateOrCodeError.prototype);
+    }
+}
+
+export class NotAnAgencyAccountError extends Error {
+    constructor() {
+        super();
+        Object.setPrototypeOf(this, NotAnAgencyAccountError.prototype);
     }
 }

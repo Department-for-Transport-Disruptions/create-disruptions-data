@@ -1,10 +1,11 @@
+import * as ssm from "@create-disruptions-data/shared-ts/utils/ssm";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import removeSocialConnection from "./remove-social-connection.api";
 import { ERROR_PATH, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
-import * as ssm from "../../data/ssm";
 import { getMockRequestAndResponse, mockSession } from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
+import logger from "../../utils/logger";
 
 describe("remove-social-connection", () => {
     const writeHeadMock = vi.fn();
@@ -13,7 +14,7 @@ describe("remove-social-connection", () => {
         vi.resetAllMocks();
     });
 
-    vi.mock("../../data/ssm", () => ({
+    vi.mock("@create-disruptions-data/shared-ts/utils/ssm", () => ({
         deleteParameter: vi.fn(),
     }));
 
@@ -119,9 +120,11 @@ describe("remove-social-connection", () => {
 
         expect(deleteParameterSpy).toHaveBeenCalledWith(
             "/social/35bae327-4af0-4bbf-8bfa-2c085f214483/twitter/123/access_secret",
+            logger,
         );
         expect(deleteParameterSpy).toHaveBeenCalledWith(
             "/social/35bae327-4af0-4bbf-8bfa-2c085f214483/twitter/123/access_token",
+            logger,
         );
         expect(removeSocialAccountFromOrgSpy).toHaveBeenCalledWith("35bae327-4af0-4bbf-8bfa-2c085f214483", "123");
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -143,9 +146,11 @@ describe("remove-social-connection", () => {
 
         expect(deleteParameterSpy).toHaveBeenCalledWith(
             "/social/35bae327-4af0-4bbf-8bfa-2c085f214483/twitter/123/access_secret",
+            logger,
         );
         expect(deleteParameterSpy).toHaveBeenCalledWith(
             "/social/35bae327-4af0-4bbf-8bfa-2c085f214483/twitter/123/access_token",
+            logger,
         );
         expect(removeSocialAccountFromOrgSpy).toHaveBeenCalledWith("35bae327-4af0-4bbf-8bfa-2c085f214483", "123");
         expect(writeHeadMock).toBeCalledWith(302, {

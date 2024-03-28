@@ -42,7 +42,7 @@ describe("twitter-callback", () => {
         addSocialAccountToOrg: vi.fn(),
     }));
 
-    vi.mock("../../data/ssm", () => ({
+    vi.mock("@create-disruptions-data/shared-ts/utils/ssm", () => ({
         putParameter: vi.fn(),
     }));
 

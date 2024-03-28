@@ -1,9 +1,9 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
+import { getParameter } from "@create-disruptions-data/shared-ts/utils/ssm";
 import { NextPageContext } from "next";
 import { TwitterApi } from "twitter-api-v2";
 import { getOrgSocialAccounts, upsertSocialMediaPost } from "./dynamo";
 import { getObject } from "./s3";
-import { getParameter } from "./ssm";
 import { COOKIES_TWITTER_OAUTH_SECRET, COOKIES_TWITTER_OAUTH_TOKEN, DOMAIN_NAME, TWITTER_CALLBACK } from "../constants";
 import { SocialMediaAccount } from "../schemas/social-media-accounts.schema";
 import { TwitterPost } from "../schemas/social-media.schema";
@@ -19,8 +19,8 @@ type TwitterClientParams = {
 
 export const getTwitterClient = async ({ orgId, twitterId, oauthToken, oauthSecret }: TwitterClientParams) => {
     const [twitterClientConsumerKeyParam, twitterClientConsumerSecretParam] = await Promise.all([
-        getParameter("/social/twitter/consumer_key"),
-        getParameter("/social/twitter/consumer_secret"),
+        getParameter("/social/twitter/consumer_key", logger),
+        getParameter("/social/twitter/consumer_secret", logger),
     ]);
 
     let accessToken = oauthToken;
@@ -28,8 +28,8 @@ export const getTwitterClient = async ({ orgId, twitterId, oauthToken, oauthSecr
 
     if ((!accessToken || !accessSecret) && orgId && twitterId) {
         const [twitterClientAccessTokenParam, twitterClientAccessSecretParam] = await Promise.all([
-            getParameter(getTwitterSsmAccessTokenKey(orgId, twitterId)),
-            getParameter(getTwitterSsmAccessSecretKey(orgId, twitterId)),
+            getParameter(getTwitterSsmAccessTokenKey(orgId, twitterId), logger),
+            getParameter(getTwitterSsmAccessSecretKey(orgId, twitterId), logger),
         ]);
 
         accessToken = twitterClientAccessTokenParam.Parameter?.Value;
@@ -57,8 +57,8 @@ export const getTwitterSsmAccessSecretKey = (orgId: string, id: string) =>
 
 export const getTwitterAuthUrl = async (ctx: NextPageContext) => {
     const [twitterClientConsumerKeyParam, twitterClientConsumerSecretParam] = await Promise.all([
-        getParameter("/social/twitter/consumer_key"),
-        getParameter("/social/twitter/consumer_secret"),
+        getParameter("/social/twitter/consumer_key", logger),
+        getParameter("/social/twitter/consumer_secret", logger),
     ]);
 
     const twitterClientConsumerKey = twitterClientConsumerKeyParam.Parameter?.Value ?? "";

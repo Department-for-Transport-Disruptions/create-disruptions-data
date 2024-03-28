@@ -1,5 +1,5 @@
-import { notEmpty } from "@create-disruptions-data/shared-ts/utils";
-import { getActiveDisruptions } from "@create-disruptions-data/shared-ts/utils/dynamo";
+import { filterActiveDisruptions, notEmpty } from "@create-disruptions-data/shared-ts/utils";
+import { getPublishedDisruptionsDataFromDynamo } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { getServiceCentrePoint } from "@create-disruptions-data/shared-ts/utils/refDataApi";
 import { APIGatewayEvent } from "aws-lambda";
 import * as logger from "lambda-log";
@@ -8,7 +8,8 @@ import { randomUUID } from "crypto";
 const getOrganisationDisruptions = async (orgId: string) => {
     try {
         const disruptionsTableName = process.env.DISRUPTIONS_TABLE_NAME as string;
-        const activeDisruptions = await getActiveDisruptions(disruptionsTableName, logger, orgId);
+        const disruptions = await getPublishedDisruptionsDataFromDynamo(disruptionsTableName, logger, orgId);
+        const activeDisruptions = filterActiveDisruptions(disruptions);
 
         const disruptionsFormattedForMap = await Promise.all(
             activeDisruptions.flatMap(async (disruption) => {

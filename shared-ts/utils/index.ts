@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Dayjs } from "dayjs";
+import * as logger from "lambda-log";
 import { History } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { getDate, getDatetimeFromDateAndTime, getFormattedDate, sortEarliestDate } from "./dates";
+import { getParameter } from "./ssm";
 import { Disruption, Validity } from "../disruptionTypes";
 import { Roadwork } from "../roadwork.zod";
 
@@ -121,6 +123,37 @@ export const getSortedDisruptionFinalEndDate = (disruption: Disruption | ApiDisr
     return disruptionEndDate;
 };
 
+export const filterActiveDisruptions = (disruptions: Disruption[]): Disruption[] => {
+    const sortedDisruptions = sortDisruptionsByStartDate(disruptions);
+
+    const currentDatetime = getDate();
+
+    return sortedDisruptions.filter((disruption) => {
+        const firstValidity = disruption.validity?.[0];
+        const finalValidity = disruption.validity?.[disruption.validity.length - 1];
+
+        if (!firstValidity || !finalValidity) {
+            return false;
+        }
+
+        const startDatetime = getDatetimeFromDateAndTime(
+            firstValidity.disruptionStartDate,
+            firstValidity.disruptionStartTime,
+        );
+
+        const endDatetime =
+            finalValidity.disruptionEndDate && finalValidity.disruptionEndTime
+                ? getDatetimeFromDateAndTime(finalValidity.disruptionEndDate, finalValidity.disruptionEndTime)
+                : null;
+
+        if (!endDatetime) {
+            return currentDatetime.isAfter(startDatetime);
+        }
+
+        return currentDatetime.isBetween(startDatetime, endDatetime);
+    });
+};
+
 export type Logger = {
     info: (message: string) => void;
     error: (message: string | Error) => void;
@@ -140,6 +173,28 @@ export const getDisruptionCreationTime = (disruptionHistory: History[] | null, c
     } else {
         return currentTime;
     }
+};
+
+export const getNextdoorClientIdAndSecret = async () => {
+    const [nextdoorClientIdKeyParam, nextdoorClientSecretParam] = await Promise.all([
+        getParameter("/social/nextdoor/client_id", logger),
+        getParameter("/social/nextdoor/client_secret", logger),
+    ]);
+
+    const nextdoorClientId = nextdoorClientIdKeyParam.Parameter?.Value ?? "";
+    const nextdoorClientSecret = nextdoorClientSecretParam.Parameter?.Value ?? "";
+
+    return { nextdoorClientId, nextdoorClientSecret };
+};
+
+export const getNextdoorAuthHeader = async () => {
+    const { nextdoorClientId, nextdoorClientSecret } = await getNextdoorClientIdAndSecret();
+    if (!nextdoorClientId || !nextdoorClientSecret) {
+        return "";
+    }
+    const key = `${nextdoorClientId}:${nextdoorClientSecret}`;
+
+    return `Basic ${Buffer.from(key).toString("base64")}`;
 };
 
 export const getLiveRoadworks = (roadworks: Roadwork[]) =>

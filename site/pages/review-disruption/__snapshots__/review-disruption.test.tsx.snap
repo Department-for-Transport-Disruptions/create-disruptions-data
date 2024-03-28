@@ -1343,6 +1343,34 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
+                        Nextdoor area boundaries
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/0?return=%2Freview-disruption"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
                         Status
                       </th>
                       <td
@@ -1583,6 +1611,34 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
+                        Nextdoor area boundaries
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
                         Status
                       </th>
                       <td
@@ -1788,6 +1844,34 @@ exports[`pages > ReviewDisruption > should render correctly with banner when dis
                         scope="row"
                       >
                         HootSuite profile
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Nextdoor area boundaries
                       </th>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
@@ -3414,6 +3498,34 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
+                        Nextdoor area boundaries
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/0?return=%2Freview-disruption"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
                         Status
                       </th>
                       <td
@@ -3654,6 +3766,34 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
+                        Nextdoor area boundaries
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
                         Status
                       </th>
                       <td
@@ -3859,6 +3999,34 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         scope="row"
                       >
                         HootSuite profile
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Nextdoor area boundaries
                       </th>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
@@ -5093,6 +5261,24 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
+                        Nextdoor area boundaries
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
                         Status
                       </th>
                       <td
@@ -5266,6 +5452,24 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
+                        Nextdoor area boundaries
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
                         Status
                       </th>
                       <td
@@ -5414,6 +5618,24 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         scope="row"
                       >
                         HootSuite profile
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Nextdoor area boundaries
                       </th>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
@@ -6617,6 +6839,24 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
+                        Nextdoor area boundaries
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
                         Status
                       </th>
                       <td
@@ -6790,6 +7030,24 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
+                        Nextdoor area boundaries
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
                         Status
                       </th>
                       <td
@@ -6938,6 +7196,24 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         scope="row"
                       >
                         HootSuite profile
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Nextdoor area boundaries
                       </th>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
@@ -8141,6 +8417,24 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
+                        Nextdoor area boundaries
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
                         Status
                       </th>
                       <td
@@ -8314,6 +8608,24 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
+                        Nextdoor area boundaries
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
                         Status
                       </th>
                       <td
@@ -8462,6 +8774,24 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         scope="row"
                       >
                         HootSuite profile
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Nextdoor area boundaries
                       </th>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
@@ -10057,6 +10387,34 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
+                        Nextdoor area boundaries
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/0?return=%2Freview-disruption"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
                         Status
                       </th>
                       <td
@@ -10297,6 +10655,34 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
+                        Nextdoor area boundaries
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
                         Status
                       </th>
                       <td
@@ -10514,6 +10900,34 @@ exports[`pages > ReviewDisruption > should render correctly with inputs and no e
                         <a
                           className="govuk-link"
                           href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption&template=true"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Nextdoor area boundaries
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-social-media-post/acde070d-8c4c-4f0d-9d8a-162843c10333/1?return=%2Freview-disruption"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}

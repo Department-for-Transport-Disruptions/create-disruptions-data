@@ -9,7 +9,8 @@ import {
 } from "../../constants/index";
 import { getOrgSocialAccount, upsertSocialMediaPost } from "../../data/dynamo";
 import { putItem } from "../../data/s3";
-import { refineImageSchema } from "../../schemas/social-media.schema";
+import { NextdoorAgencyBoundaryInput } from "../../schemas/nextdoor.schema";
+import { refineImageSchema, SocialMediaPost } from "../../schemas/social-media.schema";
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
@@ -20,6 +21,24 @@ import {
 } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 import { formParse } from "../../utils/apiUtils/fileUpload";
+
+const formatCreateSocialMediaPostBody = (body: object) => {
+    const nextdoorAgencyBoundaries = Object.entries(body)
+        .filter((item) => item.toString().startsWith("nextdoorAgencyBoundaries"))
+        .map((arr: string[]) => {
+            const [, values] = arr;
+            return JSON.parse(values) as NextdoorAgencyBoundaryInput[];
+        });
+
+    const cleansedBody = Object.fromEntries(
+        Object.entries(body).filter((item) => !item.toString().startsWith("nextdoorAgencyBoundaries")),
+    );
+
+    return {
+        ...cleansedBody,
+        nextdoorAgencyBoundaries,
+    };
+};
 
 const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
@@ -43,6 +62,10 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
             throw new Error("No form fields parsed");
         }
 
+        const body = JSON.parse(JSON.stringify(fields)) as SocialMediaPost;
+
+        const formattedBody = formatCreateSocialMediaPostBody(body);
+
         const socialMediaAccountDetail = await getOrgSocialAccount(session.orgId, fields.socialAccount?.toString());
 
         const imageFile =
@@ -56,7 +79,7 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
                 : null;
 
         const validatedBody = refineImageSchema.safeParse({
-            ...fields,
+            ...formattedBody,
             ...(imageFile ? { image: imageFile } : {}),
             display: socialMediaAccountDetail?.display,
             accountType: socialMediaAccountDetail?.accountType,
@@ -97,7 +120,9 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
 
         // publishTime and publishDate set to blank to prevent error when creating a disruption (as templates prior had these populated)
         const socialMediaToUpsert =
-            template === "true" || validatedBody.data.accountType === "Twitter"
+            template === "true" ||
+            validatedBody.data.accountType === "Twitter" ||
+            validatedBody.data.accountType === "Nextdoor"
                 ? {
                       ...validatedBody.data,
                       publishTime: "",

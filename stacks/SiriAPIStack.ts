@@ -4,12 +4,14 @@ import { PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
 import { ApiGatewayV1Api, StackContext, use } from "sst/constructs";
 import { DnsStack } from "./DnsStack";
 import { DynamoDBStack } from "./DynamoDBStack";
+import { OrgDisruptionsGeneratorStack } from "./OrgDisruptionsGenerator";
 import { SiriGeneratorStack } from "./SiriGeneratorStack";
 
 export const SiriAPIStack = ({ stack }: StackContext) => {
     const { siriSXBucket, disruptionsJsonBucket, disruptionsCsvBucket } = use(SiriGeneratorStack);
     const { hostedZone } = use(DnsStack);
     const { disruptionsTable, organisationsTableV2: organisationsTable } = use(DynamoDBStack);
+    const { orgDisruptionsBucket } = use(OrgDisruptionsGeneratorStack);
 
     const apiUrl = !["preprod", "prod"].includes(stack.stage)
         ? "https://api.test.ref-data.dft-create-data.com/v1"
@@ -90,10 +92,15 @@ export const SiriAPIStack = ({ stack }: StackContext) => {
                             resources: [disruptionsTable.tableArn],
                             actions: ["dynamodb:Query"],
                         }),
+                        new PolicyStatement({
+                            resources: [`${orgDisruptionsBucket.bucketArn}/*`],
+                            actions: ["s3:GetObject"],
+                        }),
                     ],
                     environment: {
                         DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
                         API_BASE_URL: apiUrl,
+                        ORG_DISRUPTIONS_BUCKET_NAME: orgDisruptionsBucket.bucketName,
                     },
                 },
                 cdk: {

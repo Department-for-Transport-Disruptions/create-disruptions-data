@@ -12,13 +12,13 @@
 
 ```sh-session
 $ npm install && npm run build
-$ ./bin/run COMMAND
+$ ./bin/run.js COMMAND
 running command...
-$ ./bin/run (--version)
+$ ./bin/run.js (--version)
 @create-disruptions-data/cli-helpers/0.0.0 darwin-arm64 node-v18.15.0
-$ ./bin/run --help [COMMAND]
+$ ./bin/run.js --help [COMMAND]
 USAGE
-  $ ./bin/run COMMAND
+  $ ./bin/run.js COMMAND
 ...
 ```
 
@@ -42,7 +42,7 @@ Create organisation
 
 ```
 USAGE
-  $ ./bin/run create-org --name <value> --adminAreaCodes <value> --stage <value>
+  $ ./bin/run.js create-org --name <value> --adminAreaCodes <value> --stage <value>
 
 FLAGS
   --adminAreaCodes=<value>  (required) Comma-separated list of admin area codes
@@ -63,7 +63,7 @@ Note: If creating an org admin user in your local environment, you must add the 
 
 ```
 USAGE
-  $ ./bin/run create-user --stage <value> [--orgId <value>] [--group <value>] [--email <value>] [--firstName
+  $ ./bin/run.js create-user --stage <value> [--orgId <value>] [--group <value>] [--email <value>] [--firstName
     <value>] [--lastName <value>] [--poolId <value>]
 
 FLAGS
@@ -87,7 +87,7 @@ Change a users group
 
 ```
 USAGE
-  $ ./bin/run change-group --stage <value>
+  $ ./bin/run.js change-group --stage <value>
 
 FLAGS
   --stage=<value>           (required) SST stage to use
@@ -104,7 +104,7 @@ Display help for cdd-helpers.
 
 ```
 USAGE
-  $ ./bin/run help [COMMANDS] [-n]
+  $ ./bin/run.js help [COMMANDS] [-n]
 
 ARGUMENTS
   COMMANDS  Command to show help for.

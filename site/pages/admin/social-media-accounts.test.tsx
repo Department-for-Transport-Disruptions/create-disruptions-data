@@ -6,6 +6,9 @@ const blankInputs: SocialMediaAccountsPageProps = {
     socialMediaDetails: [],
     hootsuiteAuthUrl: "https://hootsuite-test-auth.com",
     twitterAuthUrl: "https://twitter-test-auth.com",
+    nextdoorAuthUrl: "https://nextdoor-test-auth.com",
+    errors: [],
+    isOperator: false,
 };
 
 const withInputs: SocialMediaAccountsPageProps = {
@@ -24,6 +27,9 @@ const withInputs: SocialMediaAccountsPageProps = {
     ],
     hootsuiteAuthUrl: "https://hootsuite-test-auth.com",
     twitterAuthUrl: "https://twitter-test-auth.com",
+    nextdoorAuthUrl: "https://nextdoor-test-auth.com",
+    errors: [],
+    isOperator: false,
 };
 
 describe("socialMediaAccounts", () => {
@@ -34,6 +40,32 @@ describe("socialMediaAccounts", () => {
 
     it("should render correctly with inputs", () => {
         const tree = renderer.create(<SocialMediaAccounts {...withInputs} />).toJSON();
+        expect(tree).toMatchSnapshot();
+    });
+    it("should render correctly with inputs and an error", () => {
+        const tree = renderer
+            .create(
+                <SocialMediaAccounts
+                    {...{
+                        ...withInputs,
+                        errors: [{ id: "nextdoor", errorMessage: "Only agency accounts can be connected" }],
+                    }}
+                />,
+            )
+            .toJSON();
+        expect(tree).toMatchSnapshot();
+    });
+    it("should not show the nextdoor button when there is an operator user", () => {
+        const tree = renderer
+            .create(
+                <SocialMediaAccounts
+                    {...{
+                        ...withInputs,
+                        isOperator: true,
+                    }}
+                />,
+            )
+            .toJSON();
         expect(tree).toMatchSnapshot();
     });
 });

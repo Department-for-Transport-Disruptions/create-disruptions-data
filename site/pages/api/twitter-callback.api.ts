@@ -1,11 +1,12 @@
+import { putParameter } from "@create-disruptions-data/shared-ts/utils/ssm";
 import { NextApiRequest, NextApiResponse } from "next";
 import { parseCookies } from "nookies";
 import { COOKIES_TWITTER_OAUTH_SECRET, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH } from "../../constants";
 import { addSocialAccountToOrg } from "../../data/dynamo";
-import { putParameter } from "../../data/ssm";
 import { getTwitterClient, getTwitterSsmAccessSecretKey, getTwitterSsmAccessTokenKey } from "../../data/twitter";
 import { redirectTo, redirectToError } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
+import logger from "../../utils/logger";
 
 const twitterCallback = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
@@ -48,12 +49,14 @@ const twitterCallback = async (req: NextApiRequest, res: NextApiResponse) => {
                 accessToken,
                 "SecureString",
                 true,
+                logger,
             ),
             putParameter(
                 getTwitterSsmAccessSecretKey(session.orgId, twitterDetails.data.id),
                 accessSecret,
                 "SecureString",
                 true,
+                logger,
             ),
         ]);
 
