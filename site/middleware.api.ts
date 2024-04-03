@@ -130,6 +130,7 @@ const unauthenticatedRoutes = [
     "/reset-password",
     "/api/reset-password",
     "/api/hootsuite-callback",
+    "/api/nextdoor-callback",
     "/api/cookies",
     "/_next",
     "/assets",
