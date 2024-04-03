@@ -20,6 +20,7 @@ import {
     COOKIES_REFRESH_TOKEN,
     DASHBOARD_PAGE_PATH,
     LOGIN_PAGE_PATH,
+    SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH,
     SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH,
 } from "./constants";
 
@@ -129,7 +130,6 @@ const unauthenticatedRoutes = [
     "/reset-password",
     "/api/reset-password",
     "/api/hootsuite-callback",
-    "/api/nextdoor-callback",
     "/api/cookies",
     "/_next",
     "/assets",
@@ -233,6 +233,12 @@ export async function middleware(request: NextRequest) {
                 )
             ) {
                 return NextResponse.redirect(new URL(SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH, request.url));
+            }
+
+            if (request.nextUrl.pathname === SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH) {
+                if (!groups.includes(UserGroups.orgAdmins) && !groups.includes(UserGroups.operators)) {
+                    return NextResponse.redirect(new URL(DASHBOARD_PAGE_PATH, request.url));
+                }
             }
 
             if (request.nextUrl.pathname.startsWith("/admin/") || request.nextUrl.pathname.startsWith("/api/admin/")) {
