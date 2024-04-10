@@ -1,6 +1,10 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, TransactWriteCommand } from "@aws-sdk/lib-dynamodb";
-import { getActiveDisruptions, getOrganisationsInfo } from "@create-disruptions-data/shared-ts/utils/dynamo";
+import { filterActiveDisruptions } from "@create-disruptions-data/shared-ts/utils";
+import {
+    getOrganisationsInfo,
+    getPublishedDisruptionsDataFromDynamo,
+} from "@create-disruptions-data/shared-ts/utils/dynamo";
 import * as logger from "lambda-log";
 import { randomUUID } from "crypto";
 import { generateSiriStats, SiriStats } from "./utils/statGenerators";
@@ -89,9 +93,11 @@ export const main = async (): Promise<void> => {
             throw new Error("Dynamo table names not set");
         }
 
-        const disruptions = await getActiveDisruptions(disruptionsTableName, logger);
+        const disruptions = await getPublishedDisruptionsDataFromDynamo(disruptionsTableName, logger);
 
-        const siriStats = generateSiriStats(disruptions);
+        const activeDisruptions = filterActiveDisruptions(disruptions);
+
+        const siriStats = generateSiriStats(activeDisruptions);
 
         await publishStatsToDynamo(orgTableName, siriStats);
 

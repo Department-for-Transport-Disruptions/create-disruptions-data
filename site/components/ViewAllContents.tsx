@@ -37,7 +37,7 @@ import {
     disruptionsTableSchema,
     exportDisruptionsSchema,
 } from "../schemas/disruption.schema";
-import { getDisplayByValue, getServiceLabel, sortServices, splitCamelCaseToString } from "../utils";
+import { getDisplayByValue, getServiceLabel, removeDuplicates, sortServices, splitCamelCaseToString } from "../utils";
 import {
     convertDateTimeToFormat,
     dateIsSameOrBeforeSecondDate,
@@ -702,7 +702,9 @@ const ViewAllContents = ({
 
         setCombinedServicesList(combinedServices);
 
-        setOperatorsList(operators);
+        const uniqueOperatorArray = removeDuplicates(operators, "id");
+
+        setOperatorsList(uniqueOperatorArray);
         setServicesList(combinedServices);
     };
 

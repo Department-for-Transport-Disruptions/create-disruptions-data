@@ -1,76 +1,20 @@
-import { notEmpty } from "@create-disruptions-data/shared-ts/utils";
-import { getActiveDisruptions } from "@create-disruptions-data/shared-ts/utils/dynamo";
-import { getServiceCentrePoint } from "@create-disruptions-data/shared-ts/utils/refDataApi";
+import { getObject } from "@create-disruptions-data/shared-ts/utils/s3";
 import { APIGatewayEvent } from "aws-lambda";
 import * as logger from "lambda-log";
 import { randomUUID } from "crypto";
 
-const getOrganisationDisruptions = async (orgId: string) => {
+const getOrganisationDisruptions = async (orgId: string, bucketName: string) => {
     try {
-        const disruptionsTableName = process.env.DISRUPTIONS_TABLE_NAME as string;
-        const activeDisruptions = await getActiveDisruptions(disruptionsTableName, logger, orgId);
+        const disruptions = await getObject(bucketName, `${orgId}/map-disruptions.json`, logger);
 
-        const disruptionsFormattedForMap = await Promise.all(
-            activeDisruptions.flatMap(async (disruption) => {
-                if (!disruption.consequences || disruption.consequences.length === 0) {
-                    return null;
-                }
+        if (!disruptions) {
+            return [];
+        }
 
-                const stops = disruption.consequences.flatMap((consequence) => {
-                    if (consequence.consequenceType === "stops") {
-                        return consequence.stops.map((stop) => ({
-                            atcoCode: stop.atcoCode,
-                            commonName: stop.commonName,
-                            bearing: stop.bearing,
-                            coordinates: { latitude: stop.latitude, longitude: stop.longitude },
-                        }));
-                    } else return [];
-                });
-
-                const services = await Promise.all(
-                    disruption.consequences.flatMap((consequence) => {
-                        if (consequence.consequenceType === "services") {
-                            return consequence.services.map(async (service) => {
-                                const serviceCentrePoint = await getServiceCentrePoint(service);
-
-                                return {
-                                    lineName: service.lineName,
-                                    destination: service.destination,
-                                    origin: service.origin,
-                                    nocCode: service.nocCode,
-                                    operatorName: service.operatorShortName,
-                                    coordinates: {
-                                        latitude: serviceCentrePoint?.latitude ?? null,
-                                        longitude: serviceCentrePoint?.longitude ?? null,
-                                    },
-                                };
-                            });
-                        } else return [];
-                    }),
-                );
-
-                if ((!stops || stops.length === 0) && (!services || services.length === 0)) {
-                    return null;
-                }
-
-                return {
-                    disruptionId: disruption.disruptionId,
-                    disruptionReason: disruption.disruptionReason,
-                    disruptionStartDate: disruption.disruptionStartDate,
-                    disruptionStartTime: disruption.disruptionStartTime,
-                    disruptionEndDate: disruption.disruptionEndDate,
-                    disruptionEndTime: disruption.disruptionEndTime,
-                    disruptionNoEndDateTime: disruption.disruptionNoEndDateTime,
-                    stops: stops,
-                    services: services,
-                };
-            }),
-        );
-
-        return disruptionsFormattedForMap.filter(notEmpty);
+        return JSON.parse(disruptions) as object;
     } catch (e) {
         if (e instanceof Error) {
-            logger.error(`Error occurred while getting stops and services for an organisation: ${orgId} - error: `, e);
+            logger.error(`Error occurred while retrieving map disruptions file for org: ${orgId} - error: `, e);
         }
 
         throw e;
@@ -86,6 +30,14 @@ export const main = async (event: APIGatewayEvent): Promise<{ statusCode: number
             id: randomUUID(),
         };
 
+        const orgDisruptionsBucketName = process.env.ORG_DISRUPTIONS_BUCKET_NAME;
+
+        if (!orgDisruptionsBucketName) {
+            logger.error("ORG_DISRUPTIONS_BUCKET_NAME must be set");
+
+            throw new Error("ORG_DISRUPTIONS_BUCKET_NAME must be set");
+        }
+
         const orgId = event?.pathParameters?.id;
 
         if (!orgId) {
@@ -94,7 +46,7 @@ export const main = async (event: APIGatewayEvent): Promise<{ statusCode: number
 
         logger.info(`Retrieving disruptions data for orgId: (${orgId}) ...`);
 
-        const disruptionsData = await getOrganisationDisruptions(orgId);
+        const disruptionsData = await getOrganisationDisruptions(orgId, orgDisruptionsBucketName);
 
         logger.info(`Successfully retrieved organisation: ${orgId}'s stops from DynamoDB...`);
 

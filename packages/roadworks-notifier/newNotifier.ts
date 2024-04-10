@@ -55,7 +55,7 @@ const roadworksNewEmailBody = (
                                    `<p>Street name: ${roadwork.streetName}</p>
                                     <p>Activity type: ${roadwork.activityType}</p>
                                     <p>Dates affected: ${roadwork.datesAffected}</p>
-                                    <p><a href=${domainName}/roadwork-detail/${roadwork.permitReferenceNumber}>Link to roadwork</a></p>`,
+                                    <p><a href=${domainName}roadwork-detail/${roadwork.permitReferenceNumber}>Link to roadwork</a></p>`,
                            )
                            .join("<br/>")}
                     </div>
@@ -164,7 +164,7 @@ export const main = async (): Promise<void> => {
         }
 
         const emailPromises = Object.entries(emailsByOrg)
-            .map((orgData) => {
+            .flatMap((orgData) => {
                 const emailChunks = chunkArray(orgData[1].emails, 50);
 
                 const roadworks = liveRoadworks
@@ -175,13 +175,15 @@ export const main = async (): Promise<void> => {
                     return null;
                 }
 
-                return emailChunks.map((emailChunk) =>
+                return emailChunks.flatMap((emailChunk) =>
                     sesClient.send(createNewRoadworksEmail(roadworks, emailChunk, domainName, stage)),
                 );
             })
             .filter(notEmpty);
 
         await Promise.all(emailPromises);
+
+        logger.info("Successfully sent new roadwork email notification.");
     } catch (e) {
         if (e instanceof Error) {
             logger.error(e);
