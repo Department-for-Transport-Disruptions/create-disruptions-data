@@ -201,7 +201,6 @@ export const getNextdoorAuthHeader = async () => {
 
     return `Basic ${Buffer.from(key).toString("base64")}`;
 };
-
 export const getLiveRoadworks = (roadworks: Roadwork[]) =>
     roadworks
         .filter((roadwork) => roadwork.workStatus === "Works in progress" && !roadwork.actualEndDateTime)
