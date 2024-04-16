@@ -123,6 +123,42 @@ export const getSortedDisruptionFinalEndDate = (disruption: Disruption | ApiDisr
     return disruptionEndDate;
 };
 
+export const filterActiveDisruptions = (disruptions: Disruption[]): Disruption[] => {
+    const sortedDisruptions = sortDisruptionsByStartDate(disruptions);
+
+    const currentDatetime = getDate();
+
+    return sortedDisruptions
+        .filter(
+            (value, index, self) =>
+                index === self.findIndex((disruption) => disruption.disruptionId === value.disruptionId),
+        )
+        .filter((disruption) => {
+            const firstValidity = disruption.validity?.[0];
+            const finalValidity = disruption.validity?.[disruption.validity.length - 1];
+
+            if (!firstValidity || !finalValidity) {
+                return false;
+            }
+
+            const startDatetime = getDatetimeFromDateAndTime(
+                firstValidity.disruptionStartDate,
+                firstValidity.disruptionStartTime,
+            );
+
+            const endDatetime =
+                finalValidity.disruptionEndDate && finalValidity.disruptionEndTime
+                    ? getDatetimeFromDateAndTime(finalValidity.disruptionEndDate, finalValidity.disruptionEndTime)
+                    : null;
+
+            if (!endDatetime) {
+                return currentDatetime.isAfter(startDatetime);
+            }
+
+            return currentDatetime.isBetween(startDatetime, endDatetime);
+        });
+};
+
 export type Logger = {
     info: (message: string) => void;
     error: (message: string | Error) => void;

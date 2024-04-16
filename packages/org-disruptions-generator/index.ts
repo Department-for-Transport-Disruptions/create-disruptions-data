@@ -1,6 +1,7 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-import { notEmpty } from "@create-disruptions-data/shared-ts/utils";
+import { filterActiveDisruptions, notEmpty } from "@create-disruptions-data/shared-ts/utils";
 import { getAllDisruptionsForOrg } from "@create-disruptions-data/shared-ts/utils/dynamo";
+import { getServiceCentrePoint } from "@create-disruptions-data/shared-ts/utils/refDataApi";
 import { DynamoDBStreamEvent } from "aws-lambda";
 import * as logger from "lambda-log";
 import { randomUUID } from "crypto";
@@ -18,6 +19,74 @@ const generateDisruptionsAndWriteToS3 = async (orgId: string, tableName: string,
             Body: JSON.stringify(disruptions),
         }),
     );
+
+    const activeDisruptions = filterActiveDisruptions(disruptions);
+
+    const disruptionsFormattedForMap = await Promise.all(
+        activeDisruptions.flatMap(async (disruption) => {
+            if (!disruption.consequences || disruption.consequences.length === 0) {
+                return null;
+            }
+
+            const stops = disruption.consequences.flatMap((consequence) => {
+                if (consequence.consequenceType === "stops") {
+                    return consequence.stops.map((stop) => ({
+                        atcoCode: stop.atcoCode,
+                        commonName: stop.commonName,
+                        bearing: stop.bearing,
+                        coordinates: { latitude: stop.latitude, longitude: stop.longitude },
+                    }));
+                } else return [];
+            });
+
+            const services = await Promise.all(
+                disruption.consequences.flatMap((consequence) => {
+                    if (consequence.consequenceType === "services") {
+                        return consequence.services.map(async (service) => {
+                            const serviceCentrePoint = await getServiceCentrePoint(service);
+
+                            return {
+                                lineName: service.lineName,
+                                destination: service.destination,
+                                origin: service.origin,
+                                nocCode: service.nocCode,
+                                operatorName: service.operatorShortName,
+                                coordinates: {
+                                    latitude: serviceCentrePoint?.latitude ?? null,
+                                    longitude: serviceCentrePoint?.longitude ?? null,
+                                },
+                            };
+                        });
+                    } else return [];
+                }),
+            );
+
+            if ((!stops || stops.length === 0) && (!services || services.length === 0)) {
+                return null;
+            }
+
+            return {
+                disruptionId: disruption.disruptionId,
+                disruptionReason: disruption.disruptionReason,
+                disruptionStartDate: disruption.disruptionStartDate,
+                disruptionStartTime: disruption.disruptionStartTime,
+                disruptionEndDate: disruption.disruptionEndDate,
+                disruptionEndTime: disruption.disruptionEndTime,
+                disruptionNoEndDateTime: disruption.disruptionNoEndDateTime,
+                stops: stops,
+                services: services,
+            };
+        }),
+    );
+
+    await s3Client.send(
+        new PutObjectCommand({
+            Bucket: disruptionsBucketName,
+            Key: `${orgId}/map-disruptions.json`,
+            ContentType: "application/json",
+            Body: JSON.stringify(disruptionsFormattedForMap.filter(notEmpty)),
+        }),
+    );
 };
 
 export const main = async (event: DynamoDBStreamEvent) => {
@@ -33,7 +102,7 @@ export const main = async (event: DynamoDBStreamEvent) => {
             process.env;
 
         if (!disruptionsTableName || !orgDisruptionsBucketName) {
-            throw new Error("Dynamo table names not set");
+            throw new Error("Env vars not set");
         }
 
         logger.info("Starting Org Disruptions Generator...");
