@@ -128,30 +128,35 @@ export const filterActiveDisruptions = (disruptions: Disruption[]): Disruption[]
 
     const currentDatetime = getDate();
 
-    return sortedDisruptions.filter((disruption) => {
-        const firstValidity = disruption.validity?.[0];
-        const finalValidity = disruption.validity?.[disruption.validity.length - 1];
+    return sortedDisruptions
+        .filter(
+            (value, index, self) =>
+                index === self.findIndex((disruption) => disruption.disruptionId === value.disruptionId),
+        )
+        .filter((disruption) => {
+            const firstValidity = disruption.validity?.[0];
+            const finalValidity = disruption.validity?.[disruption.validity.length - 1];
 
-        if (!firstValidity || !finalValidity) {
-            return false;
-        }
+            if (!firstValidity || !finalValidity) {
+                return false;
+            }
 
-        const startDatetime = getDatetimeFromDateAndTime(
-            firstValidity.disruptionStartDate,
-            firstValidity.disruptionStartTime,
-        );
+            const startDatetime = getDatetimeFromDateAndTime(
+                firstValidity.disruptionStartDate,
+                firstValidity.disruptionStartTime,
+            );
 
-        const endDatetime =
-            finalValidity.disruptionEndDate && finalValidity.disruptionEndTime
-                ? getDatetimeFromDateAndTime(finalValidity.disruptionEndDate, finalValidity.disruptionEndTime)
-                : null;
+            const endDatetime =
+                finalValidity.disruptionEndDate && finalValidity.disruptionEndTime
+                    ? getDatetimeFromDateAndTime(finalValidity.disruptionEndDate, finalValidity.disruptionEndTime)
+                    : null;
 
-        if (!endDatetime) {
-            return currentDatetime.isAfter(startDatetime);
-        }
+            if (!endDatetime) {
+                return currentDatetime.isAfter(startDatetime);
+            }
 
-        return currentDatetime.isBetween(startDatetime, endDatetime);
-    });
+            return currentDatetime.isBetween(startDatetime, endDatetime);
+        });
 };
 
 export type Logger = {
@@ -196,7 +201,6 @@ export const getNextdoorAuthHeader = async () => {
 
     return `Basic ${Buffer.from(key).toString("base64")}`;
 };
-
 export const getLiveRoadworks = (roadworks: Roadwork[]) =>
     roadworks
         .filter((roadwork) => roadwork.workStatus === "Works in progress" && !roadwork.actualEndDateTime)
