@@ -160,6 +160,11 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                   >
                     Train
                   </option>
+                  <option
+                    value="underground"
+                  >
+                    Underground
+                  </option>
                 </select>
               </div>
             </div>
@@ -762,6 +767,11 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                     value="rail"
                   >
                     Train
+                  </option>
+                  <option
+                    value="underground"
+                  >
+                    Underground
                   </option>
                 </select>
               </div>
@@ -1373,6 +1383,11 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
                     value="rail"
                   >
                     Train
+                  </option>
+                  <option
+                    value="underground"
+                  >
+                    Underground
                   </option>
                 </select>
               </div>

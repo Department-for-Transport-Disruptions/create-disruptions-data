@@ -211,6 +211,10 @@ export const VEHICLE_MODES: DisplayValuePair<VehicleMode>[] = [
         value: VehicleMode.rail,
         display: "Train",
     },
+    {
+        value: VehicleMode.underground,
+        display: "Underground",
+    },
 ];
 
 export const CONSEQUENCE_TYPES: DisplayValuePair<ConsequenceType["consequenceType"]>[] = [

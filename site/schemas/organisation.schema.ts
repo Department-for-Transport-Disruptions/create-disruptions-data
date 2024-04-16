@@ -7,6 +7,7 @@ export const modeSchema = z.object({
     tram: z.nativeEnum(Datasource),
     ferryService: z.nativeEnum(Datasource),
     rail: z.nativeEnum(Datasource),
+    underground: z.nativeEnum(Datasource),
 });
 
 export type ModeType = z.infer<typeof modeSchema>;
@@ -16,6 +17,7 @@ export const defaultModes: ModeType = {
     tram: Datasource.tnds,
     ferryService: Datasource.tnds,
     rail: Datasource.tnds,
+    underground: Datasource.tnds,
 };
 
 export const organisationSchema = z.object({

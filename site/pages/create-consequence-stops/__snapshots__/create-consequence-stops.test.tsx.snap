@@ -196,6 +196,11 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                   >
                     Train
                   </option>
+                  <option
+                    value="underground"
+                  >
+                    Underground
+                  </option>
                 </select>
               </div>
             </div>
@@ -1032,6 +1037,11 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                   >
                     Train
                   </option>
+                  <option
+                    value="underground"
+                  >
+                    Underground
+                  </option>
                 </select>
               </div>
             </div>
@@ -1836,6 +1846,11 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                   >
                     Train
                   </option>
+                  <option
+                    value="underground"
+                  >
+                    Underground
+                  </option>
                 </select>
               </div>
             </div>
@@ -2566,6 +2581,11 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
                     value="rail"
                   >
                     Train
+                  </option>
+                  <option
+                    value="underground"
+                  >
+                    Underground
                   </option>
                 </select>
               </div>

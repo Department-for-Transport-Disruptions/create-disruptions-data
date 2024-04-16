@@ -94,6 +94,11 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
             return display;
         } else if (pageState.inputs?.vehicleMode === VehicleMode.ferryService && operator.mode === "ferry") {
             return display;
+        } else if (
+            pageState.inputs?.vehicleMode === VehicleMode.underground &&
+            operator.mode === VehicleMode.underground.toString()
+        ) {
+            return display;
         } else if (pageState.inputs?.vehicleMode === operator.mode) {
             return display;
         } else {

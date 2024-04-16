@@ -142,7 +142,9 @@ const Map = ({
                         ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
                         ...(vehicleMode === VehicleMode.bus
                             ? { stopTypes: ["BCT"] }
-                            : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
+                            : vehicleMode === VehicleMode.tram ||
+                              vehicleMode === Modes.metro ||
+                              vehicleMode === VehicleMode.underground
                             ? { stopTypes: ["MET", "PLT"] }
                             : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
                             ? { stopTypes: ["FER", "FBT"] }
