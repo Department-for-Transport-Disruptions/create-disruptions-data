@@ -22,7 +22,6 @@ import {
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
     DISRUPTION_SEVERITIES,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
-    VEHICLE_MODES,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";

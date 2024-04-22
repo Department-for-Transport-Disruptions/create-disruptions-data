@@ -33,7 +33,9 @@ describe("accountSettings", () => {
     });
 
     it("should render correctly for organisation admin and showUnderground is true", () => {
-        const tree = renderer.create(<AccountSettings sessionWithOrg={mockSessionWithOrgDetailAndShowUndergroundTrue} />).toJSON();
+        const tree = renderer
+            .create(<AccountSettings sessionWithOrg={mockSessionWithOrgDetailAndShowUndergroundTrue} />)
+            .toJSON();
         expect(tree).toMatchSnapshot();
     });
 
