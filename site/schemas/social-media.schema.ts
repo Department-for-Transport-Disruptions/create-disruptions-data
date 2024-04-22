@@ -46,6 +46,9 @@ const nextdoorSchema = z.object({
     ...baseSchema,
     accountType: z.literal("Nextdoor"),
     nextdoorAgencyBoundaries: z.array(nextdoorAgencyBoundaryInput).optional(),
+    messageContent: z.string(setZodDefaultError("Enter a message content for this social media post")).min(1).max(800, {
+        message: "Message content must not exceed 800 characters",
+    }),
 });
 
 export const socialMediaPostSchema = z.discriminatedUnion(
