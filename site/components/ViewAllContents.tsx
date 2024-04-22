@@ -980,9 +980,7 @@ const ViewAllContents = ({
                                 selectValues={[
                                     { display: "Any", value: "any" },
                                     ...VEHICLE_MODES.filter((v) =>
-                                        showUnderground
-                                            ? true
-                                            : v.value !== VehicleMode.underground,
+                                        showUnderground ? true : v.value !== VehicleMode.underground,
                                     ).sort((a, b) => a.display.localeCompare(b.display)),
                                 ]}
                                 stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "mode", value)}

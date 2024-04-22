@@ -89,9 +89,7 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                             display="Mode of transport"
                             defaultDisplay="Select mode of transport"
                             selectValues={VEHICLE_MODES.filter((v) =>
-                                props.showUnderground
-                                    ? true 
-                                    : v.value !== VehicleMode.underground,
+                                props.showUnderground ? true : v.value !== VehicleMode.underground,
                             )}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.vehicleMode}
