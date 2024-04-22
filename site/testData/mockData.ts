@@ -880,7 +880,7 @@ export const mockSessionWithOrgDetail: SessionWithOrgDetail = {
     showUnderground: false,
 };
 
-export const mockSessionWithOrgDetailTFL: SessionWithOrgDetail = {
+export const mockSessionWithOrgDetailAndShowUndergroundTrue: SessionWithOrgDetail = {
     email: "test@example.com",
     username: "test@example.com",
     group: [UserGroups.orgAdmins],

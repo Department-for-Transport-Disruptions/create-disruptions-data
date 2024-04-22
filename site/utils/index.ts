@@ -18,6 +18,7 @@ import { NextApiResponse, NextPageContext } from "next";
 import { ZodError, ZodErrorMap } from "zod";
 import { ServerResponse } from "http";
 import { sortAndFilterStops } from "./formUtils";
+import { VEHICLE_MODES } from "../constants";
 import { fetchServiceStops } from "../data/refDataApi";
 import { DisplayValuePair, ErrorInfo } from "../interfaces";
 import { ServiceWithStopAndRoutes } from "../schemas/consequence.schema";
@@ -225,3 +226,6 @@ export const removeDuplicates = <T, K extends keyof T>(arrayToRemoveDuplicates: 
     arrayToRemoveDuplicates.filter(
         (value, index, self) => index === self.findIndex((item) => item[key] === value[key]),
     );
+
+export const filterVehicleModes = (showUnderground: boolean) =>
+    VEHICLE_MODES.filter((v) => (showUnderground ? true : v.value !== VehicleMode.underground));

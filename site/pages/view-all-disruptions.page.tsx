@@ -15,7 +15,7 @@ const ViewAllDisruptions = ({
     filterStatus,
     enableLoadingSpinnerOnPageLoad = true,
     orgId,
-    showUnderground,
+    showUnderground = false,
 }: ViewAllContentProps): ReactElement => {
     return (
         <BaseLayout title={title} description={description}>

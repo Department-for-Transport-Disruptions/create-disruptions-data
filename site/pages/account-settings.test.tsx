@@ -6,7 +6,7 @@ import {
     DEFAULT_OPERATOR_ORG_ID,
     DEFAULT_ORG_ID,
     mockSessionWithOrgDetail,
-    mockSessionWithOrgDetailTFL,
+    mockSessionWithOrgDetailAndShowUndergroundTrue,
 } from "../testData/mockData";
 import * as user from "../utils/user";
 
@@ -33,7 +33,7 @@ describe("accountSettings", () => {
     });
 
     it("should render correctly for organisation admin and showUnderground is true", () => {
-        const tree = renderer.create(<AccountSettings sessionWithOrg={mockSessionWithOrgDetailTFL} />).toJSON();
+        const tree = renderer.create(<AccountSettings sessionWithOrg={mockSessionWithOrgDetailAndShowUndergroundTrue} />).toJSON();
         expect(tree).toMatchSnapshot();
     });
 

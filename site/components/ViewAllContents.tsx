@@ -1,6 +1,6 @@
 import { ConsequenceOperators, Service } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { validitySchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
-import { Datasource, Progress, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, Progress } from "@create-disruptions-data/shared-ts/enums";
 import { getDate, getFormattedDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import { makeFilteredArraySchema } from "@create-disruptions-data/shared-ts/utils/zod";
 import { LoadingBox } from "@govuk-react/loading-box";
@@ -37,7 +37,14 @@ import {
     disruptionsTableSchema,
     exportDisruptionsSchema,
 } from "../schemas/disruption.schema";
-import { getDisplayByValue, getServiceLabel, removeDuplicates, sortServices, splitCamelCaseToString } from "../utils";
+import {
+    filterVehicleModes,
+    getDisplayByValue,
+    getServiceLabel,
+    removeDuplicates,
+    sortServices,
+    splitCamelCaseToString,
+} from "../utils";
 import {
     convertDateTimeToFormat,
     dateIsSameOrBeforeSecondDate,
@@ -979,9 +986,9 @@ const ViewAllContents = ({
                                 defaultDisplay="Select a mode"
                                 selectValues={[
                                     { display: "Any", value: "any" },
-                                    ...VEHICLE_MODES.filter((v) =>
-                                        showUnderground ? true : v.value !== VehicleMode.underground,
-                                    ).sort((a, b) => a.display.localeCompare(b.display)),
+                                    ...filterVehicleModes(showUnderground).sort((a, b) =>
+                                        a.display.localeCompare(b.display),
+                                    ),
                                 ]}
                                 stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "mode", value)}
                                 width="1/4"

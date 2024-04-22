@@ -1,6 +1,5 @@
 import { NetworkConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { MAX_CONSEQUENCES, networkConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
-import { VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -27,7 +26,7 @@ import {
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import { isNetworkConsequence } from "../../../utils";
+import { filterVehicleModes, isNetworkConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import { getStateUpdater, returnTemplateOverview, showCancelButton } from "../../../utils/formUtils";
@@ -88,9 +87,7 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                             inputName="vehicleMode"
                             display="Mode of transport"
                             defaultDisplay="Select mode of transport"
-                            selectValues={VEHICLE_MODES.filter((v) =>
-                                props.showUnderground ? true : v.value !== VehicleMode.underground,
-                            )}
+                            selectValues={filterVehicleModes(props.showUnderground)}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.vehicleMode}
                             initialErrors={pageState.errors}

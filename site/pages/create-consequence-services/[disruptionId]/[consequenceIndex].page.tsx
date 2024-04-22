@@ -33,7 +33,6 @@ import {
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
     DISRUPTION_SEVERITIES,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
-    VEHICLE_MODES,
 } from "../../../constants";
 import { getDisruptionById, getNocCodesForOperatorOrg } from "../../../data/dynamo";
 import { fetchServiceRoutes, fetchServices, fetchServicesByStops } from "../../../data/refDataApi";
@@ -41,6 +40,7 @@ import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { ServiceWithStopAndRoutes } from "../../../schemas/consequence.schema";
 import {
     RouteWithServiceInfo,
+    filterVehicleModes,
     flattenZodErrors,
     getRoutesForServices,
     getServiceLabel,
@@ -508,9 +508,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             inputName="vehicleMode"
                             display="Mode of transport"
                             defaultDisplay="Select mode of transport"
-                            selectValues={VEHICLE_MODES.filter((v) =>
-                                props.showUnderground ? true : v.value !== VehicleMode.underground,
-                            )}
+                            selectValues={filterVehicleModes(props.showUnderground)}
                             stateUpdater={stateUpdater}
                             value={pageState?.inputs?.vehicleMode}
                             initialErrors={pageState.errors}

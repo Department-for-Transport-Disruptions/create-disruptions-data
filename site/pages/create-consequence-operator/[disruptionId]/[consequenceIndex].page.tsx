@@ -24,14 +24,13 @@ import {
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
     DISRUPTION_SEVERITIES,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
-    VEHICLE_MODES,
 } from "../../../constants";
 import { getDisruptionById, getNocCodesForOperatorOrg } from "../../../data/dynamo";
 import { fetchOperators } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { Operator } from "../../../schemas/consequence.schema";
 import { ModeType } from "../../../schemas/organisation.schema";
-import { isOperatorConsequence, removeDuplicates } from "../../../utils";
+import { filterVehicleModes, isOperatorConsequence, removeDuplicates } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import {
@@ -141,9 +140,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             inputName="vehicleMode"
                             display="Mode of transport"
                             defaultDisplay="Select mode of transport"
-                            selectValues={VEHICLE_MODES.filter((v) =>
-                                props.showUnderground ? true : v.value !== VehicleMode.underground,
-                            )}
+                            selectValues={filterVehicleModes(props.showUnderground)}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.vehicleMode}
                             initialErrors={pageState.errors}

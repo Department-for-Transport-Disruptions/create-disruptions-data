@@ -25,7 +25,6 @@ import Map from "../../../components/map/StopsMap";
 import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 import {
     DISRUPTION_SEVERITIES,
-    VEHICLE_MODES,
     COOKIES_CONSEQUENCE_STOPS_ERRORS,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     CREATE_CONSEQUENCE_STOPS_PATH,
@@ -35,7 +34,7 @@ import {
 import { getDisruptionById } from "../../../data/dynamo";
 import { fetchStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import { flattenZodErrors, isStopsConsequence } from "../../../utils";
+import { filterVehicleModes, flattenZodErrors, isStopsConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import {
@@ -232,9 +231,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             inputName="vehicleMode"
                             display="Mode of transport"
                             defaultDisplay="Select mode of transport"
-                            selectValues={VEHICLE_MODES.filter((v) =>
-                                props.showUnderground ? true : v.value !== VehicleMode.underground,
-                            )}
+                            selectValues={filterVehicleModes(props.showUnderground)}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.vehicleMode}
                             initialErrors={pageState.errors}
