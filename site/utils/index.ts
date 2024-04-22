@@ -227,5 +227,5 @@ export const removeDuplicates = <T, K extends keyof T>(arrayToRemoveDuplicates: 
         (value, index, self) => index === self.findIndex((item) => item[key] === value[key]),
     );
 
-export const filterVehicleModes = (showUnderground: boolean) =>
+export const filterVehicleModes = (showUnderground?: boolean) =>
     VEHICLE_MODES.filter((v) => (showUnderground ? true : v.value !== VehicleMode.underground));
