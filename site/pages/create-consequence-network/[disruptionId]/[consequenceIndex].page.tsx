@@ -1,5 +1,6 @@
 import { NetworkConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { MAX_CONSEQUENCES, networkConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -28,7 +29,7 @@ import { getDisruptionById } from "../../../data/dynamo";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { isNetworkConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
-import { getSession } from "../../../utils/apiUtils/auth";
+import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import { getStateUpdater, returnTemplateOverview, showCancelButton } from "../../../utils/formUtils";
 
 const title = "Create Consequence Network";
@@ -87,7 +88,11 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                             inputName="vehicleMode"
                             display="Mode of transport"
                             defaultDisplay="Select mode of transport"
-                            selectValues={VEHICLE_MODES}
+                            selectValues={VEHICLE_MODES.filter((v) =>
+                                props.showUnderground
+                                    ? true 
+                                    : v.value !== VehicleMode.underground,
+                            )}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.vehicleMode}
                             initialErrors={pageState.errors}
@@ -232,7 +237,7 @@ export const getServerSideProps = async (
         throw new Error("No context request");
     }
 
-    const session = getSession(ctx.req);
+    const session = await getSessionWithOrgDetail(ctx.req);
 
     if (!session) {
         throw new Error("No session found");
@@ -274,6 +279,7 @@ export const getServerSideProps = async (
             disruptionDescription: disruption.description || "",
             template: disruption.template?.toString() || "",
             isEdit: !!consequence,
+            showUnderground: session.showUnderground,
         },
     };
 };

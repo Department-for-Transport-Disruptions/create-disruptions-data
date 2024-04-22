@@ -141,7 +141,9 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             inputName="vehicleMode"
                             display="Mode of transport"
                             defaultDisplay="Select mode of transport"
-                            selectValues={VEHICLE_MODES}
+                            selectValues={VEHICLE_MODES.filter((v) =>
+                                props.showUnderground ? true : v.value !== VehicleMode.underground,
+                            )}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.vehicleMode}
                             initialErrors={pageState.errors}
@@ -387,6 +389,7 @@ export const getServerSideProps = async (
             sessionWithOrg: session,
             template: disruption.template?.toString() || "",
             isEdit: !!consequence,
+            showUnderground: session.showUnderground,
         },
     };
 };

@@ -2,7 +2,12 @@ import { render, screen } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import AccountSettings from "./account-settings.page";
-import { DEFAULT_OPERATOR_ORG_ID, DEFAULT_ORG_ID, mockSessionWithOrgDetail } from "../testData/mockData";
+import {
+    DEFAULT_OPERATOR_ORG_ID,
+    DEFAULT_ORG_ID,
+    mockSessionWithOrgDetail,
+    mockSessionWithOrgDetailTFL,
+} from "../testData/mockData";
 import * as user from "../utils/user";
 
 describe("accountSettings", () => {
@@ -24,6 +29,11 @@ describe("accountSettings", () => {
     const getEmailPreferencesSpy = vi.spyOn(user, "getEmailPreferences");
     it("should render correctly for organisation admin", () => {
         const tree = renderer.create(<AccountSettings sessionWithOrg={mockSessionWithOrgDetail} />).toJSON();
+        expect(tree).toMatchSnapshot();
+    });
+
+    it("should render correctly for organisation admin and showUnderground is true", () => {
+        const tree = renderer.create(<AccountSettings sessionWithOrg={mockSessionWithOrgDetailTFL} />).toJSON();
         expect(tree).toMatchSnapshot();
     });
 

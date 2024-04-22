@@ -877,6 +877,25 @@ export const mockSessionWithOrgDetail: SessionWithOrgDetail = {
     mode: defaultModes,
     isOperatorUser: false,
     operatorOrgId: null,
+    showUnderground: false,
+};
+
+export const mockSessionWithOrgDetailTFL: SessionWithOrgDetail = {
+    email: "test@example.com",
+    username: "test@example.com",
+    group: [UserGroups.orgAdmins],
+    orgId: DEFAULT_ORG_ID,
+    adminAreaCodes: ["082", "147"],
+    orgName: "Test Org",
+    isOrgAdmin: true,
+    isOrgPublisher: false,
+    isOrgStaff: false,
+    isSystemAdmin: false,
+    name: "Test User",
+    mode: defaultModes,
+    isOperatorUser: false,
+    operatorOrgId: null,
+    showUnderground: true,
 };
 
 export const mockGetUserDetails = Promise.resolve({

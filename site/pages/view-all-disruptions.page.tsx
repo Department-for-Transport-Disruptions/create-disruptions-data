@@ -15,6 +15,7 @@ const ViewAllDisruptions = ({
     filterStatus,
     enableLoadingSpinnerOnPageLoad = true,
     orgId,
+    showUnderground,
 }: ViewAllContentProps): ReactElement => {
     return (
         <BaseLayout title={title} description={description}>
@@ -24,6 +25,7 @@ const ViewAllDisruptions = ({
                 filterStatus={filterStatus}
                 enableLoadingSpinnerOnPageLoad={enableLoadingSpinnerOnPageLoad}
                 orgId={orgId}
+                showUnderground={showUnderground}
             />
         </BaseLayout>
     );
@@ -63,6 +65,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                 : showDraft
                 ? { filterStatus: Progress.draft }
                 : {}),
+            showUnderground: session.showUnderground,
         },
     };
 };

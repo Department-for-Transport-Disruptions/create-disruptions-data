@@ -44,6 +44,8 @@ export const sessionSchemaWithOrgDetail = sessionSchema.transform(async (item) =
         orgName: orgDetail?.name ?? "",
         adminAreaCodes: orgDetail?.adminAreaCodes ?? [],
         mode: orgDetail?.mode && !item.isOperatorUser ? orgDetail.mode : defaultModes,
+        showUnderground:
+            (orgDetail?.adminAreaCodes.includes("147") && orgDetail?.adminAreaCodes.includes("082")) ?? false,
     };
 });
 

@@ -1,6 +1,6 @@
 import { ConsequenceOperators, Service } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { validitySchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
-import { Datasource, Progress } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, Progress, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { getDate, getFormattedDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import { makeFilteredArraySchema } from "@create-disruptions-data/shared-ts/utils/zod";
 import { LoadingBox } from "@govuk-react/loading-box";
@@ -54,6 +54,7 @@ export interface ViewAllContentProps {
     filterStatus?: Progress | null;
     enableLoadingSpinnerOnPageLoad?: boolean;
     isTemplate?: boolean;
+    showUnderground?: boolean;
 }
 
 export interface Filter {
@@ -473,6 +474,7 @@ const ViewAllContents = ({
     enableLoadingSpinnerOnPageLoad = true,
     isTemplate = false,
     orgId,
+    showUnderground = false,
 }: ViewAllContentProps): ReactElement => {
     const [selectedServices, setSelectedServices] = useState<Service[]>([]);
     const [selectedOperators, setSelectedOperators] = useState<ConsequenceOperators[]>([]);
@@ -977,7 +979,11 @@ const ViewAllContents = ({
                                 defaultDisplay="Select a mode"
                                 selectValues={[
                                     { display: "Any", value: "any" },
-                                    ...VEHICLE_MODES.sort((a, b) => a.display.localeCompare(b.display)),
+                                    ...VEHICLE_MODES.filter((v) =>
+                                        showUnderground
+                                            ? true
+                                            : v.value !== VehicleMode.underground,
+                                    ).sort((a, b) => a.display.localeCompare(b.display)),
                                 ]}
                                 stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "mode", value)}
                                 width="1/4"

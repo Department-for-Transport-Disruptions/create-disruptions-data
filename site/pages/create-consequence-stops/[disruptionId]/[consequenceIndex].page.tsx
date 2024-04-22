@@ -232,7 +232,9 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             inputName="vehicleMode"
                             display="Mode of transport"
                             defaultDisplay="Select mode of transport"
-                            selectValues={VEHICLE_MODES}
+                            selectValues={VEHICLE_MODES.filter((v) =>
+                                props.showUnderground ? true : v.value !== VehicleMode.underground,
+                            )}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.vehicleMode}
                             initialErrors={pageState.errors}
@@ -487,6 +489,7 @@ export const getServerSideProps = async (
             disruptionDescription: disruption.description || "",
             template: disruption.template?.toString() || "",
             isEdit: !!consequence,
+            showUnderground: session.showUnderground,
         },
     };
 };

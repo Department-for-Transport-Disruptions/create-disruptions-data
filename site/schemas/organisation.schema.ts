@@ -3,11 +3,11 @@ import { z } from "zod";
 import { setZodDefaultError } from "../utils";
 
 export const modeSchema = z.object({
-    bus: z.nativeEnum(Datasource),
-    tram: z.nativeEnum(Datasource),
-    ferryService: z.nativeEnum(Datasource),
-    rail: z.nativeEnum(Datasource),
-    underground: z.nativeEnum(Datasource),
+    bus: z.nativeEnum(Datasource).default(Datasource.bods),
+    tram: z.nativeEnum(Datasource).default(Datasource.tnds),
+    ferryService: z.nativeEnum(Datasource).default(Datasource.tnds),
+    rail: z.nativeEnum(Datasource).default(Datasource.tnds),
+    underground: z.nativeEnum(Datasource).default(Datasource.tnds),
 });
 
 export type ModeType = z.infer<typeof modeSchema>;
