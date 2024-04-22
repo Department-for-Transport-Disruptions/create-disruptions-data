@@ -204,9 +204,11 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                     <TextInput<SocialMediaPost>
                                         display="Message content"
                                         displaySize="l"
-                                        hint="You can enter up to 280 characters"
+                                        hint={`You can enter up to ${
+                                            accountType === "Nextdoor" ? "800" : "280"
+                                        } characters`}
                                         inputName="messageContent"
-                                        maxLength={280}
+                                        maxLength={accountType === "Nextdoor" ? 800 : 280}
                                         stateUpdater={stateUpdater}
                                         textArea
                                         widthClass="w-3/4"

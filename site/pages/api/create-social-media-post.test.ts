@@ -280,6 +280,88 @@ describe("create-social-media-post API", () => {
         });
     });
 
+    it("should redirect to /create-social-media-post when message content is over 280 for non-nextdoor accounts", async () => {
+        const socialMediaData = {
+            ...previousCreateSocialMediaPostInformation,
+            messageContent:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in repr Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco",
+        };
+        const { req, res } = getMockRequestAndResponse({
+            body: socialMediaData,
+            mockWriteHeadFn: writeHeadMock,
+        });
+        formParseSpy.mockResolvedValue({
+            fields: socialMediaData,
+            files: [],
+        });
+        await createSocialMediaPost(req, res);
+
+        expect(s3Spy).not.toHaveBeenCalledTimes(1);
+        expect(upsertSocialMediaPostSpy).not.toHaveBeenCalledTimes(1);
+
+        const errors: ErrorInfo[] = [
+            { errorMessage: "Message content must not exceed 280 characters", id: "messageContent" },
+        ];
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_SOCIAL_MEDIA_ERRORS,
+            JSON.stringify({ inputs: socialMediaData, errors }),
+            res,
+        );
+
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${defaultDisruptionId}/0`,
+        });
+    });
+
+    it("should redirect to /create-social-media-post when message content is over 800 for nextdoor accounts", async () => {
+        getOrgSocialAccountSpy.mockResolvedValue({
+            accountType: "Nextdoor",
+            addedBy: "Test User",
+            display: "Test Account",
+            id: "12345",
+        });
+        const socialMediaData = {
+            socialAccount: "027C54pddj6C4-pC6",
+            accountType: "Nextdoor",
+            messageContent:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minijhfbdhvbdfjhvbfhvbfdhvbdjhvbfhvbfhbvfhvbfhvbfhvbdjhvbjhdfvbjhdfbvjfhdbvjhdbvjfdbvfjvbfhvbdfjvbd",
+            disruptionId: defaultDisruptionId,
+            socialMediaPostIndex: "0",
+            createdByOperatorOrgId: "",
+        };
+        const { req, res } = getMockRequestAndResponse({
+            body: socialMediaData,
+            mockWriteHeadFn: writeHeadMock,
+        });
+        formParseSpy.mockResolvedValue({
+            fields: socialMediaData,
+            files: [],
+        });
+        await createSocialMediaPost(req, res);
+
+        expect(s3Spy).not.toHaveBeenCalledTimes(1);
+        expect(upsertSocialMediaPostSpy).not.toHaveBeenCalledTimes(1);
+
+        const errors: ErrorInfo[] = [
+            { errorMessage: "Message content must not exceed 800 characters", id: "messageContent" },
+        ];
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_SOCIAL_MEDIA_ERRORS,
+            JSON.stringify({ inputs: socialMediaData, errors }),
+            res,
+        );
+
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${defaultDisruptionId}/0`,
+        });
+    });
+
     it("should redirect to /create-social-media-post when the image is the wrong type", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: previousCreateSocialMediaPostInformation,
