@@ -34,7 +34,7 @@ import {
 import { getDisruptionById } from "../../../data/dynamo";
 import { fetchStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import { filterVehicleModes, flattenZodErrors, isStopsConsequence } from "../../../utils";
+import { filterVehicleModes, flattenZodErrors, isStopsConsequence, filterStopList } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import {
@@ -101,13 +101,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             : { stopTypes: ["undefined"] }),
                     });
 
-                    const filteredStopList = stopsData.filter((stop) =>
-                        props.showUnderground && vehicleMode === VehicleMode.underground
-                            ? stop.commonName.toLowerCase().includes("underground")
-                            : props.showUnderground && vehicleMode === VehicleMode.tram
-                            ? stop.commonName.toLowerCase().includes("tram")
-                            : true,
-                    );
+                    const filteredStopList = filterStopList(stopsData, vehicleMode, props.showUnderground);
 
                     if (filteredStopList) {
                         setStopOptions(filteredStopList);

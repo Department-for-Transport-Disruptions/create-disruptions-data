@@ -231,10 +231,11 @@ export const filterVehicleModes = (showUnderground?: boolean) =>
     VEHICLE_MODES.filter((v) => (showUnderground ? true : v.value !== VehicleMode.underground));
 
 export const filterStopList = (stops: Stop[], vehicleMode: VehicleMode | Modes, showUnderground?: boolean) =>
-    stops.filter((stop) =>
-        showUnderground && vehicleMode === VehicleMode.underground
-            ? stop.commonName.toLowerCase().includes("underground")
-            : showUnderground && vehicleMode === VehicleMode.tram
-            ? stop.commonName.toLowerCase().includes("tram")
-            : true,
-    );
+    stops.filter((stop) => {
+        if (showUnderground && vehicleMode === VehicleMode.underground) {
+            return stop.commonName.toLowerCase().includes("underground");
+        }
+        if (showUnderground && vehicleMode === VehicleMode.tram) {
+            return stop.commonName.toLowerCase().includes("tram");
+        } else return true;
+    });
