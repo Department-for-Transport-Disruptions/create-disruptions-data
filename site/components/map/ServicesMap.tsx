@@ -288,8 +288,7 @@ const Map = ({
                             : { stopTypes: ["undefined"] }),
                     });
 
-                    const filteredStopList = filterStopList(stopsData, vehicleMode, showUnderground)
-         
+                    const filteredStopList = filterStopList(stopsData, vehicleMode, showUnderground);
 
                     if (filteredStopList) {
                         setMarkerData(filteredStopList);
