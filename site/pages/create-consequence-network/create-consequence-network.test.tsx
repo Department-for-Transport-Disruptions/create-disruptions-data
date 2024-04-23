@@ -37,6 +37,13 @@ describe("pages", () => {
             expect(tree).toMatchSnapshot();
         });
 
+        it("should render correctly with inputs and showUnderground is true", () => {
+            const tree = renderer
+                .create(<CreateConsequenceNetwork {...{ ...withInputs, showUnderground: true }} />)
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+
         it("should render correctly with no inputs", () => {
             const tree = renderer.create(<CreateConsequenceNetwork {...blankInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
