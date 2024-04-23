@@ -88,6 +88,13 @@ describe("pages", () => {
             expect(tree).toMatchSnapshot();
         });
 
+        it("should render correctly with inputs and showUnderground is true", () => {
+            const tree = renderer
+                .create(<CreateConsequenceStops {...{ ...withInputs, showUnderground: true }} />)
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+
         it("should render correctly with errors and incorrect inputs", () => {
             const tree = renderer.create(<CreateConsequenceStops {...withInputsAndErrors} />).toJSON();
             expect(tree).toMatchSnapshot();

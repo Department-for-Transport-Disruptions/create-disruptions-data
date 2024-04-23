@@ -33,7 +33,6 @@ import {
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
     DISRUPTION_SEVERITIES,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
-    VEHICLE_MODES,
 } from "../../../constants";
 import { getDisruptionById, getNocCodesForOperatorOrg } from "../../../data/dynamo";
 import { fetchServiceRoutes, fetchServices, fetchServicesByStops } from "../../../data/refDataApi";
@@ -41,6 +40,7 @@ import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { ServiceWithStopAndRoutes } from "../../../schemas/consequence.schema";
 import {
     RouteWithServiceInfo,
+    filterVehicleModes,
     flattenZodErrors,
     getRoutesForServices,
     getServiceLabel,
@@ -157,7 +157,9 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
                             ...(vehicleMode === VehicleMode.bus
                                 ? { stopTypes: "BCT" }
-                                : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
+                                : vehicleMode === VehicleMode.tram ||
+                                  vehicleMode === Modes.metro ||
+                                  vehicleMode === VehicleMode.underground
                                 ? { stopTypes: "MET, PLT" }
                                 : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
                                 ? { stopTypes: "FER, FBT" }
@@ -506,7 +508,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             inputName="vehicleMode"
                             display="Mode of transport"
                             defaultDisplay="Select mode of transport"
-                            selectValues={VEHICLE_MODES}
+                            selectValues={filterVehicleModes(props.showUnderground)}
                             stateUpdater={stateUpdater}
                             value={pageState?.inputs?.vehicleMode}
                             initialErrors={pageState.errors}
@@ -631,6 +633,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             serviceOptionsForDropdown={serviceOptionsForDropdown}
                             setServiceOptionsForDropdown={setServiceOptionsForDropdown}
                             dataSource={dataSource}
+                            showUnderground={props.showUnderground}
                         />
 
                         <TextInput<ServicesConsequence>
@@ -888,6 +891,7 @@ export const getServerSideProps = async (
             isEdit: !!consequence,
             isOperatorUser: session.isOperatorUser,
             operatorUserNocCodes: operatorUserNocCodes,
+            showUnderground: session.showUnderground,
         },
     };
 };

@@ -372,13 +372,15 @@ const AccountSettings = ({
                                 errorClass="govuk-radios-datasource--error"
                             >
                                 <Table
-                                    rows={Object.keys(mode).map((key) => ({
-                                        header:
-                                            key === "ferryService"
-                                                ? "Ferry"
-                                                : `${key.charAt(0).toUpperCase()}${key.slice(1, key.length)}`,
-                                        cells: [dataSourceRadioButtons(key, mode[key as keyof ModeType])],
-                                    }))}
+                                    rows={Object.keys(mode)
+                                        .filter((m) => (sessionWithOrg.showUnderground ? true : m !== "underground"))
+                                        .map((key) => ({
+                                            header:
+                                                key === "ferryService"
+                                                    ? "Ferry"
+                                                    : `${key.charAt(0).toUpperCase()}${key.slice(1, key.length)}`,
+                                            cells: [dataSourceRadioButtons(key, mode[key as keyof ModeType])],
+                                        }))}
                                 />
                             </FormElementWrapper>
                         </FormGroupWrapper>

@@ -25,7 +25,6 @@ import Map from "../../../components/map/StopsMap";
 import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 import {
     DISRUPTION_SEVERITIES,
-    VEHICLE_MODES,
     COOKIES_CONSEQUENCE_STOPS_ERRORS,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     CREATE_CONSEQUENCE_STOPS_PATH,
@@ -35,7 +34,7 @@ import {
 import { getDisruptionById } from "../../../data/dynamo";
 import { fetchStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import { flattenZodErrors, isStopsConsequence } from "../../../utils";
+import { filterVehicleModes, flattenZodErrors, isStopsConsequence, filterStopList } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import {
@@ -91,7 +90,9 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                         ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
                         ...(vehicleMode === VehicleMode.bus
                             ? { stopTypes: ["BCT"] }
-                            : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
+                            : vehicleMode === VehicleMode.tram ||
+                              vehicleMode === Modes.metro ||
+                              vehicleMode === VehicleMode.underground
                             ? { stopTypes: ["MET", "PLT"] }
                             : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
                             ? { stopTypes: ["FER", "FBT"] }
@@ -100,8 +101,10 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             : { stopTypes: ["undefined"] }),
                     });
 
-                    if (stopsData) {
-                        setStopOptions(stopsData);
+                    const filteredStopList = filterStopList(stopsData, vehicleMode, props.showUnderground);
+
+                    if (filteredStopList) {
+                        setStopOptions(filteredStopList);
                     }
                 } catch (e) {
                     setStopOptions([]);
@@ -230,7 +233,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             inputName="vehicleMode"
                             display="Mode of transport"
                             defaultDisplay="Select mode of transport"
-                            selectValues={VEHICLE_MODES}
+                            selectValues={filterVehicleModes(props.showUnderground)}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.vehicleMode}
                             initialErrors={pageState.errors}
@@ -306,6 +309,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             showSelectAllButton
                             stateUpdater={setPageState}
                             state={pageState}
+                            showUnderground={props.showUnderground}
                         />
                         <TextInput<StopsConsequence>
                             display="Consequence description"
@@ -485,6 +489,7 @@ export const getServerSideProps = async (
             disruptionDescription: disruption.description || "",
             template: disruption.template?.toString() || "",
             isEdit: !!consequence,
+            showUnderground: session.showUnderground,
         },
     };
 };

@@ -20,7 +20,7 @@ import Markers from "./Markers";
 import { fetchStops } from "../../data/refDataApi";
 import { LargePolygonError, NoStopsError } from "../../errors";
 import { PageState } from "../../interfaces";
-import { flattenZodErrors } from "../../utils";
+import { filterStopList, flattenZodErrors } from "../../utils";
 import { getStopType, sortAndFilterStops } from "../../utils/formUtils";
 import { warningMessageText } from "../../utils/mapUtils";
 import Warning from "../form/Warning";
@@ -35,6 +35,7 @@ interface MapProps {
     showSelectAllButton?: boolean;
     stateUpdater: Dispatch<SetStateAction<PageState<Partial<StopsConsequence>>>>;
     state: PageState<Partial<StopsConsequence>>;
+    showUnderground?: boolean;
 }
 
 const Map = ({
@@ -46,6 +47,7 @@ const Map = ({
     showSelectAllButton = false,
     stateUpdater = () => "",
     state,
+    showUnderground = false,
 }: MapProps): ReactElement | null => {
     const mapboxAccessToken = process.env.MAP_BOX_ACCESS_TOKEN;
     const [features, setFeatures] = useState<{ [key: string]: PolygonFeature }>({});
@@ -142,7 +144,9 @@ const Map = ({
                         ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
                         ...(vehicleMode === VehicleMode.bus
                             ? { stopTypes: ["BCT"] }
-                            : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
+                            : vehicleMode === VehicleMode.tram ||
+                              vehicleMode === Modes.metro ||
+                              vehicleMode === VehicleMode.underground
                             ? { stopTypes: ["MET", "PLT"] }
                             : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
                             ? { stopTypes: ["FER", "FBT"] }
@@ -151,8 +155,10 @@ const Map = ({
                             : { stopTypes: ["undefined"] }),
                     });
 
-                    if (stopsData) {
-                        setMarkerData(stopsData);
+                    const filteredStopList = filterStopList(stopsData, vehicleMode, showUnderground);
+
+                    if (filteredStopList) {
+                        setMarkerData(filteredStopList);
                     } else {
                         setMarkerData([]);
                     }

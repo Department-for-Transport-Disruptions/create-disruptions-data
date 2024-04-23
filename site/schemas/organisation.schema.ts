@@ -3,10 +3,11 @@ import { z } from "zod";
 import { setZodDefaultError } from "../utils";
 
 export const modeSchema = z.object({
-    bus: z.nativeEnum(Datasource),
-    tram: z.nativeEnum(Datasource),
-    ferryService: z.nativeEnum(Datasource),
-    rail: z.nativeEnum(Datasource),
+    bus: z.nativeEnum(Datasource).default(Datasource.bods),
+    tram: z.nativeEnum(Datasource).default(Datasource.tnds),
+    ferryService: z.nativeEnum(Datasource).default(Datasource.tnds),
+    rail: z.nativeEnum(Datasource).default(Datasource.tnds),
+    underground: z.nativeEnum(Datasource).default(Datasource.tnds),
 });
 
 export type ModeType = z.infer<typeof modeSchema>;
@@ -16,13 +17,14 @@ export const defaultModes: ModeType = {
     tram: Datasource.tnds,
     ferryService: Datasource.tnds,
     rail: Datasource.tnds,
+    underground: Datasource.tnds,
 };
 
 export const organisationSchema = z.object({
     name: z.string(setZodDefaultError("Enter an organisation name")).min(3),
     adminAreaCodes: z.array(z.string()).min(1, { message: "At least 1 area code is required" }),
     PK: z.string().optional(),
-    mode: modeSchema.optional().default(defaultModes),
+    mode: modeSchema.optional(),
 });
 
 export type Organisation = z.infer<typeof organisationSchema>;
