@@ -37,7 +37,14 @@ import {
     disruptionsTableSchema,
     exportDisruptionsSchema,
 } from "../schemas/disruption.schema";
-import { getDisplayByValue, getServiceLabel, removeDuplicates, sortServices, splitCamelCaseToString } from "../utils";
+import {
+    filterVehicleModes,
+    getDisplayByValue,
+    getServiceLabel,
+    removeDuplicates,
+    sortServices,
+    splitCamelCaseToString,
+} from "../utils";
 import {
     convertDateTimeToFormat,
     dateIsSameOrBeforeSecondDate,
@@ -54,6 +61,7 @@ export interface ViewAllContentProps {
     filterStatus?: Progress | null;
     enableLoadingSpinnerOnPageLoad?: boolean;
     isTemplate?: boolean;
+    showUnderground?: boolean;
 }
 
 export interface Filter {
@@ -473,6 +481,7 @@ const ViewAllContents = ({
     enableLoadingSpinnerOnPageLoad = true,
     isTemplate = false,
     orgId,
+    showUnderground = false,
 }: ViewAllContentProps): ReactElement => {
     const [selectedServices, setSelectedServices] = useState<Service[]>([]);
     const [selectedOperators, setSelectedOperators] = useState<ConsequenceOperators[]>([]);
@@ -977,7 +986,9 @@ const ViewAllContents = ({
                                 defaultDisplay="Select a mode"
                                 selectValues={[
                                     { display: "Any", value: "any" },
-                                    ...VEHICLE_MODES.sort((a, b) => a.display.localeCompare(b.display)),
+                                    ...filterVehicleModes(showUnderground).sort((a, b) =>
+                                        a.display.localeCompare(b.display),
+                                    ),
                                 ]}
                                 stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "mode", value)}
                                 width="1/4"

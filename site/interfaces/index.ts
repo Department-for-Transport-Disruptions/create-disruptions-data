@@ -72,6 +72,7 @@ export interface CreateConsequenceProps {
     template?: string;
     consequenceCount?: number;
     isEdit?: boolean;
+    showUnderground?: boolean;
 }
 
 export interface DisruptionDetailCookie {

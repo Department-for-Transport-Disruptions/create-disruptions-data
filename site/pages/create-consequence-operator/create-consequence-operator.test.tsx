@@ -54,6 +54,13 @@ describe("pages", () => {
             expect(tree).toMatchSnapshot();
         });
 
+        it("should render correctly with inputs and showUnderground is true", () => {
+            const tree = renderer
+                .create(<CreateConsequenceOperator {...{ ...withInputs, showUnderground: true }} />)
+                .toJSON();
+            expect(tree).toMatchSnapshot();
+        });
+
         it("should render correctly with query params", () => {
             useRouter.mockImplementation(() => ({
                 query: { return: "/review-disruption" },

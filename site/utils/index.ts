@@ -18,6 +18,7 @@ import { NextApiResponse, NextPageContext } from "next";
 import { ZodError, ZodErrorMap } from "zod";
 import { ServerResponse } from "http";
 import { sortAndFilterStops } from "./formUtils";
+import { VEHICLE_MODES } from "../constants";
 import { fetchServiceStops } from "../data/refDataApi";
 import { DisplayValuePair, ErrorInfo } from "../interfaces";
 import { ServiceWithStopAndRoutes } from "../schemas/consequence.schema";
@@ -156,7 +157,9 @@ export const getStops = async (
             ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
             ...(vehicleMode === VehicleMode.bus
                 ? { stopTypes: "BCT" }
-                : vehicleMode === VehicleMode.tram || vehicleMode === Modes.metro
+                : vehicleMode === VehicleMode.tram ||
+                  vehicleMode === Modes.metro ||
+                  vehicleMode === VehicleMode.underground
                 ? { stopTypes: "MET, PLT" }
                 : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
                 ? { stopTypes: "FER, FBT" }
@@ -223,3 +226,16 @@ export const removeDuplicates = <T, K extends keyof T>(arrayToRemoveDuplicates: 
     arrayToRemoveDuplicates.filter(
         (value, index, self) => index === self.findIndex((item) => item[key] === value[key]),
     );
+
+export const filterVehicleModes = (showUnderground?: boolean) =>
+    VEHICLE_MODES.filter((v) => (showUnderground ? true : v.value !== VehicleMode.underground));
+
+export const filterStopList = (stops: Stop[], vehicleMode: VehicleMode | Modes, showUnderground?: boolean) =>
+    stops.filter((stop) => {
+        if (showUnderground && vehicleMode === VehicleMode.underground) {
+            return stop.commonName.toLowerCase().includes("underground");
+        }
+        if (showUnderground && vehicleMode === VehicleMode.tram) {
+            return stop.commonName.toLowerCase().includes("tram");
+        } else return true;
+    });
