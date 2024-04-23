@@ -101,8 +101,16 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             : { stopTypes: ["undefined"] }),
                     });
 
-                    if (stopsData) {
-                        setStopOptions(stopsData);
+                    const filteredStopList = stopsData.filter((stop) =>
+                        props.showUnderground && vehicleMode === VehicleMode.underground
+                            ? stop.commonName.toLowerCase().includes("underground")
+                            : props.showUnderground && vehicleMode === VehicleMode.tram
+                            ? stop.commonName.toLowerCase().includes("tram")
+                            : true,
+                    );
+
+                    if (filteredStopList) {
+                        setStopOptions(filteredStopList);
                     }
                 } catch (e) {
                     setStopOptions([]);
@@ -307,6 +315,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             showSelectAllButton
                             stateUpdater={setPageState}
                             state={pageState}
+                            showUnderground={props.showUnderground}
                         />
                         <TextInput<StopsConsequence>
                             display="Consequence description"

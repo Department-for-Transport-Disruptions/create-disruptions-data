@@ -633,6 +633,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             serviceOptionsForDropdown={serviceOptionsForDropdown}
                             setServiceOptionsForDropdown={setServiceOptionsForDropdown}
                             dataSource={dataSource}
+                            showUnderground={props.showUnderground}
                         />
 
                         <TextInput<ServicesConsequence>

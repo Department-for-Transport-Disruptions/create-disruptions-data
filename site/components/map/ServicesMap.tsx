@@ -26,6 +26,7 @@ import { PageState } from "../../interfaces";
 import { ServiceWithStopAndRoutes } from "../../schemas/consequence.schema";
 import {
     RouteWithServiceInfo,
+    filterStopList,
     flattenZodErrors,
     getRoutesForServices,
     getStopsForRoutes,
@@ -53,6 +54,7 @@ interface MapProps {
     setSearchedRoutes: Dispatch<SetStateAction<Partial<RouteWithServiceInfo[]>>>;
     serviceOptionsForDropdown: Service[];
     setServiceOptionsForDropdown: Dispatch<SetStateAction<Service[]>>;
+    showUnderground?: boolean;
 }
 
 const lineLayout: LineLayout = {
@@ -99,6 +101,7 @@ const Map = ({
     serviceOptionsForDropdown = [],
     setServiceOptionsForDropdown,
     dataSource,
+    showUnderground = false,
 }: ServiceMapProps): ReactElement | null => {
     const mapboxAccessToken = process.env.MAP_BOX_ACCESS_TOKEN;
     const [features, setFeatures] = useState<{ [key: string]: PolygonFeature }>({});
@@ -285,8 +288,11 @@ const Map = ({
                             : { stopTypes: ["undefined"] }),
                     });
 
-                    if (stopsData) {
-                        setMarkerData(stopsData);
+                    const filteredStopList = filterStopList(stopsData, vehicleMode, showUnderground)
+         
+
+                    if (filteredStopList) {
+                        setMarkerData(filteredStopList);
                         clearServicesAndStops();
                     } else {
                         setMarkerData([]);

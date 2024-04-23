@@ -229,3 +229,12 @@ export const removeDuplicates = <T, K extends keyof T>(arrayToRemoveDuplicates: 
 
 export const filterVehicleModes = (showUnderground?: boolean) =>
     VEHICLE_MODES.filter((v) => (showUnderground ? true : v.value !== VehicleMode.underground));
+
+export const filterStopList = (stops: Stop[], vehicleMode: VehicleMode | Modes, showUnderground?: boolean) =>
+    stops.filter((stop) =>
+        showUnderground && vehicleMode === VehicleMode.underground
+            ? stop.commonName.toLowerCase().includes("underground")
+            : showUnderground && vehicleMode === VehicleMode.tram
+            ? stop.commonName.toLowerCase().includes("tram")
+            : true,
+    );
