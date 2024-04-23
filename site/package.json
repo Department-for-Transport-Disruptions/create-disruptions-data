@@ -59,8 +59,7 @@
         "react-select": "^5.8.0",
         "twitter-api-v2": "^1.15.1",
         "wellknown": "^0.5.0",
-        "write-excel-file": "^1.4.27",
-        "zod": "^3.23.3"
+        "write-excel-file": "^1.4.27"
     },
     "devDependencies": {
         "@babel/core": "^7.21.0",
