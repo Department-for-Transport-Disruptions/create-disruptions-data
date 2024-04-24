@@ -54,6 +54,7 @@ exports[`SIRI-SX Generator > correctly generates Disruptions JSON 1`] = `
         "user": "user",
       },
     ],
+    "lastUpdated": "2023-05-11T14:40:00Z",
     "organisation": {
       "id": "6f6435e3-a485-4c8c-8c29-e121b1e76802",
       "name": "Test Org",
@@ -89,6 +90,7 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML 1`] = `
             <Situations>
                 <PtSituationElement>
                     <CreationTime>2023-05-13T14:45:00Z</CreationTime>
+                    <VersionedAtTime>2023-05-11T14:40:00Z</VersionedAtTime>
                     <ParticipantRef>TestOrg</ParticipantRef>
                     <SituationNumber>acde070d-8c4c-4f0d-9d8a-162843c10333</SituationNumber>
                     <Source>
@@ -179,6 +181,7 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML where creationDate 
             <Situations>
                 <PtSituationElement>
                     <CreationTime>2023-05-13T14:45:00Z</CreationTime>
+                    <VersionedAtTime>2023-05-11T14:40:00Z</VersionedAtTime>
                     <ParticipantRef>TestOrg</ParticipantRef>
                     <SituationNumber>acde070d-8c4c-4f0d-9d8a-162843c10333</SituationNumber>
                     <Source>
