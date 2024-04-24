@@ -53,6 +53,7 @@ export const infoLinkSchema = z.object({
 });
 
 export const situationElementRefSchema = z.object({
+    VersionedAtTime: z.string().datetime().optional(),
     CreationTime: z.string().datetime().optional(),
     ParticipantRef: z.string(),
     SituationNumber: z.string(),
@@ -153,6 +154,7 @@ export const consequenceSchema = z.object({
 
 export const basePtSituationElementSchema = z.object({
     CreationTime: situationElementRefSchema.shape.CreationTime,
+    VersionedAtTime: situationElementRefSchema.shape.VersionedAtTime,
     ParticipantRef: situationElementRefSchema.shape.ParticipantRef,
     SituationNumber: situationElementRefSchema.shape.SituationNumber,
     Version: z.coerce.number().optional(),
