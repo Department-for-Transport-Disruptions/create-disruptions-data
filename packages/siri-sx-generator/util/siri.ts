@@ -79,6 +79,7 @@ export const getPtSituationElementFromSiteDisruption = (
     });
 
     const ptSituationElement: Omit<PtSituationElement, Reason | "ReasonType"> = {
+        Version: disruption.history?.length || 1,
         CreationTime: getDisruptionCreationTime(disruption.history ?? null, disruption.creationTime ?? null),
         VersionedAtTime: disruption.lastUpdated,
         Planned: disruption.disruptionType === "planned",
