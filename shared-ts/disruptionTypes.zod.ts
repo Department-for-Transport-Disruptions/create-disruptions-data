@@ -760,6 +760,9 @@ const baseConsequence = {
 export const networkConsequenceSchema = z.object({
     ...baseConsequence,
     consequenceType: z.literal("networkWide", setZodDefaultError("Select a consequence type")),
+    disruptionArea: z
+        .string(setZodDefaultError("Select one or more disruption areas"))
+        .or(z.array(z.string()).min(1, { message: "Select one or more disruption areas" })),
 });
 
 export const consequenceOperatorsSchema = z.object({

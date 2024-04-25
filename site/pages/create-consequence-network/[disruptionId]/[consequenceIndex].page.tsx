@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
 import DeleteDisruptionButton from "../../../components/buttons/DeleteDisruptionButton";
+import Checkbox from "../../../components/form/Checkbox";
 import CsrfForm from "../../../components/form/CsrfForm";
 import ErrorSummary from "../../../components/form/ErrorSummary";
 import Radios from "../../../components/form/Radios";
@@ -24,6 +25,7 @@ import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
+import { fetchAdminAreas } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { filterVehicleModes, isNetworkConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
@@ -80,6 +82,42 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                                     ],
                                 },
                             ]}
+                        />
+
+                        <Checkbox<NetworkConsequence>
+                            inputName="disruptionArea"
+                            displaySize="l"
+                            hideLegend={false}
+                            hint="Which area does the network cover?"
+                            display="Disruption Area"
+                            multiple
+                            checkboxDetail={
+                                props.disruptionAreas?.map((disruptionArea) => ({
+                                    display: `${disruptionArea.shortName} - ${disruptionArea.administrativeAreaCode}`,
+                                    value: disruptionArea.administrativeAreaCode,
+                                    checked:
+                                        pageState.inputs.disruptionArea?.includes(
+                                            disruptionArea.administrativeAreaCode,
+                                        ) || false,
+                                })) || []
+                            }
+                            stateUpdater={(value, _, checked) => {
+                                let updatedDisruptionAreas = [...(pageState.inputs?.disruptionArea || [])];
+                                if (checked) {
+                                    updatedDisruptionAreas = [...updatedDisruptionAreas, value];
+                                } else {
+                                    updatedDisruptionAreas =
+                                        pageState.inputs.disruptionArea?.filter((area) => area !== value) || [];
+                                }
+                                setConsequenceNetworkPageState({
+                                    ...pageState,
+                                    inputs: {
+                                        ...(pageState.inputs || []),
+                                        disruptionArea: updatedDisruptionAreas,
+                                    },
+                                });
+                            }}
+                            initialErrors={pageState.errors}
                         />
 
                         <Select<NetworkConsequence>
@@ -263,8 +301,10 @@ export const getServerSideProps = async (
         consequence && isNetworkConsequence(consequence) ? consequence : undefined,
     );
 
-    if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_NETWORK_ERRORS, ctx.res);
+    const adminAreas = await fetchAdminAreas();
 
+    if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_NETWORK_ERRORS, ctx.res);
+    const exclusions = ["110", "143", "146", "147"];
     return {
         props: {
             ...pageState,
@@ -274,6 +314,11 @@ export const getServerSideProps = async (
             template: disruption.template?.toString() || "",
             isEdit: !!consequence,
             showUnderground: session.showUnderground,
+            disruptionAreas: adminAreas.filter(
+                (adminArea) =>
+                    !exclusions.includes(adminArea.administrativeAreaCode) &&
+                    session.adminAreaCodes.includes(adminArea.administrativeAreaCode),
+            ),
         },
     };
 };
