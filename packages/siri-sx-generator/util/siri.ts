@@ -27,13 +27,13 @@ export const getValidityPeriod = (period: Validity): Period[] => {
         let endDate =
             period.disruptionRepeats === "daily"
                 ? getDatetimeFromDateAndTime(
-                    period.disruptionEndDate,
-                    period.disruptionEndTime ? period.disruptionEndTime : "",
-                ).add(1, "day")
+                      period.disruptionEndDate,
+                      period.disruptionEndTime ? period.disruptionEndTime : "",
+                  ).add(1, "day")
                 : getDatetimeFromDateAndTime(
-                    period.disruptionEndDate,
-                    period.disruptionEndTime ? period.disruptionEndTime : "",
-                ).add(7, "day");
+                      period.disruptionEndDate,
+                      period.disruptionEndTime ? period.disruptionEndTime : "",
+                  ).add(7, "day");
 
         const endingOnDate = getFormattedDate(period.disruptionRepeatsEndDate).add(1, "day");
 
@@ -55,8 +55,8 @@ const getPeriod = (period: Validity): Period => ({
     StartTime: getDatetimeFromDateAndTime(period.disruptionStartDate, period.disruptionStartTime).toISOString(),
     ...(period.disruptionEndDate && period.disruptionEndTime
         ? {
-            EndTime: getDatetimeFromDateAndTime(period.disruptionEndDate, period.disruptionEndTime).toISOString(),
-        }
+              EndTime: getDatetimeFromDateAndTime(period.disruptionEndDate, period.disruptionEndTime).toISOString(),
+          }
         : {}),
 });
 
@@ -95,11 +95,11 @@ export const getPtSituationElementFromSiteDisruption = (
             ).toISOString(),
             ...(disruption.publishEndDate && disruption.publishEndTime
                 ? {
-                    EndTime: getDatetimeFromDateAndTime(
-                        disruption.publishEndDate,
-                        disruption.publishEndTime,
-                    ).toISOString(),
-                }
+                      EndTime: getDatetimeFromDateAndTime(
+                          disruption.publishEndDate,
+                          disruption.publishEndTime,
+                      ).toISOString(),
+                  }
                 : {}),
         },
         ValidityPeriod: disruption.validity
@@ -112,114 +112,114 @@ export const getPtSituationElementFromSiteDisruption = (
         },
         ...(disruption.associatedLink
             ? {
-                InfoLinks: {
-                    InfoLink: [
-                        {
-                            Uri: disruption.associatedLink,
-                        },
-                    ],
-                },
-            }
+                  InfoLinks: {
+                      InfoLink: [
+                          {
+                              Uri: disruption.associatedLink,
+                          },
+                      ],
+                  },
+              }
             : {}),
         ...(disruption.consequences && disruption.consequences.length > 0
             ? {
-                Consequences: {
-                    Consequence: disruption.consequences.map((consequence) => ({
-                        Condition: "unknown",
-                        Severity: consequence.disruptionSeverity,
-                        Affects: {
-                            ...(consequence.consequenceType === "networkWide" ||
-                                consequence.consequenceType === "stops"
-                                ? {
-                                    Operators: {
-                                        AllOperators: "",
-                                    },
-                                }
-                                : {}),
-                            ...(consequence.consequenceType === "networkWide" ||
-                                consequence.consequenceType === "operatorWide" ||
-                                consequence.consequenceType === "stops"
-                                ? {
-                                    Networks: {
-                                        AffectedNetwork: {
-                                            VehicleMode: consequence.vehicleMode,
-                                            AllLines: "",
+                  Consequences: {
+                      Consequence: disruption.consequences.map((consequence) => ({
+                          Condition: "unknown",
+                          Severity: consequence.disruptionSeverity,
+                          Affects: {
+                              ...(consequence.consequenceType === "networkWide" ||
+                              consequence.consequenceType === "stops"
+                                  ? {
+                                        Operators: {
+                                            AllOperators: "",
                                         },
-                                    },
-                                }
-                                : {}),
-                            ...(consequence.consequenceType === "operatorWide"
-                                ? {
-                                    Operators: {
-                                        AffectedOperator: consequence.consequenceOperators.map((operator) => ({
-                                            OperatorRef: operator.operatorNoc,
-                                            OperatorName: operator.operatorPublicName,
-                                        })),
-                                    },
-                                }
-                                : {}),
-                            ...((consequence.consequenceType === "stops" ||
-                                consequence.consequenceType === "services") &&
-                                consequence.stops &&
-                                consequence.stops.length > 0
-                                ? {
-                                    StopPoints: {
-                                        AffectedStopPoint: consequence.stops.map((stop) => ({
-                                            AffectedModes: {
-                                                Mode: {
-                                                    VehicleMode: consequence.vehicleMode,
-                                                },
+                                    }
+                                  : {}),
+                              ...(consequence.consequenceType === "networkWide" ||
+                              consequence.consequenceType === "operatorWide" ||
+                              consequence.consequenceType === "stops"
+                                  ? {
+                                        Networks: {
+                                            AffectedNetwork: {
+                                                VehicleMode: consequence.vehicleMode,
+                                                AllLines: "",
                                             },
-                                            Location: {
-                                                Longitude: stop.longitude,
-                                                Latitude: stop.latitude,
-                                            },
-                                            StopPointName: stop.commonName,
-                                            StopPointRef: stop.atcoCode,
-                                        })),
-                                    },
-                                }
-                                : {}),
-                            ...(consequence.consequenceType === "services"
-                                ? {
-                                    Networks: {
-                                        AffectedNetwork: {
-                                            VehicleMode: consequence.vehicleMode,
-                                            AffectedLine: consequence.services.map((service) => ({
-                                                AffectedOperator: {
-                                                    OperatorRef: service.nocCode,
-                                                    OperatorName: service.operatorShortName,
-                                                },
-                                                LineRef: service.lineName.replace(/\s+/g, "_"),
-                                                ...(consequence.disruptionDirection === "inbound" ||
-                                                    consequence.disruptionDirection === "outbound"
-                                                    ? {
-                                                        Direction: {
-                                                            DirectionRef:
-                                                                consequence.disruptionDirection === "inbound"
-                                                                    ? "inboundTowardsTown"
-                                                                    : "outboundFromTown",
-                                                        },
-                                                    }
-                                                    : {}),
+                                        },
+                                    }
+                                  : {}),
+                              ...(consequence.consequenceType === "operatorWide"
+                                  ? {
+                                        Operators: {
+                                            AffectedOperator: consequence.consequenceOperators.map((operator) => ({
+                                                OperatorRef: operator.operatorNoc,
+                                                OperatorName: operator.operatorPublicName,
                                             })),
                                         },
-                                    },
-                                }
-                                : {}),
-                        },
-                        Advice: {
-                            Details: consequence.description,
-                        },
-                        Blocking: {
-                            JourneyPlanner: consequence.removeFromJourneyPlanners === "yes",
-                        },
-                        ...(consequence.disruptionDelay
-                            ? { Delays: { Delay: `PT${consequence.disruptionDelay}M` } }
-                            : {}),
-                    })),
-                },
-            }
+                                    }
+                                  : {}),
+                              ...((consequence.consequenceType === "stops" ||
+                                  consequence.consequenceType === "services") &&
+                              consequence.stops &&
+                              consequence.stops.length > 0
+                                  ? {
+                                        StopPoints: {
+                                            AffectedStopPoint: consequence.stops.map((stop) => ({
+                                                AffectedModes: {
+                                                    Mode: {
+                                                        VehicleMode: consequence.vehicleMode,
+                                                    },
+                                                },
+                                                Location: {
+                                                    Longitude: stop.longitude,
+                                                    Latitude: stop.latitude,
+                                                },
+                                                StopPointName: stop.commonName,
+                                                StopPointRef: stop.atcoCode,
+                                            })),
+                                        },
+                                    }
+                                  : {}),
+                              ...(consequence.consequenceType === "services"
+                                  ? {
+                                        Networks: {
+                                            AffectedNetwork: {
+                                                VehicleMode: consequence.vehicleMode,
+                                                AffectedLine: consequence.services.map((service) => ({
+                                                    AffectedOperator: {
+                                                        OperatorRef: service.nocCode,
+                                                        OperatorName: service.operatorShortName,
+                                                    },
+                                                    LineRef: service.lineName.replace(/\s+/g, "_"),
+                                                    ...(consequence.disruptionDirection === "inbound" ||
+                                                    consequence.disruptionDirection === "outbound"
+                                                        ? {
+                                                              Direction: {
+                                                                  DirectionRef:
+                                                                      consequence.disruptionDirection === "inbound"
+                                                                          ? "inboundTowardsTown"
+                                                                          : "outboundFromTown",
+                                                              },
+                                                          }
+                                                        : {}),
+                                                })),
+                                            },
+                                        },
+                                    }
+                                  : {}),
+                          },
+                          Advice: {
+                              Details: consequence.description,
+                          },
+                          Blocking: {
+                              JourneyPlanner: consequence.removeFromJourneyPlanners === "yes",
+                          },
+                          ...(consequence.disruptionDelay
+                              ? { Delays: { Delay: `PT${consequence.disruptionDelay}M` } }
+                              : {}),
+                      })),
+                  },
+              }
             : {}),
     };
 
