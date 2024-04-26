@@ -154,12 +154,12 @@ export const consequenceSchema = z.object({
 
 export const basePtSituationElementSchema = z.object({
     CreationTime: situationElementRefSchema.shape.CreationTime,
-    VersionedAtTime: situationElementRefSchema.shape.VersionedAtTime,
     ParticipantRef: situationElementRefSchema.shape.ParticipantRef,
     SituationNumber: situationElementRefSchema.shape.SituationNumber,
     Version: z.coerce.number().optional(),
     References: referenceSchema.optional(),
     Source: sourceSchema,
+    VersionedAtTime: situationElementRefSchema.shape.VersionedAtTime,
     Progress: progressSchema,
     ValidityPeriod: z.preprocess((val) => transformToArray(val), z.array(periodSchema)),
     Repetitions: repetitionsSchema.optional(),
