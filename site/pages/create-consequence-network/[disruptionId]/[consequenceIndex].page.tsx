@@ -93,7 +93,7 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                             multiple
                             checkboxDetail={
                                 props.disruptionAreas?.map((disruptionArea) => ({
-                                    display: `${disruptionArea.shortName} - ${disruptionArea.administrativeAreaCode}`,
+                                    display: `${disruptionArea.name} - ${disruptionArea.administrativeAreaCode}`,
                                     value: disruptionArea.administrativeAreaCode,
                                     checked:
                                         pageState.inputs.disruptionArea?.includes(
