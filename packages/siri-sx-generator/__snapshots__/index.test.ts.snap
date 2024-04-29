@@ -97,7 +97,7 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML 1`] = `
                         <SourceType>feed</SourceType>
                         <TimeOfCommunication>2023-08-17T00:00:00.000Z</TimeOfCommunication>
                     </Source>
-                    <VersionedAtTime>2023-05-13T14:45:00Z</VersionedAtTime>
+                    <VersionedAtTime>2023-05-11T14:40:00Z</VersionedAtTime>
                     <Progress>open</Progress>
                     <ValidityPeriod>
                         <StartTime>2023-03-10T12:00:00.000Z</StartTime>
@@ -189,7 +189,7 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML where creationDate 
                         <SourceType>feed</SourceType>
                         <TimeOfCommunication>2023-08-17T00:00:00.000Z</TimeOfCommunication>
                     </Source>
-                    <VersionedAtTime>2023-05-13T14:45:00Z</VersionedAtTime>
+                    <VersionedAtTime>2023-05-11T14:40:00Z</VersionedAtTime>
                     <Progress>open</Progress>
                     <ValidityPeriod>
                         <StartTime>2023-03-10T12:00:00.000Z</StartTime>
@@ -353,188 +353,6 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML without Version or 
 `;
 
 exports[`SIRI-SX Generator > correctly generates SIRI-SX XML without Version or VersionedAtFields in preprod and prod 2`] = `
-"<?xml version=\\"1.0\\" encoding=\\"UTF-8\\" standalone=\\"yes\\"?>
-<Siri version=\\"2.0\\" xmlns=\\"http://www.siri.org.uk/siri\\" xmlns:xsi=\\"http://www.w3.org/2001/XMLSchema-instance\\" xsi:schemaLocation=\\"http://www.siri.org.uk/siri http://www.siri.org.uk/schema/2.0/xsd/siri.xsd\\">
-    <ServiceDelivery>
-        <ResponseTimestamp>2023-08-17T00:00:00Z</ResponseTimestamp>
-        <ProducerRef>DepartmentForTransport</ProducerRef>
-        <ResponseMessageIdentifier>abcde-fghij-klmno-pqrst</ResponseMessageIdentifier>
-        <SituationExchangeDelivery>
-            <ResponseTimestamp>2023-08-17T00:00:00Z</ResponseTimestamp>
-            <Situations>
-                <PtSituationElement>
-                    <CreationTime>2023-05-13T14:45:00Z</CreationTime>
-                    <ParticipantRef>TestOrg</ParticipantRef>
-                    <SituationNumber>acde070d-8c4c-4f0d-9d8a-162843c10333</SituationNumber>
-                    <Source>
-                        <SourceType>feed</SourceType>
-                        <TimeOfCommunication>2023-08-17T00:00:00.000Z</TimeOfCommunication>
-                    </Source>
-                    <Progress>open</Progress>
-                    <ValidityPeriod>
-                        <StartTime>2023-03-10T12:00:00.000Z</StartTime>
-                        <EndTime>2023-03-17T17:00:00.000Z</EndTime>
-                    </ValidityPeriod>
-                    <ValidityPeriod>
-                        <StartTime>2023-03-18T12:00:00.000Z</StartTime>
-                    </ValidityPeriod>
-                    <PublicationWindow>
-                        <StartTime>2023-03-10T12:00:00.000Z</StartTime>
-                    </PublicationWindow>
-                    <PersonnelReason>staffInWrongPlace</PersonnelReason>
-                    <Planned>true</Planned>
-                    <Summary>Some summary</Summary>
-                    <Description>Test description</Description>
-                    <Consequences>
-                        <Consequence>
-                            <Condition>unknown</Condition>
-                            <Severity>severe</Severity>
-                            <Affects>
-                                <Operators>
-                                    <AffectedOperator>
-                                        <OperatorRef>FSYO</OperatorRef>
-                                        <OperatorName>Operator Name</OperatorName>
-                                    </AffectedOperator>
-                                </Operators>
-                                <Networks>
-                                    <AffectedNetwork>
-                                        <VehicleMode>bus</VehicleMode>
-                                        <AllLines/>
-                                    </AffectedNetwork>
-                                </Networks>
-                            </Affects>
-                            <Advice>
-                                <Details>Some consequence description</Details>
-                            </Advice>
-                            <Blocking>
-                                <JourneyPlanner>true</JourneyPlanner>
-                            </Blocking>
-                            <Delays>
-                                <Delay>PT40M</Delay>
-                            </Delays>
-                        </Consequence>
-                        <Consequence>
-                            <Condition>unknown</Condition>
-                            <Severity>slight</Severity>
-                            <Affects>
-                                <Operators>
-                                    <AllOperators/>
-                                </Operators>
-                                <Networks>
-                                    <AffectedNetwork>
-                                        <VehicleMode>tram</VehicleMode>
-                                        <AllLines/>
-                                    </AffectedNetwork>
-                                </Networks>
-                            </Affects>
-                            <Advice>
-                                <Details>Some consequence description</Details>
-                            </Advice>
-                            <Blocking>
-                                <JourneyPlanner>false</JourneyPlanner>
-                            </Blocking>
-                        </Consequence>
-                    </Consequences>
-                </PtSituationElement>
-            </Situations>
-        </SituationExchangeDelivery>
-    </ServiceDelivery>
-</Siri>"
-`;
-
-exports[`SIRI-SX Generator > correctly generates SIRI-SX XML without Version or VersionedAtFields in prod 1`] = `
-"<?xml version=\\"1.0\\" encoding=\\"UTF-8\\" standalone=\\"yes\\"?>
-<Siri version=\\"2.0\\" xmlns=\\"http://www.siri.org.uk/siri\\" xmlns:xsi=\\"http://www.w3.org/2001/XMLSchema-instance\\" xsi:schemaLocation=\\"http://www.siri.org.uk/siri http://www.siri.org.uk/schema/2.0/xsd/siri.xsd\\">
-    <ServiceDelivery>
-        <ResponseTimestamp>2023-08-17T00:00:00Z</ResponseTimestamp>
-        <ProducerRef>DepartmentForTransport</ProducerRef>
-        <ResponseMessageIdentifier>abcde-fghij-klmno-pqrst</ResponseMessageIdentifier>
-        <SituationExchangeDelivery>
-            <ResponseTimestamp>2023-08-17T00:00:00Z</ResponseTimestamp>
-            <Situations>
-                <PtSituationElement>
-                    <CreationTime>2023-05-13T14:45:00Z</CreationTime>
-                    <ParticipantRef>TestOrg</ParticipantRef>
-                    <SituationNumber>acde070d-8c4c-4f0d-9d8a-162843c10333</SituationNumber>
-                    <Version>2</Version>
-                    <Source>
-                        <SourceType>feed</SourceType>
-                        <TimeOfCommunication>2023-08-17T00:00:00.000Z</TimeOfCommunication>
-                    </Source>
-                    <VersionedAtTime>2023-05-13T14:45:00Z</VersionedAtTime>
-                    <Progress>open</Progress>
-                    <ValidityPeriod>
-                        <StartTime>2023-03-10T12:00:00.000Z</StartTime>
-                        <EndTime>2023-03-17T17:00:00.000Z</EndTime>
-                    </ValidityPeriod>
-                    <ValidityPeriod>
-                        <StartTime>2023-03-18T12:00:00.000Z</StartTime>
-                    </ValidityPeriod>
-                    <PublicationWindow>
-                        <StartTime>2023-03-10T12:00:00.000Z</StartTime>
-                    </PublicationWindow>
-                    <PersonnelReason>staffInWrongPlace</PersonnelReason>
-                    <Planned>true</Planned>
-                    <Summary>Some summary</Summary>
-                    <Description>Test description</Description>
-                    <Consequences>
-                        <Consequence>
-                            <Condition>unknown</Condition>
-                            <Severity>severe</Severity>
-                            <Affects>
-                                <Operators>
-                                    <AffectedOperator>
-                                        <OperatorRef>FSYO</OperatorRef>
-                                        <OperatorName>Operator Name</OperatorName>
-                                    </AffectedOperator>
-                                </Operators>
-                                <Networks>
-                                    <AffectedNetwork>
-                                        <VehicleMode>bus</VehicleMode>
-                                        <AllLines/>
-                                    </AffectedNetwork>
-                                </Networks>
-                            </Affects>
-                            <Advice>
-                                <Details>Some consequence description</Details>
-                            </Advice>
-                            <Blocking>
-                                <JourneyPlanner>true</JourneyPlanner>
-                            </Blocking>
-                            <Delays>
-                                <Delay>PT40M</Delay>
-                            </Delays>
-                        </Consequence>
-                        <Consequence>
-                            <Condition>unknown</Condition>
-                            <Severity>slight</Severity>
-                            <Affects>
-                                <Operators>
-                                    <AllOperators/>
-                                </Operators>
-                                <Networks>
-                                    <AffectedNetwork>
-                                        <VehicleMode>tram</VehicleMode>
-                                        <AllLines/>
-                                    </AffectedNetwork>
-                                </Networks>
-                            </Affects>
-                            <Advice>
-                                <Details>Some consequence description</Details>
-                            </Advice>
-                            <Blocking>
-                                <JourneyPlanner>false</JourneyPlanner>
-                            </Blocking>
-                        </Consequence>
-                    </Consequences>
-                </PtSituationElement>
-            </Situations>
-        </SituationExchangeDelivery>
-    </ServiceDelivery>
-</Siri>"
-`;
-
-exports[`SIRI-SX Generator > correctly generates SIRI-SX XML without Version or VersionedAtFields in prod 2`] = `
 "<?xml version=\\"1.0\\" encoding=\\"UTF-8\\" standalone=\\"yes\\"?>
 <Siri version=\\"2.0\\" xmlns=\\"http://www.siri.org.uk/siri\\" xmlns:xsi=\\"http://www.w3.org/2001/XMLSchema-instance\\" xsi:schemaLocation=\\"http://www.siri.org.uk/siri http://www.siri.org.uk/schema/2.0/xsd/siri.xsd\\">
     <ServiceDelivery>
