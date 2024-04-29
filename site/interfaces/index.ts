@@ -80,6 +80,7 @@ export interface CreateConsequenceProps {
         administrativeAreaCode: string;
         shortName: string;
     }[];
+    stage?: string;
 }
 
 export interface DisruptionDetailCookie {
