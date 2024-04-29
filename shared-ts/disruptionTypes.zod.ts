@@ -762,8 +762,28 @@ export const networkConsequenceSchema = z.object({
     consequenceType: z.literal("networkWide", setZodDefaultError("Select a consequence type")),
     disruptionArea: z
         .string(setZodDefaultError("Select one or more disruption areas"))
-        .or(z.array(z.string()).min(1, { message: "Select one or more disruption areas" })),
+        .or(z.array(z.string()).min(1, { message: "Select one or more disruption areas" }))
+        .optional(),
 });
+
+export const refinedNetworkConsequenceSchema = (stage: string) => {
+    return networkConsequenceSchema.refine(
+        (item) => {
+            if (
+                !["preprod", "prod"].includes(stage) &&
+                (!item.disruptionArea || (item.disruptionArea && item.disruptionArea.length === 0))
+            ) {
+                return false;
+            } else {
+                return true;
+            }
+        },
+        {
+            path: ["disruptionArea"],
+            message: "Select one or more disruption areas",
+        },
+    );
+};
 
 export const consequenceOperatorsSchema = z.object({
     operatorNoc: z.string(),

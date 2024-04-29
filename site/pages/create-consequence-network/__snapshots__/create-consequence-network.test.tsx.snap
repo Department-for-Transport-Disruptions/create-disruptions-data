@@ -114,6 +114,39 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
           <div
             className="govuk-form-group"
           >
+            <fieldset
+              className="govuk-fieldset"
+              id="disruption-area"
+              role="group"
+            >
+              <legend
+                className="govuk-fieldset__legend"
+              >
+                <span
+                  className="govuk-heading-l govuk-!-margin-bottom-0"
+                >
+                  Disruption Area
+                </span>
+              </legend>
+              <div
+                className="govuk-hint"
+                id="disruption-area-hint"
+              >
+                Which area does the network cover?
+              </div>
+              <div
+                className="govuk-checkboxes flex govuk-checkboxes--small"
+                data-module="govuk-checkboxes"
+              >
+                <div
+                  className=""
+                />
+              </div>
+            </fieldset>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
             <div
               className="govuk-form-group"
               id="vehicle-mode"
@@ -714,6 +747,39 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
               </tr>
             </tbody>
           </table>
+          <div
+            className="govuk-form-group"
+          >
+            <fieldset
+              className="govuk-fieldset"
+              id="disruption-area"
+              role="group"
+            >
+              <legend
+                className="govuk-fieldset__legend"
+              >
+                <span
+                  className="govuk-heading-l govuk-!-margin-bottom-0"
+                >
+                  Disruption Area
+                </span>
+              </legend>
+              <div
+                className="govuk-hint"
+                id="disruption-area-hint"
+              >
+                Which area does the network cover?
+              </div>
+              <div
+                className="govuk-checkboxes flex govuk-checkboxes--small"
+                data-module="govuk-checkboxes"
+              >
+                <div
+                  className=""
+                />
+              </div>
+            </fieldset>
+          </div>
           <div
             className="govuk-form-group"
           >
@@ -1325,6 +1391,39 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
           <div
             className="govuk-form-group"
           >
+            <fieldset
+              className="govuk-fieldset"
+              id="disruption-area"
+              role="group"
+            >
+              <legend
+                className="govuk-fieldset__legend"
+              >
+                <span
+                  className="govuk-heading-l govuk-!-margin-bottom-0"
+                >
+                  Disruption Area
+                </span>
+              </legend>
+              <div
+                className="govuk-hint"
+                id="disruption-area-hint"
+              >
+                Which area does the network cover?
+              </div>
+              <div
+                className="govuk-checkboxes flex govuk-checkboxes--small"
+                data-module="govuk-checkboxes"
+              >
+                <div
+                  className=""
+                />
+              </div>
+            </fieldset>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
             <div
               className="govuk-form-group"
               id="vehicle-mode"
@@ -1933,6 +2032,39 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
               </tr>
             </tbody>
           </table>
+          <div
+            className="govuk-form-group"
+          >
+            <fieldset
+              className="govuk-fieldset"
+              id="disruption-area"
+              role="group"
+            >
+              <legend
+                className="govuk-fieldset__legend"
+              >
+                <span
+                  className="govuk-heading-l govuk-!-margin-bottom-0"
+                >
+                  Disruption Area
+                </span>
+              </legend>
+              <div
+                className="govuk-hint"
+                id="disruption-area-hint"
+              >
+                Which area does the network cover?
+              </div>
+              <div
+                className="govuk-checkboxes flex govuk-checkboxes--small"
+                data-module="govuk-checkboxes"
+              >
+                <div
+                  className=""
+                />
+              </div>
+            </fieldset>
+          </div>
           <div
             className="govuk-form-group"
           >

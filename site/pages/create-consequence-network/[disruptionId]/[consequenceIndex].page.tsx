@@ -96,18 +96,25 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                                     display: `${disruptionArea.name} - ${disruptionArea.administrativeAreaCode}`,
                                     value: disruptionArea.administrativeAreaCode,
                                     checked:
-                                        pageState.inputs.disruptionArea?.includes(
+                                        pageState.inputs?.disruptionArea?.includes(
                                             disruptionArea.administrativeAreaCode,
                                         ) || false,
                                 })) || []
                             }
                             stateUpdater={(value, _, checked) => {
-                                let updatedDisruptionAreas = [...(pageState.inputs?.disruptionArea || [])];
+                                let updatedDisruptionAreas = Array.isArray(pageState.inputs?.disruptionArea)
+                                    ? [...(pageState.inputs?.disruptionArea || [])]
+                                    : pageState.inputs?.disruptionArea
+                                    ? [pageState.inputs?.disruptionArea]
+                                    : [];
+
                                 if (checked) {
-                                    updatedDisruptionAreas = [...updatedDisruptionAreas, value];
+                                    if (!updatedDisruptionAreas.includes(value)) {
+                                        updatedDisruptionAreas = [...updatedDisruptionAreas, value];
+                                    }
                                 } else {
                                     updatedDisruptionAreas =
-                                        pageState.inputs.disruptionArea?.filter((area) => area !== value) || [];
+                                        updatedDisruptionAreas?.filter((area) => area !== value) || [];
                                 }
                                 setConsequenceNetworkPageState({
                                     ...pageState,
