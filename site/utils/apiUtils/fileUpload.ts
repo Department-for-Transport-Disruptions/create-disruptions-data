@@ -2,13 +2,6 @@ import formidable from "formidable";
 import { NextApiRequest } from "next";
 import { notEmpty } from "..";
 
-export interface FileData {
-    name: string;
-    files: formidable.Files;
-    fileContents: string;
-    fields?: formidable.Fields;
-}
-
 interface FilesAndFields {
     files: formidable.File[];
     fields?: formidable.Fields;
@@ -16,7 +9,7 @@ interface FilesAndFields {
 
 export const formParse = async (req: NextApiRequest): Promise<FilesAndFields> => {
     return new Promise<FilesAndFields>((resolve, reject) => {
-        const form = formidable();
+        const form = formidable({ allowEmptyFiles: true, minFileSize: 0 });
         form.parse(req, (err, fields, files) => {
             if (err) {
                 return reject(err);
@@ -37,9 +30,18 @@ export const formParse = async (req: NextApiRequest): Promise<FilesAndFields> =>
                 })
                 .filter(notEmpty);
 
+            const mappedFields: {
+                [key: string]: string;
+            } = {};
+
+            Object.entries(fields).forEach(
+                ([fieldName, fieldData]) =>
+                    (mappedFields[fieldName] = Array.isArray(fieldData) ? fieldData[0] : fieldData),
+            );
+
             return resolve({
                 files: mappedFiles,
-                fields,
+                fields: mappedFields,
             });
         });
     });
