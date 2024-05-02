@@ -62,6 +62,7 @@ const getPeriod = (period: Validity): Period => ({
 
 export const getPtSituationElementFromSiteDisruption = (
     disruption: Disruption & { organisation: { id: string; name: string } },
+    stage: string,
 ) => {
     const currentTime = getDate().toISOString();
 
@@ -79,6 +80,14 @@ export const getPtSituationElementFromSiteDisruption = (
     });
 
     const ptSituationElement: Omit<PtSituationElement, Reason | "ReasonType"> = {
+        ...(!["preprod", "prod"].includes(stage)
+            ? {
+                  Version: disruption.history?.length || 1,
+                  VersionedAtTime:
+                      disruption.lastUpdated ??
+                      getDisruptionCreationTime(disruption.history ?? null, disruption.creationTime ?? null),
+              }
+            : {}),
         CreationTime: getDisruptionCreationTime(disruption.history ?? null, disruption.creationTime ?? null),
         Planned: disruption.disruptionType === "planned",
         Summary: disruption.summary,

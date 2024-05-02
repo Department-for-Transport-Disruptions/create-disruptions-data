@@ -24,6 +24,7 @@ export const SiriGeneratorStack = ({ stack }: StackContext) => {
             SIRI_SX_UNVALIDATED_BUCKET_NAME: siriSXUnvalidatedBucket.bucketName,
             DISRUPTIONS_JSON_BUCKET_NAME: disruptionsJsonBucket.bucketName,
             DISRUPTIONS_CSV_BUCKET_NAME: disruptionsCsvBucket.bucketName,
+            STAGE: stack.stage,
         },
         permissions: [
             new PolicyStatement({

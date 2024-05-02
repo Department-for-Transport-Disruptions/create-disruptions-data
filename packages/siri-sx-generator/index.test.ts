@@ -41,6 +41,7 @@ describe("SIRI-SX Generator", () => {
             "disruptions-csv-bucket",
             "abcde-fghij-klmno-pqrst",
             "2023-08-17T00:00:00Z",
+            "dev",
         );
 
         const s3PutSiriCommand = s3Mock.commandCalls(PutObjectCommand)[0].args[0];
@@ -67,6 +68,7 @@ describe("SIRI-SX Generator", () => {
             "disruptions-csv-bucket",
             "abcde-fghij-klmno-pqrst",
             "2023-03-06T12:00:00Z",
+            "dev",
         );
 
         const s3PutSiriCommand = s3Mock.commandCalls(PutObjectCommand)[0].args[0];
@@ -93,6 +95,7 @@ describe("SIRI-SX Generator", () => {
             "disruptions-csv-bucket",
             "abcde-fghij-klmno-pqrst",
             "2023-03-06T12:00:00Z",
+            "dev",
         );
 
         const s3PutJsonCommand = s3Mock.commandCalls(PutObjectCommand)[1].args[0];
@@ -115,6 +118,7 @@ describe("SIRI-SX Generator", () => {
             "disruptions-csv-bucket",
             "abcde-fghij-klmno-pqrst",
             "2023-03-06T12:00:00Z",
+            "dev",
         );
 
         const s3PutCsvCommand = s3Mock.commandCalls(PutObjectCommand)[2].args[0];
@@ -123,4 +127,36 @@ describe("SIRI-SX Generator", () => {
         expect(s3PutCsvCommand.input.Key).toBe("disruptions.csv");
         expect(putData).toMatchSnapshot();
     });
+
+    it.each(["preprod", "prod"])(
+        "correctly generates SIRI-SX XML without Version or VersionedAtFields in preprod and prod",
+        async (stage) => {
+            ddbMock.on(ScanCommand).resolves({ Items: dbResponse });
+            ddbMock.on(GetCommand).resolves({ Item: { PK: orgId, name: "Test Org" } });
+
+            process.env.STAGE = "prod";
+
+            await generateSiriSxAndUploadToS3(
+                s3Mock as unknown as S3Client,
+                "test-table",
+                "org-table",
+                "test-bucket",
+                "disruptions-json-bucket",
+                "disruptions-csv-bucket",
+                "abcde-fghij-klmno-pqrst",
+                "2023-08-17T00:00:00Z",
+                stage,
+            );
+
+            const s3PutSiriCommand = s3Mock.commandCalls(PutObjectCommand)[0].args[0];
+            const putData = (s3PutSiriCommand.input.Body as string).replace(/(?:\r\n|\r|\n)/g, "");
+
+            expect(s3PutSiriCommand.input.Key).toBe("1692230400000-unvalidated-siri.xml");
+            expect(
+                formatXml(putData, {
+                    collapseContent: true,
+                }),
+            ).toMatchSnapshot();
+        },
+    );
 });

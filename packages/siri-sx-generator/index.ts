@@ -54,8 +54,11 @@ const convertJsonToSiri = (
     disruptions: Awaited<ReturnType<typeof enrichDisruptionsWithOrgInfo>>,
     currentTime: string,
     responseMessageIdentifier: string,
+    stage: string,
 ) => {
-    const ptSituationElements = disruptions.map((disruption) => getPtSituationElementFromSiteDisruption(disruption));
+    const ptSituationElements = disruptions.map((disruption) =>
+        getPtSituationElementFromSiteDisruption(disruption, stage),
+    );
 
     const parsedPtSituationElements =
         ptSituationElements
@@ -119,6 +122,7 @@ export const generateSiriSxAndUploadToS3 = async (
     disruptionsCsvBucketName: string,
     responseMessageIdentifier: string,
     currentTime: string,
+    stage: string,
 ) => {
     logger.info(`Scanning DynamoDB table...`);
 
@@ -127,7 +131,7 @@ export const generateSiriSxAndUploadToS3 = async (
 
         const disruptionsWithOrgInfo = await enrichDisruptionsWithOrgInfo(disruptions, orgTableName);
 
-        const siri = convertJsonToSiri(disruptionsWithOrgInfo, currentTime, responseMessageIdentifier);
+        const siri = convertJsonToSiri(disruptionsWithOrgInfo, currentTime, responseMessageIdentifier, stage);
         const apiDisruptions = getApiDisruptions(disruptionsWithOrgInfo);
         const dataCatalogueCsv = await convertToCsv(apiDisruptions);
 
@@ -172,7 +176,12 @@ export const main = async (): Promise<void> => {
             SIRI_SX_UNVALIDATED_BUCKET_NAME: unvalidatedBucketName,
             DISRUPTIONS_JSON_BUCKET_NAME: disruptionsJsonBucketName,
             DISRUPTIONS_CSV_BUCKET_NAME: disruptionsCsvBucketName,
+            STAGE: stage,
         } = process.env;
+
+        if (!stage) {
+            throw new Error("Stage must be set");
+        }
 
         if (!disruptionsTableName || !orgTableName) {
             throw new Error("Dynamo table names not set");
@@ -194,6 +203,7 @@ export const main = async (): Promise<void> => {
             disruptionsCsvBucketName,
             responseMessageIdentifier,
             currentTime.toISOString(),
+            stage,
         );
 
         logger.info("Unvalidated SIRI-SX XML and Disruptions JSON/CSV created and published to S3");
