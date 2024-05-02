@@ -16,7 +16,7 @@ interface FilesAndFields {
 
 export const formParse = async (req: NextApiRequest): Promise<FilesAndFields> => {
     return new Promise<FilesAndFields>((resolve, reject) => {
-        const form = new formidable.IncomingForm();
+        const form = formidable();
         form.parse(req, (err, fields, files) => {
             if (err) {
                 return reject(err);
