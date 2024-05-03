@@ -64,7 +64,7 @@ export const nextdoorAgencyBoundariesSchema = z.array(
 
 export const nextdoorAgencyBoundaryResultSchema = z
     .object({
-        result: z.array(nextdoorAgencyBoundariesSchema),
+        result: nextdoorAgencyBoundariesSchema,
         cursor: z.null().or(z.string()).default(null),
         has_next_page: z.boolean().default(false),
     })
