@@ -194,7 +194,7 @@ export const getNextdoorAgencyBoundaries = async (
                 } catch (error) {
                     hasNextPage = false;
                     logger.error(error);
-                    throw new Error(JSON.stringify(error));
+                    throw error;
                 }
             }
 

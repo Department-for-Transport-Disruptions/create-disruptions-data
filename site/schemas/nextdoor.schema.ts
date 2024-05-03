@@ -64,25 +64,12 @@ export const nextdoorAgencyBoundariesSchema = z.array(
 
 export const nextdoorAgencyBoundaryResultSchema = z
     .object({
-        result: z.array(
-            z.object({
-                name: z.string(),
-                group_id: z.number(),
-                geometry_id: z.number(),
-                type: z.string(),
-            }),
-        ),
+        result: z.array(nextdoorAgencyBoundariesSchema),
         cursor: z.null().or(z.string()).default(null),
         has_next_page: z.boolean().default(false),
     })
     .transform((item) => ({
-        result: item.result.map((r) => ({
-            name: r.name,
-            groupId: r.group_id,
-            geometryId: r.geometry_id,
-            type: r.type,
-        })),
-        ...(item.cursor ? { cursor: item.cursor } : {}),
+        ...item,
         ...(item.has_next_page ? { hasNextPage: item.has_next_page } : {}),
     }));
 
