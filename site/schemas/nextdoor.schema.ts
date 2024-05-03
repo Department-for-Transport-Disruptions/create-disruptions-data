@@ -46,7 +46,7 @@ export const nextdoorMeSchema = z
         agencyState: res.agency_state,
     }));
 
-export const nextdoorAgencyBoundaryResultSchema = z.array(
+export const nextdoorAgencyBoundariesSchema = z.array(
     z
         .object({
             name: z.string(),
@@ -62,12 +62,36 @@ export const nextdoorAgencyBoundaryResultSchema = z.array(
         })),
 );
 
+export const nextdoorAgencyBoundaryResultSchema = z
+    .object({
+        result: z.array(
+            z.object({
+                name: z.string(),
+                group_id: z.number(),
+                geometry_id: z.number(),
+                type: z.string(),
+            }),
+        ),
+        cursor: z.null().or(z.string()).default(null),
+        has_next_page: z.boolean().default(false),
+    })
+    .transform((item) => ({
+        result: item.result.map((r) => ({
+            name: r.name,
+            groupId: r.group_id,
+            geometryId: r.geometry_id,
+            type: r.type,
+        })),
+        ...(item.cursor ? { cursor: item.cursor } : {}),
+        ...(item.has_next_page ? { hasNextPage: item.has_next_page } : {}),
+    }));
+
 export const nextdoorAgencyBoundaryInput = z.object({
     name: z.string(),
     groupId: z.coerce.number(),
 });
 
-export type NextdoorAgencyBoundaries = z.infer<typeof nextdoorAgencyBoundaryResultSchema>;
+export type NextdoorAgencyBoundaries = z.infer<typeof nextdoorAgencyBoundariesSchema>;
 export type NextdoorAgencyBoundaryInput = z.infer<typeof nextdoorAgencyBoundaryInput>;
 
 export const nextdoorGroupIdsSchema = z.string();
