@@ -190,7 +190,7 @@ export const getNextdoorAgencyBoundaries = async (
                     results.push(...responseBody.data.result);
 
                     cursor = responseBody.data.cursor || null;
-                    hasNextPage = responseBody.data.hasNextPage || false;
+                    hasNextPage = responseBody.data.has_next_page || false;
                 } catch (error) {
                     hasNextPage = false;
                     logger.error(error);

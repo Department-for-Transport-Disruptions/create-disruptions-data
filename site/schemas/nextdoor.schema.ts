@@ -62,16 +62,11 @@ export const nextdoorAgencyBoundariesSchema = z.array(
         })),
 );
 
-export const nextdoorAgencyBoundaryResultSchema = z
-    .object({
-        result: nextdoorAgencyBoundariesSchema,
-        cursor: z.null().or(z.string()).default(null),
-        has_next_page: z.boolean().default(false),
-    })
-    .transform((item) => ({
-        ...item,
-        ...(item.has_next_page ? { hasNextPage: item.has_next_page } : {}),
-    }));
+export const nextdoorAgencyBoundaryResultSchema = z.object({
+    result: nextdoorAgencyBoundariesSchema,
+    cursor: z.null().or(z.string()).default(null),
+    has_next_page: z.boolean().default(false),
+});
 
 export const nextdoorAgencyBoundaryInput = z.object({
     name: z.string(),
