@@ -358,6 +358,7 @@ export const disruption = {
             historyItems: ["Some Text"],
         },
     ],
+    lastUpdated: "2023-05-11T14:40:00Z",
 };
 
 export const invalidDisruption1 = {
@@ -405,6 +406,7 @@ export const invalidDisruption1 = {
             historyItems: ["Some Text"],
         },
     ],
+    lastUpdated: "2023-05-11T14:40:00Z",
 };
 
 export const invalidDisruption2 = {
@@ -452,6 +454,7 @@ export const invalidDisruption2 = {
             historyItems: ["Some Text"],
         },
     ],
+    lastUpdated: "2023-05-11T14:40:00Z",
 };
 
 export const draftDisruption = {
@@ -479,6 +482,7 @@ export const draftDisruption = {
     consequences: [],
     displayId: "8fg3ha",
     orgId: orgId,
+    lastUpdated: "2023-05-11T14:40:00Z",
 };
 
 export const expiredDisruption = {
@@ -522,6 +526,7 @@ export const expiredDisruption = {
             historyItems: ["Some Text"],
         },
     ],
+    lastUpdated: "2023-05-11T14:40:00Z",
 };
 
 export const dbResponse = [
