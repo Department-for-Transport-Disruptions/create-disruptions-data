@@ -197,6 +197,9 @@ export const getPtSituationElementFromSiteDisruption = (
                                                         OperatorName: service.operatorShortName,
                                                     },
                                                     LineRef: service.lineName.replace(/\s+/g, "_"),
+                                                    ...(!["preprod", "prod"].includes(stage)
+                                                        ? { PublishedLineName: service.lineName.replace(/\s+/g, "_") }
+                                                        : {}),
                                                     ...(consequence.disruptionDirection === "inbound" ||
                                                     consequence.disruptionDirection === "outbound"
                                                         ? {

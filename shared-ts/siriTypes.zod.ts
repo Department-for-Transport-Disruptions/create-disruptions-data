@@ -83,6 +83,7 @@ export const networksSchema = z.object({
                 z.object({
                     AffectedOperator: affectedOperatorSchema,
                     LineRef: z.string(),
+                    PublishedLineName: z.string().optional(),
                     Direction: z
                         .object({
                             DirectionRef: z.union([z.literal("inboundTowardsTown"), z.literal("outboundFromTown")]),
