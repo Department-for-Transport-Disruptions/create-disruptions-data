@@ -159,26 +159,49 @@ export const getNextdoorAgencyBoundaries = async (
 
     const agencyBoundaryResponses = await Promise.all(
         accessTokens.map(async (accessToken) => {
-            const response = await fetch(`${NEXTDOOR_URL}external/api/partner/v1/agency/boundary/`, {
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${accessToken.value}`,
-                    Accept: "application/json",
-                },
-            });
+            let hasNextPage: boolean = true;
+            let cursor: string | null = null;
+            const results = [];
+            const url = `${NEXTDOOR_URL}external/api/partner/v1/agency/boundary`;
 
-            if (!response.ok) {
-                const message = "An error has occurred retrieving agency boundary results";
-                throw new Error(message);
+            while (hasNextPage) {
+                try {
+                    const requestUrl: string = cursor
+                        ? `${url}?cursor=${cursor}&enable_pagination=true`
+                        : `${url}?enable_pagination=true`;
+
+                    const response = await fetch(requestUrl, {
+                        method: "GET",
+                        headers: {
+                            Authorization: `Bearer ${accessToken.value}`,
+                            Accept: "application/json",
+                        },
+                    });
+                    if (!response.ok) {
+                        hasNextPage = false;
+                        const message = "An error has occurred retrieving agency boundary results";
+                        throw new Error(message);
+                    }
+                    const responseBody = nextdoorAgencyBoundaryResultSchema.safeParse(await response.json());
+                    if (!responseBody.success) {
+                        hasNextPage = false;
+                        throw new Error(JSON.stringify(responseBody.error));
+                    }
+                    results.push(...responseBody.data.result);
+
+                    cursor = responseBody.data.cursor || null;
+                    hasNextPage = responseBody.data.has_next_page || false;
+                } catch (error) {
+                    hasNextPage = false;
+                    logger.error(error);
+                    throw error;
+                }
             }
-
-            const responseBody = nextdoorAgencyBoundaryResultSchema.parse(await response.json());
 
             const responseWithUserId = {
                 nextdoorUserId: accessToken.nextdoorUserId,
-                boundaries: responseBody,
+                boundaries: results,
             };
-
             return responseWithUserId;
         }),
     );
