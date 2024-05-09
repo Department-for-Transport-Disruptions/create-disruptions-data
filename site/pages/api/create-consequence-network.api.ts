@@ -47,7 +47,12 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
             if (!body.disruptionId || !body.consequenceIndex) {
                 throw new Error("No disruptionId or consequenceIndex found");
             }
-
+            console.log(
+                JSON.stringify({
+                    inputs: body,
+                    errors: flattenZodErrors(validatedBody.error),
+                }),
+            );
             setCookieOnResponseObject(
                 COOKIES_CONSEQUENCE_NETWORK_ERRORS,
                 JSON.stringify({
