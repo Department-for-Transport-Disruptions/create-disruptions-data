@@ -201,6 +201,29 @@ const getRows = (
             ],
         });
     }
+    if (consequence.consequenceType === "networkWide") {
+        rows.push({
+            header: "Disruption Area",
+            cells: [
+                {
+                    value: consequence.disruptionArea ? [...consequence.disruptionArea].join(", ") : "N/A",
+                },
+                {
+                    value:
+                        isEditingAllowed &&
+                        createChangeLink(
+                            "disruption-area",
+                            getConsequenceUrl(consequence.consequenceType),
+                            disruption.disruptionId,
+                            consequence.consequenceIndex,
+                            true,
+                            isDisruptionDetail,
+                            isTemplate,
+                        ),
+                },
+            ],
+        });
+    }
 
     rows.push(
         {
