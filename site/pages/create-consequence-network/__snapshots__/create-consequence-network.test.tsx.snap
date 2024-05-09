@@ -1,5 +1,699 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`pages > CreateConsequenceNetwork > should render correctly with inputs & disruptionAreas 1`] = `
+[
+  <div
+    className="app-phase-banner__wrapper"
+  >
+    <div
+      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    >
+      <p
+        className="govuk-phase-banner__content"
+      >
+        <strong
+          className="govuk-tag govuk-phase-banner__content__tag"
+        >
+          beta
+        </strong>
+        <span
+          className="govuk-phase-banner__text"
+        >
+          This is a new service – your
+           
+          <a
+            className="govuk-link"
+            href="/feedback"
+            id="feedback-link"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+          >
+            feedback
+          </a>
+           
+          will help us to improve it.
+        </span>
+      </p>
+    </div>
+  </div>,
+  <div
+    className="govuk-width-container"
+  >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
+    <main
+      className="govuk-main-wrapper"
+      id="main-content"
+    >
+      <form
+        action="/api/create-consequence-network"
+        method="post"
+      >
+        <input
+          name="csrf_token"
+          type="hidden"
+          value=""
+        />
+        <div
+          className="govuk-form-group"
+        >
+          <h1
+            className="govuk-heading-xl"
+          >
+            Add a consequence
+          </h1>
+          <table
+            className="govuk-table"
+          >
+            <thead
+              className="govuk-table__head"
+            >
+              <tr
+                className="govuk-table__row"
+              />
+            </thead>
+            <tbody
+              className="govuk-table__body"
+            >
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Consequence type
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  Network wide
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  <a
+                    className="govuk-link"
+                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                    onTouchStart={[Function]}
+                  >
+                    Change
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div
+            className="govuk-form-group"
+          >
+            <fieldset
+              className="govuk-fieldset"
+              id="disruption-area"
+              role="group"
+            >
+              <legend
+                className="govuk-fieldset__legend"
+              >
+                <span
+                  className="govuk-heading-l govuk-!-margin-bottom-0"
+                >
+                  Disruption Area
+                </span>
+              </legend>
+              <div
+                className="govuk-hint"
+                id="disruption-area-hint"
+              >
+                Which area does the network cover?
+              </div>
+              <div
+                className="govuk-checkboxes flex govuk-checkboxes--small"
+                data-module="govuk-checkboxes"
+              >
+                <div
+                  className=""
+                >
+                  <div
+                    className="govuk-checkboxes__item"
+                  >
+                    <input
+                      className="govuk-checkboxes__input"
+                      defaultChecked={true}
+                      id="disruption-area-082"
+                      name="disruptionArea"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="082"
+                    />
+                    <label
+                      className="govuk-label govuk-checkboxes__label"
+                      htmlFor="disruption-area-082"
+                    >
+                      Test admin area - 082
+                    </label>
+                  </div>
+                  <div
+                    className="govuk-checkboxes__item"
+                  >
+                    <input
+                      className="govuk-checkboxes__input"
+                      defaultChecked={false}
+                      id="disruption-area-099"
+                      name="disruptionArea"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="099"
+                    />
+                    <label
+                      className="govuk-label govuk-checkboxes__label"
+                      htmlFor="disruption-area-099"
+                    >
+                      Test admin area 2 - 099
+                    </label>
+                  </div>
+                  <div
+                    className="govuk-checkboxes__item"
+                  >
+                    <input
+                      className="govuk-checkboxes__input"
+                      defaultChecked={false}
+                      id="disruption-area-147"
+                      name="disruptionArea"
+                      onChange={[Function]}
+                      type="checkbox"
+                      value="147"
+                    />
+                    <label
+                      className="govuk-label govuk-checkboxes__label"
+                      htmlFor="disruption-area-147"
+                    >
+                      Test admin area 3 - 147
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
+            <div
+              className="govuk-form-group"
+              id="vehicle-mode"
+            >
+              <label
+                className="govuk-label govuk-label--l"
+                htmlFor="vehicle-mode-input"
+              >
+                Mode of transport
+              </label>
+              <div
+                className=""
+              >
+                <select
+                  className="govuk-select w-3/4"
+                  defaultValue=""
+                  id="vehicle-mode-input"
+                  name="vehicleMode"
+                  onChange={[Function]}
+                >
+                  <option
+                    disabled={true}
+                    value=""
+                  >
+                    Select mode of transport
+                  </option>
+                  <option
+                    value="bus"
+                  >
+                    Bus
+                  </option>
+                  <option
+                    value="tram"
+                  >
+                    Tram
+                  </option>
+                  <option
+                    value="ferryService"
+                  >
+                    Ferry
+                  </option>
+                  <option
+                    value="rail"
+                  >
+                    Train
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
+            <div
+              className="govuk-form-group"
+              id="description"
+            >
+              <label
+                className="govuk-label govuk-label--l"
+                htmlFor="description-input"
+              >
+                Consequence description
+              </label>
+              <div
+                className="govuk-hint"
+                id="description-hint"
+              >
+                What advice would you like to display?
+              </div>
+              <div
+                className=""
+              >
+                <textarea
+                  aria-describedby="description-hint"
+                  className="govuk-textarea w-3/4"
+                  defaultValue="A truck broke down on a bridge"
+                  id="description-input"
+                  maxLength={1000}
+                  name="description"
+                  onChange={[Function]}
+                  rows={3}
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
+            <fieldset
+              className="govuk-fieldset"
+              id="remove-from-journey-planners"
+            >
+              <legend
+                className="govuk-fieldset__legend"
+              >
+                <span
+                  className="govuk-heading-l govuk-!-margin-bottom-0"
+                >
+                  Remove from journey planners
+                </span>
+              </legend>
+              <div
+                className=""
+              >
+                <div
+                  className="govuk-radios"
+                  data-module="govuk-radios"
+                >
+                  <div
+                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      data-aria-controls="remove-from-journey-planners-yes-conditional"
+                      defaultChecked={true}
+                      id="remove-from-journey-planners-yes"
+                      name="removeFromJourneyPlanners"
+                      onChange={[Function]}
+                      type="radio"
+                      value="yes"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="remove-from-journey-planners-yes"
+                    >
+                      Yes
+                    </label>
+                  </div>
+                  <div
+                    className="govuk-radios__item"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      data-aria-controls="remove-from-journey-planners-no-conditional"
+                      defaultChecked={false}
+                      id="remove-from-journey-planners-no"
+                      name="removeFromJourneyPlanners"
+                      onChange={[Function]}
+                      type="radio"
+                      value="no"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="remove-from-journey-planners-no"
+                    >
+                      No
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
+            <div
+              className="govuk-form-group "
+              id="disruption-delay"
+            >
+              <div>
+                <label
+                  className="govuk-label govuk-label--l"
+                  htmlFor="disruption-delay-input"
+                >
+                  Delay (optional)
+                </label>
+              </div>
+              <div
+                className="govuk-hint"
+                id="disruption-delay-hint"
+              >
+                Enter time in minutes
+              </div>
+              <div
+                className="mt-auto"
+              >
+                <div
+                  className=""
+                >
+                  <div
+                    className=""
+                  >
+                    <input
+                      aria-describedby="disruption-delay-hint"
+                      className="govuk-input govuk-date-input__input govuk-input--width-4"
+                      defaultValue="yes"
+                      disabled={false}
+                      id="disruption-delay-input"
+                      name="disruptionDelay"
+                      onChange={[Function]}
+                      placeholder=""
+                      type="text"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
+            <div
+              className="govuk-form-group"
+              id="disruption-severity"
+            >
+              <label
+                className="govuk-label govuk-label--l"
+                htmlFor="disruption-severity-input"
+              >
+                Disruption severity
+              </label>
+              <div
+                className=""
+              >
+                <select
+                  className="govuk-select w-3/4"
+                  defaultValue="severe"
+                  id="disruption-severity-input"
+                  name="disruptionSeverity"
+                  onChange={[Function]}
+                >
+                  <option
+                    disabled={true}
+                    value=""
+                  >
+                    Select severity
+                  </option>
+                  <option
+                    value="unknown"
+                  >
+                    Unknown
+                  </option>
+                  <option
+                    value="verySlight"
+                  >
+                    Very slight
+                  </option>
+                  <option
+                    value="slight"
+                  >
+                    Slight
+                  </option>
+                  <option
+                    value="normal"
+                  >
+                    Normal
+                  </option>
+                  <option
+                    value="severe"
+                  >
+                    Severe
+                  </option>
+                  <option
+                    value="verySevere"
+                  >
+                    Very severe
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <input
+            name="consequenceType"
+            type="hidden"
+            value="networkWide"
+          />
+          <input
+            name="disruptionId"
+            type="hidden"
+            value="aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+          />
+          <input
+            name="consequenceIndex"
+            type="hidden"
+          />
+          <button
+            className="govuk-button mt-8"
+            data-module="govuk-button"
+          >
+            Save and continue
+          </button>
+          <button
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            formAction="/api/create-consequence-network?draft=true"
+          >
+            Save as draft
+          </button>
+          <button
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            formAction="/api/create-consequence-network?addAnotherConsequence=true"
+          >
+            Add another consequence
+          </button>
+        </div>
+      </form>
+    </main>
+    <div>
+      <h2
+        className="govuk-heading-s"
+      >
+        Help and Support
+      </h2>
+      <p
+        className="govuk-body"
+      >
+        If you are having problems, please contact the Create Disruption Service via this link:
+         
+        <a
+          className="govuk-link govuk-!-font-size-19"
+          href="/contact"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
+        >
+          Contact us
+        </a>
+      </p>
+    </div>
+  </div>,
+  <footer
+    className="govuk-footer"
+    role="contentinfo"
+  >
+    <div
+      className="govuk-width-container"
+    >
+      <div
+        className="govuk-footer__meta"
+      >
+        <div
+          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+        >
+          <h2
+            className="govuk-visually-hidden"
+          >
+            Support links
+          </h2>
+          <ul
+            className="govuk-footer__inline-list"
+          >
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/contact"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Help
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/cookies"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Cookies
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/contact"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Contact
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/accessibility"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Accessibility
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="https://www.gov.uk/help/terms-conditions"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Terms and conditions
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/privacy"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Privacy
+              </a>
+            </li>
+          </ul>
+          <p
+            className="govuk-footer__body"
+          >
+            Built by the
+             
+            <a
+              className="govuk-footer__link"
+              href="https://www.gov.uk/government/organisations/department-for-transport"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+              rel="noreferrer"
+              target="_blank"
+            >
+              Department for Transport
+            </a>
+          </p>
+          <svg
+            aria-hidden="true"
+            className="govuk-footer__licence-logo"
+            focusable="false"
+            height="17"
+            viewBox="0 0 483.2 195.7"
+            width="41"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145"
+              fill="currentColor"
+            />
+          </svg>
+          <span
+            className="govuk-footer__licence-description"
+          >
+            All content is available under the
+             
+            <a
+              className="govuk-footer__link"
+              href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+              rel="license"
+            >
+              Open Government Licence v3.0
+            </a>
+            , except where otherwise stated
+          </span>
+        </div>
+        <div
+          className="govuk-footer__meta-item"
+        >
+          <a
+            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+          >
+            © Crown copyright
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>,
+]
+`;
+
 exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 1`] = `
 [
   <div
@@ -111,6 +805,39 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
               </tr>
             </tbody>
           </table>
+          <div
+            className="govuk-form-group"
+          >
+            <fieldset
+              className="govuk-fieldset"
+              id="disruption-area"
+              role="group"
+            >
+              <legend
+                className="govuk-fieldset__legend"
+              >
+                <span
+                  className="govuk-heading-l govuk-!-margin-bottom-0"
+                >
+                  Disruption Area
+                </span>
+              </legend>
+              <div
+                className="govuk-hint"
+                id="disruption-area-hint"
+              >
+                Which area does the network cover?
+              </div>
+              <div
+                className="govuk-checkboxes flex govuk-checkboxes--small"
+                data-module="govuk-checkboxes"
+              >
+                <div
+                  className=""
+                />
+              </div>
+            </fieldset>
+          </div>
           <div
             className="govuk-form-group"
           >
@@ -717,6 +1444,39 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
           <div
             className="govuk-form-group"
           >
+            <fieldset
+              className="govuk-fieldset"
+              id="disruption-area"
+              role="group"
+            >
+              <legend
+                className="govuk-fieldset__legend"
+              >
+                <span
+                  className="govuk-heading-l govuk-!-margin-bottom-0"
+                >
+                  Disruption Area
+                </span>
+              </legend>
+              <div
+                className="govuk-hint"
+                id="disruption-area-hint"
+              >
+                Which area does the network cover?
+              </div>
+              <div
+                className="govuk-checkboxes flex govuk-checkboxes--small"
+                data-module="govuk-checkboxes"
+              >
+                <div
+                  className=""
+                />
+              </div>
+            </fieldset>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
             <div
               className="govuk-form-group"
               id="vehicle-mode"
@@ -767,6 +1527,609 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                     value="underground"
                   >
                     Underground
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
+            <div
+              className="govuk-form-group"
+              id="description"
+            >
+              <label
+                className="govuk-label govuk-label--l"
+                htmlFor="description-input"
+              >
+                Consequence description
+              </label>
+              <div
+                className="govuk-hint"
+                id="description-hint"
+              >
+                What advice would you like to display?
+              </div>
+              <div
+                className=""
+              >
+                <textarea
+                  aria-describedby="description-hint"
+                  className="govuk-textarea w-3/4"
+                  defaultValue="A truck broke down on a bridge"
+                  id="description-input"
+                  maxLength={1000}
+                  name="description"
+                  onChange={[Function]}
+                  rows={3}
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
+            <fieldset
+              className="govuk-fieldset"
+              id="remove-from-journey-planners"
+            >
+              <legend
+                className="govuk-fieldset__legend"
+              >
+                <span
+                  className="govuk-heading-l govuk-!-margin-bottom-0"
+                >
+                  Remove from journey planners
+                </span>
+              </legend>
+              <div
+                className=""
+              >
+                <div
+                  className="govuk-radios"
+                  data-module="govuk-radios"
+                >
+                  <div
+                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      data-aria-controls="remove-from-journey-planners-yes-conditional"
+                      defaultChecked={true}
+                      id="remove-from-journey-planners-yes"
+                      name="removeFromJourneyPlanners"
+                      onChange={[Function]}
+                      type="radio"
+                      value="yes"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="remove-from-journey-planners-yes"
+                    >
+                      Yes
+                    </label>
+                  </div>
+                  <div
+                    className="govuk-radios__item"
+                  >
+                    <input
+                      className="govuk-radios__input"
+                      data-aria-controls="remove-from-journey-planners-no-conditional"
+                      defaultChecked={false}
+                      id="remove-from-journey-planners-no"
+                      name="removeFromJourneyPlanners"
+                      onChange={[Function]}
+                      type="radio"
+                      value="no"
+                    />
+                    <label
+                      className="govuk-label govuk-radios__label"
+                      htmlFor="remove-from-journey-planners-no"
+                    >
+                      No
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
+            <div
+              className="govuk-form-group "
+              id="disruption-delay"
+            >
+              <div>
+                <label
+                  className="govuk-label govuk-label--l"
+                  htmlFor="disruption-delay-input"
+                >
+                  Delay (optional)
+                </label>
+              </div>
+              <div
+                className="govuk-hint"
+                id="disruption-delay-hint"
+              >
+                Enter time in minutes
+              </div>
+              <div
+                className="mt-auto"
+              >
+                <div
+                  className=""
+                >
+                  <div
+                    className=""
+                  >
+                    <input
+                      aria-describedby="disruption-delay-hint"
+                      className="govuk-input govuk-date-input__input govuk-input--width-4"
+                      defaultValue="yes"
+                      disabled={false}
+                      id="disruption-delay-input"
+                      name="disruptionDelay"
+                      onChange={[Function]}
+                      placeholder=""
+                      type="text"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="govuk-form-group"
+          >
+            <div
+              className="govuk-form-group"
+              id="disruption-severity"
+            >
+              <label
+                className="govuk-label govuk-label--l"
+                htmlFor="disruption-severity-input"
+              >
+                Disruption severity
+              </label>
+              <div
+                className=""
+              >
+                <select
+                  className="govuk-select w-3/4"
+                  defaultValue="severe"
+                  id="disruption-severity-input"
+                  name="disruptionSeverity"
+                  onChange={[Function]}
+                >
+                  <option
+                    disabled={true}
+                    value=""
+                  >
+                    Select severity
+                  </option>
+                  <option
+                    value="unknown"
+                  >
+                    Unknown
+                  </option>
+                  <option
+                    value="verySlight"
+                  >
+                    Very slight
+                  </option>
+                  <option
+                    value="slight"
+                  >
+                    Slight
+                  </option>
+                  <option
+                    value="normal"
+                  >
+                    Normal
+                  </option>
+                  <option
+                    value="severe"
+                  >
+                    Severe
+                  </option>
+                  <option
+                    value="verySevere"
+                  >
+                    Very severe
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <input
+            name="consequenceType"
+            type="hidden"
+            value="networkWide"
+          />
+          <input
+            name="disruptionId"
+            type="hidden"
+            value="aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+          />
+          <input
+            name="consequenceIndex"
+            type="hidden"
+          />
+          <button
+            className="govuk-button mt-8"
+            data-module="govuk-button"
+          >
+            Save and continue
+          </button>
+          <button
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            formAction="/api/create-consequence-network?draft=true"
+          >
+            Save as draft
+          </button>
+          <button
+            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            formAction="/api/create-consequence-network?addAnotherConsequence=true"
+          >
+            Add another consequence
+          </button>
+        </div>
+      </form>
+    </main>
+    <div>
+      <h2
+        className="govuk-heading-s"
+      >
+        Help and Support
+      </h2>
+      <p
+        className="govuk-body"
+      >
+        If you are having problems, please contact the Create Disruption Service via this link:
+         
+        <a
+          className="govuk-link govuk-!-font-size-19"
+          href="/contact"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
+        >
+          Contact us
+        </a>
+      </p>
+    </div>
+  </div>,
+  <footer
+    className="govuk-footer"
+    role="contentinfo"
+  >
+    <div
+      className="govuk-width-container"
+    >
+      <div
+        className="govuk-footer__meta"
+      >
+        <div
+          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+        >
+          <h2
+            className="govuk-visually-hidden"
+          >
+            Support links
+          </h2>
+          <ul
+            className="govuk-footer__inline-list"
+          >
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/contact"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Help
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/cookies"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Cookies
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/contact"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Contact
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/accessibility"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Accessibility
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="https://www.gov.uk/help/terms-conditions"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Terms and conditions
+              </a>
+            </li>
+            <li
+              className="govuk-footer__inline-list-item"
+            >
+              <a
+                className="govuk-footer__link"
+                href="/privacy"
+                onClick={[Function]}
+                onMouseEnter={[Function]}
+                onTouchStart={[Function]}
+              >
+                Privacy
+              </a>
+            </li>
+          </ul>
+          <p
+            className="govuk-footer__body"
+          >
+            Built by the
+             
+            <a
+              className="govuk-footer__link"
+              href="https://www.gov.uk/government/organisations/department-for-transport"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+              rel="noreferrer"
+              target="_blank"
+            >
+              Department for Transport
+            </a>
+          </p>
+          <svg
+            aria-hidden="true"
+            className="govuk-footer__licence-logo"
+            focusable="false"
+            height="17"
+            viewBox="0 0 483.2 195.7"
+            width="41"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145"
+              fill="currentColor"
+            />
+          </svg>
+          <span
+            className="govuk-footer__licence-description"
+          >
+            All content is available under the
+             
+            <a
+              className="govuk-footer__link"
+              href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+              rel="license"
+            >
+              Open Government Licence v3.0
+            </a>
+            , except where otherwise stated
+          </span>
+        </div>
+        <div
+          className="govuk-footer__meta-item"
+        >
+          <a
+            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+          >
+            © Crown copyright
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>,
+]
+`;
+
+exports[`pages > CreateConsequenceNetwork > should render correctly with inputs when stage is preprod/prod 1`] = `
+[
+  <div
+    className="app-phase-banner__wrapper"
+  >
+    <div
+      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    >
+      <p
+        className="govuk-phase-banner__content"
+      >
+        <strong
+          className="govuk-tag govuk-phase-banner__content__tag"
+        >
+          beta
+        </strong>
+        <span
+          className="govuk-phase-banner__text"
+        >
+          This is a new service – your
+           
+          <a
+            className="govuk-link"
+            href="/feedback"
+            id="feedback-link"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+          >
+            feedback
+          </a>
+           
+          will help us to improve it.
+        </span>
+      </p>
+    </div>
+  </div>,
+  <div
+    className="govuk-width-container"
+  >
+    <button
+      className="govuk-back-link mb-7"
+      onClick={[Function]}
+      type="button"
+    >
+      Back
+    </button>
+    <main
+      className="govuk-main-wrapper"
+      id="main-content"
+    >
+      <form
+        action="/api/create-consequence-network"
+        method="post"
+      >
+        <input
+          name="csrf_token"
+          type="hidden"
+          value=""
+        />
+        <div
+          className="govuk-form-group"
+        >
+          <h1
+            className="govuk-heading-xl"
+          >
+            Add a consequence
+          </h1>
+          <table
+            className="govuk-table"
+          >
+            <thead
+              className="govuk-table__head"
+            >
+              <tr
+                className="govuk-table__row"
+              />
+            </thead>
+            <tbody
+              className="govuk-table__body"
+            >
+              <tr
+                className="govuk-table__row"
+              >
+                <th
+                  className="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Consequence type
+                </th>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  Network wide
+                </td>
+                <td
+                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  <a
+                    className="govuk-link"
+                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0"
+                    onClick={[Function]}
+                    onMouseEnter={[Function]}
+                    onTouchStart={[Function]}
+                  >
+                    Change
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div
+            className="govuk-form-group"
+          >
+            <div
+              className="govuk-form-group"
+              id="vehicle-mode"
+            >
+              <label
+                className="govuk-label govuk-label--l"
+                htmlFor="vehicle-mode-input"
+              >
+                Mode of transport
+              </label>
+              <div
+                className=""
+              >
+                <select
+                  className="govuk-select w-3/4"
+                  defaultValue=""
+                  id="vehicle-mode-input"
+                  name="vehicleMode"
+                  onChange={[Function]}
+                >
+                  <option
+                    disabled={true}
+                    value=""
+                  >
+                    Select mode of transport
+                  </option>
+                  <option
+                    value="bus"
+                  >
+                    Bus
+                  </option>
+                  <option
+                    value="tram"
+                  >
+                    Tram
+                  </option>
+                  <option
+                    value="ferryService"
+                  >
+                    Ferry
+                  </option>
+                  <option
+                    value="rail"
+                  >
+                    Train
                   </option>
                 </select>
               </div>
@@ -1322,6 +2685,39 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
               </tr>
             </tbody>
           </table>
+          <div
+            className="govuk-form-group"
+          >
+            <fieldset
+              className="govuk-fieldset"
+              id="disruption-area"
+              role="group"
+            >
+              <legend
+                className="govuk-fieldset__legend"
+              >
+                <span
+                  className="govuk-heading-l govuk-!-margin-bottom-0"
+                >
+                  Disruption Area
+                </span>
+              </legend>
+              <div
+                className="govuk-hint"
+                id="disruption-area-hint"
+              >
+                Which area does the network cover?
+              </div>
+              <div
+                className="govuk-checkboxes flex govuk-checkboxes--small"
+                data-module="govuk-checkboxes"
+              >
+                <div
+                  className=""
+                />
+              </div>
+            </fieldset>
+          </div>
           <div
             className="govuk-form-group"
           >
@@ -1933,6 +3329,39 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
               </tr>
             </tbody>
           </table>
+          <div
+            className="govuk-form-group"
+          >
+            <fieldset
+              className="govuk-fieldset"
+              id="disruption-area"
+              role="group"
+            >
+              <legend
+                className="govuk-fieldset__legend"
+              >
+                <span
+                  className="govuk-heading-l govuk-!-margin-bottom-0"
+                >
+                  Disruption Area
+                </span>
+              </legend>
+              <div
+                className="govuk-hint"
+                id="disruption-area-hint"
+              >
+                Which area does the network cover?
+              </div>
+              <div
+                className="govuk-checkboxes flex govuk-checkboxes--small"
+                data-module="govuk-checkboxes"
+              >
+                <div
+                  className=""
+                />
+              </div>
+            </fieldset>
+          </div>
           <div
             className="govuk-form-group"
           >
