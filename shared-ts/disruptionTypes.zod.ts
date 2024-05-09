@@ -8,6 +8,7 @@ import {
     miscellaneousReasonSchema,
     personnelReasonSchema,
 } from "./siriTypes.zod";
+import { transformToArray } from "./utils";
 import { checkOverlap, getDatetimeFromDateAndTime, getFormattedDate } from "./utils/dates";
 import { isValidTime, setZodDefaultError, zodDate, zodTime, zodTimeInMinutes } from "./utils/zod";
 
@@ -760,7 +761,34 @@ const baseConsequence = {
 export const networkConsequenceSchema = z.object({
     ...baseConsequence,
     consequenceType: z.literal("networkWide", setZodDefaultError("Select a consequence type")),
+    disruptionArea: z
+        .preprocess(
+            (val) => transformToArray(val),
+            z
+                .array(z.string(setZodDefaultError("Select one or more disruption areas")))
+                .min(1, { message: "Select one or more disruption areas" }),
+        )
+        .optional(),
 });
+
+export const refinedNetworkConsequenceSchema = (networkAreaFeatureFlag: boolean) => {
+    return networkConsequenceSchema.refine(
+        (item) => {
+            if (
+                networkAreaFeatureFlag &&
+                (!item.disruptionArea || (item.disruptionArea && item.disruptionArea.length === 0))
+            ) {
+                return false;
+            } else {
+                return true;
+            }
+        },
+        {
+            path: ["disruptionArea"],
+            message: "Select one or more disruption areas",
+        },
+    );
+};
 
 export const consequenceOperatorsSchema = z.object({
     operatorNoc: z.string(),

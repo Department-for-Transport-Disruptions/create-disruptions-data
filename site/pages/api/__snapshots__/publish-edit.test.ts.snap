@@ -8,6 +8,9 @@ exports[`publishEdit > should write the correct disruptions data to dynamoDB 1`]
         "consequenceIndex": 1,
         "consequenceType": "networkWide",
         "description": "Some consequence description",
+        "disruptionArea": [
+          "082",
+        ],
         "disruptionId": "acde070d-8c4c-4f0d-9d8a-162843c10333",
         "disruptionSeverity": "slight",
         "removeFromJourneyPlanners": "no",

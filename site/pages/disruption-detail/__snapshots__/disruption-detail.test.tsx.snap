@@ -549,6 +549,34 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
+                        Disruption Area
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-network/2/0?return=%2Fdisruption-detail"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
                         Advice to display
                       </th>
                       <td
@@ -2433,6 +2461,34 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
+                        Disruption Area
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-network/2/0?return=%2Fdisruption-detail&template=true"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
                         Advice to display
                       </th>
                       <td
@@ -4183,6 +4239,24 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
+                        Disruption Area
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
                         Advice to display
                       </th>
                       <td
@@ -5549,6 +5623,24 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         className="govuk-table__header align-middle"
                         scope="row"
                       >
+                        Disruption Area
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
                         Advice to display
                       </th>
                       <td
@@ -6903,6 +6995,24 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Bus
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Disruption Area
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
@@ -8396,6 +8506,34 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Bus
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-network/2/0?return=%2Fdisruption-detail&template=true"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Disruption Area
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
@@ -10286,6 +10424,34 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         Bus
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-network/2/0?return=%2Fdisruption-detail"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Disruption Area
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        N/A
                       </td>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "

@@ -1,11 +1,12 @@
 import { NetworkConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { networkConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { refinedNetworkConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_CONSEQUENCE_NETWORK_ERRORS,
     CREATE_CONSEQUENCE_NETWORK_PATH,
     DASHBOARD_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
+    NETWORK_AREA_FEATURE_FLAG,
     REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
@@ -29,7 +30,7 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
         const isFromTemplate = isDisruptionFromTemplate(req);
         const { template, addAnotherConsequence } = req.query;
         const body = req.body as NetworkConsequence;
-        const validatedBody = networkConsequenceSchema.safeParse(body);
+        const validatedBody = refinedNetworkConsequenceSchema(NETWORK_AREA_FEATURE_FLAG).safeParse(body);
         const session = getSession(req);
 
         const { draft } = req.query;
