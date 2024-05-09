@@ -151,6 +151,7 @@ describe("create-consequence-network API", () => {
             { errorMessage: "Select the severity from the dropdown", id: "disruptionSeverity" },
             { errorMessage: "Select a mode of transport", id: "vehicleMode" },
             { errorMessage: "Select a consequence type", id: "consequenceType" },
+            { errorMessage: "Select one or more disruption areas", id: "0" },
         ];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
