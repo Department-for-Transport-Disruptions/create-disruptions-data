@@ -766,8 +766,7 @@ export const networkConsequenceSchema = z.object({
             (val) => transformToArray(val),
             z
                 .array(z.string(setZodDefaultError("Select one or more disruption areas")))
-                .min(1, { message: "Select one or more disruption areas" })
-                .optional(),
+                .min(1, { message: "Select one or more disruption areas" }),
         )
         .optional(),
 });

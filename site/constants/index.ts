@@ -339,4 +339,4 @@ export const MAX_OPERATOR_NOC_CODES = 5;
 
 export const NETWORK_AREA_FEATURE_FLAG = !["preprod", "prod"].includes(STAGE);
 
-export const exclusions = ["110", "143", "146", "147"];
+export const NETWORK_CONSEQUENCE_ADMIN_AREA_EXCLUSIONS = ["110", "143", "146", "147"];

@@ -22,7 +22,7 @@ import {
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
     DISRUPTION_SEVERITIES,
-    exclusions,
+    NETWORK_CONSEQUENCE_ADMIN_AREA_EXCLUSIONS,
     STAGE,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../../constants";
@@ -323,7 +323,7 @@ export const getServerSideProps = async (
             showUnderground: session.showUnderground,
             disruptionAreas: adminAreas.filter(
                 (adminArea) =>
-                    !exclusions.includes(adminArea.administrativeAreaCode) &&
+                    !NETWORK_CONSEQUENCE_ADMIN_AREA_EXCLUSIONS.includes(adminArea.administrativeAreaCode) &&
                     session.adminAreaCodes.includes(adminArea.administrativeAreaCode),
             ),
             stage: STAGE,
