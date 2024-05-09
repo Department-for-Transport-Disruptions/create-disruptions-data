@@ -208,4 +208,4 @@ export const getLiveRoadworks = (roadworks: Roadwork[]) =>
             return sortEarliestDate(getDate(a.actualStartDateTime ?? ""), getDate(b.actualStartDateTime ?? ""));
         });
 
-        export const transformToArray = <T>(item: T | T[]): T[] => (Array.isArray(item) ? item : [item]);
+export const transformToArray = <T>(item: T | T[]): T[] => (Array.isArray(item) ? item : [item]);
