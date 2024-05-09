@@ -33,7 +33,7 @@ export interface FormBase<T> {
     displaySize?: "s" | "m" | "l" | "xl";
     inputName: Extract<keyof T, string>;
     initialErrors?: ErrorInfo[];
-    stateUpdater: (change: string, field: keyof T) => void;
+    stateUpdater: (change: string, field: keyof T, checked?: boolean) => void;
     schema?: z.ZodTypeAny;
     disabled?: boolean;
 }
@@ -73,6 +73,12 @@ export interface CreateConsequenceProps {
     consequenceCount?: number;
     isEdit?: boolean;
     showUnderground?: boolean;
+    disruptionAreas?: {
+        name: string;
+        administrativeAreaCode: string;
+        shortName: string;
+    }[];
+    stage?: string;
 }
 
 export interface DisruptionDetailCookie {

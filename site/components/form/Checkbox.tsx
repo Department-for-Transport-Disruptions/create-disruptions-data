@@ -7,6 +7,8 @@ interface CheckboxProps<T> extends FormBase<T> {
     checkboxDetail: DisplayValuePair[];
     hideLegend?: boolean;
     reset?: boolean;
+    hint?: string;
+    multiple?: boolean;
 }
 
 const Checkbox = <T extends object>({
@@ -18,6 +20,8 @@ const Checkbox = <T extends object>({
     initialErrors = [],
     reset,
     stateUpdater,
+    hint = "",
+    multiple = false,
 }: CheckboxProps<T>): ReactElement => {
     const [errors, setErrors] = useState<ErrorInfo[]>(initialErrors);
     const ref = useRef<HTMLInputElement>(null);
@@ -43,6 +47,11 @@ const Checkbox = <T extends object>({
                 <legend className={`govuk-fieldset__legend${hideLegend ? " govuk-visually-hidden" : ""}`}>
                     <span className={`govuk-heading-${displaySize} govuk-!-margin-bottom-0`}>{display}</span>
                 </legend>
+                {hint ? (
+                    <div id={`${inputId}-hint`} className="govuk-hint">
+                        {hint}
+                    </div>
+                ) : null}
                 <div className="govuk-checkboxes flex govuk-checkboxes--small" data-module="govuk-checkboxes">
                     <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-radios--error">
                         <>
@@ -56,10 +65,14 @@ const Checkbox = <T extends object>({
                                         type="checkbox"
                                         value={item.value}
                                         onChange={(e) => {
-                                            stateUpdater(
-                                                e.currentTarget.checked ? e.currentTarget.value : "",
-                                                inputName,
-                                            );
+                                            if (multiple) {
+                                                stateUpdater(e.currentTarget.value, inputName, e.currentTarget.checked);
+                                            } else {
+                                                stateUpdater(
+                                                    e.currentTarget.checked ? e.currentTarget.value : "",
+                                                    inputName,
+                                                );
+                                            }
 
                                             setErrors([]);
                                         }}

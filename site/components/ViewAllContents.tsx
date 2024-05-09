@@ -905,7 +905,7 @@ const ViewAllContents = ({
                             value=""
                             disablePast={false}
                             inputName="disruptionStartDate"
-                            stateUpdater={(value) => {
+                            stateUpdater={(value: string) => {
                                 handleDateFilterUpdate({
                                     filter,
                                     setFilter,
@@ -929,7 +929,7 @@ const ViewAllContents = ({
                                 value=""
                                 disablePast={false}
                                 inputName="disruptionEndDate"
-                                stateUpdater={(value) => {
+                                stateUpdater={(value: string) => {
                                     handleDateFilterUpdate({
                                         filter,
                                         setFilter,
@@ -959,7 +959,7 @@ const ViewAllContents = ({
                                 { display: "Any", value: "any" },
                                 ...DISRUPTION_SEVERITIES.sort((a, b) => a.display.localeCompare(b.display)),
                             ]}
-                            stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "severity", value)}
+                            stateUpdater={(value: string) => handleFilterUpdate(filter, setFilter, "severity", value)}
                             width="1/4"
                             useDefaultValue={false}
                         />
@@ -973,7 +973,7 @@ const ViewAllContents = ({
                                     { display: "Any", value: "any" },
                                     ...DISRUPTION_STATUSES.sort((a, b) => a.display.localeCompare(b.display)),
                                 ]}
-                                stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "status", value)}
+                                stateUpdater={(value: string) => handleFilterUpdate(filter, setFilter, "status", value)}
                                 width="1/4"
                                 useDefaultValue={false}
                             />
@@ -990,7 +990,7 @@ const ViewAllContents = ({
                                         a.display.localeCompare(b.display),
                                     ),
                                 ]}
-                                stateUpdater={(value) => handleFilterUpdate(filter, setFilter, "mode", value)}
+                                stateUpdater={(value: string) => handleFilterUpdate(filter, setFilter, "mode", value)}
                                 width="1/4"
                                 useDefaultValue={false}
                             />
