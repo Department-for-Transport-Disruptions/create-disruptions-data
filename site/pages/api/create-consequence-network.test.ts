@@ -40,6 +40,7 @@ const defaultNetworkData = {
     consequenceType: "networkWide",
     consequenceIndex: defaultConsequenceIndex,
     disruptionId: defaultDisruptionId,
+    disruptionArea: ["082"],
 };
 
 const disruption: FullDisruption = createDisruptionWithConsquences([
@@ -56,6 +57,7 @@ const networkToUpsert = {
     consequenceType: "networkWide",
     consequenceIndex: 0,
     disruptionId: defaultDisruptionId,
+    disruptionArea: ["082"],
 };
 
 describe("create-consequence-network API", () => {
