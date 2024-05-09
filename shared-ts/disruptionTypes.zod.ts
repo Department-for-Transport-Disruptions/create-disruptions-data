@@ -760,17 +760,20 @@ const baseConsequence = {
 export const networkConsequenceSchema = z.object({
     ...baseConsequence,
     consequenceType: z.literal("networkWide", setZodDefaultError("Select a consequence type")),
-    disruptionArea: z
-        .string(setZodDefaultError("Select one or more disruption areas"))
-        .or(z.array(z.string()).min(1, { message: "Select one or more disruption areas" }))
-        .optional(),
+    disruptionArea: z.preprocess((val) => {
+        if (Array.isArray(val)) {
+            return val as string[];
+        } else {
+            return [val];
+        }
+    }, z.array(z.string()).min(1, { message: "Select one or more disruption areas" }).optional()),
 });
 
-export const refinedNetworkConsequenceSchema = (stage: string) => {
+export const refinedNetworkConsequenceSchema = (networkAreaFeatureFlag: boolean) => {
     return networkConsequenceSchema.refine(
         (item) => {
             if (
-                !["preprod", "prod"].includes(stage) &&
+                networkAreaFeatureFlag &&
                 (!item.disruptionArea || (item.disruptionArea && item.disruptionArea.length === 0))
             ) {
                 return false;

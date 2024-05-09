@@ -336,3 +336,7 @@ export const NEXTDOOR_AUTH_URL = "https://auth.nextdoor.com/";
 export const NEXTDOOR_URL = "https://nextdoor.co.uk/";
 
 export const MAX_OPERATOR_NOC_CODES = 5;
+
+export const NETWORK_AREA_FEATURE_FLAG = !["preprod", "prod"].includes(STAGE);
+
+export const exclusions = ["110", "143", "146", "147"];

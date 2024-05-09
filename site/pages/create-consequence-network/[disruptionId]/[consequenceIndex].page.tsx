@@ -22,6 +22,7 @@ import {
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
     DISRUPTION_SEVERITIES,
+    exclusions,
     STAGE,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../../constants";
@@ -104,11 +105,7 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                                     })) || []
                                 }
                                 stateUpdater={(value, _, checked) => {
-                                    let updatedDisruptionAreas = Array.isArray(pageState.inputs?.disruptionArea)
-                                        ? [...(pageState.inputs?.disruptionArea || [])]
-                                        : pageState.inputs?.disruptionArea
-                                        ? [pageState.inputs?.disruptionArea]
-                                        : [];
+                                    let updatedDisruptionAreas = [...(pageState.inputs?.disruptionArea || [])];
 
                                     if (checked) {
                                         if (!updatedDisruptionAreas.includes(value)) {
@@ -314,7 +311,7 @@ export const getServerSideProps = async (
     const adminAreas = await fetchAdminAreas();
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_NETWORK_ERRORS, ctx.res);
-    const exclusions = ["110", "143", "146", "147"];
+
     return {
         props: {
             ...pageState,

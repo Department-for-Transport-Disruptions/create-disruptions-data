@@ -6,8 +6,8 @@ import {
     CREATE_CONSEQUENCE_NETWORK_PATH,
     DASHBOARD_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
+    NETWORK_AREA_FEATURE_FLAG,
     REVIEW_DISRUPTION_PAGE_PATH,
-    STAGE,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
 import { TooManyConsequencesError } from "../../errors";
@@ -30,7 +30,7 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
         const isFromTemplate = isDisruptionFromTemplate(req);
         const { template, addAnotherConsequence } = req.query;
         const body = req.body as NetworkConsequence;
-        const validatedBody = refinedNetworkConsequenceSchema(STAGE).safeParse(body);
+        const validatedBody = refinedNetworkConsequenceSchema(NETWORK_AREA_FEATURE_FLAG).safeParse(body);
         const session = getSession(req);
 
         const { draft } = req.query;

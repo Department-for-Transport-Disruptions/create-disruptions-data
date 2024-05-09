@@ -29,7 +29,7 @@ const withInputsAndDisruptionaAreas: CreateConsequenceNetworkProps = {
         removeFromJourneyPlanners: "yes",
         disruptionDelay: "yes",
         disruptionSeverity: Severity.severe,
-        disruptionArea: "082",
+        disruptionArea: ["082"],
     },
     disruptionId: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
     disruptionDescription: "A truck broke down on a bridge",
