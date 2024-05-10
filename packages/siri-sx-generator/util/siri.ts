@@ -213,6 +213,23 @@ export const getPtSituationElementFromSiteDisruption = (
                                         },
                                     }
                                   : {}),
+
+                              ...(consequence.consequenceType === "networkWide" &&
+                              !["preprod", "prod"].includes(stage) &&
+                              consequence.disruptionArea &&
+                              consequence.disruptionArea.length > 0
+                                  ? {
+                                        Places: consequence.disruptionArea?.map((area) => ({
+                                            AffectedPlace: {
+                                                PlaceRef: area,
+                                                // PlaceName: adminAreas.find(
+                                                //     (code) => code.administrativeAreaCode === area,
+                                                // )?.name,
+                                                PlaceCategory: "AdministrativeArea",
+                                            },
+                                        })),
+                                    }
+                                  : {}),
                           },
                           Advice: {
                               Details: consequence.description,
