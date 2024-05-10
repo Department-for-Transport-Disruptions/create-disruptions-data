@@ -1,5 +1,6 @@
 import { Consequence, DisruptionInfo } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import {
+    Datasource,
     DayType,
     EnvironmentReason,
     MiscellaneousReason,
@@ -295,6 +296,34 @@ export const consequenceInfoNetworkTest = {
     removeFromJourneyPlanners: "no",
 };
 
+export const consequenceInfoServiceTest = {
+    consequenceIndex: 2,
+    PK: orgId,
+    SK: "acde070d-8c4c-4f0d-9d8a-162843c10333#CONSEQUENCE#2",
+    consequenceType: "services",
+    disruptionDirection: "allDirections",
+    services: [
+        {
+            destination: "Dest",
+            origin: "Origin",
+            id: 123,
+            lineName: "Line",
+            nocCode: "NOC",
+            operatorShortName: "Test",
+            dataSource: Datasource.tnds,
+            lineId: "SL1",
+            startDate: "2023-08-10",
+            endDate: null,
+            serviceCode: "1234",
+        },
+    ],
+    description: "Service test",
+    disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+    disruptionSeverity: Severity.severe,
+    removeFromJourneyPlanners: "yes",
+    vehicleMode: VehicleMode.rail,
+};
+
 export const disruptionHistoryInfoCreated = {
     datetime: "2023-05-13T14:45:00Z",
     historyItems: ["Disruption created and published"],
@@ -533,6 +562,7 @@ export const dbResponse = [
     disruption,
     consequenceInfoOperatorTest,
     consequenceInfoNetworkTest,
+    consequenceInfoServiceTest,
     invalidDisruption1,
     invalidDisruption2,
     draftDisruption,

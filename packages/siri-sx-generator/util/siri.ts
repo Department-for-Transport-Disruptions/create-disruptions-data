@@ -11,6 +11,11 @@ import {
 import { getDisruptionCreationTime } from "@create-disruptions-data/shared-ts/utils";
 import { getDate, getDatetimeFromDateAndTime, getFormattedDate } from "@create-disruptions-data/shared-ts/utils/dates";
 
+const { STAGE: stage } = process.env;
+
+const PUBLISHED_LINE_NAME_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
+const VERSION_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
+
 export const getValidityPeriod = (period: Validity): Period[] => {
     const siriValidityPeriods: Period[] = [];
 
@@ -62,7 +67,6 @@ const getPeriod = (period: Validity): Period => ({
 
 export const getPtSituationElementFromSiteDisruption = (
     disruption: Disruption & { organisation: { id: string; name: string } },
-    stage: string,
 ) => {
     const currentTime = getDate().toISOString();
 
@@ -80,7 +84,7 @@ export const getPtSituationElementFromSiteDisruption = (
     });
 
     const ptSituationElement: Omit<PtSituationElement, Reason | "ReasonType"> = {
-        ...(!["preprod", "prod"].includes(stage)
+        ...(VERSION_FEATURE_FLAG
             ? {
                   Version: disruption.history?.length || 1,
                   VersionedAtTime:
@@ -197,7 +201,7 @@ export const getPtSituationElementFromSiteDisruption = (
                                                         OperatorName: service.operatorShortName,
                                                     },
                                                     LineRef: service.lineName.replace(/\s+/g, "_"),
-                                                    ...(!["preprod", "prod"].includes(stage)
+                                                    ...(PUBLISHED_LINE_NAME_FEATURE_FLAG
                                                         ? { PublishedLineName: service.lineName.replace(/\s+/g, "_") }
                                                         : {}),
                                                     ...(consequence.disruptionDirection === "inbound" ||
