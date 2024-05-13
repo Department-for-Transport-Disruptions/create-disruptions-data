@@ -231,9 +231,9 @@ export const getPtSituationElementFromSiteDisruption = async (
                                         Places: {
                                             AffectedPlace: consequence.disruptionArea?.map((area) => ({
                                                 PlaceRef: area,
-                                                PlaceName: adminAreas.find(
-                                                    (code) => code.administrativeAreaCode === area,
-                                                )?.name,
+                                                PlaceName:
+                                                    adminAreas.find((code) => code.administrativeAreaCode === area)
+                                                        ?.name || "",
                                                 PlaceCategory: "AdministrativeArea",
                                             })),
                                         },
