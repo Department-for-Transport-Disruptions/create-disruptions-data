@@ -62,8 +62,12 @@ const getPeriod = (period: Validity): Period => ({
 
 export const getPtSituationElementFromSiteDisruption = (
     disruption: Disruption & { organisation: { id: string; name: string } },
-    stage: string,
 ) => {
+    const { STAGE: stage } = process.env;
+    const PUBLISHED_LINE_NAME_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
+    const VERSION_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
+    const LINE_REF_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
+
     const currentTime = getDate().toISOString();
 
     const reason = disruption.disruptionReason;
@@ -80,7 +84,7 @@ export const getPtSituationElementFromSiteDisruption = (
     });
 
     const ptSituationElement: Omit<PtSituationElement, Reason | "ReasonType"> = {
-        ...(!["preprod", "prod"].includes(stage)
+        ...(VERSION_FEATURE_FLAG
             ? {
                   Version: disruption.history?.length || 1,
                   VersionedAtTime:
@@ -196,9 +200,12 @@ export const getPtSituationElementFromSiteDisruption = (
                                                         OperatorRef: service.nocCode,
                                                         OperatorName: service.operatorShortName,
                                                     },
-                                                    ...(!["preprod", "prod"].includes(stage)
+                                                    ...(LINE_REF_FEATURE_FLAG
                                                         ? { LineRef: service.lineName.replace(/\s+/g, "_") }
                                                         : { LineRef: service.lineId }),
+                                                    ...(PUBLISHED_LINE_NAME_FEATURE_FLAG
+                                                        ? { PublishedLineName: service.lineName.replace(/\s+/g, "_") }
+                                                        : {}),
                                                     ...(consequence.disruptionDirection === "inbound" ||
                                                     consequence.disruptionDirection === "outbound"
                                                         ? {

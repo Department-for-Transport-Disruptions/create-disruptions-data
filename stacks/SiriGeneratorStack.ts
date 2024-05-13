@@ -90,6 +90,7 @@ export const SiriGeneratorStack = ({ stack }: StackContext) => {
             METRIC_NAMESPACE: siriGeneratorNamespace,
             VALIDATION_FAILURE_METRIC: siriValidationFailureMetric.metricName,
             SIRI_PUBLISH_METRIC: siriPublishSuccessMetric.metricName,
+            STAGE: stack.stage,
         },
         permissions: [
             new PolicyStatement({

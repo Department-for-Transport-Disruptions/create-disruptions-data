@@ -17,6 +17,7 @@ describe("SIRI-SX Generator", () => {
         process.env.DISRUPTIONS_TABLE_NAME = "test-table";
         process.env.ORGANISATIONS_TABLE_NAME = "org-table";
         process.env.SIRI_SX_UNVALIDATED_BUCKET_NAME = "test-bucket";
+        process.env.STAGE = "dev";
     });
 
     beforeEach(() => {
@@ -41,7 +42,6 @@ describe("SIRI-SX Generator", () => {
             "disruptions-csv-bucket",
             "abcde-fghij-klmno-pqrst",
             "2023-08-17T00:00:00Z",
-            "dev",
         );
 
         const s3PutSiriCommand = s3Mock.commandCalls(PutObjectCommand)[0].args[0];
@@ -68,7 +68,6 @@ describe("SIRI-SX Generator", () => {
             "disruptions-csv-bucket",
             "abcde-fghij-klmno-pqrst",
             "2023-03-06T12:00:00Z",
-            "dev",
         );
 
         const s3PutSiriCommand = s3Mock.commandCalls(PutObjectCommand)[0].args[0];
@@ -95,7 +94,6 @@ describe("SIRI-SX Generator", () => {
             "disruptions-csv-bucket",
             "abcde-fghij-klmno-pqrst",
             "2023-03-06T12:00:00Z",
-            "dev",
         );
 
         const s3PutJsonCommand = s3Mock.commandCalls(PutObjectCommand)[1].args[0];
@@ -118,7 +116,6 @@ describe("SIRI-SX Generator", () => {
             "disruptions-csv-bucket",
             "abcde-fghij-klmno-pqrst",
             "2023-03-06T12:00:00Z",
-            "dev",
         );
 
         const s3PutCsvCommand = s3Mock.commandCalls(PutObjectCommand)[2].args[0];
@@ -129,12 +126,12 @@ describe("SIRI-SX Generator", () => {
     });
 
     it.each(["preprod", "prod"])(
-        "correctly generates SIRI-SX XML without Version or VersionedAtFields in preprod and prod",
+        "correctly generates SIRI-SX XML without Version or VersionedAtFields and publishedLineName in preprod and prod",
         async (stage) => {
             ddbMock.on(ScanCommand).resolves({ Items: dbResponse });
             ddbMock.on(GetCommand).resolves({ Item: { PK: orgId, name: "Test Org" } });
 
-            process.env.STAGE = "prod";
+            process.env.STAGE = stage;
 
             await generateSiriSxAndUploadToS3(
                 s3Mock as unknown as S3Client,
@@ -145,7 +142,6 @@ describe("SIRI-SX Generator", () => {
                 "disruptions-csv-bucket",
                 "abcde-fghij-klmno-pqrst",
                 "2023-08-17T00:00:00Z",
-                stage,
             );
 
             const s3PutSiriCommand = s3Mock.commandCalls(PutObjectCommand)[0].args[0];
