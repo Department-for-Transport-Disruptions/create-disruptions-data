@@ -10,8 +10,7 @@ import {
 } from "@create-disruptions-data/shared-ts/siriTypes";
 import { getDisruptionCreationTime } from "@create-disruptions-data/shared-ts/utils";
 import { getDate, getDatetimeFromDateAndTime, getFormattedDate } from "@create-disruptions-data/shared-ts/utils/dates";
-import { fetchAdminAreas } from ".";
-
+import { AdminArea } from "@create-disruptions-data/shared-ts/utils/refDataApi";
 export const getValidityPeriod = (period: Validity): Period[] => {
     const siriValidityPeriods: Period[] = [];
 
@@ -61,10 +60,10 @@ const getPeriod = (period: Validity): Period => ({
         : {}),
 });
 
-export const getPtSituationElementFromSiteDisruption = async (
+export const getPtSituationElementFromSiteDisruption = (
     disruption: Disruption & { organisation: { id: string; name: string } },
-): Promise<PtSituationElement> => {
-    const adminAreas = await fetchAdminAreas();
+    adminAreas: AdminArea[],
+): PtSituationElement => {
     const { STAGE: stage } = process.env;
     const PUBLISHED_LINE_NAME_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
     const VERSION_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");

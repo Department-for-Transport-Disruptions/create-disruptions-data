@@ -9,6 +9,7 @@ import {
     SourceType,
     VehicleMode,
 } from "@create-disruptions-data/shared-ts/enums";
+import { placesSchema } from "@create-disruptions-data/shared-ts/siriTypes.zod"
 import dayjs from "dayjs";
 import { z } from "zod";
 
@@ -102,17 +103,6 @@ export const networksSchema = z.object({
         AffectedLine: z.preprocess((val) => transformToArray(val), z.array(affectedLineSchema)).optional(),
     }),
 });
-
-export const placesSchema = z.object({
-    AffectedPlace: z.array(
-        z.object({
-            PlaceRef: z.string(),
-            PlaceName: z.string(),
-            PlaceCategory: z.string(),
-        }),
-    ),
-});
-
 
 export type AffectedLine = z.infer<typeof affectedLineSchema>;
 

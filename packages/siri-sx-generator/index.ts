@@ -4,6 +4,7 @@ import { ptSituationElementSchema, siriSchema } from "@create-disruptions-data/s
 import { getApiDisruptions, notEmpty } from "@create-disruptions-data/shared-ts/utils";
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import { getPublishedDisruptionsDataFromDynamo } from "@create-disruptions-data/shared-ts/utils/dynamo";
+import { fetchAdminAreas } from "@create-disruptions-data/shared-ts/utils/refDataApi";
 import { parse } from "js2xmlparser";
 import * as logger from "lambda-log";
 import xmlFormat from "xml-formatter";
@@ -55,8 +56,9 @@ const convertJsonToSiri = async (
     currentTime: string,
     responseMessageIdentifier: string,
 ) => {
-    const ptSituationElements = await Promise.all(
-        disruptions.map(async (disruption) => await getPtSituationElementFromSiteDisruption(disruption)),
+    const adminAreas = await fetchAdminAreas();
+    const ptSituationElements = disruptions.map((disruption) =>
+        getPtSituationElementFromSiteDisruption(disruption, adminAreas),
     );
 
     const parsedPtSituationElements =

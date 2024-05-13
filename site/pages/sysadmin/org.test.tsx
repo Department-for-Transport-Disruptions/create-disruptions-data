@@ -30,7 +30,7 @@ describe("manageOrgs", () => {
         getOrganisationInfoById: vi.fn(),
     }));
 
-    vi.mock("../../data/refDataApi", () => ({
+    vi.mock("@create-disruptions-data/shared-ts/utils/refDataApi", () => ({
         fetchAdminAreaCodes: vi.fn(),
     }));
 
