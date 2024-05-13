@@ -103,6 +103,16 @@ export const networksSchema = z.object({
     }),
 });
 
+export const placesSchema = z.array(
+    z.object({
+        AffectedPlace: z.object({
+            PlaceRef: z.string(),
+            PlaceName: z.string(),
+            PlaceCategory: z.string(),
+        }),
+    }),
+);
+
 export type AffectedLine = z.infer<typeof affectedLineSchema>;
 
 export const affectedStopPointItem = z.object({
@@ -131,6 +141,7 @@ export const consequenceItem = z.object({
     Affects: z.object({
         Operators: operatorsSchema.optional(),
         Networks: networksSchema.optional(),
+        Places: placesSchema.optional(),
         StopPoints: stopPointsSchema.optional(),
     }),
     Advice: z.object({
