@@ -213,7 +213,7 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML 1`] = `
                                                 <OperatorRef>NOC</OperatorRef>
                                                 <OperatorName>Test</OperatorName>
                                             </AffectedOperator>
-                                            <LineRef>Line</LineRef>
+                                            <LineRef>SL1</LineRef>
                                             <PublishedLineName>Line</PublishedLineName>
                                         </AffectedLine>
                                     </AffectedNetwork>

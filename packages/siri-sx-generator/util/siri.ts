@@ -69,6 +69,7 @@ export const getPtSituationElementFromSiteDisruption = async (
     const PUBLISHED_LINE_NAME_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
     const VERSION_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
     const AFFECTED_PLACE_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
+    const LINE_REF_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
 
     const currentTime = getDate().toISOString();
 
@@ -202,7 +203,9 @@ export const getPtSituationElementFromSiteDisruption = async (
                                                         OperatorRef: service.nocCode,
                                                         OperatorName: service.operatorShortName,
                                                     },
-                                                    LineRef: service.lineName.replace(/\s+/g, "_"),
+                                                    ...(LINE_REF_FEATURE_FLAG
+                                                        ? { LineRef: service.lineId }
+                                                        : { LineRef: service.lineName.replace(/\s+/g, "_") }),
                                                     ...(PUBLISHED_LINE_NAME_FEATURE_FLAG
                                                         ? { PublishedLineName: service.lineName.replace(/\s+/g, "_") }
                                                         : {}),
