@@ -10,7 +10,7 @@ import {
 } from "@create-disruptions-data/shared-ts/siriTypes";
 import { getDisruptionCreationTime } from "@create-disruptions-data/shared-ts/utils";
 import { getDate, getDatetimeFromDateAndTime, getFormattedDate } from "@create-disruptions-data/shared-ts/utils/dates";
-
+import { AdminArea } from "@create-disruptions-data/shared-ts/utils/refDataApi";
 export const getValidityPeriod = (period: Validity): Period[] => {
     const siriValidityPeriods: Period[] = [];
 
@@ -62,10 +62,12 @@ const getPeriod = (period: Validity): Period => ({
 
 export const getPtSituationElementFromSiteDisruption = (
     disruption: Disruption & { organisation: { id: string; name: string } },
-) => {
+    adminAreas: AdminArea[],
+): PtSituationElement => {
     const { STAGE: stage } = process.env;
     const PUBLISHED_LINE_NAME_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
     const VERSION_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
+    const AFFECTED_PLACE_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
     const LINE_REF_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
 
     const currentTime = getDate().toISOString();
@@ -219,6 +221,23 @@ export const getPtSituationElementFromSiteDisruption = (
                                                         : {}),
                                                 })),
                                             },
+                                        },
+                                    }
+                                  : {}),
+
+                              ...(consequence.consequenceType === "networkWide" &&
+                              AFFECTED_PLACE_FEATURE_FLAG &&
+                              consequence.disruptionArea &&
+                              consequence.disruptionArea.length > 0
+                                  ? {
+                                        Places: {
+                                            AffectedPlace: consequence.disruptionArea?.map((area) => ({
+                                                PlaceRef: area,
+                                                PlaceName:
+                                                    adminAreas.find((code) => code.administrativeAreaCode === area)
+                                                        ?.name || "",
+                                                PlaceCategory: "AdministrativeArea",
+                                            })),
                                         },
                                     }
                                   : {}),

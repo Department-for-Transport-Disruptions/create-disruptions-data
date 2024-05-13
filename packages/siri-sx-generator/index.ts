@@ -4,6 +4,7 @@ import { ptSituationElementSchema, siriSchema } from "@create-disruptions-data/s
 import { getApiDisruptions, notEmpty } from "@create-disruptions-data/shared-ts/utils";
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import { getPublishedDisruptionsDataFromDynamo } from "@create-disruptions-data/shared-ts/utils/dynamo";
+import { fetchAdminAreas } from "@create-disruptions-data/shared-ts/utils/refDataApi";
 import { parse } from "js2xmlparser";
 import * as logger from "lambda-log";
 import xmlFormat from "xml-formatter";
@@ -50,12 +51,15 @@ const enrichDisruptionsWithOrgInfo = async (disruptions: Disruption[], orgTableN
         .filter(notEmpty);
 };
 
-const convertJsonToSiri = (
+const convertJsonToSiri = async (
     disruptions: Awaited<ReturnType<typeof enrichDisruptionsWithOrgInfo>>,
     currentTime: string,
     responseMessageIdentifier: string,
 ) => {
-    const ptSituationElements = disruptions.map((disruption) => getPtSituationElementFromSiteDisruption(disruption));
+    const adminAreas = await fetchAdminAreas();
+    const ptSituationElements = disruptions.map((disruption) =>
+        getPtSituationElementFromSiteDisruption(disruption, adminAreas),
+    );
 
     const parsedPtSituationElements =
         ptSituationElements
@@ -127,7 +131,7 @@ export const generateSiriSxAndUploadToS3 = async (
 
         const disruptionsWithOrgInfo = await enrichDisruptionsWithOrgInfo(disruptions, orgTableName);
 
-        const siri = convertJsonToSiri(disruptionsWithOrgInfo, currentTime, responseMessageIdentifier);
+        const siri = await convertJsonToSiri(disruptionsWithOrgInfo, currentTime, responseMessageIdentifier);
         const apiDisruptions = getApiDisruptions(disruptionsWithOrgInfo);
         const dataCatalogueCsv = await convertToCsv(apiDisruptions);
 

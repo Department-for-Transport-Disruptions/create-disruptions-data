@@ -1,3 +1,4 @@
+import { AdminArea, fetchAdminAreas } from "@create-disruptions-data/shared-ts/utils/refDataApi";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { parseCookies } from "nookies";
@@ -9,7 +10,6 @@ import TextInput from "../../components/form/TextInput";
 import { TwoThirdsLayout } from "../../components/layout/Layout";
 import { COOKIES_ADD_ORG_ERRORS, SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH } from "../../constants";
 import { getOrganisationInfoById } from "../../data/dynamo";
-import { AdminArea, fetchAdminAreas } from "../../data/refDataApi";
 import { PageState } from "../../interfaces";
 import { AreaCodeValuePair, Organisation, organisationSchema } from "../../schemas/organisation.schema";
 import { notEmpty } from "../../utils";

@@ -9,6 +9,7 @@ import {
     SourceType,
     VehicleMode,
 } from "@create-disruptions-data/shared-ts/enums";
+import { placesSchema } from "@create-disruptions-data/shared-ts/siriTypes.zod"
 import dayjs from "dayjs";
 import { z } from "zod";
 
@@ -131,6 +132,7 @@ export const consequenceItem = z.object({
     Affects: z.object({
         Operators: operatorsSchema.optional(),
         Networks: networksSchema.optional(),
+        Places: placesSchema.optional(),
         StopPoints: stopPointsSchema.optional(),
     }),
     Advice: z.object({

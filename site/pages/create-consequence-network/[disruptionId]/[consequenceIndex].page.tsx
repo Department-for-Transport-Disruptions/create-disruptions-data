@@ -1,5 +1,6 @@
 import { NetworkConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { MAX_CONSEQUENCES, networkConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { fetchAdminAreas } from "@create-disruptions-data/shared-ts/utils/refDataApi";
 import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -27,7 +28,6 @@ import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
-import { fetchAdminAreas } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { filterVehicleModes, isNetworkConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";

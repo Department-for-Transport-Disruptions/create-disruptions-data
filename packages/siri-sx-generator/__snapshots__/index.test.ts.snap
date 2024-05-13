@@ -26,6 +26,10 @@ exports[`SIRI-SX Generator > correctly generates Disruptions JSON 1`] = `
       {
         "consequenceType": "networkWide",
         "description": "Some consequence description",
+        "disruptionArea": [
+          "082",
+          "002",
+        ],
         "disruptionSeverity": "slight",
         "removeFromJourneyPlanners": "no",
         "vehicleMode": "tram",
@@ -177,6 +181,18 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML 1`] = `
                                         <AllLines/>
                                     </AffectedNetwork>
                                 </Networks>
+                                <Places>
+                                    <AffectedPlace>
+                                        <PlaceRef>082</PlaceRef>
+                                        <PlaceName>Area 1</PlaceName>
+                                        <PlaceCategory>AdministrativeArea</PlaceCategory>
+                                    </AffectedPlace>
+                                    <AffectedPlace>
+                                        <PlaceRef>002</PlaceRef>
+                                        <PlaceName>Area 2</PlaceName>
+                                        <PlaceCategory>AdministrativeArea</PlaceCategory>
+                                    </AffectedPlace>
+                                </Places>
                             </Affects>
                             <Advice>
                                 <Details>Some consequence description</Details>
@@ -294,6 +310,18 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML where creationDate 
                                         <AllLines/>
                                     </AffectedNetwork>
                                 </Networks>
+                                <Places>
+                                    <AffectedPlace>
+                                        <PlaceRef>082</PlaceRef>
+                                        <PlaceName>Area 1</PlaceName>
+                                        <PlaceCategory>AdministrativeArea</PlaceCategory>
+                                    </AffectedPlace>
+                                    <AffectedPlace>
+                                        <PlaceRef>002</PlaceRef>
+                                        <PlaceName>Area 2</PlaceName>
+                                        <PlaceCategory>AdministrativeArea</PlaceCategory>
+                                    </AffectedPlace>
+                                </Places>
                             </Affects>
                             <Advice>
                                 <Details>Some consequence description</Details>

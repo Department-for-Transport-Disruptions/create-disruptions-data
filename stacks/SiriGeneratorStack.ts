@@ -16,6 +16,10 @@ export const SiriGeneratorStack = ({ stack }: StackContext) => {
     const disruptionsJsonBucket = createBucket(stack, "cdd-disruptions-json", true);
     const disruptionsCsvBucket = createBucket(stack, "cdd-disruptions-csv", true);
 
+    const apiUrl = !["preprod", "prod"].includes(stack.stage)
+        ? "https://api.test.ref-data.dft-create-data.com/v1"
+        : `https://api.${stack.stage}.ref-data.dft-create-data.com/v1`;
+
     const siriGenerator = new Function(stack, "cdd-siri-sx-generator", {
         functionName: `cdd-siri-sx-generator-${stack.stage}`,
         environment: {
@@ -25,6 +29,7 @@ export const SiriGeneratorStack = ({ stack }: StackContext) => {
             DISRUPTIONS_JSON_BUCKET_NAME: disruptionsJsonBucket.bucketName,
             DISRUPTIONS_CSV_BUCKET_NAME: disruptionsCsvBucket.bucketName,
             STAGE: stack.stage,
+            API_BASE_URL: apiUrl,
         },
         permissions: [
             new PolicyStatement({
