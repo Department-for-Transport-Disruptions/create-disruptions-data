@@ -15,7 +15,6 @@ import {
 import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { Dayjs } from "dayjs";
 import { json2csv } from "json-2-csv";
-import { z } from "zod";
 
 const isOperatorConsequence = (c: unknown): c is OperatorConsequence =>
     (c as Consequence).consequenceType === "operatorWide";

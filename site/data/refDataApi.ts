@@ -251,7 +251,6 @@ export const fetchOperators = async (input: FetchOperatorsInput) => {
     return parseResult.data;
 };
 
-
 interface FetchRoadworksInput {
     adminAreaCodes?: string[];
 }
