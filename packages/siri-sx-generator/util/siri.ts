@@ -69,7 +69,7 @@ export const getPtSituationElementFromSiteDisruption = async (
     const PUBLISHED_LINE_NAME_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
     const VERSION_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
     const AFFECTED_PLACE_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
-    console.log("flaggggg", AFFECTED_PLACE_FEATURE_FLAG, adminAreas, disruption.consequences, stage);
+   
     const currentTime = getDate().toISOString();
 
     const reason = disruption.disruptionReason;

@@ -96,6 +96,16 @@ export const networksSchema = z.object({
     }),
 });
 
+export const placesSchema = z.array(
+    z.object({
+        AffectedPlace: z.object({
+            PlaceRef: z.string(),
+            PlaceName: z.string(),
+            PlaceCategory: z.string(),
+        }),
+    }),
+);
+
 export const stopPointsSchema = z.object({
     AffectedStopPoint: z.array(
         z.object({
@@ -122,6 +132,7 @@ export const consequenceSchema = z.object({
             Affects: z.object({
                 Operators: operatorsSchema.optional(),
                 Networks: networksSchema.optional(),
+                Places: placesSchema.optional(),
                 StopPoints: stopPointsSchema.optional(),
             }),
             Advice: z.object({
