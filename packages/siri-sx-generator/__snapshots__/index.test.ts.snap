@@ -197,7 +197,7 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML 1`] = `
                                                 <OperatorRef>NOC</OperatorRef>
                                                 <OperatorName>Test</OperatorName>
                                             </AffectedOperator>
-                                            <LineRef>Line</LineRef>
+                                            <LineRef>SL1</LineRef>
                                             <PublishedLineName>Line</PublishedLineName>
                                         </AffectedLine>
                                     </AffectedNetwork>
@@ -404,7 +404,7 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML without Version or 
                                                 <OperatorRef>NOC</OperatorRef>
                                                 <OperatorName>Test</OperatorName>
                                             </AffectedOperator>
-                                            <LineRef>SL1</LineRef>
+                                            <LineRef>Line</LineRef>
                                         </AffectedLine>
                                     </AffectedNetwork>
                                 </Networks>
@@ -518,7 +518,7 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML without Version or 
                                                 <OperatorRef>NOC</OperatorRef>
                                                 <OperatorName>Test</OperatorName>
                                             </AffectedOperator>
-                                            <LineRef>SL1</LineRef>
+                                            <LineRef>Line</LineRef>
                                         </AffectedLine>
                                     </AffectedNetwork>
                                 </Networks>
