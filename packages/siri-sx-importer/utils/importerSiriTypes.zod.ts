@@ -103,15 +103,16 @@ export const networksSchema = z.object({
     }),
 });
 
-export const placesSchema = z.array(
-    z.object({
-        AffectedPlace: z.object({
+export const placesSchema = z.object({
+    AffectedPlace: z.array(
+        z.object({
             PlaceRef: z.string(),
             PlaceName: z.string(),
             PlaceCategory: z.string(),
         }),
-    }),
-);
+    ),
+});
+
 
 export type AffectedLine = z.infer<typeof affectedLineSchema>;
 

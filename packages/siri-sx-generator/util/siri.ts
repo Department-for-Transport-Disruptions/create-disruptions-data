@@ -69,7 +69,7 @@ export const getPtSituationElementFromSiteDisruption = async (
     const PUBLISHED_LINE_NAME_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
     const VERSION_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
     const AFFECTED_PLACE_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
-   
+
     const currentTime = getDate().toISOString();
 
     const reason = disruption.disruptionReason;
@@ -228,15 +228,15 @@ export const getPtSituationElementFromSiteDisruption = async (
                               consequence.disruptionArea &&
                               consequence.disruptionArea.length > 0
                                   ? {
-                                        Places: consequence.disruptionArea?.map((area) => ({
-                                            AffectedPlace: {
+                                        Places: {
+                                            AffectedPlace: consequence.disruptionArea?.map((area) => ({
                                                 PlaceRef: area,
                                                 PlaceName: adminAreas.find(
                                                     (code) => code.administrativeAreaCode === area,
                                                 )?.name,
                                                 PlaceCategory: "AdministrativeArea",
-                                            },
-                                        })),
+                                            })),
+                                        },
                                     }
                                   : {}),
                           },

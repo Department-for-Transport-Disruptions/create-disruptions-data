@@ -28,6 +28,7 @@ exports[`SIRI-SX Generator > correctly generates Disruptions JSON 1`] = `
         "description": "Some consequence description",
         "disruptionArea": [
           "082",
+          "002",
         ],
         "disruptionSeverity": "slight",
         "removeFromJourneyPlanners": "no",
@@ -186,6 +187,11 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML 1`] = `
                                         <PlaceName>Area 1</PlaceName>
                                         <PlaceCategory>AdministrativeArea</PlaceCategory>
                                     </AffectedPlace>
+                                    <AffectedPlace>
+                                        <PlaceRef>002</PlaceRef>
+                                        <PlaceName>Area 2</PlaceName>
+                                        <PlaceCategory>AdministrativeArea</PlaceCategory>
+                                    </AffectedPlace>
                                 </Places>
                             </Affects>
                             <Advice>
@@ -308,6 +314,11 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML where creationDate 
                                     <AffectedPlace>
                                         <PlaceRef>082</PlaceRef>
                                         <PlaceName>Area 1</PlaceName>
+                                        <PlaceCategory>AdministrativeArea</PlaceCategory>
+                                    </AffectedPlace>
+                                    <AffectedPlace>
+                                        <PlaceRef>002</PlaceRef>
+                                        <PlaceName>Area 2</PlaceName>
                                         <PlaceCategory>AdministrativeArea</PlaceCategory>
                                     </AffectedPlace>
                                 </Places>

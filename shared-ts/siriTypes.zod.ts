@@ -96,15 +96,15 @@ export const networksSchema = z.object({
     }),
 });
 
-export const placesSchema = z.array(
-    z.object({
-        AffectedPlace: z.object({
+export const placesSchema = z.object({
+    AffectedPlace: z.array(
+        z.object({
             PlaceRef: z.string(),
             PlaceName: z.string(),
             PlaceCategory: z.string(),
         }),
-    }),
-);
+    ),
+});
 
 export const stopPointsSchema = z.object({
     AffectedStopPoint: z.array(
