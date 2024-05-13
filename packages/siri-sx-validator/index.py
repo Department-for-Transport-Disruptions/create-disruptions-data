@@ -9,11 +9,16 @@ import xmlschema
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
+stage = os.getenv("STAGE") or "development"
+
+# Change this once feature flag for siri is removed: VERSION_FEATURE_FLAG, PUBLISHED_LINE_NAME_FEATURE_FLAG
+siri_path = "/xsd/www.siri.org.uk/schema/2.0/xsd/siri.xsd" if stage in ["preprod", "prod"] else "/xsd/new/www.siri.org.uk/schema/2.0/xsd/siri.xsd"
 
 xsd_path = (
     os.path.dirname(os.path.realpath(__file__))
-    + "/xsd/www.siri.org.uk/schema/2.0/xsd/siri.xsd"
+    + siri_path
 )
+
 
 s3_client = boto3.client("s3")
 cloudwatch_resource = boto3.resource("cloudwatch")

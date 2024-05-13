@@ -2,7 +2,7 @@
 
 exports[`SIRI-SX Generator > correctly generates Disruptions CSV 1`] = `
 "Organisation,ID,Validity start,Validity end,Publication start,Publication end,Reason,Planned,Modes affected,Operators affected,Services affected,Stops affected
-Test Org,acde070d-8c4c-4f0d-9d8a-162843c10333,2023-03-10T12:00:00.000Z,,2023-03-10T12:00:00.000Z,,staffInWrongPlace,true,bus;tram,FSYO,,"
+Test Org,acde070d-8c4c-4f0d-9d8a-162843c10333,2023-03-10T12:00:00.000Z,,2023-03-10T12:00:00.000Z,,staffInWrongPlace,true,bus;tram;rail,FSYO,1,"
 `;
 
 exports[`SIRI-SX Generator > correctly generates Disruptions JSON 1`] = `
@@ -29,6 +29,29 @@ exports[`SIRI-SX Generator > correctly generates Disruptions JSON 1`] = `
         "disruptionSeverity": "slight",
         "removeFromJourneyPlanners": "no",
         "vehicleMode": "tram",
+      },
+      {
+        "consequenceType": "services",
+        "description": "Service test",
+        "disruptionDirection": "allDirections",
+        "disruptionSeverity": "severe",
+        "removeFromJourneyPlanners": "yes",
+        "services": [
+          {
+            "dataSource": "tnds",
+            "destination": "Dest",
+            "endDate": null,
+            "id": 123,
+            "lineId": "SL1",
+            "lineName": "Line",
+            "nocCode": "NOC",
+            "operatorShortName": "Test",
+            "origin": "Origin",
+            "serviceCode": "1234",
+            "startDate": "2023-08-10",
+          },
+        ],
+        "vehicleMode": "rail",
       },
     ],
     "description": "Test description",
@@ -162,6 +185,31 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML 1`] = `
                                 <JourneyPlanner>false</JourneyPlanner>
                             </Blocking>
                         </Consequence>
+                        <Consequence>
+                            <Condition>unknown</Condition>
+                            <Severity>severe</Severity>
+                            <Affects>
+                                <Networks>
+                                    <AffectedNetwork>
+                                        <VehicleMode>rail</VehicleMode>
+                                        <AffectedLine>
+                                            <AffectedOperator>
+                                                <OperatorRef>NOC</OperatorRef>
+                                                <OperatorName>Test</OperatorName>
+                                            </AffectedOperator>
+                                            <LineRef>Line</LineRef>
+                                            <PublishedLineName>Line</PublishedLineName>
+                                        </AffectedLine>
+                                    </AffectedNetwork>
+                                </Networks>
+                            </Affects>
+                            <Advice>
+                                <Details>Service test</Details>
+                            </Advice>
+                            <Blocking>
+                                <JourneyPlanner>true</JourneyPlanner>
+                            </Blocking>
+                        </Consequence>
                     </Consequences>
                 </PtSituationElement>
             </Situations>
@@ -262,7 +310,7 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML where creationDate 
 </Siri>"
 `;
 
-exports[`SIRI-SX Generator > correctly generates SIRI-SX XML without Version or VersionedAtFields in preprod and prod 1`] = `
+exports[`SIRI-SX Generator > correctly generates SIRI-SX XML without Version or VersionedAtFields and publishedLineName in preprod and prod 1`] = `
 "<?xml version=\\"1.0\\" encoding=\\"UTF-8\\" standalone=\\"yes\\"?>
 <Siri version=\\"2.0\\" xmlns=\\"http://www.siri.org.uk/siri\\" xmlns:xsi=\\"http://www.w3.org/2001/XMLSchema-instance\\" xsi:schemaLocation=\\"http://www.siri.org.uk/siri http://www.siri.org.uk/schema/2.0/xsd/siri.xsd\\">
     <ServiceDelivery>
@@ -342,6 +390,30 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML without Version or 
                             </Advice>
                             <Blocking>
                                 <JourneyPlanner>false</JourneyPlanner>
+                            </Blocking>
+                        </Consequence>
+                        <Consequence>
+                            <Condition>unknown</Condition>
+                            <Severity>severe</Severity>
+                            <Affects>
+                                <Networks>
+                                    <AffectedNetwork>
+                                        <VehicleMode>rail</VehicleMode>
+                                        <AffectedLine>
+                                            <AffectedOperator>
+                                                <OperatorRef>NOC</OperatorRef>
+                                                <OperatorName>Test</OperatorName>
+                                            </AffectedOperator>
+                                            <LineRef>Line</LineRef>
+                                        </AffectedLine>
+                                    </AffectedNetwork>
+                                </Networks>
+                            </Affects>
+                            <Advice>
+                                <Details>Service test</Details>
+                            </Advice>
+                            <Blocking>
+                                <JourneyPlanner>true</JourneyPlanner>
                             </Blocking>
                         </Consequence>
                     </Consequences>
@@ -352,7 +424,7 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML without Version or 
 </Siri>"
 `;
 
-exports[`SIRI-SX Generator > correctly generates SIRI-SX XML without Version or VersionedAtFields in preprod and prod 2`] = `
+exports[`SIRI-SX Generator > correctly generates SIRI-SX XML without Version or VersionedAtFields and publishedLineName in preprod and prod 2`] = `
 "<?xml version=\\"1.0\\" encoding=\\"UTF-8\\" standalone=\\"yes\\"?>
 <Siri version=\\"2.0\\" xmlns=\\"http://www.siri.org.uk/siri\\" xmlns:xsi=\\"http://www.w3.org/2001/XMLSchema-instance\\" xsi:schemaLocation=\\"http://www.siri.org.uk/siri http://www.siri.org.uk/schema/2.0/xsd/siri.xsd\\">
     <ServiceDelivery>
@@ -432,6 +504,30 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML without Version or 
                             </Advice>
                             <Blocking>
                                 <JourneyPlanner>false</JourneyPlanner>
+                            </Blocking>
+                        </Consequence>
+                        <Consequence>
+                            <Condition>unknown</Condition>
+                            <Severity>severe</Severity>
+                            <Affects>
+                                <Networks>
+                                    <AffectedNetwork>
+                                        <VehicleMode>rail</VehicleMode>
+                                        <AffectedLine>
+                                            <AffectedOperator>
+                                                <OperatorRef>NOC</OperatorRef>
+                                                <OperatorName>Test</OperatorName>
+                                            </AffectedOperator>
+                                            <LineRef>Line</LineRef>
+                                        </AffectedLine>
+                                    </AffectedNetwork>
+                                </Networks>
+                            </Affects>
+                            <Advice>
+                                <Details>Service test</Details>
+                            </Advice>
+                            <Blocking>
+                                <JourneyPlanner>true</JourneyPlanner>
                             </Blocking>
                         </Consequence>
                     </Consequences>
