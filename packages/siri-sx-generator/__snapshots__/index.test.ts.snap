@@ -324,12 +324,10 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML without Version or 
                     <CreationTime>2023-05-13T14:45:00Z</CreationTime>
                     <ParticipantRef>TestOrg</ParticipantRef>
                     <SituationNumber>acde070d-8c4c-4f0d-9d8a-162843c10333</SituationNumber>
-                    <Version>2</Version>
                     <Source>
                         <SourceType>feed</SourceType>
                         <TimeOfCommunication>2023-08-17T00:00:00.000Z</TimeOfCommunication>
                     </Source>
-                    <VersionedAtTime>2023-05-11T14:40:00Z</VersionedAtTime>
                     <Progress>open</Progress>
                     <ValidityPeriod>
                         <StartTime>2023-03-10T12:00:00.000Z</StartTime>
@@ -407,7 +405,6 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML without Version or 
                                                 <OperatorName>Test</OperatorName>
                                             </AffectedOperator>
                                             <LineRef>Line</LineRef>
-                                            <PublishedLineName>Line</PublishedLineName>
                                         </AffectedLine>
                                     </AffectedNetwork>
                                 </Networks>
@@ -441,12 +438,10 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML without Version or 
                     <CreationTime>2023-05-13T14:45:00Z</CreationTime>
                     <ParticipantRef>TestOrg</ParticipantRef>
                     <SituationNumber>acde070d-8c4c-4f0d-9d8a-162843c10333</SituationNumber>
-                    <Version>2</Version>
                     <Source>
                         <SourceType>feed</SourceType>
                         <TimeOfCommunication>2023-08-17T00:00:00.000Z</TimeOfCommunication>
                     </Source>
-                    <VersionedAtTime>2023-05-11T14:40:00Z</VersionedAtTime>
                     <Progress>open</Progress>
                     <ValidityPeriod>
                         <StartTime>2023-03-10T12:00:00.000Z</StartTime>
@@ -524,7 +519,6 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML without Version or 
                                                 <OperatorName>Test</OperatorName>
                                             </AffectedOperator>
                                             <LineRef>Line</LineRef>
-                                            <PublishedLineName>Line</PublishedLineName>
                                         </AffectedLine>
                                     </AffectedNetwork>
                                 </Networks>

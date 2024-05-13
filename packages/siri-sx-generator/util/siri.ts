@@ -11,11 +11,6 @@ import {
 import { getDisruptionCreationTime } from "@create-disruptions-data/shared-ts/utils";
 import { getDate, getDatetimeFromDateAndTime, getFormattedDate } from "@create-disruptions-data/shared-ts/utils/dates";
 
-const { STAGE: stage } = process.env;
-
-const PUBLISHED_LINE_NAME_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
-const VERSION_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
-
 export const getValidityPeriod = (period: Validity): Period[] => {
     const siriValidityPeriods: Period[] = [];
 
@@ -68,6 +63,10 @@ const getPeriod = (period: Validity): Period => ({
 export const getPtSituationElementFromSiteDisruption = (
     disruption: Disruption & { organisation: { id: string; name: string } },
 ) => {
+    const { STAGE: stage } = process.env;
+    const PUBLISHED_LINE_NAME_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
+    const VERSION_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
+
     const currentTime = getDate().toISOString();
 
     const reason = disruption.disruptionReason;
