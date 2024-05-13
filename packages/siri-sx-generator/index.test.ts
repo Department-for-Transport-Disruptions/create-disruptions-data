@@ -2,9 +2,10 @@ import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { DynamoDBDocumentClient, GetCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import { mockClient } from "aws-sdk-client-mock";
 import Mockdate from "mockdate";
-import { describe, expect, it, beforeEach, beforeAll, afterAll } from "vitest";
+import { describe, expect, it, beforeEach, beforeAll, afterAll, vi } from "vitest";
 import formatXml from "xml-formatter";
 import { dbResponse, dbResponseWithCreationTime, orgId } from "./test/testData";
+import * as util from "./util/index";
 import { generateSiriSxAndUploadToS3 } from ".";
 
 const ddbMock = mockClient(DynamoDBDocumentClient);
@@ -23,6 +24,11 @@ describe("SIRI-SX Generator", () => {
     beforeEach(() => {
         ddbMock.reset();
         s3Mock.reset();
+        vi.spyOn(util, "fetchAdminAreas").mockResolvedValue([
+            { administrativeAreaCode: "082", name: "Area 1", shortName: "A1" },
+            { administrativeAreaCode: "002", name: "Area 2", shortName: "A2" },
+            { administrativeAreaCode: "051", name: "Area 51", shortName: "A51" },
+        ]);
     });
 
     afterAll(() => {

@@ -294,6 +294,7 @@ export const consequenceInfoNetworkTest = {
     disruptionSeverity: Severity.slight,
     vehicleMode: VehicleMode.tram,
     removeFromJourneyPlanners: "no",
+    disruptionArea: ["082"],
 };
 
 export const consequenceInfoServiceTest = {

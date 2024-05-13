@@ -15,6 +15,7 @@ import {
 import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { Dayjs } from "dayjs";
 import { json2csv } from "json-2-csv";
+import { z } from "zod";
 
 const isOperatorConsequence = (c: unknown): c is OperatorConsequence =>
     (c as Consequence).consequenceType === "operatorWide";
@@ -163,4 +164,30 @@ export const includeDisruption = (disruption: Disruption, currentDatetime: Dayjs
     }
 
     return true;
+};
+
+const adminAreaSchema = z.object({
+    administrativeAreaCode: z.string(),
+    name: z.string(),
+    shortName: z.string(),
+});
+
+const API_BASE_URL = "https://api.test.ref-data.dft-create-data.com/v1";
+
+export type AdminArea = z.infer<typeof adminAreaSchema>;
+
+export const fetchAdminAreas = async () => {
+    const searchApiUrl = `${API_BASE_URL}/admin-areas`;
+
+    const res = await fetch(searchApiUrl, {
+        method: "GET",
+    });
+
+    const parseResult = z.array(adminAreaSchema).safeParse(await res.json());
+
+    if (!parseResult.success) {
+        return [];
+    }
+
+    return parseResult.data;
 };

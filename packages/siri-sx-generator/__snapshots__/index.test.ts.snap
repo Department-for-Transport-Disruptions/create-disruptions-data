@@ -26,6 +26,9 @@ exports[`SIRI-SX Generator > correctly generates Disruptions JSON 1`] = `
       {
         "consequenceType": "networkWide",
         "description": "Some consequence description",
+        "disruptionArea": [
+          "082",
+        ],
         "disruptionSeverity": "slight",
         "removeFromJourneyPlanners": "no",
         "vehicleMode": "tram",

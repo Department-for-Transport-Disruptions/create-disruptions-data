@@ -50,12 +50,14 @@ const enrichDisruptionsWithOrgInfo = async (disruptions: Disruption[], orgTableN
         .filter(notEmpty);
 };
 
-const convertJsonToSiri = (
+const convertJsonToSiri = async (
     disruptions: Awaited<ReturnType<typeof enrichDisruptionsWithOrgInfo>>,
     currentTime: string,
     responseMessageIdentifier: string,
 ) => {
-    const ptSituationElements = disruptions.map((disruption) => getPtSituationElementFromSiteDisruption(disruption));
+    const ptSituationElements = await Promise.all(
+        disruptions.map(async (disruption) => await getPtSituationElementFromSiteDisruption(disruption)),
+    );
 
     const parsedPtSituationElements =
         ptSituationElements
@@ -127,7 +129,7 @@ export const generateSiriSxAndUploadToS3 = async (
 
         const disruptionsWithOrgInfo = await enrichDisruptionsWithOrgInfo(disruptions, orgTableName);
 
-        const siri = convertJsonToSiri(disruptionsWithOrgInfo, currentTime, responseMessageIdentifier);
+        const siri = await convertJsonToSiri(disruptionsWithOrgInfo, currentTime, responseMessageIdentifier);
         const apiDisruptions = getApiDisruptions(disruptionsWithOrgInfo);
         const dataCatalogueCsv = await convertToCsv(apiDisruptions);
 
