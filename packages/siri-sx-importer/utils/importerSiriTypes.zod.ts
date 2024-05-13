@@ -87,6 +87,7 @@ export const operatorsSchema = z.object({
 export const affectedLineSchema = z.object({
     AffectedOperator: z.preprocess((val) => transformToArray(val), z.array(affectedOperatorSchema)).optional(),
     LineRef: z.string(),
+    PublishedLineName: z.string().optional(),
     Direction: z
         .object({
             DirectionRef: z.union([z.literal("inboundTowardsTown"), z.literal("outboundFromTown")]),
