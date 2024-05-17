@@ -167,7 +167,7 @@ export const getNextdoorAgencyBoundaries = async (
             while (hasNextPage) {
                 try {
                     const requestUrl: string = cursor
-                        ? `${url}?cursor=${cursor}&enable_pagination=true`
+                        ? `${url}?after=${cursor}&enable_pagination=true`
                         : `${url}?enable_pagination=true`;
 
                     const response = await fetch(requestUrl, {
