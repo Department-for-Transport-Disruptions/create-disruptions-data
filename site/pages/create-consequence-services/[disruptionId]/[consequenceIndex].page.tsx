@@ -1,9 +1,4 @@
-import {
-    RoutesPreformatted,
-    Service,
-    ServicesConsequence,
-    Stop,
-} from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Service, ServicesConsequence, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import {
     MAX_CONSEQUENCES,
     serviceSchema,
@@ -238,7 +233,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                         }
                     }),
                 );
-                console.log(groupByJourneyPattern(serviceDataToShow as RouteWithServiceInfoPreformatted[]));
                 setSearchedRoutes(groupByJourneyPattern(serviceDataToShow as RouteWithServiceInfoPreformatted[]));
             }
         };

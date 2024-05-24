@@ -1,4 +1,4 @@
-import { routesPreformattedSchema, routesSchema } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { routesPreformattedSchema } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { serviceSchema, stopSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Datasource, Modes } from "@create-disruptions-data/shared-ts/enums";
 import { roadwork } from "@create-disruptions-data/shared-ts/roadwork.zod";
@@ -9,7 +9,6 @@ import { API_BASE_URL } from "../constants";
 import { LargePolygonError, NoStopsError } from "../errors";
 import { operatorSchema, serviceWithStopsAndRoutesSchema } from "../schemas/consequence.schema";
 import { filterServices } from "../utils/formUtils";
-import { flattenZodErrors } from "../utils";
 
 interface FetchStopsInput {
     adminAreaCodes: string[];
