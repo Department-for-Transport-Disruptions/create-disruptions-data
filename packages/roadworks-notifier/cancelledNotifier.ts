@@ -71,10 +71,10 @@ export const createRoadworksCancellationEmail = (
     );
     const sourceEmail = isSandbox(stage) ? "no-reply@sandbox.cdd.dft-create-data.com" : `no-reply@${domain.hostname}`;
 
+    const emailAddresses = contentsForEmail.map((content) => content.email);
     return new SendEmailCommand({
-        Destination: {
-            ToAddresses: contentsForEmail.map((content) => content.email),
-        },
+        Destination: emailAddresses.length > 1 ? { BccAddresses: emailAddresses } : { ToAddresses: emailAddresses },
+
         Message: {
             Body: {
                 Html: {
