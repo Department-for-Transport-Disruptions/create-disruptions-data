@@ -1,4 +1,9 @@
-import { Service, ServicesConsequence, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import {
+    RoutesPreformatted,
+    Service,
+    ServicesConsequence,
+    Stop,
+} from "@create-disruptions-data/shared-ts/disruptionTypes";
 import {
     MAX_CONSEQUENCES,
     serviceSchema,
@@ -40,6 +45,7 @@ import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { ServiceWithStopAndRoutes } from "../../../schemas/consequence.schema";
 import {
     RouteWithServiceInfo,
+    RouteWithServiceInfoPreformatted,
     filterVehicleModes,
     flattenZodErrors,
     getRoutesForServices,
@@ -87,6 +93,56 @@ const getMode = (vehicleMode: Modes | VehicleMode) => {
     }
 
     return mode;
+};
+
+const groupByJourneyPattern = (routesData: RouteWithServiceInfoPreformatted[]): RouteWithServiceInfo[] => {
+    const result: RouteWithServiceInfo[] = [];
+
+    routesData.forEach((data) => {
+        const groupedData: RouteWithServiceInfo = {
+            outbound: {},
+            inbound: {},
+            serviceId: data.serviceId,
+            serviceCode: data.serviceCode,
+            lineId: data.lineId,
+        };
+
+        if (Array.isArray(data.outbound)) {
+            data.outbound.forEach((stop) => {
+                const key = stop.journeyPatternId || "unknown";
+                if (!groupedData.outbound[key]) {
+                    groupedData.outbound[key] = [];
+                }
+                groupedData.outbound[key].push(stop);
+            });
+
+            for (const journeyPatternId in groupedData.outbound) {
+                groupedData.outbound[journeyPatternId].sort(
+                    (a, b) => Number(a.sequenceNumber) - Number(b.sequenceNumber),
+                );
+            }
+        }
+
+        if (Array.isArray(data.inbound)) {
+            data.inbound.forEach((stop) => {
+                const key = stop.journeyPatternId || "unknown";
+                if (!groupedData.inbound[key]) {
+                    groupedData.inbound[key] = [];
+                }
+                groupedData.inbound[key].push(stop);
+            });
+
+            for (const journeyPatternId in groupedData.inbound) {
+                groupedData.inbound[journeyPatternId].sort(
+                    (a, b) => Number(a.sequenceNumber) - Number(b.sequenceNumber),
+                );
+            }
+        }
+
+        result.push(groupedData);
+    });
+
+    return result;
 };
 
 const getServices = async (
@@ -145,7 +201,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
     useEffect(() => {
         const loadOptions = async () => {
-            const serviceDataToShow: RouteWithServiceInfo[] = [];
+            const serviceDataToShow: RouteWithServiceInfo[] | RouteWithServiceInfoPreformatted[] = [];
             if (pageState.inputs.services && pageState.inputs.services?.length > 0) {
                 const vehicleMode = pageState?.inputs?.vehicleMode || ("" as Modes | VehicleMode);
                 await Promise.all(
@@ -172,7 +228,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                                     ? !serviceDataToShow.map((service) => service?.serviceId).includes(s.id)
                                     : true;
                             if (notSelected) {
-                                serviceDataToShow.push({
+                                (serviceDataToShow as RouteWithServiceInfoPreformatted[]).push({
                                     ...serviceRoutesData,
                                     serviceId: s.id,
                                     serviceCode: s.serviceCode,
@@ -182,8 +238,8 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                         }
                     }),
                 );
-
-                setSearchedRoutes(serviceDataToShow);
+                console.log(groupByJourneyPattern(serviceDataToShow as RouteWithServiceInfoPreformatted[]));
+                setSearchedRoutes(groupByJourneyPattern(serviceDataToShow as RouteWithServiceInfoPreformatted[]));
             }
         };
 
