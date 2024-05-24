@@ -75,9 +75,12 @@ export const createNewRoadworksEmail = (
     const sourceEmail = isSandbox(stage) ? "no-reply@sandbox.cdd.dft-create-data.com" : `no-reply@${domain.hostname}`;
 
     return new SendEmailCommand({
-        Destination: {
-            ToAddresses: emails,
-        },
+        Destination:
+            emails.length > 1
+                ? { BccAddresses: emails }
+                : {
+                      ToAddresses: emails,
+                  },
         Message: {
             Body: {
                 Html: {
