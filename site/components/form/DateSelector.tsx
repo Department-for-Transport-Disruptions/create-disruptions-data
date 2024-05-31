@@ -1,5 +1,6 @@
 import { getFormattedDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import Calendar from "@mui/icons-material/Event";
+import { yellow } from "@mui/material/colors";
 import { DatePicker, PickersDay, PickersDayProps, PickersTextField, PickersTextFieldProps } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -24,59 +25,6 @@ interface DateSelectorProps<T> extends FormBase<T> {
     inputDivWidth?: string;
     errorAlign?: boolean;
 }
-
-const inputBox = forwardRef((props: PickersTextFieldProps, ref: Ref<HTMLDivElement>) => (
-    <FormElementWrapper
-        errors={props?.inputProps?.errors || []}
-        errorId={props.name || ""}
-        errorClass="govuk-input--error"
-    >
-        <PickersTextField {...props} className={props.className} ref={ref} id={props.id} />
-    </FormElementWrapper>
-));
-
-const inputBox2 = <T extends object>(
-    inputRef: React.Ref<HTMLInputElement> | undefined,
-    inputProps: InputBaseComponentProps | undefined,
-    InputProps: Partial<FilledInputProps> | Partial<OutlinedInputProps> | undefined,
-    inputId: string,
-    inputName: Extract<keyof T, string>,
-    errors: ErrorInfo[],
-    disabled: boolean,
-    minWidth?: string,
-    inputDivWidth?: string,
-) => (
-    <div className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue">
-        <div className={`govuk-date-input__item govuk-!-margin-right-0 ${inputDivWidth ? inputDivWidth : ""}`}>
-            <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-input--error">
-                <input
-                    className={`govuk-input govuk-date-input__input govuk-input--width-6 ${minWidth ? minWidth : ""}`}
-                    name={inputName}
-                    id={`${inputId}-input`}
-                    type="text"
-                    ref={inputRef}
-                    {...inputProps}
-                    disabled={disabled}
-                    placeholder={disabled ? "N/A" : "DD/MM/YYYY"}
-                />
-            </FormElementWrapper>
-        </div>
-        <div className="flex items-end pb-5">{InputProps?.endAdornment}</div>
-    </div>
-);
-
-inputBox.displayName = "InputBox";
-
-const renderWeekPickerDay = (props: PickersDayProps<Dayjs>) => (
-    <PickersDay
-        {...props}
-        classes={{
-            selected: "!bg-govBlue",
-            dayWithMargin:
-                "focus:!border focus:!border-solid hover:!border hover:!border-solid hover:!border-govBlue focus:!border-govYellow",
-        }}
-    />
-);
 
 const DateSelector = <T extends object>({
     value,
@@ -142,50 +90,36 @@ const DateSelector = <T extends object>({
                 >
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <DatePicker
-                            slots={{
-                                // day: renderWeekPickerDay,
-                                textField: inputBox,
-                            }}
-                            value={dateValue}
-                            onChange={(newValue) => {
-                                setDateValue(newValue);
-                                if (newValue) {
-                                    stateUpdater(convertDateTimeToFormat(newValue, "DD/MM/YYYY"), inputName);
-                                } else {
-                                    stateUpdater("", inputName);
-                                }
-                            }}
-                            onAccept={() => setErrors([])}
+                            format="DD/MM/YYYY"
                             slotProps={{
                                 textField: {
-                                    InputProps: {
-                                        className: `govuk-input govuk-date-input__input govuk-input--width-6  ${
-                                            minWidth ? `${minWidth} mr-4` : ""
-                                        } focus:outline focus:outline-yellow-400 active:outline active:outline-yellow-400${
-                                            !!errors.find((err) => err.id === inputName)
-                                                ? "border-[#d4351c] focus:border-black active:border-black"
-                                                : ""
-                                        }`,
+                                    size: "small",
+                                    sx: {
+                                        border: "2px solid black",
+                                        borderRadius: 0,
+                                        fontSize: "1.1875rem",
+                                        ".MuiSvgIcon-root": {
+                                            color: "blue",
+                                        },
+                                        maxWidth: "10em",
+                                        lineHeight: "1.3157894737",
+                                        height: "2.5rem",
                                     },
-                                    inputProps: {
-                                        className: `govuk-input govuk-date-input__input govuk-input--width-6  ${
-                                            minWidth ? `${minWidth} mr-4` : ""
-                                        } hover:outline hover:outline-yellow-400`,
-                                        errors: errors,
-                                    },
-                                    disabled: disabled,
-                                    placeholder: disabled ? "N/A" : "DD/MM/YYYY",
-                                    id: inputId,
-                                    name: inputName,
-                                    error: !!errors.find((err) => err.id === inputName),
-                                    className: `govuk-date-input__item [&_.MuiSvgIcon-root]:fill-govBlue`,
                                 },
                             }}
-                            disablePast={disablePast}
-                            format="DD/MM/YYYY"
-                            enableAccessibleFieldDOMStructure
-                            disabled={disabled}
-                            aria-describedby={hint ? `${inputName}-hint` : undefined}
+                            // sx={{
+                            // ".MuiInputBase-root": {
+                            //     border: "2px solid black",
+                            //     borderRadius: 0,
+                            //     height: "2.5rem",
+                            // },
+                            // ".MuiSvgIcon-root": {
+                            //     color: "blue",
+                            // },
+                            // ".MuiInputBase-input": {
+                            //     height: "2.5rem",
+                            // },
+                            // }}
                         />
                     </LocalizationProvider>
                 </div>
