@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment*/
-import { describe, it, expect, afterEach, vi, beforeAll } from "vitest";
+import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import { randomUUID } from "crypto";
 import addConsequence from "./type-of-consequence.api";
 import {
@@ -22,7 +22,7 @@ describe("addConsequence", () => {
         destroyCookieOnResponseObject: vi.fn(),
     }));
 
-    beforeAll(() => {
+    beforeEach(() => {
         process.env.STAGE = "dev";
     });
 
@@ -87,7 +87,7 @@ describe("addConsequence", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-consequence-services/${disruptionId}/0` });
     });
 
-    it("should redirect to journeys consequence page when 'Journeys' is selected in test and dev", () => {
+    it("should redirect to journeys consequence page when 'Journeys' is selected", () => {
         const { req, res } = getMockRequestAndResponse({
             body: { ...disruptionData, consequenceType: "journeys" },
 
