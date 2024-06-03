@@ -217,25 +217,6 @@ export const VEHICLE_MODES: DisplayValuePair<VehicleMode>[] = [
     },
 ];
 
-export const CONSEQUENCE_TYPES: DisplayValuePair<ConsequenceType["consequenceType"]>[] = [
-    {
-        value: "services",
-        display: "Services",
-    },
-    {
-        value: "networkWide",
-        display: "Network wide",
-    },
-    {
-        value: "operatorWide",
-        display: "Operator wide",
-    },
-    {
-        value: "stops",
-        display: "Stops",
-    },
-];
-
 export const OPERATOR_USER_CONSEQUENCE_TYPES: DisplayValuePair<ConsequenceType["consequenceType"]>[] = [
     {
         value: "services",
@@ -265,6 +246,7 @@ export const CREATE_CONSEQUENCE_OPERATOR_PATH = "/create-consequence-operator";
 export const CREATE_CONSEQUENCE_NETWORK_PATH = "/create-consequence-network";
 export const CREATE_CONSEQUENCE_STOPS_PATH = "/create-consequence-stops";
 export const CREATE_CONSEQUENCE_SERVICES_PATH = "/create-consequence-services";
+export const CREATE_CONSEQUENCE_JOURNEYS_PATH = "/create-consequence-journeys";
 export const REVIEW_DISRUPTION_PAGE_PATH = "/review-disruption";
 export const DISRUPTION_DETAIL_PAGE_PATH = "/disruption-detail";
 export const DISRUPTION_HISTORY_PAGE_PATH = "/disruption-history";
@@ -340,3 +322,32 @@ export const MAX_OPERATOR_NOC_CODES = 5;
 export const NETWORK_AREA_FEATURE_FLAG = !["preprod", "prod"].includes(STAGE);
 
 export const NETWORK_CONSEQUENCE_ADMIN_AREA_EXCLUSIONS = ["110", "143", "146", "147"];
+
+export const CANCELLATIONS_FEATURE_FLAG = !["preprod", "prod"].includes(STAGE);
+
+export const CONSEQUENCE_TYPES: DisplayValuePair<ConsequenceType["consequenceType"]>[] = [
+    {
+        value: "services",
+        display: "Services",
+    },
+    {
+        value: "networkWide",
+        display: "Network wide",
+    },
+    {
+        value: "operatorWide",
+        display: "Operator wide",
+    },
+    {
+        value: "stops",
+        display: "Stops",
+    },
+    ...(CANCELLATIONS_FEATURE_FLAG
+        ? [
+              {
+                  value: "journeys" as ConsequenceType["consequenceType"],
+                  display: "Journeys",
+              },
+          ]
+        : []),
+];

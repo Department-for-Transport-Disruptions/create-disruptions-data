@@ -561,7 +561,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                         </label>
                       </div>
                       <div
-                        className="govuk-radios__item"
+                        className="govuk-radios__item govuk-!-margin-bottom-1"
                       >
                         <input
                           className="govuk-radios__input"
@@ -578,6 +578,26 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                           htmlFor="consequence-type-stops"
                         >
                           Stops
+                        </label>
+                      </div>
+                      <div
+                        className="govuk-radios__item"
+                      >
+                        <input
+                          className="govuk-radios__input"
+                          data-aria-controls="consequence-type-journeys-conditional"
+                          defaultChecked={false}
+                          id="consequence-type-journeys"
+                          name="consequenceType"
+                          onChange={[Function]}
+                          type="radio"
+                          value="journeys"
+                        />
+                        <label
+                          className="govuk-label govuk-radios__label"
+                          htmlFor="consequence-type-journeys"
+                        >
+                          Journeys
                         </label>
                       </div>
                     </div>
@@ -956,7 +976,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                         </label>
                       </div>
                       <div
-                        className="govuk-radios__item"
+                        className="govuk-radios__item govuk-!-margin-bottom-1"
                       >
                         <input
                           className="govuk-radios__input"
@@ -973,6 +993,26 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                           htmlFor="consequence-type-stops"
                         >
                           Stops
+                        </label>
+                      </div>
+                      <div
+                        className="govuk-radios__item"
+                      >
+                        <input
+                          className="govuk-radios__input"
+                          data-aria-controls="consequence-type-journeys-conditional"
+                          defaultChecked={false}
+                          id="consequence-type-journeys"
+                          name="consequenceType"
+                          onChange={[Function]}
+                          type="radio"
+                          value="journeys"
+                        />
+                        <label
+                          className="govuk-label govuk-radios__label"
+                          htmlFor="consequence-type-journeys"
+                        >
+                          Journeys
                         </label>
                       </div>
                     </div>
@@ -1351,7 +1391,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
                         </label>
                       </div>
                       <div
-                        className="govuk-radios__item"
+                        className="govuk-radios__item govuk-!-margin-bottom-1"
                       >
                         <input
                           className="govuk-radios__input"
@@ -1368,6 +1408,26 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
                           htmlFor="consequence-type-stops"
                         >
                           Stops
+                        </label>
+                      </div>
+                      <div
+                        className="govuk-radios__item"
+                      >
+                        <input
+                          className="govuk-radios__input"
+                          data-aria-controls="consequence-type-journeys-conditional"
+                          defaultChecked={false}
+                          id="consequence-type-journeys"
+                          name="consequenceType"
+                          onChange={[Function]}
+                          type="radio"
+                          value="journeys"
+                        />
+                        <label
+                          className="govuk-label govuk-radios__label"
+                          htmlFor="consequence-type-journeys"
+                        >
+                          Journeys
                         </label>
                       </div>
                     </div>
@@ -1746,7 +1806,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                         </label>
                       </div>
                       <div
-                        className="govuk-radios__item"
+                        className="govuk-radios__item govuk-!-margin-bottom-1"
                       >
                         <input
                           className="govuk-radios__input"
@@ -1763,6 +1823,26 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                           htmlFor="consequence-type-stops"
                         >
                           Stops
+                        </label>
+                      </div>
+                      <div
+                        className="govuk-radios__item"
+                      >
+                        <input
+                          className="govuk-radios__input"
+                          data-aria-controls="consequence-type-journeys-conditional"
+                          defaultChecked={false}
+                          id="consequence-type-journeys"
+                          name="consequenceType"
+                          onChange={[Function]}
+                          type="radio"
+                          value="journeys"
+                        />
+                        <label
+                          className="govuk-label govuk-radios__label"
+                          htmlFor="consequence-type-journeys"
+                        >
+                          Journeys
                         </label>
                       </div>
                     </div>
