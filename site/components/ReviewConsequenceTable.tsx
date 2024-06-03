@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ReactElement, ReactNode } from "react";
 import Table, { CellProps } from "./form/Table";
 import {
+    CANCELLATIONS_FEATURE_FLAG,
     CONSEQUENCE_TYPES,
     CREATE_CONSEQUENCE_NETWORK_PATH,
     CREATE_CONSEQUENCE_OPERATOR_PATH,
@@ -71,7 +72,10 @@ const getRows = (
             header: "Consequence type",
             cells: [
                 {
-                    value: getDisplayByValue(CONSEQUENCE_TYPES, consequence.consequenceType),
+                    value: getDisplayByValue(
+                        CONSEQUENCE_TYPES(CANCELLATIONS_FEATURE_FLAG),
+                        consequence.consequenceType,
+                    ),
                     styles: {
                         width: "w-1/2",
                     },

@@ -325,29 +325,31 @@ export const NETWORK_CONSEQUENCE_ADMIN_AREA_EXCLUSIONS = ["110", "143", "146", "
 
 export const CANCELLATIONS_FEATURE_FLAG = !["preprod", "prod"].includes(STAGE);
 
-export const CONSEQUENCE_TYPES: DisplayValuePair<ConsequenceType["consequenceType"]>[] = [
-    {
-        value: "services",
-        display: "Services",
-    },
-    {
-        value: "networkWide",
-        display: "Network wide",
-    },
-    {
-        value: "operatorWide",
-        display: "Operator wide",
-    },
-    {
-        value: "stops",
-        display: "Stops",
-    },
-    ...(CANCELLATIONS_FEATURE_FLAG
-        ? [
-              {
-                  value: "journeys" as ConsequenceType["consequenceType"],
-                  display: "Journeys",
-              },
-          ]
-        : []),
-];
+export const CONSEQUENCE_TYPES = (featureFlag: boolean): DisplayValuePair<ConsequenceType["consequenceType"]>[] => {
+    return [
+        {
+            value: "services",
+            display: "Services",
+        },
+        {
+            value: "networkWide",
+            display: "Network wide",
+        },
+        {
+            value: "operatorWide",
+            display: "Operator wide",
+        },
+        {
+            value: "stops",
+            display: "Stops",
+        },
+        ...(featureFlag
+            ? [
+                  {
+                      value: "journeys" as ConsequenceType["consequenceType"],
+                      display: "Journeys",
+                  },
+              ]
+            : []),
+    ];
+};

@@ -13,6 +13,8 @@ import {
     CONSEQUENCE_TYPES,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
     OPERATOR_USER_CONSEQUENCE_TYPES,
+    STAGE,
+    CANCELLATIONS_FEATURE_FLAG,
 } from "../../../constants/index";
 import { getDisruptionById } from "../../../data/dynamo";
 import { PageState } from "../../../interfaces/index";
@@ -42,7 +44,9 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
     const isTemplate = queryParams["template"]?.toString() ?? "";
     const returnPath = queryParams["return"]?.toString() ?? "";
 
-    const consequenceTypesRadioDetail = props.isOperatorUser ? OPERATOR_USER_CONSEQUENCE_TYPES : CONSEQUENCE_TYPES;
+    const consequenceTypesRadioDetail = props.isOperatorUser
+        ? OPERATOR_USER_CONSEQUENCE_TYPES
+        : CONSEQUENCE_TYPES(CANCELLATIONS_FEATURE_FLAG);
 
     return (
         <TwoThirdsLayout title={title} description={description} errors={props.errors}>
