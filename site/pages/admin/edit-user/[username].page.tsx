@@ -7,7 +7,7 @@ import { COOKIES_EDIT_USER_ERRORS } from "../../../constants";
 import { getGroupForUser, getUserDetails } from "../../../data/cognito";
 import { listOperatorsForOrg } from "../../../data/dynamo";
 import { PageState } from "../../../interfaces";
-import { EditUserSchema, editUserSchema } from "../../../schemas/add-user.schema";
+import { EditUserSchema, editUserSchema, addOperatorSchema } from "../../../schemas/add-user.schema";
 import { OperatorOrgSchema } from "../../../schemas/organisation.schema";
 import { user } from "../../../schemas/user-management.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
@@ -70,6 +70,10 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         parsedUserInfo.data.group === UserGroups.operators
             ? operatorsForOrg?.find((operator) => operator.operatorOrgId === parsedUserInfo.data.operatorOrgId)
             : null;
+
+    if (userGroup === UserGroups.operators.toString() && addOperatorSchema.safeParse(selectedOperator).error) {
+        throw new Error("Operator is invalid");
+    }
 
     const editUserPageData = {
         givenName: parsedUserInfo.data.givenName,
