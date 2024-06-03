@@ -13,7 +13,6 @@ import {
     CONSEQUENCE_TYPES,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
     OPERATOR_USER_CONSEQUENCE_TYPES,
-    STAGE,
     CANCELLATIONS_FEATURE_FLAG,
 } from "../../../constants/index";
 import { getDisruptionById } from "../../../data/dynamo";
