@@ -22,10 +22,6 @@ describe("addConsequence", () => {
         destroyCookieOnResponseObject: vi.fn(),
     }));
 
-    beforeEach(() => {
-        process.env.STAGE = "dev";
-    });
-
     afterEach(() => {
         vi.resetAllMocks();
     });
