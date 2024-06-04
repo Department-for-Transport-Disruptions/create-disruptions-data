@@ -217,16 +217,28 @@ export const VEHICLE_MODES: DisplayValuePair<VehicleMode>[] = [
     },
 ];
 
-export const OPERATOR_USER_CONSEQUENCE_TYPES: DisplayValuePair<ConsequenceType["consequenceType"]>[] = [
-    {
-        value: "services",
-        display: "Services",
-    },
-    {
-        value: "operatorWide",
-        display: "Operator wide",
-    },
-];
+export const OPERATOR_USER_CONSEQUENCE_TYPES = (
+    featureFlag: boolean,
+): DisplayValuePair<ConsequenceType["consequenceType"]>[] => {
+    return [
+        {
+            value: "services",
+            display: "Services",
+        },
+        {
+            value: "operatorWide",
+            display: "Operator wide",
+        },
+        ...(featureFlag
+            ? [
+                  {
+                      value: "journeys" as ConsequenceType["consequenceType"],
+                      display: "Journeys",
+                  },
+              ]
+            : []),
+    ];
+};
 
 export const CD_DATE_FORMAT = "DD/MM/YYYY";
 export const CONTACT_FEEDBACK_QUESTION = "Did you contact us for assistance at any point?";
