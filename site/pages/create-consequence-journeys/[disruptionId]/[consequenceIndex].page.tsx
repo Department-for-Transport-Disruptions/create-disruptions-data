@@ -749,7 +749,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
 
                         {consequenceCount < (props.isEdit ? MAX_CONSEQUENCES : MAX_CONSEQUENCES - 1) && (
                             <button
-                                formAction={`/api/create-consequence-services${
+                                formAction={`/api/create-consequence-journeys${
                                     isTemplate
                                         ? "?template=true&addAnotherConsequence=true"
                                         : "?addAnotherConsequence=true"
