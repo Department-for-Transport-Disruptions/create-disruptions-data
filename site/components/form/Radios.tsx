@@ -6,6 +6,7 @@ import { DisplayValuePair, ErrorInfo, FormBase } from "../../interfaces";
 interface RadiosProps<T> extends FormBase<T> {
     radioDetail: RadioValuePair[];
     paddingTop?: number;
+    hint?: string;
 }
 
 interface RadioValuePair<T = string> extends DisplayValuePair<T> {
@@ -23,6 +24,7 @@ const Radios = <T extends object>({
     initialErrors = [],
     stateUpdater,
     paddingTop,
+    hint,
 }: RadiosProps<T>): ReactElement => {
     const [errors] = useState<ErrorInfo[]>(initialErrors);
     const inputId = kebabCase(inputName);
@@ -44,6 +46,11 @@ const Radios = <T extends object>({
                 <legend className={`govuk-fieldset__legend${paddingTop ? ` govuk-!-padding-top-${paddingTop}` : ""}`}>
                     <span className={`govuk-heading-${displaySize} govuk-!-margin-bottom-0`}>{display}</span>
                 </legend>
+                {hint ? (
+                    <div id={`${inputId}-hint`} className={`govuk-hint`}>
+                        {hint}
+                    </div>
+                ) : null}
                 <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-radios--error">
                     <div className="govuk-radios" data-module="govuk-radios">
                         {radioDetail.map((input, index) => (
