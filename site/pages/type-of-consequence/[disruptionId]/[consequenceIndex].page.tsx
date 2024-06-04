@@ -44,7 +44,7 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
     const returnPath = queryParams["return"]?.toString() ?? "";
 
     const consequenceTypesRadioDetail = props.isOperatorUser
-        ? OPERATOR_USER_CONSEQUENCE_TYPES
+        ? OPERATOR_USER_CONSEQUENCE_TYPES(CANCELLATIONS_FEATURE_FLAG)
         : CONSEQUENCE_TYPES(CANCELLATIONS_FEATURE_FLAG);
 
     return (

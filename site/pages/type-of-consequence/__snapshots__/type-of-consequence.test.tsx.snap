@@ -118,7 +118,7 @@ exports[`pages > CreateDisruption > should render correctly for operator user wi
                         </label>
                       </div>
                       <div
-                        className="govuk-radios__item"
+                        className="govuk-radios__item govuk-!-margin-bottom-1"
                       >
                         <input
                           className="govuk-radios__input"
@@ -135,6 +135,26 @@ exports[`pages > CreateDisruption > should render correctly for operator user wi
                           htmlFor="consequence-type-operatorWide"
                         >
                           Operator wide
+                        </label>
+                      </div>
+                      <div
+                        className="govuk-radios__item"
+                      >
+                        <input
+                          className="govuk-radios__input"
+                          data-aria-controls="consequence-type-journeys-conditional"
+                          defaultChecked={false}
+                          id="consequence-type-journeys"
+                          name="consequenceType"
+                          onChange={[Function]}
+                          type="radio"
+                          value="journeys"
+                        />
+                        <label
+                          className="govuk-label govuk-radios__label"
+                          htmlFor="consequence-type-journeys"
+                        >
+                          Journeys
                         </label>
                       </div>
                     </div>
