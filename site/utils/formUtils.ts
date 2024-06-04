@@ -64,6 +64,11 @@ export const sortAndFilterStops = (stops: Stop[]): Stop[] =>
         (value, index, self) => index === self.findIndex((stop) => stop.atcoCode === value.atcoCode),
     );
 
+export const sortAndFilterJourneys = (stops: Stop[]): Stop[] =>
+    sortStops(stops).filter(
+        (value, index, self) => index === self.findIndex((stop) => stop.atcoCode === value.atcoCode),
+    );
+
 export const getDataInPages = <T>(pageNumber: number, data: T[]): T[] => {
     const startPoint = (pageNumber - 1) * 10;
     const endPoint = pageNumber * 10;

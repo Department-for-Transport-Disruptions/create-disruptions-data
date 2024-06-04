@@ -4,6 +4,7 @@ import {
     consequenceSchema,
     disruptionInfoSchema,
     disruptionSchema,
+    journeysConsequenceSchema,
     networkConsequenceSchema,
     operatorConsequenceSchema,
     serviceSchema,
@@ -27,6 +28,7 @@ export type NetworkConsequence = z.infer<typeof networkConsequenceSchema>;
 export type OperatorConsequence = z.infer<typeof operatorConsequenceSchema>;
 export type StopsConsequence = z.infer<typeof stopsConsequenceSchema>;
 export type ServicesConsequence = z.infer<typeof servicesConsequenceSchema>;
+export type JourneysConsequence = z.infer<typeof journeysConsequenceSchema>;
 
 export const serviceWithCentrePointSchema = serviceSchema.and(
     z.object({

@@ -1,8 +1,8 @@
-import { Service, ServicesConsequence, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Service, JourneysConsequence, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import {
+    journeysConsequenceSchema,
     MAX_CONSEQUENCES,
     serviceSchema,
-    servicesConsequenceSchema,
     stopSchema,
 } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
@@ -24,7 +24,7 @@ import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
 import NotificationBanner from "../../../components/layout/NotificationBanner";
-import Map from "../../../components/map/ServicesMap";
+import Map from "../../../components/map/JourneysMap";
 import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 import {
     COOKIES_CONSEQUENCE_SERVICES_ERRORS,
@@ -46,7 +46,7 @@ import {
     getServiceLabel,
     getStops,
     getStopsForRoutes,
-    isServicesConsequence,
+    isJourneysConsequence,
     removeDuplicateRoutes,
     sortServices,
 } from "../../../utils";
@@ -119,7 +119,7 @@ const filterStopsWithoutServices = (stops: Stop[], removedServiceId: number) =>
     stops.map((stop) => removeServiceForStop(stop, removedServiceId)).filter(removeStopsWithNoServices);
 
 export interface CreateConsequenceJourneysProps
-    extends PageState<Partial<ServicesConsequence>>,
+    extends PageState<Partial<JourneysConsequence>>,
         CreateConsequenceProps {
     consequenceDataSource: Datasource | null;
     globalDataSource: Datasource | null;
@@ -129,7 +129,7 @@ export interface CreateConsequenceJourneysProps
 }
 
 const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): ReactElement => {
-    const [pageState, setPageState] = useState<PageState<Partial<ServicesConsequence>>>(props);
+    const [pageState, setPageState] = useState<PageState<Partial<JourneysConsequence>>>(props);
     const stateUpdater = getStateUpdater(setPageState, pageState);
     const [selected, setSelected] = useState<SingleValue<Stop>>(null);
     const [selectedService, setSelectedService] = useState<SingleValue<Service>>(null);
@@ -256,7 +256,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
             setPageState({
                 ...pageState,
                 errors: [
-                    ...pageState.errors.filter((err) => !Object.keys(servicesConsequenceSchema.shape).includes(err.id)),
+                    ...pageState.errors.filter((err) => !Object.keys(journeysConsequenceSchema.shape).includes(err.id)),
                     ...flattenZodErrors(parsed.error),
                 ],
             });
@@ -296,7 +296,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                     },
                     errors: [
                         ...pageState.errors.filter(
-                            (err) => !Object.keys(servicesConsequenceSchema.shape).includes(err.id),
+                            (err) => !Object.keys(journeysConsequenceSchema.shape).includes(err.id),
                         ),
                     ],
                 });
@@ -343,7 +343,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
             setPageState({
                 ...pageState,
                 errors: [
-                    ...pageState.errors.filter((err) => !Object.keys(servicesConsequenceSchema.shape).includes(err.id)),
+                    ...pageState.errors.filter((err) => !Object.keys(journeysConsequenceSchema.shape).includes(err.id)),
                     ...flattenZodErrors(parsed.error),
                 ],
             });
@@ -357,7 +357,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                     },
                     errors: [
                         ...pageState.errors.filter(
-                            (err) => !Object.keys(servicesConsequenceSchema.shape).includes(err.id),
+                            (err) => !Object.keys(journeysConsequenceSchema.shape).includes(err.id),
                         ),
                     ],
                 });
@@ -510,7 +510,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                                 />
                             )}
 
-                        <Select<ServicesConsequence>
+                        <Select<JourneysConsequence>
                             inputName="vehicleMode"
                             display="Mode of transport"
                             defaultDisplay="Select mode of transport"
@@ -575,14 +575,14 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                             selected={selected}
                             inputName="stop"
                             initialErrors={pageState.errors}
-                            placeholder="Select stops"
+                            placeholder="Select journeys"
                             getOptionLabel={getStopLabel}
                             handleChange={handleStopChange}
                             tableData={pageState.inputs.stops}
                             getRows={getStopRows}
                             getOptionValue={getStopValue}
                             display=""
-                            hint="Stops"
+                            hint="Journeys"
                             displaySize="l"
                             inputId="stops"
                             options={sortAndFilterStops(stopOptions).filter(
@@ -610,7 +610,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                                     }}
                                     disabled={!pageState.inputs.stops || pageState.inputs.stops?.length === 0}
                                 >
-                                    <p className="text-govBlue govuk-body-m">Remove all stops</p>
+                                    <p className="text-govBlue govuk-body-m">Remove all journeys</p>
                                 </button>
                             </div>
                         )}
@@ -624,25 +624,21 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                             }}
                             style={{ width: "100%", height: "40vh", marginBottom: 20 }}
                             mapStyle="mapbox://styles/mapbox/streets-v12"
+                            stopOptions={stopOptions}
                             selectedStops={
                                 pageState.inputs.stops && pageState.inputs.stops.length > 0
                                     ? pageState.inputs.stops
                                     : []
                             }
-                            stopOptions={stopOptions}
-                            setStopOptions={setStopOptions}
-                            stateUpdater={setPageState}
-                            state={pageState}
                             searchedRoutes={searchedRoutes}
                             setSearchedRoutes={setSearchedRoutes}
-                            showSelectAllButton
                             serviceOptionsForDropdown={serviceOptionsForDropdown}
                             setServiceOptionsForDropdown={setServiceOptionsForDropdown}
                             dataSource={dataSource}
                             showUnderground={props.showUnderground}
                         />
 
-                        <TextInput<ServicesConsequence>
+                        <TextInput<JourneysConsequence>
                             display="Consequence description"
                             displaySize="l"
                             hint="What advice would you like to display?"
@@ -671,7 +667,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                             </button>
                         ) : null}
 
-                        <Radios<ServicesConsequence>
+                        <Radios<JourneysConsequence>
                             display="Cancel journeys on journey planners"
                             displaySize="l"
                             radioDetail={[
@@ -691,7 +687,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                             initialErrors={pageState.errors}
                         />
 
-                        <TimeSelector<ServicesConsequence>
+                        <TimeSelector<JourneysConsequence>
                             display="Delay (optional)"
                             displaySize="l"
                             hint="Enter time in minutes"
@@ -702,7 +698,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                             placeholderValue=""
                         />
 
-                        <Select<ServicesConsequence>
+                        <Select<JourneysConsequence>
                             inputName="disruptionSeverity"
                             display="Disruption severity"
                             displaySize="l"
@@ -806,11 +802,11 @@ export const getServerSideProps = async (
 
     const consequence = disruption?.consequences?.find((c) => c.consequenceIndex === index);
 
-    const pageState = getPageState<ServicesConsequence>(
+    const pageState = getPageState<JourneysConsequence>(
         errorCookie,
-        servicesConsequenceSchema,
+        journeysConsequenceSchema,
         disruption.disruptionId,
-        consequence && isServicesConsequence(consequence) ? consequence : undefined,
+        consequence && isJourneysConsequence(consequence) ? consequence : undefined,
     );
 
     let stops: Stop[] = [];
