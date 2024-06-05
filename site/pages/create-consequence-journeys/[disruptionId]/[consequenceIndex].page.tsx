@@ -558,6 +558,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                                                 ...pageState.inputs,
                                                 services: [],
                                                 stops: [],
+                                                journeys: [],
                                             },
                                             errors: pageState.errors,
                                         });
@@ -584,7 +585,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                             display=""
                             hint="Journeys"
                             displaySize="l"
-                            inputId="stops"
+                            inputId="journeys"
                             options={sortAndFilterStops(stopOptions).filter(
                                 (stop) => !isSelectedStopInDropdown(stop, pageState.inputs.stops ?? []),
                             )}
@@ -592,7 +593,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                             setSearchInput={setStopsSearchInput}
                         />
 
-                        {pageState.inputs.stops && pageState.inputs.stops?.length >= 1 && (
+                        {pageState.inputs.journeys && pageState.inputs.journeys?.length >= 1 && (
                             <div className="my-3">
                                 <button
                                     className="govuk-link"
@@ -603,12 +604,12 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                                             ...pageState,
                                             inputs: {
                                                 ...pageState.inputs,
-                                                stops: [],
+                                                journeys: [],
                                             },
                                             errors: pageState.errors,
                                         });
                                     }}
-                                    disabled={!pageState.inputs.stops || pageState.inputs.stops?.length === 0}
+                                    disabled={!pageState.inputs.journeys || pageState.inputs.journeys?.length === 0}
                                 >
                                     <p className="text-govBlue govuk-body-m">Remove all journeys</p>
                                 </button>
