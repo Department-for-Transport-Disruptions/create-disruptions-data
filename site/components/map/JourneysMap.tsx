@@ -25,7 +25,6 @@ interface MapProps {
     initialViewState: Partial<ViewState>;
     style: CSSProperties;
     mapStyle: string;
-    selectedStops: Stop[];
     stopOptions: Stop[];
     inputId?: keyof Stop;
     searchedRoutes?: Partial<RouteWithServiceInfo[]>;
@@ -57,18 +56,10 @@ const initialHoverState = {
     serviceId: -1,
 };
 
-export const getSelectedStopsFromMapMarkers = (markerData: Stop[], id: string) => {
-    return [...markerData].filter((stop: Stop) => stop.atcoCode === id);
-};
-export const getAtcoCodesFromSelectedStops = (stops: Stop[]) => {
-    return !!stops ? stops.map((stop) => stop.atcoCode).splice(0, 100) : [];
-};
-
 const Map = ({
     initialViewState,
     style,
     mapStyle,
-    selectedStops = [],
     stopOptions = [],
     searchedRoutes = [],
     serviceOptionsForDropdown = [],
@@ -100,18 +91,15 @@ const Map = ({
     const handleMouseEnter = useCallback(
         (id: string) => {
             const searchedAtcoCodes = stopOptions.map((searchItem) => searchItem.atcoCode);
-            const selectedAtcoCodes = selectedStops.map((selectedItem) => selectedItem.atcoCode);
+
             const stopsOnMap = [
-                ...selectedStops,
                 ...stopOptions,
-                ...markerData.filter(
-                    (item) => !searchedAtcoCodes.includes(item.atcoCode) && !selectedAtcoCodes.includes(item.atcoCode),
-                ),
+                ...markerData.filter((item) => !searchedAtcoCodes.includes(item.atcoCode)),
             ];
             const stopInfo = stopsOnMap.find((stop) => stop.atcoCode === id);
             if (stopInfo) setPopupInfo(stopInfo);
         },
-        [stopOptions, selectedStops, markerData],
+        [stopOptions, markerData],
     );
 
     const unselectMarker = useCallback(() => {}, []);
@@ -249,7 +237,7 @@ const Map = ({
             >
                 <MapControls onUpdate={onUpdate} onDelete={onDelete} polygon={false} trash={false} />
                 <Markers
-                    selectedStops={selectedStops}
+                    selectedStops={[]}
                     stopOptions={stopOptions}
                     handleMouseEnter={handleMouseEnter}
                     markerData={markerData}
