@@ -1,9 +1,9 @@
-import { Service, JourneysConsequence, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Service, JourneysConsequence, Stop, Journey } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import {
+    journeySchema,
     journeysConsequenceSchema,
     MAX_CONSEQUENCES,
     serviceSchema,
-    stopSchema,
 } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext, Redirect } from "next";
@@ -35,32 +35,29 @@ import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById, getNocCodesForOperatorOrg } from "../../../data/dynamo";
-import { fetchServiceRoutes, fetchServices, fetchServicesByStops } from "../../../data/refDataApi";
+import { fetchJourneys, fetchServiceRoutes, fetchServices } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import { ServiceWithStopAndRoutes } from "../../../schemas/consequence.schema";
 import {
     RouteWithServiceInfo,
     filterVehicleModes,
     flattenZodErrors,
-    getRoutesForServices,
     getServiceLabel,
     getStops,
-    getStopsForRoutes,
     isJourneysConsequence,
-    removeDuplicateRoutes,
     sortServices,
 } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import {
     filterServices,
+    getJourneyLabel,
+    getJourneyValue,
     getStateUpdater,
-    getStopLabel,
-    getStopValue,
+    isSelectedJourneyInDropdown,
     isSelectedServiceInDropdown,
-    isSelectedStopInDropdown,
     returnTemplateOverview,
     showCancelButton,
+    sortJourneys,
     sortAndFilterStops,
 } from "../../../utils/formUtils";
 
@@ -108,16 +105,6 @@ const getServices = async (
     return filterServices(serviceData);
 };
 
-const removeServiceForStop = (stop: Stop, removedServiceId: number) =>
-    stop.serviceIds?.includes(removedServiceId)
-        ? { ...stop, serviceIds: stop.serviceIds.filter((id) => id !== removedServiceId) }
-        : stop;
-
-const removeStopsWithNoServices = (stop: Stop) => stop.serviceIds?.length !== 0;
-
-const filterStopsWithoutServices = (stops: Stop[], removedServiceId: number) =>
-    stops.map((stop) => removeServiceForStop(stop, removedServiceId)).filter(removeStopsWithNoServices);
-
 export interface CreateConsequenceJourneysProps
     extends PageState<Partial<JourneysConsequence>>,
         CreateConsequenceProps {
@@ -131,11 +118,12 @@ export interface CreateConsequenceJourneysProps
 const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): ReactElement => {
     const [pageState, setPageState] = useState<PageState<Partial<JourneysConsequence>>>(props);
     const stateUpdater = getStateUpdater(setPageState, pageState);
-    const [selected, setSelected] = useState<SingleValue<Stop>>(null);
+    const [selected, setSelected] = useState<SingleValue<Journey>>(null);
     const [selectedService, setSelectedService] = useState<SingleValue<Service>>(null);
     const [stopOptions, setStopOptions] = useState<Stop[]>(props.initialStops || []);
+    const [journeyOptions, setJourneyOptions] = useState<Journey[]>([]);
     const [servicesSearchInput, setServicesSearchInput] = useState<string>("");
-    const [stopsSearchInput, setStopsSearchInput] = useState<string>("");
+    const [journeysSearchInput, setJourneysSearchInput] = useState<string>("");
     const [searchedRoutes, setSearchedRoutes] = useState<Partial<RouteWithServiceInfo[]>>([]);
     const [serviceOptionsForDropdown, setServiceOptionsForDropdown] = useState<Service[]>([]);
     const [dataSource, setDataSource] = useState<Datasource>(props.consequenceDataSource || Datasource.bods);
@@ -193,6 +181,22 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageState.inputs.services]);
 
+    useEffect(() => {
+        const loadJourneys = async () => {
+            if (selectedService?.id) {
+                const journeys = await fetchJourneys({
+                    dataSource: dataSource,
+                    serviceRef: dataSource === Datasource.bods ? selectedService.lineId : selectedService.serviceCode,
+                });
+
+                setJourneyOptions(sortJourneys(journeys));
+            }
+        };
+        loadJourneys()
+            // eslint-disable-next-line no-console
+            .catch(console.error);
+    }, [dataSource, selectedService]);
+
     const queryParams = useRouter().query;
     const displayCancelButton = showCancelButton(queryParams);
 
@@ -201,45 +205,46 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
     const isTemplate = queryParams["template"]?.toString() ?? "";
     const returnPath = queryParams["return"]?.toString() ?? "";
 
-    const handleStopChange = async (value: SingleValue<Stop>, actionMeta: ActionMeta<Stop>) => {
+    const handleStopChange = (value: SingleValue<Journey>, actionMeta: ActionMeta<Journey>) => {
         if (actionMeta.action === "clear") {
-            setStopsSearchInput("");
+            setJourneysSearchInput("");
         }
-        if (!pageState.inputs.stops || !pageState.inputs.stops.some((data) => data.atcoCode === value?.atcoCode)) {
-            await addStop(value);
+        if (
+            !pageState.inputs.journeys ||
+            !pageState.inputs.journeys.some((data) => data?.vehicleJourneyCode === value?.vehicleJourneyCode)
+        ) {
+            addJourney(value);
         }
         setSelected(null);
     };
 
-    const removeStop = (e: SyntheticEvent, index: number) => {
+    const removeJourneys = (e: SyntheticEvent, index: number) => {
         e.preventDefault();
-        if (pageState.inputs.stops) {
-            const stops = [...pageState.inputs.stops];
-            stops.splice(index, 1);
+        if (pageState.inputs.journeys) {
+            const journeys = [...pageState.inputs.journeys];
+            journeys.splice(index, 1);
 
             setPageState({
                 ...pageState,
                 inputs: {
                     ...pageState.inputs,
-                    stops,
+                    journeys,
                 },
                 errors: pageState.errors,
             });
         }
     };
 
-    const getStopRows = () => {
-        if (pageState.inputs.stops) {
-            return sortAndFilterStops(pageState.inputs.stops).map((stop, i) => ({
+    const getJourneyRows = () => {
+        if (pageState.inputs.journeys) {
+            return sortJourneys(pageState.inputs.journeys).map((journey, i) => ({
                 cells: [
-                    stop.commonName && stop.indicator && stop.atcoCode
-                        ? `${stop.commonName} ${stop.indicator} ${stop.atcoCode}`
-                        : `${stop.commonName} ${stop.atcoCode}`,
+                    `${journey.departureTime} ${journey.origin} - ${journey.destination} (${journey.direction})`,
                     <button
-                        id={`remove-stop-${stop.atcoCode}`}
-                        key={`remove-stop-${stop.atcoCode}`}
+                        id={`remove-stop-${journey.vehicleJourneyCode}`}
+                        key={`remove-stop-${journey.vehicleJourneyCode}`}
                         className="govuk-link"
-                        onClick={(e) => removeStop(e, i)}
+                        onClick={(e) => removeJourneys(e, i)}
                     >
                         Remove
                     </button>,
@@ -249,8 +254,8 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
         return [];
     };
 
-    const addStop = async (stopToAdd: SingleValue<Stop>) => {
-        const parsed = stopSchema.safeParse(stopToAdd);
+    const addJourney = (journeyToAdd: SingleValue<Journey>) => {
+        const parsed = journeySchema.safeParse(journeyToAdd);
 
         if (!parsed.success) {
             setPageState({
@@ -261,38 +266,12 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                 ],
             });
         } else {
-            if (stopToAdd) {
-                const servicesForGivenStop: ServiceWithStopAndRoutes[] = await fetchServicesByStops({
-                    atcoCodes: [stopToAdd.atcoCode],
-                    includeRoutes: true,
-                    dataSource: dataSource,
-                    nocCodes: props.isOperatorUser && props.operatorUserNocCodes ? props.operatorUserNocCodes : [],
-                    adminAreaCodes: pageState.sessionWithOrg?.adminAreaCodes,
-                });
-
-                stopToAdd["serviceIds"] = servicesForGivenStop.map((service) => service.id);
-
-                const servicesRoutesForGivenStop = getRoutesForServices(servicesForGivenStop);
-
-                const servicesRoutesForMap = removeDuplicateRoutes([...searchedRoutes, ...servicesRoutesForGivenStop]);
-
-                const stopsForServicesRoutes = await getStopsForRoutes(
-                    servicesRoutesForMap,
-                    pageState.inputs.vehicleMode,
-                    dataSource,
-                );
-
-                const stopsForMap = sortAndFilterStops([...stopOptions, ...stopsForServicesRoutes]);
-
-                setSearchedRoutes(servicesRoutesForMap);
-                setStopOptions(stopsForMap);
-
+            if (journeyToAdd) {
                 setPageState({
                     ...pageState,
                     inputs: {
                         ...pageState.inputs,
-                        stops: sortAndFilterStops([...(pageState.inputs.stops ?? []), stopToAdd]),
-                        services: filterServices([...(pageState.inputs.services ?? []), ...servicesForGivenStop]),
+                        journeys: sortJourneys([...(pageState.inputs.journeys ?? []), journeyToAdd]),
                     },
                     errors: [
                         ...pageState.errors.filter(
@@ -316,22 +295,6 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
             addService(value);
         }
     };
-
-    useEffect(() => {
-        if (selectedService) {
-            getStops(
-                selectedService.dataSource === Datasource.bods ? selectedService.lineId : selectedService.serviceCode,
-                selectedService.id,
-                selectedService.dataSource,
-                pageState.inputs.vehicleMode,
-            )
-                .then((stops) => setStopOptions(sortAndFilterStops([...stopOptions, ...stops])))
-                // eslint-disable-next-line no-console
-                .catch(console.error);
-        }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [selectedService]);
 
     const addService = (serviceToAdd: SingleValue<Service>) => {
         if (pageState.inputs.services && pageState.inputs.services.length === 1) {
@@ -421,6 +384,22 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageState.inputs.vehicleMode]);
 
+    useEffect(() => {
+        if (selectedService) {
+            getStops(
+                selectedService.dataSource === Datasource.bods ? selectedService.lineId : selectedService.serviceCode,
+                selectedService.id,
+                selectedService.dataSource,
+                pageState.inputs.vehicleMode,
+            )
+                .then((stops) => setStopOptions(sortAndFilterStops([...stopOptions, ...stops])))
+                // eslint-disable-next-line no-console
+                .catch(console.error);
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [selectedService]);
+
     const removeService = (e: SyntheticEvent, removedServiceId: number) => {
         e.preventDefault();
 
@@ -429,20 +408,15 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                 (service) => service.id !== removedServiceId,
             );
 
-            const filteredStopOptions = filterStopsWithoutServices(stopOptions, removedServiceId);
-            const filteredSelectedStops = filterStopsWithoutServices(pageState.inputs.stops ?? [], removedServiceId);
-
             setPageState({
                 ...pageState,
                 inputs: {
                     ...pageState.inputs,
-                    stops: filteredSelectedStops,
                     services: updatedServicesArray,
+                    journeys: [],
                 },
                 errors: pageState.errors,
             });
-
-            setStopOptions(sortAndFilterStops(filteredStopOptions));
         }
 
         setSearchedRoutes(searchedRoutes.filter((route) => route?.serviceId !== removedServiceId) || []);
@@ -571,26 +545,26 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                         )}
                         <br />
 
-                        <SearchSelect<Stop>
+                        <SearchSelect<Journey>
                             closeMenuOnSelect={false}
                             selected={selected}
-                            inputName="stop"
+                            inputName="journey"
                             initialErrors={pageState.errors}
                             placeholder="Select journeys"
-                            getOptionLabel={getStopLabel}
+                            getOptionLabel={getJourneyLabel}
                             handleChange={handleStopChange}
-                            tableData={pageState.inputs.stops}
-                            getRows={getStopRows}
-                            getOptionValue={getStopValue}
+                            tableData={pageState.inputs.journeys}
+                            getRows={getJourneyRows}
+                            getOptionValue={getJourneyValue}
                             display=""
                             hint="Journeys"
                             displaySize="l"
                             inputId="journeys"
-                            options={sortAndFilterStops(stopOptions).filter(
-                                (stop) => !isSelectedStopInDropdown(stop, pageState.inputs.stops ?? []),
+                            options={sortJourneys(journeyOptions).filter(
+                                (journey) => !isSelectedJourneyInDropdown(journey, pageState.inputs.journeys ?? []),
                             )}
-                            inputValue={stopsSearchInput}
-                            setSearchInput={setStopsSearchInput}
+                            inputValue={journeysSearchInput}
+                            setSearchInput={setJourneysSearchInput}
                         />
 
                         {pageState.inputs.journeys && pageState.inputs.journeys?.length >= 1 && (

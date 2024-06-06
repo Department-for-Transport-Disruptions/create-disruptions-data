@@ -844,17 +844,14 @@ export const serviceSchema = z.object({
 });
 
 export const journeySchema = z.object({
-    id: z.number(),
-    lineName: z.string(),
-    operatorShortName: z.string(),
+    serviceId: z.number(),
+    dataSource: z.nativeEnum(Datasource),
+    journeyCode: z.string().optional().nullable(),
+    vehicleJourneyCode: z.string(),
+    departureTime: z.string(),
     destination: z.string(),
     origin: z.string(),
-    nocCode: z.string(),
-    dataSource: z.nativeEnum(Datasource),
-    startDate: z.string(),
-    endDate: z.string().nullable(),
-    serviceCode: z.string(),
-    lineId: z.string(),
+    direction: z.string(),
 });
 
 export const servicesConsequenceSchema = z.object({
@@ -887,7 +884,7 @@ export const journeysConsequenceSchema = z.object({
             message: "Only one service should can be added",
         }),
     serviceRefs: z.array(z.string()).optional(),
-    journeys: z.array(z.string()).optional(),
+    journeys: z.array(journeySchema).optional(),
     journeyRefs: z.array(z.string()).optional(),
     stops: z.array(stopSchema).optional(),
     stopRefs: z.array(z.string()).optional(),

@@ -4,6 +4,7 @@ import {
     consequenceSchema,
     disruptionInfoSchema,
     disruptionSchema,
+    journeySchema,
     journeysConsequenceSchema,
     networkConsequenceSchema,
     operatorConsequenceSchema,
@@ -23,6 +24,7 @@ export type Consequence = z.infer<typeof consequenceSchema>;
 export type ConsequenceOperators = z.infer<typeof consequenceOperatorsSchema>;
 export type Stop = z.infer<typeof stopSchema>;
 export type Service = z.infer<typeof serviceSchema>;
+export type Journey = z.infer<typeof journeySchema>;
 
 export type NetworkConsequence = z.infer<typeof networkConsequenceSchema>;
 export type OperatorConsequence = z.infer<typeof operatorConsequenceSchema>;
