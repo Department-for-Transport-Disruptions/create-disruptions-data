@@ -107,7 +107,7 @@ const getRows = (
                         isEditingAllowed &&
                         createChangeLink(
                             "vehicle-mode",
-                            getConsequenceUrl(consequence.consequenceType),
+                            getConsequenceUrl(consequence.consequenceType) || "",
                             disruption.disruptionId,
                             consequence.consequenceIndex,
                             true,
