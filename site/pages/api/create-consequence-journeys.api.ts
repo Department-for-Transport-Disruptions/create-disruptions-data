@@ -1,10 +1,10 @@
 import {
+    Journey,
     JourneysConsequence,
     Service,
     ServicesConsequence,
-    Stop,
 } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { servicesConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { journeysConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Datasource } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
@@ -31,13 +31,6 @@ import {
 import { getSession } from "../../utils/apiUtils/auth";
 
 export const formatCreateConsequenceStopsServicesBody = (body: object) => {
-    const stops = Object.entries(body)
-        .filter((item) => item.toString().startsWith("stop"))
-        .map((arr: string[]) => {
-            const [, values] = arr;
-            return JSON.parse(values) as Stop;
-        });
-
     const services = Object.entries(body)
         .filter((item) => item.toString().startsWith("service"))
         .map((arr: string[]) => {
@@ -51,10 +44,17 @@ export const formatCreateConsequenceStopsServicesBody = (body: object) => {
         ),
     );
 
+    const journeys = Object.entries(body)
+        .filter((item) => item.toString().startsWith("journey"))
+        .map((arr: string[]) => {
+            const [, values] = arr;
+            return JSON.parse(values) as Journey;
+        });
+
     return {
         ...cleansedBody,
-        stops,
         services,
+        journeys,
     };
 };
 
@@ -65,11 +65,11 @@ const createConsequenceJourneys = async (req: NextApiRequest, res: NextApiRespon
 
         const { template, addAnotherConsequence } = req.query;
 
-        const body = req.body as ServicesConsequence;
+        const body = req.body as JourneysConsequence;
 
         const formattedBody = formatCreateConsequenceStopsServicesBody(body);
 
-        const validatedBody = servicesConsequenceSchema.safeParse(formattedBody);
+        const validatedBody = journeysConsequenceSchema.safeParse(formattedBody);
 
         const session = getSession(req);
 
@@ -90,12 +90,11 @@ const createConsequenceJourneys = async (req: NextApiRequest, res: NextApiRespon
                     inputs: {
                         ...formattedBody,
                         services: [],
-                        stops: [],
                         journeys: [],
                         serviceRefs: formattedBody.services.map((service) =>
                             service.dataSource === Datasource.bods ? service.lineId : service.serviceCode,
                         ),
-                        stopRefs: formattedBody.stops.map((stop) => stop.atcoCode),
+                        journeysRef: formattedBody.journeys.map((journey) => journey.vehicleJourneyCode),
                     },
                     errors: flattenZodErrors(validatedBody.error),
                 }),
@@ -127,7 +126,7 @@ const createConsequenceJourneys = async (req: NextApiRequest, res: NextApiRespon
                         errors: [
                             {
                                 errorMessage:
-                                    "Operator user can only create service type consequence for services that contain their own NOC codes.",
+                                    "Operator user can only create journey type consequence for services that contain their own NOC codes.",
                                 id: "",
                             },
                         ],
@@ -211,8 +210,8 @@ const createConsequenceJourneys = async (req: NextApiRequest, res: NextApiRespon
         }
 
         if (e instanceof Error) {
-            const message = "There was a problem adding a consequence services.";
-            redirectToError(res, message, "api.create-consequence-services", e);
+            const message = "There was a problem adding a consequence journeys.";
+            redirectToError(res, message, "api.create-consequence-journeys", e);
             return;
         }
 

@@ -27,8 +27,8 @@ import NotificationBanner from "../../../components/layout/NotificationBanner";
 import Map from "../../../components/map/JourneysMap";
 import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 import {
-    COOKIES_CONSEQUENCE_SERVICES_ERRORS,
-    CREATE_CONSEQUENCE_SERVICES_PATH,
+    COOKIES_CONSEQUENCE_JOURNEYS_ERRORS,
+    CREATE_CONSEQUENCE_JOURNEYS_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
     DISRUPTION_SEVERITIES,
@@ -112,16 +112,17 @@ export interface CreateConsequenceJourneysProps
     globalDataSource: Datasource | null;
     isOperatorUser?: boolean;
     operatorUserNocCodes?: string[];
-    initialStops: Stop[];
+    initialJourneys: Journey[];
+    selectedService: SingleValue<Service> | null;
 }
 
 const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): ReactElement => {
     const [pageState, setPageState] = useState<PageState<Partial<JourneysConsequence>>>(props);
     const stateUpdater = getStateUpdater(setPageState, pageState);
     const [selected, setSelected] = useState<SingleValue<Journey>>(null);
-    const [selectedService, setSelectedService] = useState<SingleValue<Service>>(null);
-    const [stopOptions, setStopOptions] = useState<Stop[]>(props.initialStops || []);
-    const [journeyOptions, setJourneyOptions] = useState<Journey[]>([]);
+    const [selectedService, setSelectedService] = useState<SingleValue<Service>>(props.selectedService || null);
+    const [stopOptions, setStopOptions] = useState<Stop[]>([]);
+    const [journeyOptions, setJourneyOptions] = useState<Journey[]>(props.initialJourneys || []);
     const [servicesSearchInput, setServicesSearchInput] = useState<string>("");
     const [journeysSearchInput, setJourneysSearchInput] = useState<string>("");
     const [searchedRoutes, setSearchedRoutes] = useState<Partial<RouteWithServiceInfo[]>>([]);
@@ -130,6 +131,12 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
     const [vehicleMode, setVehicleMode] = useState<VehicleMode | null>(props.inputs.vehicleMode || null);
 
     const { consequenceCount = 0 } = props;
+
+    useEffect(() => {
+        if (pageState.inputs?.services && pageState.inputs.services.length === 1) {
+            setSelectedService(pageState.inputs?.services[0]);
+        }
+    }, [pageState.inputs?.services]);
 
     useEffect(() => {
         const loadOptions = async () => {
@@ -337,7 +344,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                 ...pageState,
                 inputs: {
                     ...pageState.inputs,
-                    stops: [],
+                    journeys: [],
                 },
                 errors: pageState.errors,
             });
@@ -370,7 +377,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                                 inputs: {
                                     ...pageState.inputs,
                                     services: [],
-                                    stops: [],
+                                    journeys: [],
                                 },
                             });
                         }
@@ -531,7 +538,6 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                                             inputs: {
                                                 ...pageState.inputs,
                                                 services: [],
-                                                stops: [],
                                                 journeys: [],
                                             },
                                             errors: pageState.errors,
@@ -679,7 +685,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                             initialErrors={pageState.errors}
                         />
 
-                        <input type="hidden" name="consequenceType" value="services" />
+                        <input type="hidden" name="consequenceType" value="journeys" />
                         <input type="hidden" name="disruptionId" value={props.disruptionId} />
                         <input type="hidden" name="consequenceIndex" value={props.consequenceIndex} />
 
@@ -704,7 +710,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                             <button
                                 className="govuk-button mt-8 ml-5 govuk-button--secondary"
                                 data-module="govuk-button"
-                                formAction={`/api${CREATE_CONSEQUENCE_SERVICES_PATH}?draft=true`}
+                                formAction={`/api${CREATE_CONSEQUENCE_JOURNEYS_PATH}?draft=true`}
                             >
                                 Save as draft
                             </button>
@@ -741,7 +747,7 @@ export const getServerSideProps = async (
     ctx: NextPageContext,
 ): Promise<{ props: CreateConsequenceJourneysProps } | { redirect: Redirect } | void> => {
     const cookies = parseCookies(ctx);
-    const errorCookie = cookies[COOKIES_CONSEQUENCE_SERVICES_ERRORS];
+    const errorCookie = cookies[COOKIES_CONSEQUENCE_JOURNEYS_ERRORS];
 
     if (!ctx.req) {
         throw new Error("No context request");
@@ -779,8 +785,7 @@ export const getServerSideProps = async (
         consequence && isJourneysConsequence(consequence) ? consequence : undefined,
     );
 
-    let stops: Stop[] = [];
-
+    const journeys: Journey[] = [];
     let consequenceDataSource: Datasource | null = null;
     let globalDataSource: Datasource | null = null;
 
@@ -801,25 +806,18 @@ export const getServerSideProps = async (
         if (pageState.inputs.services?.length) {
             consequenceDataSource = pageState.inputs.services[0].dataSource;
 
-            const stopPromises = pageState.inputs.services.map((service) =>
-                getStops(
-                    service.dataSource === Datasource.bods ? service.lineId : service.serviceCode,
-                    service.id,
-                    service.dataSource,
-                    pageState.inputs.vehicleMode,
-                ),
-            );
-            stops = (await Promise.all(stopPromises)).flat();
-
-            if (pageState.inputs.stopRefs) {
-                pageState.inputs.stops =
-                    sortAndFilterStops(stops.filter((stop) => pageState.inputs.stopRefs?.includes(stop.atcoCode))) ??
-                    [];
+            if (pageState.inputs.journeyRefs) {
+                pageState.inputs.journeys =
+                    sortJourneys(
+                        journeys.filter((journey) =>
+                            pageState.inputs.journeyRefs?.includes(journey.vehicleJourneyCode),
+                        ),
+                    ) ?? [];
             }
         }
     }
 
-    if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_SERVICES_ERRORS, ctx.res);
+    if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_JOURNEYS_ERRORS, ctx.res);
 
     const operatorUserNocCodes =
         session.isOperatorUser && session.operatorOrgId
@@ -829,8 +827,9 @@ export const getServerSideProps = async (
     return {
         props: {
             ...pageState,
-            initialStops: stops,
+            initialJourneys: journeys,
             consequenceIndex: index,
+            selectedService: pageState.inputs?.services?.[0] ?? null,
             consequenceCount: disruption.consequences?.length ?? 0,
             sessionWithOrg: session,
             disruptionDescription: disruption.description || "",

@@ -884,10 +884,10 @@ export const journeysConsequenceSchema = z.object({
             message: "Only one service should can be added",
         }),
     serviceRefs: z.array(z.string()).optional(),
-    journeys: z.array(journeySchema).optional(),
+    journeys: z.array(journeySchema).min(1, {
+        message: "At least one journey must be added",
+    }),
     journeyRefs: z.array(z.string()).optional(),
-    stops: z.array(stopSchema).optional(),
-    stopRefs: z.array(z.string()).optional(),
 });
 
 export const consequenceSchema = z.discriminatedUnion("consequenceType", [
