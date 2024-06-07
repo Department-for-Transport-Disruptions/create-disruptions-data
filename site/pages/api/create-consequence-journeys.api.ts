@@ -1,9 +1,4 @@
-import {
-    Journey,
-    JourneysConsequence,
-    Service,
-    ServicesConsequence,
-} from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Journey, JourneysConsequence, Service } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { journeysConsequenceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Datasource } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -30,7 +25,7 @@ import {
 } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 
-export const formatCreateConsequenceStopsServicesBody = (body: object) => {
+export const formatCreateConsequenceJourneysServicesBody = (body: object) => {
     const services = Object.entries(body)
         .filter((item) => item.toString().startsWith("service"))
         .map((arr: string[]) => {
@@ -40,7 +35,7 @@ export const formatCreateConsequenceStopsServicesBody = (body: object) => {
 
     const cleansedBody = Object.fromEntries(
         Object.entries(body).filter(
-            (item) => !item.toString().startsWith("stop") && !item.toString().startsWith("service"),
+            (item) => !item.toString().startsWith("journey") && !item.toString().startsWith("service"),
         ),
     );
 
@@ -67,7 +62,7 @@ const createConsequenceJourneys = async (req: NextApiRequest, res: NextApiRespon
 
         const body = req.body as JourneysConsequence;
 
-        const formattedBody = formatCreateConsequenceStopsServicesBody(body);
+        const formattedBody = formatCreateConsequenceJourneysServicesBody(body);
 
         const validatedBody = journeysConsequenceSchema.safeParse(formattedBody);
 
@@ -94,7 +89,7 @@ const createConsequenceJourneys = async (req: NextApiRequest, res: NextApiRespon
                         serviceRefs: formattedBody.services.map((service) =>
                             service.dataSource === Datasource.bods ? service.lineId : service.serviceCode,
                         ),
-                        journeysRef: formattedBody.journeys.map((journey) => journey.vehicleJourneyCode),
+                        journeyRefs: formattedBody.journeys.map((journey) => journey.vehicleJourneyCode),
                     },
                     errors: flattenZodErrors(validatedBody.error),
                 }),

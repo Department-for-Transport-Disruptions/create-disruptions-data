@@ -2,39 +2,44 @@ import { Datasource, Severity } from "@create-disruptions-data/shared-ts/enums";
 import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import CreateConsequenceServices, { CreateConsequenceServicesProps } from "./[disruptionId]/[consequenceIndex].page";
+import CreateConsequenceJourneys, { CreateConsequenceJourneysProps } from "./[disruptionId]/[consequenceIndex].page";
 import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
 import { mockSessionWithOrgDetail } from "../../testData/mockData";
 
-const blankInputs: CreateConsequenceServicesProps = {
+const blankInputs: CreateConsequenceJourneysProps = {
     errors: [],
     inputs: {},
     sessionWithOrg: mockSessionWithOrgDetail,
     consequenceDataSource: null,
     globalDataSource: null,
-    initialStops: [],
+    selectedService: null,
+    initialJourneys: [],
 };
 
-const withInputs: CreateConsequenceServicesProps = {
+const withInputs: CreateConsequenceJourneysProps = {
     disruptionDescription: "A truck broke down on a bridge",
     errors: [],
     disruptionId: "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
     sessionWithOrg: mockSessionWithOrgDetail,
     inputs: {
-        stops: [
+        journeys: [
             {
-                atcoCode: "0100BRP90310",
-                commonName: "Temple Meads Stn",
-                indicator: "T3",
-                latitude: 51.44901,
-                longitude: -2.58569,
+                dataSource: Datasource.bods,
+                journeyCode: null,
+                vehicleJourneyCode: "VJ24",
+                departureTime: "17:30:00",
+                destination: "Liverpool Sir Thomas Street",
+                origin: "Chester Bus Interchange",
+                direction: "outbound",
             },
             {
-                atcoCode: "0100BRP90311",
-                commonName: "Temple Meads Stn",
-                indicator: "T7",
-                latitude: 51.45014,
-                longitude: -2.5856,
+                dataSource: Datasource.bods,
+                journeyCode: null,
+                vehicleJourneyCode: "VJ25",
+                departureTime: "18:00:00",
+                destination: "Liverpool Sir Thomas Street",
+                origin: "Chester Bus Interchange",
+                direction: "outbound",
             },
         ],
         services: [
@@ -56,11 +61,11 @@ const withInputs: CreateConsequenceServicesProps = {
         removeFromJourneyPlanners: "yes",
         disruptionDelay: "45",
         disruptionSeverity: Severity.severe,
-        disruptionDirection: "inbound",
     },
     consequenceDataSource: Datasource.bods,
     globalDataSource: Datasource.bods,
-    initialStops: [],
+    initialJourneys: [],
+    selectedService: null,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -71,7 +76,7 @@ beforeEach(() => {
     }));
 });
 
-const withInputsAndErrors: CreateConsequenceServicesProps = {
+const withInputsAndErrors: CreateConsequenceJourneysProps = {
     disruptionDescription: "A truck broke down on a bridge",
     sessionWithOrg: mockSessionWithOrgDetail,
     errors: [
@@ -79,20 +84,24 @@ const withInputsAndErrors: CreateConsequenceServicesProps = {
         { errorMessage: "Select at least one option", id: "removeFromJourneyPlanners" },
     ],
     inputs: {
-        stops: [
+        journeys: [
             {
-                atcoCode: "0100BRP90310",
-                commonName: "Temple Meads Stn",
-                indicator: "T3",
-                latitude: 51.44901,
-                longitude: -2.58569,
+                dataSource: Datasource.bods,
+                journeyCode: null,
+                vehicleJourneyCode: "VJ24",
+                departureTime: "17:30:00",
+                destination: "Liverpool Sir Thomas Street",
+                origin: "Chester Bus Interchange",
+                direction: "outbound",
             },
             {
-                atcoCode: "0100BRP90311",
-                commonName: "Temple Meads Stn",
-                indicator: "T7",
-                latitude: 51.45014,
-                longitude: -2.5856,
+                dataSource: Datasource.bods,
+                journeyCode: null,
+                vehicleJourneyCode: "VJ25",
+                departureTime: "18:00:00",
+                destination: "Liverpool Sir Thomas Street",
+                origin: "Chester Bus Interchange",
+                direction: "outbound",
             },
         ],
         services: [
@@ -115,13 +124,14 @@ const withInputsAndErrors: CreateConsequenceServicesProps = {
     },
     consequenceDataSource: Datasource.bods,
     globalDataSource: Datasource.bods,
-    initialStops: [],
+    initialJourneys: [],
+    selectedService: null,
 };
 
 describe("pages", () => {
-    describe("CreateConsequenceServices", () => {
+    describe("CreateConsequenceJourneys", () => {
         it("should render correctly with no inputs", () => {
-            const tree = renderer.create(<CreateConsequenceServices {...blankInputs} />).toJSON();
+            const tree = renderer.create(<CreateConsequenceJourneys {...blankInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
 
@@ -129,19 +139,19 @@ describe("pages", () => {
             useRouter.mockImplementation(() => ({
                 query: { disruptionId: withInputs.disruptionId },
             }));
-            const tree = renderer.create(<CreateConsequenceServices {...withInputs} />).toJSON();
+            const tree = renderer.create(<CreateConsequenceJourneys {...withInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly with inputs and showUnderground is true", () => {
             const tree = renderer
-                .create(<CreateConsequenceServices {...{ ...withInputs, showUnderground: true }} />)
+                .create(<CreateConsequenceJourneys {...{ ...withInputs, showUnderground: true }} />)
                 .toJSON();
             expect(tree).toMatchSnapshot();
         });
 
         it("should render correctly with errors and incorrect inputs", () => {
-            const tree = renderer.create(<CreateConsequenceServices {...withInputsAndErrors} />).toJSON();
+            const tree = renderer.create(<CreateConsequenceJourneys {...withInputsAndErrors} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
 
@@ -149,7 +159,7 @@ describe("pages", () => {
             useRouter.mockImplementation(() => ({
                 query: { return: "/review-disruption", disruptionId: withInputs.disruptionId },
             }));
-            const tree = renderer.create(<CreateConsequenceServices {...withInputs} />).toJSON();
+            const tree = renderer.create(<CreateConsequenceJourneys {...withInputs} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
 
@@ -159,7 +169,7 @@ describe("pages", () => {
                     return: `${DISRUPTION_DETAIL_PAGE_PATH}/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
                 },
             }));
-            const { queryAllByText, unmount } = render(<CreateConsequenceServices {...withInputs} />);
+            const { queryAllByText, unmount } = render(<CreateConsequenceJourneys {...withInputs} />);
 
             const cancelButton = queryAllByText("Cancel Changes");
             const deleteButton = queryAllByText("Delete disruption");
@@ -176,11 +186,11 @@ describe("pages", () => {
             useRouter.mockImplementation(() => ({
                 query: { disruptionId: withInputs.disruptionId },
             }));
-            const inputs: CreateConsequenceServicesProps = {
+            const inputs: CreateConsequenceJourneysProps = {
                 ...withInputs,
                 consequenceDataSource: Datasource.tnds,
             };
-            const tree = renderer.create(<CreateConsequenceServices {...inputs} />).toJSON();
+            const tree = renderer.create(<CreateConsequenceJourneys {...inputs} />).toJSON();
             expect(tree).toMatchSnapshot();
         });
     });

@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment  */
-import { Consequence, ServicesConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Consequence, JourneysConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Datasource, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
-import createConsequenceServices, { formatCreateConsequenceStopsServicesBody } from "./create-consequence-services.api";
+import createConsequenceJourneys, {
+    formatCreateConsequenceJourneysServicesBody,
+} from "./create-consequence-journeys.api";
 import {
     COOKIES_CONSEQUENCE_JOURNEYS_ERRORS,
     CREATE_CONSEQUENCE_JOURNEYS_PATH,
@@ -44,17 +46,34 @@ const service = {
 };
 
 const defaultServicesData = {
-    service1: JSON.stringify(service),
     description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     removeFromJourneyPlanners: "no",
     disruptionDelay: "45",
     disruptionSeverity: Severity.severe,
     vehicleMode: VehicleMode.bus,
-    consequenceType: "services",
-    disruptionDirection: "inbound",
+    consequenceType: "journeys",
     consequenceIndex: defaultConsequenceIndex,
     disruptionId: defaultDisruptionId,
+    journey1: JSON.stringify({
+        dataSource: Datasource.tnds,
+        journeyCode: null,
+        vehicleJourneyCode: "VJ24",
+        departureTime: "17:30:00",
+        destination: "Liverpool Sir Thomas Street",
+        origin: "Chester Bus Interchange",
+        direction: "outbound",
+    }),
+    journey2: JSON.stringify({
+        dataSource: Datasource.tnds,
+        journeyCode: null,
+        vehicleJourneyCode: "VJ25",
+        departureTime: "18:00:00",
+        destination: "Liverpool Sir Thomas Street",
+        origin: "Chester Bus Interchange",
+        direction: "outbound",
+    }),
+    service1: JSON.stringify(service),
 };
 
 const disruption: FullDisruption = createDisruptionWithConsquences([
@@ -67,11 +86,10 @@ const servicesDataToUpsert = {
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     removeFromJourneyPlanners: "no",
     disruptionDelay: "45",
-    disruptionDirection: "inbound",
     disruptionSeverity: "severe",
     vehicleMode: "bus",
     consequenceIndex: 0,
-    consequenceType: "services",
+    consequenceType: "journeys",
     services: [
         {
             destination: "HigH Green",
@@ -87,10 +105,29 @@ const servicesDataToUpsert = {
             endDate: "2023-08-10",
         },
     ],
-    stops: [],
+    journeys: [
+        {
+            dataSource: Datasource.tnds,
+            journeyCode: null,
+            vehicleJourneyCode: "VJ24",
+            departureTime: "17:30:00",
+            destination: "Liverpool Sir Thomas Street",
+            origin: "Chester Bus Interchange",
+            direction: "outbound",
+        },
+        {
+            dataSource: Datasource.tnds,
+            journeyCode: null,
+            vehicleJourneyCode: "VJ25",
+            departureTime: "18:00:00",
+            destination: "Liverpool Sir Thomas Street",
+            origin: "Chester Bus Interchange",
+            direction: "outbound",
+        },
+    ],
 };
 
-describe("create-consequence-services API", () => {
+describe("create-consequence-journeys API", () => {
     const writeHeadMock = vi.fn();
     vi.mock("../../utils/apiUtils", async () => ({
         ...(await vi.importActual<object>("../../utils/apiUtils")),
@@ -134,7 +171,7 @@ describe("create-consequence-services API", () => {
     it("should redirect to /review-disruption when all required inputs are passed", async () => {
         const { req, res } = getMockRequestAndResponse({ body: defaultServicesData, mockWriteHeadFn: writeHeadMock });
 
-        await createConsequenceServices(req, res);
+        await createConsequenceJourneys(req, res);
 
         expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
@@ -144,11 +181,10 @@ describe("create-consequence-services API", () => {
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                 removeFromJourneyPlanners: "no",
                 disruptionDelay: "45",
-                disruptionDirection: "inbound",
                 disruptionSeverity: "severe",
                 vehicleMode: "bus",
                 consequenceIndex: 0,
-                consequenceType: "services",
+                consequenceType: "journeys",
                 services: [
                     {
                         destination: "HigH Green",
@@ -164,87 +200,24 @@ describe("create-consequence-services API", () => {
                         endDate: "2023-08-10",
                     },
                 ],
-                stops: [],
-                journeys: [],
-            },
-            DEFAULT_ORG_ID,
-            mockSession.isOrgStaff,
-            false,
-        );
-
-        expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
-        });
-    });
-
-    it("should redirect to /review-disruption when all required inputs are passed with stops", async () => {
-        const { req, res } = getMockRequestAndResponse({
-            body: {
-                ...defaultServicesData,
-                stop1: JSON.stringify({
-                    atcoCode: "0100BRP90310",
-                    commonName: "Temple Meads Stn",
-                    id: 1,
-                    indicator: "T3",
-                    latitude: "51.44901",
-                    longitude: "-2.58569",
-                }),
-                stop2: JSON.stringify({
-                    atcoCode: "0100BRP90311",
-                    commonName: "Temple Meads Stn",
-                    id: 2,
-                    indicator: "T7",
-                    latitude: "51.45014",
-                    longitude: "-2.5856",
-                }),
-            },
-            mockWriteHeadFn: writeHeadMock,
-        });
-
-        await createConsequenceServices(req, res);
-
-        expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
-        expect(upsertConsequenceSpy).toHaveBeenCalledWith(
-            {
-                disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-                description:
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-                removeFromJourneyPlanners: "no",
-                disruptionDelay: "45",
-                disruptionDirection: "inbound",
-                disruptionSeverity: "severe",
-                vehicleMode: "bus",
-                consequenceIndex: 0,
-                consequenceType: "services",
-                services: [
+                journeys: [
                     {
-                        destination: "HigH Green",
-                        id: 23127,
-                        lineName: "1",
-                        nocCode: "TEST",
-                        operatorShortName: "First South Yorkshire",
-                        origin: "Jordanthorpe",
-                        startDate: "2023-07-23",
-                        serviceCode: "NW_04_SCMN_149_1",
                         dataSource: Datasource.tnds,
-                        lineId: "SL1",
-                        endDate: "2023-08-10",
-                    },
-                ],
-                stops: [
-                    {
-                        atcoCode: "0100BRP90310",
-                        commonName: "Temple Meads Stn",
-                        indicator: "T3",
-                        latitude: 51.44901,
-                        longitude: -2.58569,
+                        journeyCode: null,
+                        vehicleJourneyCode: "VJ24",
+                        departureTime: "17:30:00",
+                        destination: "Liverpool Sir Thomas Street",
+                        origin: "Chester Bus Interchange",
+                        direction: "outbound",
                     },
                     {
-                        atcoCode: "0100BRP90311",
-                        commonName: "Temple Meads Stn",
-                        indicator: "T7",
-                        latitude: 51.45014,
-                        longitude: -2.5856,
+                        dataSource: Datasource.tnds,
+                        journeyCode: null,
+                        vehicleJourneyCode: "VJ25",
+                        departureTime: "18:00:00",
+                        destination: "Liverpool Sir Thomas Street",
+                        origin: "Chester Bus Interchange",
+                        direction: "outbound",
                     },
                 ],
             },
@@ -258,12 +231,12 @@ describe("create-consequence-services API", () => {
         });
     });
 
-    it("should redirect back to /create-consequence-services when no form inputs are passed to the API", async () => {
+    it("should redirect back to /create-consequence-journeys when no form inputs are passed to the API", async () => {
         const { req, res } = getMockRequestAndResponse({
             body: { consequenceIndex: defaultConsequenceIndex, disruptionId: defaultDisruptionId },
             mockWriteHeadFn: writeHeadMock,
         });
-        await createConsequenceServices(req, res);
+        await createConsequenceJourneys(req, res);
 
         const errors: ErrorInfo[] = [
             { errorMessage: "Enter a consequence description", id: "description" },
@@ -272,19 +245,32 @@ describe("create-consequence-services API", () => {
             { errorMessage: "Select a mode of transport", id: "vehicleMode" },
             { errorMessage: "Select a consequence type", id: "consequenceType" },
             { errorMessage: "At least one service must be added", id: "services" },
-            { errorMessage: "Select a direction", id: "disruptionDirection" },
+            { errorMessage: "At least one journey must be added", id: "journeys" },
         ];
+
+        console.log(
+            "fdfffs",
+            JSON.stringify({
+                inputs: {
+                    ...(formatCreateConsequenceJourneysServicesBody(req.body) as JourneysConsequence),
+                    services: [],
+                    serviceRefs: [],
+                    journeys: [],
+                    journeyRefs: [],
+                },
+                errors,
+            }),
+        );
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CONSEQUENCE_JOURNEYS_ERRORS,
             JSON.stringify({
                 inputs: {
-                    ...(formatCreateConsequenceStopsServicesBody(req.body) as ServicesConsequence),
+                    ...(formatCreateConsequenceJourneysServicesBody(req.body) as JourneysConsequence),
                     services: [],
-                    stops: [],
                     serviceRefs: [],
-                    stopRefs: [],
                     journeys: [],
+                    journeyRefs: [],
                 },
                 errors,
             }),
@@ -295,35 +281,37 @@ describe("create-consequence-services API", () => {
         });
     });
 
-    it("should redirect back to /create-consequence-services when description is too long", async () => {
-        const stopsData = {
+    it("should redirect back to /create-consequence-journeys when description is too long", async () => {
+        const journeyData = {
             ...defaultServicesData,
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         };
 
-        const { req, res } = getMockRequestAndResponse({ body: stopsData, mockWriteHeadFn: writeHeadMock });
+        const { req, res } = getMockRequestAndResponse({ body: journeyData, mockWriteHeadFn: writeHeadMock });
 
-        await createConsequenceServices(req, res);
+        await createConsequenceJourneys(req, res);
 
         const errors: ErrorInfo[] = [
             { errorMessage: "Description must not exceed 1000 characters", id: "description" },
         ];
 
-        const formattedBody = formatCreateConsequenceStopsServicesBody(req.body) as ServicesConsequence;
+        const formattedBody = formatCreateConsequenceJourneysServicesBody(req.body) as JourneysConsequence;
 
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        
+        const input: Partial<JourneysConsequence> = {
+            ...formattedBody,
+            services: [],
+            serviceRefs: ["NW_04_SCMN_149_1"],
+            journeys: [],
+            journeyRefs: ["VJ24", "VJ25"],
+        };
+
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CONSEQUENCE_JOURNEYS_ERRORS,
             JSON.stringify({
-                inputs: {
-                    ...formattedBody,
-                    services: [],
-                    stops: [],
-                    journeys: [],
-                    serviceRefs: ["NW_04_SCMN_149_1"],
-                    stopRefs: [],
-                },
+                inputs: input,
                 errors,
             }),
             res,
@@ -333,34 +321,36 @@ describe("create-consequence-services API", () => {
         });
     });
 
-    it("should redirect back to /create-consequence-services when invalid time is passed", async () => {
-        const stopsData = {
+    it("should redirect back to /create-consequence-journeys when invalid time is passed", async () => {
+        const journeyData = {
             ...defaultServicesData,
             disruptionDelay: "7280",
         };
 
-        const { req, res } = getMockRequestAndResponse({ body: stopsData, mockWriteHeadFn: writeHeadMock });
+        const { req, res } = getMockRequestAndResponse({ body: journeyData, mockWriteHeadFn: writeHeadMock });
 
-        await createConsequenceServices(req, res);
+        await createConsequenceJourneys(req, res);
 
         const errors: ErrorInfo[] = [
             { errorMessage: "Enter a number between 0 to 999 for disruption delay", id: "disruptionDelay" },
         ];
 
-        const formattedBody = formatCreateConsequenceStopsServicesBody(req.body) as ServicesConsequence;
+        const formattedBody = formatCreateConsequenceJourneysServicesBody(req.body) as JourneysConsequence;
 
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+
+        const input: Partial<JourneysConsequence> = {
+            ...formattedBody,
+            services: [],
+            serviceRefs: ["NW_04_SCMN_149_1"],
+            journeys: [],
+            journeyRefs: ["VJ24", "VJ25"],
+        };
+
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CONSEQUENCE_JOURNEYS_ERRORS,
             JSON.stringify({
-                inputs: {
-                    ...formattedBody,
-                    services: [],
-                    stops: [],
-                    journeys: [],
-                    serviceRefs: ["NW_04_SCMN_149_1"],
-                    stopRefs: [],
-                },
+                inputs: input,
                 errors,
             }),
             res,
@@ -377,7 +367,7 @@ describe("create-consequence-services API", () => {
             query: { draft: "true" },
         });
 
-        await createConsequenceServices(req, res);
+        await createConsequenceJourneys(req, res);
 
         expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
@@ -401,7 +391,7 @@ describe("create-consequence-services API", () => {
             mockWriteHeadFn: writeHeadMock,
         });
 
-        await createConsequenceServices(req, res);
+        await createConsequenceJourneys(req, res);
 
         expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
@@ -416,32 +406,28 @@ describe("create-consequence-services API", () => {
         });
     });
 
-    it("should redirect back to /create-consequence-services when description is too long with appropriate query params", async () => {
-        const stopsData = {
+    it("should redirect back to /create-consequence-journeys when description is too long with appropriate query params", async () => {
+        const journeyData = {
             ...defaultServicesData,
-            service2: JSON.stringify({
-                ...service,
-                dataSource: Datasource.bods,
-            }),
             description:
                 "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         };
 
         const { req, res } = getMockRequestAndResponse({
-            body: stopsData,
+            body: journeyData,
             requestHeaders: {
                 referer: refererPath,
             },
             mockWriteHeadFn: writeHeadMock,
         });
 
-        await createConsequenceServices(req, res);
+        await createConsequenceJourneys(req, res);
 
         const errors: ErrorInfo[] = [
             { errorMessage: "Description must not exceed 1000 characters", id: "description" },
         ];
 
-        const formattedBody = formatCreateConsequenceStopsServicesBody(req.body) as ServicesConsequence;
+        const formattedBody = formatCreateConsequenceJourneysServicesBody(req.body) as JourneysConsequence;
 
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
@@ -450,9 +436,9 @@ describe("create-consequence-services API", () => {
                 inputs: {
                     ...formattedBody,
                     services: [],
-                    stops: [],
-                    serviceRefs: ["NW_04_SCMN_149_1", "SL1"],
-                    stopRefs: [],
+                    serviceRefs: ["NW_04_SCMN_149_1"],
+                    journeys: [],
+                    journeyRefs: ["VJ24", "VJ25"],
                 },
                 errors,
             }),
@@ -470,7 +456,7 @@ describe("create-consequence-services API", () => {
             mockWriteHeadFn: writeHeadMock,
         });
 
-        await createConsequenceServices(req, res);
+        await createConsequenceJourneys(req, res);
 
         expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
@@ -491,7 +477,7 @@ describe("create-consequence-services API", () => {
             mockWriteHeadFn: writeHeadMock,
         });
 
-        await createConsequenceServices(req, res);
+        await createConsequenceJourneys(req, res);
 
         expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
@@ -514,7 +500,7 @@ describe("create-consequence-services API", () => {
             mockWriteHeadFn: writeHeadMock,
         });
 
-        await createConsequenceServices(req, res);
+        await createConsequenceJourneys(req, res);
 
         expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
@@ -529,7 +515,7 @@ describe("create-consequence-services API", () => {
         });
     });
 
-    it("should redirect back to /create-consequence-services when operator user tries to create a consequence for service that does not contain their NOC code", async () => {
+    it("should redirect back to /create-consequence-journeys when operator user tries to create a consequence for service that does not contain their NOC code", async () => {
         getSessionSpy.mockImplementation(() => {
             return { ...mockSession, isSystemAdmin: false, isOperatorUser: true, operatorOrgId: "test-org-id" };
         });
@@ -541,19 +527,20 @@ describe("create-consequence-services API", () => {
             mockWriteHeadFn: writeHeadMock,
         });
 
-        await createConsequenceServices(req, res);
+        await createConsequenceJourneys(req, res);
 
         const errors: ErrorInfo[] = [
             {
                 errorMessage:
-                    "Operator user can only create service type consequence for services that contain their own NOC codes.",
+                    "Operator user can only create journey type consequence for services that contain their own NOC codes.",
                 id: "",
             },
         ];
+
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CONSEQUENCE_JOURNEYS_ERRORS,
-            JSON.stringify({ inputs: formatCreateConsequenceStopsServicesBody(req.body), errors }),
+            JSON.stringify({ inputs: formatCreateConsequenceJourneysServicesBody(req.body), errors }),
             res,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
@@ -568,7 +555,7 @@ describe("create-consequence-services API", () => {
         getNocCodesForOperatorOrgSpy.mockResolvedValue(["TEST"]);
         const { req, res } = getMockRequestAndResponse({ body: defaultServicesData, mockWriteHeadFn: writeHeadMock });
 
-        await createConsequenceServices(req, res);
+        await createConsequenceJourneys(req, res);
 
         expect(upsertConsequenceSpy).toHaveBeenCalledTimes(1);
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
@@ -578,11 +565,10 @@ describe("create-consequence-services API", () => {
                     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
                 removeFromJourneyPlanners: "no",
                 disruptionDelay: "45",
-                disruptionDirection: "inbound",
                 disruptionSeverity: "severe",
                 vehicleMode: "bus",
                 consequenceIndex: 0,
-                consequenceType: "services",
+                consequenceType: "journeys",
                 services: [
                     {
                         destination: "HigH Green",
@@ -598,7 +584,26 @@ describe("create-consequence-services API", () => {
                         endDate: "2023-08-10",
                     },
                 ],
-                stops: [],
+                journeys: [
+                    {
+                        dataSource: Datasource.tnds,
+                        journeyCode: null,
+                        vehicleJourneyCode: "VJ24",
+                        departureTime: "17:30:00",
+                        destination: "Liverpool Sir Thomas Street",
+                        origin: "Chester Bus Interchange",
+                        direction: "outbound",
+                    },
+                    {
+                        dataSource: Datasource.tnds,
+                        departureTime: "18:00:00",
+                        destination: "Liverpool Sir Thomas Street",
+                        direction: "outbound",
+                        journeyCode: null,
+                        origin: "Chester Bus Interchange",
+                        vehicleJourneyCode: "VJ25",
+                    },
+                ],
             },
             DEFAULT_ORG_ID,
             mockSession.isOrgStaff,

@@ -844,7 +844,6 @@ export const serviceSchema = z.object({
 });
 
 export const journeySchema = z.object({
-    serviceId: z.number(),
     dataSource: z.nativeEnum(Datasource),
     journeyCode: z.string().optional().nullable(),
     vehicleJourneyCode: z.string(),
