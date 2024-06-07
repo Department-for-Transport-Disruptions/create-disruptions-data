@@ -248,7 +248,6 @@ describe("create-consequence-journeys API", () => {
             { errorMessage: "At least one journey must be added", id: "journeys" },
         ];
 
-  
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CONSEQUENCE_JOURNEYS_ERRORS,

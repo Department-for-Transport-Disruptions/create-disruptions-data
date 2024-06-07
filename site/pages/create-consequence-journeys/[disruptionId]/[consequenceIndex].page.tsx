@@ -13,6 +13,7 @@ import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import { ActionMeta, createFilter, SingleValue } from "react-select";
 import type { FilterOptionOption } from "react-select/dist/declarations/src/filters";
+import { validate } from "uuid";
 import DeleteDisruptionButton from "../../../components/buttons/DeleteDisruptionButton";
 import CsrfForm from "../../../components/form/CsrfForm";
 import ErrorSummary from "../../../components/form/ErrorSummary";
@@ -449,6 +450,10 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
         return [];
     };
 
+    const disruptionId = pageState.disruptionId && validate(pageState.disruptionId) ? pageState.disruptionId : "";
+    const cancelChangesUrl = returnToTemplateOverview
+        ? `${returnPath}/${disruptionId || ""}?template=true`
+        : `${returnPath}/${disruptionId || ""}`;
     return (
         <BaseLayout title={title} description={description}>
             <CsrfForm
@@ -696,11 +701,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                         {displayCancelButton && pageState.disruptionId ? (
                             <Link
                                 role="button"
-                                href={
-                                    returnToTemplateOverview
-                                        ? `${returnPath}/${pageState.disruptionId || ""}?template=true`
-                                        : `${returnPath}/${pageState.disruptionId || ""}`
-                                }
+                                href={cancelChangesUrl}
                                 className="govuk-button mt-8 ml-5 govuk-button--secondary"
                             >
                                 Cancel Changes
