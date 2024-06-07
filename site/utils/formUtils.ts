@@ -1,5 +1,4 @@
 import { ConsequenceOperators, Journey, Service, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { journeySchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Datasource } from "@create-disruptions-data/shared-ts/enums";
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import dayjs from "dayjs";

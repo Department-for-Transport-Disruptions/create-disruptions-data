@@ -248,19 +248,7 @@ describe("create-consequence-journeys API", () => {
             { errorMessage: "At least one journey must be added", id: "journeys" },
         ];
 
-        console.log(
-            "fdfffs",
-            JSON.stringify({
-                inputs: {
-                    ...(formatCreateConsequenceJourneysServicesBody(req.body) as JourneysConsequence),
-                    services: [],
-                    serviceRefs: [],
-                    journeys: [],
-                    journeyRefs: [],
-                },
-                errors,
-            }),
-        );
+  
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
         expect(setCookieOnResponseObject).toHaveBeenCalledWith(
             COOKIES_CONSEQUENCE_JOURNEYS_ERRORS,
@@ -299,7 +287,7 @@ describe("create-consequence-journeys API", () => {
         const formattedBody = formatCreateConsequenceJourneysServicesBody(req.body) as JourneysConsequence;
 
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
-        
+
         const input: Partial<JourneysConsequence> = {
             ...formattedBody,
             services: [],
