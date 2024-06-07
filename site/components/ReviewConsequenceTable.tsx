@@ -6,6 +6,7 @@ import Table, { CellProps } from "./form/Table";
 import {
     CANCELLATIONS_FEATURE_FLAG,
     CONSEQUENCE_TYPES,
+    CREATE_CONSEQUENCE_JOURNEYS_PATH,
     CREATE_CONSEQUENCE_NETWORK_PATH,
     CREATE_CONSEQUENCE_OPERATOR_PATH,
     CREATE_CONSEQUENCE_SERVICES_PATH,
@@ -27,6 +28,8 @@ const getConsequenceUrl = (type: Consequence["consequenceType"]) => {
             return CREATE_CONSEQUENCE_STOPS_PATH;
         case "services":
             return CREATE_CONSEQUENCE_SERVICES_PATH;
+        case "journeys":
+            return CREATE_CONSEQUENCE_JOURNEYS_PATH;
     }
 };
 
@@ -107,7 +110,7 @@ const getRows = (
                         isEditingAllowed &&
                         createChangeLink(
                             "vehicle-mode",
-                            getConsequenceUrl(consequence.consequenceType) || "",
+                            getConsequenceUrl(consequence.consequenceType),
                             disruption.disruptionId,
                             consequence.consequenceIndex,
                             true,
