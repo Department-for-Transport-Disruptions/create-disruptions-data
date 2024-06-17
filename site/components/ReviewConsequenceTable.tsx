@@ -122,7 +122,7 @@ const getRows = (
         },
     ];
 
-    if (consequence.consequenceType === "services") {
+    if (consequence.consequenceType === "services" || consequence.consequenceType === "journeys") {
         rows.push({
             header: "Service(s)",
             cells: [
@@ -171,6 +171,34 @@ const getRows = (
                         isEditingAllowed &&
                         createChangeLink(
                             "stops-affected",
+                            getConsequenceUrl(consequence.consequenceType),
+                            disruption.disruptionId,
+                            consequence.consequenceIndex,
+                            true,
+                            isDisruptionDetail,
+                            isTemplate,
+                        ),
+                },
+            ],
+        });
+    }
+
+    if (consequence.consequenceType === "journeys") {
+        rows.push({
+            header: "Journeys",
+            cells: [
+                {
+                    value: consequence.journeys
+                        ? consequence.journeys
+                              .map((journey) => `${journey.departureTime} ${journey.direction}`)
+                              .join(", ")
+                        : "N/A",
+                },
+                {
+                    value:
+                        isEditingAllowed &&
+                        createChangeLink(
+                            "journeys",
                             getConsequenceUrl(consequence.consequenceType),
                             disruption.disruptionId,
                             consequence.consequenceIndex,
@@ -255,7 +283,7 @@ const getRows = (
             ],
         },
         {
-            header: "Remove from journey planner",
+            header: consequence.consequenceType === "journeys" ? "Cancel Journeys" : "Remove from journey planner",
             cells: [
                 {
                     value: splitCamelCaseToString(consequence.removeFromJourneyPlanners),
