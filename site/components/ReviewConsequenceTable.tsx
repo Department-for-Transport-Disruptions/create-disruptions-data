@@ -122,7 +122,10 @@ const getRows = (
         },
     ];
 
-    if (consequence.consequenceType === "services" || consequence.consequenceType === "journeys") {
+    if (
+        consequence.consequenceType === "services" ||
+        (consequence.consequenceType === "journeys" && CANCELLATIONS_FEATURE_FLAG)
+    ) {
         rows.push({
             header: "Service(s)",
             cells: [
