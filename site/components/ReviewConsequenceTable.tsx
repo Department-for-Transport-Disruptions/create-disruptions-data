@@ -183,7 +183,7 @@ const getRows = (
         });
     }
 
-    if (consequence.consequenceType === "journeys") {
+    if (consequence.consequenceType === "journeys" && CANCELLATIONS_FEATURE_FLAG) {
         rows.push({
             header: "Journeys",
             cells: [
