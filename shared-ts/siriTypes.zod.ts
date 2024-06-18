@@ -124,16 +124,27 @@ export const stopPointsSchema = z.object({
     ),
 });
 
+export const journeysSchema = z.object({
+    AffectedVehicleJourney: z.array(
+        z.object({
+            VehicleJourneyRef: z.string(),
+            Route: z.string(),
+            OriginAimedDepartureTime: z.string(),
+        }),
+    ),
+});
+
 export const consequenceSchema = z.object({
     Consequence: z.array(
         z.object({
-            Condition: z.literal("unknown"),
+            Condition: z.literal("unknown").or(z.literal("cancelled")),
             Severity: z.nativeEnum(Severity),
             Affects: z.object({
                 Operators: operatorsSchema.optional(),
                 Networks: networksSchema.optional(),
                 Places: placesSchema.optional(),
                 StopPoints: stopPointsSchema.optional(),
+                VehicleJourneys: journeysSchema.optional(),
             }),
             Advice: z.object({
                 Details: z.string(),

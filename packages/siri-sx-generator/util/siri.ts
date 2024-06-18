@@ -139,7 +139,10 @@ export const getPtSituationElementFromSiteDisruption = (
             ? {
                   Consequences: {
                       Consequence: disruption.consequences.map((consequence) => ({
-                          Condition: consequence.consequenceType === "journeys" ? "cancelled" : "unknown",
+                          Condition:
+                              consequence.consequenceType === "journeys" && CANCELLATION_FEATURE_FLAG
+                                  ? "cancelled"
+                                  : "unknown",
                           Severity: consequence.disruptionSeverity,
                           Affects: {
                               ...(consequence.consequenceType === "networkWide" ||
