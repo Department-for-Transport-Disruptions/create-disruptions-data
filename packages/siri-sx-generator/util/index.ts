@@ -164,3 +164,12 @@ export const includeDisruption = (disruption: Disruption, currentDatetime: Dayjs
 
     return true;
 };
+
+export const combineDateAndTime = (timestamp: string, newTime: string): string => {
+    const date: Date = new Date(timestamp);
+    const [hours, minutes, seconds]: number[] = newTime.split(":").map(Number);
+
+    date.setUTCHours(hours, minutes, seconds, 0);
+
+    return date.toISOString();
+};
