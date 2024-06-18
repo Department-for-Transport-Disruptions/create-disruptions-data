@@ -283,7 +283,10 @@ const getRows = (
             ],
         },
         {
-            header: consequence.consequenceType === "journeys" && CANCELLATIONS_FEATURE_FLAG ? "Cancel Journeys" : "Remove from journey planner",
+            header:
+                consequence.consequenceType === "journeys" && CANCELLATIONS_FEATURE_FLAG
+                    ? "Cancel Journeys"
+                    : "Remove from journey planner",
             cells: [
                 {
                     value: splitCamelCaseToString(consequence.removeFromJourneyPlanners),
