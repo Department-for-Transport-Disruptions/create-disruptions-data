@@ -179,7 +179,9 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                         props.socialAccounts
                                             ?.find((account) => account.id === pageState.inputs.socialAccount)
                                             ?.hootsuiteProfiles?.map((profile) => ({
-                                                display: `${profile.type}/${profile.id}`,
+                                                display: `${profile.type}/${
+                                                    profile.socialNetworkUsername ?? profile.socialNetworkId
+                                                }`,
                                                 value: profile.id,
                                             })) ?? []
                                     }
