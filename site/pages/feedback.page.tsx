@@ -51,38 +51,34 @@ const Feedback = ({ csrfToken, feedbackSubmitted }: FeedbackProps): ReactElement
                     using Create Transport Disruption Data, and be as specific as possible
                 </span>
 
-                <div className="govuk-!-padding-top-3">
-                    <fieldset className="govuk-fieldset" aria-describedby="hear-about-service-header">
-                        <legend
-                            className="govuk-fieldset__legend govuk-fieldset__legend--m"
-                            id="hear-about-service-header"
-                        >
+                <div className="govuk-form-group govuk-!-padding-top-3">
+                    <h1 className="govuk-label-wrapper">
+                        <label className="govuk-label govuk-label--m" htmlFor="hear-about-service-question">
                             {HEAR_ABOUT_US_FEEDBACK_QUESTION}
-                        </legend>
-                        <textarea
-                            className="govuk-textarea"
-                            id="hear-about-service-question"
-                            name="hearAboutServiceQuestion"
-                            rows={3}
-                        />
-                    </fieldset>
+                        </label>
+                    </h1>
+
+                    <textarea
+                        className="govuk-textarea"
+                        id="hear-about-service-question"
+                        name="hearAboutServiceQuestion"
+                        rows={3}
+                    />
                 </div>
 
-                <div>
-                    <fieldset className="govuk-fieldset" aria-describedby="general-feedback-header">
-                        <legend
-                            className="govuk-fieldset__legend govuk-fieldset__legend--m"
-                            id="general-feedback-header"
-                        >
+                <div className="govuk-form-group govuk-!-padding-top-3">
+                    <h1 className="govuk-label-wrapper">
+                        <label className="govuk-label govuk-label--m" htmlFor="general-feedback-question">
                             {GENERAL_FEEDBACK_QUESTION}
-                        </legend>
-                        <textarea
-                            className="govuk-textarea"
-                            id="general-feedback-question"
-                            name="generalFeedbackQuestion"
-                            rows={6}
-                        />
-                    </fieldset>
+                        </label>
+                    </h1>
+
+                    <textarea
+                        className="govuk-textarea"
+                        id="general-feedback-question"
+                        name="generalFeedbackQuestion"
+                        rows={6}
+                    />
                 </div>
 
                 <div className="govuk-!-padding-bottom-3">
