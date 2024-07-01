@@ -216,7 +216,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="stops"
                   onKeyDown={[Function]}
                 >
@@ -240,7 +240,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-stop-placeholder"
                       >
                         Select stops
@@ -1052,7 +1052,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="stops"
                   onKeyDown={[Function]}
                 >
@@ -1076,7 +1076,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-stop-placeholder"
                       >
                         Select stops
@@ -1861,7 +1861,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs an
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="stops"
                   onKeyDown={[Function]}
                 >
@@ -1885,7 +1885,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs an
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-stop-placeholder"
                       >
                         Select stops
@@ -2665,7 +2665,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="stops"
                   onKeyDown={[Function]}
                 >
@@ -2689,7 +2689,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-stop-placeholder"
                       >
                         Select stops
@@ -3396,7 +3396,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="stops"
                   onKeyDown={[Function]}
                 >
@@ -3420,7 +3420,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-stop-placeholder"
                       >
                         Select stops

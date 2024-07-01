@@ -212,7 +212,7 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="services"
                   onKeyDown={[Function]}
                 >
@@ -236,7 +236,7 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-service-placeholder"
                       >
                         Select services
@@ -392,7 +392,7 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="stops"
                   onKeyDown={[Function]}
                 >
@@ -416,7 +416,7 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-stop-placeholder"
                       >
                         Select stops
@@ -1325,7 +1325,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="services"
                   onKeyDown={[Function]}
                 >
@@ -1349,7 +1349,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-service-placeholder"
                       >
                         Select services
@@ -1505,7 +1505,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="stops"
                   onKeyDown={[Function]}
                 >
@@ -1529,7 +1529,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-stop-placeholder"
                       >
                         Select stops
@@ -2434,7 +2434,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="services"
                   onKeyDown={[Function]}
                 >
@@ -2458,7 +2458,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-service-placeholder"
                       >
                         Select services
@@ -2614,7 +2614,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="stops"
                   onKeyDown={[Function]}
                 >
@@ -2638,7 +2638,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-stop-placeholder"
                       >
                         Select stops
@@ -3516,7 +3516,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="services"
                   onKeyDown={[Function]}
                 >
@@ -3540,7 +3540,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-service-placeholder"
                       >
                         Select services
@@ -3696,7 +3696,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="stops"
                   onKeyDown={[Function]}
                 >
@@ -3720,7 +3720,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-stop-placeholder"
                       >
                         Select stops
@@ -4593,7 +4593,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="services"
                   onKeyDown={[Function]}
                 >
@@ -4617,7 +4617,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-service-placeholder"
                       >
                         Select services
@@ -4717,7 +4717,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="stops"
                   onKeyDown={[Function]}
                 >
@@ -4741,7 +4741,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-stop-placeholder"
                       >
                         Select stops
@@ -5541,7 +5541,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="services"
                   onKeyDown={[Function]}
                 >
@@ -5565,7 +5565,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-service-placeholder"
                       >
                         Select services
@@ -5721,7 +5721,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="stops"
                   onKeyDown={[Function]}
                 >
@@ -5745,7 +5745,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-stop-placeholder"
                       >
                         Select stops
