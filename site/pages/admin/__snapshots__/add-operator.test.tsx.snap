@@ -144,6 +144,7 @@ exports[`addOperator > should render correctly when there are no inputs 1`] = `
                 <label
                   className="govuk-label govuk-label--s"
                   htmlFor="nocCodes-input"
+                  id="nocCodes-label"
                 >
                   NOC Code
                 </label>
@@ -190,6 +191,7 @@ exports[`addOperator > should render correctly when there are no inputs 1`] = `
                             aria-describedby="react-select-dropdown-nocCodes-placeholder"
                             aria-expanded={false}
                             aria-haspopup={true}
+                            aria-labelledby="nocCodes-label"
                             autoCapitalize="none"
                             autoComplete="off"
                             autoCorrect="off"
@@ -610,6 +612,7 @@ exports[`addOperator > should render correctly with inputs 1`] = `
                 <label
                   className="govuk-label govuk-label--s"
                   htmlFor="nocCodes-input"
+                  id="nocCodes-label"
                 >
                   NOC Code
                 </label>
@@ -656,6 +659,7 @@ exports[`addOperator > should render correctly with inputs 1`] = `
                             aria-describedby="react-select-dropdown-nocCodes-placeholder"
                             aria-expanded={false}
                             aria-haspopup={true}
+                            aria-labelledby="nocCodes-label"
                             autoCapitalize="none"
                             autoComplete="off"
                             autoCorrect="off"

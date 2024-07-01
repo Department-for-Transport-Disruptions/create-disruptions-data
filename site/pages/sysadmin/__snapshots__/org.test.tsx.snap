@@ -108,6 +108,7 @@ exports[`manageOrgs > should render correctly when there are no inputs 1`] = `
                 <label
                   className="govuk-label govuk-label--s"
                   htmlFor="adminAreaCodes-input"
+                  id="adminAreaCodes-label"
                 >
                   NaPTAN AdminArea
                 </label>
@@ -154,6 +155,7 @@ exports[`manageOrgs > should render correctly when there are no inputs 1`] = `
                             aria-describedby="react-select-dropdown-adminAreaCodes-placeholder"
                             aria-expanded={false}
                             aria-haspopup={true}
+                            aria-labelledby="adminAreaCodes-label"
                             autoCapitalize="none"
                             autoComplete="off"
                             autoCorrect="off"
@@ -565,6 +567,7 @@ exports[`manageOrgs > should render correctly with inputs 1`] = `
                 <label
                   className="govuk-label govuk-label--s"
                   htmlFor="adminAreaCodes-input"
+                  id="adminAreaCodes-label"
                 >
                   NaPTAN AdminArea
                 </label>
@@ -611,6 +614,7 @@ exports[`manageOrgs > should render correctly with inputs 1`] = `
                             aria-describedby="react-select-dropdown-adminAreaCodes-placeholder"
                             aria-expanded={false}
                             aria-haspopup={true}
+                            aria-labelledby="adminAreaCodes-label"
                             autoCapitalize="none"
                             autoComplete="off"
                             autoCorrect="off"

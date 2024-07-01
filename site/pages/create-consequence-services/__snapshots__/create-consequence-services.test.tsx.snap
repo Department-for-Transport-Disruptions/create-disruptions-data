@@ -199,6 +199,7 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="services-input"
+                id="services-label"
               >
                 Services impacted
               </label>
@@ -251,6 +252,7 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
                           aria-describedby="react-select-dropdown-service-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="services-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -381,6 +383,7 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="stops-input"
+                id="stops-label"
               />
               <div
                 className="govuk-hint"
@@ -431,6 +434,7 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
                           aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="stops-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -1312,6 +1316,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="services-input"
+                id="services-label"
               >
                 Services impacted
               </label>
@@ -1364,6 +1369,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                           aria-describedby="react-select-dropdown-service-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="services-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -1494,6 +1500,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="stops-input"
+                id="stops-label"
               />
               <div
                 className="govuk-hint"
@@ -1544,6 +1551,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                           aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="stops-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -2421,6 +2429,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="services-input"
+                id="services-label"
               >
                 Services impacted
               </label>
@@ -2473,6 +2482,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                           aria-describedby="react-select-dropdown-service-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="services-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -2603,6 +2613,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="stops-input"
+                id="stops-label"
               />
               <div
                 className="govuk-hint"
@@ -2653,6 +2664,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                           aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="stops-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -3503,6 +3515,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="services-input"
+                id="services-label"
               >
                 Services impacted
               </label>
@@ -3555,6 +3568,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                           aria-describedby="react-select-dropdown-service-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="services-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -3685,6 +3699,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="stops-input"
+                id="stops-label"
               />
               <div
                 className="govuk-hint"
@@ -3735,6 +3750,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                           aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="stops-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -4580,6 +4596,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="services-input"
+                id="services-label"
               >
                 Services impacted
               </label>
@@ -4632,6 +4649,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                           aria-describedby="react-select-dropdown-service-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="services-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -4706,6 +4724,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="stops-input"
+                id="stops-label"
               />
               <div
                 className="govuk-hint"
@@ -4756,6 +4775,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                           aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="stops-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -5528,6 +5548,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="services-input"
+                id="services-label"
               >
                 Services impacted
               </label>
@@ -5580,6 +5601,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                           aria-describedby="react-select-dropdown-service-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="services-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -5710,6 +5732,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="stops-input"
+                id="stops-label"
               />
               <div
                 className="govuk-hint"
@@ -5760,6 +5783,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                           aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="stops-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
