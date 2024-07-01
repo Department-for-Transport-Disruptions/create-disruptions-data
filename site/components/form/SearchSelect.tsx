@@ -91,7 +91,11 @@ const SearchSelect = <T extends object>({
     return (
         <FormGroupWrapper errorIds={[inputId]} errors={initialErrors}>
             <div className="govuk-form-group">
-                <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={`${inputId}-input`}>
+                <label
+                    id={`${inputId}-label`}
+                    className={`govuk-label govuk-label--${displaySize}`}
+                    htmlFor={`${inputId}-input`}
+                >
                     {display}
                 </label>
                 {hint ? (
@@ -101,6 +105,7 @@ const SearchSelect = <T extends object>({
                 ) : null}
                 <FormElementWrapper errors={initialErrors} errorId={inputId} errorClass="govuk-input--error">
                     <Select
+                        aria-labelledby={`${inputId}-label`}
                         isSearchable
                         styles={{
                             control: (baseStyles, state) => ({
