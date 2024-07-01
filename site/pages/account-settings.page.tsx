@@ -298,7 +298,7 @@ const AccountSettings = ({
                                                 />
                                                 <label
                                                     key={`street-manager-notification-off`}
-                                                    htmlFor={`street-manager-email-notification-off`}
+                                                    htmlFor={`street-manager-notification-off`}
                                                     className="govuk-label govuk-radios__label"
                                                 >
                                                     Off
