@@ -152,7 +152,7 @@ exports[`addOperator > should render correctly when there are no inputs 1`] = `
                   className=""
                 >
                   <div
-                    className=" css-b62m3t-container"
+                    className="text-lg text-black css-b62m3t-container"
                     id="nocCodes"
                     onKeyDown={[Function]}
                   >
@@ -176,7 +176,7 @@ exports[`addOperator > should render correctly when there are no inputs 1`] = `
                         className=" css-1fdsijx-ValueContainer"
                       >
                         <div
-                          className=" css-1jqq78o-placeholder"
+                          className=" css-yl2wa5-placeholder"
                           id="react-select-dropdown-nocCodes-placeholder"
                         >
                           Select operator NOC codes
@@ -620,7 +620,7 @@ exports[`addOperator > should render correctly with inputs 1`] = `
                   className=""
                 >
                   <div
-                    className=" css-b62m3t-container"
+                    className="text-lg text-black css-b62m3t-container"
                     id="nocCodes"
                     onKeyDown={[Function]}
                   >
@@ -644,7 +644,7 @@ exports[`addOperator > should render correctly with inputs 1`] = `
                         className=" css-1fdsijx-ValueContainer"
                       >
                         <div
-                          className=" css-1jqq78o-placeholder"
+                          className=" css-yl2wa5-placeholder"
                           id="react-select-dropdown-nocCodes-placeholder"
                         >
                           Select operator NOC codes
