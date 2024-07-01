@@ -173,7 +173,13 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                   className="govuk-fieldset__heading govuk-visually-hidden"
                   id="passenger-type-page-heading"
                 >
-                  Upload file
+                  <label
+                    className="govuk-label govuk-label--s"
+                    htmlFor="image"
+                    id="image-label"
+                  >
+                    Upload File
+                  </label>
                 </h2>
               </legend>
               <div
@@ -181,6 +187,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
               >
                 <input
                   accept="image/png, image/jpeg, image/jpg"
+                  aria-labelledby="image-label"
                   className="govuk-file-upload"
                   id="image"
                   name="image"
@@ -575,7 +582,13 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                   className="govuk-fieldset__heading govuk-visually-hidden"
                   id="passenger-type-page-heading"
                 >
-                  Upload file
+                  <label
+                    className="govuk-label govuk-label--s"
+                    htmlFor="image"
+                    id="image-label"
+                  >
+                    Upload File
+                  </label>
                 </h2>
               </legend>
               <div
@@ -583,6 +596,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
               >
                 <input
                   accept="image/png, image/jpeg, image/jpg"
+                  aria-labelledby="image-label"
                   className="govuk-file-upload"
                   id="image"
                   name="image"
