@@ -112,7 +112,7 @@ exports[`contact > should render correctly 1`] = `
             <a
               aria-label="go to the bus open data service"
               className="underline"
-              href="https://publish.bus-data.dft.gov.uk/"
+              href="https://www.bus-data.dft.gov.uk/contact/"
               onClick={[Function]}
               onMouseEnter={[Function]}
               onTouchStart={[Function]}
