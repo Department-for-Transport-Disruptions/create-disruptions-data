@@ -242,7 +242,9 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                         className="govuk-fieldset__heading govuk-visually-hidden"
                                         id="passenger-type-page-heading"
                                     >
-                                        Upload file
+                                        <label id="image-label" className="govuk-label govuk-label--s" htmlFor="image">
+                                            Upload File
+                                        </label>
                                     </h2>
                                 </legend>
                                 <FormElementWrapper
@@ -250,15 +252,14 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                     errorClass="govuk-file-upload--error"
                                     errors={pageState.errors}
                                 >
-                                    <>
-                                        <input
-                                            className="govuk-file-upload"
-                                            type="file"
-                                            id="image"
-                                            name="image"
-                                            accept="image/png, image/jpeg, image/jpg"
-                                        />
-                                    </>
+                                    <input
+                                        className="govuk-file-upload"
+                                        type="file"
+                                        id="image"
+                                        aria-labelledby="image-label"
+                                        name="image"
+                                        accept="image/png, image/jpeg, image/jpg"
+                                    />
                                 </FormElementWrapper>
                             </fieldset>
                         </FormGroupWrapper>

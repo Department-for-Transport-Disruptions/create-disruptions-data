@@ -209,6 +209,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="stops-input"
+                id="stops-label"
               >
                 Stops Impacted
               </label>
@@ -255,6 +256,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                           aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="stops-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -1045,6 +1047,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="stops-input"
+                id="stops-label"
               >
                 Stops Impacted
               </label>
@@ -1091,6 +1094,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                           aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="stops-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -1854,6 +1858,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs an
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="stops-input"
+                id="stops-label"
               >
                 Stops Impacted
               </label>
@@ -1900,6 +1905,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs an
                           aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="stops-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -2658,6 +2664,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="stops-input"
+                id="stops-label"
               >
                 Stops Impacted
               </label>
@@ -2704,6 +2711,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                           aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="stops-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -3389,6 +3397,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="stops-input"
+                id="stops-label"
               >
                 Stops Impacted
               </label>
@@ -3435,6 +3444,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
                           aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="stops-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"

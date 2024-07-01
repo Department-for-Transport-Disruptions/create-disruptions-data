@@ -105,44 +105,44 @@ exports[`pages > feedback > should render correctly after feedback has been succ
               Thank you for providing feedback and comments. Answer any questions which apply to your experience using Create Transport Disruption Data, and be as specific as possible
             </span>
             <div
-              className="govuk-!-padding-top-3"
+              className="govuk-form-group govuk-!-padding-top-3"
             >
-              <fieldset
-                aria-describedby="hear-about-service-header"
-                className="govuk-fieldset"
+              <h1
+                className="govuk-label-wrapper"
               >
-                <legend
-                  className="govuk-fieldset__legend govuk-fieldset__legend--m"
-                  id="hear-about-service-header"
+                <label
+                  className="govuk-label govuk-label--m"
+                  htmlFor="hear-about-service-question"
                 >
                   How did you hear about our service?
-                </legend>
-                <textarea
-                  className="govuk-textarea"
-                  id="hear-about-service-question"
-                  name="hearAboutServiceQuestion"
-                  rows={3}
-                />
-              </fieldset>
+                </label>
+              </h1>
+              <textarea
+                className="govuk-textarea"
+                id="hear-about-service-question"
+                name="hearAboutServiceQuestion"
+                rows={3}
+              />
             </div>
-            <div>
-              <fieldset
-                aria-describedby="general-feedback-header"
-                className="govuk-fieldset"
+            <div
+              className="govuk-form-group govuk-!-padding-top-3"
+            >
+              <h1
+                className="govuk-label-wrapper"
               >
-                <legend
-                  className="govuk-fieldset__legend govuk-fieldset__legend--m"
-                  id="general-feedback-header"
+                <label
+                  className="govuk-label govuk-label--m"
+                  htmlFor="general-feedback-question"
                 >
                   Please let us know any feedback or suggestions for improvements you may have
-                </legend>
-                <textarea
-                  className="govuk-textarea"
-                  id="general-feedback-question"
-                  name="generalFeedbackQuestion"
-                  rows={6}
-                />
-              </fieldset>
+                </label>
+              </h1>
+              <textarea
+                className="govuk-textarea"
+                id="general-feedback-question"
+                name="generalFeedbackQuestion"
+                rows={6}
+              />
             </div>
             <div
               className="govuk-!-padding-bottom-3"
@@ -559,44 +559,44 @@ exports[`pages > feedback > should render correctly after the user tries to subm
               Thank you for providing feedback and comments. Answer any questions which apply to your experience using Create Transport Disruption Data, and be as specific as possible
             </span>
             <div
-              className="govuk-!-padding-top-3"
+              className="govuk-form-group govuk-!-padding-top-3"
             >
-              <fieldset
-                aria-describedby="hear-about-service-header"
-                className="govuk-fieldset"
+              <h1
+                className="govuk-label-wrapper"
               >
-                <legend
-                  className="govuk-fieldset__legend govuk-fieldset__legend--m"
-                  id="hear-about-service-header"
+                <label
+                  className="govuk-label govuk-label--m"
+                  htmlFor="hear-about-service-question"
                 >
                   How did you hear about our service?
-                </legend>
-                <textarea
-                  className="govuk-textarea"
-                  id="hear-about-service-question"
-                  name="hearAboutServiceQuestion"
-                  rows={3}
-                />
-              </fieldset>
+                </label>
+              </h1>
+              <textarea
+                className="govuk-textarea"
+                id="hear-about-service-question"
+                name="hearAboutServiceQuestion"
+                rows={3}
+              />
             </div>
-            <div>
-              <fieldset
-                aria-describedby="general-feedback-header"
-                className="govuk-fieldset"
+            <div
+              className="govuk-form-group govuk-!-padding-top-3"
+            >
+              <h1
+                className="govuk-label-wrapper"
               >
-                <legend
-                  className="govuk-fieldset__legend govuk-fieldset__legend--m"
-                  id="general-feedback-header"
+                <label
+                  className="govuk-label govuk-label--m"
+                  htmlFor="general-feedback-question"
                 >
                   Please let us know any feedback or suggestions for improvements you may have
-                </legend>
-                <textarea
-                  className="govuk-textarea"
-                  id="general-feedback-question"
-                  name="generalFeedbackQuestion"
-                  rows={6}
-                />
-              </fieldset>
+                </label>
+              </h1>
+              <textarea
+                className="govuk-textarea"
+                id="general-feedback-question"
+                name="generalFeedbackQuestion"
+                rows={6}
+              />
             </div>
             <div
               className="govuk-!-padding-bottom-3"
@@ -985,44 +985,44 @@ exports[`pages > feedback > should render correctly when the page is first visit
               Thank you for providing feedback and comments. Answer any questions which apply to your experience using Create Transport Disruption Data, and be as specific as possible
             </span>
             <div
-              className="govuk-!-padding-top-3"
+              className="govuk-form-group govuk-!-padding-top-3"
             >
-              <fieldset
-                aria-describedby="hear-about-service-header"
-                className="govuk-fieldset"
+              <h1
+                className="govuk-label-wrapper"
               >
-                <legend
-                  className="govuk-fieldset__legend govuk-fieldset__legend--m"
-                  id="hear-about-service-header"
+                <label
+                  className="govuk-label govuk-label--m"
+                  htmlFor="hear-about-service-question"
                 >
                   How did you hear about our service?
-                </legend>
-                <textarea
-                  className="govuk-textarea"
-                  id="hear-about-service-question"
-                  name="hearAboutServiceQuestion"
-                  rows={3}
-                />
-              </fieldset>
+                </label>
+              </h1>
+              <textarea
+                className="govuk-textarea"
+                id="hear-about-service-question"
+                name="hearAboutServiceQuestion"
+                rows={3}
+              />
             </div>
-            <div>
-              <fieldset
-                aria-describedby="general-feedback-header"
-                className="govuk-fieldset"
+            <div
+              className="govuk-form-group govuk-!-padding-top-3"
+            >
+              <h1
+                className="govuk-label-wrapper"
               >
-                <legend
-                  className="govuk-fieldset__legend govuk-fieldset__legend--m"
-                  id="general-feedback-header"
+                <label
+                  className="govuk-label govuk-label--m"
+                  htmlFor="general-feedback-question"
                 >
                   Please let us know any feedback or suggestions for improvements you may have
-                </legend>
-                <textarea
-                  className="govuk-textarea"
-                  id="general-feedback-question"
-                  name="generalFeedbackQuestion"
-                  rows={6}
-                />
-              </fieldset>
+                </label>
+              </h1>
+              <textarea
+                className="govuk-textarea"
+                id="general-feedback-question"
+                name="generalFeedbackQuestion"
+                rows={6}
+              />
             </div>
             <div
               className="govuk-!-padding-bottom-3"
