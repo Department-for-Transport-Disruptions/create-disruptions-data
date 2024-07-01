@@ -111,6 +111,7 @@ exports[`contact > should render correctly 1`] = `
             If your query relates to the use of the Bus Open Data Service  
             <a
               aria-label="go to the bus open data service"
+              className="underline"
               href="https://publish.bus-data.dft.gov.uk/"
               onClick={[Function]}
               onMouseEnter={[Function]}

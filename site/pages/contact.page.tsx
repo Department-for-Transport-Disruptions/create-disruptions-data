@@ -34,7 +34,11 @@ const Contact = (): ReactElement => {
                     <h3 className="govuk-heading-s">Related services</h3>
                     <p className="govuk-body">
                         If your query relates to the use of the Bus Open Data Service &nbsp;
-                        <Link href="https://publish.bus-data.dft.gov.uk/" aria-label="go to the bus open data service">
+                        <Link
+                            href="https://publish.bus-data.dft.gov.uk/"
+                            aria-label="go to the bus open data service"
+                            className="underline"
+                        >
                             go to the Bus Open Data Service
                         </Link>
                         &nbsp;to view their contact details
