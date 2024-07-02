@@ -199,20 +199,21 @@ exports[`pages > CreateConsequenceJourneys > should render correctly when global
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="services-input"
+                id="services-label"
               >
-                Services impacted
+                Service impacted
               </label>
               <div
                 className="govuk-hint"
                 id="services-hint"
               >
-                Services
+                Service
               </div>
               <div
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="services"
                   onKeyDown={[Function]}
                 >
@@ -249,6 +250,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly when global
                           aria-autocomplete="list"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="services-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -372,22 +374,6 @@ exports[`pages > CreateConsequenceJourneys > should render correctly when global
               />
             </div>
           </div>
-          <div
-            className="my-3"
-          >
-            <button
-              className="govuk-link"
-              data-module="govuk-button"
-              disabled={false}
-              onClick={[Function]}
-            >
-              <p
-                className="text-govBlue govuk-body-m"
-              >
-                Remove all services
-              </p>
-            </button>
-          </div>
           <br />
           <div
             className="govuk-form-group"
@@ -398,6 +384,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly when global
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="journeys-input"
+                id="journeys-label"
               />
               <div
                 className="govuk-hint"
@@ -409,7 +396,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly when global
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="journeys"
                   onKeyDown={[Function]}
                 >
@@ -433,7 +420,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly when global
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-journey-placeholder"
                       >
                         Select journeys
@@ -448,6 +435,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly when global
                           aria-describedby="react-select-dropdown-journey-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="journeys-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -1248,20 +1236,21 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with errors
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="services-input"
+                id="services-label"
               >
-                Services impacted
+                Service impacted
               </label>
               <div
                 className="govuk-hint"
                 id="services-hint"
               >
-                Services
+                Service
               </div>
               <div
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="services"
                   onKeyDown={[Function]}
                 >
@@ -1298,6 +1287,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with errors
                           aria-autocomplete="list"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="services-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -1421,22 +1411,6 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with errors
               />
             </div>
           </div>
-          <div
-            className="my-3"
-          >
-            <button
-              className="govuk-link"
-              data-module="govuk-button"
-              disabled={false}
-              onClick={[Function]}
-            >
-              <p
-                className="text-govBlue govuk-body-m"
-              >
-                Remove all services
-              </p>
-            </button>
-          </div>
           <br />
           <div
             className="govuk-form-group"
@@ -1447,6 +1421,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with errors
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="journeys-input"
+                id="journeys-label"
               />
               <div
                 className="govuk-hint"
@@ -1458,7 +1433,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with errors
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="journeys"
                   onKeyDown={[Function]}
                 >
@@ -1482,7 +1457,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with errors
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-journey-placeholder"
                       >
                         Select journeys
@@ -1497,6 +1472,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with errors
                           aria-describedby="react-select-dropdown-journey-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="journeys-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -2293,20 +2269,21 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="services-input"
+                id="services-label"
               >
-                Services impacted
+                Service impacted
               </label>
               <div
                 className="govuk-hint"
                 id="services-hint"
               >
-                Services
+                Service
               </div>
               <div
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="services"
                   onKeyDown={[Function]}
                 >
@@ -2343,6 +2320,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                           aria-autocomplete="list"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="services-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -2466,22 +2444,6 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
               />
             </div>
           </div>
-          <div
-            className="my-3"
-          >
-            <button
-              className="govuk-link"
-              data-module="govuk-button"
-              disabled={false}
-              onClick={[Function]}
-            >
-              <p
-                className="text-govBlue govuk-body-m"
-              >
-                Remove all services
-              </p>
-            </button>
-          </div>
           <br />
           <div
             className="govuk-form-group"
@@ -2492,6 +2454,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="journeys-input"
+                id="journeys-label"
               />
               <div
                 className="govuk-hint"
@@ -2503,7 +2466,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="journeys"
                   onKeyDown={[Function]}
                 >
@@ -2527,7 +2490,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-journey-placeholder"
                       >
                         Select journeys
@@ -2542,6 +2505,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                           aria-describedby="react-select-dropdown-journey-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="journeys-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -3311,20 +3275,21 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="services-input"
+                id="services-label"
               >
-                Services impacted
+                Service impacted
               </label>
               <div
                 className="govuk-hint"
                 id="services-hint"
               >
-                Services
+                Service
               </div>
               <div
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="services"
                   onKeyDown={[Function]}
                 >
@@ -3348,10 +3313,10 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-service-placeholder"
                       >
-                        Select services
+                        Select a service
                       </div>
                       <div
                         className=" css-qbdosj-Input"
@@ -3363,6 +3328,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                           aria-describedby="react-select-dropdown-service-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="services-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -3467,22 +3433,6 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
               />
             </div>
           </div>
-          <div
-            className="my-3"
-          >
-            <button
-              className="govuk-link"
-              data-module="govuk-button"
-              disabled={false}
-              onClick={[Function]}
-            >
-              <p
-                className="text-govBlue govuk-body-m"
-              >
-                Remove all services
-              </p>
-            </button>
-          </div>
           <br />
           <div
             className="govuk-form-group"
@@ -3493,6 +3443,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="journeys-input"
+                id="journeys-label"
               />
               <div
                 className="govuk-hint"
@@ -3504,7 +3455,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="journeys"
                   onKeyDown={[Function]}
                 >
@@ -3528,7 +3479,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-journey-placeholder"
                       >
                         Select journeys
@@ -3543,6 +3494,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                           aria-describedby="react-select-dropdown-journey-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="journeys-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -4307,20 +4259,21 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with no inp
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="services-input"
+                id="services-label"
               >
-                Services impacted
+                Service impacted
               </label>
               <div
                 className="govuk-hint"
                 id="services-hint"
               >
-                Services
+                Service
               </div>
               <div
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="services"
                   onKeyDown={[Function]}
                 >
@@ -4344,10 +4297,10 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with no inp
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-service-placeholder"
                       >
-                        Select services
+                        Select a service
                       </div>
                       <div
                         className=" css-qbdosj-Input"
@@ -4359,6 +4312,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with no inp
                           aria-describedby="react-select-dropdown-service-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="services-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -4433,6 +4387,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with no inp
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="journeys-input"
+                id="journeys-label"
               />
               <div
                 className="govuk-hint"
@@ -4444,7 +4399,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with no inp
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="journeys"
                   onKeyDown={[Function]}
                 >
@@ -4468,7 +4423,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with no inp
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-journey-placeholder"
                       >
                         Select journeys
@@ -4483,6 +4438,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with no inp
                           aria-describedby="react-select-dropdown-journey-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="journeys-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -5174,20 +5130,21 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with query 
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="services-input"
+                id="services-label"
               >
-                Services impacted
+                Service impacted
               </label>
               <div
                 className="govuk-hint"
                 id="services-hint"
               >
-                Services
+                Service
               </div>
               <div
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="services"
                   onKeyDown={[Function]}
                 >
@@ -5211,10 +5168,10 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with query 
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-service-placeholder"
                       >
-                        Select services
+                        Select a service
                       </div>
                       <div
                         className=" css-qbdosj-Input"
@@ -5226,6 +5183,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with query 
                           aria-describedby="react-select-dropdown-service-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="services-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -5330,22 +5288,6 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with query 
               />
             </div>
           </div>
-          <div
-            className="my-3"
-          >
-            <button
-              className="govuk-link"
-              data-module="govuk-button"
-              disabled={false}
-              onClick={[Function]}
-            >
-              <p
-                className="text-govBlue govuk-body-m"
-              >
-                Remove all services
-              </p>
-            </button>
-          </div>
           <br />
           <div
             className="govuk-form-group"
@@ -5356,6 +5298,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with query 
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="journeys-input"
+                id="journeys-label"
               />
               <div
                 className="govuk-hint"
@@ -5367,7 +5310,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with query 
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="journeys"
                   onKeyDown={[Function]}
                 >
@@ -5391,7 +5334,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with query 
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-journey-placeholder"
                       >
                         Select journeys
@@ -5406,6 +5349,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with query 
                           aria-describedby="react-select-dropdown-journey-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="journeys-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"

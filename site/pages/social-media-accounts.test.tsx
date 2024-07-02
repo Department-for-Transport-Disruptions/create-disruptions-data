@@ -20,8 +20,18 @@ const withInputs: SocialMediaAccountsPageProps = {
             addedBy: "Test Account",
             expiresIn: "Never",
             hootsuiteProfiles: [
-                { type: "TWITTER", socialNetworkId: "1560718270506380122", id: "188295022" },
-                { type: "FACEBOOK", socialNetworkId: "990838348810590", id: "138296272" },
+                {
+                    type: "TWITTER",
+                    socialNetworkId: "1560718270506380122",
+                    id: "188295022",
+                    socialNetworkUsername: null,
+                },
+                {
+                    type: "FACEBOOK",
+                    socialNetworkId: "990838348810590",
+                    id: "138296272",
+                    socialNetworkUsername: "Test Account",
+                },
             ],
         },
     ],

@@ -122,7 +122,10 @@ const getRows = (
         },
     ];
 
-    if (consequence.consequenceType === "services" || consequence.consequenceType === "journeys") {
+    if (
+        consequence.consequenceType === "services" ||
+        (consequence.consequenceType === "journeys" && CANCELLATIONS_FEATURE_FLAG)
+    ) {
         rows.push({
             header: "Service(s)",
             cells: [
@@ -183,7 +186,7 @@ const getRows = (
         });
     }
 
-    if (consequence.consequenceType === "journeys") {
+    if (consequence.consequenceType === "journeys" && CANCELLATIONS_FEATURE_FLAG) {
         rows.push({
             header: "Journeys",
             cells: [
@@ -283,7 +286,10 @@ const getRows = (
             ],
         },
         {
-            header: consequence.consequenceType === "journeys" ? "Cancel Journeys" : "Remove from journey planner",
+            header:
+                consequence.consequenceType === "journeys" && CANCELLATIONS_FEATURE_FLAG
+                    ? "Cancel Journeys"
+                    : "Remove from journey planner",
             cells: [
                 {
                     value: splitCamelCaseToString(consequence.removeFromJourneyPlanners),

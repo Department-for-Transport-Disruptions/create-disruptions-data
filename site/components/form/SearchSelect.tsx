@@ -41,6 +41,7 @@ interface SearchSelectProps<T> {
     onFocus?: () => void;
     onBlur?: () => void;
     closeMenuOnSelect?: boolean;
+    className?: string;
 }
 const SearchSelect = <T extends object>({
     selected,
@@ -65,6 +66,7 @@ const SearchSelect = <T extends object>({
     onFocus,
     onBlur,
     closeMenuOnSelect = true,
+    className = "",
 }: SearchSelectProps<T>): ReactElement => {
     const handleInputChange = (value: string, { action }: InputActionMeta) => {
         if (action === "menu-close" || action === "input-blur" || action === "set-value") {
@@ -91,7 +93,11 @@ const SearchSelect = <T extends object>({
     return (
         <FormGroupWrapper errorIds={[inputId]} errors={initialErrors}>
             <div className="govuk-form-group">
-                <label className={`govuk-label govuk-label--${displaySize}`} htmlFor={`${inputId}-input`}>
+                <label
+                    id={`${inputId}-label`}
+                    className={`govuk-label govuk-label--${displaySize}`}
+                    htmlFor={`${inputId}-input`}
+                >
                     {display}
                 </label>
                 {hint ? (
@@ -101,6 +107,7 @@ const SearchSelect = <T extends object>({
                 ) : null}
                 <FormElementWrapper errors={initialErrors} errorId={inputId} errorClass="govuk-input--error">
                     <Select
+                        aria-labelledby={`${inputId}-label`}
                         isSearchable
                         styles={{
                             control: (baseStyles, state) => ({
@@ -110,6 +117,10 @@ const SearchSelect = <T extends object>({
                             option: (provided, state) => ({
                                 ...provided,
                                 ...optionStyles(state),
+                            }),
+                            placeholder: (baseStyles) => ({
+                                ...baseStyles,
+                                color: "black",
                             }),
                         }}
                         value={selected}
@@ -130,6 +141,7 @@ const SearchSelect = <T extends object>({
                         filterOption={filterOptions}
                         onFocus={onFocus}
                         onBlur={onBlur}
+                        className={className || "text-lg text-black"}
                     />
                 </FormElementWrapper>
 

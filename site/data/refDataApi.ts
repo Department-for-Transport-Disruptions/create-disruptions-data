@@ -1,4 +1,4 @@
-import { routesSchema } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { routesPreformattedSchema } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { journeySchema, serviceSchema, stopSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Datasource, Modes } from "@create-disruptions-data/shared-ts/enums";
 import { roadwork } from "@create-disruptions-data/shared-ts/roadwork.zod";
@@ -205,7 +205,7 @@ export const fetchServiceRoutes = async (input: FetchServiceRoutes) => {
         method: "GET",
     });
 
-    const parseResult = routesSchema.safeParse(await res.json());
+    const parseResult = routesPreformattedSchema.safeParse(await res.json());
 
     if (!parseResult.success) {
         return null;

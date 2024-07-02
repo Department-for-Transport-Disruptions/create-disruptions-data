@@ -40,12 +40,12 @@ import { fetchJourneys, fetchServiceRoutes, fetchServices } from "../../../data/
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import {
     RouteWithServiceInfo,
+    RouteWithServiceInfoPreformatted,
     filterVehicleModes,
     flattenZodErrors,
     getServiceLabel,
     getStops,
     isJourneysConsequence,
-    sortServices,
 } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
@@ -61,6 +61,7 @@ import {
     sortJourneys,
     sortAndFilterStops,
 } from "../../../utils/formUtils";
+import { groupByJourneyPattern } from "../../../utils/mapUtils";
 
 const title = "Create Consequence Services";
 const description = "Create Consequence Services page for the Create Transport Disruptions Service";
@@ -141,7 +142,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
 
     useEffect(() => {
         const loadOptions = async () => {
-            const serviceDataToShow: RouteWithServiceInfo[] = [];
+            const serviceDataToShow: RouteWithServiceInfoPreformatted[] = [];
             if (pageState.inputs.services && pageState.inputs.services?.length > 0) {
                 const vehicleMode = pageState?.inputs?.vehicleMode || ("" as Modes | VehicleMode);
                 await Promise.all(
@@ -178,8 +179,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                         }
                     }),
                 );
-
-                setSearchedRoutes(serviceDataToShow);
+                setSearchedRoutes(groupByJourneyPattern(serviceDataToShow));
             }
         };
 
@@ -295,9 +295,6 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
         if (actionMeta.action === "clear") {
             setServicesSearchInput("");
         }
-        if (pageState.inputs.services && pageState.inputs.services.length === 1) {
-            return;
-        }
         setSelectedService(value);
         if (!pageState.inputs.services || !pageState.inputs.services.some((data) => data.id === value?.id)) {
             addService(value);
@@ -305,9 +302,6 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
     };
 
     const addService = (serviceToAdd: SingleValue<Service>) => {
-        if (pageState.inputs.services && pageState.inputs.services.length === 1) {
-            return;
-        }
         const parsed = serviceSchema.safeParse(serviceToAdd);
 
         if (!parsed.success) {
@@ -324,7 +318,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                     ...pageState,
                     inputs: {
                         ...pageState.inputs,
-                        services: sortServices([...(pageState.inputs.services ?? []), serviceToAdd]),
+                        services: [serviceToAdd],
                     },
                     errors: [
                         ...pageState.errors.filter(
@@ -400,7 +394,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                 selectedService.dataSource,
                 pageState.inputs.vehicleMode,
             )
-                .then((stops) => setStopOptions(sortAndFilterStops([...stopOptions, ...stops])))
+                .then((stops) => setStopOptions(sortAndFilterStops([...stops])))
                 // eslint-disable-next-line no-console
                 .catch(console.error);
         }
@@ -512,7 +506,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                             selected={selectedService}
                             inputName="service"
                             initialErrors={pageState.errors}
-                            placeholder="Select services"
+                            placeholder="Select a service"
                             getOptionLabel={getServiceLabel}
                             options={serviceOptionsForDropdown.filter(
                                 (service) => !isSelectedServiceInDropdown(service, pageState.inputs.services ?? []),
@@ -521,8 +515,8 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                             tableData={pageState?.inputs?.services}
                             getRows={getServiceRows}
                             getOptionValue={(service: Service) => service.id.toString()}
-                            display="Services impacted"
-                            hint="Services"
+                            display="Service impacted"
+                            hint="Service"
                             displaySize="l"
                             inputId="services"
                             isClearable
@@ -531,29 +525,6 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                             filterOptions={createFilter(filterConfig)}
                         />
 
-                        {pageState.inputs.services && pageState.inputs.services?.length >= 1 && (
-                            <div className="my-3">
-                                <button
-                                    className="govuk-link"
-                                    data-module="govuk-button"
-                                    onClick={(e) => {
-                                        e.preventDefault();
-                                        setPageState({
-                                            ...pageState,
-                                            inputs: {
-                                                ...pageState.inputs,
-                                                services: [],
-                                                journeys: [],
-                                            },
-                                            errors: pageState.errors,
-                                        });
-                                    }}
-                                    disabled={!pageState.inputs.services || pageState.inputs.services?.length === 0}
-                                >
-                                    <p className="text-govBlue govuk-body-m">Remove all services</p>
-                                </button>
-                            </div>
-                        )}
                         <br />
 
                         <SearchSelect<Journey>
@@ -786,7 +757,7 @@ export const getServerSideProps = async (
         consequence && isJourneysConsequence(consequence) ? consequence : undefined,
     );
 
-    const journeys: Journey[] = [];
+    let journeys: Journey[] = [];
     let consequenceDataSource: Datasource | null = null;
     let globalDataSource: Datasource | null = null;
 
@@ -806,6 +777,15 @@ export const getServerSideProps = async (
 
         if (pageState.inputs.services?.length) {
             consequenceDataSource = pageState.inputs.services[0].dataSource;
+
+            const journeyPromises = pageState.inputs.services.map((service) =>
+                fetchJourneys({
+                    dataSource: service.dataSource,
+                    serviceRef: service.dataSource === Datasource.bods ? service.lineId : service.serviceCode,
+                }),
+            );
+
+            journeys = (await Promise.all(journeyPromises)).flat();
 
             if (pageState.inputs.journeyRefs) {
                 pageState.inputs.journeys =

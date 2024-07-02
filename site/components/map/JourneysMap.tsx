@@ -15,7 +15,7 @@ import {
 import MapBox, { Layer, Popup, Source, ViewState } from "react-map-gl";
 import MapControls from "./MapControls";
 import Markers from "./Markers";
-import { RouteWithServiceInfo } from "../../utils";
+import { notEmpty, RouteWithServiceInfo } from "../../utils";
 import { getStopType } from "../../utils/formUtils";
 
 interface JourneysMapProps extends MapProps {
@@ -84,7 +84,7 @@ const Map = ({
         properties: { serviceId },
         geometry: {
             type: "LineString",
-            coordinates: coordinates.map((stop) => [stop.longitude, stop.latitude]),
+            coordinates: coordinates?.map((stop) => [stop.longitude, stop.latitude]),
         },
     });
 
@@ -131,86 +131,101 @@ const Map = ({
     const filter = useMemo(() => ["==", "serviceId", selectedService], [selectedService]);
 
     const getSourcesInbound = useCallback(
-        (searchedRoutes: Partial<(Routes & { serviceId: number })[]>) =>
-            searchedRoutes.map((searchedRoute) =>
-                searchedRoute?.inbound && searchedRoute?.serviceId ? (
-                    <Source
-                        key={searchedRoute.serviceId}
-                        id={`inbound-route-${searchedRoute.serviceId}`}
-                        type="geojson"
-                        data={createLineString(searchedRoute.inbound as Stop[], searchedRoute?.serviceId)}
-                    >
-                        <Layer
-                            id={`services-inbound-${searchedRoute.serviceId}`}
-                            type="line"
-                            source={`services-inbound-${searchedRoute.serviceId}`}
-                            layout={lineLayout}
-                            paint={lineStyle}
-                        />
-                        <Layer
-                            id={`services-highlighted-inbound-${searchedRoute.serviceId}`}
-                            type="line"
-                            source={`services-inbound-${searchedRoute.serviceId}`}
-                            layout={lineLayout}
-                            paint={lineStyleHighlight}
-                            filter={filter}
-                        />
-                    </Source>
-                ) : null,
-            ),
-
+        (searchedRoutes: Partial<(Routes & { serviceId: number })[]>) => {
+            const res = searchedRoutes
+                .map((route) =>
+                    route?.inbound
+                        ? Object.keys(route?.inbound).map((jp) => (
+                              <Source
+                                  key={`${route.serviceId}-${jp}`}
+                                  id={`inbound-route-${route.serviceId}-${jp}`}
+                                  type="geojson"
+                                  data={createLineString(route.inbound[jp] as Stop[], route.serviceId)}
+                              >
+                                  <Layer
+                                      id={`services-inbound-${route.serviceId}-${jp}`}
+                                      type="line"
+                                      source={`services-inbound-${route.serviceId}-${jp}`}
+                                      layout={lineLayout}
+                                      paint={lineStyle}
+                                  />
+                                  <Layer
+                                      id={`services-highlighted-inbound-${route.serviceId}-${jp}`}
+                                      type="line"
+                                      source={`services-inbound-${route.serviceId}-${jp}`}
+                                      layout={lineLayout}
+                                      paint={lineStyleHighlight}
+                                      filter={filter}
+                                  />
+                              </Source>
+                          ))
+                        : null,
+                )
+                .filter(notEmpty);
+            return res;
+        },
         [filter],
     );
 
     const getSourcesOutbound = useCallback(
-        (searchedRoutes: Partial<(Routes & { serviceId: number })[]>) =>
-            searchedRoutes.map((searchedRoute) =>
-                searchedRoute?.outbound && searchedRoute?.serviceId ? (
-                    <Source
-                        key={searchedRoute.serviceId}
-                        id={`outbound-route-${searchedRoute.serviceId}`}
-                        type="geojson"
-                        data={createLineString(searchedRoute.outbound as Stop[], searchedRoute?.serviceId)}
-                    >
-                        <Layer
-                            id={`services-outbound-${searchedRoute.serviceId}`}
-                            type="line"
-                            source={`services-outbound-${searchedRoute.serviceId}`}
-                            layout={lineLayout}
-                            paint={lineStyle}
-                        />
-                        <Layer
-                            id={`services-highlighted-outbound-${searchedRoute.serviceId}`}
-                            type="line"
-                            source={`services-outbound-${searchedRoute.serviceId}`}
-                            layout={lineLayout}
-                            paint={lineStyleHighlight}
-                            filter={filter}
-                        />
-                    </Source>
-                ) : null,
-            ),
+        (searchedRoutes: Partial<(Routes & { serviceId: number })[]>) => {
+            const res = searchedRoutes
+                .map((route) =>
+                    route?.outbound
+                        ? Object.keys(route.outbound).map((jp) => (
+                              <Source
+                                  key={`${route.serviceId}-${jp}`}
+                                  id={`outbound-route-${route.serviceId}-${jp}`}
+                                  type="geojson"
+                                  data={createLineString(route?.outbound[jp] as Stop[], route.serviceId)}
+                              >
+                                  <Layer
+                                      id={`services-outbound-${route.serviceId}-${jp}`}
+                                      type="line"
+                                      source={`services-outbound-${route.serviceId}-${jp}`}
+                                      layout={lineLayout}
+                                      paint={lineStyle}
+                                  />
+                                  <Layer
+                                      id={`services-highlighted-outbound-${route.serviceId}-${jp}`}
+                                      type="line"
+                                      source={`services-outbound-${route.serviceId}-${jp}`}
+                                      layout={lineLayout}
+                                      paint={lineStyleHighlight}
+                                      filter={filter}
+                                  />
+                              </Source>
+                          ))
+                        : null,
+                )
+                .filter(notEmpty);
+            return res;
+        },
         [filter],
     );
 
-    const getInteractiveLayerIds = useCallback(
-        () =>
-            selectedServicesRoutes && selectedServicesRoutes.length > 0
-                ? selectedServicesRoutes.flatMap((sr) => {
-                      if (sr?.inbound && sr.outbound && sr.serviceId) {
-                          return [`services-inbound-${sr.serviceId || ""}`, `services-outbound-${sr.serviceId || ""}`];
-                      }
-                      if (sr?.inbound && sr.serviceId) {
-                          return [`services-inbound-${sr?.serviceId || ""}`];
-                      }
-                      if (sr?.outbound && sr.serviceId) {
-                          return [`services-outbound-${sr?.serviceId || ""}`];
-                      }
-                      return [];
-                  })
-                : [],
-        [selectedServicesRoutes],
-    );
+    const getInteractiveLayerIds = useCallback(() => {
+        if (selectedServicesRoutes && selectedServicesRoutes.length > 0) {
+            return selectedServicesRoutes.flatMap((sr) =>
+                Object.keys({ ...(sr?.outbound || {}), ...(sr?.inbound || {}) }).flatMap((jp) => {
+                    if (sr?.inbound && sr.outbound && sr.serviceId) {
+                        return [
+                            `services-inbound-${sr.serviceId || ""}-${jp}`,
+                            `services-outbound-${sr.serviceId || ""}-${jp}`,
+                        ];
+                    }
+                    if (sr?.inbound && sr.serviceId) {
+                        return [`services-inbound-${sr?.serviceId || ""}-${jp}`];
+                    }
+                    if (sr?.outbound && sr.serviceId) {
+                        return [`services-outbound-${sr?.serviceId || ""}-${jp}`];
+                    }
+                    return [];
+                }),
+            );
+        }
+        return [];
+    }, [selectedServicesRoutes]);
 
     const getServiceInfo = (id: number) => {
         const service = serviceOptionsForDropdown

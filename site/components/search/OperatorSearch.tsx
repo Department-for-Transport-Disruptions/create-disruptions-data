@@ -15,6 +15,7 @@ interface OperatorSearchProps<T> {
     displaySize?: "s" | "m" | "l" | "xl";
     inputName: Extract<keyof T, string>;
     initialErrors?: ErrorInfo[];
+    className?: string;
 }
 
 export const sortOperatorByName = (operators: Operator[]): Operator[] => {
@@ -38,6 +39,7 @@ const OperatorSearch = <T extends object>({
     reset = false,
     initialErrors = [],
     inputName,
+    className = "",
 }: OperatorSearchProps<T>): ReactElement => {
     const [searchText, setSearchText] = useState("");
 
@@ -80,6 +82,10 @@ const OperatorSearch = <T extends object>({
                                 ...provided,
                                 ...optionStyles(state),
                             }),
+                            placeholder: (baseStyles) => ({
+                                ...baseStyles,
+                                color: "black",
+                            }),
                         }}
                         placeholder="Select operators"
                         getOptionLabel={(operator: Operator) => `${operator.nocCode} - ${operator.operatorPublicName}`}
@@ -104,6 +110,7 @@ const OperatorSearch = <T extends object>({
                         menuPlacement="auto"
                         menuPosition="fixed"
                         value={null}
+                        className={className || "text-lg text-black"}
                     />
                 </FormElementWrapper>
             </div>
