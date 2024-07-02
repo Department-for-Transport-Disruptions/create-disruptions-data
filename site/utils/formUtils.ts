@@ -54,12 +54,12 @@ export const sortJourneys = (journeys: Journey[]): Journey[] => {
         const departureDate = new Date();
         departureDate.setHours(hours, minutes, seconds, 0); // Set time correctly
 
-        return { ...journey, departureDate };
+        return { journey, departureDate };
     });
 
     journeysWithDates.sort((a, b) => a.departureDate.getTime() - b.departureDate.getTime());
 
-    return journeysWithDates.map(({ departureDate, ...journey }) => journey);
+    return journeysWithDates.map(({ journey }) => journey);
 };
 
 export const sortStops = (stops: Stop[]): Stop[] => {
