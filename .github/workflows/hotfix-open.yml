@@ -17,7 +17,7 @@ jobs:
           ref: ${{ github.head_ref }}
 
       - name: Setup Node.js and cache
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '20.x'
           cache: 'npm'
@@ -41,7 +41,7 @@ jobs:
         run: zip build.zip ./* -rq
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: build
           path: ./build.zip
@@ -55,7 +55,7 @@ jobs:
       contents: write
     steps:
       - name: Download Artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build
           path: .
@@ -70,7 +70,7 @@ jobs:
 
       - name: Bump version and push tag
         id: tag_version
-        uses: mathieudutour/github-tag-action@v6.1
+        uses: mathieudutour/github-tag-action@v6.2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           release_branches: hotfix/*
@@ -78,7 +78,7 @@ jobs:
           tag_prefix: ''
 
       - name: Create release
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.tag_version.outputs.new_tag }}
           name: Hotfix ${{ steps.tag_version.outputs.new_tag }}
