@@ -42,11 +42,18 @@ export const serviceWithCentrePointSchema = serviceSchema.and(
 export type ServiceWithCentrePoint = z.infer<typeof serviceWithCentrePointSchema>;
 
 export const routesSchema = z.object({
+    inbound: z.record(z.array(stopSchema.partial())),
+    outbound: z.record(z.array(stopSchema.partial())),
+});
+
+export const routesPreformattedSchema = z.object({
     inbound: z.array(stopSchema.partial()),
     outbound: z.array(stopSchema.partial()),
 });
 
 export type Routes = z.infer<typeof routesSchema>;
+
+export type RoutesPreformatted = z.infer<typeof routesPreformattedSchema>;
 
 export type ServiceGeoJSON = {
     type: string;

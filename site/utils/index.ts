@@ -5,6 +5,7 @@ import {
     NetworkConsequence,
     OperatorConsequence,
     Routes,
+    RoutesPreformatted,
     Service,
     ServicesConsequence,
     Stop,
@@ -181,6 +182,12 @@ export const getStops = async (
     }
 
     return [];
+};
+
+export type RouteWithServiceInfoPreformatted = RoutesPreformatted & {
+    serviceId: number;
+    serviceCode: string;
+    lineId: string;
 };
 
 export type RouteWithServiceInfo = Routes & { serviceId: number; serviceCode: string; lineId: string };

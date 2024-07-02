@@ -9,8 +9,8 @@ export const serviceWithStopsAndRoutesSchema = serviceSchema.and(
     z.object({
         stops: z.array(z.string()),
         routes: z.object({
-            inbound: z.array(z.object({ longitude: z.number(), latitude: z.number() })),
-            outbound: z.array(z.object({ longitude: z.number(), latitude: z.number() })),
+            inbound: z.record(z.array(z.object({ longitude: z.number(), latitude: z.number() }))),
+            outbound: z.record(z.array(z.object({ longitude: z.number(), latitude: z.number() }))),
         }),
     }),
 );

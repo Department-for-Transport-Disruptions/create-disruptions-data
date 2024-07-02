@@ -813,6 +813,7 @@ export const stopSchema = z.object({
     direction: z.string().optional(),
     stopType: z.string().optional(),
     busStopType: z.string().optional(),
+    journeyPatternId: z.number().optional(),
 });
 
 export const stopsConsequenceSchema = z.object({
