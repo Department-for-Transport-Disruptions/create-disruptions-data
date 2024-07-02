@@ -40,6 +40,7 @@ import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { ServiceWithStopAndRoutes } from "../../../schemas/consequence.schema";
 import {
     RouteWithServiceInfo,
+    RouteWithServiceInfoPreformatted,
     filterVehicleModes,
     flattenZodErrors,
     getRoutesForServices,
@@ -63,6 +64,7 @@ import {
     showCancelButton,
     sortAndFilterStops,
 } from "../../../utils/formUtils";
+import { groupByJourneyPattern } from "../../../utils/mapUtils";
 
 const title = "Create Consequence Services";
 const description = "Create Consequence Services page for the Create Transport Disruptions Service";
@@ -145,7 +147,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
     useEffect(() => {
         const loadOptions = async () => {
-            const serviceDataToShow: RouteWithServiceInfo[] = [];
+            const serviceDataToShow: RouteWithServiceInfoPreformatted[] = [];
             if (pageState.inputs.services && pageState.inputs.services?.length > 0) {
                 const vehicleMode = pageState?.inputs?.vehicleMode || ("" as Modes | VehicleMode);
                 await Promise.all(
@@ -182,8 +184,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                         }
                     }),
                 );
-
-                setSearchedRoutes(serviceDataToShow);
+                setSearchedRoutes(groupByJourneyPattern(serviceDataToShow));
             }
         };
 
