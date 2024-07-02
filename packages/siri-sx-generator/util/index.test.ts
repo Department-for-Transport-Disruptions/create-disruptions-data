@@ -2,7 +2,13 @@ import { Datasource, Severity, VehicleMode } from "@create-disruptions-data/shar
 import { ApiConsequence } from "@create-disruptions-data/shared-ts/utils";
 import { describe, expect, it } from "vitest";
 
-import { getAffectedModesList, getAffectedOperatorsList, getAffectedServicesCount, getAffectedStopsCount } from ".";
+import {
+    combineDateAndTime,
+    getAffectedModesList,
+    getAffectedOperatorsList,
+    getAffectedServicesCount,
+    getAffectedStopsCount,
+} from ".";
 
 const testConsequences: ApiConsequence[] = [
     {
@@ -158,5 +164,55 @@ describe("getAffectedServicesCount", () => {
 describe("getAffectedStopsCount", () => {
     it("correctly counts all stops", () => {
         expect(getAffectedStopsCount(testConsequences)).toBe(3);
+    });
+});
+
+describe("combineDateAndTime", () => {
+    it("should combine date from timestamp with new time", () => {
+        const timestamp = "2023-05-13T14:45:00Z";
+        const newTime = "20:00:00";
+        const expected = "2023-05-13T20:00:00.000Z";
+
+        const result = combineDateAndTime(timestamp, newTime);
+
+        expect(result).toBe(expected);
+    });
+
+    it("should handle midnight correctly", () => {
+        const timestamp = "2023-05-13T14:45:00Z";
+        const newTime = "00:00:00";
+        const expected = "2023-05-13T00:00:00.000Z";
+
+        const result = combineDateAndTime(timestamp, newTime);
+
+        expect(result).toBe(expected);
+    });
+
+    it("should handle time near day boundary", () => {
+        const timestamp = "2023-05-13T23:59:59Z";
+        const newTime = "23:59:59";
+        const expected = "2023-05-13T23:59:59.000Z";
+
+        const result = combineDateAndTime(timestamp, newTime);
+
+        expect(result).toBe(expected);
+    });
+
+    it("should throw an error for invalid timestamp", () => {
+        const timestamp = "invalid-date";
+        const newTime = "20:00:00";
+
+        expect(() => {
+            combineDateAndTime(timestamp, newTime);
+        }).toThrow();
+    });
+
+    it("should throw an error for invalid time format", () => {
+        const timestamp = "2023-05-13T14:45:00Z";
+        const newTime = "invalid-time";
+
+        expect(() => {
+            combineDateAndTime(timestamp, newTime);
+        }).toThrow();
     });
 });
