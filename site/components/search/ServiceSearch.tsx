@@ -12,6 +12,7 @@ interface ServiceSearchProps {
     handleDataSourceUpdate: Dispatch<SetStateAction<string>>;
     dataSource: string;
     reset?: boolean;
+    className?: string;
 }
 
 const ServiceSearch = ({
@@ -21,6 +22,7 @@ const ServiceSearch = ({
     reset = false,
     dataSource,
     handleDataSourceUpdate,
+    className = "",
 }: ServiceSearchProps): ReactElement => {
     const [searchText, setSearchText] = useState("");
 
@@ -62,6 +64,10 @@ const ServiceSearch = ({
                             ...provided,
                             ...optionStyles(state),
                         }),
+                        placeholder: (baseStyles) => ({
+                            ...baseStyles,
+                            color: "black",
+                        }),
                     }}
                     placeholder="Select services"
                     getOptionLabel={getServiceLabel}
@@ -82,6 +88,7 @@ const ServiceSearch = ({
                     menuPlacement="auto"
                     menuPosition="fixed"
                     value={null}
+                    className={className || "text-lg text-black"}
                 />
             </div>
             <div className="w-1/3">

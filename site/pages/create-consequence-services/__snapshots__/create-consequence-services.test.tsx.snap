@@ -199,6 +199,7 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="services-input"
+                id="services-label"
               >
                 Services impacted
               </label>
@@ -212,7 +213,7 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="services"
                   onKeyDown={[Function]}
                 >
@@ -236,7 +237,7 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-service-placeholder"
                       >
                         Select services
@@ -251,6 +252,7 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
                           aria-describedby="react-select-dropdown-service-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="services-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -381,6 +383,7 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="stops-input"
+                id="stops-label"
               />
               <div
                 className="govuk-hint"
@@ -392,7 +395,7 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="stops"
                   onKeyDown={[Function]}
                 >
@@ -416,7 +419,7 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-stop-placeholder"
                       >
                         Select stops
@@ -431,6 +434,7 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
                           aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="stops-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -1312,6 +1316,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="services-input"
+                id="services-label"
               >
                 Services impacted
               </label>
@@ -1325,7 +1330,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="services"
                   onKeyDown={[Function]}
                 >
@@ -1349,7 +1354,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-service-placeholder"
                       >
                         Select services
@@ -1364,6 +1369,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                           aria-describedby="react-select-dropdown-service-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="services-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -1494,6 +1500,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="stops-input"
+                id="stops-label"
               />
               <div
                 className="govuk-hint"
@@ -1505,7 +1512,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="stops"
                   onKeyDown={[Function]}
                 >
@@ -1529,7 +1536,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-stop-placeholder"
                       >
                         Select stops
@@ -1544,6 +1551,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                           aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="stops-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -2421,6 +2429,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="services-input"
+                id="services-label"
               >
                 Services impacted
               </label>
@@ -2434,7 +2443,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="services"
                   onKeyDown={[Function]}
                 >
@@ -2458,7 +2467,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-service-placeholder"
                       >
                         Select services
@@ -2473,6 +2482,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                           aria-describedby="react-select-dropdown-service-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="services-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -2603,6 +2613,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="stops-input"
+                id="stops-label"
               />
               <div
                 className="govuk-hint"
@@ -2614,7 +2625,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="stops"
                   onKeyDown={[Function]}
                 >
@@ -2638,7 +2649,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-stop-placeholder"
                       >
                         Select stops
@@ -2653,6 +2664,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                           aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="stops-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -3503,6 +3515,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="services-input"
+                id="services-label"
               >
                 Services impacted
               </label>
@@ -3516,7 +3529,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="services"
                   onKeyDown={[Function]}
                 >
@@ -3540,7 +3553,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-service-placeholder"
                       >
                         Select services
@@ -3555,6 +3568,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                           aria-describedby="react-select-dropdown-service-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="services-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -3685,6 +3699,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="stops-input"
+                id="stops-label"
               />
               <div
                 className="govuk-hint"
@@ -3696,7 +3711,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="stops"
                   onKeyDown={[Function]}
                 >
@@ -3720,7 +3735,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-stop-placeholder"
                       >
                         Select stops
@@ -3735,6 +3750,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                           aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="stops-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -4580,6 +4596,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="services-input"
+                id="services-label"
               >
                 Services impacted
               </label>
@@ -4593,7 +4610,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="services"
                   onKeyDown={[Function]}
                 >
@@ -4617,7 +4634,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-service-placeholder"
                       >
                         Select services
@@ -4632,6 +4649,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                           aria-describedby="react-select-dropdown-service-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="services-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -4706,6 +4724,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="stops-input"
+                id="stops-label"
               />
               <div
                 className="govuk-hint"
@@ -4717,7 +4736,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="stops"
                   onKeyDown={[Function]}
                 >
@@ -4741,7 +4760,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-stop-placeholder"
                       >
                         Select stops
@@ -4756,6 +4775,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                           aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="stops-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -5528,6 +5548,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="services-input"
+                id="services-label"
               >
                 Services impacted
               </label>
@@ -5541,7 +5562,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="services"
                   onKeyDown={[Function]}
                 >
@@ -5565,7 +5586,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-service-placeholder"
                       >
                         Select services
@@ -5580,6 +5601,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                           aria-describedby="react-select-dropdown-service-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="services-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"
@@ -5710,6 +5732,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
               <label
                 className="govuk-label govuk-label--l"
                 htmlFor="stops-input"
+                id="stops-label"
               />
               <div
                 className="govuk-hint"
@@ -5721,7 +5744,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                 className=""
               >
                 <div
-                  className=" css-b62m3t-container"
+                  className="text-lg text-black css-b62m3t-container"
                   id="stops"
                   onKeyDown={[Function]}
                 >
@@ -5745,7 +5768,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                       className=" css-1fdsijx-ValueContainer"
                     >
                       <div
-                        className=" css-1jqq78o-placeholder"
+                        className=" css-yl2wa5-placeholder"
                         id="react-select-dropdown-stop-placeholder"
                       >
                         Select stops
@@ -5760,6 +5783,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                           aria-describedby="react-select-dropdown-stop-placeholder"
                           aria-expanded={false}
                           aria-haspopup={true}
+                          aria-labelledby="stops-label"
                           autoCapitalize="none"
                           autoComplete="off"
                           autoCorrect="off"

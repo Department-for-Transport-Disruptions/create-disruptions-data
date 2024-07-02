@@ -173,15 +173,23 @@ const AccountSettings = ({
                                   {
                                       header: "Password",
                                       cells: [
-                                          <input
-                                              className="bg-white"
-                                              disabled={true}
-                                              key="password"
-                                              type="password"
-                                              id="password"
-                                              name="password"
-                                              value={"myPassword"}
-                                          />,
+                                          <div className="govuk-form-group" key="password-form">
+                                              <label
+                                                  className="govuk-label govuk-label--s govuk-visually-hidden"
+                                                  htmlFor="password"
+                                              >
+                                                  Password
+                                              </label>
+                                              <input
+                                                  className="bg-white"
+                                                  disabled={true}
+                                                  key="password"
+                                                  type="password"
+                                                  id="password"
+                                                  name="password"
+                                                  value={"myPassword"}
+                                              />
+                                          </div>,
                                           <Link
                                               key={"change-password"}
                                               className="govuk-link"
@@ -290,7 +298,7 @@ const AccountSettings = ({
                                                 />
                                                 <label
                                                     key={`street-manager-notification-off`}
-                                                    htmlFor={`street-manager-email-notification-off`}
+                                                    htmlFor={`street-manager-notification-off`}
                                                     className="govuk-label govuk-radios__label"
                                                 >
                                                     Off
