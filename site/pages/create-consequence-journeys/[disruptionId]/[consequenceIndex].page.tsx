@@ -40,6 +40,7 @@ import { fetchJourneys, fetchServiceRoutes, fetchServices } from "../../../data/
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import {
     RouteWithServiceInfo,
+    RouteWithServiceInfoPreformatted,
     filterVehicleModes,
     flattenZodErrors,
     getServiceLabel,
@@ -60,6 +61,7 @@ import {
     sortJourneys,
     sortAndFilterStops,
 } from "../../../utils/formUtils";
+import { groupByJourneyPattern } from "../../../utils/mapUtils";
 
 const title = "Create Consequence Services";
 const description = "Create Consequence Services page for the Create Transport Disruptions Service";
@@ -140,7 +142,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
 
     useEffect(() => {
         const loadOptions = async () => {
-            const serviceDataToShow: RouteWithServiceInfo[] = [];
+            const serviceDataToShow: RouteWithServiceInfoPreformatted[] = [];
             if (pageState.inputs.services && pageState.inputs.services?.length > 0) {
                 const vehicleMode = pageState?.inputs?.vehicleMode || ("" as Modes | VehicleMode);
                 await Promise.all(
@@ -177,8 +179,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                         }
                     }),
                 );
-
-                setSearchedRoutes(serviceDataToShow);
+                setSearchedRoutes(groupByJourneyPattern(serviceDataToShow));
             }
         };
 
@@ -293,8 +294,6 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
     const handleServiceChange = (value: SingleValue<Service>, actionMeta: ActionMeta<Service>) => {
         if (actionMeta.action === "clear") {
             setServicesSearchInput("");
-            setSelectedService(value);
-            return;
         }
         setSelectedService(value);
         if (!pageState.inputs.services || !pageState.inputs.services.some((data) => data.id === value?.id)) {
@@ -395,7 +394,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                 selectedService.dataSource,
                 pageState.inputs.vehicleMode,
             )
-                .then((stops) => setStopOptions(sortAndFilterStops([...stopOptions, ...stops])))
+                .then((stops) => setStopOptions(sortAndFilterStops([...stops])))
                 // eslint-disable-next-line no-console
                 .catch(console.error);
         }
