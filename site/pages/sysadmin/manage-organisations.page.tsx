@@ -18,13 +18,13 @@ const title = "Manage organisations";
 const description = "Manage organisations page for the Create Transport Disruptions Service";
 
 const ManageOrganisations = ({ orgList, csrfToken }: ManageOrganisationsProps): ReactElement => {
-    const [orgToDelete, setOrgToDelete] = useState<string | null>(null);
+    const [orgToDelete, setOrgToDelete] = useState<string>();
 
     const removeOrg = (orgId: string) => {
         setOrgToDelete(orgId);
     };
     const cancelActionHandler = () => {
-        setOrgToDelete(null);
+        setOrgToDelete(undefined);
     };
     const getRows = () => {
         const rows: { header?: string | ReactNode; cells: string[] | ReactNode[] }[] = [];
@@ -67,7 +67,7 @@ const ManageOrganisations = ({ orgList, csrfToken }: ManageOrganisationsProps): 
     return (
         <BaseLayout title={title} description={description}>
             {orgToDelete ? (
-                <DeleteConfirmationPopup
+                <DeleteConfirmationPopup<string>
                     entityName="org"
                     deleteUrl="/api/sysadmin/delete-org"
                     cancelActionHandler={cancelActionHandler}
@@ -78,6 +78,8 @@ const ManageOrganisations = ({ orgList, csrfToken }: ManageOrganisationsProps): 
                             value: orgToDelete,
                         },
                     ]}
+                    setIsOpen={setOrgToDelete}
+                    isOpen={!!orgToDelete}
                 />
             ) : null}
             <h1 className="govuk-heading-l">Manage organisations</h1>

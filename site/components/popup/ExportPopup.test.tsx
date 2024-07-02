@@ -7,7 +7,16 @@ const closePopUp = vi.fn();
 
 describe("ExportPopup", () => {
     it("should render correctly", () => {
-        const tree = renderer.create(<ExportPopup confirmHandler={confirmHandler} closePopUp={closePopUp} />).toJSON();
+        const tree = renderer
+            .create(
+                <ExportPopup
+                    confirmHandler={confirmHandler}
+                    closePopUp={closePopUp}
+                    isOpen={true}
+                    setIsOpen={() => {}}
+                />,
+            )
+            .toJSON();
         expect(tree).toMatchSnapshot();
     });
 });
