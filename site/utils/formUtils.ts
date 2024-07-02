@@ -50,14 +50,16 @@ export const getJourney = (journey: Journey) => journey.vehicleJourneyCode;
 
 export const sortJourneys = (journeys: Journey[]): Journey[] => {
     const journeysWithDates = journeys.map((journey) => {
-        const [hours, minutes, seconds] = journey.departureTime.split(":");
+        const [hours, minutes, seconds] = journey.departureTime.split(":").map(Number);
         const departureDate = new Date();
-        departureDate.setHours(Number(hours));
-        departureDate.setMinutes(Number(minutes));
-        departureDate.setSeconds(Number(seconds));
+        departureDate.setHours(hours, minutes, seconds, 0); // Set time correctly
+
         return { ...journey, departureDate };
     });
-    return journeysWithDates.sort((a, b) => a.departureDate.getTime() - b.departureDate.getTime());
+
+    journeysWithDates.sort((a, b) => a.departureDate.getTime() - b.departureDate.getTime());
+
+    return journeysWithDates.map(({ departureDate, ...journey }) => journey);
 };
 
 export const sortStops = (stops: Stop[]): Stop[] => {
