@@ -108,18 +108,19 @@ exports[`contact > should render correctly 1`] = `
           <p
             className="govuk-body"
           >
-            If your query relates to the use of the Bus Open Data Service  
             <a
               aria-label="go to the bus open data service"
-              className="underline"
+              className="underline govuk-link"
               href="https://www.bus-data.dft.gov.uk/contact/"
               onClick={[Function]}
               onMouseEnter={[Function]}
               onTouchStart={[Function]}
             >
-              go to the Bus Open Data Service
+              https://www.bus-data.dft.gov.uk/contact/
             </a>
-             to view their contact details
+            <br />
+            <br />
+            The Bus Open Data Service deals with queries relating to the use of Bus Open Data.
           </p>
         </div>
         <div
