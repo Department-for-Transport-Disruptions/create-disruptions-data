@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { hootsuiteProfileSchema } from "./social-media-accounts.schema";
 
 export const hootsuiteTokenSchema = z
     .object({
@@ -22,13 +23,7 @@ export const hootsuiteMeSchema = z
 
 export const hootsuiteSocialProfilesSchema = z
     .object({
-        data: z.array(
-            z.object({
-                id: z.string(),
-                type: z.string(),
-                socialNetworkId: z.string(),
-            }),
-        ),
+        data: z.array(hootsuiteProfileSchema),
     })
     .transform((res) => res.data);
 

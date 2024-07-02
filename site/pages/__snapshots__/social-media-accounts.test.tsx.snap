@@ -150,7 +150,7 @@ exports[`socialMediaAccounts > should not show the nextdoor button when there is
                   onMouseEnter={[Function]}
                   onTouchStart={[Function]}
                 >
-                  Twitter/188295022
+                  Twitter/1560718270506380122
                 </a>
               </li>
               <li
@@ -163,7 +163,7 @@ exports[`socialMediaAccounts > should not show the nextdoor button when there is
                   onMouseEnter={[Function]}
                   onTouchStart={[Function]}
                 >
-                  Facebook/138296272
+                  Facebook/Test Account
                 </a>
               </li>
             </td>
@@ -871,7 +871,7 @@ exports[`socialMediaAccounts > should render correctly with inputs 1`] = `
                   onMouseEnter={[Function]}
                   onTouchStart={[Function]}
                 >
-                  Twitter/188295022
+                  Twitter/1560718270506380122
                 </a>
               </li>
               <li
@@ -884,7 +884,7 @@ exports[`socialMediaAccounts > should render correctly with inputs 1`] = `
                   onMouseEnter={[Function]}
                   onTouchStart={[Function]}
                 >
-                  Facebook/138296272
+                  Facebook/Test Account
                 </a>
               </li>
             </td>
@@ -1302,7 +1302,7 @@ exports[`socialMediaAccounts > should render correctly with inputs and an error 
                   onMouseEnter={[Function]}
                   onTouchStart={[Function]}
                 >
-                  Twitter/188295022
+                  Twitter/1560718270506380122
                 </a>
               </li>
               <li
@@ -1315,7 +1315,7 @@ exports[`socialMediaAccounts > should render correctly with inputs and an error 
                   onMouseEnter={[Function]}
                   onTouchStart={[Function]}
                 >
-                  Facebook/138296272
+                  Facebook/Test Account
                 </a>
               </li>
             </td>
