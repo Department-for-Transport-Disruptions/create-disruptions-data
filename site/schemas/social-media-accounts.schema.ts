@@ -4,7 +4,7 @@ export const hootsuiteProfileSchema = z.object({
     type: z.string(),
     id: z.string(),
     socialNetworkId: z.string(),
-    socialNetworkUsername: z.string().or(z.null()),
+    socialNetworkUsername: z.string().nullable(),
 });
 
 const accountType = z.enum(["Twitter", "Hootsuite", "Nextdoor"]);
