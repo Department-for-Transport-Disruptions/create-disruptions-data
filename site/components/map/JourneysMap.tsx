@@ -204,24 +204,28 @@ const Map = ({
         [filter],
     );
 
-    const getInteractiveLayerIds = useCallback(
-        () =>
-            selectedServicesRoutes && selectedServicesRoutes.length > 0
-                ? selectedServicesRoutes.flatMap((sr) => {
-                      if (sr?.inbound && sr.outbound && sr.serviceId) {
-                          return [`services-inbound-${sr.serviceId || ""}`, `services-outbound-${sr.serviceId || ""}`];
-                      }
-                      if (sr?.inbound && sr.serviceId) {
-                          return [`services-inbound-${sr?.serviceId || ""}`];
-                      }
-                      if (sr?.outbound && sr.serviceId) {
-                          return [`services-outbound-${sr?.serviceId || ""}`];
-                      }
-                      return [];
-                  })
-                : [],
-        [selectedServicesRoutes],
-    );
+    const getInteractiveLayerIds = useCallback(() => {
+        if (selectedServicesRoutes && selectedServicesRoutes.length > 0) {
+            return selectedServicesRoutes.flatMap((sr) =>
+                Object.keys({ ...(sr?.outbound || {}), ...(sr?.inbound || {}) }).flatMap((jp) => {
+                    if (sr?.inbound && sr.outbound && sr.serviceId) {
+                        return [
+                            `services-inbound-${sr.serviceId || ""}-${jp}`,
+                            `services-outbound-${sr.serviceId || ""}-${jp}`,
+                        ];
+                    }
+                    if (sr?.inbound && sr.serviceId) {
+                        return [`services-inbound-${sr?.serviceId || ""}-${jp}`];
+                    }
+                    if (sr?.outbound && sr.serviceId) {
+                        return [`services-outbound-${sr?.serviceId || ""}-${jp}`];
+                    }
+                    return [];
+                }),
+            );
+        }
+        return [];
+    }, [selectedServicesRoutes]);
 
     const getServiceInfo = (id: number) => {
         const service = serviceOptionsForDropdown
