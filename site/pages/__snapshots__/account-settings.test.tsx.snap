@@ -626,7 +626,7 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
                         />
                         <label
                           className="govuk-label govuk-radios__label"
-                          htmlFor="street-manager-email-notification-off"
+                          htmlFor="street-manager-notification-off"
                         >
                           Off
                         </label>
@@ -1373,7 +1373,7 @@ exports[`accountSettings > should render correctly for organisation admin and sh
                         />
                         <label
                           className="govuk-label govuk-radios__label"
-                          htmlFor="street-manager-email-notification-off"
+                          htmlFor="street-manager-notification-off"
                         >
                           Off
                         </label>
@@ -2175,7 +2175,7 @@ exports[`accountSettings > should render correctly for publisher user 1`] = `
                         />
                         <label
                           className="govuk-label govuk-radios__label"
-                          htmlFor="street-manager-email-notification-off"
+                          htmlFor="street-manager-notification-off"
                         >
                           Off
                         </label>
@@ -2605,7 +2605,7 @@ exports[`accountSettings > should render correctly for staff user 1`] = `
                         />
                         <label
                           className="govuk-label govuk-radios__label"
-                          htmlFor="street-manager-email-notification-off"
+                          htmlFor="street-manager-notification-off"
                         >
                           Off
                         </label>
