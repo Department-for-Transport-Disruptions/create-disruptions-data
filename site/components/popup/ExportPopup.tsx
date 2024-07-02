@@ -1,5 +1,5 @@
 import { kebabCase } from "lodash";
-import { Fragment, ReactElement, useState } from "react";
+import { Dispatch, Fragment, ReactElement, SetStateAction, useEffect, useRef, useState } from "react";
 import { ErrorInfo } from "../../interfaces";
 import { exportFileSchema } from "../../schemas/disruption.schema";
 import FormElementWrapper, { FormGroupWrapper } from "../form/FormElementWrapper";
@@ -7,9 +7,76 @@ import FormElementWrapper, { FormGroupWrapper } from "../form/FormElementWrapper
 interface ExportPopUpProps {
     closePopUp: () => void;
     confirmHandler: (fileType: string) => void;
+    isOpen: boolean;
+    setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
-const ExportPopUp = ({ confirmHandler, closePopUp }: ExportPopUpProps): ReactElement => {
+const ExportPopUp = ({ confirmHandler, closePopUp, isOpen, setIsOpen }: ExportPopUpProps): ReactElement => {
+    const modalRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (isOpen && modalRef.current) {
+            const modalElement = modalRef.current;
+            const focusableElements = modalElement.querySelectorAll<HTMLElement>(
+                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+            );
+            const firstElement = focusableElements[0];
+            const lastElement = focusableElements[focusableElements.length - 1];
+
+            const handleTabKeyPress = (event: KeyboardEvent) => {
+                if (event.key === "Tab") {
+                    if (event.shiftKey && document.activeElement === firstElement) {
+                        event.preventDefault();
+                        lastElement.focus();
+                    } else if (!event.shiftKey && document.activeElement === lastElement) {
+                        event.preventDefault();
+                        firstElement.focus();
+                    }
+                }
+            };
+
+            const handleEscapeKeyPress = (event: KeyboardEvent) => {
+                if (event.key === "Escape") {
+                    setIsOpen(false);
+                }
+            };
+
+            const trapFocus = (event: KeyboardEvent) => {
+                if (event.key === "Tab") {
+                    if (focusableElements.length > 0) {
+                        const firstFocusableElement = focusableElements[0];
+                        const lastFocusableElement = focusableElements[focusableElements.length - 1];
+
+                        if (event.shiftKey) {
+                            if (document.activeElement === firstFocusableElement) {
+                                event.preventDefault();
+                                lastFocusableElement.focus();
+                            }
+                        } else {
+                            if (document.activeElement === lastFocusableElement) {
+                                event.preventDefault();
+                                firstFocusableElement.focus();
+                            }
+                        }
+                    }
+                }
+            };
+
+            modalElement.addEventListener("keydown", handleTabKeyPress);
+            modalElement.addEventListener("keydown", handleEscapeKeyPress);
+            modalElement.addEventListener("keydown", trapFocus);
+
+            firstElement.focus();
+
+            return () => {
+                modalElement.removeEventListener("keydown", handleTabKeyPress);
+                modalElement.removeEventListener("keydown", handleEscapeKeyPress);
+                modalElement.removeEventListener("keydown", trapFocus);
+            };
+        }
+        return;
+    }, [isOpen, setIsOpen]);
+
     const [fileType, setFileType] = useState("");
     const [errors, setErrors] = useState<ErrorInfo[]>([]);
 
@@ -51,13 +118,17 @@ const ExportPopUp = ({ confirmHandler, closePopUp }: ExportPopUpProps): ReactEle
     };
 
     return (
-        <div className="bg-black/[.2] fixed justify-center items-center top-0 left-0 flex w-full h-screen z-50 ">
-            <div className="relative bg-white w-full max-w-xl p-10">
+        <div
+            className={`bg-black/[.2] fixed justify-center items-center top-0 left-0 flex w-full h-screen z-50 ${
+                isOpen ? "" : "hidden"
+            }`}
+        >
+            <div className="relative bg-white w-full max-w-xl p-10" ref={modalRef}>
                 <FormGroupWrapper errorIds={[inputName]} errors={errors}>
                     <fieldset className="govuk-fieldset" id={inputId}>
                         <legend className="govuk-fieldset__legend govuk-!-padding-top">
                             <span className="govuk-heading-s govuk-!-margin-bottom-0">
-                                What format would you like to export this as ?
+                                What format would you like to export this as?
                             </span>
                         </legend>
                         <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-radios--error">

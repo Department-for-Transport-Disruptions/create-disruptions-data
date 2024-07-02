@@ -37,7 +37,7 @@ const SocialMediaAccounts = ({
     errors,
     isOperator,
 }: SocialMediaAccountsPageProps): ReactElement => {
-    const [socialAccountToDelete, setSocialAccountToDelete] = useState<SocialMediaAccount | null>(null);
+    const [socialAccountToDelete, setSocialAccountToDelete] = useState<SocialMediaAccount>();
     const getLink = (type: string, id: string) => {
         switch (type.toLocaleUpperCase()) {
             case "TWITTER":
@@ -84,7 +84,7 @@ const SocialMediaAccounts = ({
     };
 
     const cancelActionHandler = () => {
-        setSocialAccountToDelete(null);
+        setSocialAccountToDelete(undefined);
     };
 
     return (
@@ -93,7 +93,7 @@ const SocialMediaAccounts = ({
                 <h1 className="govuk-heading-xl">Social media accounts</h1>
                 {errors && errors.length > 0 ? <ErrorSummary errors={errors} /> : null}
                 {socialAccountToDelete ? (
-                    <DeleteConfirmationPopup
+                    <DeleteConfirmationPopup<SocialMediaAccount>
                         entityName={`the ${socialAccountToDelete.accountType.toLowerCase()} connection`}
                         deleteUrl="/api/remove-social-connection"
                         cancelActionHandler={cancelActionHandler}
@@ -108,6 +108,8 @@ const SocialMediaAccounts = ({
                                 value: socialAccountToDelete.accountType,
                             },
                         ]}
+                        setIsOpen={setSocialAccountToDelete}
+                        isOpen={!!socialAccountToDelete}
                     />
                 ) : null}
                 <Table

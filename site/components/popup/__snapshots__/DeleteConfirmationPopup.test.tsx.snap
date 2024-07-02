@@ -2,10 +2,11 @@
 
 exports[`DeleteConfirmationPopup > should render correctly 1`] = `
 <div
-  className="bg-black/[.2] fixed justify-center items-center top-0 left-0 flex w-full h-screen z-50"
+  className="modal-overlay bg-black/[.2] fixed justify-center items-center top-0 left-0 flex w-full h-screen z-50"
 >
   <div
     className="relative bg-white w-full max-w-xl p-10"
+    tabIndex={-1}
   >
     <form
       action="https://test.com/api/delete"
@@ -21,10 +22,6 @@ exports[`DeleteConfirmationPopup > should render correctly 1`] = `
       >
         Are you sure you wish to delete test?
       </h1>
-      <span
-        className="govuk-hint"
-        id="popup-hint"
-      />
       <input
         name="id"
         type="hidden"

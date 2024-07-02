@@ -30,12 +30,12 @@ export interface SysAdminUserManagementProps extends PageState<Partial<AddUserSc
 }
 const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElement => {
     const [pageState, setPageState] = useState(props);
-    const [userToDelete, setUserToDelete] = useState<string | null>(null);
+    const [userToDelete, setUserToDelete] = useState<string>();
     const [userToResendInvite, setUserToResendInvite] = useState<{
         username: string;
         userGroup: string;
         userOrgId: string;
-    } | null>(null);
+    }>();
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
 
@@ -120,14 +120,14 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
     };
 
     const cancelResendActionHandler = () => {
-        setUserToResendInvite(null);
+        setUserToResendInvite(undefined);
     };
     const resendInvite = (username: string, userGroup: string, userOrgId: string) => {
         setUserToResendInvite({ username, userGroup, userOrgId });
     };
 
     const cancelActionHandler = () => {
-        setUserToDelete(null);
+        setUserToDelete(undefined);
     };
 
     const queryParams = useRouter().query;
@@ -137,7 +137,7 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
     return (
         <BaseLayout title={title} description={description} errors={pageState.errors}>
             {userToDelete ? (
-                <DeleteConfirmationPopup
+                <DeleteConfirmationPopup<string>
                     entityName="user"
                     deleteUrl="/api/admin/delete-user"
                     cancelActionHandler={cancelActionHandler}
@@ -152,10 +152,16 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
                             value: orgId?.toString(),
                         },
                     ]}
+                    setIsOpen={setUserToDelete}
+                    isOpen={!!userToDelete}
                 />
             ) : null}
             {userToResendInvite ? (
-                <Popup
+                <Popup<{
+                    username: string;
+                    userGroup: string;
+                    userOrgId: string;
+                }>
                     action={"/api/admin/resend-invite"}
                     cancelActionHandler={cancelResendActionHandler}
                     csrfToken={pageState.csrfToken || ""}
@@ -176,6 +182,8 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
                         },
                     ]}
                     questionText={`Are you sure you wish to resend the invite?`}
+                    setIsOpen={setUserToResendInvite}
+                    isOpen={!!userToResendInvite}
                 />
             ) : null}
             <ErrorSummary errors={pageState.errors} />

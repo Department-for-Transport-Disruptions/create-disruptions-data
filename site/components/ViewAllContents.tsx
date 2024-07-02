@@ -731,7 +731,14 @@ const ViewAllContents = ({
 
     return (
         <>
-            {popUpState ? <ExportPopUp confirmHandler={exportHandler} closePopUp={cancelActionHandler} /> : null}
+            {popUpState ? (
+                <ExportPopUp
+                    confirmHandler={exportHandler}
+                    closePopUp={cancelActionHandler}
+                    isOpen={popUpState}
+                    setIsOpen={setPopUpState}
+                />
+            ) : null}
             {isTemplate ? (
                 <h1 className="govuk-heading-xl">Templates</h1>
             ) : (

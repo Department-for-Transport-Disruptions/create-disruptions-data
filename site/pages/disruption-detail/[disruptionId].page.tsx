@@ -387,17 +387,22 @@ const DisruptionDetail = ({
     return (
         <BaseLayout title={title} description={description}>
             {popUpState && csrfToken ? (
-                <DeleteConfirmationPopup
+                <DeleteConfirmationPopup<{ name: string; hiddenInputs: { name: string; value: string }[] }>
                     entityName={`the ${popUpState.name}`}
                     deleteUrl={`${deleteUrl(popUpState.name)}${disruption.template ? "?template=true" : ""}`}
                     cancelActionHandler={cancelActionHandler}
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
                     hiddenInputs={popUpState.hiddenInputs}
+                    setIsOpen={setPopUpState}
+                    isOpen={!!popUpState}
                 />
             ) : null}
             {socialMediaPostPopUpState && csrfToken ? (
-                <DeleteConfirmationPopup
+                <DeleteConfirmationPopup<{
+                    name: string;
+                    hiddenInputs: { name: string; value: string }[];
+                }>
                     entityName={`the ${socialMediaPostPopUpState.name}`}
                     deleteUrl={`/api/delete-${socialMediaPostPopUpState.name}${
                         disruption.template ? "?template=true" : ""
@@ -406,10 +411,14 @@ const DisruptionDetail = ({
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
                     hiddenInputs={socialMediaPostPopUpState.hiddenInputs}
+                    setIsOpen={setPopUpState}
+                    isOpen={!!popUpState}
                 />
             ) : null}
             {duplicateDisruptionPopUpState && csrfToken && !disruption.template ? (
-                <Popup
+                <Popup<{
+                    hiddenInputs: { name: string; value: string }[];
+                }>
                     action="/api/duplicate-disruption"
                     cancelActionHandler={cancelActionHandlerDuplicateDisruption}
                     csrfToken={csrfToken}
@@ -417,6 +426,8 @@ const DisruptionDetail = ({
                     continueText="Yes, duplicate"
                     cancelText="No, return"
                     questionText="Are you sure you wish to duplicate the disruption?"
+                    setIsOpen={setDuplicateDisruptionPopUpState}
+                    isOpen={!!duplicateDisruptionPopUpState}
                 />
             ) : null}
             <CsrfForm

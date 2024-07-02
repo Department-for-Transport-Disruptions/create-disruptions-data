@@ -29,7 +29,7 @@ const DeleteDisruptionButton = ({
     isTemplate,
     returnPath = "",
 }: DeleteDisruptionButtonProps): ReactElement | null => {
-    const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [showDeleteModal, setShowDeleteModal] = useState<boolean | undefined>(false);
 
     if (!csrfToken || !disruptionId) {
         return null;
@@ -38,7 +38,7 @@ const DeleteDisruptionButton = ({
     return (
         <>
             {showDeleteModal && (
-                <DeleteConfirmationPopup
+                <DeleteConfirmationPopup<boolean>
                     entityName={isTemplate ? "the template" : "the disruption"}
                     deleteUrl={`/api/delete-disruption${getQueryParams(isTemplate === "true", returnPath)}`}
                     cancelActionHandler={() => {
@@ -53,6 +53,8 @@ const DeleteDisruptionButton = ({
                         },
                     ]}
                     isWarning
+                    setIsOpen={setShowDeleteModal}
+                    isOpen={showDeleteModal}
                 />
             )}
 
