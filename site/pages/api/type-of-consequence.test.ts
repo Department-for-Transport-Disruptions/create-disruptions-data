@@ -15,6 +15,7 @@ import { setCookieOnResponseObject } from "../../utils/apiUtils";
 
 describe("addConsequence", () => {
     const writeHeadMock = vi.fn();
+
     vi.mock("../../utils/apiUtils", async () => ({
         ...(await vi.importActual<object>("../../utils/apiUtils")),
         setCookieOnResponseObject: vi.fn(),
@@ -80,6 +81,20 @@ describe("addConsequence", () => {
         addConsequence(req, res);
 
         expect(writeHeadMock).toBeCalledWith(302, { Location: `/create-consequence-services/${disruptionId}/0` });
+    });
+
+    it("should redirect to journeys consequence page when 'Journeys' is selected", () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: { ...disruptionData, consequenceType: "journeys" },
+
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        addConsequence(req, res);
+
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `/create-consequence-journeys/${disruptionId}/0`,
+        });
     });
 
     it("should redirect back to add consequence page (/type-of-consequence) when no inputs are passed", () => {
@@ -185,6 +200,22 @@ describe("addConsequence", () => {
 
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `/create-consequence-services/${disruptionId}/0?${returnPath}`,
+        });
+    });
+
+    it("should redirect to journeys consequence page when 'Journeys' is selected and with appropriate query params when a new disruption is created from template in test and dev", () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: { ...disruptionData, consequenceType: "journeys" },
+            requestHeaders: {
+                referer: refererPath,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
+
+        addConsequence(req, res);
+
+        expect(writeHeadMock).toBeCalledWith(302, {
+            Location: `/create-consequence-journeys/${disruptionId}/0?${returnPath}`,
         });
     });
 
