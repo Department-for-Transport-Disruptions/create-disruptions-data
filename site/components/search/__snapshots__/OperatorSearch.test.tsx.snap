@@ -18,7 +18,7 @@ exports[`OperatorSearch > should render correctly with errors 1`] = `
       className=""
     >
       <div
-        className=" css-b62m3t-container"
+        className="text-lg text-black css-b62m3t-container"
         id="operator-search"
         onKeyDown={[Function]}
       >
@@ -42,7 +42,7 @@ exports[`OperatorSearch > should render correctly with errors 1`] = `
             className=" css-1fdsijx-ValueContainer"
           >
             <div
-              className=" css-1jqq78o-placeholder"
+              className=" css-yl2wa5-placeholder"
               id="react-select-operator-dropdown-placeholder"
             >
               Select operators
@@ -141,7 +141,7 @@ exports[`OperatorSearch > should render correctly with no errors 1`] = `
       className=""
     >
       <div
-        className=" css-b62m3t-container"
+        className="text-lg text-black css-b62m3t-container"
         id="operator-search"
         onKeyDown={[Function]}
       >
@@ -165,7 +165,7 @@ exports[`OperatorSearch > should render correctly with no errors 1`] = `
             className=" css-1fdsijx-ValueContainer"
           >
             <div
-              className=" css-1jqq78o-placeholder"
+              className=" css-yl2wa5-placeholder"
               id="react-select-operator-dropdown-placeholder"
             >
               Select operators

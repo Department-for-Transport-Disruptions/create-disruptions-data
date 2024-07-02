@@ -61,10 +61,14 @@ const SocialMediaAccounts = ({
                               <li className="list-none">
                                   <Link
                                       className="govuk-link text-govBlue"
-                                      key={`${toLowerStartCase(profile.type)}/${profile.id}`}
+                                      key={`${toLowerStartCase(profile.type)}/${
+                                          profile.socialNetworkUsername ?? profile.socialNetworkId
+                                      }`}
                                       href={getLink(profile.type, profile.socialNetworkId)}
                                   >
-                                      {`${toLowerStartCase(profile.type)}/${profile.id}`}
+                                      {`${toLowerStartCase(profile.type)}/${
+                                          profile.socialNetworkUsername ?? profile.socialNetworkId
+                                      }`}
                                   </Link>
                               </li>
                           </Fragment>

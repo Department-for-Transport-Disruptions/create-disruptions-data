@@ -179,7 +179,9 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                         props.socialAccounts
                                             ?.find((account) => account.id === pageState.inputs.socialAccount)
                                             ?.hootsuiteProfiles?.map((profile) => ({
-                                                display: `${profile.type}/${profile.id}`,
+                                                display: `${profile.type}/${
+                                                    profile.socialNetworkUsername ?? profile.socialNetworkId
+                                                }`,
                                                 value: profile.id,
                                             })) ?? []
                                     }
@@ -242,7 +244,9 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                         className="govuk-fieldset__heading govuk-visually-hidden"
                                         id="passenger-type-page-heading"
                                     >
-                                        Upload file
+                                        <label id="image-label" className="govuk-label govuk-label--s" htmlFor="image">
+                                            Upload File
+                                        </label>
                                     </h2>
                                 </legend>
                                 <FormElementWrapper
@@ -250,15 +254,14 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                                     errorClass="govuk-file-upload--error"
                                     errors={pageState.errors}
                                 >
-                                    <>
-                                        <input
-                                            className="govuk-file-upload"
-                                            type="file"
-                                            id="image"
-                                            name="image"
-                                            accept="image/png, image/jpeg, image/jpg"
-                                        />
-                                    </>
+                                    <input
+                                        className="govuk-file-upload"
+                                        type="file"
+                                        id="image"
+                                        aria-labelledby="image-label"
+                                        name="image"
+                                        accept="image/png, image/jpeg, image/jpg"
+                                    />
                                 </FormElementWrapper>
                             </fieldset>
                         </FormGroupWrapper>
