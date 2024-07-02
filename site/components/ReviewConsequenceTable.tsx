@@ -4,7 +4,9 @@ import Link from "next/link";
 import { ReactElement, ReactNode } from "react";
 import Table, { CellProps } from "./form/Table";
 import {
+    CANCELLATIONS_FEATURE_FLAG,
     CONSEQUENCE_TYPES,
+    CREATE_CONSEQUENCE_JOURNEYS_PATH,
     CREATE_CONSEQUENCE_NETWORK_PATH,
     CREATE_CONSEQUENCE_OPERATOR_PATH,
     CREATE_CONSEQUENCE_SERVICES_PATH,
@@ -26,6 +28,8 @@ const getConsequenceUrl = (type: Consequence["consequenceType"]) => {
             return CREATE_CONSEQUENCE_STOPS_PATH;
         case "services":
             return CREATE_CONSEQUENCE_SERVICES_PATH;
+        case "journeys":
+            return CREATE_CONSEQUENCE_JOURNEYS_PATH;
     }
 };
 
@@ -71,7 +75,10 @@ const getRows = (
             header: "Consequence type",
             cells: [
                 {
-                    value: getDisplayByValue(CONSEQUENCE_TYPES, consequence.consequenceType),
+                    value: getDisplayByValue(
+                        CONSEQUENCE_TYPES(CANCELLATIONS_FEATURE_FLAG),
+                        consequence.consequenceType,
+                    ),
                     styles: {
                         width: "w-1/2",
                     },
@@ -115,7 +122,10 @@ const getRows = (
         },
     ];
 
-    if (consequence.consequenceType === "services") {
+    if (
+        consequence.consequenceType === "services" ||
+        (consequence.consequenceType === "journeys" && CANCELLATIONS_FEATURE_FLAG)
+    ) {
         rows.push({
             header: "Service(s)",
             cells: [
@@ -164,6 +174,34 @@ const getRows = (
                         isEditingAllowed &&
                         createChangeLink(
                             "stops-affected",
+                            getConsequenceUrl(consequence.consequenceType),
+                            disruption.disruptionId,
+                            consequence.consequenceIndex,
+                            true,
+                            isDisruptionDetail,
+                            isTemplate,
+                        ),
+                },
+            ],
+        });
+    }
+
+    if (consequence.consequenceType === "journeys" && CANCELLATIONS_FEATURE_FLAG) {
+        rows.push({
+            header: "Journeys",
+            cells: [
+                {
+                    value: consequence.journeys
+                        ? consequence.journeys
+                              .map((journey) => `${journey.departureTime} ${journey.direction}`)
+                              .join(", ")
+                        : "N/A",
+                },
+                {
+                    value:
+                        isEditingAllowed &&
+                        createChangeLink(
+                            "journeys",
                             getConsequenceUrl(consequence.consequenceType),
                             disruption.disruptionId,
                             consequence.consequenceIndex,
@@ -248,7 +286,10 @@ const getRows = (
             ],
         },
         {
-            header: "Remove from journey planner",
+            header:
+                consequence.consequenceType === "journeys" && CANCELLATIONS_FEATURE_FLAG
+                    ? "Cancel Journeys"
+                    : "Remove from journey planner",
             cells: [
                 {
                     value: splitCamelCaseToString(consequence.removeFromJourneyPlanners),

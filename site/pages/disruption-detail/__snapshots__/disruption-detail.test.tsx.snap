@@ -1142,6 +1142,255 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 </button>
               </div>
             </div>
+            <div
+              className="govuk-accordion__section"
+            >
+              <div
+                className="govuk-accordion__section-header"
+              >
+                <h2
+                  className="govuk-accordion__section-heading"
+                >
+                  <span
+                    className="govuk-accordion__section-button"
+                    id="accordion-default-heading-4"
+                  >
+                    Consequence 4 - Bus - Journeys
+                  </span>
+                </h2>
+              </div>
+              <div
+                aria-labelledby="accordion-default-heading-4"
+                className="govuk-accordion__section-content"
+                id="accordion-default-content-4"
+              >
+                <table
+                  className="govuk-table"
+                >
+                  <thead
+                    className="govuk-table__head"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Consequence type
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/2"
+                      >
+                        Journeys
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/type-of-consequence/2/2?return=%2Fdisruption-detail"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Mode of transport
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Bus
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-journeys/2/2?return=%2Fdisruption-detail"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Service(s)
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        1 - Jordanthorpe - HigH Green (First South Yorkshire)
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-journeys/2/2?return=%2Fdisruption-detail"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Journeys
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        05:39:00 outbound, 05:39:00 outbound
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-journeys/2/2?return=%2Fdisruption-detail"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Advice to display
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        The road is closed for the following reasons: Example, example, example, example
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-journeys/2/2?return=%2Fdisruption-detail"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Cancel Journeys
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Yes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-journeys/2/2?return=%2Fdisruption-detail"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Disruption delay
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        12 minutes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-journeys/2/2?return=%2Fdisruption-detail"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <button
+                  className="govuk-button govuk-button--warning mt-4"
+                  data-module="govuk-button"
+                  onClick={[Function]}
+                >
+                  Delete consequence
+                </button>
+                <button
+                  className="govuk-button govuk-button--secondary mt-4 ml-4"
+                  data-module="govuk-button"
+                  formAction="/api/duplicate-consequence?consequenceId=2&return=/disruption-detail"
+                >
+                  Duplicate consequence
+                </button>
+              </div>
+            </div>
           </div>
           <a
             className="govuk-button mt-2 govuk-button--secondary "
@@ -3054,6 +3303,255 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 </button>
               </div>
             </div>
+            <div
+              className="govuk-accordion__section"
+            >
+              <div
+                className="govuk-accordion__section-header"
+              >
+                <h2
+                  className="govuk-accordion__section-heading"
+                >
+                  <span
+                    className="govuk-accordion__section-button"
+                    id="accordion-default-heading-4"
+                  >
+                    Consequence 4 - Bus - Journeys
+                  </span>
+                </h2>
+              </div>
+              <div
+                aria-labelledby="accordion-default-heading-4"
+                className="govuk-accordion__section-content"
+                id="accordion-default-content-4"
+              >
+                <table
+                  className="govuk-table"
+                >
+                  <thead
+                    className="govuk-table__head"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Consequence type
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/2"
+                      >
+                        Journeys
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/type-of-consequence/2/2?return=%2Fdisruption-detail&template=true"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Mode of transport
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Bus
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-journeys/2/2?return=%2Fdisruption-detail&template=true"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Service(s)
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        1 - Jordanthorpe - HigH Green (First South Yorkshire)
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-journeys/2/2?return=%2Fdisruption-detail&template=true"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Journeys
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        05:39:00 outbound, 05:39:00 outbound
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-journeys/2/2?return=%2Fdisruption-detail&template=true"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Advice to display
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        The road is closed for the following reasons: Example, example, example, example
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-journeys/2/2?return=%2Fdisruption-detail&template=true"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Cancel Journeys
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Yes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-journeys/2/2?return=%2Fdisruption-detail&template=true"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Disruption delay
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        12 minutes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-journeys/2/2?return=%2Fdisruption-detail&template=true"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <button
+                  className="govuk-button govuk-button--warning mt-4"
+                  data-module="govuk-button"
+                  onClick={[Function]}
+                >
+                  Delete consequence
+                </button>
+                <button
+                  className="govuk-button govuk-button--secondary mt-4 ml-4"
+                  data-module="govuk-button"
+                  formAction="/api/duplicate-consequence?consequenceId=2&return=/disruption-detail&template=true"
+                >
+                  Duplicate consequence
+                </button>
+              </div>
+            </div>
           </div>
           <a
             className="govuk-button mt-2 govuk-button--secondary "
@@ -4620,6 +5118,171 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 </table>
               </div>
             </div>
+            <div
+              className="govuk-accordion__section"
+            >
+              <div
+                className="govuk-accordion__section-header"
+              >
+                <h2
+                  className="govuk-accordion__section-heading"
+                >
+                  <span
+                    className="govuk-accordion__section-button"
+                    id="accordion-default-heading-4"
+                  >
+                    Consequence 4 - Bus - Journeys
+                  </span>
+                </h2>
+              </div>
+              <div
+                aria-labelledby="accordion-default-heading-4"
+                className="govuk-accordion__section-content"
+                id="accordion-default-content-4"
+              >
+                <table
+                  className="govuk-table"
+                >
+                  <thead
+                    className="govuk-table__head"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Consequence type
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/2"
+                      >
+                        Journeys
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Mode of transport
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Bus
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Service(s)
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        1 - Jordanthorpe - HigH Green (First South Yorkshire)
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Journeys
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        05:39:00 outbound, 05:39:00 outbound
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Advice to display
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        The road is closed for the following reasons: Example, example, example, example
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Cancel Journeys
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Yes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Disruption delay
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        12 minutes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
           <br />
           <h2
@@ -6004,6 +6667,171 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 </table>
               </div>
             </div>
+            <div
+              className="govuk-accordion__section"
+            >
+              <div
+                className="govuk-accordion__section-header"
+              >
+                <h2
+                  className="govuk-accordion__section-heading"
+                >
+                  <span
+                    className="govuk-accordion__section-button"
+                    id="accordion-default-heading-4"
+                  >
+                    Consequence 4 - Bus - Journeys
+                  </span>
+                </h2>
+              </div>
+              <div
+                aria-labelledby="accordion-default-heading-4"
+                className="govuk-accordion__section-content"
+                id="accordion-default-content-4"
+              >
+                <table
+                  className="govuk-table"
+                >
+                  <thead
+                    className="govuk-table__head"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Consequence type
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/2"
+                      >
+                        Journeys
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Mode of transport
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Bus
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Service(s)
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        1 - Jordanthorpe - HigH Green (First South Yorkshire)
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Journeys
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        05:39:00 outbound, 05:39:00 outbound
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Advice to display
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        The road is closed for the following reasons: Example, example, example, example
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Cancel Journeys
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Yes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Disruption delay
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        12 minutes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
           <br />
           <h2
@@ -7356,6 +8184,171 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         scope="row"
                       >
                         Remove from journey planner
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Yes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Disruption delay
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        12 minutes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div
+              className="govuk-accordion__section"
+            >
+              <div
+                className="govuk-accordion__section-header"
+              >
+                <h2
+                  className="govuk-accordion__section-heading"
+                >
+                  <span
+                    className="govuk-accordion__section-button"
+                    id="accordion-default-heading-4"
+                  >
+                    Consequence 4 - Bus - Journeys
+                  </span>
+                </h2>
+              </div>
+              <div
+                aria-labelledby="accordion-default-heading-4"
+                className="govuk-accordion__section-content"
+                id="accordion-default-content-4"
+              >
+                <table
+                  className="govuk-table"
+                >
+                  <thead
+                    className="govuk-table__head"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Consequence type
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/2"
+                      >
+                        Journeys
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Mode of transport
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Bus
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Service(s)
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        1 - Jordanthorpe - HigH Green (First South Yorkshire)
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Journeys
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        05:39:00 outbound, 05:39:00 outbound
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Advice to display
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        The road is closed for the following reasons: Example, example, example, example
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      />
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Cancel Journeys
                       </th>
                       <td
                         className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
@@ -9095,6 +10088,255 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                         <a
                           className="govuk-link"
                           href="/create-consequence-services/2/2?return=%2Fdisruption-detail&template=true"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <button
+                  className="govuk-button govuk-button--warning mt-4"
+                  data-module="govuk-button"
+                  onClick={[Function]}
+                >
+                  Delete consequence
+                </button>
+                <button
+                  className="govuk-button govuk-button--secondary mt-4 ml-4"
+                  data-module="govuk-button"
+                  formAction="/api/duplicate-consequence?consequenceId=2&return=/disruption-detail&template=true"
+                >
+                  Duplicate consequence
+                </button>
+              </div>
+            </div>
+            <div
+              className="govuk-accordion__section"
+            >
+              <div
+                className="govuk-accordion__section-header"
+              >
+                <h2
+                  className="govuk-accordion__section-heading"
+                >
+                  <span
+                    className="govuk-accordion__section-button"
+                    id="accordion-default-heading-4"
+                  >
+                    Consequence 4 - Bus - Journeys
+                  </span>
+                </h2>
+              </div>
+              <div
+                aria-labelledby="accordion-default-heading-4"
+                className="govuk-accordion__section-content"
+                id="accordion-default-content-4"
+              >
+                <table
+                  className="govuk-table"
+                >
+                  <thead
+                    className="govuk-table__head"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Consequence type
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/2"
+                      >
+                        Journeys
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/type-of-consequence/2/2?return=%2Fdisruption-detail&template=true"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Mode of transport
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Bus
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-journeys/2/2?return=%2Fdisruption-detail&template=true"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Service(s)
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        1 - Jordanthorpe - HigH Green (First South Yorkshire)
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-journeys/2/2?return=%2Fdisruption-detail&template=true"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Journeys
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        05:39:00 outbound, 05:39:00 outbound
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-journeys/2/2?return=%2Fdisruption-detail&template=true"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Advice to display
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        The road is closed for the following reasons: Example, example, example, example
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-journeys/2/2?return=%2Fdisruption-detail&template=true"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Cancel Journeys
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Yes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-journeys/2/2?return=%2Fdisruption-detail&template=true"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Disruption delay
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        12 minutes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-journeys/2/2?return=%2Fdisruption-detail&template=true"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}
@@ -11013,6 +12255,255 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                         <a
                           className="govuk-link"
                           href="/create-consequence-services/2/2?return=%2Fdisruption-detail"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <button
+                  className="govuk-button govuk-button--warning mt-4"
+                  data-module="govuk-button"
+                  onClick={[Function]}
+                >
+                  Delete consequence
+                </button>
+                <button
+                  className="govuk-button govuk-button--secondary mt-4 ml-4"
+                  data-module="govuk-button"
+                  formAction="/api/duplicate-consequence?consequenceId=2&return=/disruption-detail"
+                >
+                  Duplicate consequence
+                </button>
+              </div>
+            </div>
+            <div
+              className="govuk-accordion__section"
+            >
+              <div
+                className="govuk-accordion__section-header"
+              >
+                <h2
+                  className="govuk-accordion__section-heading"
+                >
+                  <span
+                    className="govuk-accordion__section-button"
+                    id="accordion-default-heading-4"
+                  >
+                    Consequence 4 - Bus - Journeys
+                  </span>
+                </h2>
+              </div>
+              <div
+                aria-labelledby="accordion-default-heading-4"
+                className="govuk-accordion__section-content"
+                id="accordion-default-content-4"
+              >
+                <table
+                  className="govuk-table"
+                >
+                  <thead
+                    className="govuk-table__head"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    className="govuk-table__body"
+                  >
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Consequence type
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/2"
+                      >
+                        Journeys
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/type-of-consequence/2/2?return=%2Fdisruption-detail"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Mode of transport
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Bus
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-journeys/2/2?return=%2Fdisruption-detail"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Service(s)
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        1 - Jordanthorpe - HigH Green (First South Yorkshire)
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-journeys/2/2?return=%2Fdisruption-detail"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Journeys
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        05:39:00 outbound, 05:39:00 outbound
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-journeys/2/2?return=%2Fdisruption-detail"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Advice to display
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        The road is closed for the following reasons: Example, example, example, example
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-journeys/2/2?return=%2Fdisruption-detail"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Cancel Journeys
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        Yes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-journeys/2/2?return=%2Fdisruption-detail"
+                          onClick={[Function]}
+                          onMouseEnter={[Function]}
+                          onTouchStart={[Function]}
+                        >
+                          Change
+                        </a>
+                      </td>
+                    </tr>
+                    <tr
+                      className="govuk-table__row"
+                    >
+                      <th
+                        className="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Disruption delay
+                      </th>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        12 minutes
+                      </td>
+                      <td
+                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <a
+                          className="govuk-link"
+                          href="/create-consequence-journeys/2/2?return=%2Fdisruption-detail"
                           onClick={[Function]}
                           onMouseEnter={[Function]}
                           onTouchStart={[Function]}

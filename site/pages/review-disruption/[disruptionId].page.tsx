@@ -641,6 +641,8 @@ const ReviewDisruption = ({
                                                               .join(", ")}`
                                                         : consequence.consequenceType === "stops"
                                                         ? "Stops"
+                                                        : consequence.consequenceType === "journeys"
+                                                        ? "Journeys"
                                                         : consequence.consequenceType === "operatorWide" &&
                                                           consequence.consequenceOperators
                                                         ? `Operator wide - ${consequence.consequenceOperators

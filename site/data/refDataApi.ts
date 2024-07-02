@@ -1,5 +1,5 @@
 import { routesPreformattedSchema } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { serviceSchema, stopSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { journeySchema, serviceSchema, stopSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Datasource, Modes } from "@create-disruptions-data/shared-ts/enums";
 import { roadwork } from "@create-disruptions-data/shared-ts/roadwork.zod";
 import { makeFilteredArraySchema } from "@create-disruptions-data/shared-ts/utils/zod";
@@ -147,6 +147,33 @@ export const fetchServicesByStops = async (input: FetchServicesByStopsInput) => 
     }
 
     return filterServices(parseResult.data);
+};
+
+interface FetchJourneysInput {
+    dataSource?: Datasource;
+    serviceRef: string;
+}
+
+export const fetchJourneys = async (input: FetchJourneysInput) => {
+    const searchApiUrl = `${API_BASE_URL}/services/${input.serviceRef}/journeys`;
+
+    const queryStringItems = [];
+
+    if (input.dataSource) {
+        queryStringItems.push(`dataSource=${input.dataSource}`);
+    }
+
+    const res = await fetch(`${searchApiUrl}${queryStringItems.length > 0 ? `?${queryStringItems.join("&")}` : ""}`, {
+        method: "GET",
+    });
+
+    const parseResult = makeFilteredArraySchema(journeySchema).safeParse(await res.json());
+
+    if (!parseResult.success) {
+        return [];
+    }
+
+    return parseResult.data;
 };
 
 interface FetchServiceRoutes {

@@ -1,4 +1,4 @@
-import { ConsequenceOperators, Service, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { ConsequenceOperators, Journey, Service, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Datasource } from "@create-disruptions-data/shared-ts/enums";
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import dayjs from "dayjs";
@@ -43,7 +43,24 @@ export const getStopLabel = (stop: Stop) => {
     }
 };
 
-export const getStopValue = (stop: Stop) => stop.atcoCode.toString();
+export const getJourneyLabel = (journey: Journey) =>
+    `${journey.departureTime} ${journey.origin} - ${journey.destination} (${journey.direction})`;
+
+export const getJourney = (journey: Journey) => journey.vehicleJourneyCode;
+
+export const sortJourneys = (journeys: Journey[]): Journey[] => {
+    const journeysWithDates = journeys.map((journey) => {
+        const [hours, minutes, seconds] = journey.departureTime.split(":").map(Number);
+        const departureDate = new Date();
+        departureDate.setHours(hours, minutes, seconds, 0); // Set time correctly
+
+        return { journey, departureDate };
+    });
+
+    journeysWithDates.sort((a, b) => a.departureDate.getTime() - b.departureDate.getTime());
+
+    return journeysWithDates.map(({ journey }) => journey);
+};
 
 export const sortStops = (stops: Stop[]): Stop[] => {
     return stops.sort((a, b) => {
@@ -63,6 +80,10 @@ export const sortAndFilterStops = (stops: Stop[]): Stop[] =>
     sortStops(stops).filter(
         (value, index, self) => index === self.findIndex((stop) => stop.atcoCode === value.atcoCode),
     );
+
+export const getJourneyValue = (journey: Journey) => journey.vehicleJourneyCode;
+
+export const getStopValue = (stop: Stop) => stop.atcoCode.toString();
 
 export const getDataInPages = <T>(pageNumber: number, data: T[]): T[] => {
     const startPoint = (pageNumber - 1) * 10;
@@ -138,3 +159,6 @@ export const isSelectedStopInDropdown = (stop: Stop, selectedStops: Stop[]) =>
 
 export const isSelectedServiceInDropdown = (service: Service, selectedService: Service[]) =>
     selectedService.find((selectedService) => selectedService.id === service.id);
+
+export const isSelectedJourneyInDropdown = (journey: Journey, selectedJourneys: Journey[]) =>
+    selectedJourneys.find((selectedJourney) => selectedJourney.vehicleJourneyCode === journey.vehicleJourneyCode);
