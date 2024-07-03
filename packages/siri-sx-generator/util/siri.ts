@@ -154,6 +154,7 @@ export const getPtSituationElementFromSiteDisruption = (
                                     }
                                   : {}),
                               ...(consequence.consequenceType === "networkWide" ||
+                              (consequence.consequenceType === "journeys" && CANCELLATION_FEATURE_FLAG) ||
                               consequence.consequenceType === "operatorWide" ||
                               consequence.consequenceType === "stops"
                                   ? {
