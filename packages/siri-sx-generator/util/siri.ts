@@ -208,7 +208,7 @@ export const getPtSituationElementFromSiteDisruption = (
                                                         OperatorName: service.operatorShortName,
                                                     },
                                                     ...(LINE_REF_FEATURE_FLAG
-                                                        ? { LineRef: service.lineId }
+                                                        ? { LineRef: service.lineId.replace(/\s+/g, "_") }
                                                         : { LineRef: service.lineName.replace(/\s+/g, "_") }),
                                                     ...(PUBLISHED_LINE_NAME_FEATURE_FLAG
                                                         ? { PublishedLineName: service.lineName.replace(/\s+/g, "_") }
