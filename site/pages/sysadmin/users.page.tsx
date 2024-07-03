@@ -30,12 +30,12 @@ export interface SysAdminUserManagementProps extends PageState<Partial<AddUserSc
 }
 const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElement => {
     const [pageState, setPageState] = useState(props);
-    const [userToDelete, setUserToDelete] = useState<string | null>(null);
+    const [userToDelete, setUserToDelete] = useState<string>();
     const [userToResendInvite, setUserToResendInvite] = useState<{
         username: string;
         userGroup: string;
         userOrgId: string;
-    } | null>(null);
+    }>();
 
     const stateUpdater = getStateUpdater(setPageState, pageState);
 
@@ -120,14 +120,14 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
     };
 
     const cancelResendActionHandler = () => {
-        setUserToResendInvite(null);
+        setUserToResendInvite(undefined);
     };
     const resendInvite = (username: string, userGroup: string, userOrgId: string) => {
         setUserToResendInvite({ username, userGroup, userOrgId });
     };
 
     const cancelActionHandler = () => {
-        setUserToDelete(null);
+        setUserToDelete(undefined);
     };
 
     const queryParams = useRouter().query;
@@ -152,6 +152,7 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
                             value: orgId?.toString(),
                         },
                     ]}
+                    isOpen={!!userToDelete}
                 />
             ) : null}
             {userToResendInvite ? (
@@ -176,6 +177,7 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
                         },
                     ]}
                     questionText={`Are you sure you wish to resend the invite?`}
+                    isOpen={!!userToResendInvite}
                 />
             ) : null}
             <ErrorSummary errors={pageState.errors} />

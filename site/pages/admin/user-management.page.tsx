@@ -24,11 +24,11 @@ export interface UserManagementPageProps {
 const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): ReactElement => {
     const numberOfUserPages = Math.ceil(userList.length / 10);
     const [currentPage, setCurrentPage] = useState(1);
-    const [userToDelete, setUserToDelete] = useState<string | null>(null);
+    const [userToDelete, setUserToDelete] = useState<string>();
     const [userToResendInvite, setUserToResendInvite] = useState<{
         username: string;
         userGroup: string;
-    } | null>(null);
+    }>();
 
     const getRows = () => {
         const rows: { header?: string | ReactNode; cells: string[] | ReactNode[] }[] = [];
@@ -52,14 +52,14 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
     };
 
     const cancelResendActionHandler = () => {
-        setUserToResendInvite(null);
+        setUserToResendInvite(undefined);
     };
     const resendInvite = (username: string, userGroup: string) => {
         setUserToResendInvite({ username, userGroup });
     };
 
     const cancelActionHandler = () => {
-        setUserToDelete(null);
+        setUserToDelete(undefined);
     };
 
     const createLink = (
@@ -127,6 +127,7 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
                                 value: userToDelete,
                             },
                         ]}
+                        isOpen={!!userToDelete}
                     />
                 ) : null}
                 {userToResendInvite ? (
@@ -147,6 +148,7 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
                             },
                         ]}
                         questionText={`Are you sure you wish to resend the invite?`}
+                        isOpen={!!userToResendInvite}
                     />
                 ) : null}
                 <div className="govuk-form-group">

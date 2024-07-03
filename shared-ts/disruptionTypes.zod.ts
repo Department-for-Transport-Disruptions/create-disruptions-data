@@ -844,6 +844,16 @@ export const serviceSchema = z.object({
     lineId: z.string(),
 });
 
+export const journeySchema = z.object({
+    dataSource: z.nativeEnum(Datasource),
+    journeyCode: z.string().optional().nullable(),
+    vehicleJourneyCode: z.string(),
+    departureTime: z.string(),
+    destination: z.string(),
+    origin: z.string(),
+    direction: z.string(),
+});
+
 export const servicesConsequenceSchema = z.object({
     ...baseConsequence,
     consequenceType: z.literal("services", setZodDefaultError("Select a consequence type")),
@@ -862,11 +872,30 @@ export const servicesConsequenceSchema = z.object({
     stopRefs: z.array(z.string()).optional(),
 });
 
+export const journeysConsequenceSchema = z.object({
+    ...baseConsequence,
+    consequenceType: z.literal("journeys", setZodDefaultError("Select a consequence type")),
+    services: z
+        .array(serviceSchema)
+        .min(1, {
+            message: "At least one service must be added",
+        })
+        .max(1, {
+            message: "Only one service should can be added",
+        }),
+    serviceRefs: z.array(z.string()).optional(),
+    journeys: z.array(journeySchema).min(1, {
+        message: "At least one journey must be added",
+    }),
+    journeyRefs: z.array(z.string()).optional(),
+});
+
 export const consequenceSchema = z.discriminatedUnion("consequenceType", [
     networkConsequenceSchema,
     operatorConsequenceSchema,
     stopsConsequenceSchema,
     servicesConsequenceSchema,
+    journeysConsequenceSchema,
 ]);
 
 export const MAX_CONSEQUENCES = 15;

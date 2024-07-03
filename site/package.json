@@ -41,6 +41,7 @@
         "dayjs": "^1.11.7",
         "edge-csrf": "^1.0.3",
         "file-saver": "^2.0.5",
+        "focus-trap-react": "^10.2.3",
         "formidable": "^3.2.4",
         "geojson": "^0.5.0",
         "govuk-frontend": "^4.4.1",
