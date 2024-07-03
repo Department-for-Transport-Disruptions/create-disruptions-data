@@ -15,6 +15,7 @@ import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPo
 import Popup from "../../components/popup/Popup";
 import ReviewConsequenceTable, { createChangeLink } from "../../components/ReviewConsequenceTable";
 import {
+    CANCELLATIONS_FEATURE_FLAG,
     COOKIES_DISRUPTION_DETAIL_ERRORS,
     COOKIES_DISRUPTION_DETAIL_REFERER,
     CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
@@ -394,6 +395,7 @@ const DisruptionDetail = ({
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
                     hiddenInputs={popUpState.hiddenInputs}
+                    isOpen={!!popUpState}
                 />
             ) : null}
             {socialMediaPostPopUpState && csrfToken ? (
@@ -406,6 +408,7 @@ const DisruptionDetail = ({
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
                     hiddenInputs={socialMediaPostPopUpState.hiddenInputs}
+                    isOpen={!!popUpState}
                 />
             ) : null}
             {duplicateDisruptionPopUpState && csrfToken && !disruption.template ? (
@@ -417,6 +420,7 @@ const DisruptionDetail = ({
                     continueText="Yes, duplicate"
                     cancelText="No, return"
                     questionText="Are you sure you wish to duplicate the disruption?"
+                    isOpen={!!duplicateDisruptionPopUpState}
                 />
             ) : null}
             <CsrfForm
@@ -679,6 +683,9 @@ const DisruptionDetail = ({
                                                               .join(", ")}`
                                                         : consequence.consequenceType === "stops"
                                                         ? "Stops"
+                                                        : consequence.consequenceType === "journeys" &&
+                                                          CANCELLATIONS_FEATURE_FLAG
+                                                        ? "Journeys"
                                                         : consequence.consequenceType === "operatorWide" &&
                                                           consequence.consequenceOperators
                                                         ? `Operator wide - ${consequence.consequenceOperators

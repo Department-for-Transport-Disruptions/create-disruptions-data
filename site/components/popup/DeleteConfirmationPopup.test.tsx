@@ -9,6 +9,7 @@ describe("DeleteConfirmationPopup", () => {
         const tree = renderer
             .create(
                 <DeleteConfirmationPopup
+                    isOpen={true}
                     entityName="test"
                     deleteUrl="https://test.com/api/delete"
                     cancelActionHandler={cancelActionHandler}

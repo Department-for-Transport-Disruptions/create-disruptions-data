@@ -385,6 +385,7 @@ const ReviewDisruption = ({
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
                     hiddenInputs={popUpState.hiddenInputs}
+                    isOpen={!!popUpState}
                 />
             ) : null}
             {socialMediaPostPopUpState && csrfToken ? (
@@ -397,6 +398,7 @@ const ReviewDisruption = ({
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
                     hiddenInputs={socialMediaPostPopUpState.hiddenInputs}
+                    isOpen={!!socialMediaPostPopUpState}
                 />
             ) : null}
 
