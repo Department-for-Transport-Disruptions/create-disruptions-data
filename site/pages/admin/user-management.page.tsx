@@ -132,10 +132,7 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
                     />
                 ) : null}
                 {userToResendInvite ? (
-                    <Popup<{
-                        username: string;
-                        userGroup: string;
-                    }>
+                    <Popup
                         action={"/api/admin/resend-invite"}
                         cancelActionHandler={cancelResendActionHandler}
                         csrfToken={csrfToken || ""}
@@ -152,7 +149,6 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
                             },
                         ]}
                         questionText={`Are you sure you wish to resend the invite?`}
-                        setIsOpen={setUserToResendInvite}
                         isOpen={!!userToResendInvite}
                     />
                 ) : null}

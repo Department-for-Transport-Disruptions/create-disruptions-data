@@ -137,7 +137,7 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
     return (
         <BaseLayout title={title} description={description} errors={pageState.errors}>
             {userToDelete ? (
-                <DeleteConfirmationPopup<string>
+                <DeleteConfirmationPopup
                     entityName="user"
                     deleteUrl="/api/admin/delete-user"
                     cancelActionHandler={cancelActionHandler}
@@ -152,16 +152,11 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
                             value: orgId?.toString(),
                         },
                     ]}
-                    setIsOpen={setUserToDelete}
                     isOpen={!!userToDelete}
                 />
             ) : null}
             {userToResendInvite ? (
-                <Popup<{
-                    username: string;
-                    userGroup: string;
-                    userOrgId: string;
-                }>
+                <Popup
                     action={"/api/admin/resend-invite"}
                     cancelActionHandler={cancelResendActionHandler}
                     csrfToken={pageState.csrfToken || ""}
@@ -182,7 +177,6 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
                         },
                     ]}
                     questionText={`Are you sure you wish to resend the invite?`}
-                    setIsOpen={setUserToResendInvite}
                     isOpen={!!userToResendInvite}
                 />
             ) : null}

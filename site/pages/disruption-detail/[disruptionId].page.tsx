@@ -15,6 +15,7 @@ import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPo
 import Popup from "../../components/popup/Popup";
 import ReviewConsequenceTable, { createChangeLink } from "../../components/ReviewConsequenceTable";
 import {
+    CANCELLATIONS_FEATURE_FLAG,
     COOKIES_DISRUPTION_DETAIL_ERRORS,
     COOKIES_DISRUPTION_DETAIL_REFERER,
     CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
@@ -387,22 +388,18 @@ const DisruptionDetail = ({
     return (
         <BaseLayout title={title} description={description}>
             {popUpState && csrfToken ? (
-                <DeleteConfirmationPopup<{ name: string; hiddenInputs: { name: string; value: string }[] }>
+                <DeleteConfirmationPopup
                     entityName={`the ${popUpState.name}`}
                     deleteUrl={`${deleteUrl(popUpState.name)}${disruption.template ? "?template=true" : ""}`}
                     cancelActionHandler={cancelActionHandler}
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
                     hiddenInputs={popUpState.hiddenInputs}
-                    setIsOpen={setPopUpState}
                     isOpen={!!popUpState}
                 />
             ) : null}
             {socialMediaPostPopUpState && csrfToken ? (
-                <DeleteConfirmationPopup<{
-                    name: string;
-                    hiddenInputs: { name: string; value: string }[];
-                }>
+                <DeleteConfirmationPopup
                     entityName={`the ${socialMediaPostPopUpState.name}`}
                     deleteUrl={`/api/delete-${socialMediaPostPopUpState.name}${
                         disruption.template ? "?template=true" : ""
@@ -411,14 +408,11 @@ const DisruptionDetail = ({
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
                     hiddenInputs={socialMediaPostPopUpState.hiddenInputs}
-                    setIsOpen={setPopUpState}
                     isOpen={!!popUpState}
                 />
             ) : null}
             {duplicateDisruptionPopUpState && csrfToken && !disruption.template ? (
-                <Popup<{
-                    hiddenInputs: { name: string; value: string }[];
-                }>
+                <Popup
                     action="/api/duplicate-disruption"
                     cancelActionHandler={cancelActionHandlerDuplicateDisruption}
                     csrfToken={csrfToken}
@@ -426,7 +420,6 @@ const DisruptionDetail = ({
                     continueText="Yes, duplicate"
                     cancelText="No, return"
                     questionText="Are you sure you wish to duplicate the disruption?"
-                    setIsOpen={setDuplicateDisruptionPopUpState}
                     isOpen={!!duplicateDisruptionPopUpState}
                 />
             ) : null}
@@ -690,6 +683,9 @@ const DisruptionDetail = ({
                                                               .join(", ")}`
                                                         : consequence.consequenceType === "stops"
                                                         ? "Stops"
+                                                        : consequence.consequenceType === "journeys" &&
+                                                          CANCELLATIONS_FEATURE_FLAG
+                                                        ? "Journeys"
                                                         : consequence.consequenceType === "operatorWide" &&
                                                           consequence.consequenceOperators
                                                         ? `Operator wide - ${consequence.consequenceOperators

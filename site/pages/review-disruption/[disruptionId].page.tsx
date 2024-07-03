@@ -378,22 +378,18 @@ const ReviewDisruption = ({
                 <NotificationBanner content="You have successfully duplicated the disruption. The new disruption has been created below." />
             ) : null}
             {popUpState && csrfToken ? (
-                <DeleteConfirmationPopup<{ name: string; hiddenInputs: { name: string; value: string }[] }>
+                <DeleteConfirmationPopup
                     entityName={`the ${popUpState.name}`}
                     deleteUrl={`${deleteUrl(popUpState.name)}${disruption.template ? "?template=true" : ""}`}
                     cancelActionHandler={cancelActionHandler}
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
                     hiddenInputs={popUpState.hiddenInputs}
-                    setIsOpen={setPopUpState}
                     isOpen={!!popUpState}
                 />
             ) : null}
             {socialMediaPostPopUpState && csrfToken ? (
-                <DeleteConfirmationPopup<{
-                    name: string;
-                    hiddenInputs: { name: string; value: string }[];
-                }>
+                <DeleteConfirmationPopup
                     entityName={`the ${socialMediaPostPopUpState.name}`}
                     deleteUrl={`/api/delete-${socialMediaPostPopUpState.name}${
                         disruption.template ? "?template=true" : ""
@@ -402,7 +398,6 @@ const ReviewDisruption = ({
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
                     hiddenInputs={socialMediaPostPopUpState.hiddenInputs}
-                    setIsOpen={setSocialMediaPostPopUpState}
                     isOpen={!!socialMediaPostPopUpState}
                 />
             ) : null}

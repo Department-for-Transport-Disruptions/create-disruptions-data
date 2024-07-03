@@ -38,7 +38,7 @@ const DeleteDisruptionButton = ({
     return (
         <>
             {showDeleteModal && (
-                <DeleteConfirmationPopup<boolean>
+                <DeleteConfirmationPopup
                     entityName={isTemplate ? "the template" : "the disruption"}
                     deleteUrl={`/api/delete-disruption${getQueryParams(isTemplate === "true", returnPath)}`}
                     cancelActionHandler={() => {
@@ -53,7 +53,6 @@ const DeleteDisruptionButton = ({
                         },
                     ]}
                     isWarning
-                    setIsOpen={setShowDeleteModal}
                     isOpen={showDeleteModal}
                 />
             )}

@@ -97,7 +97,7 @@ const SocialMediaAccounts = ({
                 <h1 className="govuk-heading-xl">Social media accounts</h1>
                 {errors && errors.length > 0 ? <ErrorSummary errors={errors} /> : null}
                 {socialAccountToDelete ? (
-                    <DeleteConfirmationPopup<SocialMediaAccount>
+                    <DeleteConfirmationPopup
                         entityName={`the ${socialAccountToDelete.accountType.toLowerCase()} connection`}
                         deleteUrl="/api/remove-social-connection"
                         cancelActionHandler={cancelActionHandler}
@@ -112,7 +112,6 @@ const SocialMediaAccounts = ({
                                 value: socialAccountToDelete.accountType,
                             },
                         ]}
-                        setIsOpen={setSocialAccountToDelete}
                         isOpen={!!socialAccountToDelete}
                     />
                 ) : null}

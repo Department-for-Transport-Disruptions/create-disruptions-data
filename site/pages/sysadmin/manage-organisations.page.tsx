@@ -67,7 +67,7 @@ const ManageOrganisations = ({ orgList, csrfToken }: ManageOrganisationsProps): 
     return (
         <BaseLayout title={title} description={description}>
             {orgToDelete ? (
-                <DeleteConfirmationPopup<string>
+                <DeleteConfirmationPopup
                     entityName="org"
                     deleteUrl="/api/sysadmin/delete-org"
                     cancelActionHandler={cancelActionHandler}
@@ -78,7 +78,6 @@ const ManageOrganisations = ({ orgList, csrfToken }: ManageOrganisationsProps): 
                             value: orgToDelete,
                         },
                     ]}
-                    setIsOpen={setOrgToDelete}
                     isOpen={!!orgToDelete}
                 />
             ) : null}

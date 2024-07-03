@@ -1,7 +1,7 @@
-import React, { Dispatch, ReactElement, SetStateAction } from "react";
+import React, { ReactElement } from "react";
 import Popup from "./Popup";
 
-interface PopUpProps<T> {
+interface PopUpProps {
     entityName: string;
     deleteUrl: string;
     cancelActionHandler: React.MouseEventHandler<HTMLButtonElement>;
@@ -10,10 +10,9 @@ interface PopUpProps<T> {
     hiddenInputs: { name: string; value: string | undefined }[];
     isWarning?: boolean;
     isOpen: boolean;
-    setIsOpen: Dispatch<SetStateAction<T | undefined>>;
 }
 
-const DeleteConfirmationPopup = <T extends object | string | boolean>({
+const DeleteConfirmationPopup = ({
     entityName,
     deleteUrl,
     cancelActionHandler,
@@ -22,12 +21,10 @@ const DeleteConfirmationPopup = <T extends object | string | boolean>({
     hiddenInputs,
     isWarning,
     isOpen,
-    setIsOpen,
-}: PopUpProps<T>): ReactElement | null => {
+}: PopUpProps): ReactElement | null => {
     return (
         <Popup
             isOpen={isOpen}
-            setIsOpen={setIsOpen}
             action={deleteUrl}
             cancelActionHandler={cancelActionHandler}
             hintText={hintText}
