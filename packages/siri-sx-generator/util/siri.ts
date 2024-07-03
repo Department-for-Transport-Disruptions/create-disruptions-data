@@ -176,7 +176,7 @@ export const getPtSituationElementFromSiteDisruption = (
                                         },
                                     }
                                   : {}),
-                              ...(consequence.consequenceType === "journeys"
+                              ...(consequence.consequenceType === "journeys" && CANCELLATION_FEATURE_FLAG
                                   ? {
                                         Operators: {
                                             AffectedOperator: consequence.services.map((service) => ({
