@@ -319,6 +319,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                     inputs: {
                         ...pageState.inputs,
                         services: [serviceToAdd],
+                        journeys: [],
                     },
                     errors: [
                         ...pageState.errors.filter(
