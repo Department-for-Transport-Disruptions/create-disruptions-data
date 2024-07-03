@@ -127,7 +127,6 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
                                 value: userToDelete,
                             },
                         ]}
-                        setIsOpen={setUserToDelete}
                         isOpen={!!userToDelete}
                     />
                 ) : null}
