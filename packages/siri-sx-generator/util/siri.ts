@@ -176,6 +176,16 @@ export const getPtSituationElementFromSiteDisruption = (
                                         },
                                     }
                                   : {}),
+                              ...(consequence.consequenceType === "journeys"
+                                  ? {
+                                        Operators: {
+                                            AffectedOperator: consequence.services.map((service) => ({
+                                                OperatorRef: service.nocCode,
+                                                OperatorName: service.operatorShortName,
+                                            })),
+                                        },
+                                    }
+                                  : {}),
                               ...((consequence.consequenceType === "stops" ||
                                   consequence.consequenceType === "services") &&
                               consequence.stops &&
