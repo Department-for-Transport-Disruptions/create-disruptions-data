@@ -395,6 +395,7 @@ const DisruptionDetail = ({
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
                     hiddenInputs={popUpState.hiddenInputs}
+                    isOpen={!!popUpState}
                 />
             ) : null}
             {socialMediaPostPopUpState && csrfToken ? (
@@ -407,6 +408,7 @@ const DisruptionDetail = ({
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
                     hiddenInputs={socialMediaPostPopUpState.hiddenInputs}
+                    isOpen={!!popUpState}
                 />
             ) : null}
             {duplicateDisruptionPopUpState && csrfToken && !disruption.template ? (
@@ -418,6 +420,7 @@ const DisruptionDetail = ({
                     continueText="Yes, duplicate"
                     cancelText="No, return"
                     questionText="Are you sure you wish to duplicate the disruption?"
+                    isOpen={!!duplicateDisruptionPopUpState}
                 />
             ) : null}
             <CsrfForm
