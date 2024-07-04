@@ -11,6 +11,7 @@ import {
 import { getDisruptionCreationTime } from "@create-disruptions-data/shared-ts/utils";
 import { getDate, getDatetimeFromDateAndTime, getFormattedDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import { AdminArea } from "@create-disruptions-data/shared-ts/utils/refDataApi";
+import { combineDateAndTime } from ".";
 export const getValidityPeriod = (period: Validity): Period[] => {
     const siriValidityPeriods: Period[] = [];
 
@@ -66,6 +67,7 @@ export const getPtSituationElementFromSiteDisruption = (
 ): PtSituationElement => {
     const { STAGE: stage } = process.env;
     const LINE_REF_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
+    const CANCELLATION_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
 
     const currentTime = getDate().toISOString();
 
@@ -130,7 +132,10 @@ export const getPtSituationElementFromSiteDisruption = (
             ? {
                   Consequences: {
                       Consequence: disruption.consequences.map((consequence) => ({
-                          Condition: "unknown",
+                          Condition:
+                              consequence.consequenceType === "journeys" && CANCELLATION_FEATURE_FLAG
+                                  ? "cancelled"
+                                  : "unknown",
                           Severity: consequence.disruptionSeverity,
                           Affects: {
                               ...(consequence.consequenceType === "networkWide" ||
@@ -160,6 +165,29 @@ export const getPtSituationElementFromSiteDisruption = (
                                                 OperatorRef: operator.operatorNoc,
                                                 OperatorName: operator.operatorPublicName,
                                             })),
+                                        },
+                                    }
+                                  : {}),
+                              ...(consequence.consequenceType === "journeys" && CANCELLATION_FEATURE_FLAG
+                                  ? {
+                                        Operators: {
+                                            AffectedOperator: consequence.services.map((service) => ({
+                                                OperatorRef: service.nocCode,
+                                                OperatorName: service.operatorShortName,
+                                            })),
+                                        },
+                                    }
+                                  : {}),
+                              ...(consequence.consequenceType === "journeys" && CANCELLATION_FEATURE_FLAG
+                                  ? {
+                                        Networks: {
+                                            AffectedNetwork: {
+                                                VehicleMode: consequence.vehicleMode,
+                                                AffectedLine: consequence.services.map((service) => ({
+                                                    LineRef: service.lineId.replace(/\s+/g, "_"),
+                                                    PublishedLineName: service.lineName.replace(/\s+/g, "_"),
+                                                })),
+                                            },
                                         },
                                     }
                                   : {}),
@@ -196,7 +224,7 @@ export const getPtSituationElementFromSiteDisruption = (
                                                         OperatorName: service.operatorShortName,
                                                     },
                                                     ...(LINE_REF_FEATURE_FLAG
-                                                        ? { LineRef: service.lineId }
+                                                        ? { LineRef: service.lineId.replace(/\s+/g, "_") }
                                                         : { LineRef: service.lineName.replace(/\s+/g, "_") }),
                                                     PublishedLineName: service.lineName.replace(/\s+/g, "_"),
                                                     ...(consequence.disruptionDirection === "inbound" ||
@@ -227,6 +255,27 @@ export const getPtSituationElementFromSiteDisruption = (
                                                     adminAreas.find((code) => code.administrativeAreaCode === area)
                                                         ?.name || "",
                                                 PlaceCategory: "AdministrativeArea",
+                                            })),
+                                        },
+                                    }
+                                  : {}),
+
+                              ...(consequence.consequenceType === "journeys" &&
+                              consequence.journeys &&
+                              consequence.journeys.length > 0 &&
+                              CANCELLATION_FEATURE_FLAG
+                                  ? {
+                                        VehicleJourneys: {
+                                            AffectedVehicleJourney: consequence.journeys.map((journey) => ({
+                                                VehicleJourneyRef: journey.vehicleJourneyCode,
+                                                Route: "",
+                                                OriginAimedDepartureTime: combineDateAndTime(
+                                                    getDisruptionCreationTime(
+                                                        disruption.history || [],
+                                                        disruption.creationTime || null,
+                                                    ),
+                                                    journey.departureTime,
+                                                ),
                                             })),
                                         },
                                     }

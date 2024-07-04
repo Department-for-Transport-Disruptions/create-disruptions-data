@@ -293,6 +293,7 @@ export const COOKIES_CONSEQUENCE_OPERATOR_ERRORS = "cdd-consequence-operator-err
 export const COOKIES_CONSEQUENCE_NETWORK_ERRORS = "cdd-consequence-network-errors";
 export const COOKIES_CONSEQUENCE_STOPS_ERRORS = "cdd-consequence-stops-errors";
 export const COOKIES_CONSEQUENCE_SERVICES_ERRORS = "cdd-consequence-services-errors";
+export const COOKIES_CONSEQUENCE_JOURNEYS_ERRORS = "cdd-consequence-journeys-errors";
 export const COOKIES_LOGIN_ERRORS = "cdd-login-errors";
 export const COOKIES_FORGOT_PASSWORD_ERRORS = "cdd-forgot-password-errors";
 export const COOKIES_RESET_PASSWORD_ERRORS = "cdd-reset-password-errors";

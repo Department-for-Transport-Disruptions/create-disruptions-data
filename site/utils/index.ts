@@ -1,6 +1,7 @@
 import {
     Consequence,
     Disruption,
+    JourneysConsequence,
     NetworkConsequence,
     OperatorConsequence,
     Routes,
@@ -86,6 +87,9 @@ export const isStopsConsequence = (consequence: unknown): consequence is StopsCo
 
 export const isServicesConsequence = (consequence: unknown): consequence is ServicesConsequence =>
     isFullConsequence(consequence) && consequence.consequenceType === "services";
+
+export const isJourneysConsequence = (consequence: unknown): consequence is JourneysConsequence =>
+    isFullConsequence(consequence) && consequence.consequenceType === "journeys";
 
 export const getLargestConsequenceIndex = (disruption: FullDisruption) => {
     const largestConsequenceIndex =

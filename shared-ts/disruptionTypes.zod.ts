@@ -746,7 +746,7 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
     });
 
 const baseConsequence = {
-    disruptionId: z.string(),
+    disruptionId: z.string().uuid(),
     description: z.string(setZodDefaultError("Enter a consequence description")).min(1).max(1000, {
         message: "Description must not exceed 1000 characters",
     }),
