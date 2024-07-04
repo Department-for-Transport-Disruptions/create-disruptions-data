@@ -1,5 +1,11 @@
 import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import {
+    Datasource,
+    MiscellaneousReason,
+    PublishStatus,
+    Severity,
+    VehicleMode,
+} from "@create-disruptions-data/shared-ts/enums";
 import { describe, expect, it } from "vitest";
 import {
     generateConsequenceStats,
@@ -68,6 +74,52 @@ const mockDisruption: Disruption = {
             orgId: "76a85b15-0523-4fa7-95ee-0d9caf05e2d4",
             consequenceType: "networkWide",
         },
+        {
+            disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+            description:
+                "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            removeFromJourneyPlanners: "no",
+            disruptionDelay: "45",
+            disruptionSeverity: Severity.unknown,
+            vehicleMode: "bus" as VehicleMode,
+            consequenceIndex: 0,
+            consequenceType: "journeys",
+            services: [
+                {
+                    destination: "HigH Green",
+                    id: 23127,
+                    lineName: "1",
+                    nocCode: "TEST",
+                    operatorShortName: "First South Yorkshire",
+                    origin: "Jordanthorpe",
+                    startDate: "2023-07-23",
+                    serviceCode: "NW_04_SCMN_149_1",
+                    dataSource: Datasource.tnds,
+                    lineId: "SL1",
+                    endDate: "2023-08-10",
+                },
+            ],
+            journeys: [
+                {
+                    dataSource: Datasource.tnds,
+                    journeyCode: null,
+                    vehicleJourneyCode: "VJ24",
+                    departureTime: "17:30:00",
+                    destination: "Liverpool Sir Thomas Street",
+                    origin: "Chester Bus Interchange",
+                    direction: "outbound",
+                },
+                {
+                    dataSource: Datasource.tnds,
+                    journeyCode: null,
+                    vehicleJourneyCode: "VJ25",
+                    departureTime: "18:00:00",
+                    destination: "Liverpool Sir Thomas Street",
+                    origin: "Chester Bus Interchange",
+                    direction: "outbound",
+                },
+            ],
+        },
     ],
     lastUpdated: "2023-10-11T12:00:00Z",
     publishStatus: PublishStatus.published,
@@ -88,9 +140,11 @@ describe("generateConsequenceStats", () => {
         expect(generateConsequenceStats("test-org", mockDisruption)).toEqual({
             "test-org": {
                 ...initialConsequenceStatsValues,
-                totalConsequencesCount: 2,
+                totalConsequencesCount: 3,
                 operatorWideConsequencesCount: 1,
                 networkWideConsequencesCount: 1,
+                journeysAffected: 2,
+                journeysConsequencesCount: 1,
             },
         });
     });
@@ -104,11 +158,13 @@ describe("generateSiriStats", () => {
                     roadworks: 2,
                 },
                 ...initialConsequenceStatsValues,
-                totalConsequencesCount: 4,
+                totalConsequencesCount: 6,
                 operatorWideConsequencesCount: 2,
                 networkWideConsequencesCount: 2,
                 lastUpdated: "2023-10-11T12:00:00Z",
                 totalDisruptionsCount: 2,
+                journeysAffected: 4,
+                journeysConsequencesCount: 2,
             },
         });
     });
@@ -128,11 +184,13 @@ describe("generateSiriStats", () => {
                     roadworks: 2,
                 },
                 ...initialConsequenceStatsValues,
-                totalConsequencesCount: 4,
+                totalConsequencesCount: 6,
                 operatorWideConsequencesCount: 2,
                 networkWideConsequencesCount: 2,
                 lastUpdated: "2023-11-11T14:00:00Z",
                 totalDisruptionsCount: 2,
+                journeysAffected: 4,
+                journeysConsequencesCount: 2,
             },
         });
     });

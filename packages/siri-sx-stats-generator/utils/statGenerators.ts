@@ -6,6 +6,8 @@ export interface SiriStats {
     servicesAffected: number;
     stopsConsequencesCount: number;
     stopsAffected: number;
+    journeysConsequencesCount: number;
+    journeysAffected: number;
     networkWideConsequencesCount: number;
     operatorWideConsequencesCount: number;
     totalConsequencesCount: number;
@@ -20,6 +22,8 @@ export const initialConsequenceStatsValues = {
     servicesAffected: 0,
     stopsConsequencesCount: 0,
     stopsAffected: 0,
+    journeysConsequencesCount: 0,
+    journeysAffected: 0,
     networkWideConsequencesCount: 0,
     operatorWideConsequencesCount: 0,
 };
@@ -46,6 +50,14 @@ export const generateConsequenceStats = (key: string, disruption: Disruption) =>
                         : acc[key].stopsConsequencesCount,
                 stopsAffected:
                     consequence.consequenceType === "stops" ? consequence.stops.length : acc[key].stopsAffected,
+                journeysConsequencesCount:
+                    consequence.consequenceType === "journeys"
+                        ? acc[key].journeysConsequencesCount + 1
+                        : acc[key].journeysConsequencesCount,
+                journeysAffected:
+                    consequence.consequenceType === "journeys"
+                        ? consequence.journeys.length
+                        : acc[key].journeysAffected,
                 networkWideConsequencesCount:
                     consequence.consequenceType === "networkWide"
                         ? acc[key].networkWideConsequencesCount + 1
@@ -113,6 +125,9 @@ export const generateSiriStats = (disruptions: Disruption[]) => {
                 servicesAffected: acc[key].servicesAffected + consequenceStats[key].servicesAffected,
                 stopsConsequencesCount: acc[key].stopsConsequencesCount + consequenceStats[key].stopsConsequencesCount,
                 stopsAffected: acc[key].stopsAffected + consequenceStats[key].stopsAffected,
+                journeysConsequencesCount:
+                    acc[key].journeysConsequencesCount + consequenceStats[key].journeysConsequencesCount,
+                journeysAffected: acc[key].journeysAffected + consequenceStats[key].journeysAffected,
                 networkWideConsequencesCount:
                     acc[key].networkWideConsequencesCount + consequenceStats[key].networkWideConsequencesCount,
                 operatorWideConsequencesCount:
