@@ -81,7 +81,7 @@ export const networksSchema = z.object({
         AffectedLine: z
             .array(
                 z.object({
-                    AffectedOperator: affectedOperatorSchema,
+                    AffectedOperator: affectedOperatorSchema.optional(),
                     LineRef: z.string(),
                     // Make compulsory when using new siri schema and when feature flag PUBLISHED_LINE_NAME_FEATURE_FLAG is removed
                     PublishedLineName: z.string().optional(),
