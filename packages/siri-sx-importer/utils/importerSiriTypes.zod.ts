@@ -137,7 +137,7 @@ export const journeysSchema = z.object({
 });
 
 export const consequenceItem = z.object({
-    Condition: z.literal("unknown").or(z.literal("cancelled")),
+    Condition: z.enum(["unknown", "cancelled"]),
     Severity: z.preprocess((val) => (val === "undefined" ? Severity.unknown : val), z.nativeEnum(Severity)),
     Affects: z.object({
         Operators: operatorsSchema.optional(),

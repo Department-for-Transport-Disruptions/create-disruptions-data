@@ -137,7 +137,7 @@ export const journeysSchema = z.object({
 export const consequenceSchema = z.object({
     Consequence: z.array(
         z.object({
-            Condition: z.literal("unknown").or(z.literal("cancelled")),
+            Condition: z.enum(["unknown", "cancelled"]),
             Severity: z.nativeEnum(Severity),
             Affects: z.object({
                 Operators: operatorsSchema.optional(),
