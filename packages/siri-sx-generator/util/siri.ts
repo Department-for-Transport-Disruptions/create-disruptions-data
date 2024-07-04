@@ -154,7 +154,6 @@ export const getPtSituationElementFromSiteDisruption = (
                                     }
                                   : {}),
                               ...(consequence.consequenceType === "networkWide" ||
-                              (consequence.consequenceType === "journeys" && CANCELLATION_FEATURE_FLAG) ||
                               consequence.consequenceType === "operatorWide" ||
                               consequence.consequenceType === "stops"
                                   ? {
@@ -183,6 +182,19 @@ export const getPtSituationElementFromSiteDisruption = (
                                                 OperatorRef: service.nocCode,
                                                 OperatorName: service.operatorShortName,
                                             })),
+                                        },
+                                    }
+                                  : {}),
+                              ...(consequence.consequenceType === "journeys" && CANCELLATION_FEATURE_FLAG
+                                  ? {
+                                        Networks: {
+                                            AffectedNetwork: {
+                                                VehicleMode: consequence.vehicleMode,
+                                                AffectedLine: consequence.services.map((service) => ({
+                                                    LineRef: service.lineId.replace(/\s+/g, "_"),
+                                                    PublishedLineName: service.lineName.replace(/\s+/g, "_"),
+                                                })),
+                                            },
                                         },
                                     }
                                   : {}),
