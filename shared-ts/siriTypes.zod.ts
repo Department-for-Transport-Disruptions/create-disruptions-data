@@ -81,7 +81,7 @@ export const networksSchema = z.object({
         AffectedLine: z
             .array(
                 z.object({
-                    AffectedOperator: affectedOperatorSchema,
+                    AffectedOperator: affectedOperatorSchema.optional(),
                     LineRef: z.string(),
                     // Make compulsory when using new siri schema and when feature flag PUBLISHED_LINE_NAME_FEATURE_FLAG is removed
                     PublishedLineName: z.string().optional(),
@@ -124,16 +124,27 @@ export const stopPointsSchema = z.object({
     ),
 });
 
+export const journeysSchema = z.object({
+    AffectedVehicleJourney: z.array(
+        z.object({
+            VehicleJourneyRef: z.string(),
+            Route: z.string(),
+            OriginAimedDepartureTime: z.string(),
+        }),
+    ),
+});
+
 export const consequenceSchema = z.object({
     Consequence: z.array(
         z.object({
-            Condition: z.literal("unknown"),
+            Condition: z.enum(["unknown", "cancelled"]),
             Severity: z.nativeEnum(Severity),
             Affects: z.object({
                 Operators: operatorsSchema.optional(),
                 Networks: networksSchema.optional(),
                 Places: placesSchema.optional(),
                 StopPoints: stopPointsSchema.optional(),
+                VehicleJourneys: journeysSchema.optional(),
             }),
             Advice: z.object({
                 Details: z.string(),
