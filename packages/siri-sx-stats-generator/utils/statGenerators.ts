@@ -1,7 +1,7 @@
 import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 
-// Make journey stats compulsory after CANCELLATION_FEATURE_FLAG is removed
+// Make journey stats compulsory after cancelFeatureFlag is removed
 export interface SiriStats {
     servicesConsequencesCount: number;
     servicesAffected: number;
@@ -28,13 +28,11 @@ export const initialConsequenceStatsValues = (cancelFeatureFlag: boolean) => ({
     operatorWideConsequencesCount: 0,
 });
 
-export const generateConsequenceStats = (key: string, disruption: Disruption) => {
-    const { STAGE: stage } = process.env;
-    const CANCELLATION_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
+export const generateConsequenceStats = (key: string, disruption: Disruption, cancelFeatureFlag: boolean) => {
     if (disruption.consequences) {
         return disruption.consequences.reduce((acc: Record<string, Record<string, number>>, consequence) => {
             if (!acc.hasOwnProperty(key)) {
-                acc[key] = initialConsequenceStatsValues(CANCELLATION_FEATURE_FLAG);
+                acc[key] = initialConsequenceStatsValues(cancelFeatureFlag);
             }
             acc[key] = {
                 totalConsequencesCount: acc[key].totalConsequencesCount + 1,
@@ -52,7 +50,7 @@ export const generateConsequenceStats = (key: string, disruption: Disruption) =>
                         : acc[key].stopsConsequencesCount,
                 stopsAffected:
                     consequence.consequenceType === "stops" ? consequence.stops.length : acc[key].stopsAffected,
-                ...(CANCELLATION_FEATURE_FLAG
+                ...(cancelFeatureFlag
                     ? {
                           journeysConsequencesCount:
                               consequence.consequenceType === "journeys"
@@ -96,19 +94,17 @@ export const generateDisruptionReasonCount = (
     }
 };
 
-export const generateSiriStats = (disruptions: Disruption[]) => {
-    const { STAGE: stage } = process.env;
-    const CANCELLATION_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
+export const generateSiriStats = (disruptions: Disruption[], cancelFeatureFlag: boolean) => {
     return disruptions.reduce((acc: Record<string, SiriStats>, disruption) => {
         const key = disruption.orgId ? disruption.orgId : "";
-        const consequenceStats = generateConsequenceStats(key, disruption);
+        const consequenceStats = generateConsequenceStats(key, disruption, cancelFeatureFlag);
         if (consequenceStats?.[key]) {
             if (!acc.hasOwnProperty(key)) {
                 acc[key] = {
                     disruptionReasonCount: {},
                     totalDisruptionsCount: 0,
                     lastUpdated: "",
-                    ...initialConsequenceStatsValues(CANCELLATION_FEATURE_FLAG),
+                    ...initialConsequenceStatsValues(cancelFeatureFlag),
                 };
             }
 
@@ -133,7 +129,7 @@ export const generateSiriStats = (disruptions: Disruption[]) => {
                 servicesAffected: acc[key].servicesAffected + consequenceStats[key].servicesAffected,
                 stopsConsequencesCount: acc[key].stopsConsequencesCount + consequenceStats[key].stopsConsequencesCount,
                 stopsAffected: acc[key].stopsAffected + consequenceStats[key].stopsAffected,
-                ...(CANCELLATION_FEATURE_FLAG
+                ...(cancelFeatureFlag
                     ? {
                           journeysConsequencesCount:
                               acc[key]?.journeysConsequencesCount ||

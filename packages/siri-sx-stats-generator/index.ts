@@ -87,7 +87,12 @@ export const main = async (): Promise<void> => {
         };
         logger.info("Starting SIRI-SX stats generator...");
 
-        const { DISRUPTIONS_TABLE_NAME: disruptionsTableName, ORGANISATIONS_TABLE_NAME: orgTableName } = process.env;
+        const {
+            DISRUPTIONS_TABLE_NAME: disruptionsTableName,
+            ORGANISATIONS_TABLE_NAME: orgTableName,
+            STAGE: stage,
+        } = process.env;
+        const CANCELLATION_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
 
         if (!disruptionsTableName || !orgTableName) {
             throw new Error("Dynamo table names not set");
@@ -97,7 +102,7 @@ export const main = async (): Promise<void> => {
 
         const activeDisruptions = filterActiveDisruptions(disruptions);
 
-        const siriStats = generateSiriStats(activeDisruptions);
+        const siriStats = generateSiriStats(activeDisruptions, CANCELLATION_FEATURE_FLAG);
 
         await publishStatsToDynamo(orgTableName, siriStats);
 
