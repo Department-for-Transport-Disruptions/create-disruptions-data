@@ -771,24 +771,19 @@ export const networkConsequenceSchema = z.object({
         .optional(),
 });
 
-export const refinedNetworkConsequenceSchema = (networkAreaFeatureFlag: boolean) => {
-    return networkConsequenceSchema.refine(
-        (item) => {
-            if (
-                networkAreaFeatureFlag &&
-                (!item.disruptionArea || (item.disruptionArea && item.disruptionArea.length === 0))
-            ) {
-                return false;
-            } else {
-                return true;
-            }
-        },
-        {
-            path: ["disruptionArea"],
-            message: "Select one or more disruption areas",
-        },
-    );
-};
+export const refinedNetworkConsequenceSchema = networkConsequenceSchema.refine(
+    (item) => {
+        if (!item.disruptionArea || (item.disruptionArea && item.disruptionArea.length === 0)) {
+            return false;
+        } else {
+            return true;
+        }
+    },
+    {
+        path: ["disruptionArea"],
+        message: "Select one or more disruption areas",
+    },
+);
 
 export const consequenceOperatorsSchema = z.object({
     operatorNoc: z.string(),

@@ -83,8 +83,7 @@ export const networksSchema = z.object({
                 z.object({
                     AffectedOperator: affectedOperatorSchema.optional(),
                     LineRef: z.string(),
-                    // Make compulsory when using new siri schema and when feature flag PUBLISHED_LINE_NAME_FEATURE_FLAG is removed
-                    PublishedLineName: z.string().optional(),
+                    PublishedLineName: z.string(),
                     Direction: z
                         .object({
                             DirectionRef: z.union([z.literal("inboundTowardsTown"), z.literal("outboundFromTown")]),
