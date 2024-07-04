@@ -137,7 +137,7 @@ describe("generateDisruptionReasonCount", () => {
 
 describe("generateConsequenceStats", () => {
     it("for a given disruption it correctly counts to the total number of consequences and the number of consequence types", () => {
-        expect(generateConsequenceStats("test-org", mockDisruption)).toEqual({
+        expect(generateConsequenceStats("test-org", mockDisruption, true)).toEqual({
             "test-org": {
                 ...initialConsequenceStatsValues(true),
                 totalConsequencesCount: 3,
@@ -152,7 +152,7 @@ describe("generateConsequenceStats", () => {
 
 describe("generateSiriStats", () => {
     it("correctly calculates the stats for a given set of disruptions", () => {
-        expect(generateSiriStats([mockDisruption, mockDisruption])).toEqual({
+        expect(generateSiriStats([mockDisruption, mockDisruption], true)).toEqual({
             "76a85b15-0523-4fa7-95ee-0d9caf05e2d4": {
                 disruptionReasonCount: {
                     roadworks: 2,
@@ -178,7 +178,7 @@ describe("generateSiriStats", () => {
             ],
         ],
     ])("correctly calculates the last updated date for multiple disruptions", (testData) => {
-        expect(generateSiriStats(testData)).toEqual({
+        expect(generateSiriStats(testData, true)).toEqual({
             "76a85b15-0523-4fa7-95ee-0d9caf05e2d4": {
                 disruptionReasonCount: {
                     roadworks: 2,
