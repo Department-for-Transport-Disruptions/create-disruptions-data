@@ -65,9 +65,6 @@ export const getPtSituationElementFromSiteDisruption = (
     adminAreas: AdminArea[],
 ): PtSituationElement => {
     const { STAGE: stage } = process.env;
-    const PUBLISHED_LINE_NAME_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
-    const VERSION_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
-    const AFFECTED_PLACE_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
     const LINE_REF_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
 
     const currentTime = getDate().toISOString();
@@ -86,14 +83,10 @@ export const getPtSituationElementFromSiteDisruption = (
     });
 
     const ptSituationElement: Omit<PtSituationElement, Reason | "ReasonType"> = {
-        ...(VERSION_FEATURE_FLAG
-            ? {
-                  Version: disruption.history?.length || 1,
-                  VersionedAtTime:
-                      disruption.lastUpdated ??
-                      getDisruptionCreationTime(disruption.history ?? null, disruption.creationTime ?? null),
-              }
-            : {}),
+        Version: disruption.history?.length || 1,
+        VersionedAtTime:
+            disruption.lastUpdated ??
+            getDisruptionCreationTime(disruption.history ?? null, disruption.creationTime ?? null),
         CreationTime: getDisruptionCreationTime(disruption.history ?? null, disruption.creationTime ?? null),
         Planned: disruption.disruptionType === "planned",
         Summary: disruption.summary,
@@ -205,9 +198,7 @@ export const getPtSituationElementFromSiteDisruption = (
                                                     ...(LINE_REF_FEATURE_FLAG
                                                         ? { LineRef: service.lineId }
                                                         : { LineRef: service.lineName.replace(/\s+/g, "_") }),
-                                                    ...(PUBLISHED_LINE_NAME_FEATURE_FLAG
-                                                        ? { PublishedLineName: service.lineName.replace(/\s+/g, "_") }
-                                                        : {}),
+                                                    PublishedLineName: service.lineName.replace(/\s+/g, "_"),
                                                     ...(consequence.disruptionDirection === "inbound" ||
                                                     consequence.disruptionDirection === "outbound"
                                                         ? {
@@ -226,7 +217,6 @@ export const getPtSituationElementFromSiteDisruption = (
                                   : {}),
 
                               ...(consequence.consequenceType === "networkWide" &&
-                              AFFECTED_PLACE_FEATURE_FLAG &&
                               consequence.disruptionArea &&
                               consequence.disruptionArea.length > 0
                                   ? {
