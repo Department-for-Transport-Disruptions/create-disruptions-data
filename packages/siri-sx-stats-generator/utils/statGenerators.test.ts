@@ -139,7 +139,7 @@ describe("generateConsequenceStats", () => {
     it("for a given disruption it correctly counts to the total number of consequences and the number of consequence types", () => {
         expect(generateConsequenceStats("test-org", mockDisruption)).toEqual({
             "test-org": {
-                ...initialConsequenceStatsValues,
+                ...initialConsequenceStatsValues(true),
                 totalConsequencesCount: 3,
                 operatorWideConsequencesCount: 1,
                 networkWideConsequencesCount: 1,
@@ -157,14 +157,14 @@ describe("generateSiriStats", () => {
                 disruptionReasonCount: {
                     roadworks: 2,
                 },
-                ...initialConsequenceStatsValues,
+                ...initialConsequenceStatsValues(true),
                 totalConsequencesCount: 6,
                 operatorWideConsequencesCount: 2,
                 networkWideConsequencesCount: 2,
                 lastUpdated: "2023-10-11T12:00:00Z",
                 totalDisruptionsCount: 2,
-                journeysAffected: 4,
-                journeysConsequencesCount: 2,
+                journeysAffected: 2,
+                journeysConsequencesCount: 1,
             },
         });
     });
@@ -183,14 +183,14 @@ describe("generateSiriStats", () => {
                 disruptionReasonCount: {
                     roadworks: 2,
                 },
-                ...initialConsequenceStatsValues,
+                ...initialConsequenceStatsValues(true),
                 totalConsequencesCount: 6,
                 operatorWideConsequencesCount: 2,
                 networkWideConsequencesCount: 2,
                 lastUpdated: "2023-11-11T14:00:00Z",
                 totalDisruptionsCount: 2,
-                journeysAffected: 4,
-                journeysConsequencesCount: 2,
+                journeysAffected: 2,
+                journeysConsequencesCount: 1,
             },
         });
     });
