@@ -1,8 +1,8 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`SIRI-SX Generator > correctly generates Disruptions CSV 1`] = `
-"Organisation,ID,Validity start,Validity end,Publication start,Publication end,Reason,Planned,Modes affected,Operators affected,Services affected,Stops affected
-Test Org,acde070d-8c4c-4f0d-9d8a-162843c10333,2023-03-10T12:00:00.000Z,,2023-03-10T12:00:00.000Z,,staffInWrongPlace,true,bus;tram;rail,FSYO,1,"
+"Organisation,ID,Validity start,Validity end,Publication start,Publication end,Reason,Planned,Modes affected,Operators affected,Services affected,Stops affected,Journeys affected
+Test Org,acde070d-8c4c-4f0d-9d8a-162843c10333,2023-03-10T12:00:00.000Z,,2023-03-10T12:00:00.000Z,,staffInWrongPlace,true,bus;tram;rail,FSYO,1,,2"
 `;
 
 exports[`SIRI-SX Generator > correctly generates Disruptions JSON 1`] = `
@@ -56,6 +56,49 @@ exports[`SIRI-SX Generator > correctly generates Disruptions JSON 1`] = `
           },
         ],
         "vehicleMode": "rail",
+      },
+      {
+        "consequenceType": "journeys",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        "disruptionDelay": "45",
+        "disruptionSeverity": "unknown",
+        "journeys": [
+          {
+            "dataSource": "tnds",
+            "departureTime": "17:30:00",
+            "destination": "Liverpool Sir Thomas Street",
+            "direction": "outbound",
+            "journeyCode": null,
+            "origin": "Chester Bus Interchange",
+            "vehicleJourneyCode": "VJ24",
+          },
+          {
+            "dataSource": "tnds",
+            "departureTime": "18:00:00",
+            "destination": "Liverpool Sir Thomas Street",
+            "direction": "outbound",
+            "journeyCode": null,
+            "origin": "Chester Bus Interchange",
+            "vehicleJourneyCode": "VJ25",
+          },
+        ],
+        "removeFromJourneyPlanners": "no",
+        "services": [
+          {
+            "dataSource": "tnds",
+            "destination": "HigH Green",
+            "endDate": "2023-08-10",
+            "id": 23127,
+            "lineId": "SL1",
+            "lineName": "1",
+            "nocCode": "TEST",
+            "operatorShortName": "First South Yorkshire",
+            "origin": "Jordanthorpe",
+            "serviceCode": "NW_04_SCMN_149_1",
+            "startDate": "2023-07-23",
+          },
+        ],
+        "vehicleMode": "bus",
       },
     ],
     "description": "Test description",
@@ -225,6 +268,48 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML 1`] = `
                             <Blocking>
                                 <JourneyPlanner>true</JourneyPlanner>
                             </Blocking>
+                        </Consequence>
+                        <Consequence>
+                            <Condition>cancelled</Condition>
+                            <Severity>unknown</Severity>
+                            <Affects>
+                                <Operators>
+                                    <AffectedOperator>
+                                        <OperatorRef>TEST</OperatorRef>
+                                        <OperatorName>First South Yorkshire</OperatorName>
+                                    </AffectedOperator>
+                                </Operators>
+                                <Networks>
+                                    <AffectedNetwork>
+                                        <VehicleMode>bus</VehicleMode>
+                                        <AffectedLine>
+                                            <LineRef>SL1</LineRef>
+                                            <PublishedLineName>1</PublishedLineName>
+                                        </AffectedLine>
+                                    </AffectedNetwork>
+                                </Networks>
+                                <VehicleJourneys>
+                                    <AffectedVehicleJourney>
+                                        <VehicleJourneyRef>VJ24</VehicleJourneyRef>
+                                        <Route/>
+                                        <OriginAimedDepartureTime>2023-05-13T17:30:00.000Z</OriginAimedDepartureTime>
+                                    </AffectedVehicleJourney>
+                                    <AffectedVehicleJourney>
+                                        <VehicleJourneyRef>VJ25</VehicleJourneyRef>
+                                        <Route/>
+                                        <OriginAimedDepartureTime>2023-05-13T18:00:00.000Z</OriginAimedDepartureTime>
+                                    </AffectedVehicleJourney>
+                                </VehicleJourneys>
+                            </Affects>
+                            <Advice>
+                                <Details>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</Details>
+                            </Advice>
+                            <Blocking>
+                                <JourneyPlanner>false</JourneyPlanner>
+                            </Blocking>
+                            <Delays>
+                                <Delay>PT45M</Delay>
+                            </Delays>
                         </Consequence>
                     </Consequences>
                 </PtSituationElement>

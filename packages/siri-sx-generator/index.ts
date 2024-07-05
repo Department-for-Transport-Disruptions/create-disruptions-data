@@ -123,6 +123,7 @@ export const generateSiriSxAndUploadToS3 = async (
     disruptionsCsvBucketName: string,
     responseMessageIdentifier: string,
     currentTime: string,
+    cancelFeatureFlag: boolean,
 ) => {
     logger.info(`Scanning DynamoDB table...`);
 
@@ -133,7 +134,7 @@ export const generateSiriSxAndUploadToS3 = async (
 
         const siri = await convertJsonToSiri(disruptionsWithOrgInfo, currentTime, responseMessageIdentifier);
         const apiDisruptions = getApiDisruptions(disruptionsWithOrgInfo);
-        const dataCatalogueCsv = await convertToCsv(apiDisruptions);
+        const dataCatalogueCsv = await convertToCsv(apiDisruptions, cancelFeatureFlag);
 
         await Promise.all([
             uploadToS3(
@@ -179,6 +180,8 @@ export const main = async (): Promise<void> => {
             STAGE: stage,
         } = process.env;
 
+        const CANCELLATION_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
+
         if (!stage) {
             throw new Error("Stage must be set");
         }
@@ -203,6 +206,7 @@ export const main = async (): Promise<void> => {
             disruptionsCsvBucketName,
             responseMessageIdentifier,
             currentTime.toISOString(),
+            CANCELLATION_FEATURE_FLAG,
         );
 
         logger.info("Unvalidated SIRI-SX XML and Disruptions JSON/CSV created and published to S3");

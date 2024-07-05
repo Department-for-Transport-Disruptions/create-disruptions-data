@@ -48,6 +48,7 @@ describe("SIRI-SX Generator", () => {
             "disruptions-csv-bucket",
             "abcde-fghij-klmno-pqrst",
             "2023-08-17T00:00:00Z",
+            true,
         );
 
         const s3PutSiriCommand = s3Mock.commandCalls(PutObjectCommand)[0].args[0];
@@ -74,6 +75,7 @@ describe("SIRI-SX Generator", () => {
             "disruptions-csv-bucket",
             "abcde-fghij-klmno-pqrst",
             "2023-03-06T12:00:00Z",
+            true,
         );
 
         const s3PutSiriCommand = s3Mock.commandCalls(PutObjectCommand)[0].args[0];
@@ -100,6 +102,7 @@ describe("SIRI-SX Generator", () => {
             "disruptions-csv-bucket",
             "abcde-fghij-klmno-pqrst",
             "2023-03-06T12:00:00Z",
+            true,
         );
 
         const s3PutJsonCommand = s3Mock.commandCalls(PutObjectCommand)[1].args[0];
@@ -122,6 +125,7 @@ describe("SIRI-SX Generator", () => {
             "disruptions-csv-bucket",
             "abcde-fghij-klmno-pqrst",
             "2023-03-06T12:00:00Z",
+            true,
         );
 
         const s3PutCsvCommand = s3Mock.commandCalls(PutObjectCommand)[2].args[0];
