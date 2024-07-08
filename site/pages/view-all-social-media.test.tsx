@@ -1,8 +1,8 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
-import ViewAllSocialMedia from "./view-all-social-media.page";
+import { describe, expect, it } from "vitest";
 import { SocialMediaPost } from "../schemas/social-media.schema";
+import ViewAllSocialMedia from "./view-all-social-media.page";
 
 const mockPosts: SocialMediaPost[] = [
     {

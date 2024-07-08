@@ -1,10 +1,10 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { z } from "zod";
-import { nextdoorAgencyBoundaryInput } from "./nextdoor.schema";
 import { ACCEPTED_IMAGE_TYPES, MAX_FILE_SIZE } from "../constants";
 import { setZodDefaultError } from "../utils";
 import { isAtLeast5MinutesAfter } from "../utils/dates";
+import { nextdoorAgencyBoundaryInput } from "./nextdoor.schema";
 
 const socialMediaImageSchema = z.object({
     filepath: z.string(),
@@ -81,15 +81,14 @@ export const refineImageSchema = socialMediaPostSchema
     })
     .refine(
         (item) => {
-            return item.image && item.image.size ? item.image.size <= MAX_FILE_SIZE : true;
+            return item.image?.size ? item.image.size <= MAX_FILE_SIZE : true;
         },
-        { path: ["image"], message: `Max image size is 5MB.` },
+        { path: ["image"], message: "Max image size is 5MB." },
     )
-    .refine(
-        (item) =>
-            item.image && item.image.size ? ACCEPTED_IMAGE_TYPES.includes(item.image.mimetype ?? "undefined") : true,
-        { path: ["image"], message: "Only .jpg, .jpeg and .png formats are supported." },
-    )
+    .refine((item) => (item.image?.size ? ACCEPTED_IMAGE_TYPES.includes(item.image.mimetype ?? "undefined") : true), {
+        path: ["image"],
+        message: "Only .jpg, .jpeg and .png formats are supported.",
+    })
     .refine(
         (item) =>
             item.accountType === "Hootsuite" && item.publishDate && item.publishTime

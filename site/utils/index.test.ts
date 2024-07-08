@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 import { DisruptionInfo, OperatorConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import {
     disruptionInfoSchema,
@@ -5,12 +6,11 @@ import {
 } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, expect, it } from "vitest";
-import { randomUUID } from "crypto";
-import { getPageState } from "./apiUtils";
-import { getFutureDateAsString } from "./dates";
+import { filterDisruptionsForOperatorUser, splitCamelCaseToString, toTitleCase } from ".";
 import { CD_DATE_FORMAT } from "../constants";
 import { DEFAULT_ORG_ID, disruptionWithNoConsequences } from "../testData/mockData";
-import { filterDisruptionsForOperatorUser, splitCamelCaseToString, toTitleCase } from ".";
+import { getPageState } from "./apiUtils";
+import { getFutureDateAsString } from "./dates";
 
 describe("utils tests", () => {
     it.each([

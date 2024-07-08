@@ -3,8 +3,6 @@
     "version": "0.1.0",
     "type": "module",
     "scripts": {
-        "test": "vitest",
-        "test:updateSnapshots": "vitest -u",
         "typecheck": "tsc -noEmit"
     },
     "devDependencies": {
@@ -12,11 +10,12 @@
         "@types/aws-lambda": "^8.10.110",
         "@types/lambda-log": "^2.2.1",
         "@types/node": "^20.10.5",
-        "ts-node": "^10.9.1"
+        "ts-node": "^10.9.1",
+        "vitest": "^0.29.1"
     },
     "dependencies": {
-        "@aws-sdk/client-s3": "^3.388.0",
-        "@create-disruptions-data/shared-ts": "file:../../shared-ts",
+        "@aws-sdk/client-s3": "^3.609.0",
+        "@create-disruptions-data/shared-ts": "workspace:^",
         "lambda-log": "^3.1.0"
     }
 }

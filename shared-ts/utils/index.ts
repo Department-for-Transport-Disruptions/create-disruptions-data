@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import { History } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Dayjs } from "dayjs";
 import * as logger from "lambda-log";
-import { History } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
-import { getDate, getDatetimeFromDateAndTime, getFormattedDate, sortEarliestDate } from "./dates";
-import { getParameter } from "./ssm";
 import { Disruption, Validity } from "../disruptionTypes";
 import { Roadwork } from "../roadwork.zod";
+import { getDate, getDatetimeFromDateAndTime, getFormattedDate, sortEarliestDate } from "./dates";
+import { getParameter } from "./ssm";
 
 export const notEmpty = <T>(value: T | null | undefined): value is T => {
     return value !== null && value !== undefined;
@@ -108,8 +107,8 @@ export const getSortedDisruptionFinalEndDate = (disruption: Disruption | ApiDisr
                 validity.disruptionRepeatsEndDate
                     ? getFormattedDate(validity.disruptionRepeatsEndDate)
                     : validity.disruptionEndDate && validity.disruptionEndTime
-                    ? getDatetimeFromDateAndTime(validity.disruptionEndDate, validity.disruptionEndTime)
-                    : null;
+                      ? getDatetimeFromDateAndTime(validity.disruptionEndDate, validity.disruptionEndTime)
+                      : null;
 
             if (repeatsEndDate && (repeatsEndDate.isAfter(disruptionEndDate) || disruptionEndDate === null)) {
                 disruptionEndDate = repeatsEndDate;
@@ -170,14 +169,16 @@ export const getDisruptionCreationTime = (disruptionHistory: History[] | null, c
     const currentTime = getDate().toISOString();
     if (creationTime) {
         return creationTime;
-    } else if (disruptionHistory && disruptionHistory.length > 0) {
+    }
+
+    if (disruptionHistory && disruptionHistory.length > 0) {
         return (
             disruptionHistory.find((h) => !!h.historyItems.find((item) => item === "Disruption created and published"))
                 ?.datetime ?? currentTime
         );
-    } else {
-        return currentTime;
     }
+
+    return currentTime;
 };
 
 export const getNextdoorClientIdAndSecret = async () => {

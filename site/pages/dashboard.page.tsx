@@ -1,15 +1,15 @@
+import { randomUUID } from "crypto";
 import { Progress } from "@create-disruptions-data/shared-ts/enums";
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import { LoadingBox } from "@govuk-react/loading-box";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import { ReactElement, useEffect, useRef, useState } from "react";
-import { randomUUID } from "crypto";
+import { getDisruptionData } from "../components/ViewAllContents";
 import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import PageNumbers from "../components/layout/PageNumbers";
 import Tabs from "../components/layout/Tabs";
-import { getDisruptionData } from "../components/ViewAllContents";
 import { DASHBOARD_PAGE_PATH, VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../constants";
 import { TableDisruption } from "../schemas/disruption.schema";
 import { reduceStringWithEllipsis } from "../utils";
@@ -170,7 +170,6 @@ const Dashboard = ({
             .catch(() => {
                 setIsLoading(false);
             });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {

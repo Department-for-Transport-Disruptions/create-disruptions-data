@@ -1,7 +1,7 @@
 import kebabCase from "lodash/kebabCase";
 import { ReactElement, useEffect, useRef, useState } from "react";
-import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { DisplayValuePair, ErrorInfo, FormBase } from "../../interfaces";
+import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 
 interface CheckboxProps<T> extends FormBase<T> {
     checkboxDetail: DisplayValuePair[];

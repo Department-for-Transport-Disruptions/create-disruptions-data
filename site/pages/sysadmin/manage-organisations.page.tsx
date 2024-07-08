@@ -87,10 +87,10 @@ const ManageOrganisations = ({ orgList, csrfToken }: ManageOrganisationsProps): 
                 organisations to ensure an organisation can create disruptions for their jurisdictions only, as well as
                 being able to add and remove organisation admin users.
             </p>
-            <Table columns={["Organisation", "NaPTAN AdminArea", "Action"]} rows={getRows()}></Table>
+            <Table columns={["Organisation", "NaPTAN AdminArea", "Action"]} rows={getRows()} />
 
             <Link
-                href={`/sysadmin/org`}
+                href={"/sysadmin/org"}
                 role="button"
                 draggable="false"
                 className="govuk-button"
@@ -112,7 +112,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     if (!sessionWithOrg) {
         throw new Error("No session found");
-    } else if (!sessionWithOrg.isSystemAdmin) {
+    }
+    if (!sessionWithOrg.isSystemAdmin) {
         throw new Error("Access to system admins only");
     }
 

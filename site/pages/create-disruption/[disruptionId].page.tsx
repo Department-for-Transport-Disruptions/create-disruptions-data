@@ -22,10 +22,10 @@ import TextInput from "../../components/form/TextInput";
 import TimeSelector from "../../components/form/TimeSelector";
 import { BaseLayout } from "../../components/layout/Layout";
 import {
-    DISRUPTION_REASONS,
     COOKIES_DISRUPTION_ERRORS,
-    VIEW_ALL_TEMPLATES_PAGE_PATH,
     DASHBOARD_PAGE_PATH,
+    DISRUPTION_REASONS,
+    VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
 import { PageState } from "../../interfaces";
@@ -64,8 +64,8 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
 
     const queryParams = useRouter().query;
     const displayCancelChangesButton = showCancelButton(queryParams);
-    const isTemplate = queryParams["template"]?.toString() ?? "";
-    const returnPath = queryParams["return"]?.toString() ?? "";
+    const isTemplate = queryParams.template?.toString() ?? "";
+    const returnPath = queryParams.return?.toString() ?? "";
 
     const returnToTemplateOverview = returnTemplateOverview(queryParams);
 
@@ -177,7 +177,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             validity.disruptionRepeats &&
                             validity.disruptionRepeats !== "doesntRepeat" &&
                             endingOnDate ? (
-                                <span>
+                                <span key={i}>
                                     {validity.disruptionStartDate} {validity.disruptionStartTime} -{" "}
                                     {validity.disruptionEndDate} {validity.disruptionEndTime} <br /> Repeats{" "}
                                     {validity.disruptionRepeats} until {endingOnDate}{" "}
@@ -333,7 +333,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                         <h2 className="govuk-heading-l">When is the disruption?</h2>
                         <Table rows={pageState.inputs.validity ? getValidityRows() : []} />
                         {(pageState.inputs.validity || []).map((item, index) => (
-                            <Fragment key={`validity-${index}`}>
+                            <Fragment key={`validity-${item.disruptionStartDate}`}>
                                 <input type="hidden" name={`validity${index + 1}`} value={item.disruptionStartDate} />
                                 <input type="hidden" name={`validity${index + 1}`} value={item.disruptionStartTime} />
                                 <input type="hidden" name={`validity${index + 1}`} value={item.disruptionEndDate} />

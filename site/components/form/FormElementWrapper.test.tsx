@@ -1,5 +1,5 @@
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import FormElementWrapper from "./FormElementWrapper";
 
 describe("FormElementWrapper", () => {
@@ -7,7 +7,7 @@ describe("FormElementWrapper", () => {
         const tree = renderer
             .create(
                 <FormElementWrapper errors={[]} errorId={""} errorClass={""}>
-                    <div></div>
+                    <div />
                 </FormElementWrapper>,
             )
             .toJSON();
@@ -27,7 +27,7 @@ describe("FormElementWrapper", () => {
                     errorId={"test-div"}
                     errorClass={"govuk-input--error"}
                 >
-                    <input id="test-div"></input>
+                    <input id="test-div" />
                 </FormElementWrapper>,
             )
             .toJSON();

@@ -6,7 +6,7 @@ const passLogger = (level: string): ((...obj: AnyError[]) => void) => {
     return (first: AnyError, ...obj: AnyError[]) => {
         let message = getMessage(first);
         if (typeof obj[0] === "string") {
-            message += " " + obj[0];
+            message += ` ${obj[0]}`;
             obj.splice(0);
         }
 
@@ -40,6 +40,5 @@ type AnyError = (Error & { [key: string]: unknown }) | string[] | string;
 const consoleMethods: ("log" | "debug" | "info" | "warn" | "error")[] = ["log", "debug", "info", "warn", "error"];
 
 consoleMethods.forEach((method) => {
-    // eslint-disable-next-line no-console
     console[method] = passLogger(method);
 });

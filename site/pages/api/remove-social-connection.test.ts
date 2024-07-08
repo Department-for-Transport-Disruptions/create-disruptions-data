@@ -1,11 +1,11 @@
 import * as ssm from "@create-disruptions-data/shared-ts/utils/ssm";
-import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
-import removeSocialConnection from "./remove-social-connection.api";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ERROR_PATH, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { getMockRequestAndResponse, mockSession } from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
 import logger from "../../utils/logger";
+import removeSocialConnection from "./remove-social-connection.api";
 
 describe("remove-social-connection", () => {
     const writeHeadMock = vi.fn();

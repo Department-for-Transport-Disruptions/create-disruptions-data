@@ -1,3 +1,4 @@
+import { inspect } from "util";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
     DynamoDBDocumentClient,
@@ -6,19 +7,18 @@ import {
     ScanCommand,
     ScanCommandInput,
 } from "@aws-sdk/lib-dynamodb";
-import { inspect } from "util";
-import { isCurrentOrUpcomingDisruption } from "./dates";
-import { makeZodArray } from "./zod";
 import { Disruption } from "../disruptionTypes";
 import { disruptionSchema } from "../disruptionTypes.zod";
 import { PublishStatus } from "../enums";
 import {
-    organisationSchemaWithStats,
     Organisation,
-    organisationSchema,
     OrganisationWithStats,
+    organisationSchema,
+    organisationSchemaWithStats,
 } from "../organisationTypes";
+import { isCurrentOrUpcomingDisruption } from "./dates";
 import { Logger, notEmpty } from "./index";
+import { makeZodArray } from "./zod";
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
 
@@ -84,9 +84,9 @@ export const recursiveScan = async (
                 logger,
             )),
         ];
-    } else {
-        return dbData.Items;
     }
+
+    return dbData.Items;
 };
 
 export const recursiveQuery = async (
@@ -112,9 +112,9 @@ export const recursiveQuery = async (
                 logger,
             )),
         ];
-    } else {
-        return dbData.Items;
     }
+
+    return dbData.Items;
 };
 
 export const getPublishedDisruptionsDataFromDynamo = async (
@@ -175,7 +175,7 @@ export const getOrganisationsInfo = async (
     organisationsTableName: string,
     logger: Logger,
 ): Promise<Organisation[] | null> => {
-    logger.info(`Getting all organisations from DynamoDB table...`);
+    logger.info("Getting all organisations from DynamoDB table...");
     try {
         const dbData = await recursiveScan(
             {
@@ -210,7 +210,7 @@ export const getAllOrganisationsInfoAndStats = async (
     organisationsTableName: string,
     logger: Logger,
 ): Promise<OrganisationWithStats[] | null> => {
-    logger.info(`Getting all organisations with stats from DynamoDB table...`);
+    logger.info("Getting all organisations with stats from DynamoDB table...");
     try {
         const dbDataInfo = await recursiveScan(
             {

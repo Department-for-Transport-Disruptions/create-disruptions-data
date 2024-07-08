@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment  */
 import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
-import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
-import createConsequenceNetwork from "./create-consequence-network.api";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
     COOKIES_CONSEQUENCE_NETWORK_ERRORS,
     CREATE_CONSEQUENCE_NETWORK_PATH,
@@ -26,6 +24,7 @@ import {
 } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import * as session from "../../utils/apiUtils/auth";
+import createConsequenceNetwork from "./create-consequence-network.api";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 const defaultConsequenceIndex = "0";

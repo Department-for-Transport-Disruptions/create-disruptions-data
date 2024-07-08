@@ -1,6 +1,6 @@
 import { CookieSerializeOptions } from "cookie";
 import Link from "next/link";
-import { setCookie, parseCookies } from "nookies";
+import { parseCookies, setCookie } from "nookies";
 import React, { ReactElement, useEffect, useState } from "react";
 import { COOKIES_POLICY_COOKIE, COOKIE_PREFERENCES_COOKIE, oneYearInSeconds } from "../../constants";
 
@@ -59,9 +59,7 @@ const CookieBanner = (): ReactElement | null => {
     const [hideBanner, setHideBanner] = useState(true);
 
     useEffect(() => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
         const cookies = parseCookies();
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
         const cookiePreferences = cookies[COOKIE_PREFERENCES_COOKIE];
         if (!cookiePreferences || cookiePreferences === "false") {
             setHideBanner(false);

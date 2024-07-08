@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument  */
 import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
 import * as cryptoRandomString from "crypto-random-string";
-import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
-import createDisruption, { formatCreateDisruptionBody } from "./create-disruption.api";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
     COOKIES_DISRUPTION_ERRORS,
     CREATE_DISRUPTION_PAGE_PATH,
@@ -21,6 +19,7 @@ import {
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import * as session from "../../utils/apiUtils/auth";
 import { getFutureDateAsString } from "../../utils/dates";
+import createDisruption, { formatCreateDisruptionBody } from "./create-disruption.api";
 
 const defaultDisruptionStartDate = getFutureDateAsString(2);
 const defaultDisruptionEndDate = getFutureDateAsString(5);

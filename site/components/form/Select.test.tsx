@@ -1,8 +1,8 @@
 import renderer from "react-test-renderer";
-import { describe, it, expect, vi } from "vitest";
-import Select from "./Select";
+import { describe, expect, it, vi } from "vitest";
 import { DISRUPTION_REASONS } from "../../constants";
 import { TestInputs } from "../../interfaces";
+import Select from "./Select";
 
 describe("Select", () => {
     it("should render correctly with no errors", () => {

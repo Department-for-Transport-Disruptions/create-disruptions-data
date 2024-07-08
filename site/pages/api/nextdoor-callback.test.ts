@@ -1,9 +1,9 @@
-import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
-import nextdoorCallback from "./nextdoor-callback.api";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ERROR_PATH, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH } from "../../constants";
 import { addNextdoorAccount } from "../../data/nextdoor";
 import { getMockRequestAndResponse, mockSession } from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
+import nextdoorCallback from "./nextdoor-callback.api";
 
 describe("nextdoor-callback", () => {
     const writeHeadMock = vi.fn();

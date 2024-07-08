@@ -1,6 +1,5 @@
 import { UserNotFoundException } from "@aws-sdk/client-cognito-identity-provider";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import forgotPassword from "./forgot-password.api";
 import {
     COOKIES_FORGOT_PASSWORD_ERRORS,
     FORGOT_PASSWORD_PAGE_PATH,
@@ -10,6 +9,7 @@ import * as cognito from "../../data/cognito";
 import { ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
+import forgotPassword from "./forgot-password.api";
 describe("forgot-password", () => {
     const writeHeadMock = vi.fn();
     vi.mock("../../utils/apiUtils", async () => ({

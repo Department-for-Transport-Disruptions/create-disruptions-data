@@ -5,9 +5,9 @@ import CsrfForm from "../components/form/CsrfForm";
 import { TwoThirdsLayout } from "../components/layout/Layout";
 import {
     CONTACT_FEEDBACK_QUESTION,
-    SOLVE_FEEDBACK_QUESTION,
-    HEAR_ABOUT_US_FEEDBACK_QUESTION,
     GENERAL_FEEDBACK_QUESTION,
+    HEAR_ABOUT_US_FEEDBACK_QUESTION,
+    SOLVE_FEEDBACK_QUESTION,
 } from "../constants";
 
 const title = "Feedback - Create Transport Disruption Data Service";

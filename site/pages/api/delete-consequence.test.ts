@@ -1,9 +1,9 @@
 import MockDate from "mockdate";
-import { describe, it, expect, afterEach, vi, afterAll } from "vitest";
-import deleteConsequence from "./delete-consequence.api";
+import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
 import { DISRUPTION_DETAIL_PAGE_PATH, ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants/index";
 import * as dynamo from "../../data/dynamo";
 import { getMockRequestAndResponse } from "../../testData/mockData";
+import deleteConsequence from "./delete-consequence.api";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 const defaultConsequenceId = "1";
@@ -84,18 +84,17 @@ describe("deleteConsequence", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 
-    it("should delete consequence data in dynamoDB"),
-        async () => {
-            const { req, res } = getMockRequestAndResponse({
-                body: {
-                    id: defaultConsequenceId,
-                    disruptionId: defaultDisruptionId,
-                },
-                mockWriteHeadFn: writeHeadMock,
-            });
+    it("should delete consequence data in dynamoDB", async () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                id: defaultConsequenceId,
+                disruptionId: defaultDisruptionId,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
 
-            await deleteConsequence(req, res);
+        await deleteConsequence(req, res);
 
-            expect(deleteConsequenceSpy.mock.calls[0][0]).toMatchSnapshot();
-        };
+        expect(deleteConsequenceSpy.mock.calls[0][0]).toMatchSnapshot();
+    });
 });

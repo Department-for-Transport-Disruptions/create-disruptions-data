@@ -1,8 +1,8 @@
+import { randomUUID } from "crypto";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { Roadwork } from "@create-disruptions-data/shared-ts/roadwork.zod";
 import { NextPageContext } from "next";
 import Link from "next/link";
-import { randomUUID } from "crypto";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 import { getDisruptionInfoByPermitReferenceNumber } from "../../data/dynamo";
@@ -110,7 +110,7 @@ const RoadworkDetail = ({
             )}
 
             <Link
-                href={`/view-all-roadworks`}
+                href={"/view-all-roadworks"}
                 role="button"
                 draggable="false"
                 className="govuk-button mt-8 govuk-button--secondary"

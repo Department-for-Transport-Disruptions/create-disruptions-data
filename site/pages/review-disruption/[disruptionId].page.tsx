@@ -6,7 +6,7 @@ import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
-import { ReactElement, ReactNode, useEffect, useRef, useState } from "react";
+import { Fragment, ReactElement, ReactNode, useEffect, useRef, useState } from "react";
 import CsrfForm from "../../components/form/CsrfForm";
 import ErrorSummary from "../../components/form/ErrorSummary";
 import Table, { CellProps } from "../../components/form/Table";
@@ -16,14 +16,14 @@ import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPo
 
 import ReviewConsequenceTable, { createChangeLink } from "../../components/ReviewConsequenceTable";
 import {
-    TYPE_OF_CONSEQUENCE_PAGE_PATH,
     COOKIES_REVIEW_DISRUPTION_ERRORS,
-    REVIEW_DISRUPTION_PAGE_PATH,
+    COOKIES_REVIEW_DISRUPTION_REFERER,
     CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
     DASHBOARD_PAGE_PATH,
-    COOKIES_REVIEW_DISRUPTION_REFERER,
-    DISRUPTION_NOT_FOUND_ERROR_PAGE,
     DISRUPTION_DETAIL_PAGE_PATH,
+    DISRUPTION_NOT_FOUND_ERROR_PAGE,
+    REVIEW_DISRUPTION_PAGE_PATH,
+    TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
 import { getItem } from "../../data/s3";
@@ -312,13 +312,13 @@ const ReviewDisruption = ({
         return validity.map((validity, i) => {
             const appendValue =
                 validity.disruptionRepeats === "daily" ? (
-                    <>
+                    <Fragment key={i}>
                         <br />
                         Repeats {validity.disruptionRepeats} until {validity.disruptionRepeatsEndDate} at{" "}
                         {validity.disruptionEndTime}
-                    </>
+                    </Fragment>
                 ) : validity.disruptionRepeats === "weekly" ? (
-                    <>
+                    <Fragment key={i}>
                         <br />
                         Repeats every week until{" "}
                         {getEndingOnDateText(
@@ -328,15 +328,15 @@ const ReviewDisruption = ({
                             validity.disruptionEndDate,
                         )}{" "}
                         at {validity.disruptionEndTime}
-                    </>
+                    </Fragment>
                 ) : (
-                    <></>
+                    <Fragment key={i} />
                 );
             return {
                 header: `Validity period ${i + 1}`,
                 cells: [
                     validity.disruptionEndDate && validity.disruptionEndTime && !validity.disruptionNoEndDateTime ? (
-                        <span>
+                        <span key={i}>
                             {validity.disruptionStartDate} {validity.disruptionStartTime} - {validity.disruptionEndDate}{" "}
                             {validity.disruptionEndTime} {appendValue}
                         </span>
@@ -374,7 +374,7 @@ const ReviewDisruption = ({
 
     return (
         <BaseLayout title={title} description={description}>
-            {queryParams["duplicate"] ? (
+            {queryParams.duplicate ? (
                 <NotificationBanner content="You have successfully duplicated the disruption. The new disruption has been created below." />
             ) : null}
             {popUpState && csrfToken ? (
@@ -403,7 +403,7 @@ const ReviewDisruption = ({
             ) : null}
 
             <CsrfForm
-                action={`/api/publish${queryParams["template"] ? "?template=true" : ""}`}
+                action={`/api/publish${queryParams.template ? "?template=true" : ""}`}
                 method="post"
                 csrfToken={csrfToken}
             >
@@ -642,15 +642,15 @@ const ReviewDisruption = ({
                                                               .map((service) => service.lineName)
                                                               .join(", ")}`
                                                         : consequence.consequenceType === "stops"
-                                                        ? "Stops"
-                                                        : consequence.consequenceType === "journeys"
-                                                        ? "Journeys"
-                                                        : consequence.consequenceType === "operatorWide" &&
-                                                          consequence.consequenceOperators
-                                                        ? `Operator wide - ${consequence.consequenceOperators
-                                                              .map((operator) => operator.operatorNoc)
-                                                              .join(", ")}`
-                                                        : `${"Network wide"}`
+                                                          ? "Stops"
+                                                          : consequence.consequenceType === "journeys"
+                                                            ? "Journeys"
+                                                            : consequence.consequenceType === "operatorWide" &&
+                                                                consequence.consequenceOperators
+                                                              ? `Operator wide - ${consequence.consequenceOperators
+                                                                    .map((operator) => operator.operatorNoc)
+                                                                    .join(", ")}`
+                                                              : `${"Network wide"}`
                                                 }`}
                                             </span>
                                         </h2>
@@ -825,7 +825,7 @@ const ReviewDisruption = ({
 
 export const getServerSideProps = async (
     ctx: NextPageContext,
-): Promise<{ props: ReviewDisruptionProps } | { redirect: Redirect } | void> => {
+): Promise<{ props: ReviewDisruptionProps } | { redirect: Redirect } | undefined> => {
     if (!ctx.req) {
         throw new Error("No context request");
     }
@@ -845,7 +845,7 @@ export const getServerSideProps = async (
     if (!disruption) {
         return {
             redirect: {
-                destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`,
+                destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${ctx.query?.template ? "?template=true" : ""}`,
                 statusCode: 302,
             },
         };

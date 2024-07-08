@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment  */
+import * as crypto from "crypto";
 import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { disruptionInfoSchemaRefined } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import * as cryptoRandomString from "crypto-random-string";
-import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
-import * as crypto from "crypto";
-import duplicateDisruption from "./duplicate-disruption.api";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
     CREATE_DISRUPTION_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
@@ -23,6 +21,7 @@ import {
 } from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
 import { getFutureDateAsString } from "../../utils/dates";
+import duplicateDisruption from "./duplicate-disruption.api";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 const newDefaultDisruptionId: `${string}-${string}-${string}-${string}-${string}` =

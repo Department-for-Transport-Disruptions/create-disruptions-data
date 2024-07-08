@@ -1,9 +1,9 @@
 import { UserNotFoundException } from "@aws-sdk/client-cognito-identity-provider";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
-    RESET_PASSWORD_CONFIRMATION_PAGE_PATH,
-    FORGOT_PASSWORD_PAGE_PATH,
     COOKIES_FORGOT_PASSWORD_ERRORS,
+    FORGOT_PASSWORD_PAGE_PATH,
+    RESET_PASSWORD_CONFIRMATION_PAGE_PATH,
 } from "../../constants";
 import { initiateResetPassword } from "../../data/cognito";
 import { forgotPasswordSchema } from "../../schemas/forgot-password.schema";
@@ -43,7 +43,7 @@ const forgotPassword = async (req: NextApiRequest, res: NextApiResponse) => {
         return;
     } catch (e) {
         if (e instanceof UserNotFoundException) {
-            logger.warn(`Invalid email used when trying to reset password.`);
+            logger.warn("Invalid email used when trying to reset password.");
             const body = req.body as Record<string, string>;
             redirectTo(res, `${RESET_PASSWORD_CONFIRMATION_PAGE_PATH}?email=${body.email}`);
             return;

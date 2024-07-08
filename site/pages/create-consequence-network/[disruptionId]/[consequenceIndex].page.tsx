@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, useState } from "react";
+import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 import DeleteDisruptionButton from "../../../components/buttons/DeleteDisruptionButton";
 import Checkbox from "../../../components/form/Checkbox";
 import CsrfForm from "../../../components/form/CsrfForm";
@@ -16,7 +17,6 @@ import Table from "../../../components/form/Table";
 import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
-import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 import {
     COOKIES_CONSEQUENCE_NETWORK_ERRORS,
     CREATE_CONSEQUENCE_NETWORK_PATH,
@@ -49,8 +49,8 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
 
     const returnToTemplateOverview = returnTemplateOverview(queryParams);
 
-    const isTemplate = queryParams["template"]?.toString() ?? "";
-    const returnPath = queryParams["return"]?.toString() ?? "";
+    const isTemplate = queryParams.template?.toString() ?? "";
+    const returnPath = queryParams.return?.toString() ?? "";
 
     const { consequenceCount = 0 } = props;
 
@@ -268,7 +268,7 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
 
 export const getServerSideProps = async (
     ctx: NextPageContext,
-): Promise<{ props: object } | { redirect: Redirect } | void> => {
+): Promise<{ props: object } | { redirect: Redirect } | undefined> => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_CONSEQUENCE_NETWORK_ERRORS];
 
@@ -291,7 +291,7 @@ export const getServerSideProps = async (
     if (!disruption) {
         return {
             redirect: {
-                destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`,
+                destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${ctx.query?.template ? "?template=true" : ""}`,
                 statusCode: 302,
             },
         };

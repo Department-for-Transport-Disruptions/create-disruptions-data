@@ -12,11 +12,11 @@ import { addUserToGroup, removeUserFromGroup, updateUserAttributes } from "../..
 import { EditUserSchema, editUserSchema } from "../../../schemas/add-user.schema";
 import { flattenZodErrors } from "../../../utils";
 import {
-    redirectToError,
-    setCookieOnResponseObject,
-    redirectTo,
     destroyCookieOnResponseObject,
     formatAddOrEditUserBody,
+    redirectTo,
+    redirectToError,
+    setCookieOnResponseObject,
 } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
 
@@ -32,6 +32,7 @@ const editUser = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const validatedBody = editUserSchema.safeParse({ ...cleansedBody, orgId: session.orgId });
         if (!validatedBody.success) {
+            console.log(validatedBody.error);
             const body = req.body as EditUserSchema;
 
             if (!body.username) {

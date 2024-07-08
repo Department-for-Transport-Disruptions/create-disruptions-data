@@ -16,7 +16,9 @@ export const user = z
     .transform((item) =>
         item.UserAttributes.reduce(
             (p, c) => ({
-                ...p,
+                userStatus: p.userStatus,
+                group: p.group,
+                username: p.username,
                 givenName: c.Name === "given_name" ? c.Value : p.givenName,
                 familyName: c.Name === "family_name" ? c.Value : p.familyName,
                 email: c.Name === "email" ? c.Value : p.email,
@@ -55,8 +57,8 @@ export const deleteUser = z
     .transform((item) =>
         item.UserAttributes.reduce(
             (p, c) => ({
-                ...p,
                 organisation: c.Name === "custom:orgId" ? c.Value : p.organisation,
+                username: p.username,
             }),
             {
                 organisation: "N/A",
@@ -81,7 +83,9 @@ export const userManagementSchema = z.array(
         .transform((item) =>
             item.Attributes.reduce(
                 (p, c) => ({
-                    ...p,
+                    userStatus: p.userStatus,
+                    group: p.group,
+                    username: p.username,
                     givenName: c.Name === "given_name" ? c.Value : p.givenName,
                     familyName: c.Name === "family_name" ? c.Value : p.familyName,
                     email: c.Name === "email" ? c.Value : p.email,

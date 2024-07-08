@@ -1,14 +1,14 @@
 import { NotAuthorizedException } from "@aws-sdk/client-cognito-identity-provider";
 import { NextApiRequest, NextApiResponse } from "next";
-import { COOKIES_CHANGE_PASSWORD_ERRORS, CHANGE_PASSWORD_PAGE_PATH } from "../../constants";
+import { CHANGE_PASSWORD_PAGE_PATH, COOKIES_CHANGE_PASSWORD_ERRORS } from "../../constants";
 import { initiateAuth, updateUserPassword } from "../../data/cognito";
 import { changePasswordSchemaRefined } from "../../schemas/change-password.schema";
 import { flattenZodErrors } from "../../utils";
 import {
+    destroyCookieOnResponseObject,
+    redirectTo,
     redirectToError,
     setCookieOnResponseObject,
-    redirectTo,
-    destroyCookieOnResponseObject,
 } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 

@@ -13,7 +13,7 @@ import { sortOperatorByName } from "../../components/search/OperatorSearch";
 import { COOKIES_ADD_OPERATOR_ERRORS } from "../../constants";
 import { fetchOperators } from "../../data/refDataApi";
 import { PageState } from "../../interfaces";
-import { addOperatorSchema, AddOperatorSchema } from "../../schemas/add-operator.schema";
+import { AddOperatorSchema, addOperatorSchema } from "../../schemas/add-operator.schema";
 import { Operator, operatorSchema } from "../../schemas/consequence.schema";
 import { flattenZodErrors, removeDuplicates } from "../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";

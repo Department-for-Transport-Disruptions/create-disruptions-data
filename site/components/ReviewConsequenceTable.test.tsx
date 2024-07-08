@@ -1,9 +1,9 @@
 import { Consequence, Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { EnvironmentReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
-import { describe, it, expect, vi } from "vitest";
-import ReviewConsequenceTable from "./ReviewConsequenceTable";
+import { describe, expect, it, vi } from "vitest";
 import { DEFAULT_ORG_ID } from "../testData/mockData";
+import ReviewConsequenceTable from "./ReviewConsequenceTable";
 
 const previousConsequencesInformation: Consequence = {
     vehicleMode: VehicleMode.bus,

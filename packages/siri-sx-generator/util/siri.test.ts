@@ -1,5 +1,5 @@
 import { Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import { getValidityPeriod } from "./siri";
 
 const validityDisruptionEndTime = "1000";

@@ -1,11 +1,11 @@
 import { ChallengeNameType } from "@aws-sdk/client-cognito-identity-provider";
-import { describe, it, expect, afterEach, vi } from "vitest";
-import register from "./register.api";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { COOKIES_REGISTER_ERRORS, DASHBOARD_PAGE_PATH, ERROR_PATH, REGISTER_PAGE_PATH } from "../../constants";
 import * as cognito from "../../data/cognito";
 import { ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
+import register from "./register.api";
 
 describe("register", () => {
     const writeHeadMock = vi.fn();

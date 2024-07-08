@@ -7,9 +7,9 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import kebabCase from "lodash/kebabCase";
 import React, { ReactElement, useEffect, useState } from "react";
-import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { ErrorInfo, FormBase } from "../../interfaces";
 import { convertDateTimeToFormat } from "../../utils/dates";
+import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 
 interface DateSelectorProps<T> extends FormBase<T> {
     disabled?: boolean;
@@ -113,7 +113,6 @@ const DateSelector = <T extends object>({
 
     useEffect(() => {
         setErrors(initialErrors);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [JSON.stringify(initialErrors)]);
 
     return (

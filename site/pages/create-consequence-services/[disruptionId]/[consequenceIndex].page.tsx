@@ -11,8 +11,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
-import { ActionMeta, createFilter, SingleValue } from "react-select";
+import { ActionMeta, SingleValue, createFilter } from "react-select";
 import type { FilterOptionOption } from "react-select/dist/declarations/src/filters";
+import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 import DeleteDisruptionButton from "../../../components/buttons/DeleteDisruptionButton";
 import CsrfForm from "../../../components/form/CsrfForm";
 import ErrorSummary from "../../../components/form/ErrorSummary";
@@ -25,7 +26,6 @@ import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
 import NotificationBanner from "../../../components/layout/NotificationBanner";
 import Map from "../../../components/map/ServicesMap";
-import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 import {
     COOKIES_CONSEQUENCE_SERVICES_ERRORS,
     CREATE_CONSEQUENCE_SERVICES_PATH,
@@ -160,12 +160,12 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             ...(vehicleMode === VehicleMode.bus
                                 ? { stopTypes: "BCT" }
                                 : vehicleMode === VehicleMode.tram ||
-                                  vehicleMode === Modes.metro ||
-                                  vehicleMode === VehicleMode.underground
-                                ? { stopTypes: "MET, PLT" }
-                                : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                                ? { stopTypes: "FER, FBT" }
-                                : { stopTypes: "undefined" }),
+                                    vehicleMode === Modes.metro ||
+                                    vehicleMode === VehicleMode.underground
+                                  ? { stopTypes: "MET, PLT" }
+                                  : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
+                                    ? { stopTypes: "FER, FBT" }
+                                    : { stopTypes: "undefined" }),
                         });
 
                         if (serviceRoutesData) {
@@ -188,10 +188,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             }
         };
 
-        loadOptions()
-            // eslint-disable-next-line no-console
-            .catch(console.error);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        loadOptions().catch(console.error);
     }, [pageState.inputs.services]);
 
     const queryParams = useRouter().query;
@@ -199,8 +196,8 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
     const returnToTemplateOverview = returnTemplateOverview(queryParams);
 
-    const isTemplate = queryParams["template"]?.toString() ?? "";
-    const returnPath = queryParams["return"]?.toString() ?? "";
+    const isTemplate = queryParams.template?.toString() ?? "";
+    const returnPath = queryParams.return?.toString() ?? "";
 
     const handleStopChange = async (value: SingleValue<Stop>, actionMeta: ActionMeta<Stop>) => {
         if (actionMeta.action === "clear") {
@@ -271,7 +268,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                     adminAreaCodes: pageState.sessionWithOrg?.adminAreaCodes,
                 });
 
-                stopToAdd["serviceIds"] = servicesForGivenStop.map((service) => service.id);
+                stopToAdd.serviceIds = servicesForGivenStop.map((service) => service.id);
 
                 const servicesRoutesForGivenStop = getRoutesForServices(servicesForGivenStop);
 
@@ -324,11 +321,8 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                 pageState.inputs.vehicleMode,
             )
                 .then((stops) => setStopOptions(sortAndFilterStops([...stopOptions, ...stops])))
-                // eslint-disable-next-line no-console
                 .catch(console.error);
         }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedService]);
 
     const addService = (serviceToAdd: SingleValue<Service>) => {
@@ -374,7 +368,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                 errors: pageState.errors,
             });
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageState?.inputs?.services]);
 
     useEffect(() => {
@@ -412,8 +405,6 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                     .catch(() => setServiceOptionsForDropdown([]));
             }
         }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageState.inputs.vehicleMode]);
 
     const removeService = (e: SyntheticEvent, removedServiceId: number) => {
@@ -681,7 +672,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             ]}
                             inputName="removeFromJourneyPlanners"
                             stateUpdater={stateUpdater}
-                            value={pageState.inputs["removeFromJourneyPlanners"]}
+                            value={pageState.inputs.removeFromJourneyPlanners}
                             initialErrors={pageState.errors}
                         />
 
@@ -791,7 +782,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
 export const getServerSideProps = async (
     ctx: NextPageContext,
-): Promise<{ props: CreateConsequenceServicesProps } | { redirect: Redirect } | void> => {
+): Promise<{ props: CreateConsequenceServicesProps } | { redirect: Redirect } | undefined> => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_CONSEQUENCE_SERVICES_ERRORS];
 
@@ -814,7 +805,7 @@ export const getServerSideProps = async (
     if (!disruption) {
         return {
             redirect: {
-                destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`,
+                destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${ctx.query?.template ? "?template=true" : ""}`,
                 statusCode: 302,
             },
         };

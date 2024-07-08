@@ -1,17 +1,16 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment*/
-import { describe, it, expect, afterEach, vi } from "vitest";
 import { randomUUID } from "crypto";
-import addConsequence from "./type-of-consequence.api";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
-    TYPE_OF_CONSEQUENCE_PAGE_PATH,
     COOKIES_CONSEQUENCE_TYPE_ERRORS,
     CREATE_DISRUPTION_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
+    TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants/index";
 import { ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
+import addConsequence from "./type-of-consequence.api";
 
 describe("addConsequence", () => {
     const writeHeadMock = vi.fn();

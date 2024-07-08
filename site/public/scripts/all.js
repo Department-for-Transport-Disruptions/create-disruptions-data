@@ -1,14 +1,12 @@
 /* eslint-disable */
 
-(function (global, factory) {
+((global, factory) => {
     typeof exports === "object" && typeof module !== "undefined"
         ? factory(exports)
         : typeof define === "function" && define.amd
-        ? define("GOVUKFrontend", ["exports"], factory)
-        : factory((global.GOVUKFrontend = {}));
-})(this, function (exports) {
-    "use strict";
-
+          ? define("GOVUKFrontend", ["exports"], factory)
+          : factory((global.GOVUKFrontend = {}));
+})(this, (exports) => {
     /**
      * Common helpers which do not require polyfill.
      *
@@ -32,7 +30,7 @@
         if (window.NodeList.prototype.forEach) {
             return nodes.forEach(callback);
         }
-        for (var i = 0; i < nodes.length; i++) {
+        for (let i = 0; i < nodes.length; i++) {
             callback.call(window, nodes[i], i, nodes);
         }
     }
@@ -45,12 +43,12 @@
      * @returns {string} Unique ID
      */
     function generateUniqueID() {
-        var d = new Date().getTime();
+        let d = new Date().getTime();
         if (typeof window.performance !== "undefined" && typeof window.performance.now === "function") {
             d += window.performance.now(); // use high-precision timer if available
         }
-        return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
-            var r = (d + Math.random() * 16) % 16 | 0;
+        return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, (c) => {
+            const r = ((d + Math.random() * 16) % 16) | 0;
             d = Math.floor(d / 16);
             return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
         });
@@ -75,9 +73,9 @@
          * @param {Object<string, unknown>} configObject - Deeply nested object
          * @returns {Object<string, unknown>} Flattened object with dot-separated keys
          */
-        var flattenObject = function (configObject) {
+        const flattenObject = (configObject) => {
             // Prepare an empty return object
-            var flattenedObject = {};
+            const flattenedObject = {};
 
             /**
              * Our flattening function, this is called recursively for each level of
@@ -87,16 +85,16 @@
              * @param {Partial<Object<string, unknown>>} obj - Object to flatten
              * @param {string} [prefix] - Optional dot-separated prefix
              */
-            var flattenLoop = function (obj, prefix) {
+            const flattenLoop = (obj, prefix) => {
                 // Loop through keys...
-                for (var key in obj) {
+                for (const key in obj) {
                     // Check to see if this is a prototypical key/value,
                     // if it is, skip it.
                     if (!Object.prototype.hasOwnProperty.call(obj, key)) {
                         continue;
                     }
-                    var value = obj[key];
-                    var prefixedKey = prefix ? prefix + "." + key : key;
+                    const value = obj[key];
+                    const prefixedKey = prefix ? `${prefix}.${key}` : key;
                     if (typeof value === "object") {
                         // If the value is a nested object, recurse over that too
                         flattenLoop(value, prefixedKey);
@@ -113,14 +111,14 @@
         };
 
         // Start with an empty object as our base
-        var formattedConfigObject = {};
+        const formattedConfigObject = {};
 
         // Loop through each of the remaining passed objects and push their keys
         // one-by-one into configObject. Any duplicate keys will override the existing
         // key with the new value.
-        for (var i = 0; i < arguments.length; i++) {
-            var obj = flattenObject(arguments[i]);
-            for (var key in obj) {
+        for (let i = 0; i < arguments.length; i++) {
+            const obj = flattenObject(arguments[i]);
+            for (const key in obj) {
                 if (Object.prototype.hasOwnProperty.call(obj, key)) {
                     formattedConfigObject[key] = obj[key];
                 }
@@ -148,10 +146,10 @@
         if (!namespace || typeof namespace !== "string") {
             throw new Error('Provide a `namespace` of type "string" to filter the `configObject` by.');
         }
-        var newObject = {};
-        for (var key in configObject) {
+        const newObject = {};
+        for (const key in configObject) {
             // Split the key into parts, using . as our namespace separator
-            var keyParts = key.split(".");
+            const keyParts = key.split(".");
             // Check if the first namespace matches the configured namespace
             if (Object.prototype.hasOwnProperty.call(configObject, key) && keyParts[0] === namespace) {
                 // Remove the first item (the namespace) from the parts array,
@@ -160,7 +158,7 @@
                     keyParts.shift();
                 }
                 // Join the remaining parts back together
-                var newKey = keyParts.join(".");
+                const newKey = keyParts.join(".");
                 // Add them to our new object
                 newObject[newKey] = configObject[key];
             }
@@ -176,18 +174,18 @@
      * @returns {void}
      */
 
-    (function (undefined) {
+    ((_undefined) => {
         // Detection from https://github.com/Financial-Times/polyfill-service/blob/master/packages/polyfill-library/polyfills/Object/defineProperty/detect.js
-        var detect =
+        const detect =
             // In IE8, defineProperty could only act on DOM elements, so full support
             // for the feature requires the ability to set a property on an arbitrary object
             "defineProperty" in Object &&
-            (function () {
+            (() => {
                 try {
-                    var a = {};
+                    const a = {};
                     Object.defineProperty(a, "test", { value: 42 });
                     return true;
-                } catch (e) {
+                } catch (_e) {
                     return false;
                 }
             })();
@@ -195,10 +193,10 @@
         if (detect) return;
 
         // Polyfill from https://cdn.polyfill.io/v2/polyfill.js?features=Object.defineProperty&flags=always
-        (function (nativeDefineProperty) {
-            var supportsAccessors = Object.prototype.hasOwnProperty("__defineGetter__");
-            var ERR_ACCESSORS_NOT_SUPPORTED = "Getters & setters cannot be defined on this javascript engine";
-            var ERR_VALUE_ACCESSORS = "A property cannot both have accessors and be writable or have a value";
+        ((nativeDefineProperty) => {
+            const supportsAccessors = Object.prototype.hasOwnProperty("__defineGetter__");
+            const ERR_ACCESSORS_NOT_SUPPORTED = "Getters & setters cannot be defined on this javascript engine";
+            const ERR_VALUE_ACCESSORS = "A property cannot both have accessors and be writable or have a value";
 
             Object.defineProperty = function defineProperty(object, property, descriptor) {
                 // Where native support exists, assume it
@@ -220,10 +218,10 @@
                     throw new TypeError("Property description must be an object");
                 }
 
-                var propertyString = String(property);
-                var hasValueOrWritable = "value" in descriptor || "writable" in descriptor;
-                var getterType = "get" in descriptor && typeof descriptor.get;
-                var setterType = "set" in descriptor && typeof descriptor.set;
+                const propertyString = String(property);
+                const hasValueOrWritable = "value" in descriptor || "writable" in descriptor;
+                const getterType = "get" in descriptor && typeof descriptor.get;
+                const setterType = "set" in descriptor && typeof descriptor.set;
 
                 // handle descriptor.get
                 if (getterType) {
@@ -270,9 +268,9 @@
             {},
     );
 
-    (function (undefined) {
+    (function (_undefined) {
         // Detection from https://github.com/Financial-Times/polyfill-service/blob/master/packages/polyfill-library/polyfills/Document/detect.js
-        var detect = "Document" in this;
+        const detect = "Document" in this;
 
         if (detect) return;
 
@@ -299,14 +297,14 @@
             {},
     );
 
-    (function (undefined) {
+    (function (_undefined) {
         // Detection from https://github.com/Financial-Times/polyfill-service/blob/master/packages/polyfill-library/polyfills/Element/detect.js
-        var detect = "Element" in this && "HTMLElement" in this;
+        const detect = "Element" in this && "HTMLElement" in this;
 
         if (detect) return;
 
         // Polyfill from https://cdn.polyfill.io/v2/polyfill.js?features=Element&flags=always
-        (function () {
+        (() => {
             // IE8
             if (window.Element && !window.HTMLElement) {
                 window.HTMLElement = window.Element;
@@ -317,21 +315,21 @@
             window.Element = window.HTMLElement = new Function("return function Element() {}")();
 
             // generate sandboxed iframe
-            var vbody = document.appendChild(document.createElement("body"));
-            var frame = vbody.appendChild(document.createElement("iframe"));
+            const vbody = document.appendChild(document.createElement("body"));
+            const frame = vbody.appendChild(document.createElement("iframe"));
 
             // use sandboxed iframe to replicate Element functionality
-            var frameDocument = frame.contentWindow.document;
-            var prototype = (Element.prototype = frameDocument.appendChild(frameDocument.createElement("*")));
-            var cache = {};
+            const frameDocument = frame.contentWindow.document;
+            const prototype = (Element.prototype = frameDocument.appendChild(frameDocument.createElement("*")));
+            const cache = {};
 
             // polyfill Element.prototype on an element
-            var shiv = function (element, deep) {
-                var childNodes = element.childNodes || [],
-                    index = -1,
-                    key,
-                    value,
-                    childNode;
+            const shiv = (element, deep) => {
+                const childNodes = element.childNodes || [];
+                let index = -1;
+                let key;
+                let value;
+                let childNode;
 
                 if (element.nodeType === 1 && element.constructor !== Element) {
                     element.constructor = Element;
@@ -349,18 +347,18 @@
                 return element;
             };
 
-            var elements = document.getElementsByTagName("*");
-            var nativeCreateElement = document.createElement;
-            var interval;
-            var loopLimit = 100;
+            const elements = document.getElementsByTagName("*");
+            const nativeCreateElement = document.createElement;
+            let interval;
+            let loopLimit = 100;
 
-            prototype.attachEvent("onpropertychange", function (event) {
-                var propertyName = event.propertyName,
-                    nonValue = !cache.hasOwnProperty(propertyName),
-                    newValue = prototype[propertyName],
-                    oldValue = cache[propertyName],
-                    index = -1,
-                    element;
+            prototype.attachEvent("onpropertychange", (event) => {
+                const propertyName = event.propertyName;
+                const nonValue = !cache.hasOwnProperty(propertyName);
+                const newValue = prototype[propertyName];
+                const oldValue = cache[propertyName];
+                let index = -1;
+                let element;
 
                 while ((element = elements[++index])) {
                     if (element.nodeType === 1) {
@@ -399,7 +397,7 @@
 
             // Apply to any new elements created after load
             document.createElement = function createElement(nodeName) {
-                var element = nativeCreateElement(String(nodeName).toLowerCase());
+                const element = nativeCreateElement(String(nodeName).toLowerCase());
                 return shiv(element);
             };
 
@@ -413,15 +411,15 @@
             {},
     );
 
-    (function (undefined) {
+    ((_undefined) => {
         // Detection from https://raw.githubusercontent.com/Financial-Times/polyfill-library/13cf7c340974d128d557580b5e2dafcd1b1192d1/polyfills/Element/prototype/dataset/detect.js
-        var detect = (function () {
+        const detect = (() => {
             if (!document.documentElement.dataset) {
                 return false;
             }
-            var el = document.createElement("div");
+            const el = document.createElement("div");
             el.setAttribute("data-a-b", "c");
-            return el.dataset && el.dataset.aB == "c";
+            return el.dataset && el.dataset.aB === "c";
         })();
 
         if (detect) return;
@@ -429,24 +427,21 @@
         // Polyfill derived from  https://raw.githubusercontent.com/Financial-Times/polyfill-library/13cf7c340974d128d557580b5e2dafcd1b1192d1/polyfills/Element/prototype/dataset/polyfill.js
         Object.defineProperty(Element.prototype, "dataset", {
             get: function () {
-                var element = this;
-                var attributes = this.attributes;
-                var map = {};
+                const attributes = this.attributes;
+                const map = {};
 
-                for (var i = 0; i < attributes.length; i++) {
-                    var attribute = attributes[i];
+                for (let i = 0; i < attributes.length; i++) {
+                    const attribute = attributes[i];
 
                     // This regex has been edited from the original polyfill, to add
                     // support for period (.) separators in data-* attribute names. These
                     // are allowed in the HTML spec, but were not covered by the original
                     // polyfill's regex. We use periods in our i18n implementation.
-                    if (attribute && attribute.name && /^data-\w[.\w-]*$/.test(attribute.name)) {
-                        var name = attribute.name;
-                        var value = attribute.value;
+                    if (attribute?.name && /^data-\w[.\w-]*$/.test(attribute.name)) {
+                        const name = attribute.name;
+                        const value = attribute.value;
 
-                        var propName = name.substr(5).replace(/-./g, function (prop) {
-                            return prop.charAt(1).toUpperCase();
-                        });
+                        const propName = name.substr(5).replace(/-./g, (prop) => prop.charAt(1).toUpperCase());
 
                         // If this browser supports __defineGetter__ and __defineSetter__,
                         // continue using defineProperty. If not (like IE 8 and below), we use
@@ -463,7 +458,7 @@
                                     } else {
                                         this.removeAttribute(name);
                                     }
-                                }.bind(element, name),
+                                }.bind(this, name),
                             });
                         } else {
                             map[propName] = value;
@@ -481,9 +476,9 @@
             {},
     );
 
-    (function (undefined) {
+    ((_undefined) => {
         // Detection from https://github.com/mdn/content/blob/cf607d68522cd35ee7670782d3ee3a361eaef2e4/files/en-us/web/javascript/reference/global_objects/string/trim/index.md#polyfill
-        var detect = "trim" in String.prototype;
+        const detect = "trim" in String.prototype;
 
         if (detect) return;
 
@@ -519,7 +514,7 @@
             return value;
         }
 
-        var trimmedValue = value.trim();
+        const trimmedValue = value.trim();
 
         if (trimmedValue === "true") {
             return true;
@@ -531,7 +526,7 @@
 
         // Empty / whitespace-only strings are considered finite so we need to check
         // the length of the trimmed string as well
-        if (trimmedValue.length > 0 && isFinite(trimmedValue)) {
+        if (trimmedValue.length > 0 && Number.isFinite(trimmedValue)) {
             return Number(trimmedValue);
         }
 
@@ -547,9 +542,9 @@
      * @returns {Object<string, unknown>} Normalised dataset
      */
     function normaliseDataset(dataset) {
-        var out = {};
+        const out = {};
 
-        for (var key in dataset) {
+        for (const key in dataset) {
             out[key] = normaliseString(dataset[key]);
         }
 
@@ -571,7 +566,7 @@
         this.translations = translations || {};
 
         // The locale to use for PluralRules and NumberFormat
-        this.locale = (config && config.locale) || document.documentElement.lang || "en";
+        this.locale = config?.locale || document.documentElement.lang || "en";
     }
 
     /**
@@ -595,12 +590,12 @@
         // falsy, as this could legitimately be 0.
         if (options && typeof options.count !== "undefined") {
             // Get the plural suffix
-            lookupKey = lookupKey + "." + this.getPluralSuffix(lookupKey, options.count);
+            lookupKey = `${lookupKey}.${this.getPluralSuffix(lookupKey, options.count)}`;
         }
 
         if (lookupKey in this.translations) {
             // Fetch the translation string for that lookup key
-            var translationString = this.translations[lookupKey];
+            const translationString = this.translations[lookupKey];
 
             // Check for ${} placeholders in the translation string
             if (translationString.match(/%{(.\S+)}/)) {
@@ -609,14 +604,12 @@
                 }
 
                 return this.replacePlaceholders(translationString, options);
-            } else {
-                return translationString;
             }
-        } else {
-            // If the key wasn't found in our translations object,
-            // return the lookup key itself as the fallback
-            return lookupKey;
+            return translationString;
         }
+        // If the key wasn't found in our translations object,
+        // return the lookup key itself as the fallback
+        return lookupKey;
     };
 
     /**
@@ -628,15 +621,15 @@
      * @returns {string} The translation string to output, with ${} placeholders replaced
      */
     I18n.prototype.replacePlaceholders = function (translationString, options) {
-        var formatter;
+        let formatter;
 
         if (this.hasIntlNumberFormatSupport()) {
             formatter = new Intl.NumberFormat(this.locale);
         }
 
-        return translationString.replace(/%{(.\S+)}/g, function (placeholderWithBraces, placeholderKey) {
+        return translationString.replace(/%{(.\S+)}/g, (placeholderWithBraces, placeholderKey) => {
             if (Object.prototype.hasOwnProperty.call(options, placeholderKey)) {
-                var placeholderValue = options[placeholderKey];
+                const placeholderValue = options[placeholderKey];
 
                 // If a user has passed `false` as the value for the placeholder
                 // treat it as though the value should not be displayed
@@ -650,9 +643,8 @@
                 }
 
                 return placeholderValue;
-            } else {
-                throw new Error("i18n: no data found to replace " + placeholderWithBraces + " placeholder in string");
             }
+            throw new Error(`i18n: no data found to replace ${placeholderWithBraces} placeholder in string`);
         });
     };
 
@@ -709,11 +701,11 @@
         // Number(count) will turn anything that can't be converted to a Number type
         // into 'NaN'. isFinite filters out NaN, as it isn't a finite number.
         count = Number(count);
-        if (!isFinite(count)) {
+        if (!Number.isFinite(count)) {
             return "other";
         }
 
-        var preferredForm;
+        let preferredForm;
 
         // Check to verify that all the requirements for Intl.PluralRules are met.
         // If so, we can use that instead of our custom implementation. Otherwise,
@@ -725,26 +717,22 @@
         }
 
         // Use the correct plural form if provided
-        if (lookupKey + "." + preferredForm in this.translations) {
+        if (`${lookupKey}.${preferredForm}` in this.translations) {
             return preferredForm;
             // Fall back to `other` if the plural form is missing, but log a warning
             // to the console
-        } else if (lookupKey + ".other" in this.translations) {
+        }
+        if (`${lookupKey}.other` in this.translations) {
             if (console && "warn" in console) {
                 console.warn(
-                    'i18n: Missing plural form ".' +
-                        preferredForm +
-                        '" for "' +
-                        this.locale +
-                        '" locale. Falling back to ".other".',
+                    `i18n: Missing plural form ".${preferredForm}" for "${this.locale}" locale. Falling back to ".other".`,
                 );
             }
 
             return "other";
             // If the required `other` plural form is missing, all we can do is error
-        } else {
-            throw new Error('i18n: Plural form ".other" is required for "' + this.locale + '" locale');
         }
+        throw new Error(`i18n: Plural form ".other" is required for "${this.locale}" locale`);
     };
 
     /**
@@ -761,7 +749,7 @@
         // make sure our number is one of those.
         count = Math.abs(Math.floor(count));
 
-        var ruleset = this.getPluralRulesForLocale();
+        const ruleset = this.getPluralRulesForLocale();
 
         if (ruleset) {
             return I18n.pluralRules[ruleset](count);
@@ -782,15 +770,15 @@
      *   of the functions in this.pluralRules)
      */
     I18n.prototype.getPluralRulesForLocale = function () {
-        var locale = this.locale;
-        var localeShort = locale.split("-")[0];
+        const locale = this.locale;
+        const localeShort = locale.split("-")[0];
 
         // Look through the plural rules map to find which `pluralRule` is
         // appropriate for our current `locale`.
-        for (var pluralRule in I18n.pluralRulesMap) {
+        for (const pluralRule in I18n.pluralRulesMap) {
             if (Object.prototype.hasOwnProperty.call(I18n.pluralRulesMap, pluralRule)) {
-                var languages = I18n.pluralRulesMap[pluralRule];
-                for (var i = 0; i < languages.length; i++) {
+                const languages = I18n.pluralRulesMap[pluralRule];
+                for (let i = 0; i < languages.length; i++) {
                     if (languages[i] === locale || languages[i] === localeShort) {
                         return pluralRule;
                     }
@@ -883,7 +871,7 @@
      */
     I18n.pluralRules = {
         /* eslint-disable jsdoc/require-jsdoc */
-        arabic: function (n) {
+        arabic: (n) => {
             if (n === 0) {
                 return "zero";
             }
@@ -901,16 +889,10 @@
             }
             return "other";
         },
-        chinese: function () {
-            return "other";
-        },
-        french: function (n) {
-            return n === 0 || n === 1 ? "one" : "other";
-        },
-        german: function (n) {
-            return n === 1 ? "one" : "other";
-        },
-        irish: function (n) {
+        chinese: () => "other",
+        french: (n) => (n === 0 || n === 1 ? "one" : "other"),
+        german: (n) => (n === 1 ? "one" : "other"),
+        irish: (n) => {
             if (n === 1) {
                 return "one";
             }
@@ -925,9 +907,9 @@
             }
             return "other";
         },
-        russian: function (n) {
-            var lastTwo = n % 100;
-            var last = lastTwo % 10;
+        russian: (n) => {
+            const lastTwo = n % 100;
+            const last = lastTwo % 10;
             if (last === 1 && lastTwo !== 11) {
                 return "one";
             }
@@ -941,7 +923,7 @@
             // We don't anticipate it being used, but it's here for consistency.
             return "other";
         },
-        scottish: function (n) {
+        scottish: (n) => {
             if (n === 1 || n === 11) {
                 return "one";
             }
@@ -953,7 +935,7 @@
             }
             return "other";
         },
-        spanish: function (n) {
+        spanish: (n) => {
             if (n === 1) {
                 return "one";
             }
@@ -962,7 +944,7 @@
             }
             return "other";
         },
-        welsh: function (n) {
+        welsh: (n) => {
             if (n === 0) {
                 return "zero";
             }
@@ -1012,17 +994,17 @@
 
     (function (undefined) {
         // Detection from https://raw.githubusercontent.com/Financial-Times/polyfill-service/master/packages/polyfill-library/polyfills/DOMTokenList/detect.js
-        var detect =
+        const detect =
             "DOMTokenList" in this &&
-            (function (x) {
-                return "classList" in x ? !x.classList.toggle("x", false) && !x.className : true;
-            })(document.createElement("x"));
+            ((x) => ("classList" in x ? !x.classList.toggle("x", false) && !x.className : true))(
+                document.createElement("x"),
+            );
 
         if (detect) return;
 
         // Polyfill from https://raw.githubusercontent.com/Financial-Times/polyfill-service/master/packages/polyfill-library/polyfills/DOMTokenList/polyfill.js
-        (function (global) {
-            var nativeImpl = "DOMTokenList" in global && global.DOMTokenList;
+        ((global) => {
+            const nativeImpl = "DOMTokenList" in global && global.DOMTokenList;
 
             if (
                 !nativeImpl ||
@@ -1030,10 +1012,10 @@
                     !!document.createElementNS("http://www.w3.org/2000/svg", "svg") &&
                     !(document.createElementNS("http://www.w3.org/2000/svg", "svg").classList instanceof DOMTokenList))
             ) {
-                global.DOMTokenList = (function () {
+                global.DOMTokenList = (() => {
                     // eslint-disable-line no-unused-vars
-                    var dpSupport = true;
-                    var defineGetter = function (object, name, fn, configurable) {
+                    let dpSupport = true;
+                    const defineGetter = (object, name, fn, configurable) => {
                         if (Object.defineProperty)
                             Object.defineProperty(object, name, {
                                 configurable: false === dpSupport ? true : !!configurable,
@@ -1045,28 +1027,27 @@
                     /** Ensure the browser allows Object.defineProperty to be used on native JavaScript objects. */
                     try {
                         defineGetter({}, "support");
-                    } catch (e) {
+                    } catch (_e) {
                         dpSupport = false;
                     }
 
-                    var _DOMTokenList = function (el, prop) {
-                        var that = this;
-                        var tokens = [];
-                        var tokenMap = {};
-                        var length = 0;
-                        var maxLength = 0;
-                        var addIndexGetter = function (i) {
+                    const _DOMTokenList = function (el, prop) {
+                        let tokens = [];
+                        let tokenMap = {};
+                        let length = 0;
+                        let maxLength = 0;
+                        const addIndexGetter = (i) => {
                             defineGetter(
-                                that,
+                                this,
                                 i,
-                                function () {
+                                () => {
                                     preop();
                                     return tokens[i];
                                 },
                                 false,
                             );
                         };
-                        var reindex = function () {
+                        const reindex = () => {
                             /** Define getter functions for array-like access to the tokenList's contents. */
                             if (length >= maxLength)
                                 for (; maxLength < length; ++maxLength) {
@@ -1075,19 +1056,17 @@
                         };
 
                         /** Helper function called at the start of each class method. Internal use only. */
-                        var preop = function () {
-                            var error;
-                            var i;
-                            var args = arguments;
-                            var rSpace = /\s+/;
+                        const preop = () => {
+                            let error;
+                            let i;
+                            const args = arguments;
+                            const rSpace = /\s+/;
 
                             /** Validate the token/s passed to an instance method, if any. */
                             if (args.length)
                                 for (i = 0; i < args.length; ++i)
                                     if (rSpace.test(args[i])) {
-                                        error = new SyntaxError(
-                                            'String "' + args[i] + '" ' + "contains" + " an invalid character",
-                                        );
+                                        error = new SyntaxError(`String "${args[i]}" contains an invalid character`);
                                         error.code = 5;
                                         error.name = "InvalidCharacterError";
                                         throw error;
@@ -1095,9 +1074,9 @@
 
                             /** Split the new value apart by whitespace*/
                             if (typeof el[prop] === "object") {
-                                tokens = ("" + el[prop].baseVal).replace(/^\s+|\s+$/g, "").split(rSpace);
+                                tokens = `${el[prop].baseVal}`.replace(/^\s+|\s+$/g, "").split(rSpace);
                             } else {
-                                tokens = ("" + el[prop]).replace(/^\s+|\s+$/g, "").split(rSpace);
+                                tokens = `${el[prop]}`.replace(/^\s+|\s+$/g, "").split(rSpace);
                             }
 
                             /** Avoid treating blank strings as single-item token lists */
@@ -1114,31 +1093,31 @@
                         preop();
 
                         /** Return the number of tokens in the underlying string. Read-only. */
-                        defineGetter(that, "length", function () {
+                        defineGetter(this, "length", () => {
                             preop();
                             return length;
                         });
 
                         /** Override the default toString/toLocaleString methods to return a space-delimited list of tokens when typecast. */
-                        that.toLocaleString = that.toString = function () {
+                        this.toLocaleString = this.toString = () => {
                             preop();
                             return tokens.join(" ");
                         };
 
-                        that.item = function (idx) {
+                        this.item = (idx) => {
                             preop();
                             return tokens[idx];
                         };
 
-                        that.contains = function (token) {
+                        this.contains = (token) => {
                             preop();
                             return !!tokenMap[token];
                         };
 
-                        that.add = function () {
-                            preop.apply(that, (args = arguments));
+                        this.add = () => {
+                            preop.apply(this, (args = arguments));
 
-                            for (var args, token, i = 0, l = args.length; i < l; ++i) {
+                            for (let args, token, i = 0, l = args.length; i < l; ++i) {
                                 token = args[i];
                                 if (!tokenMap[token]) {
                                     tokens.push(token);
@@ -1158,11 +1137,11 @@
                             }
                         };
 
-                        that.remove = function () {
-                            preop.apply(that, (args = arguments));
+                        this.remove = () => {
+                            preop.apply(this, (args = arguments));
 
                             /** Build a hash of token names to compare against when recollecting our token list. */
-                            for (var args, ignore = {}, i = 0, t = []; i < args.length; ++i) {
+                            for (let args, ignore = {}, i = 0, _t = []; i < args.length; ++i) {
                                 ignore[args[i]] = true;
                                 delete tokenMap[args[i]];
                             }
@@ -1182,32 +1161,31 @@
                             reindex();
                         };
 
-                        that.toggle = function (token, force) {
-                            preop.apply(that, [token]);
+                        this.toggle = (token, force) => {
+                            preop.apply(this, [token]);
 
                             /** Token state's being forced. */
                             if (undefined !== force) {
                                 if (force) {
-                                    that.add(token);
+                                    this.add(token);
                                     return true;
-                                } else {
-                                    that.remove(token);
-                                    return false;
                                 }
+                                this.remove(token);
+                                return false;
                             }
 
                             /** Token already exists in tokenList. Remove it, and return FALSE. */
                             if (tokenMap[token]) {
-                                that.remove(token);
+                                this.remove(token);
                                 return false;
                             }
 
                             /** Otherwise, add the token and return TRUE. */
-                            that.add(token);
+                            this.add(token);
                             return true;
                         };
 
-                        return that;
+                        return this;
                     };
 
                     return _DOMTokenList;
@@ -1215,15 +1193,15 @@
             }
 
             // Add second argument to native DOMTokenList.toggle() if necessary
-            (function () {
-                var e = document.createElement("span");
+            (() => {
+                const e = document.createElement("span");
                 if (!("classList" in e)) return;
                 e.classList.toggle("x", false);
                 if (!e.classList.contains("x")) return;
                 e.classList.constructor.prototype.toggle = function toggle(token /*, force*/) {
-                    var force = arguments[1];
+                    let force = arguments[1];
                     if (force === undefined) {
-                        var add = !this.contains(token);
+                        const add = !this.contains(token);
                         this[add ? "add" : "remove"](token);
                         return add;
                     }
@@ -1234,34 +1212,34 @@
             })();
 
             // Add multiple arguments to native DOMTokenList.add() if necessary
-            (function () {
-                var e = document.createElement("span");
+            (() => {
+                const e = document.createElement("span");
                 if (!("classList" in e)) return;
                 e.classList.add("a", "b");
                 if (e.classList.contains("b")) return;
-                var native = e.classList.constructor.prototype.add;
+                const native = e.classList.constructor.prototype.add;
                 e.classList.constructor.prototype.add = function () {
-                    var args = arguments;
-                    var l = arguments.length;
-                    for (var i = 0; i < l; i++) {
+                    const args = arguments;
+                    const l = arguments.length;
+                    for (let i = 0; i < l; i++) {
                         native.call(this, args[i]);
                     }
                 };
             })();
 
             // Add multiple arguments to native DOMTokenList.remove() if necessary
-            (function () {
-                var e = document.createElement("span");
+            (() => {
+                const e = document.createElement("span");
                 if (!("classList" in e)) return;
                 e.classList.add("a");
                 e.classList.add("b");
                 e.classList.remove("a", "b");
                 if (!e.classList.contains("b")) return;
-                var native = e.classList.constructor.prototype.remove;
+                const native = e.classList.constructor.prototype.remove;
                 e.classList.constructor.prototype.remove = function () {
-                    var args = arguments;
-                    var l = arguments.length;
-                    for (var i = 0; i < l; i++) {
+                    const args = arguments;
+                    const l = arguments.length;
+                    for (let i = 0; i < l; i++) {
                         native.call(this, args[i]);
                     }
                 };
@@ -1274,15 +1252,15 @@
             {},
     );
 
-    (function (undefined) {
+    (function (_undefined) {
         // Detection from https://raw.githubusercontent.com/Financial-Times/polyfill-service/8717a9e04ac7aff99b4980fbedead98036b0929a/packages/polyfill-library/polyfills/Element/prototype/classList/detect.js
-        var detect =
+        const detect =
             "document" in this &&
             "classList" in document.documentElement &&
             "Element" in this &&
             "classList" in Element.prototype &&
-            (function () {
-                var e = document.createElement("span");
+            (() => {
+                const e = document.createElement("span");
                 e.classList.add("a", "b");
                 return e.classList.contains("b");
             })();
@@ -1290,9 +1268,9 @@
         if (detect) return;
 
         // Polyfill from https://cdn.polyfill.io/v2/polyfill.js?features=Element.prototype.classList&flags=always
-        (function (global) {
-            var dpSupport = true;
-            var defineGetter = function (object, name, fn, configurable) {
+        ((global) => {
+            let dpSupport = true;
+            const defineGetter = (object, name, fn, configurable) => {
                 if (Object.defineProperty)
                     Object.defineProperty(object, name, {
                         configurable: false === dpSupport ? true : !!configurable,
@@ -1303,22 +1281,21 @@
             /** Ensure the browser allows Object.defineProperty to be used on native JavaScript objects. */
             try {
                 defineGetter({}, "support");
-            } catch (e) {
+            } catch (_e) {
                 dpSupport = false;
             }
             /** Polyfills a property with a DOMTokenList */
-            var addProp = function (o, name, attr) {
+            const addProp = (o, name, attr) => {
                 defineGetter(
                     o.prototype,
                     name,
                     function () {
-                        var tokenList;
+                        let tokenList;
 
-                        var THIS = this,
-                            /** Prevent this from firing twice for some reason. What the hell, IE. */
-                            gibberishProperty = "__defineGetter__" + "DEFINE_PROPERTY" + name;
-                        if (THIS[gibberishProperty]) return tokenList;
-                        THIS[gibberishProperty] = true;
+                        const /** Prevent this from firing twice for some reason. What the hell, IE. */
+                            gibberishProperty = `__defineGetter__DEFINE_PROPERTY${name}`;
+                        if (this[gibberishProperty]) return tokenList;
+                        this[gibberishProperty] = true;
 
                         /**
                          * IE8 can't define properties on native JavaScript objects, so we'll use a dumb hack instead.
@@ -1329,13 +1306,13 @@
                          * select lists).
                          */
                         if (false === dpSupport) {
-                            var visage;
-                            var mirror = addProp.mirror || document.createElement("div");
-                            var reflections = mirror.childNodes;
-                            var l = reflections.length;
+                            let visage;
+                            const mirror = addProp.mirror || document.createElement("div");
+                            const reflections = mirror.childNodes;
+                            const l = reflections.length;
 
-                            for (var i = 0; i < l; ++i)
-                                if (reflections[i]._R === THIS) {
+                            for (let i = 0; i < l; ++i)
+                                if (reflections[i]._R === this) {
                                     visage = reflections[i];
                                     break;
                                 }
@@ -1343,13 +1320,11 @@
                             /** Couldn't find an element's reflection inside the mirror. Materialise one. */
                             visage || (visage = mirror.appendChild(document.createElement("div")));
 
-                            tokenList = DOMTokenList.call(visage, THIS, attr);
-                        } else tokenList = new DOMTokenList(THIS, attr);
+                            tokenList = DOMTokenList.call(visage, this, attr);
+                        } else tokenList = new DOMTokenList(this, attr);
 
-                        defineGetter(THIS, name, function () {
-                            return tokenList;
-                        });
-                        delete THIS[gibberishProperty];
+                        defineGetter(this, name, () => tokenList);
+                        delete this[gibberishProperty];
 
                         return tokenList;
                     },
@@ -1370,9 +1345,9 @@
             {},
     );
 
-    (function (undefined) {
+    (function (_undefined) {
         // Detection from https://raw.githubusercontent.com/Financial-Times/polyfill-service/1f3c09b402f65bf6e393f933a15ba63f1b86ef1f/packages/polyfill-library/polyfills/Element/prototype/matches/detect.js
-        var detect = "document" in this && "matches" in document.documentElement;
+        const detect = "document" in this && "matches" in document.documentElement;
 
         if (detect) return;
 
@@ -1383,11 +1358,10 @@
             Element.prototype.msMatchesSelector ||
             Element.prototype.mozMatchesSelector ||
             function matches(selector) {
-                var element = this;
-                var elements = (element.document || element.ownerDocument).querySelectorAll(selector);
-                var index = 0;
+                const elements = (this.document || this.ownerDocument).querySelectorAll(selector);
+                let index = 0;
 
-                while (elements[index] && elements[index] !== element) {
+                while (elements[index] && elements[index] !== this) {
                     ++index;
                 }
 
@@ -1400,19 +1374,19 @@
             {},
     );
 
-    (function (undefined) {
+    (function (_undefined) {
         // Detection from https://raw.githubusercontent.com/Financial-Times/polyfill-service/1f3c09b402f65bf6e393f933a15ba63f1b86ef1f/packages/polyfill-library/polyfills/Element/prototype/closest/detect.js
-        var detect = "document" in this && "closest" in document.documentElement;
+        const detect = "document" in this && "closest" in document.documentElement;
 
         if (detect) return;
 
         // Polyfill from https://raw.githubusercontent.com/Financial-Times/polyfill-service/1f3c09b402f65bf6e393f933a15ba63f1b86ef1f/packages/polyfill-library/polyfills/Element/prototype/closest/polyfill.js
         Element.prototype.closest = function closest(selector) {
-            var node = this;
+            let node = this;
 
             while (node) {
                 if (node.matches(selector)) return node;
-                else node = "SVGElement" in window && node instanceof SVGElement ? node.parentNode : node.parentElement;
+                node = "SVGElement" in window && node instanceof SVGElement ? node.parentNode : node.parentElement;
             }
 
             return null;
@@ -1424,9 +1398,9 @@
             {},
     );
 
-    (function (undefined) {
+    (function (_undefined) {
         // Detection from https://github.com/Financial-Times/polyfill-service/blob/master/packages/polyfill-library/polyfills/Window/detect.js
-        var detect = "Window" in this;
+        const detect = "Window" in this;
 
         if (detect) return;
 
@@ -1450,7 +1424,7 @@
 
     (function (undefined) {
         // Detection from https://github.com/Financial-Times/polyfill-service/blob/master/packages/polyfill-library/polyfills/Event/detect.js
-        var detect = (function (global) {
+        const detect = ((global) => {
             if (!("Event" in global)) return false;
             if (typeof global.Event === "function") return true;
 
@@ -1458,7 +1432,7 @@
                 // In IE 9-11, the Event object exists but cannot be instantiated
                 new Event("click");
                 return true;
-            } catch (e) {
+            } catch (_e) {
                 return false;
             }
         })(this);
@@ -1466,8 +1440,8 @@
         if (detect) return;
 
         // Polyfill from https://cdn.polyfill.io/v2/polyfill.js?features=Event&flags=always
-        (function () {
-            var unlistenableWindowEvents = {
+        (() => {
+            const unlistenableWindowEvents = {
                 click: 1,
                 dblclick: 1,
                 keyup: 1,
@@ -1491,8 +1465,8 @@
             if (typeof document === "undefined" || typeof window === "undefined") return;
 
             function indexOf(array, element) {
-                var index = -1,
-                    length = array.length;
+                let index = -1;
+                const length = array.length;
 
                 while (++index < length) {
                     if (index in array && array[index] === element) {
@@ -1503,18 +1477,19 @@
                 return -1;
             }
 
-            var existingProto = (window.Event && window.Event.prototype) || null;
+            const existingProto = window.Event?.prototype || null;
             window.Event = Window.prototype.Event = function Event(type, eventInitDict) {
                 if (!type) {
                     throw new Error("Not enough arguments");
                 }
 
-                var event;
+                let event;
                 // Shortcut if browser supports createEvent
                 if ("createEvent" in document) {
                     event = document.createEvent("Event");
-                    var bubbles = eventInitDict && eventInitDict.bubbles !== undefined ? eventInitDict.bubbles : false;
-                    var cancelable =
+                    const bubbles =
+                        eventInitDict && eventInitDict.bubbles !== undefined ? eventInitDict.bubbles : false;
+                    const cancelable =
                         eventInitDict && eventInitDict.cancelable !== undefined ? eventInitDict.cancelable : false;
 
                     event.initEvent(type, bubbles, cancelable);
@@ -1546,29 +1521,26 @@
                     Document.prototype.addEventListener =
                     Element.prototype.addEventListener =
                         function addEventListener() {
-                            var element = this,
-                                type = arguments[0],
-                                listener = arguments[1];
+                            const type = arguments[0];
+                            const listener = arguments[1];
 
-                            if (element === window && type in unlistenableWindowEvents) {
+                            if (this === window && type in unlistenableWindowEvents) {
                                 throw new Error(
-                                    "In IE8 the event: " +
-                                        type +
-                                        " is not available on the window object. Please see https://github.com/Financial-Times/polyfill-service/issues/317 for more information.",
+                                    `In IE8 the event: ${type} is not available on the window object. Please see https://github.com/Financial-Times/polyfill-service/issues/317 for more information.`,
                                 );
                             }
 
-                            if (!element._events) {
-                                element._events = {};
+                            if (!this._events) {
+                                this._events = {};
                             }
 
-                            if (!element._events[type]) {
-                                element._events[type] = function (event) {
-                                    var list = element._events[event.type].list,
-                                        events = list.slice(),
-                                        index = -1,
-                                        length = events.length,
-                                        eventElement;
+                            if (!this._events[type]) {
+                                this._events[type] = (event) => {
+                                    const list = this._events[event.type].list;
+                                    const events = list.slice();
+                                    let index = -1;
+                                    const length = events.length;
+                                    let eventElement;
 
                                     event.preventDefault = function preventDefault() {
                                         if (event.cancelable !== false) {
@@ -1585,9 +1557,9 @@
                                         event.cancelImmediate = true;
                                     };
 
-                                    event.currentTarget = element;
+                                    event.currentTarget = this;
                                     event.relatedTarget = event.fromElement || null;
-                                    event.target = event.target || event.srcElement || element;
+                                    event.target = event.target || event.srcElement || this;
                                     event.timeStamp = new Date().getTime();
 
                                     if (event.clientX) {
@@ -1603,20 +1575,20 @@
                                                 indexOf(list, eventElement) !== -1 &&
                                                 typeof eventElement === "function"
                                             ) {
-                                                eventElement.call(element, event);
+                                                eventElement.call(this, event);
                                             }
                                         }
                                     }
                                 };
 
-                                element._events[type].list = [];
+                                this._events[type].list = [];
 
-                                if (element.attachEvent) {
-                                    element.attachEvent("on" + type, element._events[type]);
+                                if (this.attachEvent) {
+                                    this.attachEvent(`on${type}`, this._events[type]);
                                 }
                             }
 
-                            element._events[type].list.push(listener);
+                            this._events[type].list.push(listener);
                         };
 
                 window.removeEventListener =
@@ -1624,22 +1596,21 @@
                     Document.prototype.removeEventListener =
                     Element.prototype.removeEventListener =
                         function removeEventListener() {
-                            var element = this,
-                                type = arguments[0],
-                                listener = arguments[1],
-                                index;
+                            const type = arguments[0];
+                            const listener = arguments[1];
+                            let index;
 
-                            if (element._events && element._events[type] && element._events[type].list) {
-                                index = indexOf(element._events[type].list, listener);
+                            if (this._events?.[type]?.list) {
+                                index = indexOf(this._events[type].list, listener);
 
                                 if (index !== -1) {
-                                    element._events[type].list.splice(index, 1);
+                                    this._events[type].list.splice(index, 1);
 
-                                    if (!element._events[type].list.length) {
-                                        if (element.detachEvent) {
-                                            element.detachEvent("on" + type, element._events[type]);
+                                    if (!this._events[type].list.length) {
+                                        if (this.detachEvent) {
+                                            this.detachEvent(`on${type}`, this._events[type]);
                                         }
-                                        delete element._events[type];
+                                        delete this._events[type];
                                     }
                                 }
                             }
@@ -1658,24 +1629,24 @@
                                 throw new Error("DOM Events Exception 0");
                             }
 
-                            var element = this,
-                                type = event.type;
+                            let element = this;
+                            const type = event.type;
 
                             try {
                                 if (!event.bubbles) {
                                     event.cancelBubble = true;
 
-                                    var cancelBubbleEvent = function (event) {
+                                    const cancelBubbleEvent = (event) => {
                                         event.cancelBubble = true;
 
-                                        (element || window).detachEvent("on" + type, cancelBubbleEvent);
+                                        (element || window).detachEvent(`on${type}`, cancelBubbleEvent);
                                     };
 
-                                    this.attachEvent("on" + type, cancelBubbleEvent);
+                                    this.attachEvent(`on${type}`, cancelBubbleEvent);
                                 }
 
-                                this.fireEvent("on" + type, event);
-                            } catch (error) {
+                                this.fireEvent(`on${type}`, event);
+                            } catch (_error) {
                                 event.target = element;
 
                                 do {
@@ -1685,8 +1656,8 @@
                                         element._events[type].call(element, event);
                                     }
 
-                                    if (typeof element["on" + type] === "function") {
-                                        element["on" + type].call(element, event);
+                                    if (typeof element[`on${type}`] === "function") {
+                                        element[`on${type}`].call(element, event);
                                     }
 
                                     element = element.nodeType === 9 ? element.parentWindow : element.parentNode;
@@ -1697,7 +1668,7 @@
                         };
 
                 // Add the DOMContentLoaded Event
-                document.attachEvent("onreadystatechange", function () {
+                document.attachEvent("onreadystatechange", () => {
                     if (document.readyState === "complete") {
                         document.dispatchEvent(
                             new Event("DOMContentLoaded", {
@@ -1715,9 +1686,9 @@
             {},
     );
 
-    (function (undefined) {
+    ((_undefined) => {
         // Detection from https://github.com/Financial-Times/polyfill-service/blob/master/packages/polyfill-library/polyfills/Function/prototype/bind/detect.js
-        var detect = "bind" in Function.prototype;
+        const detect = "bind" in Function.prototype;
 
         if (detect) return;
 
@@ -1726,25 +1697,26 @@
             value: function bind(that) {
                 // .length is 1
                 // add necessary es5-shim utilities
-                var $Array = Array;
-                var $Object = Object;
-                var ObjectPrototype = $Object.prototype;
-                var ArrayPrototype = $Array.prototype;
-                var Empty = function Empty() {};
-                var to_string = ObjectPrototype.toString;
-                var hasToStringTag = typeof Symbol === "function" && typeof Symbol.toStringTag === "symbol";
-                var isCallable;
-                /* inlined from https://npmjs.com/is-callable */ var fnToStr = Function.prototype.toString,
-                    tryFunctionObject = function tryFunctionObject(value) {
-                        try {
-                            fnToStr.call(value);
-                            return true;
-                        } catch (e) {
-                            return false;
-                        }
-                    },
-                    fnClass = "[object Function]",
-                    genClass = "[object GeneratorFunction]";
+                const $Array = Array;
+                const $Object = Object;
+                const ObjectPrototype = $Object.prototype;
+                const ArrayPrototype = $Array.prototype;
+                const Empty = function Empty() {};
+                const to_string = ObjectPrototype.toString;
+                const hasToStringTag = typeof Symbol === "function" && typeof Symbol.toStringTag === "symbol";
+                let isCallable;
+                /* inlined from https://npmjs.com/is-callable */ const fnToStr =
+                    Function.prototype.toString; /* inlined from https://npmjs.com/is-callable */
+                const tryFunctionObject = function tryFunctionObject(value) {
+                    try {
+                        fnToStr.call(value);
+                        return true;
+                    } catch (_e) {
+                        return false;
+                    }
+                }; /* inlined from https://npmjs.com/is-callable */
+                const fnClass = "[object Function]"; /* inlined from https://npmjs.com/is-callable */
+                const genClass = "[object GeneratorFunction]";
                 isCallable = function isCallable(value) {
                     if (typeof value !== "function") {
                         return false;
@@ -1752,25 +1724,25 @@
                     if (hasToStringTag) {
                         return tryFunctionObject(value);
                     }
-                    var strClass = to_string.call(value);
+                    const strClass = to_string.call(value);
                     return strClass === fnClass || strClass === genClass;
                 };
-                var array_slice = ArrayPrototype.slice;
-                var array_concat = ArrayPrototype.concat;
-                var array_push = ArrayPrototype.push;
-                var max = Math.max;
+                const array_slice = ArrayPrototype.slice;
+                const array_concat = ArrayPrototype.concat;
+                const array_push = ArrayPrototype.push;
+                const max = Math.max;
                 // /add necessary es5-shim utilities
 
                 // 1. Let Target be the this value.
-                var target = this;
+                const target = this;
                 // 2. If IsCallable(Target) is false, throw a TypeError exception.
                 if (!isCallable(target)) {
-                    throw new TypeError("Function.prototype.bind called on incompatible " + target);
+                    throw new TypeError(`Function.prototype.bind called on incompatible ${target}`);
                 }
                 // 3. Let A be a new (possibly empty) internal list of all of the
                 //   argument values provided after thisArg (arg1, arg2 etc), in order.
                 // XXX slicedArgs will stand in for "A" if used
-                var args = array_slice.call(arguments, 1); // for normal call
+                const args = array_slice.call(arguments, 1); // for normal call
                 // 4. Let F be a new native ECMAScript object.
                 // 11. Set the [[Prototype]] internal property of F to the standard
                 //   built-in Function prototype object as specified in 15.3.3.1.
@@ -1780,8 +1752,8 @@
                 //   15.3.4.5.2.
                 // 14. Set the [[HasInstance]] internal property of F as described in
                 //   15.3.4.5.3.
-                var bound;
-                var binder = function () {
+                let bound;
+                const binder = function () {
                     if (this instanceof bound) {
                         // 15.3.4.5.2 [[Construct]]
                         // When the [[Construct]] internal method of a function object,
@@ -1799,33 +1771,32 @@
                         // 5. Return the result of calling the [[Construct]] internal
                         //   method of target providing args as the arguments.
 
-                        var result = target.apply(this, array_concat.call(args, array_slice.call(arguments)));
+                        const result = target.apply(this, array_concat.call(args, array_slice.call(arguments)));
                         if ($Object(result) === result) {
                             return result;
                         }
                         return this;
-                    } else {
-                        // 15.3.4.5.1 [[Call]]
-                        // When the [[Call]] internal method of a function object, F,
-                        // which was created using the bind function is called with a
-                        // this value and a list of arguments ExtraArgs, the following
-                        // steps are taken:
-                        // 1. Let boundArgs be the value of F's [[BoundArgs]] internal
-                        //   property.
-                        // 2. Let boundThis be the value of F's [[BoundThis]] internal
-                        //   property.
-                        // 3. Let target be the value of F's [[TargetFunction]] internal
-                        //   property.
-                        // 4. Let args be a new list containing the same values as the
-                        //   list boundArgs in the same order followed by the same
-                        //   values as the list ExtraArgs in the same order.
-                        // 5. Return the result of calling the [[Call]] internal method
-                        //   of target providing boundThis as the this value and
-                        //   providing args as the arguments.
-
-                        // equiv: target.call(this, ...boundArgs, ...args)
-                        return target.apply(that, array_concat.call(args, array_slice.call(arguments)));
                     }
+                    // 15.3.4.5.1 [[Call]]
+                    // When the [[Call]] internal method of a function object, F,
+                    // which was created using the bind function is called with a
+                    // this value and a list of arguments ExtraArgs, the following
+                    // steps are taken:
+                    // 1. Let boundArgs be the value of F's [[BoundArgs]] internal
+                    //   property.
+                    // 2. Let boundThis be the value of F's [[BoundThis]] internal
+                    //   property.
+                    // 3. Let target be the value of F's [[TargetFunction]] internal
+                    //   property.
+                    // 4. Let args be a new list containing the same values as the
+                    //   list boundArgs in the same order followed by the same
+                    //   values as the list ExtraArgs in the same order.
+                    // 5. Return the result of calling the [[Call]] internal method
+                    //   of target providing boundThis as the this value and
+                    //   providing args as the arguments.
+
+                    // equiv: target.call(this, ...boundArgs, ...args)
+                    return target.apply(that, array_concat.call(args, array_slice.call(arguments)));
                 };
 
                 // 15. If the [[Class]] internal property of Target is "Function", then
@@ -1834,13 +1805,13 @@
                 //       larger.
                 // 16. Else set the length own property of F to 0.
 
-                var boundLength = max(0, target.length - args.length);
+                const boundLength = max(0, target.length - args.length);
 
                 // 17. Set the attributes of the length own property of F to the values
                 //   specified in 15.3.5.1.
-                var boundArgs = [];
-                for (var i = 0; i < boundLength; i++) {
-                    array_push.call(boundArgs, "$" + i);
+                const boundArgs = [];
+                for (let i = 0; i < boundLength; i++) {
+                    array_push.call(boundArgs, `$${i}`);
                 }
 
                 // XXX Build a dynamic function with desired amount of arguments is the only
@@ -1851,7 +1822,7 @@
                 // and so this code will never be executed.
                 bound = Function(
                     "binder",
-                    "return function (" + boundArgs.join(",") + "){ return binder.apply(this, arguments); }",
+                    `return function (${boundArgs.join(",")}){ return binder.apply(this, arguments); }`,
                 )(binder);
 
                 if (target.prototype) {
@@ -1900,7 +1871,7 @@
      * @see Default value for {@link AccordionConfig.i18n}
      * @default
      */
-    var ACCORDION_TRANSLATIONS = {
+    const ACCORDION_TRANSLATIONS = {
         hideAllSections: "Hide all sections",
         hideSection: "Hide",
         hideSectionAriaLabel: "Hide this section",
@@ -1928,7 +1899,7 @@
     function Accordion($module, config) {
         this.$module = $module;
 
-        var defaultConfig = {
+        const defaultConfig = {
             i18n: ACCORDION_TRANSLATIONS,
         };
 
@@ -1959,7 +1930,7 @@
         this.sectionSummaryFocusClass = "govuk-accordion__section-summary-focus";
         this.sectionContentClass = "govuk-accordion__section-content";
 
-        this.$sections = this.$module.querySelectorAll("." + this.sectionClass);
+        this.$sections = this.$module.querySelectorAll(`.${this.sectionClass}`);
         this.browserSupportsSessionStorage = helper.checkForSessionStorage();
     }
 
@@ -1976,7 +1947,7 @@
         this.initSectionHeaders();
 
         // See if "Show all sections" button text should be updated
-        var areAllSectionsOpen = this.checkIfAllSectionsOpen();
+        const areAllSectionsOpen = this.checkIfAllSectionsOpen();
         this.updateShowAllButton(areAllSectionsOpen);
     };
 
@@ -1996,7 +1967,7 @@
         this.$showAllButton.appendChild(this.$showAllIcon);
 
         // Create control wrapper and add controls to it
-        var $accordionControls = document.createElement("div");
+        const $accordionControls = document.createElement("div");
         $accordionControls.setAttribute("class", this.controlsClass);
         $accordionControls.appendChild(this.$showAllButton);
         this.$module.insertBefore($accordionControls, this.$module.firstChild);
@@ -2024,7 +1995,7 @@
             this.$sections,
             function ($section, i) {
                 // Set header attributes
-                var $header = $section.querySelector("." + this.sectionHeaderClass);
+                const $header = $section.querySelector(`.${this.sectionHeaderClass}`);
                 this.constructHeaderMarkup($header, i);
                 this.setExpanded(this.isExpanded($section), $section);
 
@@ -2045,18 +2016,18 @@
      * @param {number} index - Section index
      */
     Accordion.prototype.constructHeaderMarkup = function ($header, index) {
-        var $span = $header.querySelector("." + this.sectionButtonClass);
-        var $heading = $header.querySelector("." + this.sectionHeadingClass);
-        var $summary = $header.querySelector("." + this.sectionSummaryClass);
+        const $span = $header.querySelector(`.${this.sectionButtonClass}`);
+        const $heading = $header.querySelector(`.${this.sectionHeadingClass}`);
+        const $summary = $header.querySelector(`.${this.sectionSummaryClass}`);
 
         // Create a button element that will replace the '.govuk-accordion__section-button' span
-        var $button = document.createElement("button");
+        const $button = document.createElement("button");
         $button.setAttribute("type", "button");
-        $button.setAttribute("aria-controls", this.$module.id + "-content-" + (index + 1));
+        $button.setAttribute("aria-controls", `${this.$module.id}-content-${index + 1}`);
 
         // Copy all attributes (https://developer.mozilla.org/en-US/docs/Web/API/Element/attributes) from $span to $button
-        for (var i = 0; i < $span.attributes.length; i++) {
-            var attr = $span.attributes.item(i);
+        for (let i = 0; i < $span.attributes.length; i++) {
+            const attr = $span.attributes.item(i);
             // Add all attributes but not ID as this is being added to
             // the section heading ($headingText)
             if (attr.nodeName !== "id") {
@@ -2065,33 +2036,33 @@
         }
 
         // Create container for heading text so it can be styled
-        var $headingText = document.createElement("span");
+        const $headingText = document.createElement("span");
         $headingText.classList.add(this.sectionHeadingTextClass);
         // Copy the span ID to the heading text to allow it to be referenced by `aria-labelledby` on the
         // hidden content area without "Show this section"
         $headingText.id = $span.id;
 
         // Create an inner heading text container to limit the width of the focus state
-        var $headingTextFocus = document.createElement("span");
+        const $headingTextFocus = document.createElement("span");
         $headingTextFocus.classList.add(this.sectionHeadingTextFocusClass);
         $headingText.appendChild($headingTextFocus);
         // span could contain HTML elements (see https://www.w3.org/TR/2011/WD-html5-20110525/content-models.html#phrasing-content)
         $headingTextFocus.innerHTML = $span.innerHTML;
 
         // Create container for show / hide icons and text.
-        var $showHideToggle = document.createElement("span");
+        const $showHideToggle = document.createElement("span");
         $showHideToggle.classList.add(this.sectionShowHideToggleClass);
         // Tell Google not to index the 'show' text as part of the heading
         // For the snippet to work with JavaScript, it must be added before adding the page element to the
         // page's DOM. See https://developers.google.com/search/docs/advanced/robots/robots_meta_tag#data-nosnippet-attr
         $showHideToggle.setAttribute("data-nosnippet", "");
         // Create an inner container to limit the width of the focus state
-        var $showHideToggleFocus = document.createElement("span");
+        const $showHideToggleFocus = document.createElement("span");
         $showHideToggleFocus.classList.add(this.sectionShowHideToggleFocusClass);
         $showHideToggle.appendChild($showHideToggleFocus);
         // Create wrapper for the show / hide text. Append text after the show/hide icon
-        var $showHideText = document.createElement("span");
-        var $showHideIcon = document.createElement("span");
+        const $showHideText = document.createElement("span");
+        const $showHideIcon = document.createElement("span");
         $showHideIcon.classList.add(this.upChevronIconClass);
         $showHideToggleFocus.appendChild($showHideIcon);
         $showHideText.classList.add(this.sectionShowHideTextClass);
@@ -2111,16 +2082,16 @@
             // new `span`
             // This is because the summary line text is now inside a button element, which can only contain
             // phrasing content
-            var $summarySpan = document.createElement("span");
+            const $summarySpan = document.createElement("span");
             // Create an inner summary container to limit the width of the summary focus state
-            var $summarySpanFocus = document.createElement("span");
+            const $summarySpanFocus = document.createElement("span");
             $summarySpanFocus.classList.add(this.sectionSummaryFocusClass);
             $summarySpan.appendChild($summarySpanFocus);
 
             // Get original attributes, and pass them to the replacement
-            for (var j = 0, l = $summary.attributes.length; j < l; ++j) {
-                var nodeName = $summary.attributes.item(j).nodeName;
-                var nodeValue = $summary.attributes.item(j).nodeValue;
+            for (let j = 0, l = $summary.attributes.length; j < l; ++j) {
+                const nodeName = $summary.attributes.item(j).nodeName;
+                const nodeValue = $summary.attributes.item(j).nodeValue;
                 $summarySpan.setAttribute(nodeName, nodeValue);
             }
 
@@ -2146,7 +2117,7 @@
      * @param {Event} event - Generic event
      */
     Accordion.prototype.onBeforeMatch = function (event) {
-        var $section = event.target.closest("." + this.sectionClass);
+        const $section = event.target.closest(`.${this.sectionClass}`);
         if ($section) {
             this.setExpanded(true, $section);
         }
@@ -2158,7 +2129,7 @@
      * @param {HTMLElement} $section - Section element
      */
     Accordion.prototype.onSectionToggle = function ($section) {
-        var expanded = this.isExpanded($section);
+        const expanded = this.isExpanded($section);
         this.setExpanded(!expanded, $section);
 
         // Store the state in sessionStorage when a change is triggered
@@ -2169,17 +2140,16 @@
      * When Open/Close All toggled, set and store state
      */
     Accordion.prototype.onShowOrHideAllToggle = function () {
-        var $module = this;
-        var $sections = this.$sections;
-        var nowExpanded = !this.checkIfAllSectionsOpen();
+        const $sections = this.$sections;
+        const nowExpanded = !this.checkIfAllSectionsOpen();
 
-        nodeListForEach($sections, function ($section) {
-            $module.setExpanded(nowExpanded, $section);
+        nodeListForEach($sections, ($section) => {
+            this.setExpanded(nowExpanded, $section);
             // Store the state in sessionStorage when a change is triggered
-            $module.storeState($section);
+            this.storeState($section);
         });
 
-        $module.updateShowAllButton(nowExpanded);
+        this.updateShowAllButton(nowExpanded);
     };
 
     /**
@@ -2189,30 +2159,30 @@
      * @param {HTMLElement} $section - Section element
      */
     Accordion.prototype.setExpanded = function (expanded, $section) {
-        var $showHideIcon = $section.querySelector("." + this.upChevronIconClass);
-        var $showHideText = $section.querySelector("." + this.sectionShowHideTextClass);
-        var $button = $section.querySelector("." + this.sectionButtonClass);
-        var $content = $section.querySelector("." + this.sectionContentClass);
+        const $showHideIcon = $section.querySelector(`.${this.upChevronIconClass}`);
+        const $showHideText = $section.querySelector(`.${this.sectionShowHideTextClass}`);
+        const $button = $section.querySelector(`.${this.sectionButtonClass}`);
+        const $content = $section.querySelector(`.${this.sectionContentClass}`);
 
-        var newButtonText = expanded ? this.i18n.t("hideSection") : this.i18n.t("showSection");
+        const newButtonText = expanded ? this.i18n.t("hideSection") : this.i18n.t("showSection");
 
         $showHideText.innerText = newButtonText;
         $button.setAttribute("aria-expanded", expanded);
 
         // Update aria-label combining
-        var ariaLabelParts = [];
+        const ariaLabelParts = [];
 
-        var $headingText = $section.querySelector("." + this.sectionHeadingTextClass);
+        const $headingText = $section.querySelector(`.${this.sectionHeadingTextClass}`);
         if ($headingText) {
             ariaLabelParts.push($headingText.innerText.trim());
         }
 
-        var $summary = $section.querySelector("." + this.sectionSummaryClass);
+        const $summary = $section.querySelector(`.${this.sectionSummaryClass}`);
         if ($summary) {
             ariaLabelParts.push($summary.innerText.trim());
         }
 
-        var ariaLabelMessage = expanded ? this.i18n.t("hideSectionAriaLabel") : this.i18n.t("showSectionAriaLabel");
+        const ariaLabelMessage = expanded ? this.i18n.t("hideSectionAriaLabel") : this.i18n.t("showSectionAriaLabel");
         ariaLabelParts.push(ariaLabelMessage);
 
         /*
@@ -2234,7 +2204,7 @@
         }
 
         // See if "Show all sections" button text should be updated
-        var areAllSectionsOpen = this.checkIfAllSectionsOpen();
+        const areAllSectionsOpen = this.checkIfAllSectionsOpen();
         this.updateShowAllButton(areAllSectionsOpen);
     };
 
@@ -2255,10 +2225,10 @@
      */
     Accordion.prototype.checkIfAllSectionsOpen = function () {
         // Get a count of all the Accordion sections
-        var sectionsCount = this.$sections.length;
+        const sectionsCount = this.$sections.length;
         // Get a count of all Accordion sections that are expanded
-        var expandedSectionCount = this.$module.querySelectorAll("." + this.sectionExpandedClass).length;
-        var areAllSectionsOpen = sectionsCount === expandedSectionCount;
+        const expandedSectionCount = this.$module.querySelectorAll(`.${this.sectionExpandedClass}`).length;
+        const areAllSectionsOpen = sectionsCount === expandedSectionCount;
 
         return areAllSectionsOpen;
     };
@@ -2269,7 +2239,7 @@
      * @param {boolean} expanded - Section expanded
      */
     Accordion.prototype.updateShowAllButton = function (expanded) {
-        var newButtonText = expanded ? this.i18n.t("hideAllSections") : this.i18n.t("showAllSections");
+        const newButtonText = expanded ? this.i18n.t("hideAllSections") : this.i18n.t("showAllSections");
 
         this.$showAllButton.setAttribute("aria-expanded", expanded);
         this.$showAllText.innerText = newButtonText;
@@ -2282,21 +2252,21 @@
         }
     };
 
-    var helper = {
+    const helper = {
         /**
          * Check for `window.sessionStorage`, and that it actually works.
          *
          * @returns {boolean} True if session storage is available
          */
-        checkForSessionStorage: function () {
-            var testString = "this is the test string";
-            var result;
+        checkForSessionStorage: () => {
+            const testString = "this is the test string";
+            let result;
             try {
                 window.sessionStorage.setItem(testString, testString);
                 result = window.sessionStorage.getItem(testString) === testString.toString();
                 window.sessionStorage.removeItem(testString);
                 return result;
-            } catch (exception) {
+            } catch (_exception) {
                 return false;
             }
         },
@@ -2312,11 +2282,11 @@
             // We need a unique way of identifying each content in the Accordion. Since
             // an `#id` should be unique and an `id` is required for `aria-` attributes
             // `id` can be safely used.
-            var $button = $section.querySelector("." + this.sectionButtonClass);
+            const $button = $section.querySelector(`.${this.sectionButtonClass}`);
 
             if ($button) {
-                var contentId = $button.getAttribute("aria-controls");
-                var contentState = $button.getAttribute("aria-expanded");
+                const contentId = $button.getAttribute("aria-controls");
+                const contentState = $button.getAttribute("aria-expanded");
 
                 // Only set the state when both `contentId` and `contentState` are taken from the DOM.
                 if (contentId && contentState) {
@@ -2333,11 +2303,11 @@
      */
     Accordion.prototype.setInitialState = function ($section) {
         if (this.browserSupportsSessionStorage) {
-            var $button = $section.querySelector("." + this.sectionButtonClass);
+            const $button = $section.querySelector(`.${this.sectionButtonClass}`);
 
             if ($button) {
-                var contentId = $button.getAttribute("aria-controls");
-                var contentState = contentId ? window.sessionStorage.getItem(contentId) : null;
+                const contentId = $button.getAttribute("aria-controls");
+                const contentState = contentId ? window.sessionStorage.getItem(contentId) : null;
 
                 if (contentState !== null) {
                     this.setExpanded(contentState === "true", $section);
@@ -2356,7 +2326,7 @@
      * @returns {HTMLElement} DOM element
      */
     Accordion.prototype.getButtonPunctuationEl = function () {
-        var $punctuationEl = document.createElement("span");
+        const $punctuationEl = document.createElement("span");
         $punctuationEl.classList.add("govuk-visually-hidden", this.sectionHeadingDividerClass);
         $punctuationEl.innerHTML = ", ";
         return $punctuationEl;
@@ -2393,8 +2363,8 @@
 
     /* eslint-disable es-x/no-function-prototype-bind -- Polyfill imported */
 
-    var KEY_SPACE = 32;
-    var DEBOUNCE_TIMEOUT_IN_SECONDS = 1;
+    const KEY_SPACE = 32;
+    const DEBOUNCE_TIMEOUT_IN_SECONDS = 1;
 
     /**
      * JavaScript enhancements for the Button component
@@ -2411,7 +2381,7 @@
         this.$module = $module;
         this.debounceFormSubmitTimer = null;
 
-        var defaultConfig = {
+        const defaultConfig = {
             preventDoubleClick: false,
         };
         this.config = mergeConfigs(defaultConfig, config || {}, normaliseDataset($module.dataset));
@@ -2439,8 +2409,8 @@
      *
      * @param {KeyboardEvent} event - Keydown event
      */
-    Button.prototype.handleKeyDown = function (event) {
-        var $target = event.target;
+    Button.prototype.handleKeyDown = (event) => {
+        const $target = event.target;
 
         if ($target.getAttribute("role") === "button" && event.keyCode === KEY_SPACE) {
             event.preventDefault(); // prevent the page from scrolling
@@ -2495,22 +2465,20 @@
      * @returns {string | undefined} Attribute value
      */
     function closestAttributeValue($element, attributeName) {
-        var closestElementWithAttribute = $element.closest("[" + attributeName + "]");
+        const closestElementWithAttribute = $element.closest(`[${attributeName}]`);
         if (closestElementWithAttribute) {
             return closestElementWithAttribute.getAttribute(attributeName);
         }
     }
 
-    (function (undefined) {
+    ((_undefined) => {
         // Detection from https://github.com/Financial-Times/polyfill-library/blob/v3.111.0/polyfills/Date/now/detect.js
-        var detect = "Date" in self && "now" in self.Date && "getTime" in self.Date.prototype;
+        const detect = "Date" in self && "now" in self.Date && "getTime" in self.Date.prototype;
 
         if (detect) return;
 
         // Polyfill from https://polyfill.io/v3/polyfill.js?version=3.111.0&features=Date.now&flags=always
-        Date.now = function () {
-            return new Date().getTime();
-        };
+        Date.now = () => new Date().getTime();
     }).call(
         ("object" === typeof window && window) ||
             ("object" === typeof self && self) ||
@@ -2526,7 +2494,7 @@
      * @see Default value for {@link CharacterCountConfig.i18n}
      * @default
      */
-    var CHARACTER_COUNT_TRANSLATIONS = {
+    const CHARACTER_COUNT_TRANSLATIONS = {
         // Characters
         charactersUnderLimit: {
             one: "You have %{count} character remaining",
@@ -2571,13 +2539,13 @@
             return this;
         }
 
-        var defaultConfig = {
+        const defaultConfig = {
             threshold: 0,
             i18n: CHARACTER_COUNT_TRANSLATIONS,
         };
 
         // Read config set using dataset ('data-' values)
-        var datasetConfig = normaliseDataset($module.dataset);
+        const datasetConfig = normaliseDataset($module.dataset);
 
         // To ensure data-attributes take complete precedence, even if they change the
         // type of count, we need to reset the `maxlength` and `maxwords` from the
@@ -2585,7 +2553,7 @@
         //
         // We can't mutate `config`, though, as it may be shared across multiple
         // components inside `initAll`.
-        var configOverrides = {};
+        let configOverrides = {};
         if ("maxwords" in datasetConfig || "maxlength" in datasetConfig) {
             configOverrides = {
                 maxlength: false,
@@ -2625,8 +2593,8 @@
             return;
         }
 
-        var $textarea = this.$textarea;
-        var $textareaDescription = document.getElementById($textarea.id + "-info");
+        const $textarea = this.$textarea;
+        const $textareaDescription = document.getElementById(`${$textarea.id}-info`);
 
         // Inject a decription for the textarea if none is present already
         // for when the component was rendered with no maxlength, maxwords
@@ -2641,7 +2609,7 @@
 
         // Create the *screen reader* specific live-updating counter
         // This doesn't need any styling classes, as it is never visible
-        var $screenReaderCountMessage = document.createElement("div");
+        const $screenReaderCountMessage = document.createElement("div");
         $screenReaderCountMessage.className = "govuk-character-count__sr-status govuk-visually-hidden";
         $screenReaderCountMessage.setAttribute("aria-live", "polite");
         this.$screenReaderCountMessage = $screenReaderCountMessage;
@@ -2650,7 +2618,7 @@
         // Create our live-updating counter element, copying the classes from the
         // textarea description for backwards compatibility as these may have been
         // configured
-        var $visibleCountMessage = document.createElement("div");
+        const $visibleCountMessage = document.createElement("div");
         $visibleCountMessage.className = $textareaDescription.className;
         $visibleCountMessage.classList.add("govuk-character-count__status");
         $visibleCountMessage.setAttribute("aria-hidden", "true");
@@ -2684,7 +2652,7 @@
      * when the user types.
      */
     CharacterCount.prototype.bindChangeEvents = function () {
-        var $textarea = this.$textarea;
+        const $textarea = this.$textarea;
         $textarea.addEventListener("keyup", this.handleKeyUp.bind(this));
 
         // Bind focus/blur events to start/stop polling
@@ -2763,9 +2731,9 @@
      * Update visible count message
      */
     CharacterCount.prototype.updateVisibleCountMessage = function () {
-        var $textarea = this.$textarea;
-        var $visibleCountMessage = this.$visibleCountMessage;
-        var remainingNumber = this.maxLength - this.count($textarea.value);
+        const $textarea = this.$textarea;
+        const $visibleCountMessage = this.$visibleCountMessage;
+        const remainingNumber = this.maxLength - this.count($textarea.value);
 
         // If input is over the threshold, remove the disabled class which renders the
         // counter invisible.
@@ -2794,7 +2762,7 @@
      * Update screen reader count message
      */
     CharacterCount.prototype.updateScreenReaderCountMessage = function () {
-        var $screenReaderCountMessage = this.$screenReaderCountMessage;
+        const $screenReaderCountMessage = this.$screenReaderCountMessage;
 
         // If over the threshold, remove the aria-hidden attribute, allowing screen
         // readers to announce the content of the element.
@@ -2817,11 +2785,10 @@
      */
     CharacterCount.prototype.count = function (text) {
         if (this.config.maxwords) {
-            var tokens = text.match(/\S+/g) || []; // Matches consecutive non-whitespace chars
+            const tokens = text.match(/\S+/g) || []; // Matches consecutive non-whitespace chars
             return tokens.length;
-        } else {
-            return text.length;
         }
+        return text.length;
     };
 
     /**
@@ -2830,9 +2797,9 @@
      * @returns {string} Status message
      */
     CharacterCount.prototype.getCountMessage = function () {
-        var remainingNumber = this.maxLength - this.count(this.$textarea.value);
+        const remainingNumber = this.maxLength - this.count(this.$textarea.value);
 
-        var countType = this.config.maxwords ? "words" : "characters";
+        const countType = this.config.maxwords ? "words" : "characters";
         return this.formatCountMessage(remainingNumber, countType);
     };
 
@@ -2846,10 +2813,10 @@
      */
     CharacterCount.prototype.formatCountMessage = function (remainingNumber, countType) {
         if (remainingNumber === 0) {
-            return this.i18n.t(countType + "AtLimit");
+            return this.i18n.t(`${countType}AtLimit`);
         }
 
-        var translationKeySuffix = remainingNumber < 0 ? "OverLimit" : "UnderLimit";
+        const translationKeySuffix = remainingNumber < 0 ? "OverLimit" : "UnderLimit";
 
         return this.i18n.t(countType + translationKeySuffix, { count: Math.abs(remainingNumber) });
     };
@@ -2870,13 +2837,13 @@
             return true;
         }
 
-        var $textarea = this.$textarea;
+        const $textarea = this.$textarea;
 
         // Determine the remaining number of characters/words
-        var currentLength = this.count($textarea.value);
-        var maxLength = this.maxLength;
+        const currentLength = this.count($textarea.value);
+        const maxLength = this.maxLength;
 
-        var thresholdValue = (maxLength * this.config.threshold) / 100;
+        const thresholdValue = (maxLength * this.config.threshold) / 100;
 
         return thresholdValue <= currentLength;
     };
@@ -2989,11 +2956,11 @@
      * the reveal in sync with the checkbox state.
      */
     Checkboxes.prototype.init = function () {
-        var $module = this.$module;
-        var $inputs = this.$inputs;
+        const $module = this.$module;
+        const $inputs = this.$inputs;
 
-        nodeListForEach($inputs, function ($input) {
-            var targetId = $input.getAttribute("data-aria-controls");
+        nodeListForEach($inputs, ($input) => {
+            const targetId = $input.getAttribute("data-aria-controls");
 
             // Skip checkboxes without data-aria-controls attributes, or where the
             // target element does not exist.
@@ -3041,11 +3008,11 @@
      *
      * @param {HTMLInputElement} $input - Checkbox input
      */
-    Checkboxes.prototype.syncConditionalRevealWithInputState = function ($input) {
-        var $target = document.getElementById($input.getAttribute("aria-controls"));
+    Checkboxes.prototype.syncConditionalRevealWithInputState = ($input) => {
+        const $target = document.getElementById($input.getAttribute("aria-controls"));
 
-        if ($target && $target.classList.contains("govuk-checkboxes__conditional")) {
-            var inputIsChecked = $input.checked;
+        if ($target?.classList.contains("govuk-checkboxes__conditional")) {
+            const inputIsChecked = $input.checked;
 
             $input.setAttribute("aria-expanded", inputIsChecked);
             $target.classList.toggle("govuk-checkboxes__conditional--hidden", !inputIsChecked);
@@ -3061,12 +3028,12 @@
      * @param {HTMLElement} $input - Checkbox input
      */
     Checkboxes.prototype.unCheckAllInputsExcept = function ($input) {
-        var allInputsWithSameName = document.querySelectorAll('input[type="checkbox"][name="' + $input.name + '"]');
+        const allInputsWithSameName = document.querySelectorAll(`input[type="checkbox"][name="${$input.name}"]`);
 
         nodeListForEach(
             allInputsWithSameName,
             function ($inputWithSameName) {
-                var hasSameFormOwner = $input.form === $inputWithSameName.form;
+                const hasSameFormOwner = $input.form === $inputWithSameName.form;
                 if (hasSameFormOwner && $inputWithSameName !== $input) {
                     $inputWithSameName.checked = false;
                     this.syncConditionalRevealWithInputState($inputWithSameName);
@@ -3085,14 +3052,14 @@
      * @param {HTMLInputElement} $input - Checkbox input
      */
     Checkboxes.prototype.unCheckExclusiveInputs = function ($input) {
-        var allInputsWithSameNameAndExclusiveBehaviour = document.querySelectorAll(
-            'input[data-behaviour="exclusive"][type="checkbox"][name="' + $input.name + '"]',
+        const allInputsWithSameNameAndExclusiveBehaviour = document.querySelectorAll(
+            `input[data-behaviour="exclusive"][type="checkbox"][name="${$input.name}"]`,
         );
 
         nodeListForEach(
             allInputsWithSameNameAndExclusiveBehaviour,
             function ($exclusiveInput) {
-                var hasSameFormOwner = $input.form === $exclusiveInput.form;
+                const hasSameFormOwner = $input.form === $exclusiveInput.form;
                 if (hasSameFormOwner) {
                     $exclusiveInput.checked = false;
                     this.syncConditionalRevealWithInputState($exclusiveInput);
@@ -3110,7 +3077,7 @@
      * @param {MouseEvent} event - Click event
      */
     Checkboxes.prototype.handleClick = function (event) {
-        var $clickedInput = event.target;
+        const $clickedInput = event.target;
 
         // Ignore clicks on things that aren't checkbox inputs
         if ($clickedInput.type !== "checkbox") {
@@ -3118,7 +3085,7 @@
         }
 
         // If the checkbox conditionally-reveals some content, sync the state
-        var hasAriaControls = $clickedInput.getAttribute("aria-controls");
+        const hasAriaControls = $clickedInput.getAttribute("aria-controls");
         if (hasAriaControls) {
             this.syncConditionalRevealWithInputState($clickedInput);
         }
@@ -3129,7 +3096,7 @@
         }
 
         // Handle 'exclusive' checkbox behaviour (ie "None of these")
-        var hasBehaviourExclusive = $clickedInput.getAttribute("data-behaviour") === "exclusive";
+        const hasBehaviourExclusive = $clickedInput.getAttribute("data-behaviour") === "exclusive";
         if (hasBehaviourExclusive) {
             this.unCheckAllInputsExcept($clickedInput);
         } else {
@@ -3139,8 +3106,8 @@
 
     /* eslint-disable es-x/no-function-prototype-bind -- Polyfill imported */
 
-    var KEY_ENTER = 13;
-    var KEY_SPACE$1 = 32;
+    const KEY_ENTER = 13;
+    const KEY_SPACE$1 = 32;
 
     /**
      * Details component
@@ -3161,7 +3128,7 @@
         }
 
         // If there is native details support, we want to avoid running code to polyfill native behaviour.
-        var hasNativeDetails = typeof this.$module.open === "boolean";
+        const hasNativeDetails = typeof this.$module.open === "boolean";
 
         if (hasNativeDetails) {
             return;
@@ -3174,11 +3141,11 @@
      * Polyfill component in older browsers
      */
     Details.prototype.polyfillDetails = function () {
-        var $module = this.$module;
+        const $module = this.$module;
 
         // Save shortcuts to the inner summary and content elements
-        var $summary = (this.$summary = $module.getElementsByTagName("summary").item(0));
-        var $content = (this.$content = $module.getElementsByTagName("div").item(0));
+        const $summary = (this.$summary = $module.getElementsByTagName("summary").item(0));
+        const $content = (this.$content = $module.getElementsByTagName("div").item(0));
 
         // If <details> doesn't have a <summary> and a <div> representing the content
         // it means the required HTML structure is not met so the script will stop
@@ -3189,7 +3156,7 @@
         // If the content doesn't have an ID, assign it one now
         // which we'll need for the summary's aria-controls assignment
         if (!$content.id) {
-            $content.id = "details-content-" + generateUniqueID();
+            $content.id = `details-content-${generateUniqueID()}`;
         }
 
         // Add ARIA role="group" to details
@@ -3244,8 +3211,8 @@
      * @param {polyfillHandleInputsCallback} callback - function
      */
     Details.prototype.polyfillHandleInputs = function (callback) {
-        this.$summary.addEventListener("keypress", function (event) {
-            var $target = event.target;
+        this.$summary.addEventListener("keypress", (event) => {
+            const $target = event.target;
             // When the key gets pressed - check if it is enter or space
             if (event.keyCode === KEY_ENTER || event.keyCode === KEY_SPACE$1) {
                 if ($target.nodeName.toLowerCase() === "summary") {
@@ -3264,8 +3231,8 @@
         });
 
         // Prevent keyup to prevent clicking twice in Firefox when using space key
-        this.$summary.addEventListener("keyup", function (event) {
-            var $target = event.target;
+        this.$summary.addEventListener("keyup", (event) => {
+            const $target = event.target;
             if (event.keyCode === KEY_SPACE$1) {
                 if ($target.nodeName.toLowerCase() === "summary") {
                     event.preventDefault();
@@ -3309,7 +3276,7 @@
 
         this.$module = $module;
 
-        var defaultConfig = {
+        const defaultConfig = {
             disableAutoFocus: false,
         };
         this.config = mergeConfigs(defaultConfig, config || {}, normaliseDataset($module.dataset));
@@ -3319,7 +3286,7 @@
      * Initialise component
      */
     ErrorSummary.prototype.init = function () {
-        var $module = this.$module;
+        const $module = this.$module;
         if (!$module) {
             return;
         }
@@ -3332,7 +3299,7 @@
      * Focus the error summary
      */
     ErrorSummary.prototype.setFocus = function () {
-        var $module = this.$module;
+        const $module = this.$module;
 
         if (this.config.disableAutoFocus) {
             return;
@@ -3342,7 +3309,7 @@
         // remove it on blur as the error summary doesn't need to be focused again.
         $module.setAttribute("tabindex", "-1");
 
-        $module.addEventListener("blur", function () {
+        $module.addEventListener("blur", () => {
             $module.removeAttribute("tabindex");
         });
 
@@ -3355,7 +3322,7 @@
      * @param {MouseEvent} event - Click event
      */
     ErrorSummary.prototype.handleClick = function (event) {
-        var $target = event.target;
+        const $target = event.target;
         if (this.focusTarget($target)) {
             event.preventDefault();
         }
@@ -3385,13 +3352,13 @@
             return false;
         }
 
-        var inputId = this.getFragmentFromUrl($target.href);
-        var $input = document.getElementById(inputId);
+        const inputId = this.getFragmentFromUrl($target.href);
+        const $input = document.getElementById(inputId);
         if (!$input) {
             return false;
         }
 
-        var $legendOrLabel = this.getAssociatedLegendOrLabel($input);
+        const $legendOrLabel = this.getAssociatedLegendOrLabel($input);
         if (!$legendOrLabel) {
             return false;
         }
@@ -3414,7 +3381,7 @@
      * @param {string} url - URL
      * @returns {string} Fragment from URL, without the hash
      */
-    ErrorSummary.prototype.getFragmentFromUrl = function (url) {
+    ErrorSummary.prototype.getFragmentFromUrl = (url) => {
         if (url.indexOf("#") === -1) {
             return false;
         }
@@ -3437,14 +3404,14 @@
      * @returns {HTMLElement} Associated legend or label, or null if no associated
      *                        legend or label can be found
      */
-    ErrorSummary.prototype.getAssociatedLegendOrLabel = function ($input) {
-        var $fieldset = $input.closest("fieldset");
+    ErrorSummary.prototype.getAssociatedLegendOrLabel = ($input) => {
+        const $fieldset = $input.closest("fieldset");
 
         if ($fieldset) {
-            var $legends = $fieldset.getElementsByTagName("legend");
+            const $legends = $fieldset.getElementsByTagName("legend");
 
             if ($legends.length) {
-                var $candidateLegend = $legends[0];
+                const $candidateLegend = $legends[0];
 
                 // If the input type is radio or checkbox, always use the legend if there
                 // is one.
@@ -3458,13 +3425,13 @@
                 //
                 // This should avoid situations where the input either ends up off the
                 // screen, or obscured by a software keyboard.
-                var legendTop = $candidateLegend.getBoundingClientRect().top;
-                var inputRect = $input.getBoundingClientRect();
+                const legendTop = $candidateLegend.getBoundingClientRect().top;
+                const inputRect = $input.getBoundingClientRect();
 
                 // If the browser doesn't support Element.getBoundingClientRect().height
                 // or window.innerHeight (like IE8), bail and just link to the label.
                 if (inputRect.height && window.innerHeight) {
-                    var inputBottom = inputRect.top + inputRect.height;
+                    const inputBottom = inputRect.top + inputRect.height;
 
                     if (inputBottom - legendTop < window.innerHeight / 2) {
                         return $candidateLegend;
@@ -3473,7 +3440,7 @@
             }
         }
 
-        return document.querySelector("label[for='" + $input.getAttribute("id") + "']") || $input.closest("label");
+        return document.querySelector(`label[for='${$input.getAttribute("id")}']`) || $input.closest("label");
     };
 
     /**
@@ -3494,8 +3461,8 @@
      */
     function Header($module) {
         this.$module = $module;
-        this.$menuButton = $module && $module.querySelector(".govuk-js-header-toggle");
-        this.$menu = this.$menuButton && $module.querySelector("#" + this.$menuButton.getAttribute("aria-controls"));
+        this.$menuButton = $module?.querySelector(".govuk-js-header-toggle");
+        this.$menu = this.$menuButton && $module.querySelector(`#${this.$menuButton.getAttribute("aria-controls")}`);
 
         // Save the opened/closed state for the nav in memory so that we can
         // accurately maintain state when the screen is changed from small to
@@ -3589,7 +3556,7 @@
     function NotificationBanner($module, config) {
         this.$module = $module;
 
-        var defaultConfig = {
+        const defaultConfig = {
             disableAutoFocus: false,
         };
         this.config = mergeConfigs(defaultConfig, config || {}, normaliseDataset($module.dataset));
@@ -3599,7 +3566,7 @@
      * Initialise component
      */
     NotificationBanner.prototype.init = function () {
-        var $module = this.$module;
+        const $module = this.$module;
         // Check for module
         if (!$module) {
             return;
@@ -3619,7 +3586,7 @@
      * with another element which should be focused when the page loads.
      */
     NotificationBanner.prototype.setFocus = function () {
-        var $module = this.$module;
+        const $module = this.$module;
 
         if (this.config.disableAutoFocus) {
             return;
@@ -3635,7 +3602,7 @@
         if (!$module.getAttribute("tabindex")) {
             $module.setAttribute("tabindex", "-1");
 
-            $module.addEventListener("blur", function () {
+            $module.addEventListener("blur", () => {
                 $module.removeAttribute("tabindex");
             });
         }
@@ -3682,11 +3649,11 @@
      * the reveal in sync with the radio state.
      */
     Radios.prototype.init = function () {
-        var $module = this.$module;
-        var $inputs = this.$inputs;
+        const $module = this.$module;
+        const $inputs = this.$inputs;
 
-        nodeListForEach($inputs, function ($input) {
-            var targetId = $input.getAttribute("data-aria-controls");
+        nodeListForEach($inputs, ($input) => {
+            const targetId = $input.getAttribute("data-aria-controls");
 
             // Skip radios without data-aria-controls attributes, or where the
             // target element does not exist.
@@ -3734,11 +3701,11 @@
      *
      * @param {HTMLInputElement} $input - Radio input
      */
-    Radios.prototype.syncConditionalRevealWithInputState = function ($input) {
-        var $target = document.getElementById($input.getAttribute("aria-controls"));
+    Radios.prototype.syncConditionalRevealWithInputState = ($input) => {
+        const $target = document.getElementById($input.getAttribute("aria-controls"));
 
-        if ($target && $target.classList.contains("govuk-radios__conditional")) {
-            var inputIsChecked = $input.checked;
+        if ($target?.classList.contains("govuk-radios__conditional")) {
+            const inputIsChecked = $input.checked;
 
             $input.setAttribute("aria-expanded", inputIsChecked);
             $target.classList.toggle("govuk-radios__conditional--hidden", !inputIsChecked);
@@ -3756,7 +3723,7 @@
      * @param {MouseEvent} event - Click event
      */
     Radios.prototype.handleClick = function (event) {
-        var $clickedInput = event.target;
+        const $clickedInput = event.target;
 
         // Ignore clicks on things that aren't radio buttons
         if ($clickedInput.type !== "radio") {
@@ -3765,13 +3732,13 @@
 
         // We only need to consider radios with conditional reveals, which will have
         // aria-controls attributes.
-        var $allInputs = document.querySelectorAll('input[type="radio"][aria-controls]');
+        const $allInputs = document.querySelectorAll('input[type="radio"][aria-controls]');
 
         nodeListForEach(
             $allInputs,
             function ($input) {
-                var hasSameFormOwner = $input.form === $clickedInput.form;
-                var hasSameName = $input.name === $clickedInput.name;
+                const hasSameFormOwner = $input.form === $clickedInput.form;
+                const hasSameName = $input.name === $clickedInput.name;
 
                 if (hasSameName && hasSameFormOwner) {
                     this.syncConditionalRevealWithInputState($input);
@@ -3818,7 +3785,7 @@
      * @returns {HTMLElement} $linkedElement - DOM element linked to from the skip link
      */
     SkipLink.prototype.getLinkedElement = function () {
-        var linkedElementId = this.getFragmentFromUrl();
+        const linkedElementId = this.getFragmentFromUrl();
 
         if (!linkedElementId) {
             return false;
@@ -3833,7 +3800,7 @@
      * Set tabindex and helper CSS class. Set listener to remove them on blur.
      */
     SkipLink.prototype.focusLinkedElement = function () {
-        var $linkedElement = this.$linkedElement;
+        const $linkedElement = this.$linkedElement;
 
         if (!$linkedElement.getAttribute("tabindex")) {
             // Set the element tabindex to -1 so it can be focused with JavaScript.
@@ -3877,16 +3844,16 @@
         return this.$module.hash.split("#").pop();
     };
 
-    (function (undefined) {
+    (function (_undefined) {
         // Detection from https://raw.githubusercontent.com/Financial-Times/polyfill-library/master/polyfills/Element/prototype/nextElementSibling/detect.js
-        var detect = "document" in this && "nextElementSibling" in document.documentElement;
+        const detect = "document" in this && "nextElementSibling" in document.documentElement;
 
         if (detect) return;
 
         // Polyfill from https://raw.githubusercontent.com/Financial-Times/polyfill-library/master/polyfills/Element/prototype/nextElementSibling/polyfill.js
         Object.defineProperty(Element.prototype, "nextElementSibling", {
             get: function () {
-                var el = this.nextSibling;
+                let el = this.nextSibling;
                 while (el && el.nodeType !== 1) {
                     el = el.nextSibling;
                 }
@@ -3900,16 +3867,16 @@
             {},
     );
 
-    (function (undefined) {
+    (function (_undefined) {
         // Detection from https://raw.githubusercontent.com/Financial-Times/polyfill-library/master/polyfills/Element/prototype/previousElementSibling/detect.js
-        var detect = "document" in this && "previousElementSibling" in document.documentElement;
+        const detect = "document" in this && "previousElementSibling" in document.documentElement;
 
         if (detect) return;
 
         // Polyfill from https://raw.githubusercontent.com/Financial-Times/polyfill-library/master/polyfills/Element/prototype/previousElementSibling/polyfill.js
         Object.defineProperty(Element.prototype, "previousElementSibling", {
             get: function () {
-                var el = this.previousSibling;
+                let el = this.previousSibling;
                 while (el && el.nodeType !== 1) {
                     el = el.previousSibling;
                 }
@@ -3974,10 +3941,10 @@
      * Setup tab component
      */
     Tabs.prototype.setup = function () {
-        var $module = this.$module;
-        var $tabs = this.$tabs;
-        var $tabList = $module.querySelector(".govuk-tabs__list");
-        var $tabListItems = $module.querySelectorAll(".govuk-tabs__list-item");
+        const $module = this.$module;
+        const $tabs = this.$tabs;
+        const $tabList = $module.querySelector(".govuk-tabs__list");
+        const $tabListItems = $module.querySelectorAll(".govuk-tabs__list-item");
 
         if (!$tabs || !$tabList || !$tabListItems) {
             return;
@@ -3985,7 +3952,7 @@
 
         $tabList.setAttribute("role", "tablist");
 
-        nodeListForEach($tabListItems, function ($item) {
+        nodeListForEach($tabListItems, ($item) => {
             $item.setAttribute("role", "presentation");
         });
 
@@ -4009,7 +3976,7 @@
         );
 
         // Show either the active tab according to the URL's hash or the first tab
-        var $activeTab = this.getTab(window.location.hash) || this.$tabs[0];
+        const $activeTab = this.getTab(window.location.hash) || this.$tabs[0];
         this.showTab($activeTab);
 
         // Handle hashchange events
@@ -4021,10 +3988,10 @@
      * Teardown tab component
      */
     Tabs.prototype.teardown = function () {
-        var $module = this.$module;
-        var $tabs = this.$tabs;
-        var $tabList = $module.querySelector(".govuk-tabs__list");
-        var $tabListItems = $module.querySelectorAll(".govuk-tabs__list-item");
+        const $module = this.$module;
+        const $tabs = this.$tabs;
+        const $tabList = $module.querySelector(".govuk-tabs__list");
+        const $tabListItems = $module.querySelectorAll(".govuk-tabs__list-item");
 
         if (!$tabs || !$tabList || !$tabListItems) {
             return;
@@ -4032,7 +3999,7 @@
 
         $tabList.removeAttribute("role");
 
-        nodeListForEach($tabListItems, function ($item) {
+        nodeListForEach($tabListItems, ($item) => {
             $item.removeAttribute("role", "presentation");
         });
 
@@ -4058,9 +4025,9 @@
      * @param {HashChangeEvent} event - Hash change event
      * @returns {void | undefined} Returns void, or undefined when prevented
      */
-    Tabs.prototype.onHashChange = function (event) {
-        var hash = window.location.hash;
-        var $tabWithHash = this.getTab(hash);
+    Tabs.prototype.onHashChange = function (_event) {
+        const hash = window.location.hash;
+        const $tabWithHash = this.getTab(hash);
         if (!$tabWithHash) {
             return;
         }
@@ -4072,7 +4039,7 @@
         }
 
         // Show either the active tab according to the URL's hash or the first tab
-        var $previousTab = this.getCurrentTab();
+        const $previousTab = this.getCurrentTab();
 
         this.hideTab($previousTab);
         this.showTab($tabWithHash);
@@ -4106,7 +4073,7 @@
      * @returns {HTMLAnchorElement | null} Tab link
      */
     Tabs.prototype.getTab = function (hash) {
-        return this.$module.querySelector('.govuk-tabs__tab[href="' + hash + '"]');
+        return this.$module.querySelector(`.govuk-tabs__tab[href="${hash}"]`);
     };
 
     /**
@@ -4116,15 +4083,15 @@
      */
     Tabs.prototype.setAttributes = function ($tab) {
         // set tab attributes
-        var panelId = this.getHref($tab).slice(1);
-        $tab.setAttribute("id", "tab_" + panelId);
+        const panelId = this.getHref($tab).slice(1);
+        $tab.setAttribute("id", `tab_${panelId}`);
         $tab.setAttribute("role", "tab");
         $tab.setAttribute("aria-controls", panelId);
         $tab.setAttribute("aria-selected", "false");
         $tab.setAttribute("tabindex", "-1");
 
         // set panel attributes
-        var $panel = this.getPanel($tab);
+        const $panel = this.getPanel($tab);
         $panel.setAttribute("role", "tabpanel");
         $panel.setAttribute("aria-labelledby", $tab.id);
         $panel.classList.add(this.jsHiddenClass);
@@ -4144,7 +4111,7 @@
         $tab.removeAttribute("tabindex");
 
         // unset panel attributes
-        var $panel = this.getPanel($tab);
+        const $panel = this.getPanel($tab);
         $panel.removeAttribute("role");
         $panel.removeAttribute("aria-labelledby");
         $panel.classList.remove(this.jsHiddenClass);
@@ -4162,8 +4129,8 @@
             return false;
         }
         event.preventDefault();
-        var $newTab = event.target;
-        var $currentTab = this.getCurrentTab();
+        const $newTab = event.target;
+        const $currentTab = this.getCurrentTab();
         this.hideTab($currentTab);
         this.showTab($newTab);
         this.createHistoryEntry($newTab);
@@ -4178,11 +4145,11 @@
      * @param {HTMLAnchorElement} $tab - Tab link
      */
     Tabs.prototype.createHistoryEntry = function ($tab) {
-        var $panel = this.getPanel($tab);
+        const $panel = this.getPanel($tab);
 
         // Save and restore the id
         // so the page doesn't jump when a user clicks a tab (which changes the hash)
-        var panelId = $panel.id;
+        const panelId = $panel.id;
         $panel.id = "";
         this.changingHash = true;
         window.location.hash = this.getHref($tab).slice(1);
@@ -4216,17 +4183,17 @@
      * Activate next tab
      */
     Tabs.prototype.activateNextTab = function () {
-        var $currentTab = this.getCurrentTab();
+        const $currentTab = this.getCurrentTab();
         if (!$currentTab) {
             return;
         }
 
-        var $nextTabListItem = $currentTab.parentElement.nextElementSibling;
+        const $nextTabListItem = $currentTab.parentElement.nextElementSibling;
         if (!$nextTabListItem) {
             return;
         }
 
-        var $nextTab = $nextTabListItem.querySelector(".govuk-tabs__tab");
+        const $nextTab = $nextTabListItem.querySelector(".govuk-tabs__tab");
         if ($nextTab) {
             this.hideTab($currentTab);
             this.showTab($nextTab);
@@ -4239,17 +4206,17 @@
      * Activate previous tab
      */
     Tabs.prototype.activatePreviousTab = function () {
-        var $currentTab = this.getCurrentTab();
+        const $currentTab = this.getCurrentTab();
         if (!$currentTab) {
             return;
         }
 
-        var $previousTabListItem = $currentTab.parentElement.previousElementSibling;
+        const $previousTabListItem = $currentTab.parentElement.previousElementSibling;
         if (!$previousTabListItem) {
             return;
         }
 
-        var $previousTab = $previousTabListItem.querySelector(".govuk-tabs__tab");
+        const $previousTab = $previousTabListItem.querySelector(".govuk-tabs__tab");
         if ($previousTab) {
             this.hideTab($currentTab);
             this.showTab($previousTab);
@@ -4265,7 +4232,7 @@
      * @returns {HTMLDivElement} Tab panel
      */
     Tabs.prototype.getPanel = function ($tab) {
-        var $panel = this.$module.querySelector(this.getHref($tab));
+        const $panel = this.$module.querySelector(this.getHref($tab));
         return $panel;
     };
 
@@ -4275,7 +4242,7 @@
      * @param {HTMLAnchorElement} $tab - Tab link
      */
     Tabs.prototype.showPanel = function ($tab) {
-        var $panel = this.getPanel($tab);
+        const $panel = this.getPanel($tab);
         $panel.classList.remove(this.jsHiddenClass);
     };
 
@@ -4285,7 +4252,7 @@
      * @param {HTMLAnchorElement} $tab - Tab link
      */
     Tabs.prototype.hidePanel = function ($tab) {
-        var $panel = this.getPanel($tab);
+        const $panel = this.getPanel($tab);
         $panel.classList.add(this.jsHiddenClass);
     };
 
@@ -4294,7 +4261,7 @@
      *
      * @param {HTMLAnchorElement} $tab - Tab link
      */
-    Tabs.prototype.unhighlightTab = function ($tab) {
+    Tabs.prototype.unhighlightTab = ($tab) => {
         $tab.setAttribute("aria-selected", "false");
         $tab.parentNode.classList.remove("govuk-tabs__list-item--selected");
         $tab.setAttribute("tabindex", "-1");
@@ -4305,7 +4272,7 @@
      *
      * @param {HTMLAnchorElement} $tab - Tab link
      */
-    Tabs.prototype.highlightTab = function ($tab) {
+    Tabs.prototype.highlightTab = ($tab) => {
         $tab.setAttribute("aria-selected", "true");
         $tab.parentNode.classList.add("govuk-tabs__list-item--selected");
         $tab.setAttribute("tabindex", "0");
@@ -4330,9 +4297,9 @@
      * @param {HTMLAnchorElement} $tab - Tab link
      * @returns {string} Hash fragment including #
      */
-    Tabs.prototype.getHref = function ($tab) {
-        var href = $tab.getAttribute("href");
-        var hash = href.slice(href.indexOf("#"), href.length);
+    Tabs.prototype.getHref = ($tab) => {
+        const href = $tab.getAttribute("href");
+        const hash = href.slice(href.indexOf("#"), href.length);
         return hash;
     };
 
@@ -4349,61 +4316,61 @@
 
         // Allow the user to initialise GOV.UK Frontend in only certain sections of the page
         // Defaults to the entire document if nothing is set.
-        var $scope = typeof config.scope !== "undefined" ? config.scope : document;
+        const $scope = typeof config.scope !== "undefined" ? config.scope : document;
 
-        var $accordions = $scope.querySelectorAll('[data-module="govuk-accordion"]');
-        nodeListForEach($accordions, function ($accordion) {
+        const $accordions = $scope.querySelectorAll('[data-module="govuk-accordion"]');
+        nodeListForEach($accordions, ($accordion) => {
             new Accordion($accordion, config.accordion).init();
         });
 
-        var $buttons = $scope.querySelectorAll('[data-module="govuk-button"]');
-        nodeListForEach($buttons, function ($button) {
+        const $buttons = $scope.querySelectorAll('[data-module="govuk-button"]');
+        nodeListForEach($buttons, ($button) => {
             new Button($button, config.button).init();
         });
 
-        var $characterCounts = $scope.querySelectorAll('[data-module="govuk-character-count"]');
-        nodeListForEach($characterCounts, function ($characterCount) {
+        const $characterCounts = $scope.querySelectorAll('[data-module="govuk-character-count"]');
+        nodeListForEach($characterCounts, ($characterCount) => {
             new CharacterCount($characterCount, config.characterCount).init();
         });
 
-        var $checkboxes = $scope.querySelectorAll('[data-module="govuk-checkboxes"]');
-        nodeListForEach($checkboxes, function ($checkbox) {
+        const $checkboxes = $scope.querySelectorAll('[data-module="govuk-checkboxes"]');
+        nodeListForEach($checkboxes, ($checkbox) => {
             new Checkboxes($checkbox).init();
         });
 
-        var $details = $scope.querySelectorAll('[data-module="govuk-details"]');
-        nodeListForEach($details, function ($detail) {
+        const $details = $scope.querySelectorAll('[data-module="govuk-details"]');
+        nodeListForEach($details, ($detail) => {
             new Details($detail).init();
         });
 
         // Find first error summary module to enhance.
-        var $errorSummary = $scope.querySelector('[data-module="govuk-error-summary"]');
+        const $errorSummary = $scope.querySelector('[data-module="govuk-error-summary"]');
         if ($errorSummary) {
             new ErrorSummary($errorSummary, config.errorSummary).init();
         }
 
         // Find first header module to enhance.
-        var $header = $scope.querySelector('[data-module="govuk-header"]');
+        const $header = $scope.querySelector('[data-module="govuk-header"]');
         if ($header) {
             new Header($header).init();
         }
 
-        var $notificationBanners = $scope.querySelectorAll('[data-module="govuk-notification-banner"]');
-        nodeListForEach($notificationBanners, function ($notificationBanner) {
+        const $notificationBanners = $scope.querySelectorAll('[data-module="govuk-notification-banner"]');
+        nodeListForEach($notificationBanners, ($notificationBanner) => {
             new NotificationBanner($notificationBanner, config.notificationBanner).init();
         });
 
-        var $radios = $scope.querySelectorAll('[data-module="govuk-radios"]');
-        nodeListForEach($radios, function ($radio) {
+        const $radios = $scope.querySelectorAll('[data-module="govuk-radios"]');
+        nodeListForEach($radios, ($radio) => {
             new Radios($radio).init();
         });
 
         // Find first skip link module to enhance.
-        var $skipLink = $scope.querySelector('[data-module="govuk-skip-link"]');
+        const $skipLink = $scope.querySelector('[data-module="govuk-skip-link"]');
         new SkipLink($skipLink).init();
 
-        var $tabs = $scope.querySelectorAll('[data-module="govuk-tabs"]');
-        nodeListForEach($tabs, function ($tabs) {
+        const $tabs = $scope.querySelectorAll('[data-module="govuk-tabs"]');
+        nodeListForEach($tabs, ($tabs) => {
             new Tabs($tabs).init();
         });
     }

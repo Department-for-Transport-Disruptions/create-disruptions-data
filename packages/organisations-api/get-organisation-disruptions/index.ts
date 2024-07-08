@@ -1,7 +1,7 @@
+import { randomUUID } from "crypto";
 import { getObject } from "@create-disruptions-data/shared-ts/utils/s3";
 import { APIGatewayEvent } from "aws-lambda";
 import * as logger from "lambda-log";
-import { randomUUID } from "crypto";
 
 const getOrganisationDisruptions = async (orgId: string, bucketName: string) => {
     try {

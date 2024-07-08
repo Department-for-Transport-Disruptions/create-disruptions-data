@@ -1,5 +1,4 @@
-import { View, Text, StyleSheet, Font } from "@react-pdf/renderer";
-import { Fragment } from "react";
+import { Font, StyleSheet, Text, View } from "@react-pdf/renderer";
 import { PDFProps } from "./DownloadPDF";
 
 Font.registerHyphenationCallback((word) => [word]);
@@ -9,9 +8,8 @@ const hyphenCallback = (word: string) => [word];
 const breakWord = (word: string) => {
     if (word.length > 10) {
         return [...(word.match(/.{1,10}/g) ?? [])];
-    } else {
-        return [word];
     }
+    return [word];
 };
 
 const PDFStyles = StyleSheet.create({
@@ -120,7 +118,7 @@ const PDFRows = ({ disruptions }: PDFProps) => {
         </View>
     ));
 
-    return <Fragment>{rows}</Fragment>;
+    return rows;
 };
 
 export default PDFRows;

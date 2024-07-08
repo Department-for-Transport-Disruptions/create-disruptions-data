@@ -9,11 +9,11 @@ import ErrorSummary from "../../../components/form/ErrorSummary";
 import Radios from "../../../components/form/Radios";
 import { TwoThirdsLayout } from "../../../components/layout/Layout";
 import {
-    COOKIES_CONSEQUENCE_TYPE_ERRORS,
+    CANCELLATIONS_FEATURE_FLAG,
     CONSEQUENCE_TYPES,
+    COOKIES_CONSEQUENCE_TYPE_ERRORS,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
     OPERATOR_USER_CONSEQUENCE_TYPES,
-    CANCELLATIONS_FEATURE_FLAG,
 } from "../../../constants/index";
 import { getDisruptionById } from "../../../data/dynamo";
 import { PageState } from "../../../interfaces/index";
@@ -40,8 +40,8 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
 
     const returnToTemplateOverview = returnTemplateOverview(queryParams);
 
-    const isTemplate = queryParams["template"]?.toString() ?? "";
-    const returnPath = queryParams["return"]?.toString() ?? "";
+    const isTemplate = queryParams.template?.toString() ?? "";
+    const returnPath = queryParams.return?.toString() ?? "";
 
     const consequenceTypesRadioDetail = props.isOperatorUser
         ? OPERATOR_USER_CONSEQUENCE_TYPES(CANCELLATIONS_FEATURE_FLAG)
@@ -109,7 +109,7 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
 
 export const getServerSideProps = async (
     ctx: NextPageContext,
-): Promise<{ props: ConsequenceTypePageProps } | { redirect: Redirect } | void> => {
+): Promise<{ props: ConsequenceTypePageProps } | { redirect: Redirect } | undefined> => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_CONSEQUENCE_TYPE_ERRORS];
 
@@ -132,7 +132,7 @@ export const getServerSideProps = async (
     if (!disruption) {
         return {
             redirect: {
-                destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`,
+                destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${ctx.query?.template ? "?template=true" : ""}`,
                 statusCode: 302,
             },
         };

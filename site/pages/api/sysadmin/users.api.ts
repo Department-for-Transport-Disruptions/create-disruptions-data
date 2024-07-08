@@ -19,7 +19,8 @@ const createAdminUser = async (req: NextApiRequest, res: NextApiResponse): Promi
 
         if (!session) {
             throw new Error("No session found");
-        } else if (!session.isSystemAdmin) {
+        }
+        if (!session.isSystemAdmin) {
             throw new Error("Invalid user accessing the page");
         }
 
@@ -80,9 +81,8 @@ const redirectToAdminUsersPage = (req: NextApiRequest, res: NextApiResponse) => 
     if (orgData.success) {
         redirectTo(res, `${SYSADMIN_ADD_USERS_PAGE_PATH}?orgId=${orgData.data.orgId}`);
         return;
-    } else {
-        throw new Error("Org ID not found");
     }
+    throw new Error("Org ID not found");
 };
 
 export default createAdminUser;

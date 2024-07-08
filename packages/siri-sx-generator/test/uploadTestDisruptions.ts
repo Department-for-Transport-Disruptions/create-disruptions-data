@@ -1,14 +1,12 @@
-/* eslint-disable no-console */
+import { randomUUID } from "crypto";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { BatchWriteCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 import { DisruptionInfo, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import { randomUUID } from "crypto";
 import { baseConsequences, baseSiteDisruptionInfo } from "./testData";
 
-// eslint-disable-next-line import/no-named-as-default-member
 dayjs.extend(customParseFormat);
 
 const convertDateTimeToFormat = (dateOrTime: string | Date) => {

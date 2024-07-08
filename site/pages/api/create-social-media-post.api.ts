@@ -1,6 +1,6 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
-import { NextApiRequest, NextApiResponse } from "next";
 import { readFile } from "fs/promises";
+import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_SOCIAL_MEDIA_ERRORS,
     CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
@@ -10,7 +10,7 @@ import {
 import { getOrgSocialAccount, upsertSocialMediaPost } from "../../data/dynamo";
 import { putItem } from "../../data/s3";
 import { NextdoorAgencyBoundaryInput } from "../../schemas/nextdoor.schema";
-import { refineImageSchema, SocialMediaPost } from "../../schemas/social-media.schema";
+import { SocialMediaPost, refineImageSchema } from "../../schemas/social-media.schema";
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
@@ -68,15 +68,14 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
 
         const socialMediaAccountDetail = await getOrgSocialAccount(session.orgId, fields.socialAccount?.toString());
 
-        const imageFile =
-            files[0] && files[0].size
-                ? {
-                      ...files[0],
-                      key: `${session.orgId}/${fields.disruptionId as string}/${
-                          fields.socialMediaPostIndex as string
-                      }.${files[0].mimetype?.replace("image/", "") ?? ""}`,
-                  }
-                : null;
+        const imageFile = files[0]?.size
+            ? {
+                  ...files[0],
+                  key: `${session.orgId}/${fields.disruptionId as string}/${fields.socialMediaPostIndex as string}.${
+                      files[0].mimetype?.replace("image/", "") ?? ""
+                  }`,
+              }
+            : null;
 
         const validatedBody = refineImageSchema.safeParse({
             ...formattedBody,

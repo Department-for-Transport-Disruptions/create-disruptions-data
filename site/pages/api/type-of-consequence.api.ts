@@ -1,13 +1,13 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import {
-    TYPE_OF_CONSEQUENCE_PAGE_PATH,
+    CANCELLATIONS_FEATURE_FLAG,
     COOKIES_CONSEQUENCE_TYPE_ERRORS,
+    CREATE_CONSEQUENCE_JOURNEYS_PATH,
     CREATE_CONSEQUENCE_NETWORK_PATH,
     CREATE_CONSEQUENCE_OPERATOR_PATH,
-    CREATE_CONSEQUENCE_STOPS_PATH,
     CREATE_CONSEQUENCE_SERVICES_PATH,
-    CREATE_CONSEQUENCE_JOURNEYS_PATH,
-    CANCELLATIONS_FEATURE_FLAG,
+    CREATE_CONSEQUENCE_STOPS_PATH,
+    TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants/index";
 import { ConsequenceType, typeOfConsequenceSchema } from "../../schemas/type-of-consequence.schema";
 import { flattenZodErrors } from "../../utils";

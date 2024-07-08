@@ -6,7 +6,15 @@
         "generate-zod": "npx ts-to-zod ./siriTypes.ts ./siriTypes.zod.ts"
     },
     "dependencies": {
+        "@aws-sdk/client-cognito-identity-provider": "^3.609.0",
+        "@aws-sdk/client-s3": "^3.609.0",
+        "@aws-sdk/client-ssm": "^3.609.0",
         "dayjs": "^1.11.7",
+        "lambda-log": "^3.1.0",
         "node-fetch": "^3.3.2"
+    },
+    "devDependencies": {
+        "@types/lambda-log": "^2.2.1",
+        "vitest": "^0.29.1"
     }
 }

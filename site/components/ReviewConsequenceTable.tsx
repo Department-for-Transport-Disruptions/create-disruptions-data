@@ -2,7 +2,6 @@ import { Consequence, Disruption } from "@create-disruptions-data/shared-ts/disr
 import { MAX_CONSEQUENCES } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import Link from "next/link";
 import { ReactElement, ReactNode } from "react";
-import Table, { CellProps } from "./form/Table";
 import {
     CANCELLATIONS_FEATURE_FLAG,
     CONSEQUENCE_TYPES,
@@ -17,6 +16,7 @@ import {
     VEHICLE_MODES,
 } from "../constants";
 import { getDisplayByValue, splitCamelCaseToString } from "../utils";
+import Table, { CellProps } from "./form/Table";
 
 const getConsequenceUrl = (type: Consequence["consequenceType"]) => {
     switch (type) {
@@ -54,8 +54,8 @@ export const createChangeLink = (
                           ...(isTemplate ? { template: isTemplate.toString() } : {}),
                       }
                     : isTemplate
-                    ? { template: isTemplate.toString() }
-                    : null,
+                      ? { template: isTemplate.toString() }
+                      : null,
             }}
         >
             Change

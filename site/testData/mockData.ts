@@ -1,3 +1,4 @@
+import { ParsedUrlQuery } from "querystring";
 import { UserStatusType } from "@aws-sdk/client-cognito-identity-provider";
 import { Consequence, Disruption, Service } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import {
@@ -16,7 +17,6 @@ import { mockRequest, mockResponse } from "mock-req-res";
 import { NextApiRequest, NextApiResponse, NextPageContext } from "next";
 import React from "react";
 import { Mock, vi } from "vitest";
-import { ParsedUrlQuery } from "querystring";
 import { COOKIES_ID_TOKEN, COOKIES_POLICY_COOKIE } from "../constants";
 import { Operator, ServiceApiResponse } from "../schemas/consequence.schema";
 import { ExportDisruptions, FullDisruption, TableDisruption } from "../schemas/disruption.schema";

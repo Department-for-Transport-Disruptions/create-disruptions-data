@@ -1,3 +1,4 @@
+import { ServerResponse } from "http";
 import {
     Consequence,
     Disruption,
@@ -11,20 +12,19 @@ import {
     Stop,
     StopsConsequence,
 } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { Datasource, Modes, VehicleMode, PublishStatus } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, Modes, PublishStatus, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import lowerCase from "lodash/lowerCase";
 import startCase from "lodash/startCase";
 import upperFirst from "lodash/upperFirst";
 import { NextApiResponse, NextPageContext } from "next";
 import { ZodError, ZodErrorMap } from "zod";
-import { ServerResponse } from "http";
-import { sortAndFilterStops } from "./formUtils";
 import { VEHICLE_MODES } from "../constants";
 import { fetchServiceStops } from "../data/refDataApi";
 import { DisplayValuePair, ErrorInfo } from "../interfaces";
 import { ServiceWithStopAndRoutes } from "../schemas/consequence.schema";
 import { FullDisruption } from "../schemas/disruption.schema";
+import { sortAndFilterStops } from "./formUtils";
 
 export const mapValidityPeriods = (disruption: Disruption) =>
     disruption.validity?.map((period) => ({
@@ -63,7 +63,7 @@ export const redirectTo = (res: NextApiResponse | ServerResponse, location: stri
 };
 
 export const getCsrfToken = (ctx: NextPageContext): string =>
-    ctx.res?.getHeader("x-csrf-token")?.toString() ?? "missing";
+    ctx.req?.headers?.["x-csrf-token"]?.toString() ?? "missing";
 
 export const splitCamelCaseToString = (s: string) => upperFirst(lowerCase(startCase(s)));
 
@@ -163,12 +163,12 @@ export const getStops = async (
             ...(vehicleMode === VehicleMode.bus
                 ? { stopTypes: "BCT" }
                 : vehicleMode === VehicleMode.tram ||
-                  vehicleMode === Modes.metro ||
-                  vehicleMode === VehicleMode.underground
-                ? { stopTypes: "MET, PLT" }
-                : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                ? { stopTypes: "FER, FBT" }
-                : { stopTypes: "undefined" }),
+                    vehicleMode === Modes.metro ||
+                    vehicleMode === VehicleMode.underground
+                  ? { stopTypes: "MET, PLT" }
+                  : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
+                    ? { stopTypes: "FER, FBT" }
+                    : { stopTypes: "undefined" }),
         });
 
         if (stopsData) {
@@ -248,5 +248,6 @@ export const filterStopList = (stops: Stop[], vehicleMode: VehicleMode | Modes, 
         }
         if (showUnderground && vehicleMode === VehicleMode.tram) {
             return stop.commonName.toLowerCase().includes("tram");
-        } else return true;
+        }
+        return true;
     });
