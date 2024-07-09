@@ -31,6 +31,7 @@ export const initialConsequenceStatsValues = (cancelFeatureFlag: boolean) => ({
 export const generateConsequenceStats = (key: string, disruption: Disruption, cancelFeatureFlag: boolean) => {
     if (disruption.consequences) {
         return disruption.consequences.reduce((acc: Record<string, Record<string, number>>, consequence) => {
+            // biome-ignore lint/suspicious/noPrototypeBuiltins: <explanation>
             if (!acc.hasOwnProperty(key)) {
                 acc[key] = initialConsequenceStatsValues(cancelFeatureFlag);
             }
