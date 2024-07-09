@@ -213,7 +213,7 @@ const AccountSettings = ({
                                   {
                                       header: "Password",
                                       cells: [
-                                        <div className="govuk-form-group" key="password-form">
+                                          <div className="govuk-form-group" key="password-form">
                                               <label
                                                   className="govuk-label govuk-label--s govuk-visually-hidden"
                                                   htmlFor="password"
