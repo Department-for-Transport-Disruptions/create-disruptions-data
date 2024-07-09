@@ -29,14 +29,10 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - name: Get Artifact from Release
-        uses: dsaltares/fetch-gh-release-asset@master
+      - name: Checkout repo
+        uses: actions/checkout@v4
         with:
-          version: tags/${{ inputs.tag }}
-          file: build.zip
-
-      - name: Unzip artifact
-        run: unzip -q build.zip
+          ref: ${{ inputs.tag }}
 
       - name: Setup Node.js and cache
         uses: actions/setup-node@v4
@@ -49,7 +45,20 @@ jobs:
           version: 8
           run_install: false
 
-      - name: Rebuild pnpm
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('src/pnpm-lock.yaml') }}
+          restore-keys: |
+              ${{ runner.os }}-pnpm-store-
+
+      - name: Install packages
         run: pnpm i --frozen-lockfile
 
       - name: Assume role using OIDC

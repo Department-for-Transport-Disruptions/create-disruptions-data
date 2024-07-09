@@ -17,18 +17,18 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
-  
+
       - uses: pnpm/action-setup@v3
         name: Install pnpm
         with:
           version: 8
           run_install: false
-    
+
       - name: Get pnpm store directory
         shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-  
+
       - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
@@ -49,18 +49,6 @@ jobs:
       - name: Test
         run: pnpm run test
 
-      - name: Remove node_modules
-        run: pnpx npkill -D -y
-
-      - name: Zip artifact
-        run: zip build.zip ./* -rq
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: build
-          path: ./build.zip
-
   deploy_to_test:
     needs: ['build']
     name: Deploy to Test
@@ -70,27 +58,34 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - name: Download Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: build
-          path: .
-
-      - name: Unzip artifact
-        run: unzip -q build.zip
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
       - name: Setup Node.js and cache
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
-  
+
       - uses: pnpm/action-setup@v3
         name: Install pnpm
         with:
           version: 8
           run_install: false
 
-      - name: Rebuild pnpm
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('src/pnpm-lock.yaml') }}
+          restore-keys: |
+              ${{ runner.os }}-pnpm-store-
+
+      - name: Install packages
         run: pnpm i --frozen-lockfile
 
       - name: Assume role using OIDC
@@ -116,27 +111,34 @@ jobs:
       contents: read
       id-token: write
     steps:
-      - name: Download Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: build
-          path: .
-
-      - name: Unzip artifact
-        run: unzip -q build.zip
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
       - name: Setup Node.js and cache
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
-  
+
       - uses: pnpm/action-setup@v3
         name: Install pnpm
         with:
           version: 8
           run_install: false
 
-      - name: Rebuild pnpm
+      - name: Get pnpm store directory
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v4
+        name: Setup pnpm cache
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('src/pnpm-lock.yaml') }}
+          restore-keys: |
+              ${{ runner.os }}-pnpm-store-
+
+      - name: Install packages
         run: pnpm i --frozen-lockfile
 
       - name: Assume role using OIDC
@@ -160,12 +162,6 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Download Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: build
-          path: .
-
       - name: Bump version and push tag
         id: tag_version
         uses: mathieudutour/github-tag-action@v6.2
@@ -179,4 +175,3 @@ jobs:
           name: Release ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
           draft: true
-          files: build.zip
