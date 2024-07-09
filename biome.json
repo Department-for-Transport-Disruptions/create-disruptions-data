@@ -11,7 +11,8 @@
             ".next",
             "./site/public/scripts/all.js",
             ".open-next",
-            "cdk.context.json"
+            "cdk.context.json",
+            ".cache"
         ]
     },
     "formatter": {
