@@ -126,14 +126,24 @@ exports[`accountSettings > should render correctly for operator 1`] = `
                   <td
                     className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
-                    <input
-                      className="bg-white"
-                      disabled={true}
-                      id="password"
-                      name="password"
-                      type="password"
-                      value="myPassword"
-                    />
+                    <div
+                      className="govuk-form-group"
+                    >
+                      <label
+                        className="govuk-label govuk-label--s govuk-visually-hidden"
+                        htmlFor="password"
+                      >
+                        Password
+                      </label>
+                      <input
+                        className="bg-white"
+                        disabled={true}
+                        id="password"
+                        name="password"
+                        type="password"
+                        value="myPassword"
+                      />
+                    </div>
                   </td>
                   <td
                     className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
@@ -509,14 +519,24 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
                   <td
                     className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
-                    <input
-                      className="bg-white"
-                      disabled={true}
-                      id="password"
-                      name="password"
-                      type="password"
-                      value="myPassword"
-                    />
+                    <div
+                      className="govuk-form-group"
+                    >
+                      <label
+                        className="govuk-label govuk-label--s govuk-visually-hidden"
+                        htmlFor="password"
+                      >
+                        Password
+                      </label>
+                      <input
+                        className="bg-white"
+                        disabled={true}
+                        id="password"
+                        name="password"
+                        type="password"
+                        value="myPassword"
+                      />
+                    </div>
                   </td>
                   <td
                     className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
@@ -1254,14 +1274,24 @@ exports[`accountSettings > should render correctly for organisation admin and sh
                   <td
                     className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
-                    <input
-                      className="bg-white"
-                      disabled={true}
-                      id="password"
-                      name="password"
-                      type="password"
-                      value="myPassword"
-                    />
+                    <div
+                      className="govuk-form-group"
+                    >
+                      <label
+                        className="govuk-label govuk-label--s govuk-visually-hidden"
+                        htmlFor="password"
+                      >
+                        Password
+                      </label>
+                      <input
+                        className="bg-white"
+                        disabled={true}
+                        id="password"
+                        name="password"
+                        type="password"
+                        value="myPassword"
+                      />
+                    </div>
                   </td>
                   <td
                     className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
@@ -2058,14 +2088,24 @@ exports[`accountSettings > should render correctly for publisher user 1`] = `
                   <td
                     className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
-                    <input
-                      className="bg-white"
-                      disabled={true}
-                      id="password"
-                      name="password"
-                      type="password"
-                      value="myPassword"
-                    />
+                    <div
+                      className="govuk-form-group"
+                    >
+                      <label
+                        className="govuk-label govuk-label--s govuk-visually-hidden"
+                        htmlFor="password"
+                      >
+                        Password
+                      </label>
+                      <input
+                        className="bg-white"
+                        disabled={true}
+                        id="password"
+                        name="password"
+                        type="password"
+                        value="myPassword"
+                      />
+                    </div>
                   </td>
                   <td
                     className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
@@ -2488,14 +2528,24 @@ exports[`accountSettings > should render correctly for staff user 1`] = `
                   <td
                     className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
-                    <input
-                      className="bg-white"
-                      disabled={true}
-                      id="password"
-                      name="password"
-                      type="password"
-                      value="myPassword"
-                    />
+                    <div
+                      className="govuk-form-group"
+                    >
+                      <label
+                        className="govuk-label govuk-label--s govuk-visually-hidden"
+                        htmlFor="password"
+                      >
+                        Password
+                      </label>
+                      <input
+                        className="bg-white"
+                        disabled={true}
+                        id="password"
+                        name="password"
+                        type="password"
+                        value="myPassword"
+                      />
+                    </div>
                   </td>
                   <td
                     className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
