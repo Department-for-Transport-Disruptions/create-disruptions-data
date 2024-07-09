@@ -26,12 +26,12 @@ jobs:
         with:
           version: 8
           run_install: false
-    
+
       - name: Get pnpm store directory
         shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-  
+
       - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
@@ -49,20 +49,8 @@ jobs:
       - name: Test TypeScript compiles
         run: pnpm run tsc:build
 
-      - name: Test Site
-        run: pnpm run test:site
-
-      - name: Test SIRI-SX Generator
-        run: pnpm run test:siri
-
-      - name: Zip artifact
-        run: zip build.zip ./* -rq
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: build
-          path: ./build.zip
+      - name: Test
+        run: pnpm run test
 
   create_hotfix_release:
     needs: ['build']
@@ -72,11 +60,10 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Download Artifact
-        uses: actions/download-artifact@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
         with:
-          name: build
-          path: .
+          ref: ${{ github.head_ref }}
 
       - name: Get Latest Release
         id: latest_release
@@ -102,4 +89,3 @@ jobs:
           name: Hotfix ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
           draft: true
-          files: build.zip

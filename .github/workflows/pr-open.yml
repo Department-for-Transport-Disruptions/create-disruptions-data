@@ -23,12 +23,12 @@ jobs:
         with:
           version: 8
           run_install: false
-    
+
       - name: Get pnpm store directory
         shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-  
+
       - uses: actions/cache@v4
         name: Setup pnpm cache
         with:
@@ -43,11 +43,8 @@ jobs:
       - name: Lint
         run: pnpm run lint
 
-      - name: Test Site
-        run: pnpm run test:site
-
-      - name: Test SIRI-SX Generator
-        run: pnpm run test:siri
+      - name: Test
+        run: pnpm run test
 
       - name: TypeScript Build
         run: pnpm run tsc:build

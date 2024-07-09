@@ -10,7 +10,8 @@
             "node_modules",
             ".next",
             "./site/public/scripts/all.js",
-            ".open-next"
+            ".open-next",
+            "cdk.context.json"
         ]
     },
     "formatter": {
