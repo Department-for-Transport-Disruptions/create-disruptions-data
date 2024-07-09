@@ -46,11 +46,11 @@ jobs:
       - name: Test TypeScript compiles
         run: pnpm run tsc:build
 
-      - name: Test Site
-        run: pnpm run test:site
+      - name: Test
+        run: pnpm run test
 
-      - name: Test SIRI-SX Generator
-        run: pnpm run test:siri
+      - name: Remove node_modules
+        run: pnpx npkill -D -y
 
       - name: Zip artifact
         run: zip build.zip ./* -rq
@@ -91,7 +91,7 @@ jobs:
           run_install: false
 
       - name: Rebuild pnpm
-        run: pnpm i --ignore-scripts --frozen-lockfile
+        run: pnpm i --frozen-lockfile
 
       - name: Assume role using OIDC
         uses: aws-actions/configure-aws-credentials@v4
@@ -137,7 +137,7 @@ jobs:
           run_install: false
 
       - name: Rebuild pnpm
-        run: pnpm i --ignore-scripts --frozen-lockfile
+        run: pnpm i --frozen-lockfile
 
       - name: Assume role using OIDC
         uses: aws-actions/configure-aws-credentials@v4

@@ -50,7 +50,7 @@ jobs:
           run_install: false
 
       - name: Rebuild pnpm
-        run: pnpm i --ignore-scripts --frozen-lockfile
+        run: pnpm i --frozen-lockfile
 
       - name: Assume role using OIDC
         uses: aws-actions/configure-aws-credentials@v4
