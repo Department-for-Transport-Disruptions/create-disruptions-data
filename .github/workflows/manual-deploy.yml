@@ -50,7 +50,7 @@ jobs:
           run_install: false
 
       - name: Rebuild pnpm
-        run: pnpm rebuild
+        run: pnpm i --ignore-scripts --frozen-lockfile
 
       - name: Assume role using OIDC
         uses: aws-actions/configure-aws-credentials@v4
@@ -64,4 +64,4 @@ jobs:
           AWS_SES_IDENTITY_ARN: ${{ secrets.AWS_SES_TEST_IDENTITY }}
           MAP_BOX_ACCESS_TOKEN: ${{ secrets.MAP_BOX_ACCESS_TOKEN }}
         run: |
-          pnpm run deploy -- --stage ${{ inputs.stage }}
+          pnpm run deploy --stage ${{ inputs.stage }}
