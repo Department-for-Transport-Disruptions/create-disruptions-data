@@ -1,7 +1,7 @@
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
-import PDFRows from "./PDFRows";
+import { describe, expect, it } from "vitest";
 import { exportDisruption } from "../../testData/mockData";
+import PDFRows from "./PDFRows";
 
 describe("PDFRows", () => {
     it("should render correctly", () => {

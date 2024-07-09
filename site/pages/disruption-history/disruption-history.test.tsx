@@ -2,10 +2,10 @@ import { History } from "@create-disruptions-data/shared-ts/disruptionTypes.zod"
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import MockDate from "mockdate";
 import renderer from "react-test-renderer";
-import { describe, it, expect, afterAll, vi } from "vitest";
-import DisruptionHistory, { getServerSideProps } from "./[disruptionId].page";
+import { afterAll, describe, expect, it, vi } from "vitest";
 import * as dynamo from "../../data/dynamo";
 import { DEFAULT_DISRUPTION_ID, disruptionWithConsequences, getMockContext } from "../../testData/mockData";
+import DisruptionHistory, { getServerSideProps } from "./[disruptionId].page";
 
 const history: History[] = [
     {

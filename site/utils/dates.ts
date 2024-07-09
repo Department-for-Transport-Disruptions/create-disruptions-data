@@ -1,5 +1,5 @@
 import { Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { getDate, getFormattedDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
+import { getDate, getDatetimeFromDateAndTime, getFormattedDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import dayjs, { Dayjs } from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import isBetween from "dayjs/plugin/isBetween";
@@ -25,7 +25,7 @@ export const convertDateTimeToFormat = (dateOrTime: string | Date, format: strin
 
 export const getDateForExporter = (date: string) => dayjs(date).format("DD/MM/YYYY");
 
-export const formatTime = (time: string) => (time.length === 4 ? time.slice(0, -2) + ":" + time.slice(-2) : time);
+export const formatTime = (time: string) => (time.length === 4 ? `${time.slice(0, -2)}:${time.slice(-2)}` : time);
 
 export const isAtLeast5MinutesAfter = (date: dayjs.Dayjs) => {
     const currentDateTime = dayjs();
@@ -68,15 +68,15 @@ export const getEndingOnDateText = (
             (diffInDaysWithEndingOn <= diffInDaysWithEndDate || startDateDay === endingOnDateDay)
         ) {
             return disruptionRepeatsEndDate;
-        } else {
-            const diffInDays =
-                endDateDay < endingOnDateDay ? endingOnDateDay - endDateDay : endingOnDateDay - endDateDay + 7;
-
-            return convertDateTimeToFormat(
-                getFormattedDate(disruptionRepeatsEndDate).subtract(diffInDays, "day").toDate(),
-                CD_DATE_FORMAT,
-            );
         }
+
+        const diffInDays =
+            endDateDay < endingOnDateDay ? endingOnDateDay - endDateDay : endingOnDateDay - endDateDay + 7;
+
+        return convertDateTimeToFormat(
+            getFormattedDate(disruptionRepeatsEndDate).subtract(diffInDays, "day").toDate(),
+            CD_DATE_FORMAT,
+        );
     }
 
     return disruptionRepeatsEndDate || "";
@@ -111,7 +111,7 @@ export const isLiveDisruption = (validityPeriods: Validity[], endDatetime: Dayjs
         validityPeriods[0].disruptionStartTime,
     );
 
-    return startTime.isSameOrBefore(today) && ((endDatetime && endDatetime.isSameOrAfter(today)) || !endDatetime);
+    return startTime.isSameOrBefore(today) && (endDatetime?.isSameOrAfter(today) || !endDatetime);
 };
 
 export const isUpcomingDisruption = (validityPeriods: Validity[], today: Dayjs) => {

@@ -7,7 +7,6 @@ exports[`PageNumbers > should not render anything when there is one pages 1`] = 
 exports[`PageNumbers > should render correctly when there are 10 pages and the current page is 1 1`] = `
 <nav
   className="govuk-pagination justify-center"
-  role="navigation"
 >
   <ul
     className="govuk-pagination__list"
@@ -112,7 +111,6 @@ exports[`PageNumbers > should render correctly when there are 10 pages and the c
 exports[`PageNumbers > should render correctly when there are 10 pages and the current page is 5 1`] = `
 <nav
   className="govuk-pagination justify-center"
-  role="navigation"
 >
   <div
     className="govuk-pagination__prev"
@@ -291,7 +289,6 @@ exports[`PageNumbers > should render correctly when there are 10 pages and the c
 exports[`PageNumbers > should render correctly when there are less than 10 pages 1`] = `
 <nav
   className="govuk-pagination justify-center"
-  role="navigation"
 >
   <ul
     className="govuk-pagination__list"

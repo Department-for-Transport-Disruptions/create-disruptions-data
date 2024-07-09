@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { operatorSchema } from "./consequence.schema";
 import { MAX_OPERATOR_NOC_CODES } from "../constants";
 import { setZodDefaultError } from "../utils";
+import { operatorSchema } from "./consequence.schema";
 
 export const addOperatorSchema = z.object({
     operatorName: z.string(setZodDefaultError("Enter a name for the operator")).min(1),

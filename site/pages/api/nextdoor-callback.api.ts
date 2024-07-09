@@ -3,7 +3,7 @@ import { COOKIES_SOCIAL_MEDIA_ACCOUNT_ERRORS, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH } 
 import { addNextdoorAccount } from "../../data/nextdoor";
 import { NoStateOrCodeError, NotAnAgencyAccountError } from "../../errors";
 import { getSession } from "../../utils/apiUtils/auth";
-import { redirectToError, redirectTo, setCookieOnResponseObject } from "../../utils/apiUtils/index";
+import { redirectTo, redirectToError, setCookieOnResponseObject } from "../../utils/apiUtils/index";
 
 const nextdoorCallback = async (req: NextApiRequest, res: NextApiResponse) => {
     try {

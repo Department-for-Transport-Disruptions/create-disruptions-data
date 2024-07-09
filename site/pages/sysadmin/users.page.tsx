@@ -55,7 +55,7 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
                               user.username,
                               user.group,
                               user.organisation,
-                              user.userStatus !== "CONFIRMED" && user.group == UserGroups.orgAdmins,
+                              user.userStatus !== "CONFIRMED" && user.group === UserGroups.orgAdmins,
                           )
                         : "",
                     user.userStatus === "FORCE_CHANGE_PASSWORD" ? "Unregistered" : "Registered",
@@ -132,7 +132,7 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
 
     const queryParams = useRouter().query;
 
-    const orgId = queryParams["orgId"];
+    const orgId = queryParams.orgId;
 
     return (
         <BaseLayout title={title} description={description} errors={pageState.errors}>
@@ -176,7 +176,7 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
                             value: userToResendInvite.userOrgId,
                         },
                     ]}
-                    questionText={`Are you sure you wish to resend the invite?`}
+                    questionText={"Are you sure you wish to resend the invite?"}
                     isOpen={!!userToResendInvite}
                 />
             ) : null}
@@ -229,7 +229,7 @@ const SysAdminUserManagement = (props: SysAdminUserManagementProps): ReactElemen
                 <Table
                     columns={["First name", "Last name", "Email", "Account type", "Action", "Status"]}
                     rows={getRows()}
-                ></Table>
+                />
             </CsrfForm>
         </BaseLayout>
     );
@@ -249,7 +249,8 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     if (!session) {
         throw new Error("No session found");
-    } else if (!session.isSystemAdmin) {
+    }
+    if (!session.isSystemAdmin) {
         throw new Error("Invalid user accessing the page");
     }
 
@@ -257,7 +258,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
 
     const orgInfo = await getOrganisationInfoById(orgId);
 
-    const orgName = !!orgInfo?.name ? orgInfo.name : "";
+    const orgName = orgInfo?.name ? orgInfo.name : "";
 
     const orgAdminUsers = await listUsersWithGroups();
 

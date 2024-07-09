@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, TransactWriteCommand } from "@aws-sdk/lib-dynamodb";
 import { filterActiveDisruptions } from "@create-disruptions-data/shared-ts/utils";
@@ -6,15 +7,14 @@ import {
     getPublishedDisruptionsDataFromDynamo,
 } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import * as logger from "lambda-log";
-import { randomUUID } from "crypto";
-import { generateSiriStats, SiriStats } from "./utils/statGenerators";
+import { SiriStats, generateSiriStats } from "./utils/statGenerators";
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
 
 const publishStatsToDynamo = async (orgTableName: string, siriStats: Record<string, SiriStats>) => {
     try {
         const orgList = await getOrganisationsInfo(orgTableName, logger);
-        if (!!orgList) {
+        if (orgList) {
             const orgPutRequest = orgList.map((org) => {
                 const orgId = org.id;
                 const statForOrg = siriStats[orgId];

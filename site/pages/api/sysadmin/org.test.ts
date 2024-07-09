@@ -1,7 +1,6 @@
-import { Datasource } from "@create-disruptions-data/shared-ts/enums";
-import { describe, it, expect, afterEach, vi } from "vitest";
 import { randomUUID } from "crypto";
-import manageOrg from "./org.api";
+import { Datasource } from "@create-disruptions-data/shared-ts/enums";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
     COOKIES_ADD_ORG_ERRORS,
     SYSADMIN_ADD_ORG_PAGE_PATH,
@@ -10,6 +9,7 @@ import {
 import { ErrorInfo } from "../../../interfaces";
 import { getMockRequestAndResponse } from "../../../testData/mockData";
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../../utils/apiUtils";
+import manageOrg from "./org.api";
 
 describe("manageOrg", () => {
     const writeHeadMock = vi.fn();

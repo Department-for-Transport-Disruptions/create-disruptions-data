@@ -1,8 +1,8 @@
+import { randomUUID } from "crypto";
 import { disruptionInfoSchemaRefined } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import cryptoRandomString from "crypto-random-string";
 import { NextApiRequest, NextApiResponse } from "next";
-import { randomUUID } from "crypto";
 import {
     CREATE_DISRUPTION_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
@@ -19,11 +19,7 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
     try {
         const { disruptionId } = req.body as { disruptionId: string };
         const { template, templateId } = req.query;
-        const createDisruptionFromTemplate = template === "true";
-
-        if (createDisruptionFromTemplate && !templateId) {
-            throw new Error("Template id is required");
-        }
+        const createDisruptionFromTemplate = !!templateId;
 
         if (!createDisruptionFromTemplate && !disruptionId) {
             throw new Error("No disruptionId found");

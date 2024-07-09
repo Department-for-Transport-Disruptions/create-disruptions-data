@@ -1,12 +1,12 @@
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { DynamoDBDocumentClient, GetCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import * as util from "@create-disruptions-data/shared-ts/utils/refDataApi";
 import { mockClient } from "aws-sdk-client-mock";
 import Mockdate from "mockdate";
-import { describe, expect, it, beforeEach, beforeAll, afterAll, vi } from "vitest";
+import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import formatXml from "xml-formatter";
-import { dbResponse, dbResponseWithCreationTime, orgId } from "./test/testData";
 import { generateSiriSxAndUploadToS3 } from ".";
+import { dbResponse, dbResponseWithCreationTime, orgId } from "./test/testData";
 
 const ddbMock = mockClient(DynamoDBDocumentClient);
 const s3Mock = mockClient(S3Client);

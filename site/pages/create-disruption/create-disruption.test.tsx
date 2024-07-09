@@ -1,13 +1,13 @@
 import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
 import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import CreateDisruption, { DisruptionPageProps } from "./[disruptionId].page";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
     DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
+import CreateDisruption, { DisruptionPageProps } from "./[disruptionId].page";
 
 const blankInputs: DisruptionPageProps = {
     errors: [],
@@ -46,7 +46,6 @@ const withInputs: DisruptionPageProps = {
     },
 };
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const useRouter = vi.spyOn(require("next/router"), "useRouter");
 beforeEach(() => {
     useRouter.mockImplementation(() => ({

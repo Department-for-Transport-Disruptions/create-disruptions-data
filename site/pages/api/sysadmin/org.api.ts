@@ -1,5 +1,5 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import { randomUUID } from "crypto";
+import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_ADD_ORG_ERRORS,
     SYSADMIN_ADD_ORG_PAGE_PATH,
@@ -47,7 +47,8 @@ const manageOrg = async (req: NextApiRequest, res: NextApiResponse): Promise<voi
         const formattedBody = formatBody(req.body as object);
         if (!session) {
             throw new Error("No session found");
-        } else if (!session.isSystemAdmin) {
+        }
+        if (!session.isSystemAdmin) {
             throw new Error("Invalid user accessing the page");
         }
 

@@ -1,4 +1,5 @@
-import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
+import { randomUUID } from "crypto";
+import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import { Roadwork } from "@create-disruptions-data/shared-ts/roadwork.zod";
 import { chunkArray, getLiveRoadworks, notEmpty } from "@create-disruptions-data/shared-ts/utils";
 import { getUsersByAttributeByOrgIds } from "@create-disruptions-data/shared-ts/utils/cognito";
@@ -7,7 +8,6 @@ import { isSandbox } from "@create-disruptions-data/shared-ts/utils/domain";
 import { getOrgIdsFromDynamoByAdminAreaCodes } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { getRecentlyNewRoadworks } from "@create-disruptions-data/shared-ts/utils/refDataApi";
 import * as logger from "lambda-log";
-import { randomUUID } from "crypto";
 
 const sesClient = new SESClient({ region: "eu-west-2" });
 
@@ -105,14 +105,14 @@ const formatRoadwork = (roadwork: Roadwork) => ({
         roadwork.actualStartDateTime
             ? convertDateTimeToFormat(roadwork.actualStartDateTime, "DD/MM/YY HH:mm")
             : roadwork.proposedStartDateTime
-            ? convertDateTimeToFormat(roadwork.proposedStartDateTime, "DD/MM/YY HH:mm")
-            : "No start datetime"
+              ? convertDateTimeToFormat(roadwork.proposedStartDateTime, "DD/MM/YY HH:mm")
+              : "No start datetime"
     } -  ${
         roadwork.actualEndDateTime
             ? convertDateTimeToFormat(roadwork.actualEndDateTime, "DD/MM/YY HH:mm")
             : roadwork.proposedEndDateTime
-            ? convertDateTimeToFormat(roadwork.proposedEndDateTime, "DD/MM/YY HH:mm")
-            : "No end datetime"
+              ? convertDateTimeToFormat(roadwork.proposedEndDateTime, "DD/MM/YY HH:mm")
+              : "No end datetime"
     }`,
 });
 

@@ -1,5 +1,5 @@
 import renderer from "react-test-renderer";
-import { describe, it, vi, expect, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import ResetPassword, { ResetPasswordPageProps } from "./reset-password.page";
 
 const blankInputs: ResetPasswordPageProps = {
@@ -22,7 +22,6 @@ const withInputsAndErrors: ResetPasswordPageProps = {
     errors: [{ errorMessage: "Enter a valid email address", id: "email" }],
 };
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const useRouter = vi.spyOn(require("next/router"), "useRouter");
 
 beforeEach(() => {

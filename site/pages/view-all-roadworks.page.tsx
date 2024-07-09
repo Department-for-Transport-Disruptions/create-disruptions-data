@@ -6,7 +6,7 @@ import { Point } from "geojson";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import proj4 from "proj4";
-import { GeoJSONPolygon, parse, GeoJSONFeature, GeoJSONGeometry, GeoJSONLineString } from "wellknown";
+import { GeoJSONFeature, GeoJSONGeometry, GeoJSONLineString, GeoJSONPolygon, parse } from "wellknown";
 import SortableTable, { TableColumn } from "../components/form/SortableTable";
 import Warning from "../components/form/Warning";
 import { BaseLayout } from "../components/layout/Layout";
@@ -62,7 +62,6 @@ const roadWorkCoordinates = (roadworks: Roadwork[]): RoadworkWithCoordinates[] =
 
         // Perform the coordinate transformation
 
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         const coordinates: [number, number] = proj4(sourceCRS, targetCRS, [easting, northing]) as [number, number];
 
         worksLocationCoordinates.geometry = {

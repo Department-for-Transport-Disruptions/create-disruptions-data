@@ -1,9 +1,9 @@
-import { describe, it, expect, afterEach, vi } from "vitest";
-import deleteOrg from "./delete-org.api";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { ERROR_PATH, SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH } from "../../../constants";
 import * as cognito from "../../../data/cognito";
 import * as dynamo from "../../../data/dynamo";
 import { getMockRequestAndResponse } from "../../../testData/mockData";
+import deleteOrg from "./delete-org.api";
 
 describe("delete-org", () => {
     const writeHeadMock = vi.fn();

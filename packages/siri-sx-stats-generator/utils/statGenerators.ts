@@ -81,17 +81,16 @@ export const generateDisruptionReasonCount = (
     currentDisruptionReason: string,
     disruptionReasonCountObject: Record<string, number>,
 ) => {
-    if (disruptionReasonCountObject.hasOwnProperty(currentDisruptionReason)) {
+    if (Object.hasOwn(disruptionReasonCountObject, currentDisruptionReason)) {
         return {
             ...disruptionReasonCountObject,
             [currentDisruptionReason]: disruptionReasonCountObject[currentDisruptionReason] + 1,
         };
-    } else {
-        return {
-            ...disruptionReasonCountObject,
-            [currentDisruptionReason]: 1,
-        };
     }
+    return {
+        ...disruptionReasonCountObject,
+        [currentDisruptionReason]: 1,
+    };
 };
 
 export const generateSiriStats = (disruptions: Disruption[], cancelFeatureFlag: boolean) => {
@@ -99,7 +98,7 @@ export const generateSiriStats = (disruptions: Disruption[], cancelFeatureFlag: 
         const key = disruption.orgId ? disruption.orgId : "";
         const consequenceStats = generateConsequenceStats(key, disruption, cancelFeatureFlag);
         if (consequenceStats?.[key]) {
-            if (!acc.hasOwnProperty(key)) {
+            if (!Object.hasOwn(acc, key)) {
                 acc[key] = {
                     disruptionReasonCount: {},
                     totalDisruptionsCount: 0,
@@ -123,7 +122,7 @@ export const generateSiriStats = (disruptions: Disruption[], cancelFeatureFlag: 
                     disruption.disruptionReason,
                     acc[key].disruptionReasonCount,
                 ),
-                totalDisruptionsCount: (acc[key].totalDisruptionsCount += 1),
+                totalDisruptionsCount: acc[key].totalDisruptionsCount + 1,
                 servicesConsequencesCount:
                     acc[key].servicesConsequencesCount + consequenceStats[key].servicesConsequencesCount,
                 servicesAffected: acc[key].servicesAffected + consequenceStats[key].servicesAffected,

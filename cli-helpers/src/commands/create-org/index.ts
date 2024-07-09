@@ -1,7 +1,7 @@
-import { Command, Flags } from "@oclif/core";
+import { randomUUID } from "crypto";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb";
-import { randomUUID } from "crypto";
+import { Command, Flags } from "@oclif/core";
 import inquirer from "inquirer";
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));

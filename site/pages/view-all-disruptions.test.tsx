@@ -1,7 +1,7 @@
 import renderer, { act } from "react-test-renderer";
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import ViewAllDisruptions from "./view-all-disruptions.page";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { DEFAULT_ORG_ID, mockViewAllDisruptionsData } from "../testData/mockData";
+import ViewAllDisruptions from "./view-all-disruptions.page";
 
 type Renderer = {
     toJSON: () => void;
@@ -19,7 +19,6 @@ const defaultNewDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
 const fetchSpy = vi.spyOn(global, "fetch");
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const useRouter = vi.spyOn(require("next/router"), "useRouter");
 beforeEach(() => {
     useRouter.mockImplementation(() => ({

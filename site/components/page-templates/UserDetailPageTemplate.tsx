@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { SingleValue } from "react-select";
 import { AddUserPageProps } from "../../pages/admin/add-user.page";
 import { EditUserPageProps } from "../../pages/admin/edit-user/[username].page";
-import { addUserSchema, AddUserSchema, EditUserSchema } from "../../schemas/add-user.schema";
+import { AddUserSchema, EditUserSchema, addUserSchema } from "../../schemas/add-user.schema";
 import { OperatorOrgSchema } from "../../schemas/organisation.schema";
 import { getStateUpdater } from "../../utils/formUtils";
 import CsrfForm from "../form/CsrfForm";
@@ -92,7 +92,7 @@ const UserDetailPageTemplate = ({
                             schema={addUserSchema.shape.email}
                             stateUpdater={stateUpdater}
                             maxLength={100}
-                            isDisabled={pageType === "addUser" ? false : true}
+                            isDisabled={pageType !== "addUser"}
                         />
 
                         <Table rows={[{ header: "Organisation", cells: [pageState.sessionWithOrg?.orgName, ""] }]} />
@@ -161,9 +161,9 @@ const UserDetailPageTemplate = ({
 
                         {pageType === "editUser" && (
                             <>
-                                <input type="hidden" name={`email`} value={pageState.inputs.email} />
-                                <input type="hidden" name={`username`} value={username} />
-                                <input type="hidden" name={`initialGroup`} value={initialGroup} />
+                                <input type="hidden" name={"email"} value={pageState.inputs.email} />
+                                <input type="hidden" name={"username"} value={username} />
+                                <input type="hidden" name={"initialGroup"} value={initialGroup} />
                             </>
                         )}
 

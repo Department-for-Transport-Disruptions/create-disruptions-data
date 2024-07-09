@@ -18,9 +18,6 @@ import {
 } from "react";
 import MapBox, { Layer, Popup, Source, ViewState } from "react-map-gl";
 import { z } from "zod";
-import { PolygonFeature } from "./DrawControl";
-import MapControls from "./MapControls";
-import Markers from "./Markers";
 import { fetchServicesByStops, fetchStops } from "../../data/refDataApi";
 import { LargePolygonError, NoStopsError } from "../../errors";
 import { PageState } from "../../interfaces";
@@ -36,6 +33,9 @@ import {
 import { filterServices, getStopType, sortAndFilterStops, sortStops } from "../../utils/formUtils";
 import { warningMessageText } from "../../utils/mapUtils";
 import Warning from "../form/Warning";
+import { PolygonFeature } from "./DrawControl";
+import MapControls from "./MapControls";
+import Markers from "./Markers";
 
 interface ServiceMapProps extends MapProps {
     dataSource: Datasource;
@@ -85,7 +85,7 @@ export const getSelectedStopsFromMapMarkers = (markerData: Stop[], id: string) =
     return [...markerData].filter((stop: Stop) => stop.atcoCode === id);
 };
 export const getAtcoCodesFromSelectedStops = (stops: Stop[]) => {
-    return !!stops ? stops.map((stop) => stop.atcoCode).splice(0, 100) : [];
+    return stops ? stops.map((stop) => stop.atcoCode).splice(0, 100) : [];
 };
 
 const Map = ({
@@ -216,7 +216,7 @@ const Map = ({
                         ...state.inputs,
                         ...(state.inputs?.services
                             ? {
-                                  services: filterServices([...state.inputs?.services, ...servicesForStopsInPolygon]),
+                                  services: filterServices([...state.inputs.services, ...servicesForStopsInPolygon]),
                               }
                             : { services: servicesForStopsInPolygon }),
                         stops: sortAndFilterStops([...selectedStops, ...stop]),
@@ -251,7 +251,6 @@ const Map = ({
             }
             setLoading(false);
         },
-        // eslint-disable-next-line react-hooks/exhaustive-deps
         [markerData, state.inputs.stops, state.inputs.services],
     );
 
@@ -262,7 +261,6 @@ const Map = ({
             setWarningMessage("");
             setDisableSelectAllButton(false);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedStops]);
 
     useEffect(() => {
@@ -280,14 +278,14 @@ const Map = ({
                         ...(vehicleMode === VehicleMode.bus
                             ? { stopTypes: ["BCT"] }
                             : vehicleMode === VehicleMode.tram ||
-                              vehicleMode === Modes.metro ||
-                              vehicleMode === VehicleMode.underground
-                            ? { stopTypes: ["MET", "PLT"] }
-                            : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                            ? { stopTypes: ["FER", "FBT"] }
-                            : vehicleMode === Modes.rail
-                            ? { stopTypes: ["RLY"] }
-                            : { stopTypes: ["undefined"] }),
+                                vehicleMode === Modes.metro ||
+                                vehicleMode === VehicleMode.underground
+                              ? { stopTypes: ["MET", "PLT"] }
+                              : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
+                                ? { stopTypes: ["FER", "FBT"] }
+                                : vehicleMode === Modes.rail
+                                  ? { stopTypes: ["RLY"] }
+                                  : { stopTypes: ["undefined"] }),
                     });
 
                     const filteredStopList = filterStopList(stopsData, vehicleMode, showUnderground);
@@ -312,14 +310,11 @@ const Map = ({
                 }
             };
 
-            loadOptions()
-                // eslint-disable-next-line no-console
-                .catch(console.error);
+            loadOptions().catch(console.error);
             setLoading(false);
         } else {
             setWarningMessage("");
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [features]);
 
     const onUpdate = useCallback((evt: { features: PolygonFeature[] }) => {
@@ -403,7 +398,7 @@ const Map = ({
                         stops: sortAndFilterStops(stops),
                         ...(state.inputs?.services
                             ? {
-                                  services: filterServices([...state.inputs?.services, ...servicesForStopsInPolygon]),
+                                  services: filterServices([...state.inputs.services, ...servicesForStopsInPolygon]),
                               }
                             : { services: servicesForStopsInPolygon }),
                     },
@@ -454,8 +449,8 @@ const Map = ({
 
     const onHover = useCallback((event: MapLayerMouseEvent) => {
         setHoverInfo(initialHoverState);
-        const service = event.features && event.features[0];
-        if (service && service.properties && service.properties.serviceId) {
+        const service = event.features?.[0];
+        if (service?.properties?.serviceId) {
             setHoverInfo({
                 longitude: event.lngLat.lng,
                 latitude: event.lngLat.lat,
@@ -464,7 +459,7 @@ const Map = ({
         }
     }, []);
 
-    const selectedService = (hoverInfo && hoverInfo.serviceId) || "";
+    const selectedService = hoverInfo?.serviceId || "";
 
     const filter = useMemo(() => ["all", ["==", "serviceId", selectedService]], [selectedService]);
 

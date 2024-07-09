@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "type": "module",
     "scripts": {
-        "test": "vitest",
+        "test": "vitest run",
         "test:updateSnapshots": "vitest -u",
         "typecheck": "tsc -noEmit"
     },
@@ -11,10 +11,13 @@
         "@tsconfig/node20": "^20.1.2",
         "@types/aws-lambda": "^8.10.110",
         "@types/lambda-log": "^2.2.1",
-        "@types/node": "^20.10.5"
+        "@types/node": "^20.10.5",
+        "aws-sdk-client-mock": "^4.0.1",
+        "vitest": "^0.29.1"
     },
     "dependencies": {
-        "@create-disruptions-data/shared-ts": "file:../../shared-ts",
+        "@aws-sdk/client-ses": "^3.476.0",
+        "@create-disruptions-data/shared-ts": "workspace:^",
         "lambda-log": "^3.1.0"
     }
 }

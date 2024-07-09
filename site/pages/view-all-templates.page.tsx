@@ -1,9 +1,9 @@
+import { randomUUID } from "crypto";
 import { Progress } from "@create-disruptions-data/shared-ts/enums";
 import { NextPageContext, Redirect } from "next";
 import { ReactElement } from "react";
-import { randomUUID } from "crypto";
-import { BaseLayout } from "../components/layout/Layout";
 import ViewAllContents, { ViewAllContentProps } from "../components/ViewAllContents";
+import { BaseLayout } from "../components/layout/Layout";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 
 const title = "Templates";
@@ -71,8 +71,8 @@ export const getServerSideProps = async (
             ...(showPending
                 ? { filterStatus: Progress.pendingApproval }
                 : showDraft
-                ? { filterStatus: Progress.draft }
-                : {}),
+                  ? { filterStatus: Progress.draft }
+                  : {}),
         },
     };
 };

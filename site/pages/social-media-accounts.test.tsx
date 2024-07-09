@@ -1,5 +1,5 @@
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import SocialMediaAccounts, { SocialMediaAccountsPageProps } from "./social-media-accounts.page";
 
 const blankInputs: SocialMediaAccountsPageProps = {

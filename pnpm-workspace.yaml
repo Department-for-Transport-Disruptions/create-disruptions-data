@@ -1,0 +1,8 @@
+packages:
+- packages/**
+- cli-helpers
+- site
+- .
+- scripts
+- shared-ts
+- stacks

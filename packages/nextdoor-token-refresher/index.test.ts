@@ -1,6 +1,6 @@
 import * as utils from "@create-disruptions-data/shared-ts/utils";
 import * as ssm from "@create-disruptions-data/shared-ts/utils/ssm";
-import { describe, it, vi, beforeEach, beforeAll, afterEach, expect } from "vitest";
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { main } from ".";
 
 describe("nextdoorTokenRefresher", () => {
@@ -51,7 +51,7 @@ describe("nextdoorTokenRefresher", () => {
         } as unknown as Response);
 
         getNextdoorAuthHeaderSpy.mockResolvedValue(
-            `Basic ${Buffer.from(`some-client-id:some-client-secret`).toString("base64")}`,
+            `Basic ${Buffer.from("some-client-id:some-client-secret").toString("base64")}`,
         );
 
         await main();
@@ -68,7 +68,7 @@ describe("nextdoorTokenRefresher", () => {
 
     it("should not call putParameter for an individual token if tokenRefreshResponse doesn't return a 200 status code", async () => {
         getNextdoorAuthHeaderSpy.mockResolvedValue(
-            `Basic ${Buffer.from(`some-client-id:some-client-secret`).toString("base64")}`,
+            `Basic ${Buffer.from("some-client-id:some-client-secret").toString("base64")}`,
         );
 
         fetchSpy.mockResolvedValue({

@@ -620,7 +620,6 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
   </table>,
   <nav
     className="govuk-pagination justify-center"
-    role="navigation"
   >
     <ul
       className="govuk-pagination__list"
@@ -1137,7 +1136,6 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
   </table>,
   <nav
     className="govuk-pagination justify-center"
-    role="navigation"
   >
     <ul
       className="govuk-pagination__list"

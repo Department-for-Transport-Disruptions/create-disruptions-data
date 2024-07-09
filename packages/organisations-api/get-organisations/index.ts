@@ -1,6 +1,6 @@
+import { randomUUID } from "crypto";
 import { getAllOrganisationsInfoAndStats } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import * as logger from "lambda-log";
-import { randomUUID } from "crypto";
 
 const getOrganisations = async (organisationsTableName: string) => {
     try {

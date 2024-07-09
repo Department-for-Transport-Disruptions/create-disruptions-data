@@ -1,8 +1,8 @@
 import Link from "next/link";
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
-import Tabs from "./Tabs";
+import { describe, expect, it } from "vitest";
 import Table from "../form/Table";
+import Tabs from "./Tabs";
 
 describe("Tabs", () => {
     it("should render correctly when given a table as the content", () => {

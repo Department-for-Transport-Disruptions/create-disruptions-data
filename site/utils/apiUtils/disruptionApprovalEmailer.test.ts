@@ -1,10 +1,10 @@
-import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
+import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import { mockClient } from "aws-sdk-client-mock";
-import { describe, it, vi, beforeAll, beforeEach, afterEach, expect } from "vitest";
-import { sendDisruptionApprovalEmail } from "./disruptionApprovalEmailer";
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import * as cognito from "../../data/cognito";
 import { mockOrgAdmins, mockSession } from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
+import { sendDisruptionApprovalEmail } from "./disruptionApprovalEmailer";
 
 const sesMock = mockClient(SESClient);
 const mockSendApprovalEmailInput = {

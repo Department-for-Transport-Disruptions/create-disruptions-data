@@ -1,7 +1,7 @@
 import kebabCase from "lodash/kebabCase";
 import { ReactElement, SyntheticEvent, useEffect, useRef, useState } from "react";
-import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { ErrorInfo, FormBase } from "../../interfaces";
+import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 
 interface TimeSelectorProps<T> extends FormBase<T> {
     disabled?: boolean;
@@ -73,7 +73,7 @@ const TimeSelector = <T extends object>({
                         {hint}
                     </div>
                 ) : null}
-                <div className={!!showNowButton ? "flex flex-row content-end gap-4 mt-auto" : "mt-auto"}>
+                <div className={showNowButton ? "flex flex-row content-end gap-4 mt-auto" : "mt-auto"}>
                     <div className={`${inputDivWidth ? inputDivWidth : ""}`}>
                         <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-input--error">
                             <input

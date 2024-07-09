@@ -4,6 +4,7 @@
     "private": true,
     "type": "module",
     "scripts": {
+        "preinstall": "npx only-allow pnpm",
         "dev": "aws s3 cp s3://cdd-sandbox-dev-data/.env ./.env.local && sst dev",
         "build": "sst build",
         "deploy": "sst deploy",
@@ -12,33 +13,27 @@
         "diff": "sst diff",
         "cdk": "cdk",
         "typecheck": "tsc --noEmit",
-        "lint": "eslint .",
-        "test:site": "npm -w @create-disruptions-data/site test -- run",
-        "test:siri": "npm -w @create-disruptions-data/siri-sx-generator run test:unit -- run",
-        "test:stats": "npm -w @create-disruptions-data/siri-sx-stats-generator run test -- run",
-        "test:roadworksNotifier": "npm -w @create-disruptions-data/roadworks-notifier run test -- run",
-        "test": "npm run test:site && npm run test:siri && npm run test:stats && npm run test:roadworksNotifier",
+        "lint": "npx biome check .",
+        "lint:fix": "npx biome check --fix --unsafe .",
+        "test:site": "pnpm --filter @create-disruptions-data/site test -- run",
+        "test:siri": "pnpm --filter @create-disruptions-data/siri-sx-generator run test:unit -- run",
+        "test:stats": "pnpm --filter @create-disruptions-data/siri-sx-stats-generator run test -- run",
+        "test:roadworksNotifier": "pnpm --filter @create-disruptions-data/roadworks-notifier run test -- run",
+        "test": "pnpm test --filter '@create-disruptions-data/*'",
         "prepare": "husky install",
         "tsc:build:site": "tsc --noemit -p site",
-        "tsc:build": "tsc --noemit && npm run tsc:build:site"
+        "tsc:build": "tsc --noemit && pnpm run tsc:build:site"
     },
     "devDependencies": {
+        "@biomejs/biome": "1.8.3",
         "@tsconfig/node20": "^20.1.2",
         "@types/node": "^20.10.5",
-        "@typescript-eslint/eslint-plugin": "^6.19.0",
-        "@typescript-eslint/parser": "^6.19.0",
         "@vitest/coverage-c8": "^0.29.2",
-        "aws-cdk": "2.110.1",
-        "aws-cdk-lib": "2.110.1",
+        "aws-cdk": "2.142.1",
+        "aws-cdk-lib": "2.142.1",
         "constructs": "10.3.0",
-        "eslint": "^8.56.0",
-        "eslint-config-prettier": "^8.10.0",
-        "eslint-import-resolver-typescript": "^3.6.1",
-        "eslint-plugin-import": "^2.29.1",
-        "eslint-plugin-prettier": "^4.2.1",
         "husky": "^8.0.0",
-        "prettier": "^2.8.8",
-        "sst": "2.38.7",
+        "sst": "2.43.3",
         "typescript": "^5.3.3"
     },
     "overrides": {
@@ -46,19 +41,11 @@
         "react-dom": "18.2.0",
         "jszip": "3.8.0"
     },
-    "workspaces": [
-        "packages/*",
-        "site/*",
-        "site",
-        "scripts/*",
-        "shared-ts/*",
-        "cli-helpers/*",
-        "cli-helpers"
-    ],
     "dependencies": {
-        "@aws-sdk/client-dynamodb": "^3.388.0",
-        "@aws-sdk/lib-dynamodb": "^3.388.0",
-        "@aws-sdk/util-dynamodb": "^3.388.0",
+        "@aws-sdk/client-dynamodb": "^3.609.0",
+        "@aws-sdk/lib-dynamodb": "^3.609.0",
+        "@aws-sdk/util-dynamodb": "^3.609.0",
+        "@create-disruptions-data/shared-ts": "workspace:^",
         "zod": "^3.23.3"
     }
 }

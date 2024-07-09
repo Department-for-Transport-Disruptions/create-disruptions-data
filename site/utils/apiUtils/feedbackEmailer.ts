@@ -1,4 +1,4 @@
-import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
+import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import { getDomain } from "@create-disruptions-data/shared-ts/utils/domain";
 import { FEEDBACK_EMAIL_ADDRESS, STAGE } from "../../constants";
 import { Feedback } from "../../interfaces";

@@ -1,5 +1,5 @@
 import renderer from "react-test-renderer";
-import { describe, it, expect, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import PageNumbers from "./PageNumbers";
 
 describe("PageNumbers", () => {

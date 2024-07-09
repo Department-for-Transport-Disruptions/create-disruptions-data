@@ -17,7 +17,7 @@ import { getDisruptionById } from "../../../data/dynamo";
 import { getHootsuiteAccountList } from "../../../data/hootsuite";
 import { getNextdoorAccountList, getNextdoorAgencyBoundaries } from "../../../data/nextdoor";
 import { getTwitterAccountList } from "../../../data/twitter";
-import { PageState, ErrorInfo } from "../../../interfaces";
+import { ErrorInfo, PageState } from "../../../interfaces";
 import { NextdoorAgencyBoundaries, NextdoorAgencyBoundaryInput } from "../../../schemas/nextdoor.schema";
 import { SocialMediaAccount } from "../../../schemas/social-media-accounts.schema";
 import {
@@ -148,7 +148,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
             <form
                 encType="multipart/form-data"
                 action={`/api/create-social-media-post?_csrf=${props.csrfToken || ""}${
-                    queryParams["template"] ? "&template=true" : ""
+                    queryParams.template ? "&template=true" : ""
                 }`}
                 method="post"
             >
@@ -297,7 +297,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                         )}
                     </div>
 
-                    {accountType === "Hootsuite" && !queryParams["template"] && (
+                    {accountType === "Hootsuite" && !queryParams.template && (
                         <div className="govuk-form-group">
                             <h2 className="govuk-heading-l">Publish time and date</h2>
 
@@ -340,8 +340,8 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
                     {displayCancelButton && pageState.disruptionId ? (
                         <Link
                             role="button"
-                            href={`${queryParams["return"] as string}/${pageState.disruptionId}${
-                                queryParams["template"] ? "?template=true" : ""
+                            href={`${queryParams.return as string}/${pageState.disruptionId}${
+                                queryParams.template ? "?template=true" : ""
                             }`}
                             className="govuk-button  mt-8 ml-5 govuk-button--secondary"
                         >
@@ -354,7 +354,7 @@ const CreateSocialMediaPost = (props: CreateSocialMediaPostPageProps): ReactElem
     );
 };
 
-export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: object } | void> => {
+export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: object } | undefined> => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_SOCIAL_MEDIA_ERRORS];
 

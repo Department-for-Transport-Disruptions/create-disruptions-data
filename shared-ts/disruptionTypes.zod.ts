@@ -716,10 +716,9 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
             });
         }
 
-        let maxEndDate =
-            sortedValidity && sortedValidity[sortedValidity.length - 1].disruptionEndDate
-                ? getFormattedDate(sortedValidity[sortedValidity.length - 1].disruptionEndDate || "")
-                : dayjs().subtract(100, "year");
+        let maxEndDate = sortedValidity?.[sortedValidity.length - 1].disruptionEndDate
+            ? getFormattedDate(sortedValidity[sortedValidity.length - 1].disruptionEndDate || "")
+            : dayjs().subtract(100, "year");
 
         for (let i = 0; i < sortedValidity.length; i++) {
             if (
@@ -762,8 +761,9 @@ export const networkConsequenceSchema = z.object({
     ...baseConsequence,
     consequenceType: z.literal("networkWide", setZodDefaultError("Select a consequence type")),
     disruptionArea: z
-        .preprocess(
-            (val) => transformToArray(val),
+        .any()
+        .transform(transformToArray)
+        .pipe(
             z
                 .array(z.string(setZodDefaultError("Select one or more disruption areas")))
                 .min(1, { message: "Select one or more disruption areas" }),
@@ -775,9 +775,9 @@ export const refinedNetworkConsequenceSchema = networkConsequenceSchema.refine(
     (item) => {
         if (!item.disruptionArea || (item.disruptionArea && item.disruptionArea.length === 0)) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     },
     {
         path: ["disruptionArea"],

@@ -61,7 +61,8 @@ export const getDisruptionStatus = (disruption: Disruption): Progress => {
 export const isClosingOrClosed = (endDate: Dayjs, today: Dayjs): Progress => {
     if (endDate.isBefore(today)) {
         return Progress.closed;
-    } else if (endDate.diff(today, "hour") < 24) {
+    }
+    if (endDate.diff(today, "hour") < 24) {
         return Progress.closing;
     }
 

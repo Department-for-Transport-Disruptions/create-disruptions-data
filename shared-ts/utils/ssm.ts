@@ -1,13 +1,13 @@
 import {
-    SSMClient,
-    PutParameterCommand,
+    DeleteParameterCommand,
+    DeleteParameterResult,
     GetParameterCommand,
     GetParameterResult,
-    GetParametersByPathResult,
     GetParametersByPathCommand,
-    DeleteParameterResult,
-    DeleteParameterCommand,
+    GetParametersByPathResult,
+    PutParameterCommand,
     PutParameterCommandInput,
+    SSMClient,
 } from "@aws-sdk/client-ssm";
 import { Logger } from "./index";
 

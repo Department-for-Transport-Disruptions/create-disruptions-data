@@ -1,7 +1,7 @@
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
-import DownloadPDF from "./DownloadPDF";
+import { describe, expect, it } from "vitest";
 import { exportDisruption } from "../../testData/mockData";
+import DownloadPDF from "./DownloadPDF";
 
 describe("DownloadPDF", () => {
     it("should render correctly", () => {

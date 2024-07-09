@@ -1,9 +1,9 @@
-import { describe, it, expect, afterEach, vi } from "vitest";
-import signOut from "./sign-out.api";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { LOGIN_PAGE_PATH } from "../../constants";
 import { globalSignOut } from "../../data/cognito";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import { destroyCookieOnResponseObject } from "../../utils/apiUtils";
+import signOut from "./sign-out.api";
 
 describe("sign out", () => {
     const writeHeadMock = vi.fn();

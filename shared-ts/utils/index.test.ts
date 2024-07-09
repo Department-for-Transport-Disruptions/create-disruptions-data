@@ -1,7 +1,7 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
+import { getSortedDisruptionFinalEndDate, sortDisruptionsByStartDate } from ".";
 import { Disruption, DisruptionInfo } from "../disruptionTypes";
 import { EnvironmentReason, MiscellaneousReason, PublishStatus } from "../enums";
-import { getSortedDisruptionFinalEndDate, sortDisruptionsByStartDate } from ".";
 
 const DEFAULT_ORG_ID = "35bae327-4af0-4bbf-8bfa-2c085f214483";
 

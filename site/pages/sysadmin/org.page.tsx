@@ -163,7 +163,8 @@ export const getServerSideProps = async (
 
     if (!session) {
         throw new Error("No session found");
-    } else if (!session.isSystemAdmin) {
+    }
+    if (!session.isSystemAdmin) {
         throw new Error("Invalid user accessing the page");
     }
 

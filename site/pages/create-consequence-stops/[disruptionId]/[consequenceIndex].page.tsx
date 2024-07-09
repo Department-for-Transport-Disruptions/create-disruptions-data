@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
 import { ActionMeta, SingleValue } from "react-select";
+import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 import DeleteDisruptionButton from "../../../components/buttons/DeleteDisruptionButton";
 import CsrfForm from "../../../components/form/CsrfForm";
 import ErrorSummary from "../../../components/form/ErrorSummary";
@@ -22,19 +23,18 @@ import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
 import Map from "../../../components/map/StopsMap";
-import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 import {
-    DISRUPTION_SEVERITIES,
     COOKIES_CONSEQUENCE_STOPS_ERRORS,
-    TYPE_OF_CONSEQUENCE_PAGE_PATH,
     CREATE_CONSEQUENCE_STOPS_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
+    DISRUPTION_SEVERITIES,
+    TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
 import { fetchStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import { filterVehicleModes, flattenZodErrors, isStopsConsequence, filterStopList } from "../../../utils";
+import { filterStopList, filterVehicleModes, flattenZodErrors, isStopsConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import {
@@ -64,8 +64,8 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
 
     const returnToTemplateOverview = returnTemplateOverview(queryParams);
 
-    const isTemplate = queryParams["template"]?.toString() ?? "";
-    const returnPath = queryParams["return"]?.toString() ?? "";
+    const isTemplate = queryParams.template?.toString() ?? "";
+    const returnPath = queryParams.return?.toString() ?? "";
 
     const { consequenceCount = 0 } = props;
 
@@ -91,14 +91,14 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                         ...(vehicleMode === VehicleMode.bus
                             ? { stopTypes: ["BCT"] }
                             : vehicleMode === VehicleMode.tram ||
-                              vehicleMode === Modes.metro ||
-                              vehicleMode === VehicleMode.underground
-                            ? { stopTypes: ["MET", "PLT"] }
-                            : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                            ? { stopTypes: ["FER", "FBT"] }
-                            : vehicleMode === Modes.rail
-                            ? { stopTypes: ["RLY"] }
-                            : { stopTypes: ["undefined"] }),
+                                vehicleMode === Modes.metro ||
+                                vehicleMode === VehicleMode.underground
+                              ? { stopTypes: ["MET", "PLT"] }
+                              : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
+                                ? { stopTypes: ["FER", "FBT"] }
+                                : vehicleMode === Modes.rail
+                                  ? { stopTypes: ["RLY"] }
+                                  : { stopTypes: ["undefined"] }),
                     });
 
                     const filteredStopList = filterStopList(stopsData, vehicleMode, props.showUnderground);
@@ -106,7 +106,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                     if (filteredStopList) {
                         setStopOptions(filteredStopList);
                     }
-                } catch (e) {
+                } catch (_e) {
                     setStopOptions([]);
                 }
             } else {
@@ -114,10 +114,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
             }
         };
 
-        loadOptions()
-            // eslint-disable-next-line no-console
-            .catch(console.error);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        loadOptions().catch(console.error);
     }, [searchInput]);
 
     const removeStop = (e: SyntheticEvent, index: number) => {
@@ -182,9 +179,8 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                                     a.indicator.localeCompare(b.indicator) ||
                                     a.atcoCode.localeCompare(b.atcoCode)
                                 );
-                            } else {
-                                return a.commonName.localeCompare(b.commonName) || a.atcoCode.localeCompare(b.atcoCode);
                             }
+                            return a.commonName.localeCompare(b.commonName) || a.atcoCode.localeCompare(b.atcoCode);
                         }),
                     },
                     errors: [
@@ -355,7 +351,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             ]}
                             inputName="removeFromJourneyPlanners"
                             stateUpdater={stateUpdater}
-                            value={pageState.inputs["removeFromJourneyPlanners"]}
+                            value={pageState.inputs.removeFromJourneyPlanners}
                             initialErrors={pageState.errors}
                         />
                         <TimeSelector<StopsConsequence>
@@ -438,7 +434,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
 
 export const getServerSideProps = async (
     ctx: NextPageContext,
-): Promise<{ props: CreateConsequenceStopsProps } | { redirect: Redirect } | void> => {
+): Promise<{ props: CreateConsequenceStopsProps } | { redirect: Redirect } | undefined> => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_CONSEQUENCE_STOPS_ERRORS];
 
@@ -461,7 +457,7 @@ export const getServerSideProps = async (
     if (!disruption) {
         return {
             redirect: {
-                destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`,
+                destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${ctx.query?.template ? "?template=true" : ""}`,
                 statusCode: 302,
             },
         };

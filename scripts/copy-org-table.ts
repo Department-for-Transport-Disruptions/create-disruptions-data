@@ -34,5 +34,4 @@ export const copyOrganisations = async () => {
     );
 };
 
-// eslint-disable-next-line no-console
 copyOrganisations().catch((e) => console.error(e));

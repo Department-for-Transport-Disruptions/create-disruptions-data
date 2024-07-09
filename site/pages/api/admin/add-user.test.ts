@@ -1,7 +1,6 @@
 import { UsernameExistsException } from "@aws-sdk/client-cognito-identity-provider";
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
-import { describe, it, expect, afterEach, vi } from "vitest";
-import addUser from "./add-user.api";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { ADD_USER_PAGE_PATH, COOKIES_ADD_USER_ERRORS, USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
 import * as cognito from "../../../data/cognito";
 import { ErrorInfo } from "../../../interfaces";
@@ -11,6 +10,7 @@ import {
     formatAddOrEditUserBody,
     setCookieOnResponseObject,
 } from "../../../utils/apiUtils";
+import addUser from "./add-user.api";
 
 describe("addUser", () => {
     const writeHeadMock = vi.fn();

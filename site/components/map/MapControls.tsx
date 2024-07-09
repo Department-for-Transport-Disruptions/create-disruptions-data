@@ -1,5 +1,5 @@
 import { ReactElement } from "react";
-import { NavigationControl, FullscreenControl } from "react-map-gl";
+import { FullscreenControl, NavigationControl } from "react-map-gl";
 import DrawControl, { PolygonFeature } from "./DrawControl";
 import GeocoderControl from "./GeocoderControl";
 

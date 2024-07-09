@@ -1,9 +1,7 @@
+import { randomUUID } from "crypto";
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { getParameter, putParameter } from "@create-disruptions-data/shared-ts/utils/ssm";
 import { NextPageContext } from "next";
-import { randomUUID } from "crypto";
-import { addSocialAccountToOrg, getOrgSocialAccounts, upsertSocialMediaPost } from "./dynamo";
-import { getObject } from "./s3";
 import { COOKIES_HOOTSUITE_STATE, HOOTSUITE_URL } from "../constants";
 import {
     HootsuiteMedia,
@@ -19,6 +17,8 @@ import { notEmpty } from "../utils";
 import { delay, setCookieOnResponseObject } from "../utils/apiUtils";
 import { formatAndDefaultDateTime, formatDate } from "../utils/dates";
 import logger from "../utils/logger";
+import { addSocialAccountToOrg, getOrgSocialAccounts, upsertSocialMediaPost } from "./dynamo";
+import { getObject } from "./s3";
 
 let hootsuiteClientId: string | null = null;
 let hootsuiteClientSecret: string | null = null;
@@ -32,8 +32,8 @@ const getHootsuiteClientIdAndSecret = async () => {
     }
 
     const [hootsuiteClientIdParam, hootsuiteClientSecretParam] = await Promise.all([
-        getParameter(`/social/hootsuite/client_id`, logger),
-        getParameter(`/social/hootsuite/client_secret`, logger),
+        getParameter("/social/hootsuite/client_id", logger),
+        getParameter("/social/hootsuite/client_secret", logger),
     ]);
 
     hootsuiteClientId = hootsuiteClientIdParam.Parameter?.Value ?? "";
@@ -275,9 +275,8 @@ const waitForImage = async (accessToken: string, imageId: string) => {
 
         if (imageState.state === "READY") {
             break;
-        } else {
-            await delay(1000);
         }
+        await delay(1000);
     }
 };
 

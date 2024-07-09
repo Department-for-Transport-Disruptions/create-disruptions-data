@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unsafe-argument  */
 import formidable from "formidable";
-import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import * as fs from "fs/promises";
-import createSocialMediaPost from "./create-social-media-post.api";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
     COOKIES_SOCIAL_MEDIA_ERRORS,
     CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
@@ -12,14 +10,15 @@ import * as dynamo from "../../data/dynamo";
 import * as s3 from "../../data/s3";
 import { ErrorInfo } from "../../interfaces";
 import {
-    DEFAULT_ORG_ID,
     DEFAULT_IMAGE_BUCKET_NAME,
-    getMockRequestAndResponse,
     DEFAULT_OPERATOR_ORG_ID,
+    DEFAULT_ORG_ID,
+    getMockRequestAndResponse,
 } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import * as file from "../../utils/apiUtils/fileUpload";
 import { getFutureDateAsString } from "../../utils/dates";
+import createSocialMediaPost from "./create-social-media-post.api";
 
 const defaultPublishDate = getFutureDateAsString(1);
 

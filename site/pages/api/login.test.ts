@@ -1,8 +1,7 @@
+import { randomUUID } from "crypto";
 import { NotAuthorizedException } from "@aws-sdk/client-cognito-identity-provider";
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
-import { describe, it, expect, afterEach, vi } from "vitest";
-import { randomUUID } from "crypto";
-import login from "./login.api";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
     COOKIES_LOGIN_ERRORS,
     COOKIES_LOGIN_REDIRECT,
@@ -16,6 +15,7 @@ import { ErrorInfo } from "../../interfaces";
 import { sessionSchema } from "../../schemas/session.schema";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
+import login from "./login.api";
 
 describe("login", () => {
     const writeHeadMock = vi.fn();

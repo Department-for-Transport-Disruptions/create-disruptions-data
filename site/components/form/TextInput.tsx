@@ -1,7 +1,7 @@
 import kebabCase from "lodash/kebabCase";
 import { ReactElement, useEffect, useRef, useState } from "react";
-import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { ErrorInfo, FormBase } from "../../interfaces";
+import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 
 interface TextInputProps<T> extends FormBase<T> {
     widthClass: string;
@@ -70,7 +70,7 @@ const TextInput = <T extends object>({
                             maxLength={maxLength}
                             defaultValue={value}
                             onChange={(e) => stateUpdater(e.target.value, inputName)}
-                            aria-describedby={!!hint ? `${inputId}-hint` : undefined}
+                            aria-describedby={hint ? `${inputId}-hint` : undefined}
                             ref={textAreaRef}
                         />
                     ) : (
@@ -82,7 +82,7 @@ const TextInput = <T extends object>({
                             maxLength={maxLength}
                             defaultValue={value}
                             onChange={(e) => stateUpdater(e.target.value, inputName)}
-                            aria-describedby={!!hint ? `${inputId}-hint` : undefined}
+                            aria-describedby={hint ? `${inputId}-hint` : undefined}
                             ref={inputRef}
                             disabled={isDisabled}
                         />

@@ -1,9 +1,9 @@
-import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
-import cancelChanges from "./cancel-changes.api";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { DISRUPTION_DETAIL_PAGE_PATH, ERROR_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { getMockRequestAndResponse, mockSession } from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
+import cancelChanges from "./cancel-changes.api";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
@@ -53,7 +53,7 @@ describe("cancelChanges", () => {
         });
     });
 
-    it("should redirect to /disruption-detail page after cancelling disruptions for admin user", async () => {
+    it("should redirect to /disruption-detail page after cancelling template disruptions for admin user", async () => {
         isDisruptionInEditSpy.mockResolvedValue(true);
         const { req, res } = getMockRequestAndResponse({
             body: {

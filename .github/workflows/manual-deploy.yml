@@ -42,10 +42,15 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
-          cache: 'npm'
 
-      - name: Rebuild npm
-        run: npm rebuild --ignore-scripts
+      - uses: pnpm/action-setup@v3
+        name: Install pnpm
+        with:
+          version: 8
+          run_install: false
+
+      - name: Rebuild pnpm
+        run: pnpm rebuild
 
       - name: Assume role using OIDC
         uses: aws-actions/configure-aws-credentials@v4
@@ -59,4 +64,4 @@ jobs:
           AWS_SES_IDENTITY_ARN: ${{ secrets.AWS_SES_TEST_IDENTITY }}
           MAP_BOX_ACCESS_TOKEN: ${{ secrets.MAP_BOX_ACCESS_TOKEN }}
         run: |
-          npm run deploy -- --stage ${{ inputs.stage }}
+          pnpm run deploy -- --stage ${{ inputs.stage }}

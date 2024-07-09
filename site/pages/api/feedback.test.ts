@@ -1,9 +1,9 @@
 import { SESClient } from "@aws-sdk/client-ses";
 import { mockClient } from "aws-sdk-client-mock";
 import Mail from "nodemailer/lib/mailer";
-import { describe, it, expect, afterEach, vi, beforeAll } from "vitest";
-import feedback, { requestIsEmpty, redactEmailAddress } from "./feedback.api";
+import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 import { getMockRequestAndResponse } from "../../testData/mockData";
+import feedback, { requestIsEmpty, redactEmailAddress } from "./feedback.api";
 
 const sesMock = mockClient(SESClient);
 describe("feedback", () => {

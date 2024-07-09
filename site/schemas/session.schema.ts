@@ -1,8 +1,8 @@
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import { zodUuid } from "@create-disruptions-data/shared-ts/utils/zod";
 import { z } from "zod";
-import { defaultModes } from "./organisation.schema";
 import { getOrganisationInfoById } from "../data/dynamo";
+import { defaultModes } from "./organisation.schema";
 
 export const sessionSchema = z
     .object({

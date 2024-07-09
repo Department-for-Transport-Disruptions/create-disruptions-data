@@ -1,15 +1,15 @@
-import { Command, Flags } from "@oclif/core";
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import {
     AdminAddUserToGroupCommand,
     AdminCreateUserCommand,
     CognitoIdentityProviderClient,
     ListUserPoolsCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
-import { UserGroups } from "../../../../shared-ts/enums.js";
-import { z } from "zod";
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocumentClient, ScanCommand } from "@aws-sdk/lib-dynamodb";
+import { Command, Flags } from "@oclif/core";
 import inquirer from "inquirer";
+import { z } from "zod";
+import { UserGroups } from "../../../../shared-ts/enums.js";
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
 const cognito = new CognitoIdentityProviderClient({
