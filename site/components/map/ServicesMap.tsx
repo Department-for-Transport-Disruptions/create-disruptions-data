@@ -193,7 +193,10 @@ const ServicesMap = ({
 
                 const servicesRoutesForGivenStop = getRoutesForServices(servicesForStopsInPolygon);
 
-                const servicesRoutesForMap = removeDuplicateRoutes([...searchedRoutes, ...groupByJourneyPattern(servicesRoutesForGivenStop)]);
+                const servicesRoutesForMap = removeDuplicateRoutes([
+                    ...searchedRoutes,
+                    ...groupByJourneyPattern(servicesRoutesForGivenStop),
+                ]);
 
                 const stopsForServicesRoutes = await getStopsForRoutes(
                     servicesRoutesForMap,
@@ -364,7 +367,10 @@ const ServicesMap = ({
 
                 const servicesRoutesForGivenStop = getRoutesForServices(servicesForStopsInPolygon);
 
-                const servicesRoutesForMap = removeDuplicateRoutes([...searchedRoutes, ...groupByJourneyPattern(servicesRoutesForGivenStop)]);
+                const servicesRoutesForMap = removeDuplicateRoutes([
+                    ...searchedRoutes,
+                    ...groupByJourneyPattern(servicesRoutesForGivenStop),
+                ]);
 
                 const stopsForServicesRoutes = await getStopsForRoutes(
                     servicesRoutesForMap,

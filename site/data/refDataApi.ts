@@ -140,7 +140,9 @@ export const fetchServicesByStops = async (input: FetchServicesByStopsInput) => 
         method: "GET",
     });
 
-    const parseResult = makeFilteredArraySchema(serviceWithStopsAndRoutesSchemaPreformatted).safeParse(await res.json());
+    const parseResult = makeFilteredArraySchema(serviceWithStopsAndRoutesSchemaPreformatted).safeParse(
+        await res.json(),
+    );
 
     if (!parseResult.success) {
         return [];

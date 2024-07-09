@@ -272,7 +272,10 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
                 const servicesRoutesForGivenStop = getRoutesForServices(servicesForGivenStop);
 
-                const servicesRoutesForMap = removeDuplicateRoutes([...searchedRoutes, ...groupByJourneyPattern(servicesRoutesForGivenStop)]);
+                const servicesRoutesForMap = removeDuplicateRoutes([
+                    ...searchedRoutes,
+                    ...groupByJourneyPattern(servicesRoutesForGivenStop),
+                ]);
 
                 const stopsForServicesRoutes = await getStopsForRoutes(
                     servicesRoutesForMap,
