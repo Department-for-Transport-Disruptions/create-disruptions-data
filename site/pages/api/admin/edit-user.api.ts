@@ -32,7 +32,6 @@ const editUser = async (req: NextApiRequest, res: NextApiResponse) => {
 
         const validatedBody = editUserSchema.safeParse({ ...cleansedBody, orgId: session.orgId });
         if (!validatedBody.success) {
-            console.log(validatedBody.error);
             const body = req.body as EditUserSchema;
 
             if (!body.username) {

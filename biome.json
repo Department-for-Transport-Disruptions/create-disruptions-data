@@ -1,5 +1,5 @@
 {
-    "$schema": "https://biomejs.dev/schemas/1.7.3/schema.json",
+    "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
     "files": {
         "ignoreUnknown": true,
         "ignore": [
@@ -35,7 +35,7 @@
                 "useExhaustiveDependencies": "off"
             },
             "suspicious": {
-                "noConsoleLog": "off",
+                "noConsoleLog": "error",
                 "noShadowRestrictedNames": "off",
                 "noArrayIndexKey": "off"
             },
@@ -47,5 +47,17 @@
                 "useKeyWithClickEvents": "off"
             }
         }
-    }
+    },
+    "overrides": [
+        {
+            "include": ["./cli-helpers/**"],
+            "linter": {
+                "rules": {
+                    "suspicious": {
+                        "noConsoleLog": "off"
+                    }
+                }
+            }
+        }
+    ]
 }

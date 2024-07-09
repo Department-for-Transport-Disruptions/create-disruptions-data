@@ -108,7 +108,6 @@ const csrfProtect = createCsrfProtect({
     },
     token: {
         value: async (req) => {
-            console.log(req);
             const queryCsrf = req.url.match(/_csrf=(.[^&]*)/)?.[1];
 
             return queryCsrf
@@ -179,6 +178,7 @@ export async function middleware(request: NextRequest) {
         request.nextUrl.pathname !== "/"
     ) {
         const signOutUserAndRedirectToLogin = async (username?: string) => {
+            // biome-ignore lint/suspicious/noConsoleLog: <explanation>
             console.log("Signing out user");
 
             if (username) {
@@ -278,6 +278,7 @@ export async function middleware(request: NextRequest) {
                     try {
                         const refreshResult = await initiateRefreshAuth(username, refreshToken.value);
                         if (refreshResult.AuthenticationResult?.IdToken) {
+                            // biome-ignore lint/suspicious/noConsoleLog: <explanation>
                             console.log("Token refresh successful");
                             response.cookies.set(COOKIES_ID_TOKEN, refreshResult.AuthenticationResult.IdToken, {
                                 sameSite: "lax",

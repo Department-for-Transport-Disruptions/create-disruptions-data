@@ -8,6 +8,7 @@ import { baseSiriJson } from "./testData";
 const [stageName, itemsToCreate] = process.argv.slice(2);
 
 if (!stageName) {
+    // biome-ignore lint/suspicious/noConsoleLog: <explanation>
     console.log("Please provide Serverless Stack Stage name.");
     process.exit(0);
 }

@@ -79,9 +79,6 @@ export const getServerSideProps = (ctx: NextPageContext): { props: LoginPageProp
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_LOGIN_ERRORS, ctx.res);
 
-    console.log(ctx.req?.headers);
-    console.log(ctx.req?.headers["x-csrf-token"]);
-
     if (ctx.req) {
         const session = getSession(ctx.req);
 
