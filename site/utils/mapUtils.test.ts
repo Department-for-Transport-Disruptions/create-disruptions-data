@@ -1,6 +1,6 @@
-import { describe, it, expect } from "vitest";
-import { groupByJourneyPattern } from "./mapUtils";
+import { describe, expect, it } from "vitest";
 import { RouteWithServiceInfo, RouteWithServiceInfoPreformatted } from ".";
+import { groupByJourneyPattern } from "./mapUtils";
 
 describe("groupByJourneyPattern", () => {
     it("should group stops by journeyPatternId and sort by sequenceNumber", () => {

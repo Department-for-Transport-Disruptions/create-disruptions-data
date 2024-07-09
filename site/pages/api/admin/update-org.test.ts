@@ -1,10 +1,10 @@
-import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import { randomUUID } from "crypto";
-import updateOrg from "./update-org.api";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import * as dynamo from "../../../data/dynamo";
 import { defaultModes } from "../../../schemas/organisation.schema";
 import { getMockRequestAndResponse, mockSession } from "../../../testData/mockData";
 import * as session from "../../../utils/apiUtils/auth";
+import updateOrg from "./update-org.api";
 
 const defaultInput = {
     PK: randomUUID(),

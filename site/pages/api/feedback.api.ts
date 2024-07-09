@@ -9,7 +9,7 @@ import {
 } from "../../constants";
 import { Feedback } from "../../interfaces";
 import { createMailTransporter, setFeedbackMailOptions } from "../../utils/apiUtils/feedbackEmailer";
-import { redirectToError, redirectTo } from "../../utils/apiUtils/index";
+import { redirectTo, redirectToError } from "../../utils/apiUtils/index";
 import { removeExcessWhiteSpace } from "../../utils/apiUtils/validator";
 import logger from "../../utils/logger";
 
@@ -79,17 +79,18 @@ export const redactEmailAddress = (
     if (toRedact !== undefined) {
         if (typeof toRedact === "string") {
             return redact(toRedact);
-        } else if (toRedact.hasOwnProperty("name") && toRedact.hasOwnProperty("address")) {
+        }
+        if (Object.hasOwn(toRedact, "name") && Object.hasOwn(toRedact, "address")) {
             const email = toRedact as Mail.Address;
             return redact(email.address);
-        } else if (typeof toRedact === "object") {
+        }
+        if (typeof toRedact === "object") {
             const addresses = toRedact as Mail.Address[];
             return addresses.map((email) => {
-                if (email.hasOwnProperty("name") && email.hasOwnProperty("address")) {
+                if (Object.hasOwn(email, "name") && Object.hasOwn(email, "address")) {
                     return redact(email.address);
-                } else {
-                    return redact(email as unknown as string);
                 }
+                return redact(email as unknown as string);
             });
         }
     }

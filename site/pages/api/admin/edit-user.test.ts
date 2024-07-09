@@ -1,7 +1,6 @@
 import { AttributeType } from "@aws-sdk/client-cognito-identity-provider";
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
-import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
-import editUser from "./edit-user.api";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
     COOKIES_EDIT_USER_ERRORS,
     EDIT_USER_PAGE_PATH,
@@ -17,6 +16,7 @@ import {
     setCookieOnResponseObject,
 } from "../../../utils/apiUtils";
 import * as session from "../../../utils/apiUtils/auth";
+import editUser from "./edit-user.api";
 
 const baseInput = { initialGroup: "org-staff", email: "test@test.com", username: "test-username", group: "org-staff" };
 const mockInput = { ...baseInput, givenName: "test", familyName: "test", group: "org-admins" };

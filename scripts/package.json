@@ -4,5 +4,8 @@
     "type": "module",
     "scripts": {
         "copy-orgs": "node --experimental-specifier-resolution=node --experimental-modules --no-warnings --loader ts-node/esm  copy-org-table.ts"
+    },
+    "devDependencies": {
+        "vitest": "^0.29.1"
     }
 }

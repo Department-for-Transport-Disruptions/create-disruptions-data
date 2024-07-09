@@ -1,9 +1,9 @@
-import { describe, it, expect, afterEach, vi } from "vitest";
-import cookies from "./cookies.api";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { COOKIES_POLICY_COOKIE, COOKIE_PREFERENCES_COOKIE, oneYearInSeconds } from "../../constants";
 import { CookiePolicy } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import * as apiUtils from "../../utils/apiUtils";
+import cookies from "./cookies.api";
 
 describe("cookies", () => {
     const writeHeadMock = vi.fn();

@@ -18,6 +18,7 @@ const resendInvite = async (req: ResendUserApiRequest, res: NextApiResponse): Pr
         const { username, group, orgId } = req.body;
 
         const session = getSession(req);
+
         if ((session && !session.orgId) || !session || !username || !group) {
             throw Error("Insufficient values provided to resend an invite");
         }

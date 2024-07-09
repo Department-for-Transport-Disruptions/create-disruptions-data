@@ -1,8 +1,8 @@
 import Link from "next/link";
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
-import SortableTable, { TableColumn } from "./SortableTable";
+import { describe, expect, it } from "vitest";
 import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../../constants";
+import SortableTable, { TableColumn } from "./SortableTable";
 
 interface RandomTable {
     id: string | JSX.Element;
@@ -103,7 +103,6 @@ const defaultData: RandomTable[] = [
 ];
 
 const defaultSortFunction = (rows: RandomTable[], sortField: keyof RandomTable) =>
-    // eslint-disable-next-line @typescript-eslint/no-base-to-string
     rows.sort((a, b) => a[sortField].toString().localeCompare(b[sortField].toString()));
 
 describe("SortableTable", () => {

@@ -9,9 +9,9 @@ import Select, {
     CSSObjectWithLabel,
 } from "react-select";
 import type { FilterOptionOption } from "react-select/dist/declarations/src/filters";
+import { ErrorInfo } from "../../interfaces";
 import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import Table from "./Table";
-import { ErrorInfo } from "../../interfaces";
 
 interface SearchSelectProps<T> {
     placeholder: string;
@@ -71,9 +71,8 @@ const SearchSelect = <T extends object>({
     const handleInputChange = (value: string, { action }: InputActionMeta) => {
         if (action === "menu-close" || action === "input-blur" || action === "set-value") {
             return;
-        } else {
-            setSearchInput(value);
         }
+        setSearchInput(value);
     };
 
     const controlStyles = (state: ControlProps<T, false, GroupBase<T>>): CSSObjectWithLabel => ({

@@ -34,7 +34,7 @@ const DisruptionNotFound = ({ isTemplate }: { isTemplate: boolean }): ReactEleme
     </TwoThirdsLayout>
 );
 
-export const getServerSideProps = (ctx: NextPageContext): { props: { isTemplate: boolean } } | void => {
+export const getServerSideProps = (ctx: NextPageContext): { props: { isTemplate: boolean } } | undefined => {
     if (!ctx.req) {
         throw new Error("No context request");
     }

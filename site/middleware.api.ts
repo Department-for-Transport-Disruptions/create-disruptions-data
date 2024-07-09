@@ -1,19 +1,17 @@
-/* eslint-disable no-console */
 import {
-    CognitoIdentityProviderClient,
     AdminInitiateAuthCommand,
     AdminInitiateAuthCommandInput,
     AdminInitiateAuthCommandOutput,
     AdminUserGlobalSignOutCommand,
     AdminUserGlobalSignOutCommandInput,
+    CognitoIdentityProviderClient,
 } from "@aws-sdk/client-cognito-identity-provider";
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
-import csrf from "edge-csrf";
+import { CsrfError, createCsrfProtect } from "@edge-csrf/nextjs";
 import * as jose from "jose";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { z } from "zod";
-import { Buffer } from "buffer";
 import {
     COOKIES_ID_TOKEN,
     COOKIES_LOGIN_REDIRECT,
@@ -102,7 +100,7 @@ const globalSignOut = async (username: string): Promise<void> => {
     }
 };
 
-const csrfProtect = csrf({
+const csrfProtect = createCsrfProtect({
     cookie: {
         secure: process.env.NODE_ENV === "production",
         name: "_csrf",
@@ -110,7 +108,7 @@ const csrfProtect = csrf({
     },
     token: {
         value: async (req) => {
-            const queryCsrf = req.nextUrl.search.match(/_csrf=(.[^&]*)/)?.[1];
+            const queryCsrf = req.url.match(/_csrf=(.[^&]*)/)?.[1];
 
             return queryCsrf
                 ? decodeURIComponent(queryCsrf)
@@ -163,10 +161,15 @@ const JWKS = jose.createRemoteJWKSet(new URL(`${process.env.COGNITO_ISSUER ?? ""
 export async function middleware(request: NextRequest) {
     const response = NextResponse.next();
 
-    const csrfError = await csrfProtect(request, response);
+    // csrf protection
+    try {
+        await csrfProtect(request, response);
+    } catch (err) {
+        if (err instanceof CsrfError) {
+            return new NextResponse("invalid csrf token", { status: 403 });
+        }
 
-    if (csrfError) {
-        return new NextResponse("invalid csrf token", { status: 403 });
+        throw err;
     }
 
     if (
@@ -175,12 +178,13 @@ export async function middleware(request: NextRequest) {
         request.nextUrl.pathname !== "/"
     ) {
         const signOutUserAndRedirectToLogin = async (username?: string) => {
+            // biome-ignore lint/suspicious/noConsoleLog: <explanation>
             console.log("Signing out user");
 
             if (username) {
                 try {
                     await globalSignOut(username);
-                } catch (e) {}
+                } catch (_e) {}
             }
 
             const newResponse = NextResponse.redirect(new URL(LOGIN_PAGE_PATH, request.url));
@@ -246,7 +250,8 @@ export async function middleware(request: NextRequest) {
                 if (!groups.includes(UserGroups.orgAdmins)) {
                     if (!groups.includes(UserGroups.systemAdmins)) {
                         return NextResponse.redirect(new URL(DASHBOARD_PAGE_PATH, request.url));
-                    } else if (allowedRoutesForSysadmin.every((route) => !request.nextUrl.pathname.startsWith(route))) {
+                    }
+                    if (allowedRoutesForSysadmin.every((route) => !request.nextUrl.pathname.startsWith(route))) {
                         return NextResponse.redirect(new URL(SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH, request.url));
                     }
                 }
@@ -273,6 +278,7 @@ export async function middleware(request: NextRequest) {
                     try {
                         const refreshResult = await initiateRefreshAuth(username, refreshToken.value);
                         if (refreshResult.AuthenticationResult?.IdToken) {
+                            // biome-ignore lint/suspicious/noConsoleLog: <explanation>
                             console.log("Token refresh successful");
                             response.cookies.set(COOKIES_ID_TOKEN, refreshResult.AuthenticationResult.IdToken, {
                                 sameSite: "lax",

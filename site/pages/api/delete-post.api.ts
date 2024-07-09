@@ -55,9 +55,8 @@ const deletePost = async (req: NextApiRequest, res: NextApiResponse): Promise<vo
             );
 
             return;
-        } else {
-            await removeSocialMediaPostFromDisruption(Number(id), disruptionId, session.orgId, template === "true");
         }
+        await removeSocialMediaPostFromDisruption(Number(id), disruptionId, session.orgId, template === "true");
 
         redirectToWithQueryParams(
             req,

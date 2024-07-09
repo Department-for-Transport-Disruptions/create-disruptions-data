@@ -1,9 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import renderer from "react-test-renderer";
-import { describe, it, expect, vi } from "vitest";
-import DateSelector from "./DateSelector";
+import { describe, expect, it, vi } from "vitest";
 import { TestInputs } from "../../interfaces";
+import DateSelector from "./DateSelector";
 
 describe("DateSelector", () => {
     it("should render correctly with no input", () => {

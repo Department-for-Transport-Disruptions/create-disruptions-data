@@ -1,9 +1,9 @@
-import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
+import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import * as cognito from "@create-disruptions-data/shared-ts/utils/cognito";
 import * as dynamo from "@create-disruptions-data/shared-ts/utils/dynamo";
 import * as refDataApi from "@create-disruptions-data/shared-ts/utils/refDataApi";
 import { mockClient } from "aws-sdk-client-mock";
-import { describe, it, vi, beforeAll, beforeEach, afterEach, expect } from "vitest";
+import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { main } from "./newNotifier";
 
 const sesMock = mockClient(SESClient);

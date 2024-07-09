@@ -1,5 +1,4 @@
-import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
-import twitterCallback from "./twitter-callback.api";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
     COOKIES_TWITTER_OAUTH_SECRET,
     COOKIES_TWITTER_OAUTH_TOKEN,
@@ -9,6 +8,7 @@ import {
 import * as dynamo from "../../data/dynamo";
 import { DEFAULT_OPERATOR_ORG_ID, getMockRequestAndResponse, mockSession } from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
+import twitterCallback from "./twitter-callback.api";
 
 describe("twitter-callback", () => {
     const writeHeadMock = vi.fn();

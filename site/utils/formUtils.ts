@@ -1,13 +1,13 @@
+import { ParsedUrlQuery } from "querystring";
 import { ConsequenceOperators, Journey, Service, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Datasource } from "@create-disruptions-data/shared-ts/enums";
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import dayjs from "dayjs";
 import { SetStateAction } from "react";
-import { ParsedUrlQuery } from "querystring";
+import { sortServices } from ".";
 import { DISRUPTION_DETAIL_PAGE_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../constants";
 import { PageState } from "../interfaces";
 import { ServiceApiResponse } from "../schemas/consequence.schema";
-import { sortServices } from ".";
 
 export const getStateUpdater =
     <T>(setter: (value: SetStateAction<PageState<Partial<T>>>) => void, state: PageState<Partial<T>>) =>
@@ -36,11 +36,11 @@ export const operatorStateUpdater =
 export const getStopLabel = (stop: Stop) => {
     if (stop.commonName && stop.indicator && stop.atcoCode) {
         return `${stop.commonName} (${stop.indicator}) (${stop.atcoCode})`;
-    } else if (stop.commonName && stop.atcoCode) {
-        return `${stop.commonName} (${stop.atcoCode})`;
-    } else {
-        return "";
     }
+    if (stop.commonName && stop.atcoCode) {
+        return `${stop.commonName} (${stop.atcoCode})`;
+    }
+    return "";
 };
 
 export const getJourneyLabel = (journey: Journey) =>
@@ -70,9 +70,8 @@ export const sortStops = (stops: Stop[]): Stop[] => {
                 a.indicator.localeCompare(b.indicator) ||
                 a.atcoCode.localeCompare(b.atcoCode)
             );
-        } else {
-            return a.commonName.localeCompare(b.commonName) || a.atcoCode.localeCompare(b.atcoCode);
         }
+        return a.commonName.localeCompare(b.commonName) || a.atcoCode.localeCompare(b.atcoCode);
     });
 };
 
@@ -94,13 +93,14 @@ export const getDataInPages = <T>(pageNumber: number, data: T[]): T[] => {
 export const getStopType = (stopType: string | undefined) => {
     if (stopType === "BCT") {
         return "Bus stop";
-    } else if (stopType === "MET" || stopType === "PLT") {
-        return "Tram stop";
-    } else if (stopType === "FER" || stopType === "FBT") {
-        return "Ferry terminal";
-    } else {
-        return "Stop";
     }
+    if (stopType === "MET" || stopType === "PLT") {
+        return "Tram stop";
+    }
+    if (stopType === "FER" || stopType === "FBT") {
+        return "Ferry terminal";
+    }
+    return "Stop";
 };
 
 export const filterServices = <T extends ServiceApiResponse>(servicesData?: T[]) => {
@@ -141,16 +141,15 @@ export const removeDuplicateServicesByKey = <T extends ServiceApiResponse>(
 
 export const showCancelButton = (queryParams: ParsedUrlQuery) => {
     return (
-        (queryParams["return"]?.includes(REVIEW_DISRUPTION_PAGE_PATH) &&
-            !queryParams["return"]?.includes("template")) ||
-        (queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH) && !queryParams["return"]?.includes("template"))
+        (queryParams.return?.includes(REVIEW_DISRUPTION_PAGE_PATH) && !queryParams.return?.includes("template")) ||
+        (queryParams.return?.includes(DISRUPTION_DETAIL_PAGE_PATH) && !queryParams.return?.includes("template"))
     );
 };
 
 export const returnTemplateOverview = (queryParams: ParsedUrlQuery) => {
     return (
-        (queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH) && queryParams["template"]?.includes("true")) ||
-        (queryParams["return"]?.includes(DISRUPTION_DETAIL_PAGE_PATH) && queryParams["return"]?.includes("template"))
+        (queryParams.return?.includes(DISRUPTION_DETAIL_PAGE_PATH) && queryParams.template?.includes("true")) ||
+        (queryParams.return?.includes(DISRUPTION_DETAIL_PAGE_PATH) && queryParams.return?.includes("template"))
     );
 };
 

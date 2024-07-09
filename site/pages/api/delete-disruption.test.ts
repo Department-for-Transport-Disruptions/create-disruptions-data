@@ -1,15 +1,15 @@
 import MockDate from "mockdate";
-import { describe, it, expect, afterEach, vi, afterAll } from "vitest";
-import deleteDisruption from "./delete-disruption.api";
+import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
 import { ERROR_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants/index";
 import * as dynamo from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import {
-    disruptionWithConsequencesAndSocialMediaPosts,
-    getMockRequestAndResponse,
-    disruptionWithNoConsequences,
     DEFAULT_ORG_ID,
+    disruptionWithConsequencesAndSocialMediaPosts,
+    disruptionWithNoConsequences,
+    getMockRequestAndResponse,
 } from "../../testData/mockData";
+import deleteDisruption from "./delete-disruption.api";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 

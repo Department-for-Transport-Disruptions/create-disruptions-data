@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, useEffect, useState } from "react";
+import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 import DeleteDisruptionButton from "../../../components/buttons/DeleteDisruptionButton";
 import CsrfForm from "../../../components/form/CsrfForm";
 import ErrorSummary from "../../../components/form/ErrorSummary";
@@ -15,7 +16,6 @@ import Table from "../../../components/form/Table";
 import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
-import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 import OperatorSearch from "../../../components/search/OperatorSearch";
 import {
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
@@ -61,8 +61,8 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
 
     const returnToTemplateOverview = returnTemplateOverview(queryParams);
 
-    const isTemplate = queryParams["template"]?.toString() ?? "";
-    const returnPath = queryParams["return"]?.toString() ?? "";
+    const isTemplate = queryParams.template?.toString() ?? "";
+    const returnPath = queryParams.return?.toString() ?? "";
 
     const [dataSource, setDataSource] = useState<Datasource>(Datasource.bods);
 
@@ -73,7 +73,6 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
         if (source && dataSource !== source) {
             setDataSource(source);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageState?.inputs?.vehicleMode]);
 
     const filterOperators = (operator: Operator) => {
@@ -86,23 +85,26 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
             (operator.mode === VehicleMode.bus.toString() || operator.mode === "")
         ) {
             return display;
-        } else if (
+        }
+        if (
             pageState.inputs?.vehicleMode === VehicleMode.tram &&
             (operator.mode === VehicleMode.tram.toString() || operator.mode === "metro")
         ) {
             return display;
-        } else if (pageState.inputs?.vehicleMode === VehicleMode.ferryService && operator.mode === "ferry") {
+        }
+        if (pageState.inputs?.vehicleMode === VehicleMode.ferryService && operator.mode === "ferry") {
             return display;
-        } else if (
+        }
+        if (
             pageState.inputs?.vehicleMode === VehicleMode.underground &&
             operator.mode === VehicleMode.underground.toString()
         ) {
             return display;
-        } else if (pageState.inputs?.vehicleMode === operator.mode) {
-            return display;
-        } else {
-            return false;
         }
+        if (pageState.inputs?.vehicleMode === operator.mode) {
+            return display;
+        }
+        return false;
     };
 
     return (
@@ -322,7 +324,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
 
 export const getServerSideProps = async (
     ctx: NextPageContext,
-): Promise<{ props: CreateConsequenceOperatorProps } | { redirect: Redirect } | void> => {
+): Promise<{ props: CreateConsequenceOperatorProps } | { redirect: Redirect } | undefined> => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_CONSEQUENCE_OPERATOR_ERRORS];
 
@@ -345,7 +347,7 @@ export const getServerSideProps = async (
     if (!disruption) {
         return {
             redirect: {
-                destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`,
+                destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${ctx.query?.template ? "?template=true" : ""}`,
                 statusCode: 302,
             },
         };

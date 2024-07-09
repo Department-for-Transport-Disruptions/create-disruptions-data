@@ -1,9 +1,9 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import resetPassword from "./reset-password.api";
 import { COOKIES_RESET_PASSWORD_ERRORS, RESET_PASSWORD_PAGE_PATH } from "../../constants";
 import { ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
+import resetPassword from "./reset-password.api";
 
 describe("reset-password", () => {
     const writeHeadMock = vi.fn();

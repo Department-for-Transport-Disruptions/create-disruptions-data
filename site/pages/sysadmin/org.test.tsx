@@ -1,9 +1,9 @@
 import { render } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import renderer from "react-test-renderer";
-import { describe, it, expect, vi, afterEach } from "vitest";
-import ManageOrgs, { ManageOrgProps } from "./org.page";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { PageState } from "../../interfaces";
+import ManageOrgs, { ManageOrgProps } from "./org.page";
 
 const blankInputs: PageState<Partial<ManageOrgProps>> = {
     inputs: {},

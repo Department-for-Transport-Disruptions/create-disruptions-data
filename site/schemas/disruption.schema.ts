@@ -8,9 +8,9 @@ import {
 } from "@create-disruptions-data/shared-ts/siriTypes.zod";
 import { getDisruptionCreationTime } from "@create-disruptions-data/shared-ts/utils";
 import { z } from "zod";
-import { socialMediaPostSchema } from "./social-media.schema";
 import { setZodDefaultError, splitCamelCaseToString, toTitleCase } from "../utils";
 import { getDateForExporter } from "../utils/dates";
+import { socialMediaPostSchema } from "./social-media.schema";
 
 const getCreationTime = (history: History[], creationTime: string | null) => {
     const date = getDisruptionCreationTime(history, creationTime || null);

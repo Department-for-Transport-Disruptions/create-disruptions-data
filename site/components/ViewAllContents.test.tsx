@@ -2,10 +2,10 @@ import { Progress, Severity, VehicleMode } from "@create-disruptions-data/shared
 import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { Dayjs } from "dayjs";
 import renderer, { act } from "react-test-renderer";
-import { describe, it, expect, vi, afterEach } from "vitest";
-import ViewAllContents, { Filter, filterContents } from "./ViewAllContents";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { getWorstSeverity, isClosingOrClosed } from "../pages/api/get-all-disruptions/[organisationId].api";
 import { DEFAULT_ORG_ID, mockServices, mockViewAllDisruptionsData } from "../testData/mockData";
+import ViewAllContents, { Filter, filterContents } from "./ViewAllContents";
 
 type Renderer = {
     toJSON: () => void;

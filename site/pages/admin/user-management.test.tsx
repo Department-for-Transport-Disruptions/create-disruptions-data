@@ -1,6 +1,6 @@
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
-import { describe, it, expect, afterEach, vi } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import UserManagement, { UserManagementPageProps } from "./user-management.page";
 
 const blankInputs: UserManagementPageProps = {

@@ -9,7 +9,7 @@ import { TwoThirdsLayout } from "../components/layout/Layout";
 import { SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH } from "../constants";
 import { getOperatorByOrgIdAndOperatorOrgId } from "../data/dynamo";
 import { ErrorInfo } from "../interfaces";
-import { OperatorOrgSchema, ModeType } from "../schemas/organisation.schema";
+import { ModeType, OperatorOrgSchema } from "../schemas/organisation.schema";
 import { SessionWithOrgDetail } from "../schemas/session.schema";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 import { getEmailPreferences } from "../utils/user";
@@ -267,8 +267,8 @@ const AccountSettings = ({
                                             <div className="govuk-radios__item">
                                                 <input
                                                     className="govuk-radios__input"
-                                                    id={`street-manager-notification-on`}
-                                                    name={`street-manager-notification-on`}
+                                                    id={"street-manager-notification-on"}
+                                                    name={"street-manager-notification-on"}
                                                     type="radio"
                                                     value="true"
                                                     checked={streetManagerEmailPreference}
@@ -277,8 +277,8 @@ const AccountSettings = ({
                                                     }}
                                                 />
                                                 <label
-                                                    key={`street-manager-notification-on`}
-                                                    htmlFor={`street-manager-notification-on`}
+                                                    key={"street-manager-notification-on"}
+                                                    htmlFor={"street-manager-notification-on"}
                                                     className="govuk-label govuk-radios__label"
                                                 >
                                                     On
@@ -287,8 +287,8 @@ const AccountSettings = ({
                                             <div className="govuk-radios__item">
                                                 <input
                                                     className="govuk-radios__input"
-                                                    id={`street-manager-notification-off`}
-                                                    name={`street-manager-notification-off`}
+                                                    id={"street-manager-notification-off"}
+                                                    name={"street-manager-notification-off"}
                                                     type="radio"
                                                     value="false"
                                                     checked={!streetManagerEmailPreference}
@@ -297,8 +297,8 @@ const AccountSettings = ({
                                                     }}
                                                 />
                                                 <label
-                                                    key={`street-manager-notification-off`}
-                                                    htmlFor={`street-manager-notification-off`}
+                                                    key={"street-manager-notification-off"}
+                                                    htmlFor={"street-manager-notification-off"}
                                                     className="govuk-label govuk-radios__label"
                                                 >
                                                     Off
@@ -326,8 +326,8 @@ const AccountSettings = ({
                                         <div className="govuk-radios__item">
                                             <input
                                                 className="govuk-radios__input"
-                                                id={`disruption-approval-email-notification-on`}
-                                                name={`disruption-approval-email-notification-on`}
+                                                id={"disruption-approval-email-notification-on"}
+                                                name={"disruption-approval-email-notification-on"}
                                                 type="radio"
                                                 value="true"
                                                 checked={disruptionApprovalEmailPreference}
@@ -336,8 +336,8 @@ const AccountSettings = ({
                                                 }}
                                             />
                                             <label
-                                                key={`disruption-approval-email-notification-on`}
-                                                htmlFor={`disruption-approval-email-notification-on`}
+                                                key={"disruption-approval-email-notification-on"}
+                                                htmlFor={"disruption-approval-email-notification-on"}
                                                 className="govuk-label govuk-radios__label"
                                             >
                                                 On
@@ -346,8 +346,8 @@ const AccountSettings = ({
                                         <div className="govuk-radios__item">
                                             <input
                                                 className="govuk-radios__input"
-                                                id={`disruption-approval-email-notification-off`}
-                                                name={`disruption-approval-email-notification-off`}
+                                                id={"disruption-approval-email-notification-off"}
+                                                name={"disruption-approval-email-notification-off"}
                                                 type="radio"
                                                 value="false"
                                                 checked={!disruptionApprovalEmailPreference}
@@ -356,8 +356,8 @@ const AccountSettings = ({
                                                 }}
                                             />
                                             <label
-                                                key={`disruption-approval-email-notification-off`}
-                                                htmlFor={`disruption-approval-email-notification-off`}
+                                                key={"disruption-approval-email-notification-off"}
+                                                htmlFor={"disruption-approval-email-notification-off"}
                                                 className="govuk-label govuk-radios__label"
                                             >
                                                 Off

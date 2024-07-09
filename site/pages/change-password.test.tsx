@@ -1,7 +1,7 @@
 import renderer from "react-test-renderer";
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import ChangePassword, { ChangePasswordPageProps } from "./change-password.page";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { mockSessionWithOrgDetail } from "../testData/mockData";
+import ChangePassword, { ChangePasswordPageProps } from "./change-password.page";
 
 const blankInputs: ChangePasswordPageProps = {
     errors: [],
@@ -23,7 +23,6 @@ const withInputsAndErrors: ChangePasswordPageProps = {
     errors: [{ errorMessage: "Enter a valid email address", id: "currentPassword" }],
 };
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const useRouter = vi.spyOn(require("next/router"), "useRouter");
 beforeEach(() => {
     useRouter.mockImplementation(() => ({

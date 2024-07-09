@@ -16,10 +16,10 @@ import { loginSchema } from "../../schemas/login.schema";
 import { sessionSchema } from "../../schemas/session.schema";
 import { flattenZodErrors } from "../../utils";
 import {
+    destroyCookieOnResponseObject,
+    redirectTo,
     redirectToError,
     setCookieOnResponseObject,
-    redirectTo,
-    destroyCookieOnResponseObject,
 } from "../../utils/apiUtils";
 import logger from "../../utils/logger";
 

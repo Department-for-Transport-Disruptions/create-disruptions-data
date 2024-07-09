@@ -7,7 +7,7 @@
         "outDir": "dist",
         "strict": true,
         "target": "es2022",
-        "moduleResolution": "bundler",
+        "moduleResolution": "bundler"
     },
     "ts-node": {
         "esm": true

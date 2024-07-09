@@ -13,10 +13,10 @@ import {
     useState,
 } from "react";
 import MapBox, { Layer, Popup, Source, ViewState } from "react-map-gl";
+import { RouteWithServiceInfo, notEmpty } from "../../utils";
+import { getStopType } from "../../utils/formUtils";
 import MapControls from "./MapControls";
 import Markers from "./Markers";
-import { notEmpty, RouteWithServiceInfo } from "../../utils";
-import { getStopType } from "../../utils/formUtils";
 
 interface JourneysMapProps extends MapProps {
     dataSource: Datasource;
@@ -117,8 +117,8 @@ const Map = ({
 
     const onHover = useCallback((event: MapLayerMouseEvent) => {
         setHoverInfo(initialHoverState);
-        const service = event.features && event.features[0];
-        if (service && service.properties && service.properties.serviceId) {
+        const service = event.features?.[0];
+        if (service?.properties?.serviceId) {
             setHoverInfo({
                 longitude: event.lngLat.lng,
                 latitude: event.lngLat.lat,
@@ -127,7 +127,7 @@ const Map = ({
         }
     }, []);
 
-    const selectedService = (hoverInfo && hoverInfo.serviceId) || "";
+    const selectedService = hoverInfo?.serviceId || "";
     const filter = useMemo(() => ["==", "serviceId", selectedService], [selectedService]);
 
     const getSourcesInbound = useCallback(

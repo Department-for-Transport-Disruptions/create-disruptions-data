@@ -1,3 +1,4 @@
+import * as console from "console";
 import { Service, Stop, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { serviceSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Datasource, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
@@ -5,7 +6,7 @@ import { notEmpty } from "@create-disruptions-data/shared-ts/utils";
 import dayjs from "dayjs";
 import timezone from "dayjs/plugin/timezone";
 import utc from "dayjs/plugin/utc";
-import * as console from "console";
+import { fetchServicesByOperators } from "../refDataApi";
 import {
     AffectedLine,
     Affects,
@@ -14,7 +15,6 @@ import {
     StopPoints,
     ValidityPeriodItem,
 } from "./importerSiriTypes.zod";
-import { fetchServicesByOperators } from "../refDataApi";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -59,13 +59,13 @@ export const getDisruptionAndValidityDates = (disruption: PtSituationElement): D
 };
 
 export const formatValidityArray = (validityDatesAndTimes: ValidityPeriodItem[]): Validity[] | [] => {
-    if (validityDatesAndTimes.length == 0) {
+    if (validityDatesAndTimes.length === 0) {
         return [];
     }
     return validityDatesAndTimes.map((item): Validity => {
         return {
-            disruptionEndDate: !!item.EndTime ? convertDateTimeToFormat(item.EndTime, "DD/MM/YYYY") : "",
-            disruptionEndTime: !!item.EndTime ? convertDateTimeToFormat(item.EndTime, "HHmm") : "",
+            disruptionEndDate: item.EndTime ? convertDateTimeToFormat(item.EndTime, "DD/MM/YYYY") : "",
+            disruptionEndTime: item.EndTime ? convertDateTimeToFormat(item.EndTime, "HHmm") : "",
             disruptionNoEndDateTime: !item.EndTime ? "true" : "",
             disruptionRepeats: "doesntRepeat",
             disruptionRepeatsEndDate: "",
@@ -76,17 +76,16 @@ export const formatValidityArray = (validityDatesAndTimes: ValidityPeriodItem[])
 };
 
 export const getConsequenceType = (affectsItem: Affects) => {
-    if (affectsItem.Operators?.AllOperators == "" && !!affectsItem.StopPoints) {
+    if (affectsItem.Operators?.AllOperators === "" && !!affectsItem.StopPoints) {
         return "stops";
     }
-    if (affectsItem.Operators?.AllOperators == "" && !affectsItem.StopPoints) {
+    if (affectsItem.Operators?.AllOperators === "" && !affectsItem.StopPoints) {
         return "networkWide";
     }
-    if (!!affectsItem.Networks?.AffectedNetwork.AffectedLine) {
+    if (affectsItem.Networks?.AffectedNetwork.AffectedLine) {
         return "services";
-    } else {
-        return "operatorWide";
     }
+    return "operatorWide";
 };
 
 export const getStops = (stopPoints: StopPoints) => {
@@ -103,7 +102,8 @@ export const getStops = (stopPoints: StopPoints) => {
 export const getVehicleMode = (affectsItem: Affects) => {
     if (affectsItem.StopPoints) {
         return affectsItem.StopPoints.AffectedStopPoint.map((stop) => stop.AffectedModes.Mode.VehicleMode)[0];
-    } else return affectsItem.Networks?.AffectedNetwork.VehicleMode ?? VehicleMode.bus;
+    }
+    return affectsItem.Networks?.AffectedNetwork.VehicleMode ?? VehicleMode.bus;
 };
 
 export const getDisruptionDirection = (affectedLine: AffectedLine[] | undefined) => {
@@ -122,7 +122,7 @@ export const getServices = async (affectedLine: AffectedLine[] | undefined, disr
     if (affectedLine) {
         const unfilteredServices = await Promise.all(
             affectedLine.flatMap((service) => {
-                if (!!service.AffectedOperator) {
+                if (service.AffectedOperator) {
                     return service.AffectedOperator.map(async (operator): Promise<Service | null> => {
                         console.log("Retrieving service...");
                         const inputs = {
@@ -139,7 +139,7 @@ export const getServices = async (affectedLine: AffectedLine[] | undefined, disr
                             const parsedService = serviceSchema.parse(services);
                             numSuccess = numSuccess + 1;
                             return parsedService;
-                        } catch (e) {
+                        } catch (_e) {
                             numErrors = numErrors + 1;
                             console.log(
                                 `could not retrieve service (operator code ${operator.OperatorRef}, line ref: ${service.LineRef} for situation number: ${disruptionId}, total errors: ${numErrors})`,

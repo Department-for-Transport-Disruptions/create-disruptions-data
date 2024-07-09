@@ -1,10 +1,10 @@
 import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import TypeOfConsequence from "./[disruptionId]/[consequenceIndex].page";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
 import { ErrorInfo } from "../../interfaces/index";
 import { ConsequenceType } from "../../schemas/type-of-consequence.schema";
+import TypeOfConsequence from "./[disruptionId]/[consequenceIndex].page";
 
 const noErrors: ErrorInfo[] = [];
 
@@ -18,7 +18,6 @@ const withInputs: ConsequenceType = {
     consequenceType: "networkWide",
 };
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const useRouter = vi.spyOn(require("next/router"), "useRouter");
 beforeEach(() => {
     useRouter.mockImplementation(() => ({

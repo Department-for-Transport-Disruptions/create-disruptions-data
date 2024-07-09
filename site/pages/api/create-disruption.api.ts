@@ -44,7 +44,6 @@ export const formatCreateDisruptionBody = (body: object) => {
             const [, values] = arr;
             let endDate = values;
             if (Array.isArray(values)) {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 endDate = values[0] ? values[0] : values[1];
             }
             return endDate;
@@ -147,14 +146,14 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
                   `${decodeURIComponent(queryParam.split("=")[1].split("&")[0])}/${validatedBody.data.disruptionId}`,
               )
             : draft
-            ? redirectTo(res, DASHBOARD_PAGE_PATH)
-            : redirectToWithQueryParams(
-                  req,
-                  res,
-                  template ? ["template"] : [],
-                  `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/${consequenceIndex}`,
-                  isFromTemplate ? [`${isFromTemplate}`] : [],
-              );
+              ? redirectTo(res, DASHBOARD_PAGE_PATH)
+              : redirectToWithQueryParams(
+                    req,
+                    res,
+                    template ? ["template"] : [],
+                    `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/${consequenceIndex}`,
+                    isFromTemplate ? [`${isFromTemplate}`] : [],
+                );
 
         return;
     } catch (e) {

@@ -1,7 +1,7 @@
 import kebabCase from "lodash/kebabCase";
 import { Fragment, ReactElement, RefObject, useEffect, useState } from "react";
-import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { DisplayValuePair, ErrorInfo, FormBase } from "../../interfaces";
+import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 
 interface RadiosProps<T> extends FormBase<T> {
     radioDetail: RadioValuePair[];
@@ -47,7 +47,7 @@ const Radios = <T extends object>({
                     <span className={`govuk-heading-${displaySize} govuk-!-margin-bottom-0`}>{display}</span>
                 </legend>
                 {hint ? (
-                    <div id={`${inputId}-hint`} className={`govuk-hint`}>
+                    <div id={`${inputId}-hint`} className={"govuk-hint"}>
                         {hint}
                     </div>
                 ) : null}

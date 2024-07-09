@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import renderer from "react-test-renderer";
-import { vi, describe, it, expect, afterEach } from "vitest";
-import Cookies, { CookiePreferencesProps, getServerSideProps } from "./cookies.page";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { COOKIES_POLICY_COOKIE, COOKIE_PREFERENCES_COOKIE } from "../constants";
 import { CookiePolicy } from "../interfaces";
 import { getMockContext } from "../testData/mockData";
+import Cookies, { CookiePreferencesProps, getServerSideProps } from "./cookies.page";
 
 describe("pages", () => {
     describe("cookies", () => {

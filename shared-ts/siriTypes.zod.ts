@@ -198,8 +198,8 @@ export const ptSituationElementSchema = basePtSituationElementSchema.and(
 );
 
 export const ptSituationElementSchemaWithTransform = ptSituationElementSchema.transform((val) => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
+    // biome-ignore lint/performance/noDelete: <explanation>
     delete val.ReasonType;
 
     return val;

@@ -119,7 +119,9 @@ const ViewAllSocialMedia = ({ socialMediaPosts }: ViewAllSocialMediaProps): Reac
     );
 };
 
-export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: ViewAllSocialMediaProps } | void> => {
+export const getServerSideProps = async (
+    ctx: NextPageContext,
+): Promise<{ props: ViewAllSocialMediaProps } | undefined> => {
     if (!ctx.req) {
         throw new Error("No context request");
     }

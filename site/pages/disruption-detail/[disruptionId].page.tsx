@@ -6,14 +6,14 @@ import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
-import { ReactElement, ReactNode, useEffect, useRef, useState } from "react";
+import { Fragment, ReactElement, ReactNode, useEffect, useRef, useState } from "react";
+import ReviewConsequenceTable, { createChangeLink } from "../../components/ReviewConsequenceTable";
 import CsrfForm from "../../components/form/CsrfForm";
 import ErrorSummary from "../../components/form/ErrorSummary";
 import Table, { CellProps } from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPopup";
 import Popup from "../../components/popup/Popup";
-import ReviewConsequenceTable, { createChangeLink } from "../../components/ReviewConsequenceTable";
 import {
     CANCELLATIONS_FEATURE_FLAG,
     COOKIES_DISRUPTION_DETAIL_ERRORS,
@@ -326,13 +326,13 @@ const DisruptionDetail = ({
         return validity.map((validity, i) => {
             const appendValue =
                 validity.disruptionRepeats === "daily" ? (
-                    <>
+                    <Fragment key={i}>
                         <br />
                         Repeats {validity.disruptionRepeats} until {validity.disruptionRepeatsEndDate} at{" "}
                         {validity.disruptionEndTime}
-                    </>
+                    </Fragment>
                 ) : validity.disruptionRepeats === "weekly" ? (
-                    <>
+                    <Fragment key={i}>
                         <br />
                         Repeats every week until{" "}
                         {getEndingOnDateText(
@@ -342,15 +342,15 @@ const DisruptionDetail = ({
                             validity.disruptionEndDate,
                         )}{" "}
                         at {validity.disruptionEndTime}
-                    </>
+                    </Fragment>
                 ) : (
-                    <></>
+                    <Fragment key={i} />
                 );
             return {
                 header: `Validity period ${i + 1}`,
                 cells: [
                     validity.disruptionEndDate && validity.disruptionEndTime && !validity.disruptionNoEndDateTime ? (
-                        <span>
+                        <span key={i}>
                             {validity.disruptionStartDate} {validity.disruptionStartTime} - {validity.disruptionEndDate}{" "}
                             {validity.disruptionEndTime} {appendValue}
                         </span>
@@ -439,7 +439,7 @@ const DisruptionDetail = ({
                                     key="create-disruption-from-template"
                                     className="govuk-button"
                                     data-module="govuk-button"
-                                    formAction={`/api/duplicate-disruption?templateId=${disruption.disruptionId}&template=true`}
+                                    formAction={`/api/duplicate-disruption?templateId=${disruption.disruptionId}`}
                                 >
                                     Create disruption
                                 </button>
@@ -682,16 +682,16 @@ const DisruptionDetail = ({
                                                               .map((service) => service.lineName)
                                                               .join(", ")}`
                                                         : consequence.consequenceType === "stops"
-                                                        ? "Stops"
-                                                        : consequence.consequenceType === "journeys" &&
-                                                          CANCELLATIONS_FEATURE_FLAG
-                                                        ? "Journeys"
-                                                        : consequence.consequenceType === "operatorWide" &&
-                                                          consequence.consequenceOperators
-                                                        ? `Operator wide - ${consequence.consequenceOperators
-                                                              .map((operator) => operator.operatorNoc)
-                                                              .join(", ")}`
-                                                        : `${"Network wide"}`
+                                                          ? "Stops"
+                                                          : consequence.consequenceType === "journeys" &&
+                                                              CANCELLATIONS_FEATURE_FLAG
+                                                            ? "Journeys"
+                                                            : consequence.consequenceType === "operatorWide" &&
+                                                                consequence.consequenceOperators
+                                                              ? `Operator wide - ${consequence.consequenceOperators
+                                                                    .map((operator) => operator.operatorNoc)
+                                                                    .join(", ")}`
+                                                              : `${"Network wide"}`
                                                 }`}
                                             </span>
                                         </h2>
@@ -813,8 +813,8 @@ const DisruptionDetail = ({
                                     canPublish && disruption.publishStatus !== PublishStatus.published
                                         ? "govuk-button--secondary mr-5"
                                         : displaySendToReview
-                                        ? "govuk-button--secondary"
-                                        : ""
+                                          ? "govuk-button--secondary"
+                                          : ""
                                 }`}
                             >
                                 Close and Return
@@ -856,7 +856,7 @@ const DisruptionDetail = ({
                             <button
                                 className="govuk-button govuk-button--secondary mt-8 ml-5"
                                 data-module="govuk-button"
-                                formAction={`/api/cancel-changes${queryParams["template"] ? "?template=true" : ""}`}
+                                formAction={`/api/cancel-changes${queryParams.template ? "?template=true" : ""}`}
                             >
                                 Cancel all changes
                             </button>
@@ -868,7 +868,7 @@ const DisruptionDetail = ({
                                 data-module="govuk-button"
                                 onClick={(e) => {
                                     e.preventDefault();
-                                    deleteActionHandler(queryParams["template"] ? "template" : "disruption", [
+                                    deleteActionHandler(queryParams.template ? "template" : "disruption", [
                                         {
                                             name: "id",
                                             value: disruption.disruptionId,
@@ -909,7 +909,7 @@ const DisruptionDetail = ({
 
 export const getServerSideProps = async (
     ctx: NextPageContext,
-): Promise<{ props: DisruptionDetailProps } | { redirect: Redirect } | void> => {
+): Promise<{ props: DisruptionDetailProps } | { redirect: Redirect } | undefined> => {
     if (!ctx.req) {
         throw new Error("No context request");
     }
@@ -943,7 +943,7 @@ export const getServerSideProps = async (
     if (!disruption) {
         return {
             redirect: {
-                destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`,
+                destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${ctx.query?.template ? "?template=true" : ""}`,
                 statusCode: 302,
             },
         };

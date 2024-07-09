@@ -1,8 +1,8 @@
 import {
     CognitoIdentityProviderClient,
+    ListUsersCommand,
     ListUsersInGroupCommand,
     UserType,
-    ListUsersCommand,
 } from "@aws-sdk/client-cognito-identity-provider";
 
 const { COGNITO_USER_POOL_ID: userPoolId } = process.env;
@@ -22,9 +22,9 @@ export const getAllUsersInGroup = async (groupName: string, nextToken?: string):
 
     if (users.NextToken) {
         return [...users.Users, ...(await getAllUsersInGroup(groupName, users.NextToken))];
-    } else {
-        return users.Users;
     }
+
+    return users.Users;
 };
 
 export const getAllUsersEmailsInGroups = async (
@@ -83,8 +83,7 @@ export const getUsersByAttributeByOrgIds = async (
                 const emailAttribute = user.Attributes.find((attr) => attr.Name === attributeToGet);
                 const orgIdAttribute = user.Attributes.find((attr) => attr.Name === "custom:orgId");
                 if (
-                    emailAttribute &&
-                    emailAttribute.Value &&
+                    emailAttribute?.Value &&
                     orgIdAttribute &&
                     orgIdAttribute.Value &&
                     Object.keys(orgIdsAndAdminAreaCodes).includes(orgIdAttribute.Value)

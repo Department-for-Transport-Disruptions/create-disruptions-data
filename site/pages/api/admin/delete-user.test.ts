@@ -1,6 +1,5 @@
-import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
 import { randomUUID } from "crypto";
-import deleteUser from "./delete-user.api";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
     ERROR_PATH,
     LOGIN_PAGE_PATH,
@@ -16,6 +15,7 @@ import {
 } from "../../../testData/mockData";
 import { destroyCookieOnResponseObject } from "../../../utils/apiUtils";
 import * as session from "../../../utils/apiUtils/auth";
+import deleteUser from "./delete-user.api";
 
 describe("delete-user", () => {
     const writeHeadMock = vi.fn();

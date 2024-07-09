@@ -1,9 +1,9 @@
-import { describe, it, expect, afterEach, beforeEach, vi } from "vitest";
-import hootsuiteCallback from "./hootsuite-callback.api";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { COOKIES_HOOTSUITE_STATE, ERROR_PATH, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH } from "../../constants";
 import { addHootsuiteAccount } from "../../data/hootsuite";
 import { DEFAULT_OPERATOR_ORG_ID, getMockRequestAndResponse, mockSession } from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
+import hootsuiteCallback from "./hootsuite-callback.api";
 
 describe("hootsuite-callback", () => {
     const writeHeadMock = vi.fn();

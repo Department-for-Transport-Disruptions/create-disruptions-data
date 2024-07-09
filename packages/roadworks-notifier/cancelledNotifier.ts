@@ -1,4 +1,5 @@
-import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
+import { randomUUID } from "crypto";
+import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { chunkArray } from "@create-disruptions-data/shared-ts/utils";
@@ -7,7 +8,6 @@ import { isSandbox } from "@create-disruptions-data/shared-ts/utils/domain";
 import { getDisruptionsWithRoadworks } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { getRecentlyCancelledRoadworks } from "@create-disruptions-data/shared-ts/utils/refDataApi";
 import * as logger from "lambda-log";
-import { randomUUID } from "crypto";
 
 const sesClient = new SESClient({ region: "eu-west-2" });
 

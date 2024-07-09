@@ -11,7 +11,7 @@
 <!-- usage -->
 
 ```sh-session
-$ npm install && npm run build
+$ pnpm install && pnpm run build
 $ ./bin/run.js COMMAND
 running command...
 $ ./bin/run.js (--version)

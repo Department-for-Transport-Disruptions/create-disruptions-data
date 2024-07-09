@@ -27,7 +27,7 @@ export const initialConsequenceStatsValues = {
 export const generateConsequenceStats = (key: string, disruption: Disruption) => {
     if (disruption.consequences) {
         return disruption.consequences.reduce((acc: Record<string, Record<string, number>>, consequence) => {
-            if (!acc.hasOwnProperty(key)) {
+            if (!Object.hasOwn(acc, key)) {
                 acc[key] = initialConsequenceStatsValues;
             }
             acc[key] = {
@@ -65,17 +65,16 @@ export const generateDisruptionReasonCount = (
     currentDisruptionReason: string,
     disruptionReasonCountObject: Record<string, number>,
 ) => {
-    if (disruptionReasonCountObject.hasOwnProperty(currentDisruptionReason)) {
+    if (Object.hasOwn(disruptionReasonCountObject, currentDisruptionReason)) {
         return {
             ...disruptionReasonCountObject,
             [currentDisruptionReason]: disruptionReasonCountObject[currentDisruptionReason] + 1,
         };
-    } else {
-        return {
-            ...disruptionReasonCountObject,
-            [currentDisruptionReason]: 1,
-        };
     }
+    return {
+        ...disruptionReasonCountObject,
+        [currentDisruptionReason]: 1,
+    };
 };
 
 export const generateSiriStats = (disruptions: Disruption[]) => {
@@ -83,7 +82,7 @@ export const generateSiriStats = (disruptions: Disruption[]) => {
         const key = disruption.orgId ? disruption.orgId : "";
         const consequenceStats = generateConsequenceStats(key, disruption);
         if (consequenceStats?.[key]) {
-            if (!acc.hasOwnProperty(key)) {
+            if (!Object.hasOwn(acc, key)) {
                 acc[key] = {
                     disruptionReasonCount: {},
                     totalDisruptionsCount: 0,
@@ -107,7 +106,7 @@ export const generateSiriStats = (disruptions: Disruption[]) => {
                     disruption.disruptionReason,
                     acc[key].disruptionReasonCount,
                 ),
-                totalDisruptionsCount: (acc[key].totalDisruptionsCount += 1),
+                totalDisruptionsCount: acc[key].totalDisruptionsCount + 1,
                 servicesConsequencesCount:
                     acc[key].servicesConsequencesCount + consequenceStats[key].servicesConsequencesCount,
                 servicesAffected: acc[key].servicesAffected + consequenceStats[key].servicesAffected,

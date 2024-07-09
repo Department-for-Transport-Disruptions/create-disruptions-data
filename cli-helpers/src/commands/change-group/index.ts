@@ -93,7 +93,9 @@ export default class CreateUser extends Command {
                 throw new Error("No users found");
             }
 
-            const emails = userList.map((user) => user.Attributes?.[0].Value).filter((value) => value !== null && value !== undefined);
+            const emails = userList
+                .map((user) => user.Attributes?.[0].Value)
+                .filter((value) => value !== null && value !== undefined);
 
             if (!emails || emails.length === 0) {
                 throw new Error("No users found");

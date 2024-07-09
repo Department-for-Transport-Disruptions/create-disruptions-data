@@ -1,9 +1,9 @@
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
-import { describe, it, expect, vi, afterEach, beforeEach } from "vitest";
-import SysAdminUserManagement, { SysAdminUserManagementProps } from "./users.page";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { mockSessionWithOrgDetail } from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
+import SysAdminUserManagement, { SysAdminUserManagementProps } from "./users.page";
 
 const blankInputs: SysAdminUserManagementProps = {
     inputs: {},
@@ -58,7 +58,6 @@ describe("addUser", () => {
         vi.resetAllMocks();
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-var-requires
     const useRouter = vi.spyOn(require("next/router"), "useRouter");
 
     beforeEach(() => {

@@ -4,7 +4,7 @@ import { COOKIES_HOOTSUITE_STATE, SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH } from "../../
 import { addHootsuiteAccount } from "../../data/hootsuite";
 import { NoStateOrCodeError } from "../../errors";
 import { getSession } from "../../utils/apiUtils/auth";
-import { redirectToError, redirectTo } from "../../utils/apiUtils/index";
+import { redirectTo, redirectToError } from "../../utils/apiUtils/index";
 
 const hootsuiteCallback = async (req: NextApiRequest, res: NextApiResponse) => {
     try {

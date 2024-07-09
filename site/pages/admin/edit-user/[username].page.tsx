@@ -7,7 +7,7 @@ import { COOKIES_EDIT_USER_ERRORS } from "../../../constants";
 import { getGroupForUser, getUserDetails } from "../../../data/cognito";
 import { listOperatorsForOrg } from "../../../data/dynamo";
 import { PageState } from "../../../interfaces";
-import { EditUserSchema, editUserSchema, addOperatorSchema } from "../../../schemas/add-user.schema";
+import { EditUserSchema, addOperatorSchema, editUserSchema } from "../../../schemas/add-user.schema";
 import { OperatorOrgSchema } from "../../../schemas/organisation.schema";
 import { user } from "../../../schemas/user-management.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";

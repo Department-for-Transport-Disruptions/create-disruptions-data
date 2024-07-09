@@ -10,7 +10,8 @@ const updateOrg = async (req: NextApiRequest, res: NextApiResponse) => {
 
         if (!session) {
             throw new Error("No session found");
-        } else if (!session.isOrgAdmin) {
+        }
+        if (!session.isOrgAdmin) {
             throw new Error("Invalid user accessing the page");
         }
 
@@ -22,10 +23,9 @@ const updateOrg = async (req: NextApiRequest, res: NextApiResponse) => {
 
             res.status(200).json({ success: true });
             return;
-        } else {
-            throw new Error("Unable to parse data from frontend");
         }
-    } catch (e) {
+        throw new Error("Unable to parse data from frontend");
+    } catch (_e) {
         logger.error("There was a problem while updating org data source");
         res.status(500).json({ success: false });
         return;

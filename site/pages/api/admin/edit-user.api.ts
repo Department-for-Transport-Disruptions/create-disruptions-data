@@ -12,11 +12,11 @@ import { addUserToGroup, removeUserFromGroup, updateUserAttributes } from "../..
 import { EditUserSchema, editUserSchema } from "../../../schemas/add-user.schema";
 import { flattenZodErrors } from "../../../utils";
 import {
-    redirectToError,
-    setCookieOnResponseObject,
-    redirectTo,
     destroyCookieOnResponseObject,
     formatAddOrEditUserBody,
+    redirectTo,
+    redirectToError,
+    setCookieOnResponseObject,
 } from "../../../utils/apiUtils";
 import { getSession } from "../../../utils/apiUtils/auth";
 

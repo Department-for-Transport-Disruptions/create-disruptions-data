@@ -1,4 +1,4 @@
-import { SendEmailCommand, SESClient } from "@aws-sdk/client-ses";
+import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import { isSandbox } from "@create-disruptions-data/shared-ts/utils/domain";
 import { DOMAIN_NAME, STAGE } from "../../constants";
 import { getAllUsersInGroup } from "../../data/cognito";
@@ -109,7 +109,7 @@ export const sendDisruptionApprovalEmail = async (
         const parsedOrgAdminsForAllOrgs = userManagementSchema.safeParse(orgAdminsForAllOrgs.filter(notEmpty).flat());
 
         if (!parsedOrgAdminsForAllOrgs.success) {
-            logger.error(`Failed to parse organisation admin information for sending disruption approval email`);
+            logger.error("Failed to parse organisation admin information for sending disruption approval email");
             return;
         }
 
@@ -139,7 +139,7 @@ export const sendDisruptionApprovalEmail = async (
         await sesClient.send(disruptionApprovalEmail);
     } catch (e) {
         if (e instanceof Error) {
-            logger.error(`There was a problem sending the disruption approval email.`, {
+            logger.error("There was a problem sending the disruption approval email.", {
                 context: "disruptionApprovalEmailer",
                 error: e.stack,
             });

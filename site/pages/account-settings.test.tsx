@@ -1,7 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import renderer from "react-test-renderer";
-import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import AccountSettings from "./account-settings.page";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
     DEFAULT_OPERATOR_ORG_ID,
     DEFAULT_ORG_ID,
@@ -9,6 +8,7 @@ import {
     mockSessionWithOrgDetailAndShowUndergroundTrue,
 } from "../testData/mockData";
 import * as user from "../utils/user";
+import AccountSettings from "./account-settings.page";
 
 describe("accountSettings", () => {
     vi.mock("../utils/user", () => ({
