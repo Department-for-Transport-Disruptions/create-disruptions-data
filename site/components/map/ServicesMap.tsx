@@ -1,29 +1,29 @@
-import { Routes, Service, ServicesConsequence, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import type { Routes, Service, ServicesConsequence, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { servicesConsequenceSchema, stopSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
-import { Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { type Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { notEmpty } from "@create-disruptions-data/shared-ts/utils";
 import { LoadingBox } from "@govuk-react/loading-box";
-import { Feature, GeoJsonProperties, Geometry } from "geojson";
-import { LineLayout, LinePaint, MapLayerMouseEvent, Point } from "mapbox-gl";
+import type { Feature, GeoJsonProperties, Geometry } from "geojson";
+import { type LineLayout, type LinePaint, type MapLayerMouseEvent, Point } from "mapbox-gl";
 import {
-    CSSProperties,
-    Dispatch,
-    ReactElement,
-    SetStateAction,
-    SyntheticEvent,
+    type CSSProperties,
+    type Dispatch,
+    type ReactElement,
+    type SetStateAction,
+    type SyntheticEvent,
     useCallback,
     useEffect,
     useMemo,
     useState,
 } from "react";
-import MapBox, { Layer, Popup, Source, ViewState } from "react-map-gl";
+import MapBox, { Layer, Popup, Source, type ViewState } from "react-map-gl";
 import { z } from "zod";
 import { fetchServicesByStops, fetchStops } from "../../data/refDataApi";
 import { LargePolygonError, NoStopsError } from "../../errors";
-import { PageState } from "../../interfaces";
-import { ServiceWithStopAndRoutes } from "../../schemas/consequence.schema";
+import type { PageState } from "../../interfaces";
+import type { ServiceWithStopsAndRoutesPreformatted } from "../../schemas/consequence.schema";
 import {
-    RouteWithServiceInfo,
+    type RouteWithServiceInfo,
     filterStopList,
     flattenZodErrors,
     getRoutesForServices,
@@ -31,9 +31,9 @@ import {
     removeDuplicateRoutes,
 } from "../../utils";
 import { filterServices, getStopType, sortAndFilterStops, sortStops } from "../../utils/formUtils";
-import { warningMessageText } from "../../utils/mapUtils";
+import { groupByJourneyPattern, warningMessageText } from "../../utils/mapUtils";
 import Warning from "../form/Warning";
-import { PolygonFeature } from "./DrawControl";
+import type { PolygonFeature } from "./DrawControl";
 import MapControls from "./MapControls";
 import Markers from "./Markers";
 
@@ -88,7 +88,7 @@ export const getAtcoCodesFromSelectedStops = (stops: Stop[]) => {
     return stops ? stops.map((stop) => stop.atcoCode).splice(0, 100) : [];
 };
 
-const Map = ({
+const ServicesMap = ({
     initialViewState,
     style,
     mapStyle,
@@ -180,7 +180,7 @@ const Map = ({
                 const stop: Stop[] = getSelectedStopsFromMapMarkers(markerData, id);
                 const atcoCodes = getAtcoCodesFromSelectedStops(stop);
 
-                const servicesForStopsInPolygon: ServiceWithStopAndRoutes[] = await fetchServicesByStops({
+                const servicesForStopsInPolygon: ServiceWithStopsAndRoutesPreformatted[] = await fetchServicesByStops({
                     atcoCodes,
                     includeRoutes: true,
                     dataSource: dataSource,
@@ -193,7 +193,7 @@ const Map = ({
 
                 const servicesRoutesForGivenStop = getRoutesForServices(servicesForStopsInPolygon);
 
-                const servicesRoutesForMap = removeDuplicateRoutes([...searchedRoutes, ...servicesRoutesForGivenStop]);
+                const servicesRoutesForMap = removeDuplicateRoutes([...searchedRoutes, ...groupByJourneyPattern(servicesRoutesForGivenStop)]);
 
                 const stopsForServicesRoutes = await getStopsForRoutes(
                     servicesRoutesForMap,
@@ -356,7 +356,7 @@ const Map = ({
             if (showSelectAllText) {
                 setLoading(true);
                 const atcoCodes = getAtcoCodesFromSelectedStops(markerData);
-                const servicesForStopsInPolygon: ServiceWithStopAndRoutes[] = await fetchServicesByStops({
+                const servicesForStopsInPolygon: ServiceWithStopsAndRoutesPreformatted[] = await fetchServicesByStops({
                     atcoCodes,
                     includeRoutes: true,
                     dataSource: dataSource,
@@ -364,7 +364,7 @@ const Map = ({
 
                 const servicesRoutesForGivenStop = getRoutesForServices(servicesForStopsInPolygon);
 
-                const servicesRoutesForMap = removeDuplicateRoutes([...searchedRoutes, ...servicesRoutesForGivenStop]);
+                const servicesRoutesForMap = removeDuplicateRoutes([...searchedRoutes, ...groupByJourneyPattern(servicesRoutesForGivenStop)]);
 
                 const stopsForServicesRoutes = await getStopsForRoutes(
                     servicesRoutesForMap,
@@ -652,4 +652,4 @@ const Map = ({
     ) : null;
 };
 
-export default Map;
+export default ServicesMap;

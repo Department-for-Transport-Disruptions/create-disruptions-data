@@ -37,7 +37,7 @@ import {
 import { getDisruptionById, getNocCodesForOperatorOrg } from "../../../data/dynamo";
 import { fetchServiceRoutes, fetchServices, fetchServicesByStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import { ServiceWithStopAndRoutes } from "../../../schemas/consequence.schema";
+import { ServiceWithStopsAndRoutesPreformatted } from "../../../schemas/consequence.schema";
 import {
     RouteWithServiceInfo,
     RouteWithServiceInfoPreformatted,
@@ -260,7 +260,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             });
         } else {
             if (stopToAdd) {
-                const servicesForGivenStop: ServiceWithStopAndRoutes[] = await fetchServicesByStops({
+                const servicesForGivenStop: ServiceWithStopsAndRoutesPreformatted[] = await fetchServicesByStops({
                     atcoCodes: [stopToAdd.atcoCode],
                     includeRoutes: true,
                     dataSource: dataSource,
@@ -272,7 +272,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
 
                 const servicesRoutesForGivenStop = getRoutesForServices(servicesForGivenStop);
 
-                const servicesRoutesForMap = removeDuplicateRoutes([...searchedRoutes, ...servicesRoutesForGivenStop]);
+                const servicesRoutesForMap = removeDuplicateRoutes([...searchedRoutes, ...groupByJourneyPattern(servicesRoutesForGivenStop)]);
 
                 const stopsForServicesRoutes = await getStopsForRoutes(
                     servicesRoutesForMap,
