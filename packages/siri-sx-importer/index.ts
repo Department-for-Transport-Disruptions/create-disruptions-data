@@ -1,25 +1,25 @@
+import * as console from "console";
+import { promises as fs } from "fs";
 import { Consequence, DisruptionInfo } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { notEmpty } from "@create-disruptions-data/shared-ts/utils";
 import cryptoRandomString from "crypto-random-string";
 import { v5 as uuidv5 } from "uuid";
 import { parseString } from "xml2js";
 import { parseBooleans } from "xml2js/lib/processors";
-import * as console from "console";
-import { promises as fs } from "fs";
 import { getOrgIdFromDynamo, publishDisruptionAndConsequenceInfoToDynamo } from "./dynamo";
 import {
     convertDateTimeToFormat,
-    getDisruptionReason,
     formatValidityArray,
     getConsequenceOperators,
     getConsequenceType,
     getDisruptionAndValidityDates,
     getDisruptionDirection,
+    getDisruptionReason,
     getServices,
     getStops,
     getVehicleMode,
 } from "./utils";
-import { siriSchema, PtSituationElement } from "./utils/importerSiriTypes.zod";
+import { PtSituationElement, siriSchema } from "./utils/importerSiriTypes.zod";
 
 const { STAGE_NAME: stageName, FILE_NAME: fileName } = process.env;
 
@@ -46,15 +46,10 @@ const parsedXml = () => {
     let parsedXml = { Siri: {} };
     let error = null;
 
-    parseString(
-        xml,
-        { explicitArray: false, valueProcessors: [parseBooleans], ignoreAttrs: true },
-        function (err, result) {
-            error = err;
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            parsedXml = result;
-        },
-    );
+    parseString(xml, { explicitArray: false, valueProcessors: [parseBooleans], ignoreAttrs: true }, (err, result) => {
+        error = err;
+        parsedXml = result;
+    });
 
     return {
         parsedXml,
@@ -63,63 +58,54 @@ const parsedXml = () => {
 };
 
 const addReasonTypeToXml = (Siri: Record<string, unknown>) => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
     let PtSituationElement = Siri.ServiceDelivery.SituationExchangeDelivery.Situations.PtSituationElement;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     if (!Array.isArray(PtSituationElement)) {
         PtSituationElement = [PtSituationElement];
     }
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const PtSituationElementWithReasonType =
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call,@typescript-eslint/no-unsafe-member-access
-        PtSituationElement.map((item: Record<string, unknown>) => {
-            const fixedUuid = "bd1e919c-d98e-4744-b786-ebe0f0d980c2";
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            const situationNumber: string = uuidv5(item.SituationNumber, fixedUuid);
-            if (!!item.EnvironmentReason) {
-                return {
-                    ...item,
-                    ReasonType: "EnvironmentReason",
-                    SituationNumber: situationNumber,
-                };
-            }
-            if (!!item.EquipmentReason) {
-                return {
-                    ...item,
-                    ReasonType: "EquipmentReason",
-                    SituationNumber: situationNumber,
-                };
-            }
-            if (!!item.PersonnelReason) {
-                return {
-                    ...item,
-                    ReasonType: "PersonnelReason",
-                    SituationNumber: situationNumber,
-                };
-            }
-            if (!!item.MiscellaneousReason) {
-                return {
-                    ...item,
-                    ReasonType: "MiscellaneousReason",
-                    SituationNumber: situationNumber,
-                };
-            }
-            if (!!item.UndefinedReason) {
-                return {
-                    ...item,
-                    MiscellaneousReason: "unknown",
-                    ReasonType: "MiscellaneousReason",
-                    SituationNumber: situationNumber,
-                };
-            }
-        });
+    const PtSituationElementWithReasonType = PtSituationElement.map((item: Record<string, unknown>) => {
+        const fixedUuid = "bd1e919c-d98e-4744-b786-ebe0f0d980c2";
+        // @ts-ignore
+        const situationNumber: string = uuidv5(item.SituationNumber, fixedUuid);
+        if (item.EnvironmentReason) {
+            return {
+                ...item,
+                ReasonType: "EnvironmentReason",
+                SituationNumber: situationNumber,
+            };
+        }
+        if (item.EquipmentReason) {
+            return {
+                ...item,
+                ReasonType: "EquipmentReason",
+                SituationNumber: situationNumber,
+            };
+        }
+        if (item.PersonnelReason) {
+            return {
+                ...item,
+                ReasonType: "PersonnelReason",
+                SituationNumber: situationNumber,
+            };
+        }
+        if (item.MiscellaneousReason) {
+            return {
+                ...item,
+                ReasonType: "MiscellaneousReason",
+                SituationNumber: situationNumber,
+            };
+        }
+        if (item.UndefinedReason) {
+            return {
+                ...item,
+                MiscellaneousReason: "unknown",
+                ReasonType: "MiscellaneousReason",
+                SituationNumber: situationNumber,
+            };
+        }
+    });
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-unsafe-member-access
     Siri.ServiceDelivery.SituationExchangeDelivery.Situations.PtSituationElement = PtSituationElementWithReasonType;
 
     return {
@@ -127,7 +113,6 @@ const addReasonTypeToXml = (Siri: Record<string, unknown>) => {
     };
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 const parsedJson = siriSchema.parse(addReasonTypeToXml(parsedXml().parsedXml.Siri).Siri);
 
 const disruptionsInfo = await Promise.all(
@@ -146,10 +131,10 @@ const disruptionsInfo = await Promise.all(
                 orgId: orgId,
                 disruptionStartDate: convertDateTimeToFormat(disruptionDatesAndTimes.StartTime, "DD/MM/YYYY"),
                 disruptionStartTime: convertDateTimeToFormat(disruptionDatesAndTimes.StartTime, "HHmm"),
-                disruptionEndDate: !!disruptionDatesAndTimes.EndTime
+                disruptionEndDate: disruptionDatesAndTimes.EndTime
                     ? convertDateTimeToFormat(disruptionDatesAndTimes.EndTime, "DD/MM/YYYY")
                     : "",
-                disruptionEndTime: !!disruptionDatesAndTimes.EndTime
+                disruptionEndTime: disruptionDatesAndTimes.EndTime
                     ? convertDateTimeToFormat(disruptionDatesAndTimes.EndTime, "HHmm")
                     : "",
                 disruptionNoEndDateTime: !disruptionDatesAndTimes.EndTime ? "true" : "",

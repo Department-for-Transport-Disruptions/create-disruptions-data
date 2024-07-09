@@ -1,13 +1,13 @@
 stage = $(shell cat ./.sst/stage)
 
 start-sst:
-	npm run dev
+	pnpm run dev
 
 start-site:
-	npm run dev -w site
+	pnpm --filter @create-disruptions-data/site run dev
 
 install-deps:
-	npm install
+	pnpm install
 
 kill-site:
 	lsof -t -i:3000 | xargs -r kill

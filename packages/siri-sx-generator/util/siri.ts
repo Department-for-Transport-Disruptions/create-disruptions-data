@@ -1,12 +1,12 @@
 import { Disruption, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Progress, SourceType } from "@create-disruptions-data/shared-ts/enums";
 import {
+    Period,
+    PtSituationElement,
+    Reason,
     isEnvironmentReason,
     isMiscellaneousReason,
     isPersonnelReason,
-    PtSituationElement,
-    Reason,
-    Period,
 } from "@create-disruptions-data/shared-ts/siriTypes";
 import { getDisruptionCreationTime } from "@create-disruptions-data/shared-ts/utils";
 import { getDate, getDatetimeFromDateAndTime, getFormattedDate } from "@create-disruptions-data/shared-ts/utils/dates";

@@ -15,9 +15,9 @@ import MapBox, {
     ViewState,
     useMap,
 } from "react-map-gl";
-import MapControls from "./MapControls";
 import cone from "../../public/assets/images/cone.png";
 import { convertDateTimeToFormat } from "../../utils/dates";
+import MapControls from "./MapControls";
 
 interface MapProps {
     initialViewState: Partial<ViewState>;
@@ -85,13 +85,13 @@ const Map = ({ initialViewState, style, mapStyle, roadworks }: MapProps): ReactE
                 startDateTime: r.actualStartDateTime
                     ? convertDateTimeToFormat(r.actualStartDateTime, "DD/MM/YYYY HHmm")
                     : r.proposedStartDateTime
-                    ? convertDateTimeToFormat(r.proposedStartDateTime, "DD/MM/YYYY HHmm")
-                    : "",
+                      ? convertDateTimeToFormat(r.proposedStartDateTime, "DD/MM/YYYY HHmm")
+                      : "",
                 endDateTime: r.actualEndDateTime
                     ? convertDateTimeToFormat(r.actualEndDateTime, "DD/MM/YYYY HHmm")
                     : r.proposedEndDateTime
-                    ? convertDateTimeToFormat(r.proposedEndDateTime, "DD/MM/YYYY HHmm")
-                    : "",
+                      ? convertDateTimeToFormat(r.proposedEndDateTime, "DD/MM/YYYY HHmm")
+                      : "",
                 longitude: r.worksLocationCoordinates.geometry.coordinates[0],
                 latitude: r.worksLocationCoordinates.geometry.coordinates[1],
                 permitReferenceNumber: r.permitReferenceNumber,
@@ -104,7 +104,6 @@ const Map = ({ initialViewState, style, mapStyle, roadworks }: MapProps): ReactE
 
         if (map) {
             if (!map.hasImage("cone")) {
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument,@typescript-eslint/no-unsafe-member-access
                 map.loadImage(cone.src, (error, image) => {
                     if (error) throw error;
                     if (!map.hasImage("cone") && image) map.addImage("cone", image, { sdf: false });
@@ -118,7 +117,7 @@ const Map = ({ initialViewState, style, mapStyle, roadworks }: MapProps): ReactE
     const onClick = useCallback((event: MapLayerMouseEvent) => {
         const feature = event.features?.[0];
 
-        if (feature && feature.properties && feature?.layer.id === "clusters") {
+        if (feature?.properties && feature?.layer.id === "clusters") {
             const clusterId = feature.properties.cluster_id as number;
 
             if (mapRef.current) {
@@ -140,7 +139,7 @@ const Map = ({ initialViewState, style, mapStyle, roadworks }: MapProps): ReactE
         }
         const featureLayer = event.features?.find((f) => f.layer.id === "unclustered-point");
 
-        if (featureLayer && featureLayer.properties) {
+        if (featureLayer?.properties) {
             setPopupInfo(featureLayer.properties);
         }
     }, []);

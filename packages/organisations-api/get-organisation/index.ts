@@ -1,7 +1,7 @@
+import { randomUUID } from "crypto";
 import { getOrganisationInfoAndStats } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { APIGatewayEvent } from "aws-lambda";
 import * as logger from "lambda-log";
-import { randomUUID } from "crypto";
 
 const getOrganisation = async (orgId: string, organisationsTableName: string) => {
     try {

@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import DeleteDisruptionButton from "./DeleteDisruptionButton";
 
 describe("DeleteDisruptionButton", () => {

@@ -1,5 +1,4 @@
-import { describe, it, expect, afterEach, vi } from "vitest";
-import addOperator, { formatAddOperatorBody } from "./add-operator.api";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import {
     ADD_OPERATOR_PAGE_PATH,
     COOKIES_ADD_OPERATOR_ERRORS,
@@ -10,6 +9,7 @@ import * as dynamo from "../../../data/dynamo";
 import { ErrorInfo } from "../../../interfaces";
 import { DEFAULT_ORG_ID, getMockRequestAndResponse } from "../../../testData/mockData";
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../../utils/apiUtils";
+import addOperator, { formatAddOperatorBody } from "./add-operator.api";
 
 const defaultOperator = { id: 203, nocCode: "TEST", operatorPublicName: "Test Operator" };
 

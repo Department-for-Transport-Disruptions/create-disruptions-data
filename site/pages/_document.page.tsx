@@ -1,9 +1,8 @@
-/* eslint-disable @next/next/no-sync-scripts */
+import crypto from "crypto";
 import Document, { Html, Head, Main, NextScript, DocumentInitialProps, DocumentContext } from "next/document";
 import Link from "next/link";
 import { ReactElement } from "react";
 import { v4 } from "uuid";
-import crypto from "node:crypto";
 import { API_BASE_URL } from "../constants";
 
 const generateCsp = (): { csp: string; nonce: string } => {

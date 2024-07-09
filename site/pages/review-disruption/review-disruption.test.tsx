@@ -9,12 +9,12 @@ import {
 } from "@create-disruptions-data/shared-ts/enums";
 import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import ReviewDisruption from "./[disruptionId].page";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { SocialMediaPost } from "../../schemas/social-media.schema";
 import { DEFAULT_OPERATOR_ORG_ID, DEFAULT_ORG_ID } from "../../testData/mockData";
+import ReviewDisruption from "./[disruptionId].page";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
@@ -196,7 +196,6 @@ const previousDisruptionInformation: FullDisruption = {
 
 describe("pages", () => {
     describe("ReviewDisruption", () => {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
         const useRouter = vi.spyOn(require("next/router"), "useRouter");
         beforeEach(() => {
             useRouter.mockImplementation(() => ({

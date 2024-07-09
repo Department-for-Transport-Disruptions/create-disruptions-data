@@ -2,9 +2,9 @@ import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums"
 import { render } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
 import renderer from "react-test-renderer";
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import CreateSocialMediaPost from "./[socialMediaPostIndex].page";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { SocialMediaPost } from "../../../schemas/social-media.schema";
+import CreateSocialMediaPost from "./[socialMediaPostIndex].page";
 
 const previousCreateSocialMediaPostInformation: SocialMediaPost = {
     disruptionId: "f8d602b9-6e09-4fd7-b14b-deb1ca5b4f24",
@@ -27,7 +27,6 @@ const previousCreateSocialMediaPostInformation: SocialMediaPost = {
 
 describe("pages", () => {
     describe("CreateSocialMediaPost", () => {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
         const useRouter = vi.spyOn(require("next/router"), "useRouter");
         beforeEach(() => {
             useRouter.mockImplementation(() => ({

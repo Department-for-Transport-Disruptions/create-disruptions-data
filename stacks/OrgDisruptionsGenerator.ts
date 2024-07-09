@@ -1,5 +1,5 @@
 import { PolicyStatement } from "aws-cdk-lib/aws-iam";
-import { StackContext, use, Function } from "sst/constructs";
+import { Function, StackContext, use } from "sst/constructs";
 import { DynamoDBStack } from "./DynamoDBStack";
 import { createBucket } from "./utils";
 
@@ -10,7 +10,7 @@ export const OrgDisruptionsGeneratorStack = ({ stack }: StackContext) => {
         ? "https://api.test.ref-data.dft-create-data.com/v1"
         : `https://api.${stack.stage}.ref-data.dft-create-data.com/v1`;
 
-    const orgDisruptionsBucket = createBucket(stack, `cdd-org-disruptions`, true);
+    const orgDisruptionsBucket = createBucket(stack, "cdd-org-disruptions", true);
 
     const orgDisruptionsGeneratorFunction = new Function(stack, "cdd-org-disruptions-generator-function", {
         functionName: `cdd-org-disruptions-generator-${stack.stage}`,

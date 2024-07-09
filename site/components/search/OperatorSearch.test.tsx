@@ -1,8 +1,8 @@
 import { OperatorConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import renderer from "react-test-renderer";
-import { describe, it, expect, vi } from "vitest";
-import OperatorSearch from "./OperatorSearch";
+import { describe, expect, it, vi } from "vitest";
 import { mockOperators } from "../../testData/mockData";
+import OperatorSearch from "./OperatorSearch";
 
 describe("OperatorSearch", () => {
     it("should render correctly with no errors", () => {

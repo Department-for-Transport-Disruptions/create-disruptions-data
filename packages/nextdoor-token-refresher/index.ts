@@ -1,8 +1,8 @@
+import { randomUUID } from "crypto";
 import { getNextdoorAuthHeader } from "@create-disruptions-data/shared-ts/utils";
 import { getParametersByPath, putParameter } from "@create-disruptions-data/shared-ts/utils/ssm";
 import { NextdoorToken, nextdoorTokenSchema } from "@create-disruptions-data/shared-ts/utils/zod";
 import * as logger from "lambda-log";
-import { randomUUID } from "crypto";
 
 export const nextdoorRedirectUri = `${process.env.DOMAIN_NAME as string}/api/nextdoor-callback`;
 

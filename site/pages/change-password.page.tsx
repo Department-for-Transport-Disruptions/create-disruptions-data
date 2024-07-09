@@ -26,7 +26,7 @@ const ChangePassword = (props: ChangePasswordPageProps): ReactElement => {
     const stateUpdater = getStateUpdater(setPageState, pageState);
 
     const queryParams = useRouter().query;
-    const displaySuccessMessage = queryParams["success"];
+    const displaySuccessMessage = queryParams.success;
 
     return (
         <TwoThirdsLayout title={title} description={description} errors={pageState.errors}>

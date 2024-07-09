@@ -1,10 +1,10 @@
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { randomUUID } from "crypto";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { filterActiveDisruptions, notEmpty } from "@create-disruptions-data/shared-ts/utils";
 import { getAllDisruptionsForOrg } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { getServiceCentrePoint } from "@create-disruptions-data/shared-ts/utils/refDataApi";
 import { DynamoDBStreamEvent } from "aws-lambda";
 import * as logger from "lambda-log";
-import { randomUUID } from "crypto";
 
 const s3Client = new S3Client({ region: "eu-west-2" });
 
@@ -36,7 +36,9 @@ const generateDisruptionsAndWriteToS3 = async (orgId: string, tableName: string,
                         bearing: stop.bearing,
                         coordinates: { latitude: stop.latitude, longitude: stop.longitude },
                     }));
-                } else return [];
+                }
+
+                return [];
             });
 
             const services = await Promise.all(
@@ -57,7 +59,8 @@ const generateDisruptionsAndWriteToS3 = async (orgId: string, tableName: string,
                                 },
                             };
                         });
-                    } else return [];
+                    }
+                    return [];
                 }),
             );
 

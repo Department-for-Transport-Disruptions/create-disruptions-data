@@ -95,7 +95,7 @@ const DisruptionHistory = ({ history, disruptionId }: DisruptionHistoryPageProps
 
 export const getServerSideProps = async (
     ctx: NextPageContext,
-): Promise<{ props: DisruptionHistoryPageProps } | void> => {
+): Promise<{ props: DisruptionHistoryPageProps } | undefined> => {
     if (!ctx.req) {
         throw new Error("No context request");
     }
@@ -116,7 +116,7 @@ export const getServerSideProps = async (
 
     const finalEndDate = getSortedDisruptionFinalEndDate(sortDisruptionsByStartDate([disruption])[0]);
 
-    if (finalEndDate && finalEndDate.isBefore(getDate())) {
+    if (finalEndDate?.isBefore(getDate())) {
         history.unshift({
             datetime: finalEndDate.toISOString(),
             status: PublishStatus.published,

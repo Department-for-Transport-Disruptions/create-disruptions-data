@@ -1,7 +1,7 @@
 import { Document, Page, StyleSheet } from "@react-pdf/renderer";
+import { ExportDisruptions } from "../../schemas/disruption.schema";
 import PDFHeader from "./PDFHeader";
 import PDFRows from "./PDFRows";
-import { ExportDisruptions } from "../../schemas/disruption.schema";
 
 export const PDFStyles = StyleSheet.create({
     page: {

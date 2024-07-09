@@ -6,7 +6,7 @@ import { getHootsuiteSsmKey } from "../../data/hootsuite";
 import { getNextdoorSsmKey } from "../../data/nextdoor";
 import { getTwitterSsmAccessSecretKey, getTwitterSsmAccessTokenKey } from "../../data/twitter";
 import { getSession } from "../../utils/apiUtils/auth";
-import { redirectToError, redirectTo } from "../../utils/apiUtils/index";
+import { redirectTo, redirectToError } from "../../utils/apiUtils/index";
 import logger from "../../utils/logger";
 
 interface RemoveSocialMediaConnectionApiRequest extends NextApiRequest {

@@ -14,9 +14,6 @@ import {
 } from "react";
 import MapBox, { Popup, ViewState } from "react-map-gl";
 import { z } from "zod";
-import { PolygonFeature } from "./DrawControl";
-import MapControls from "./MapControls";
-import Markers from "./Markers";
 import { fetchStops } from "../../data/refDataApi";
 import { LargePolygonError, NoStopsError } from "../../errors";
 import { PageState } from "../../interfaces";
@@ -24,6 +21,9 @@ import { filterStopList, flattenZodErrors } from "../../utils";
 import { getStopType, sortAndFilterStops } from "../../utils/formUtils";
 import { warningMessageText } from "../../utils/mapUtils";
 import Warning from "../form/Warning";
+import { PolygonFeature } from "./DrawControl";
+import MapControls from "./MapControls";
+import Markers from "./Markers";
 
 interface MapProps {
     initialViewState: Partial<ViewState>;
@@ -145,14 +145,14 @@ const Map = ({
                         ...(vehicleMode === VehicleMode.bus
                             ? { stopTypes: ["BCT"] }
                             : vehicleMode === VehicleMode.tram ||
-                              vehicleMode === Modes.metro ||
-                              vehicleMode === VehicleMode.underground
-                            ? { stopTypes: ["MET", "PLT"] }
-                            : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                            ? { stopTypes: ["FER", "FBT"] }
-                            : vehicleMode === Modes.rail
-                            ? { stopTypes: ["RLY"] }
-                            : { stopTypes: ["undefined"] }),
+                                vehicleMode === Modes.metro ||
+                                vehicleMode === VehicleMode.underground
+                              ? { stopTypes: ["MET", "PLT"] }
+                              : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
+                                ? { stopTypes: ["FER", "FBT"] }
+                                : vehicleMode === Modes.rail
+                                  ? { stopTypes: ["RLY"] }
+                                  : { stopTypes: ["undefined"] }),
                     });
 
                     const filteredStopList = filterStopList(stopsData, vehicleMode, showUnderground);
@@ -174,14 +174,11 @@ const Map = ({
                 }
             };
 
-            loadOptions()
-                // eslint-disable-next-line no-console
-                .catch(console.error);
+            loadOptions().catch(console.error);
             setLoading(false);
         } else {
             setWarningMessage("");
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [features]);
 
     const onUpdate = useCallback((evt: { features: PolygonFeature[] }) => {
@@ -266,7 +263,6 @@ const Map = ({
                 pastStops: [],
             },
         });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [stopOptions]);
 
     return mapboxAccessToken ? (

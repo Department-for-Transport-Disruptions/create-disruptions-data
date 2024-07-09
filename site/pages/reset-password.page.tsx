@@ -84,7 +84,7 @@ const ResetPassword = (props: ResetPasswordPageProps): ReactElement => {
     );
 };
 
-export const getServerSideProps = (ctx: NextPageContext): { props: ResetPasswordPageProps } | void => {
+export const getServerSideProps = (ctx: NextPageContext): { props: ResetPasswordPageProps } | undefined => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_RESET_PASSWORD_ERRORS];
     const successMessage = ctx.query.success;

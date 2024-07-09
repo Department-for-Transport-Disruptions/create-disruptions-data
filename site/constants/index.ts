@@ -1,11 +1,11 @@
 import {
-    MiscellaneousReason,
-    PersonnelReason,
     EnvironmentReason,
     EquipmentReason,
-    VehicleMode,
-    Severity,
+    MiscellaneousReason,
+    PersonnelReason,
     Progress,
+    Severity,
+    VehicleMode,
 } from "@create-disruptions-data/shared-ts/enums";
 import { DisplayValuePair } from "../interfaces";
 import { ConsequenceType } from "../schemas/type-of-consequence.schema";

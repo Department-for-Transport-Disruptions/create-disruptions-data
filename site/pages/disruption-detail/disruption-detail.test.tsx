@@ -9,11 +9,11 @@ import {
 } from "@create-disruptions-data/shared-ts/enums";
 import { render } from "@testing-library/react";
 import renderer from "react-test-renderer";
-import { describe, it, expect, vi, beforeEach } from "vitest";
-import DisruptionDetail from "./[disruptionId].page";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { SocialMediaPost } from "../../schemas/social-media.schema";
 import { DEFAULT_OPERATOR_ORG_ID, DEFAULT_ORG_ID } from "../../testData/mockData";
+import DisruptionDetail from "./[disruptionId].page";
 
 const defaultConsequenceOperators: ConsequenceOperators[] = [
     {
@@ -185,7 +185,6 @@ const previousDisruptionInformation: FullDisruption = {
 
 describe("pages", () => {
     describe("DisruptionDetail", () => {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
         const useRouter = vi.spyOn(require("next/router"), "useRouter");
         beforeEach(() => {
             useRouter.mockImplementation(() => ({

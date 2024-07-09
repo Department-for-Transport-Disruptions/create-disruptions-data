@@ -1,13 +1,13 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { PropsWithChildren, ReactElement, useState, useEffect } from "react";
+import { PropsWithChildren, ReactElement, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { ErrorInfo } from "../../interfaces";
+import { buildTitle } from "../../utils";
 import CookieBanner from "./CookieBanner";
 import Footer from "./Footer";
 import PhaseBanner from "./PhaseBanner";
-import { ErrorInfo } from "../../interfaces";
-import { buildTitle } from "../../utils";
 
 interface LayoutProps {
     title: string;

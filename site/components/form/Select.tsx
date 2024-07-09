@@ -1,7 +1,7 @@
 import kebabCase from "lodash/kebabCase";
 import { ReactElement, useState } from "react";
-import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 import { DisplayValuePair, ErrorInfo, FormBase } from "../../interfaces";
+import FormElementWrapper, { FormGroupWrapper } from "./FormElementWrapper";
 
 interface SelectProps<T> extends FormBase<T> {
     defaultDisplay: string;

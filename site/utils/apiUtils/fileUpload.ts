@@ -34,10 +34,9 @@ export const formParse = async (req: NextApiRequest): Promise<FilesAndFields> =>
                 [key: string]: string;
             } = {};
 
-            Object.entries(fields).forEach(
-                ([fieldName, fieldData]) =>
-                    (mappedFields[fieldName] = Array.isArray(fieldData) ? fieldData[0] : fieldData),
-            );
+            Object.entries(fields).forEach(([fieldName, fieldData]) => {
+                mappedFields[fieldName] = Array.isArray(fieldData) ? fieldData[0] : fieldData;
+            });
 
             return resolve({
                 files: mappedFiles,

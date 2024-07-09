@@ -1,7 +1,7 @@
 import renderer from "react-test-renderer";
-import { describe, it, expect } from "vitest";
-import Header from "./Header";
+import { describe, expect, it } from "vitest";
 import { mockSession } from "../../testData/mockData";
+import Header from "./Header";
 
 describe("Header", () => {
     it("should render correctly without a session", () => {

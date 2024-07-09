@@ -1,8 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import MapboxGeocoder, { GeocoderOptions } from "@mapbox/mapbox-gl-geocoder";
-import { useControl, ControlPosition } from "react-map-gl";
+import { ControlPosition, useControl } from "react-map-gl";
 import "@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css";
 
 type GeocoderControlProps = Omit<GeocoderOptions, "accessToken" | "mapboxgl"> & {
@@ -26,7 +23,6 @@ const GeocoderControl = (props: GeocoderControlProps): null => {
         },
     );
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore (TS2339) private member
     if (geocoder._map) {
         if (geocoder.getCountries() !== props.countries && props.countries !== undefined) {

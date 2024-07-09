@@ -25,7 +25,6 @@ interface FormErrorBlockProps {
 
 const addErrorClasses = (child: ReactElement, errorClass: string, errorId: string): ReactElement =>
     React.cloneElement(child, {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/restrict-template-expressions
         className: child.props.className ? `${child.props.className} ${errorClass}` : errorClass,
         "aria-describedby": `${errorId}-error`,
     });

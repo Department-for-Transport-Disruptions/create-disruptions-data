@@ -1,11 +1,11 @@
 import { NotAuthorizedException } from "@aws-sdk/client-cognito-identity-provider";
-import { describe, it, expect, afterEach, vi } from "vitest";
-import changePassword from "./change-password.api";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { CHANGE_PASSWORD_PAGE_PATH, COOKIES_CHANGE_PASSWORD_ERRORS, ERROR_PATH } from "../../constants";
 import * as cognito from "../../data/cognito";
 import { ErrorInfo } from "../../interfaces";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
+import changePassword from "./change-password.api";
 
 describe("changePassword", () => {
     const writeHeadMock = vi.fn();

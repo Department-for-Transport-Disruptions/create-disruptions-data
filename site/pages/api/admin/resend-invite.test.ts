@@ -1,7 +1,6 @@
-import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
-import { describe, it, expect, afterEach, vi } from "vitest";
 import { randomUUID } from "crypto";
-import resendInvite from "./resend-invite.api";
+import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { ERROR_PATH, SYSADMIN_ADD_USERS_PAGE_PATH, USER_MANAGEMENT_PAGE_PATH } from "../../../constants";
 import * as cognito from "../../../data/cognito";
 import {
@@ -11,6 +10,7 @@ import {
     mockSession,
 } from "../../../testData/mockData";
 import * as session from "../../../utils/apiUtils/auth";
+import resendInvite from "./resend-invite.api";
 
 describe("resend-invite", () => {
     const writeHeadMock = vi.fn();

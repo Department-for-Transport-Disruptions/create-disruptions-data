@@ -1,3 +1,4 @@
+import { randomUUID } from "crypto";
 import { S3Client } from "@aws-sdk/client-s3";
 import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { ptSituationElementSchema, siriSchema } from "@create-disruptions-data/shared-ts/siriTypes.zod";
@@ -8,9 +9,8 @@ import { fetchAdminAreas } from "@create-disruptions-data/shared-ts/utils/refDat
 import { parse } from "js2xmlparser";
 import * as logger from "lambda-log";
 import xmlFormat from "xml-formatter";
-import { randomUUID } from "crypto";
 import { getOrganisationInfoById } from "./dynamo";
-import { includeDisruption, convertToCsv } from "./util";
+import { convertToCsv, includeDisruption } from "./util";
 import { getS3Client, uploadToS3 } from "./util/awsClient";
 import { getPtSituationElementFromSiteDisruption } from "./util/siri";
 
@@ -91,7 +91,7 @@ const convertJsonToSiri = async (
         },
     };
 
-    logger.info(`Verifying JSON against schema...`);
+    logger.info("Verifying JSON against schema...");
     const verifiedObject = siriSchema.parse(jsonToXmlObject);
 
     const completeObject = {
@@ -124,39 +124,35 @@ export const generateSiriSxAndUploadToS3 = async (
     responseMessageIdentifier: string,
     currentTime: string,
 ) => {
-    logger.info(`Scanning DynamoDB table...`);
+    logger.info("Scanning DynamoDB table...");
 
-    try {
-        const disruptions = await getPublishedDisruptionsDataFromDynamo(disruptionsTableName, logger);
+    const disruptions = await getPublishedDisruptionsDataFromDynamo(disruptionsTableName, logger);
 
-        const disruptionsWithOrgInfo = await enrichDisruptionsWithOrgInfo(disruptions, orgTableName);
+    const disruptionsWithOrgInfo = await enrichDisruptionsWithOrgInfo(disruptions, orgTableName);
 
-        const siri = await convertJsonToSiri(disruptionsWithOrgInfo, currentTime, responseMessageIdentifier);
-        const apiDisruptions = getApiDisruptions(disruptionsWithOrgInfo);
-        const dataCatalogueCsv = await convertToCsv(apiDisruptions);
+    const siri = await convertJsonToSiri(disruptionsWithOrgInfo, currentTime, responseMessageIdentifier);
+    const apiDisruptions = getApiDisruptions(disruptionsWithOrgInfo);
+    const dataCatalogueCsv = await convertToCsv(apiDisruptions);
 
-        await Promise.all([
-            uploadToS3(
-                s3Client,
-                xmlFormat(siri, {
-                    collapseContent: true,
-                }),
-                `${new Date(currentTime).valueOf()}-unvalidated-siri.xml`,
-                unvalidatedSiriBucketName,
-                "application/xml",
-            ),
-            uploadToS3(
-                s3Client,
-                JSON.stringify(apiDisruptions),
-                "disruptions.json",
-                disruptionsJsonBucketName,
-                "application/json",
-            ),
-            uploadToS3(s3Client, dataCatalogueCsv, "disruptions.csv", disruptionsCsvBucketName, "text/csv"),
-        ]);
-    } catch (e) {
-        throw e;
-    }
+    await Promise.all([
+        uploadToS3(
+            s3Client,
+            xmlFormat(siri, {
+                collapseContent: true,
+            }),
+            `${new Date(currentTime).valueOf()}-unvalidated-siri.xml`,
+            unvalidatedSiriBucketName,
+            "application/xml",
+        ),
+        uploadToS3(
+            s3Client,
+            JSON.stringify(apiDisruptions),
+            "disruptions.json",
+            disruptionsJsonBucketName,
+            "application/json",
+        ),
+        uploadToS3(s3Client, dataCatalogueCsv, "disruptions.csv", disruptionsCsvBucketName, "text/csv"),
+    ]);
 };
 
 export const main = async (): Promise<void> => {

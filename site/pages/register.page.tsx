@@ -88,7 +88,7 @@ const Register = (props: RegisterPageProps): ReactElement => {
     );
 };
 
-export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: RegisterPageProps } | void> => {
+export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props: RegisterPageProps } | undefined> => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_REGISTER_ERRORS];
 

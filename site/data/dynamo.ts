@@ -1,28 +1,28 @@
+import { randomUUID } from "crypto";
+import { inspect } from "util";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import {
-    DynamoDBDocumentClient,
     DeleteCommand,
-    TransactWriteCommand,
-    PutCommand,
+    DynamoDBDocumentClient,
     GetCommand,
+    PutCommand,
     QueryCommand,
+    TransactWriteCommand,
 } from "@aws-sdk/lib-dynamodb";
 import { Consequence, Disruption, DisruptionInfo } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { disruptionSchema, MAX_CONSEQUENCES } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { MAX_CONSEQUENCES, disruptionSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { getDate, isCurrentOrUpcomingDisruption } from "@create-disruptions-data/shared-ts/utils/dates";
 import { recursiveQuery } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { makeFilteredArraySchema } from "@create-disruptions-data/shared-ts/utils/zod";
-import { randomUUID } from "crypto";
-import { inspect } from "util";
 import { TooManyConsequencesError } from "../errors";
 import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.schema";
 import {
-    operatorOrgSchema,
-    operatorOrgListSchema,
     Organisation,
-    organisationSchema,
     SubOrganisation,
+    operatorOrgListSchema,
+    operatorOrgSchema,
+    organisationSchema,
 } from "../schemas/organisation.schema";
 import { SocialMediaAccount, dynamoSocialAccountSchema } from "../schemas/social-media-accounts.schema";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../schemas/social-media.schema";
@@ -469,7 +469,7 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
                             PK: id,
                             SK: `${disruption.disruptionId}#INFO`,
                         },
-                        UpdateExpression: `SET publishStatus = :1, lastUpdated = :2, creationTime = :3`,
+                        UpdateExpression: "SET publishStatus = :1, lastUpdated = :2, creationTime = :3",
                         ExpressionAttributeValues: {
                             ":1": status,
                             ":2": currentDate,
@@ -991,14 +991,14 @@ export const getDisruptionById = async (
         deletedConsequences,
         history: isTemplate ? [] : history,
         newHistory: isTemplate ? [] : newHistoryItems,
-        template: isTemplate ? true : false,
+        template: !!isTemplate,
         publishStatus:
             (isPending && (info?.publishStatus === PublishStatus.published || !info?.publishStatus)) ||
             (isPending && isEdited)
                 ? PublishStatus.pendingAndEditing
                 : isEdited
-                ? PublishStatus.editing
-                : (info?.publishStatus as string),
+                  ? PublishStatus.editing
+                  : (info?.publishStatus as string),
     });
 
     if (!parsedDisruption.success) {

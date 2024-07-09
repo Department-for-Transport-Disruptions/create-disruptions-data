@@ -1,9 +1,9 @@
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
 import renderer from "react-test-renderer";
-import { describe, it, expect, vi } from "vitest";
-import UserDetailPageTemplate from "./UserDetailPageTemplate";
+import { describe, expect, it, vi } from "vitest";
 import { AddUserPageProps } from "../../pages/admin/add-user.page";
 import { EditUserPageProps } from "../../pages/admin/edit-user/[username].page";
+import UserDetailPageTemplate from "./UserDetailPageTemplate";
 
 const editPageInputs = {
     title: "Edit User - Create Transport Disruptions Service",

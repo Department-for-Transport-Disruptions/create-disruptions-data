@@ -1,6 +1,6 @@
-import { describe, it, expect } from "vitest";
-import { getAtcoCodesFromSelectedStops, getSelectedStopsFromMapMarkers } from "./ServicesMap";
+import { describe, expect, it } from "vitest";
 import { mockMarkerData } from "../../testData/mockMapData";
+import { getAtcoCodesFromSelectedStops, getSelectedStopsFromMapMarkers } from "./ServicesMap";
 
 describe("ServicesMap", () => {
     describe("getStopsFromMapMarkers", () => {

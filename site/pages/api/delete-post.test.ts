@@ -1,9 +1,9 @@
 import MockDate from "mockdate";
-import { describe, it, expect, afterEach, vi, afterAll } from "vitest";
-import deletePost from "./delete-post.api";
+import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
 import { DISRUPTION_DETAIL_PAGE_PATH, ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants/index";
 import * as dynamo from "../../data/dynamo";
 import { getMockRequestAndResponse } from "../../testData/mockData";
+import deletePost from "./delete-post.api";
 
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 const defaultSocialMediaPostId = "1";
@@ -84,18 +84,17 @@ describe("deletePost", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 
-    it("should delete post data in dynamoDB"),
-        async () => {
-            const { req, res } = getMockRequestAndResponse({
-                body: {
-                    id: defaultSocialMediaPostId,
-                    disruptionId: defaultDisruptionId,
-                },
-                mockWriteHeadFn: writeHeadMock,
-            });
+    it("should delete post data in dynamoDB", async () => {
+        const { req, res } = getMockRequestAndResponse({
+            body: {
+                id: defaultSocialMediaPostId,
+                disruptionId: defaultDisruptionId,
+            },
+            mockWriteHeadFn: writeHeadMock,
+        });
 
-            await deletePost(req, res);
+        await deletePost(req, res);
 
-            expect(deletePostSpy.mock.calls[0][0]).toMatchSnapshot();
-        };
+        expect(deletePostSpy.mock.calls[0][0]).toMatchSnapshot();
+    });
 });

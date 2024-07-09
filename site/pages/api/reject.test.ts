@@ -1,7 +1,6 @@
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import MockDate from "mockdate";
-import { describe, it, expect, afterEach, vi, afterAll, beforeEach } from "vitest";
-import reject from "./reject.api";
+import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { ERROR_PATH } from "../../constants";
 import * as dynamo from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
@@ -9,12 +8,13 @@ import { Organisation, defaultModes } from "../../schemas/organisation.schema";
 import {
     DEFAULT_ORG_ID,
     disruptionWithConsequences,
+    disruptionWithConsequencesAndSocialMediaPosts,
     disruptionWithNoConsequences,
     getMockRequestAndResponse,
     mockSession,
-    disruptionWithConsequencesAndSocialMediaPosts,
 } from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
+import reject from "./reject.api";
 
 const orgInfo: Organisation = {
     name: "DepartmentForTransport",

@@ -1,8 +1,6 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { getNextdoorAuthHeader } from "@create-disruptions-data/shared-ts/utils";
 import { getParameter, getParametersByPath, putParameter } from "@create-disruptions-data/shared-ts/utils/ssm";
-import { addSocialAccountToOrg, getOrgSocialAccounts, upsertSocialMediaPost } from "./dynamo";
-import { getItem } from "./s3";
 import { NEXTDOOR_AUTH_URL, NEXTDOOR_URL } from "../constants";
 import { NotAnAgencyAccountError } from "../errors";
 import {
@@ -14,6 +12,8 @@ import {
 import { SocialMediaAccount } from "../schemas/social-media-accounts.schema";
 import { NextdoorPost } from "../schemas/social-media.schema";
 import logger from "../utils/logger";
+import { addSocialAccountToOrg, getOrgSocialAccounts, upsertSocialMediaPost } from "./dynamo";
+import { getItem } from "./s3";
 
 export const nextdoorRedirectUri = `${process.env.DOMAIN_NAME as string}/api/nextdoor-callback`;
 
@@ -159,7 +159,7 @@ export const getNextdoorAgencyBoundaries = async (
 
     const agencyBoundaryResponses = await Promise.all(
         accessTokens.map(async (accessToken) => {
-            let hasNextPage: boolean = true;
+            let hasNextPage = true;
             let cursor: string | null = null;
             const results = [];
             const url = `${NEXTDOOR_URL}external/api/partner/v1/agency/boundary`;

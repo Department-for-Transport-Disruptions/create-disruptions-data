@@ -1,9 +1,9 @@
+import { randomUUID } from "crypto";
 import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { getPublishedDisruptionById } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { getServiceCentrePoint } from "@create-disruptions-data/shared-ts/utils/refDataApi";
 import { APIGatewayEvent } from "aws-lambda";
 import * as logger from "lambda-log";
-import { randomUUID } from "crypto";
 
 const formatServiceConsequences = (consequences: Consequence[]) => {
     return Promise.all(
@@ -25,7 +25,9 @@ const formatServiceConsequences = (consequences: Consequence[]) => {
                         }),
                     ),
                 };
-            } else return consequence;
+            }
+
+            return consequence;
         }),
     );
 };
@@ -90,7 +92,7 @@ export const main = async (event: APIGatewayEvent): Promise<{ statusCode: number
         if (!disruptionData) {
             return {
                 statusCode: 404,
-                body: `Disruption not found`,
+                body: "Disruption not found",
             };
         }
 

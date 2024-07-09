@@ -1,10 +1,10 @@
 import * as logger from "lambda-log";
 import fetch from "node-fetch";
 import { z } from "zod";
+import { Logger } from ".";
 import { Service, ServiceWithCentrePoint, serviceWithCentrePointSchema } from "../disruptionTypes";
 import { Datasource } from "../enums";
 import { roadwork } from "../roadwork.zod";
-import { Logger } from ".";
 
 export const fetchService = async (
     serviceRef: string,
@@ -81,7 +81,7 @@ export const getRecentlyCancelledRoadworks = async () => {
         return parseResult.data;
     } catch (e) {
         if (e instanceof Error) {
-            logger.warn(`Error fetching recently cancelled roadworks`);
+            logger.warn("Error fetching recently cancelled roadworks");
 
             logger.warn(e.stack || e.message);
         }
@@ -112,7 +112,7 @@ export const getRecentlyNewRoadworks = async () => {
         return parseResult.data;
     } catch (e) {
         if (e instanceof Error) {
-            logger.warn(`Error fetching recently new roadworks`);
+            logger.warn("Error fetching recently new roadworks");
 
             logger.warn(e.stack || e.message);
         }

@@ -1,4 +1,4 @@
-import { S3Client, PutObjectCommand, GetObjectCommand, PutObjectCommandInput } from "@aws-sdk/client-s3";
+import { GetObjectCommand, PutObjectCommand, PutObjectCommandInput, S3Client } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import logger from "../utils/logger";
 
@@ -37,7 +37,7 @@ export const getItem = async (
     bucket: string,
     key: string,
     originalFilename: string,
-    responseContentDisposition: boolean = true,
+    responseContentDisposition = true,
 ): Promise<string> => {
     logger.info("", {
         context: "data.s3",
@@ -49,7 +49,7 @@ export const getItem = async (
             Bucket: bucket,
             Key: key,
             ...(responseContentDisposition
-                ? { ResponseContentDisposition: 'attachment; filename ="' + originalFilename + '"' }
+                ? { ResponseContentDisposition: `attachment; filename ="${originalFilename}"` }
                 : {}),
         };
         const command = new GetObjectCommand(input);
@@ -74,7 +74,7 @@ export const getObject = async (bucket: string, key: string, originalFilename: s
         const input = {
             Bucket: bucket,
             Key: key,
-            ResponseContentDisposition: 'attachment; filename ="' + originalFilename + '"',
+            ResponseContentDisposition: `attachment; filename ="${originalFilename}"`,
         };
         const command = new GetObjectCommand(input);
         const response = await s3.send(command);

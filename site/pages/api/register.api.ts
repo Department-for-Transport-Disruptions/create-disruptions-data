@@ -1,21 +1,21 @@
 import { NotAuthorizedException } from "@aws-sdk/client-cognito-identity-provider";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
-    COOKIES_REGISTER_ERRORS,
-    REGISTER_PAGE_PATH,
-    DASHBOARD_PAGE_PATH,
     COOKIES_ID_TOKEN,
     COOKIES_REFRESH_TOKEN,
+    COOKIES_REGISTER_ERRORS,
+    DASHBOARD_PAGE_PATH,
     EXPIRED_LINK_PAGE_PATH,
+    REGISTER_PAGE_PATH,
 } from "../../constants";
 import { globalSignOut, initiateAuth, respondToNewPasswordChallenge } from "../../data/cognito";
 import { RegisterSchema, registerSchemaRefined } from "../../schemas/register.schema";
 import { flattenZodErrors } from "../../utils";
 import {
+    destroyCookieOnResponseObject,
+    redirectTo,
     redirectToError,
     setCookieOnResponseObject,
-    redirectTo,
-    destroyCookieOnResponseObject,
 } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 import logger from "../../utils/logger";
@@ -79,7 +79,8 @@ const register = async (req: NextApiRequest, res: NextApiResponse) => {
         if (e instanceof NotAuthorizedException) {
             redirectTo(res, EXPIRED_LINK_PAGE_PATH);
             return;
-        } else if (e instanceof Error) {
+        }
+        if (e instanceof Error) {
             const message = "There was a problem while registering.";
             redirectToError(res, message, "api.register", e);
             return;

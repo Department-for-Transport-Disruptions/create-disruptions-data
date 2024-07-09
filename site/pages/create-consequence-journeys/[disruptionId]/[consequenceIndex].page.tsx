@@ -1,8 +1,8 @@
-import { Service, JourneysConsequence, Stop, Journey } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Journey, JourneysConsequence, Service, Stop } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import {
+    MAX_CONSEQUENCES,
     journeySchema,
     journeysConsequenceSchema,
-    MAX_CONSEQUENCES,
     serviceSchema,
 } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { Datasource, Modes, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
@@ -11,9 +11,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { ReactElement, SyntheticEvent, useEffect, useState } from "react";
-import { ActionMeta, createFilter, SingleValue } from "react-select";
+import { ActionMeta, SingleValue, createFilter } from "react-select";
 import type { FilterOptionOption } from "react-select/dist/declarations/src/filters";
 import { validate } from "uuid";
+import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 import DeleteDisruptionButton from "../../../components/buttons/DeleteDisruptionButton";
 import CsrfForm from "../../../components/form/CsrfForm";
 import ErrorSummary from "../../../components/form/ErrorSummary";
@@ -26,7 +27,6 @@ import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
 import NotificationBanner from "../../../components/layout/NotificationBanner";
 import Map from "../../../components/map/JourneysMap";
-import { createChangeLink } from "../../../components/ReviewConsequenceTable";
 import {
     COOKIES_CONSEQUENCE_JOURNEYS_ERRORS,
     CREATE_CONSEQUENCE_JOURNEYS_PATH,
@@ -58,8 +58,8 @@ import {
     isSelectedServiceInDropdown,
     returnTemplateOverview,
     showCancelButton,
-    sortJourneys,
     sortAndFilterStops,
+    sortJourneys,
 } from "../../../utils/formUtils";
 import { groupByJourneyPattern } from "../../../utils/mapUtils";
 
@@ -155,12 +155,12 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                             ...(vehicleMode === VehicleMode.bus
                                 ? { stopTypes: "BCT" }
                                 : vehicleMode === VehicleMode.tram ||
-                                  vehicleMode === Modes.metro ||
-                                  vehicleMode === VehicleMode.underground
-                                ? { stopTypes: "MET, PLT" }
-                                : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                                ? { stopTypes: "FER, FBT" }
-                                : { stopTypes: "undefined" }),
+                                    vehicleMode === Modes.metro ||
+                                    vehicleMode === VehicleMode.underground
+                                  ? { stopTypes: "MET, PLT" }
+                                  : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
+                                    ? { stopTypes: "FER, FBT" }
+                                    : { stopTypes: "undefined" }),
                         });
 
                         if (serviceRoutesData) {
@@ -183,10 +183,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
             }
         };
 
-        loadOptions()
-            // eslint-disable-next-line no-console
-            .catch(console.error);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        loadOptions().catch(console.error);
     }, [pageState.inputs.services]);
 
     useEffect(() => {
@@ -200,9 +197,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                 setJourneyOptions(sortJourneys(journeys));
             }
         };
-        loadJourneys()
-            // eslint-disable-next-line no-console
-            .catch(console.error);
+        loadJourneys().catch(console.error);
     }, [dataSource, selectedService]);
 
     const queryParams = useRouter().query;
@@ -210,8 +205,8 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
 
     const returnToTemplateOverview = returnTemplateOverview(queryParams);
 
-    const isTemplate = queryParams["template"]?.toString() ?? "";
-    const returnPath = queryParams["return"]?.toString() ?? "";
+    const isTemplate = queryParams.template?.toString() ?? "";
+    const returnPath = queryParams.return?.toString() ?? "";
 
     const handleStopChange = (value: SingleValue<Journey>, actionMeta: ActionMeta<Journey>) => {
         if (actionMeta.action === "clear") {
@@ -345,7 +340,6 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                 errors: pageState.errors,
             });
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageState?.inputs?.services]);
 
     useEffect(() => {
@@ -383,8 +377,6 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                     .catch(() => setServiceOptionsForDropdown([]));
             }
         }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [pageState.inputs.vehicleMode]);
 
     useEffect(() => {
@@ -396,11 +388,8 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                 pageState.inputs.vehicleMode,
             )
                 .then((stops) => setStopOptions(sortAndFilterStops([...stops])))
-                // eslint-disable-next-line no-console
                 .catch(console.error);
         }
-
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [selectedService]);
 
     const removeService = (e: SyntheticEvent, removedServiceId: number) => {
@@ -636,7 +625,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                             hint="Consequence information to be hidden from journey planners"
                             inputName="removeFromJourneyPlanners"
                             stateUpdater={stateUpdater}
-                            value={pageState.inputs["removeFromJourneyPlanners"]}
+                            value={pageState.inputs.removeFromJourneyPlanners}
                             initialErrors={pageState.errors}
                         />
 
@@ -718,7 +707,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
 
 export const getServerSideProps = async (
     ctx: NextPageContext,
-): Promise<{ props: CreateConsequenceJourneysProps } | { redirect: Redirect } | void> => {
+): Promise<{ props: CreateConsequenceJourneysProps } | { redirect: Redirect } | undefined> => {
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_CONSEQUENCE_JOURNEYS_ERRORS];
 
@@ -741,7 +730,7 @@ export const getServerSideProps = async (
     if (!disruption) {
         return {
             redirect: {
-                destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${!!ctx.query?.template ? "?template=true" : ""}`,
+                destination: `${DISRUPTION_NOT_FOUND_ERROR_PAGE}${ctx.query?.template ? "?template=true" : ""}`,
                 statusCode: 302,
             },
         };

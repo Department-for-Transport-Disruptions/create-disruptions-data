@@ -147,7 +147,7 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
                                 value: userToResendInvite.userGroup,
                             },
                         ]}
-                        questionText={`Are you sure you wish to resend the invite?`}
+                        questionText={"Are you sure you wish to resend the invite?"}
                         isOpen={!!userToResendInvite}
                     />
                 ) : null}
@@ -158,7 +158,7 @@ const UserManagement = ({ userList, csrfToken }: UserManagementPageProps): React
                     caption={{ text: "Users", size: "m" }}
                     columns={["Account type", "User email", "Status", "Action"]}
                     rows={getRows()}
-                ></Table>
+                />
                 <Link role="button" href={"/admin/add-user"} className="govuk-button--secondary govuk-button mt-5 mr-5">
                     Add new user
                 </Link>

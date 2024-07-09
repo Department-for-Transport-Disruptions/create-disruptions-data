@@ -13,8 +13,7 @@ config.autoAddCss = false;
 declare global {
     interface Window {
         GOVUKFrontend: {
-            // eslint-disable-next-line @typescript-eslint/ban-types
-            initAll: Function;
+            initAll: () => void;
         };
     }
 }

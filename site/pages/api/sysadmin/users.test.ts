@@ -1,13 +1,13 @@
+import { randomUUID } from "crypto";
 import { UsernameExistsException } from "@aws-sdk/client-cognito-identity-provider";
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
-import { describe, it, expect, afterEach, vi } from "vitest";
-import { randomUUID } from "crypto";
-import createAdminUser from "./users.api";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { COOKIES_ADD_ADMIN_USER_ERRORS, SYSADMIN_ADD_USERS_PAGE_PATH } from "../../../constants";
 import * as cognito from "../../../data/cognito";
 import { ErrorInfo } from "../../../interfaces";
 import { getMockRequestAndResponse } from "../../../testData/mockData";
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../../utils/apiUtils";
+import createAdminUser from "./users.api";
 
 describe("createAdminUser", () => {
     const writeHeadMock = vi.fn();
@@ -20,7 +20,7 @@ describe("createAdminUser", () => {
     const createUserSpy = vi.spyOn(cognito, "createUser");
 
     vi.mock("../../../data/cognito", () => ({
-        createUser: vi.fn(),
+        createUser: vi.fn().mockResolvedValue(1),
     }));
 
     afterEach(() => {

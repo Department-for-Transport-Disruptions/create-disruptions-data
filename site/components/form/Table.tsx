@@ -18,9 +18,8 @@ interface TableProps {
 const isCellProps = (cell: string | ReactNode | CellProps): cell is CellProps => {
     if (cell && typeof cell === "object" && "value" in cell) {
         return true;
-    } else {
-        return false;
     }
+    return false;
 };
 
 const Table = ({ caption, columns = [], rows }: TableProps): ReactElement => {

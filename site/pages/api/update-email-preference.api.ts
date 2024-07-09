@@ -28,11 +28,10 @@ const updateEmailPreference = async (req: NextApiRequest, res: NextApiResponse) 
             );
             res.status(200).json({ success: true });
             return;
-        } else {
-            throw new Error(`Unable to parse data from frontend`);
         }
-    } catch (e) {
-        logger.error(`There was a problem while updating user email preference`);
+        throw new Error("Unable to parse data from frontend");
+    } catch (_e) {
+        logger.error("There was a problem while updating user email preference");
         res.status(500).json({ success: false });
         return;
     }

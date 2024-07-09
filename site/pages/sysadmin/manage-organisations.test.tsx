@@ -1,8 +1,8 @@
 import renderer from "react-test-renderer";
-import { describe, it, expect, afterEach, vi, beforeEach } from "vitest";
-import ManageOrganisations, { ManageOrganisationsProps } from "./manage-organisations.page";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { mockSessionWithOrgDetail } from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
+import ManageOrganisations, { ManageOrganisationsProps } from "./manage-organisations.page";
 
 const blankInputs: ManageOrganisationsProps = {
     orgList: [],

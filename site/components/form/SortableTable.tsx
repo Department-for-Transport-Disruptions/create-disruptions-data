@@ -68,13 +68,12 @@ const SortableTable = <T extends object>({
                     <span>&#x25BC;</span>
                 </div>
             );
-        } else {
-            return sortOrder === SortOrder.asc ? (
-                <span className="pl-1 govuk-!-font-size-14">&#x25B2;</span>
-            ) : (
-                <span className="pl-1 govuk-!-font-size-14">&#x25BC;</span>
-            );
         }
+        return sortOrder === SortOrder.asc ? (
+            <span className="pl-1 govuk-!-font-size-14">&#x25B2;</span>
+        ) : (
+            <span className="pl-1 govuk-!-font-size-14">&#x25BC;</span>
+        );
     };
 
     useEffect(() => {
@@ -82,7 +81,6 @@ const SortableTable = <T extends object>({
             const sortedData = sortFunction(displayRows, sortedField, sortOrder);
             setDisplayRows([...sortedData]);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [sortFlag]);
 
     return (

@@ -9,7 +9,7 @@ import {
     SourceType,
     VehicleMode,
 } from "@create-disruptions-data/shared-ts/enums";
-import { placesSchema } from "@create-disruptions-data/shared-ts/siriTypes.zod"
+import { placesSchema } from "@create-disruptions-data/shared-ts/siriTypes.zod";
 import dayjs from "dayjs";
 import { z } from "zod";
 

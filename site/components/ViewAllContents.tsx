@@ -11,14 +11,6 @@ import Papa from "papaparse";
 import { Dispatch, ReactElement, SetStateAction, memo, useEffect, useState } from "react";
 import writeXlsxFile, { Schema } from "write-excel-file";
 import { z } from "zod";
-import DateSelector from "./form/DateSelector";
-import Select from "./form/Select";
-import SortableTable, { SortOrder, TableColumn } from "./form/SortableTable";
-import Table from "./form/Table";
-import PDFDoc from "./pdf/DownloadPDF";
-import ExportPopUp from "./popup/ExportPopup";
-import OperatorSearch from "./search/OperatorSearch";
-import ServiceSearch from "./search/ServiceSearch";
 import {
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_SEVERITIES,
@@ -52,6 +44,14 @@ import {
 } from "../utils/dates";
 import { getExportSchema } from "../utils/exportUtils";
 import { filterServices } from "../utils/formUtils";
+import DateSelector from "./form/DateSelector";
+import Select from "./form/Select";
+import SortableTable, { SortOrder, TableColumn } from "./form/SortableTable";
+import Table from "./form/Table";
+import PDFDoc from "./pdf/DownloadPDF";
+import ExportPopUp from "./popup/ExportPopup";
+import OperatorSearch from "./search/OperatorSearch";
+import ServiceSearch from "./search/ServiceSearch";
 
 export interface ViewAllContentProps {
     adminAreaCodes: string[];
@@ -99,11 +99,11 @@ const sortFunction = (contents: ContentTable[], sortField: keyof ContentTable, s
 
         if (aValue.isBefore(bValue)) {
             return sortOrder === SortOrder.asc ? -1 : 1;
-        } else if (aValue.isAfter(bValue)) {
-            return sortOrder === SortOrder.asc ? 1 : -1;
-        } else {
-            return 0;
         }
+        if (aValue.isAfter(bValue)) {
+            return sortOrder === SortOrder.asc ? 1 : -1;
+        }
+        return 0;
     });
 };
 
@@ -135,7 +135,6 @@ export const getDisruptionData = async (
         options,
     );
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const { disruptions, nextKey: newNextKey } = await res.json();
 
     const parsedDisruptions = makeFilteredArraySchema(disruptionsTableSchema).safeParse(disruptions);
@@ -186,7 +185,8 @@ export const filterContents = (contents: TableDisruption[], filter: Filter): Tab
                 disruption.status !== Progress.draftPendingApproval
             ) {
                 return false;
-            } else if (filter.status !== Progress.pendingApproval) {
+            }
+            if (filter.status !== Progress.pendingApproval) {
                 return false;
             }
         }
@@ -268,10 +268,12 @@ const formatServicesIntoRows = (filter: Filter, setFilter: Dispatch<SetStateActi
                     key={service.id}
                     className="govuk-link"
                     onClick={() => {
-                        const { services } = filter;
-                        const indexToRemove = services.findIndex((service) => service.id === service.id);
-                        services.splice(indexToRemove, 1);
-                        setFilter({ ...filter, services });
+                        const { services: filterServices } = filter;
+                        const indexToRemove = filterServices.findIndex(
+                            (filterService) => filterService.id === service.id,
+                        );
+                        filterServices.splice(indexToRemove, 1);
+                        setFilter({ ...filter, services: filterServices });
                     }}
                 >
                     Remove
@@ -415,7 +417,7 @@ const formatContentsIntoRows = (contents: TableDisruption[], isTemplate: boolean
             summary: content.summary,
             modes: content.modes.map((mode) => splitCamelCaseToString(mode)).join(", ") || "N/A",
             start: convertDateTimeToFormat(earliestPeriod.startTime),
-            end: !!latestPeriod ? convertDateTimeToFormat(latestPeriod) : "No end time",
+            end: latestPeriod ? convertDateTimeToFormat(latestPeriod) : "No end time",
             severity: splitCamelCaseToString(content.severity),
             status: splitCamelCaseToString(content.status),
         };
@@ -487,7 +489,6 @@ const ViewAllContents = ({
     const [selectedOperators, setSelectedOperators] = useState<ConsequenceOperators[]>([]);
     const [servicesDataSource, setServicesDataSource] = useState<Datasource | "all">("all");
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const stateUpdater = (change: ConsequenceOperators[], _field: string): void => {
         setSelectedOperators([...change]);
     };
@@ -532,7 +533,6 @@ const ViewAllContents = ({
             setInitialFilters(filter, setContentsToDisplay, []);
             setLoadPage(false);
         });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -571,12 +571,12 @@ const ViewAllContents = ({
 
     useEffect(() => {
         setFilter({ ...filter, services: selectedServices });
-        applyFiltersToContents(contents, setContentsToDisplay, { ...filter, services: selectedServices }); // eslint-disable-next-line react-hooks/exhaustive-deps
+        applyFiltersToContents(contents, setContentsToDisplay, { ...filter, services: selectedServices });
     }, [selectedServices]);
 
     useEffect(() => {
         setFilter({ ...filter, searchText });
-        applyFiltersToContents(contents, setContentsToDisplay, { ...filter, searchText }); // eslint-disable-next-line react-hooks/exhaustive-deps
+        applyFiltersToContents(contents, setContentsToDisplay, { ...filter, searchText });
     }, [searchText]);
 
     useEffect(() => {
@@ -596,11 +596,11 @@ const ViewAllContents = ({
             operators: filterOperatorsToSet,
         });
 
-        applyFiltersToContents(contents, setContentsToDisplay, { ...filter, operators: filterOperatorsToSet }); // eslint-disable-next-line react-hooks/exhaustive-deps
+        applyFiltersToContents(contents, setContentsToDisplay, { ...filter, operators: filterOperatorsToSet });
     }, [selectedOperators]);
 
     useEffect(() => {
-        setInitialFilters(filter, setContentsToDisplay, contents); // eslint-disable-next-line react-hooks/exhaustive-deps
+        setInitialFilters(filter, setContentsToDisplay, contents);
     }, [filter]);
 
     useEffect(() => {
@@ -617,7 +617,6 @@ const ViewAllContents = ({
         generatePdf().catch(() => {
             saveAs(new Blob(["There was an error. Contact your admin team"]), "Disruptions.pdf");
         });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [downloadPdf]);
 
     useEffect(() => {
@@ -630,7 +629,6 @@ const ViewAllContents = ({
             });
             setDownloadExcel(false);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [downloadExcel]);
 
     useEffect(() => {
@@ -638,7 +636,6 @@ const ViewAllContents = ({
             generateCsv();
             setDownloadCsv(false);
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [downloadCsv]);
 
     const exportHandler = (fileType: string) => {
