@@ -22,7 +22,7 @@ import { ZodError, ZodErrorMap } from "zod";
 import { VEHICLE_MODES } from "../constants";
 import { fetchServiceStops } from "../data/refDataApi";
 import { DisplayValuePair, ErrorInfo } from "../interfaces";
-import { ServiceWithStopAndRoutes } from "../schemas/consequence.schema";
+import { ServiceWithStopsAndRoutesPreformatted } from "../schemas/consequence.schema";
 import { FullDisruption } from "../schemas/disruption.schema";
 import { sortAndFilterStops } from "./formUtils";
 
@@ -198,7 +198,7 @@ export const removeDuplicateRoutes = (routes: Partial<RouteWithServiceInfo[]>) =
     );
 };
 
-export const getRoutesForServices = (services: ServiceWithStopAndRoutes[]) =>
+export const getRoutesForServices = (services: ServiceWithStopsAndRoutesPreformatted[]) =>
     services.map((service) => ({
         inbound: service.routes.inbound,
         outbound: service.routes.outbound,

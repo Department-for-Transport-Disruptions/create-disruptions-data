@@ -17,6 +17,18 @@ export const serviceWithStopsAndRoutesSchema = serviceSchema.and(
 
 export type ServiceWithStopAndRoutes = z.infer<typeof serviceWithStopsAndRoutesSchema>;
 
+export const serviceWithStopsAndRoutesSchemaPreformatted = serviceSchema.and(
+    z.object({
+        stops: z.array(z.string()),
+        routes: z.object({
+            inbound: z.array(z.object({ longitude: z.number(), latitude: z.number() })),
+            outbound: z.array(z.object({ longitude: z.number(), latitude: z.number() })),
+        }),
+    }),
+);
+
+export type ServiceWithStopsAndRoutesPreformatted = z.infer<typeof serviceWithStopsAndRoutesSchemaPreformatted>;
+
 export type ServiceApiResponse = z.infer<typeof serviceSchema>;
 
 export const operatorSchema = z.object({
