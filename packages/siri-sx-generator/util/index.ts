@@ -1,6 +1,7 @@
 import {
     Consequence,
     Disruption,
+    JourneysConsequence,
     OperatorConsequence,
     ServicesConsequence,
     StopsConsequence,
@@ -23,6 +24,9 @@ const isServicesConsequence = (c: unknown): c is ServicesConsequence =>
     (c as Consequence).consequenceType === "services";
 
 const isStopsConsequence = (c: unknown): c is StopsConsequence => (c as Consequence).consequenceType === "stops";
+
+const isJourneysConsequence = (c: unknown): c is JourneysConsequence =>
+    (c as Consequence).consequenceType === "journeys";
 
 export const getAffectedModesList = (consequences: ApiConsequence[]) =>
     consequences
@@ -70,7 +74,22 @@ export const getAffectedStopsCount = (consequences: ApiConsequence[]) =>
                 notEmpty(stop) && array.findIndex((item) => item?.atcoCode === stop.atcoCode) === index,
         ).length || "";
 
-export const convertToCsv = async (disruptions: ApiDisruption[]) => {
+export const getAffectedJourneysCount = (consequences: ApiConsequence[]) =>
+    consequences
+        .flatMap((c) => {
+            if (isJourneysConsequence(c)) {
+                return c.journeys;
+            }
+
+            return null;
+        })
+        .filter(
+            (journey, index, array) =>
+                notEmpty(journey) &&
+                array.findIndex((item) => item?.vehicleJourneyCode === journey?.vehicleJourneyCode) === index,
+        ).length || "";
+
+export const convertToCsv = async (disruptions: ApiDisruption[], cancelFeatureFlag: boolean) => {
     const csvDisruptions = disruptions.map((disruption) => {
         return {
             ...disruption,
@@ -92,6 +111,7 @@ export const convertToCsv = async (disruptions: ApiDisruption[]) => {
             operatorsAffected: getAffectedOperatorsList(disruption.consequences),
             servicesAffected: getAffectedServicesCount(disruption.consequences),
             stopsAffected: getAffectedStopsCount(disruption.consequences),
+            ...(cancelFeatureFlag ? { journeysAffected: getAffectedJourneysCount(disruption.consequences) } : {}),
         };
     });
 
@@ -145,6 +165,14 @@ export const convertToCsv = async (disruptions: ApiDisruption[]) => {
                 field: "stopsAffected",
                 title: "Stops affected",
             },
+            ...(cancelFeatureFlag
+                ? [
+                      {
+                          field: "journeysAffected",
+                          title: "Journeys affected",
+                      },
+                  ]
+                : []),
         ],
     });
 };

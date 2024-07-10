@@ -325,6 +325,55 @@ export const consequenceInfoServiceTest = {
     vehicleMode: VehicleMode.rail,
 };
 
+export const consequenceInfoJourneysTest = {
+    PK: orgId,
+    SK: "acde070d-8c4c-4f0d-9d8a-162843c10333#CONSEQUENCE#3",
+    disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+    description:
+        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    removeFromJourneyPlanners: "no",
+    disruptionDelay: "45",
+    disruptionSeverity: Severity.unknown,
+    vehicleMode: "bus" as VehicleMode,
+    consequenceIndex: 3,
+    consequenceType: "journeys",
+    services: [
+        {
+            destination: "HigH Green",
+            id: 23127,
+            lineName: "1",
+            nocCode: "TEST",
+            operatorShortName: "First South Yorkshire",
+            origin: "Jordanthorpe",
+            startDate: "2023-07-23",
+            serviceCode: "NW_04_SCMN_149_1",
+            dataSource: Datasource.tnds,
+            lineId: "SL1",
+            endDate: "2023-08-10",
+        },
+    ],
+    journeys: [
+        {
+            dataSource: Datasource.tnds,
+            journeyCode: null,
+            vehicleJourneyCode: "VJ24",
+            departureTime: "17:30:00",
+            destination: "Liverpool Sir Thomas Street",
+            origin: "Chester Bus Interchange",
+            direction: "outbound",
+        },
+        {
+            dataSource: Datasource.tnds,
+            journeyCode: null,
+            vehicleJourneyCode: "VJ25",
+            departureTime: "18:00:00",
+            destination: "Liverpool Sir Thomas Street",
+            origin: "Chester Bus Interchange",
+            direction: "outbound",
+        },
+    ],
+};
+
 export const disruptionHistoryInfoCreated = {
     datetime: "2023-05-13T14:45:00Z",
     historyItems: ["Disruption created and published"],
@@ -564,6 +613,7 @@ export const dbResponse = [
     consequenceInfoOperatorTest,
     consequenceInfoNetworkTest,
     consequenceInfoServiceTest,
+    consequenceInfoJourneysTest,
     invalidDisruption1,
     invalidDisruption2,
     draftDisruption,
