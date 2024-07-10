@@ -43,14 +43,16 @@ export const generateConsequenceStats = (key: string, disruption: Disruption, ca
                         : acc[key].servicesConsequencesCount,
                 servicesAffected:
                     consequence.consequenceType === "services"
-                        ? consequence.services.length
+                        ? acc[key].servicesAffected + consequence.services.length
                         : acc[key].servicesAffected,
                 stopsConsequencesCount:
                     consequence.consequenceType === "stops"
                         ? acc[key].stopsConsequencesCount + 1
                         : acc[key].stopsConsequencesCount,
                 stopsAffected:
-                    consequence.consequenceType === "stops" ? consequence.stops.length : acc[key].stopsAffected,
+                    consequence.consequenceType === "stops"
+                        ? acc[key].stopsAffected + consequence.stops.length
+                        : acc[key].stopsAffected,
                 ...(cancelFeatureFlag
                     ? {
                           journeysConsequencesCount:
@@ -59,7 +61,7 @@ export const generateConsequenceStats = (key: string, disruption: Disruption, ca
                                   : acc[key].journeysConsequencesCount,
                           journeysAffected:
                               consequence.consequenceType === "journeys"
-                                  ? consequence.journeys.length
+                                  ? acc[key].journeysAffected + consequence.journeys.length
                                   : acc[key].journeysAffected,
                       }
                     : {}),
