@@ -1,11 +1,14 @@
 import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 
+// Make journey stats compulsory after cancelFeatureFlag is removed
 export interface SiriStats {
     servicesConsequencesCount: number;
     servicesAffected: number;
     stopsConsequencesCount: number;
     stopsAffected: number;
+    journeysConsequencesCount?: number;
+    journeysAffected?: number;
     networkWideConsequencesCount: number;
     operatorWideConsequencesCount: number;
     totalConsequencesCount: number;
@@ -14,21 +17,23 @@ export interface SiriStats {
     lastUpdated: string;
 }
 
-export const initialConsequenceStatsValues = {
+export const initialConsequenceStatsValues = (cancelFeatureFlag: boolean) => ({
     totalConsequencesCount: 0,
     servicesConsequencesCount: 0,
     servicesAffected: 0,
     stopsConsequencesCount: 0,
     stopsAffected: 0,
+    ...(cancelFeatureFlag ? { journeysConsequencesCount: 0, journeysAffected: 0 } : {}),
     networkWideConsequencesCount: 0,
     operatorWideConsequencesCount: 0,
-};
+});
 
-export const generateConsequenceStats = (key: string, disruption: Disruption) => {
+export const generateConsequenceStats = (key: string, disruption: Disruption, cancelFeatureFlag: boolean) => {
     if (disruption.consequences) {
         return disruption.consequences.reduce((acc: Record<string, Record<string, number>>, consequence) => {
-            if (!Object.hasOwn(acc, key)) {
-                acc[key] = initialConsequenceStatsValues;
+            // biome-ignore lint/suspicious/noPrototypeBuiltins: <explanation>
+            if (!acc.hasOwnProperty(key)) {
+                acc[key] = initialConsequenceStatsValues(cancelFeatureFlag);
             }
             acc[key] = {
                 totalConsequencesCount: acc[key].totalConsequencesCount + 1,
@@ -38,14 +43,28 @@ export const generateConsequenceStats = (key: string, disruption: Disruption) =>
                         : acc[key].servicesConsequencesCount,
                 servicesAffected:
                     consequence.consequenceType === "services"
-                        ? consequence.services.length
+                        ? acc[key].servicesAffected + consequence.services.length
                         : acc[key].servicesAffected,
                 stopsConsequencesCount:
                     consequence.consequenceType === "stops"
                         ? acc[key].stopsConsequencesCount + 1
                         : acc[key].stopsConsequencesCount,
                 stopsAffected:
-                    consequence.consequenceType === "stops" ? consequence.stops.length : acc[key].stopsAffected,
+                    consequence.consequenceType === "stops"
+                        ? acc[key].stopsAffected + consequence.stops.length
+                        : acc[key].stopsAffected,
+                ...(cancelFeatureFlag
+                    ? {
+                          journeysConsequencesCount:
+                              consequence.consequenceType === "journeys"
+                                  ? acc[key].journeysConsequencesCount + 1
+                                  : acc[key].journeysConsequencesCount,
+                          journeysAffected:
+                              consequence.consequenceType === "journeys"
+                                  ? acc[key].journeysAffected + consequence.journeys.length
+                                  : acc[key].journeysAffected,
+                      }
+                    : {}),
                 networkWideConsequencesCount:
                     consequence.consequenceType === "networkWide"
                         ? acc[key].networkWideConsequencesCount + 1
@@ -77,17 +96,17 @@ export const generateDisruptionReasonCount = (
     };
 };
 
-export const generateSiriStats = (disruptions: Disruption[]) => {
+export const generateSiriStats = (disruptions: Disruption[], cancelFeatureFlag: boolean) => {
     return disruptions.reduce((acc: Record<string, SiriStats>, disruption) => {
         const key = disruption.orgId ? disruption.orgId : "";
-        const consequenceStats = generateConsequenceStats(key, disruption);
+        const consequenceStats = generateConsequenceStats(key, disruption, cancelFeatureFlag);
         if (consequenceStats?.[key]) {
             if (!Object.hasOwn(acc, key)) {
                 acc[key] = {
                     disruptionReasonCount: {},
                     totalDisruptionsCount: 0,
                     lastUpdated: "",
-                    ...initialConsequenceStatsValues,
+                    ...initialConsequenceStatsValues(cancelFeatureFlag),
                 };
             }
 
@@ -112,6 +131,14 @@ export const generateSiriStats = (disruptions: Disruption[]) => {
                 servicesAffected: acc[key].servicesAffected + consequenceStats[key].servicesAffected,
                 stopsConsequencesCount: acc[key].stopsConsequencesCount + consequenceStats[key].stopsConsequencesCount,
                 stopsAffected: acc[key].stopsAffected + consequenceStats[key].stopsAffected,
+                ...(cancelFeatureFlag
+                    ? {
+                          journeysConsequencesCount:
+                              acc[key]?.journeysConsequencesCount ||
+                              0 + consequenceStats[key].journeysConsequencesCount,
+                          journeysAffected: acc[key]?.journeysAffected || 0 + consequenceStats[key].journeysAffected,
+                      }
+                    : {}),
                 networkWideConsequencesCount:
                     acc[key].networkWideConsequencesCount + consequenceStats[key].networkWideConsequencesCount,
                 operatorWideConsequencesCount:

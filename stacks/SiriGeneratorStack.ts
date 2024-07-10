@@ -65,6 +65,7 @@ export const SiriGeneratorStack = ({ stack }: StackContext) => {
         environment: {
             DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
             ORGANISATIONS_TABLE_NAME: organisationsTable.tableName,
+            STAGE: stack.stage,
         },
         permissions: [
             new PolicyStatement({
