@@ -11,7 +11,11 @@ import { SiriStats, generateSiriStats } from "./utils/statGenerators";
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
 
-const publishStatsToDynamo = async (orgTableName: string, siriStats: Record<string, SiriStats>) => {
+const publishStatsToDynamo = async (
+    orgTableName: string,
+    siriStats: Record<string, SiriStats>,
+    cancelFeatureFlag: boolean,
+) => {
     try {
         const orgList = await getOrganisationsInfo(orgTableName, logger);
         if (orgList) {
@@ -36,6 +40,12 @@ const publishStatsToDynamo = async (orgTableName: string, siriStats: Record<stri
                                   disruptionReasonCount: statForOrg.disruptionReasonCount,
                                   totalDisruptionsCount: statForOrg.totalDisruptionsCount,
                                   lastUpdated: statForOrg.lastUpdated,
+                                  ...(cancelFeatureFlag
+                                      ? {
+                                            journeysConsequencesCount: statForOrg.journeysConsequencesCount,
+                                            journeysAffected: statForOrg.journeysAffected,
+                                        }
+                                      : {}),
                               },
                           },
                       }
@@ -104,7 +114,7 @@ export const main = async (): Promise<void> => {
 
         const siriStats = generateSiriStats(activeDisruptions, CANCELLATION_FEATURE_FLAG);
 
-        await publishStatsToDynamo(orgTableName, siriStats);
+        await publishStatsToDynamo(orgTableName, siriStats, CANCELLATION_FEATURE_FLAG);
 
         logger.info("Successfully published stats to DynamoDB...");
     } catch (e) {
