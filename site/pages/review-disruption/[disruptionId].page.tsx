@@ -22,6 +22,7 @@ import {
     DASHBOARD_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
+    ENABLE_CANCELLATIONS_FEATURE_FLAG,
     REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
@@ -46,6 +47,7 @@ interface ReviewDisruptionProps {
     redirect: string;
     operatorOrgId?: string;
     isOperatorUser?: boolean;
+    enableCancellationsFeatureFlag?: boolean;
 }
 
 const ReviewDisruption = ({
@@ -56,6 +58,7 @@ const ReviewDisruption = ({
     redirect,
     operatorOrgId,
     isOperatorUser,
+    enableCancellationsFeatureFlag = false,
 }: ReviewDisruptionProps): ReactElement => {
     const hasInitialised = useRef(false);
     const [popUpState, setPopUpState] = useState<{ name: string; hiddenInputs: { name: string; value: string }[] }>();
@@ -666,6 +669,7 @@ const ReviewDisruption = ({
                                             deleteActionHandler={deleteActionHandler}
                                             isTemplate={disruption.template}
                                             isEditingAllowed={isEditingAllowed}
+                                            enableCancellationsFeatureFlag={enableCancellationsFeatureFlag}
                                         />
                                     </div>
                                 </div>
@@ -902,14 +906,24 @@ export const getServerSideProps = async (
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_REVIEW_DISRUPTION_ERRORS, ctx.res);
 
+    const consequencesWithoutJourneys = disruptionWithURLS.consequences?.filter(
+        (consequence) => consequence.consequenceType !== "journeys",
+    );
+
     return {
         props: {
-            disruption: disruptionWithURLS as FullDisruption,
+            disruption: {
+                ...disruptionWithURLS,
+                consequences: ENABLE_CANCELLATIONS_FEATURE_FLAG
+                    ? disruptionWithURLS.consequences
+                    : consequencesWithoutJourneys,
+            } as FullDisruption,
             redirect: referer || "/dashboard",
             errors,
             canPublish: canPublish(session),
             operatorOrgId: session.operatorOrgId || "",
             isOperatorUser: session.isOperatorUser,
+            enableCancellationsFeatureFlag: ENABLE_CANCELLATIONS_FEATURE_FLAG,
         },
     };
 };

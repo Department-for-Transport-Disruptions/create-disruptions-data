@@ -1,12 +1,12 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import {
-    CANCELLATIONS_FEATURE_FLAG,
     COOKIES_CONSEQUENCE_TYPE_ERRORS,
     CREATE_CONSEQUENCE_JOURNEYS_PATH,
     CREATE_CONSEQUENCE_NETWORK_PATH,
     CREATE_CONSEQUENCE_OPERATOR_PATH,
     CREATE_CONSEQUENCE_SERVICES_PATH,
     CREATE_CONSEQUENCE_STOPS_PATH,
+    ENABLE_CANCELLATIONS_FEATURE_FLAG,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants/index";
 import { ConsequenceType, typeOfConsequenceSchema } from "../../schemas/type-of-consequence.schema";
@@ -70,7 +70,7 @@ const addConsequence = (req: NextApiRequest, res: NextApiResponse): void => {
                 redirectPath = CREATE_CONSEQUENCE_SERVICES_PATH;
                 break;
             case "journeys":
-                redirectPath = CANCELLATIONS_FEATURE_FLAG
+                redirectPath = ENABLE_CANCELLATIONS_FEATURE_FLAG
                     ? CREATE_CONSEQUENCE_JOURNEYS_PATH
                     : TYPE_OF_CONSEQUENCE_PAGE_PATH;
                 break;

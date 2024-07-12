@@ -9,10 +9,10 @@ import ErrorSummary from "../../../components/form/ErrorSummary";
 import Radios from "../../../components/form/Radios";
 import { TwoThirdsLayout } from "../../../components/layout/Layout";
 import {
-    CANCELLATIONS_FEATURE_FLAG,
     CONSEQUENCE_TYPES,
     COOKIES_CONSEQUENCE_TYPE_ERRORS,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
+    ENABLE_CANCELLATIONS_FEATURE_FLAG,
     OPERATOR_USER_CONSEQUENCE_TYPES,
 } from "../../../constants/index";
 import { getDisruptionById } from "../../../data/dynamo";
@@ -27,6 +27,7 @@ const description = "Create Consequences page for the Create Transport Disruptio
 
 export interface ConsequenceTypePageProps extends PageState<Partial<ConsequenceType>> {
     isOperatorUser?: boolean;
+    enableCancellationsFeatureFlag?: boolean;
 }
 
 const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
@@ -44,8 +45,8 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
     const returnPath = queryParams.return?.toString() ?? "";
 
     const consequenceTypesRadioDetail = props.isOperatorUser
-        ? OPERATOR_USER_CONSEQUENCE_TYPES(CANCELLATIONS_FEATURE_FLAG)
-        : CONSEQUENCE_TYPES(CANCELLATIONS_FEATURE_FLAG);
+        ? OPERATOR_USER_CONSEQUENCE_TYPES(props.enableCancellationsFeatureFlag ?? false)
+        : CONSEQUENCE_TYPES(props.enableCancellationsFeatureFlag ?? false);
 
     return (
         <TwoThirdsLayout title={title} description={description} errors={props.errors}>
@@ -152,6 +153,7 @@ export const getServerSideProps = async (
             ),
             consequenceIndex: index,
             isOperatorUser: session.isOperatorUser,
+            enableCancellationsFeatureFlag: ENABLE_CANCELLATIONS_FEATURE_FLAG,
         },
     };
 };

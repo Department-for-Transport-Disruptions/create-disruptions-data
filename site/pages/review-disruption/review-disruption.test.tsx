@@ -25,6 +25,52 @@ const defaultConsequenceOperators: ConsequenceOperators[] = [
     },
 ];
 
+const journeyConsequence: Consequence = {
+    vehicleMode: VehicleMode.bus,
+    consequenceType: "journeys",
+    consequenceIndex: 2,
+    disruptionId: "1",
+    services: [
+        {
+            id: 23127,
+            lineName: "1",
+            operatorShortName: "First South Yorkshire",
+            origin: "Jordanthorpe",
+            destination: "HigH Green",
+            nocCode: "TEST",
+            startDate: "2023-07-23",
+            serviceCode: "NW_04_SCMN_149_1",
+            dataSource: Datasource.bods,
+            lineId: "SL1",
+            endDate: "2023-08-10",
+        },
+    ],
+    description: "The road is closed for the following reasons: Example, example, example, example",
+    removeFromJourneyPlanners: "yes",
+    disruptionDelay: "12",
+    disruptionSeverity: Severity.verySlight,
+    journeys: [
+        {
+            dataSource: Datasource.bods,
+            journeyCode: null,
+            vehicleJourneyCode: "VJ1_053900",
+            departureTime: "05:39:00",
+            destination: "Liverpool Sir Thomas Street",
+            origin: "Chester Bus Interchange",
+            direction: "outbound",
+        },
+        {
+            dataSource: Datasource.bods,
+            journeyCode: null,
+            vehicleJourneyCode: "VJ13_053900",
+            departureTime: "05:39:00",
+            destination: "Liverpool Sir Thomas Street",
+            origin: "Chester Bus Interchange",
+            direction: "outbound",
+        },
+    ],
+};
+
 const previousConsequencesInformation: Consequence[] = [
     {
         vehicleMode: VehicleMode.bus,
@@ -72,51 +118,6 @@ const previousConsequencesInformation: Consequence[] = [
         disruptionDelay: "12",
         disruptionSeverity: Severity.verySlight,
         disruptionDirection: "inbound",
-    },
-    {
-        vehicleMode: VehicleMode.bus,
-        consequenceType: "journeys",
-        consequenceIndex: 2,
-        disruptionId: "1",
-        services: [
-            {
-                id: 23127,
-                lineName: "1",
-                operatorShortName: "First South Yorkshire",
-                origin: "Jordanthorpe",
-                destination: "HigH Green",
-                nocCode: "TEST",
-                startDate: "2023-07-23",
-                serviceCode: "NW_04_SCMN_149_1",
-                dataSource: Datasource.bods,
-                lineId: "SL1",
-                endDate: "2023-08-10",
-            },
-        ],
-        description: "The road is closed for the following reasons: Example, example, example, example",
-        removeFromJourneyPlanners: "yes",
-        disruptionDelay: "12",
-        disruptionSeverity: Severity.verySlight,
-        journeys: [
-            {
-                dataSource: Datasource.bods,
-                journeyCode: null,
-                vehicleJourneyCode: "VJ1_053900",
-                departureTime: "05:39:00",
-                destination: "Liverpool Sir Thomas Street",
-                origin: "Chester Bus Interchange",
-                direction: "outbound",
-            },
-            {
-                dataSource: Datasource.bods,
-                journeyCode: null,
-                vehicleJourneyCode: "VJ13_053900",
-                departureTime: "05:39:00",
-                destination: "Liverpool Sir Thomas Street",
-                origin: "Chester Bus Interchange",
-                direction: "outbound",
-            },
-        ],
     },
 ];
 
@@ -202,6 +203,7 @@ describe("pages", () => {
                 query: "",
             }));
         });
+
         it("should render correctly with inputs and no errors", () => {
             const tree = renderer
                 .create(
@@ -436,5 +438,25 @@ describe("pages", () => {
                 .toJSON();
             expect(tree).toMatchSnapshot();
         });
+    });
+
+    it("should render correctly with inputs and no errors when cancellations feature flag is set to true", () => {
+        const disruption: FullDisruption = {
+            ...previousDisruptionInformation,
+            consequences: previousDisruptionInformation.consequences?.concat(journeyConsequence),
+        };
+
+        const tree = renderer
+            .create(
+                <ReviewDisruption
+                    disruption={disruption}
+                    errors={[]}
+                    canPublish
+                    redirect=""
+                    enableCancellationsFeatureFlag={true}
+                />,
+            )
+            .toJSON();
+        expect(tree).toMatchSnapshot();
     });
 });

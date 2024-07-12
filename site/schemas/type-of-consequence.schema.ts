@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { CANCELLATIONS_FEATURE_FLAG } from "../constants";
+import { ENABLE_CANCELLATIONS_FEATURE_FLAG } from "../constants";
 import { setZodDefaultError } from "../utils";
 
 export const typeOfConsequenceSchema = z.object({
@@ -10,7 +10,7 @@ export const typeOfConsequenceSchema = z.object({
             z.literal("networkWide"),
             z.literal("operatorWide"),
             z.literal("stops"),
-            ...(CANCELLATIONS_FEATURE_FLAG ? [z.literal("journeys")] : []),
+            ...(ENABLE_CANCELLATIONS_FEATURE_FLAG ? [z.literal("journeys")] : []),
         ],
         setZodDefaultError("Select a consequence type"),
     ),
