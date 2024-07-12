@@ -76,7 +76,9 @@ describe("pages", () => {
 
         it("should render correctly if cancellations feature flag is set to true", () => {
             const tree = renderer
-                .create(<TypeOfConsequence errors={noErrors} inputs={withInputs} cancellationsFeatureFlag={true} />)
+                .create(
+                    <TypeOfConsequence errors={noErrors} inputs={withInputs} enableCancellationsFeatureFlag={true} />,
+                )
                 .toJSON();
             expect(tree).toMatchSnapshot();
         });

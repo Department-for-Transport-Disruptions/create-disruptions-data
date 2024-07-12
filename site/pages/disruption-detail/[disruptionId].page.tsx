@@ -15,13 +15,13 @@ import { BaseLayout } from "../../components/layout/Layout";
 import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPopup";
 import Popup from "../../components/popup/Popup";
 import {
-    CANCELLATIONS_FEATURE_FLAG,
     COOKIES_DISRUPTION_DETAIL_ERRORS,
     COOKIES_DISRUPTION_DETAIL_REFERER,
     CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_HISTORY_PAGE_PATH,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
+    ENABLE_CANCELLATIONS_FEATURE_FLAG,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
 import { getDisruptionById } from "../../data/dynamo";
@@ -44,7 +44,7 @@ interface DisruptionDetailProps {
     csrfToken?: string;
     operatorOrgId?: string;
     isOperatorUser?: boolean;
-    cancellationsFeatureFlag?: boolean;
+    enableCancellationsFeatureFlag?: boolean;
 }
 
 const DisruptionDetail = ({
@@ -55,7 +55,7 @@ const DisruptionDetail = ({
     canPublish,
     operatorOrgId,
     isOperatorUser,
-    cancellationsFeatureFlag = false,
+    enableCancellationsFeatureFlag = false,
 }: DisruptionDetailProps): ReactElement => {
     const [socialMediaPostPopUpState, setSocialMediaPostPopUpState] = useState<{
         name: string;
@@ -686,7 +686,7 @@ const DisruptionDetail = ({
                                                         : consequence.consequenceType === "stops"
                                                           ? "Stops"
                                                           : consequence.consequenceType === "journeys" &&
-                                                              CANCELLATIONS_FEATURE_FLAG
+                                                              ENABLE_CANCELLATIONS_FEATURE_FLAG
                                                             ? "Journeys"
                                                             : consequence.consequenceType === "operatorWide" &&
                                                                 consequence.consequenceOperators
@@ -710,7 +710,7 @@ const DisruptionDetail = ({
                                             isDisruptionDetail={true}
                                             isTemplate={disruption.template}
                                             isEditingAllowed={isEditingAllowed}
-                                            cancellationsFeatureFlag={cancellationsFeatureFlag}
+                                            enableCancellationsFeatureFlag={enableCancellationsFeatureFlag}
                                         />
                                     </div>
                                 </div>
@@ -988,7 +988,7 @@ export const getServerSideProps = async (
         props: {
             disruption: {
                 ...disruptionWithURLS,
-                consequences: CANCELLATIONS_FEATURE_FLAG
+                consequences: ENABLE_CANCELLATIONS_FEATURE_FLAG
                     ? disruptionWithURLS.consequences
                     : consequencesWithoutJourneys,
             } as FullDisruption,
@@ -997,7 +997,7 @@ export const getServerSideProps = async (
             canPublish: canPublish(session),
             operatorOrgId: session.operatorOrgId || "",
             isOperatorUser: session.isOperatorUser,
-            cancellationsFeatureFlag: CANCELLATIONS_FEATURE_FLAG,
+            enableCancellationsFeatureFlag: ENABLE_CANCELLATIONS_FEATURE_FLAG,
         },
     };
 };

@@ -16,13 +16,13 @@ import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPo
 
 import ReviewConsequenceTable, { createChangeLink } from "../../components/ReviewConsequenceTable";
 import {
-    CANCELLATIONS_FEATURE_FLAG,
     COOKIES_REVIEW_DISRUPTION_ERRORS,
     COOKIES_REVIEW_DISRUPTION_REFERER,
     CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
     DASHBOARD_PAGE_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
+    ENABLE_CANCELLATIONS_FEATURE_FLAG,
     REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
@@ -47,7 +47,7 @@ interface ReviewDisruptionProps {
     redirect: string;
     operatorOrgId?: string;
     isOperatorUser?: boolean;
-    cancellationsFeatureFlag?: boolean;
+    enableCancellationsFeatureFlag?: boolean;
 }
 
 const ReviewDisruption = ({
@@ -58,7 +58,7 @@ const ReviewDisruption = ({
     redirect,
     operatorOrgId,
     isOperatorUser,
-    cancellationsFeatureFlag = false,
+    enableCancellationsFeatureFlag = false,
 }: ReviewDisruptionProps): ReactElement => {
     const hasInitialised = useRef(false);
     const [popUpState, setPopUpState] = useState<{ name: string; hiddenInputs: { name: string; value: string }[] }>();
@@ -669,7 +669,7 @@ const ReviewDisruption = ({
                                             deleteActionHandler={deleteActionHandler}
                                             isTemplate={disruption.template}
                                             isEditingAllowed={isEditingAllowed}
-                                            cancellationsFeatureFlag={cancellationsFeatureFlag}
+                                            enableCancellationsFeatureFlag={enableCancellationsFeatureFlag}
                                         />
                                     </div>
                                 </div>
@@ -914,7 +914,7 @@ export const getServerSideProps = async (
         props: {
             disruption: {
                 ...disruptionWithURLS,
-                consequences: CANCELLATIONS_FEATURE_FLAG
+                consequences: ENABLE_CANCELLATIONS_FEATURE_FLAG
                     ? disruptionWithURLS.consequences
                     : consequencesWithoutJourneys,
             } as FullDisruption,
@@ -923,7 +923,7 @@ export const getServerSideProps = async (
             canPublish: canPublish(session),
             operatorOrgId: session.operatorOrgId || "",
             isOperatorUser: session.isOperatorUser,
-            cancellationsFeatureFlag: CANCELLATIONS_FEATURE_FLAG,
+            enableCancellationsFeatureFlag: ENABLE_CANCELLATIONS_FEATURE_FLAG,
         },
     };
 };

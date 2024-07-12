@@ -334,9 +334,11 @@ export const MAX_OPERATOR_NOC_CODES = 5;
 
 export const NETWORK_CONSEQUENCE_ADMIN_AREA_EXCLUSIONS = ["110", "143", "146", "147"];
 
-export const CANCELLATIONS_FEATURE_FLAG = !["preprod", "prod"].includes(STAGE);
+export const ENABLE_CANCELLATIONS_FEATURE_FLAG = !["preprod", "prod"].includes(STAGE);
 
-export const CONSEQUENCE_TYPES = (featureFlag: boolean): DisplayValuePair<ConsequenceType["consequenceType"]>[] => {
+export const CONSEQUENCE_TYPES = (
+    featureFlagEnabled: boolean,
+): DisplayValuePair<ConsequenceType["consequenceType"]>[] => {
     return [
         {
             value: "services",
@@ -354,7 +356,7 @@ export const CONSEQUENCE_TYPES = (featureFlag: boolean): DisplayValuePair<Conseq
             value: "stops",
             display: "Stops",
         },
-        ...(featureFlag
+        ...(featureFlagEnabled
             ? [
                   {
                       value: "journeys" as ConsequenceType["consequenceType"],

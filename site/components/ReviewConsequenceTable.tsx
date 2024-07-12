@@ -68,14 +68,17 @@ const getRows = (
     isEditingAllowed: boolean,
     isDisruptionDetail?: boolean,
     isTemplate?: boolean,
-    cancellationsFeatureFlag = false,
+    enableCancellationsFeatureFlag = false,
 ) => {
     const rows: { header?: string | ReactNode; cells: CellProps[] }[] = [
         {
             header: "Consequence type",
             cells: [
                 {
-                    value: getDisplayByValue(CONSEQUENCE_TYPES(cancellationsFeatureFlag), consequence.consequenceType),
+                    value: getDisplayByValue(
+                        CONSEQUENCE_TYPES(enableCancellationsFeatureFlag),
+                        consequence.consequenceType,
+                    ),
                     styles: {
                         width: "w-1/2",
                     },
@@ -121,7 +124,7 @@ const getRows = (
 
     if (
         consequence.consequenceType === "services" ||
-        (consequence.consequenceType === "journeys" && cancellationsFeatureFlag)
+        (consequence.consequenceType === "journeys" && enableCancellationsFeatureFlag)
     ) {
         rows.push({
             header: "Service(s)",
@@ -183,7 +186,7 @@ const getRows = (
         });
     }
 
-    if (consequence.consequenceType === "journeys" && cancellationsFeatureFlag) {
+    if (consequence.consequenceType === "journeys" && enableCancellationsFeatureFlag) {
         rows.push({
             header: "Journeys",
             cells: [
@@ -284,7 +287,7 @@ const getRows = (
         },
         {
             header:
-                consequence.consequenceType === "journeys" && cancellationsFeatureFlag
+                consequence.consequenceType === "journeys" && enableCancellationsFeatureFlag
                     ? "Cancel Journeys"
                     : "Remove from journey planner",
             cells: [
@@ -344,7 +347,7 @@ interface ReviewConsequenceTableProps {
     isDisruptionDetail?: boolean;
     isTemplate?: boolean;
     isEditingAllowed: boolean;
-    cancellationsFeatureFlag: boolean;
+    enableCancellationsFeatureFlag: boolean;
 }
 
 const ReviewConsequenceTable = ({
@@ -354,7 +357,7 @@ const ReviewConsequenceTable = ({
     isDisruptionDetail,
     isTemplate,
     isEditingAllowed,
-    cancellationsFeatureFlag = false,
+    enableCancellationsFeatureFlag = false,
 }: ReviewConsequenceTableProps): ReactElement => {
     const hiddenInputs = [
         {
@@ -382,7 +385,7 @@ const ReviewConsequenceTable = ({
                     isEditingAllowed,
                     isDisruptionDetail,
                     isTemplate,
-                    cancellationsFeatureFlag,
+                    enableCancellationsFeatureFlag,
                 )}
             />
             {isEditingAllowed && (

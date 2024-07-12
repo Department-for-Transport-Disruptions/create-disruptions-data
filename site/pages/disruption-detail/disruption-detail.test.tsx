@@ -495,7 +495,7 @@ describe("pages", () => {
                         redirect={"/dashboard"}
                         errors={[]}
                         canPublish
-                        cancellationsFeatureFlag={true}
+                        enableCancellationsFeatureFlag={true}
                     />,
                 )
                 .toJSON();

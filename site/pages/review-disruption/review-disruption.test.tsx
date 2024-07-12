@@ -453,7 +453,7 @@ describe("pages", () => {
                     errors={[]}
                     canPublish
                     redirect=""
-                    cancellationsFeatureFlag={true}
+                    enableCancellationsFeatureFlag={true}
                 />,
             )
             .toJSON();
