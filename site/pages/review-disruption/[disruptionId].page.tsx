@@ -16,6 +16,7 @@ import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPo
 
 import ReviewConsequenceTable, { createChangeLink } from "../../components/ReviewConsequenceTable";
 import {
+    CANCELLATIONS_FEATURE_FLAG,
     COOKIES_REVIEW_DISRUPTION_ERRORS,
     COOKIES_REVIEW_DISRUPTION_REFERER,
     CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
@@ -46,6 +47,7 @@ interface ReviewDisruptionProps {
     redirect: string;
     operatorOrgId?: string;
     isOperatorUser?: boolean;
+    cancellationsFeatureFlag?: boolean;
 }
 
 const ReviewDisruption = ({
@@ -56,6 +58,7 @@ const ReviewDisruption = ({
     redirect,
     operatorOrgId,
     isOperatorUser,
+    cancellationsFeatureFlag = false,
 }: ReviewDisruptionProps): ReactElement => {
     const hasInitialised = useRef(false);
     const [popUpState, setPopUpState] = useState<{ name: string; hiddenInputs: { name: string; value: string }[] }>();
@@ -666,6 +669,7 @@ const ReviewDisruption = ({
                                             deleteActionHandler={deleteActionHandler}
                                             isTemplate={disruption.template}
                                             isEditingAllowed={isEditingAllowed}
+                                            cancellationsFeatureFlag={cancellationsFeatureFlag}
                                         />
                                     </div>
                                 </div>
@@ -902,14 +906,24 @@ export const getServerSideProps = async (
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_REVIEW_DISRUPTION_ERRORS, ctx.res);
 
+    const consequencesWithoutJourneys = disruptionWithURLS.consequences?.filter(
+        (consequence) => consequence.consequenceType !== "journeys",
+    );
+
     return {
         props: {
-            disruption: disruptionWithURLS as FullDisruption,
+            disruption: {
+                ...disruptionWithURLS,
+                consequences: CANCELLATIONS_FEATURE_FLAG
+                    ? disruptionWithURLS.consequences
+                    : consequencesWithoutJourneys,
+            } as FullDisruption,
             redirect: referer || "/dashboard",
             errors,
             canPublish: canPublish(session),
             operatorOrgId: session.operatorOrgId || "",
             isOperatorUser: session.isOperatorUser,
+            cancellationsFeatureFlag: CANCELLATIONS_FEATURE_FLAG,
         },
     };
 };

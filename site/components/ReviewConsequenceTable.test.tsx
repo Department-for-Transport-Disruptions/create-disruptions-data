@@ -58,6 +58,7 @@ describe("ReviewConsequenceTable", () => {
                     disruption={previousDisruptionInformation}
                     deleteActionHandler={vi.fn()}
                     isEditingAllowed={true}
+                    cancellationsFeatureFlag={false}
                 />,
             )
             .toJSON();
@@ -71,6 +72,7 @@ describe("ReviewConsequenceTable", () => {
                     disruption={previousDisruptionInformation}
                     deleteActionHandler={vi.fn()}
                     isEditingAllowed={false}
+                    cancellationsFeatureFlag={false}
                 />,
             )
             .toJSON();

@@ -27,6 +27,7 @@ const description = "Create Consequences page for the Create Transport Disruptio
 
 export interface ConsequenceTypePageProps extends PageState<Partial<ConsequenceType>> {
     isOperatorUser?: boolean;
+    cancellationsFeatureFlag?: boolean;
 }
 
 const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
@@ -44,8 +45,8 @@ const TypeOfConsequence = (props: ConsequenceTypePageProps): ReactElement => {
     const returnPath = queryParams.return?.toString() ?? "";
 
     const consequenceTypesRadioDetail = props.isOperatorUser
-        ? OPERATOR_USER_CONSEQUENCE_TYPES(CANCELLATIONS_FEATURE_FLAG)
-        : CONSEQUENCE_TYPES(CANCELLATIONS_FEATURE_FLAG);
+        ? OPERATOR_USER_CONSEQUENCE_TYPES(props.cancellationsFeatureFlag ?? false)
+        : CONSEQUENCE_TYPES(props.cancellationsFeatureFlag ?? false);
 
     return (
         <TwoThirdsLayout title={title} description={description} errors={props.errors}>
@@ -152,6 +153,7 @@ export const getServerSideProps = async (
             ),
             consequenceIndex: index,
             isOperatorUser: session.isOperatorUser,
+            cancellationsFeatureFlag: CANCELLATIONS_FEATURE_FLAG,
         },
     };
 };

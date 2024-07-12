@@ -3,7 +3,6 @@ import { MAX_CONSEQUENCES } from "@create-disruptions-data/shared-ts/disruptionT
 import Link from "next/link";
 import { ReactElement, ReactNode } from "react";
 import {
-    CANCELLATIONS_FEATURE_FLAG,
     CONSEQUENCE_TYPES,
     CREATE_CONSEQUENCE_JOURNEYS_PATH,
     CREATE_CONSEQUENCE_NETWORK_PATH,
@@ -69,16 +68,14 @@ const getRows = (
     isEditingAllowed: boolean,
     isDisruptionDetail?: boolean,
     isTemplate?: boolean,
+    cancellationsFeatureFlag = false,
 ) => {
     const rows: { header?: string | ReactNode; cells: CellProps[] }[] = [
         {
             header: "Consequence type",
             cells: [
                 {
-                    value: getDisplayByValue(
-                        CONSEQUENCE_TYPES(CANCELLATIONS_FEATURE_FLAG),
-                        consequence.consequenceType,
-                    ),
+                    value: getDisplayByValue(CONSEQUENCE_TYPES(cancellationsFeatureFlag), consequence.consequenceType),
                     styles: {
                         width: "w-1/2",
                     },
@@ -124,7 +121,7 @@ const getRows = (
 
     if (
         consequence.consequenceType === "services" ||
-        (consequence.consequenceType === "journeys" && CANCELLATIONS_FEATURE_FLAG)
+        (consequence.consequenceType === "journeys" && cancellationsFeatureFlag)
     ) {
         rows.push({
             header: "Service(s)",
@@ -186,7 +183,7 @@ const getRows = (
         });
     }
 
-    if (consequence.consequenceType === "journeys" && CANCELLATIONS_FEATURE_FLAG) {
+    if (consequence.consequenceType === "journeys" && cancellationsFeatureFlag) {
         rows.push({
             header: "Journeys",
             cells: [
@@ -287,7 +284,7 @@ const getRows = (
         },
         {
             header:
-                consequence.consequenceType === "journeys" && CANCELLATIONS_FEATURE_FLAG
+                consequence.consequenceType === "journeys" && cancellationsFeatureFlag
                     ? "Cancel Journeys"
                     : "Remove from journey planner",
             cells: [
@@ -347,6 +344,7 @@ interface ReviewConsequenceTableProps {
     isDisruptionDetail?: boolean;
     isTemplate?: boolean;
     isEditingAllowed: boolean;
+    cancellationsFeatureFlag: boolean;
 }
 
 const ReviewConsequenceTable = ({
@@ -356,6 +354,7 @@ const ReviewConsequenceTable = ({
     isDisruptionDetail,
     isTemplate,
     isEditingAllowed,
+    cancellationsFeatureFlag = false,
 }: ReviewConsequenceTableProps): ReactElement => {
     const hiddenInputs = [
         {
@@ -376,7 +375,16 @@ const ReviewConsequenceTable = ({
     }
     return (
         <>
-            <Table rows={getRows(consequence, disruption, isEditingAllowed, isDisruptionDetail, isTemplate)} />
+            <Table
+                rows={getRows(
+                    consequence,
+                    disruption,
+                    isEditingAllowed,
+                    isDisruptionDetail,
+                    isTemplate,
+                    cancellationsFeatureFlag,
+                )}
+            />
             {isEditingAllowed && (
                 <>
                     <button

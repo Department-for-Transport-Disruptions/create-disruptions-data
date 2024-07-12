@@ -44,6 +44,7 @@ interface DisruptionDetailProps {
     csrfToken?: string;
     operatorOrgId?: string;
     isOperatorUser?: boolean;
+    cancellationsFeatureFlag?: boolean;
 }
 
 const DisruptionDetail = ({
@@ -54,6 +55,7 @@ const DisruptionDetail = ({
     canPublish,
     operatorOrgId,
     isOperatorUser,
+    cancellationsFeatureFlag = false,
 }: DisruptionDetailProps): ReactElement => {
     const [socialMediaPostPopUpState, setSocialMediaPostPopUpState] = useState<{
         name: string;
@@ -708,6 +710,7 @@ const DisruptionDetail = ({
                                             isDisruptionDetail={true}
                                             isTemplate={disruption.template}
                                             isEditingAllowed={isEditingAllowed}
+                                            cancellationsFeatureFlag={cancellationsFeatureFlag}
                                         />
                                     </div>
                                 </div>
@@ -977,14 +980,24 @@ export const getServerSideProps = async (
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_DISRUPTION_DETAIL_ERRORS, ctx.res);
 
+    const consequencesWithoutJourneys = disruptionWithURLS.consequences?.filter(
+        (consequence) => consequence.consequenceType !== "journeys",
+    );
+
     return {
         props: {
-            disruption: disruptionWithURLS as FullDisruption,
+            disruption: {
+                ...disruptionWithURLS,
+                consequences: CANCELLATIONS_FEATURE_FLAG
+                    ? disruptionWithURLS.consequences
+                    : consequencesWithoutJourneys,
+            } as FullDisruption,
             redirect: referer || "/dashboard",
             errors: errors,
             canPublish: canPublish(session),
             operatorOrgId: session.operatorOrgId || "",
             isOperatorUser: session.isOperatorUser,
+            cancellationsFeatureFlag: CANCELLATIONS_FEATURE_FLAG,
         },
     };
 };
