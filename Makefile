@@ -17,7 +17,7 @@ trigger-siri-generator:
 
 trigger-stats-generator:
 	aws lambda invoke --function-name cdd-siri-stats-generator-$(stage) --invocation-type Event /tmp/outfile.txt > /dev/null
-""
+
 test-all:
 	pnpm run test
 
