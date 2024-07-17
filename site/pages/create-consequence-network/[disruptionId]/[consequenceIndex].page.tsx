@@ -86,46 +86,44 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                             ]}
                         />
 
-                        {!["preprod", "prod"].includes(props.stage || "development") ? (
-                            <Checkbox<NetworkConsequence>
-                                inputName="disruptionArea"
-                                displaySize="l"
-                                hideLegend={false}
-                                hint="Which area does the network cover?"
-                                display="Disruption Area"
-                                multiple
-                                checkboxDetail={
-                                    props.disruptionAreas?.map((disruptionArea) => ({
-                                        display: `${disruptionArea.name} - ${disruptionArea.administrativeAreaCode}`,
-                                        value: disruptionArea.administrativeAreaCode,
-                                        checked:
-                                            pageState.inputs?.disruptionArea?.includes(
-                                                disruptionArea.administrativeAreaCode,
-                                            ) || false,
-                                    })) || []
-                                }
-                                stateUpdater={(value, _, checked) => {
-                                    let updatedDisruptionAreas = [...(pageState.inputs?.disruptionArea || [])];
+                        <Checkbox<NetworkConsequence>
+                            inputName="disruptionArea"
+                            displaySize="l"
+                            hideLegend={false}
+                            hint="Which area does the network cover?"
+                            display="Disruption Area"
+                            multiple
+                            checkboxDetail={
+                                props.disruptionAreas?.map((disruptionArea) => ({
+                                    display: `${disruptionArea.name} - ${disruptionArea.administrativeAreaCode}`,
+                                    value: disruptionArea.administrativeAreaCode,
+                                    checked:
+                                        pageState.inputs?.disruptionArea?.includes(
+                                            disruptionArea.administrativeAreaCode,
+                                        ) || false,
+                                })) || []
+                            }
+                            stateUpdater={(value, _, checked) => {
+                                let updatedDisruptionAreas = [...(pageState.inputs?.disruptionArea || [])];
 
-                                    if (checked) {
-                                        if (!updatedDisruptionAreas.includes(value)) {
-                                            updatedDisruptionAreas = [...updatedDisruptionAreas, value];
-                                        }
-                                    } else {
-                                        updatedDisruptionAreas =
-                                            updatedDisruptionAreas?.filter((area) => area !== value) || [];
+                                if (checked) {
+                                    if (!updatedDisruptionAreas.includes(value)) {
+                                        updatedDisruptionAreas = [...updatedDisruptionAreas, value];
                                     }
-                                    setConsequenceNetworkPageState({
-                                        ...pageState,
-                                        inputs: {
-                                            ...(pageState.inputs || []),
-                                            disruptionArea: updatedDisruptionAreas,
-                                        },
-                                    });
-                                }}
-                                initialErrors={pageState.errors}
-                            />
-                        ) : null}
+                                } else {
+                                    updatedDisruptionAreas =
+                                        updatedDisruptionAreas?.filter((area) => area !== value) || [];
+                                }
+                                setConsequenceNetworkPageState({
+                                    ...pageState,
+                                    inputs: {
+                                        ...(pageState.inputs || []),
+                                        disruptionArea: updatedDisruptionAreas,
+                                    },
+                                });
+                            }}
+                            initialErrors={pageState.errors}
+                        />
 
                         <Select<NetworkConsequence>
                             inputName="vehicleMode"

@@ -102,7 +102,7 @@ export const main = async (): Promise<void> => {
             ORGANISATIONS_TABLE_NAME: orgTableName,
             STAGE: stage,
         } = process.env;
-        const CANCELLATION_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
+        const ENABLE_CANCELLATION_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
 
         if (!disruptionsTableName || !orgTableName) {
             throw new Error("Dynamo table names not set");
@@ -112,9 +112,9 @@ export const main = async (): Promise<void> => {
 
         const activeDisruptions = filterActiveDisruptions(disruptions);
 
-        const siriStats = generateSiriStats(activeDisruptions, CANCELLATION_FEATURE_FLAG);
+        const siriStats = generateSiriStats(activeDisruptions, ENABLE_CANCELLATION_FEATURE_FLAG);
 
-        await publishStatsToDynamo(orgTableName, siriStats, CANCELLATION_FEATURE_FLAG);
+        await publishStatsToDynamo(orgTableName, siriStats, ENABLE_CANCELLATION_FEATURE_FLAG);
 
         logger.info("Successfully published stats to DynamoDB...");
     } catch (e) {
