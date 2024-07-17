@@ -66,8 +66,8 @@ export const getPtSituationElementFromSiteDisruption = (
     adminAreas: AdminArea[],
 ): PtSituationElement => {
     const { STAGE: stage } = process.env;
-    const LINE_REF_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
-    const CANCELLATION_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
+    const ENABLE_LINE_REF_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
+    const ENABLE_CANCELLATION_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
 
     const currentTime = getDate().toISOString();
 
@@ -133,7 +133,7 @@ export const getPtSituationElementFromSiteDisruption = (
                   Consequences: {
                       Consequence: disruption.consequences.map((consequence) => ({
                           Condition:
-                              consequence.consequenceType === "journeys" && CANCELLATION_FEATURE_FLAG
+                              consequence.consequenceType === "journeys" && ENABLE_CANCELLATION_FEATURE_FLAG
                                   ? "cancelled"
                                   : "unknown",
                           Severity: consequence.disruptionSeverity,
@@ -168,7 +168,7 @@ export const getPtSituationElementFromSiteDisruption = (
                                         },
                                     }
                                   : {}),
-                              ...(consequence.consequenceType === "journeys" && CANCELLATION_FEATURE_FLAG
+                              ...(consequence.consequenceType === "journeys" && ENABLE_CANCELLATION_FEATURE_FLAG
                                   ? {
                                         Operators: {
                                             AffectedOperator: consequence.services.map((service) => ({
@@ -178,7 +178,7 @@ export const getPtSituationElementFromSiteDisruption = (
                                         },
                                     }
                                   : {}),
-                              ...(consequence.consequenceType === "journeys" && CANCELLATION_FEATURE_FLAG
+                              ...(consequence.consequenceType === "journeys" && ENABLE_CANCELLATION_FEATURE_FLAG
                                   ? {
                                         Networks: {
                                             AffectedNetwork: {
@@ -223,7 +223,7 @@ export const getPtSituationElementFromSiteDisruption = (
                                                         OperatorRef: service.nocCode,
                                                         OperatorName: service.operatorShortName,
                                                     },
-                                                    ...(LINE_REF_FEATURE_FLAG
+                                                    ...(ENABLE_LINE_REF_FEATURE_FLAG
                                                         ? { LineRef: service.lineId.replace(/\s+/g, "_") }
                                                         : { LineRef: service.lineName.replace(/\s+/g, "_") }),
                                                     PublishedLineName: service.lineName.replace(/\s+/g, "_"),
@@ -263,7 +263,7 @@ export const getPtSituationElementFromSiteDisruption = (
                               ...(consequence.consequenceType === "journeys" &&
                               consequence.journeys &&
                               consequence.journeys.length > 0 &&
-                              CANCELLATION_FEATURE_FLAG
+                              ENABLE_CANCELLATION_FEATURE_FLAG
                                   ? {
                                         VehicleJourneys: {
                                             AffectedVehicleJourney: consequence.journeys.map((journey) => ({

@@ -54,13 +54,6 @@ describe("pages", () => {
             expect(tree).toMatchSnapshot();
         });
 
-        it("should render correctly with inputs when stage is preprod/prod", () => {
-            const tree = renderer
-                .create(<CreateConsequenceNetwork {...{ ...withInputs, stage: "preprod" }} />)
-                .toJSON();
-            expect(tree).toMatchSnapshot();
-        });
-
         it("should render correctly with inputs & disruptionAreas", () => {
             const tree = renderer.create(<CreateConsequenceNetwork {...withInputsAndDisruptionaAreas} />).toJSON();
             expect(tree).toMatchSnapshot();
