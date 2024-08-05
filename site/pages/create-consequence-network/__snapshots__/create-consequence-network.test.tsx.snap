@@ -14,7 +14,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          beta
+          Beta
         </strong>
         <span
           className="govuk-phase-banner__text"
@@ -708,7 +708,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          beta
+          Beta
         </strong>
         <span
           className="govuk-phase-banner__text"
@@ -1344,7 +1344,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          beta
+          Beta
         </strong>
         <span
           className="govuk-phase-banner__text"
@@ -1985,7 +1985,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          beta
+          Beta
         </strong>
         <span
           className="govuk-phase-banner__text"
@@ -2629,7 +2629,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          beta
+          Beta
         </strong>
         <span
           className="govuk-phase-banner__text"
