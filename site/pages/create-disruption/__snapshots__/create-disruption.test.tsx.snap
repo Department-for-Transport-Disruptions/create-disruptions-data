@@ -14,7 +14,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          beta
+          Beta
         </strong>
         <span
           className="govuk-phase-banner__text"
@@ -1680,7 +1680,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          beta
+          Beta
         </strong>
         <span
           className="govuk-phase-banner__text"
@@ -3262,7 +3262,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
         <strong
           className="govuk-tag govuk-phase-banner__content__tag"
         >
-          beta
+          Beta
         </strong>
         <span
           className="govuk-phase-banner__text"
