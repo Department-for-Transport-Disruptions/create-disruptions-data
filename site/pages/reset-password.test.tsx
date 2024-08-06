@@ -1,4 +1,4 @@
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import ResetPassword, { ResetPasswordPageProps } from "./reset-password.page";
 
@@ -29,26 +29,28 @@ beforeEach(() => {
         query: "",
     }));
 });
-describe("reset-password", () => {
+
+describe("ResetPassword", () => {
     it("should render correctly when there are no inputs", () => {
-        const tree = renderer.create(<ResetPassword {...blankInputs} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<ResetPassword {...blankInputs} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly with inputs and no errors", () => {
-        const tree = renderer.create(<ResetPassword {...withInputsAndNoErrors} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<ResetPassword {...withInputsAndNoErrors} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly with inputs and with errors", () => {
-        const tree = renderer.create(<ResetPassword {...withInputsAndErrors} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<ResetPassword {...withInputsAndErrors} />);
+        expect(asFragment()).toMatchSnapshot();
     });
+
     it("should render correctly when password is changed successfully", () => {
         useRouter.mockImplementation(() => ({
             query: { success: "true" },
         }));
-        const tree = renderer.create(<ResetPassword {...withInputsAndErrors} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<ResetPassword {...withInputsAndErrors} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 });

@@ -1,6 +1,6 @@
-import renderer from "react-test-renderer";
-import { describe, expect, it } from "vitest";
-import Login, { LoginPageProps } from "./login.page";
+import { render, cleanup } from '@testing-library/react';
+import { afterEach, describe, expect, it } from 'vitest';
+import Login, { LoginPageProps } from './login.page';
 
 const blankInputs: LoginPageProps = {
     errors: [],
@@ -20,19 +20,23 @@ const withInputsAndErrors: LoginPageProps = {
     errors: [{ errorMessage: "Enter a valid email address", id: "email" }],
 };
 
-describe("login", () => {
-    it("should render correctly when there are no inputs", () => {
-        const tree = renderer.create(<Login {...blankInputs} />).toJSON();
-        expect(tree).toMatchSnapshot();
+afterEach(() => {
+    cleanup();
+});
+
+describe('Login', () => {
+    it('should render correctly when there are no inputs', () => {
+        const { asFragment } = render(<Login {...blankInputs} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
-    it("should render correctly with inputs and no errors", () => {
-        const tree = renderer.create(<Login {...withInputsAndNoErrors} />).toJSON();
-        expect(tree).toMatchSnapshot();
+    it('should render correctly with inputs and no errors', () => {
+        const { asFragment } = render(<Login {...withInputsAndNoErrors} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
-    it("should render correctly with inputs and with errors", () => {
-        const tree = renderer.create(<Login {...withInputsAndErrors} />).toJSON();
-        expect(tree).toMatchSnapshot();
+    it('should render correctly with inputs and errors', () => {
+        const { asFragment } = render(<Login {...withInputsAndErrors} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 });

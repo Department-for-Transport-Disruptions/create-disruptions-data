@@ -1,59 +1,54 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`register > should render correctly when there are no inputs 1`] = `
-[
+exports[`Register > should render correctly when there are no inputs 1`] = `
+<DocumentFragment>
   <div
-    className="app-phase-banner__wrapper"
+    class="app-phase-banner__wrapper"
   >
     <div
-      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
     >
       <p
-        className="govuk-phase-banner__content"
+        class="govuk-phase-banner__content"
       >
         <strong
-          className="govuk-tag govuk-phase-banner__content__tag"
+          class="govuk-tag govuk-phase-banner__content__tag"
         >
           beta
         </strong>
         <span
-          className="govuk-phase-banner__text"
+          class="govuk-phase-banner__text"
         >
-          This is a new service – your
-           
+          This is a new service – your 
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/feedback"
             id="feedback-link"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             feedback
           </a>
-           
-          will help us to improve it.
+           will help us to improve it.
         </span>
       </p>
     </div>
-  </div>,
+  </div>
   <div
-    className="govuk-width-container"
+    class="govuk-width-container"
   >
     <main
-      className="govuk-main-wrapper"
+      class="govuk-main-wrapper"
       id="main-content"
     >
       <h1
-        className="govuk-heading-xl"
+        class="govuk-heading-xl"
       >
         Create an account
       </h1>
       <div
-        className="govuk-grid-row"
+        class="govuk-grid-row"
       >
         <div
-          className="govuk-grid-column-two-thirds"
+          class="govuk-grid-column-two-thirds"
         >
           <form
             action="/api/register"
@@ -65,92 +60,90 @@ exports[`register > should render correctly when there are no inputs 1`] = `
               value=""
             />
             <table
-              className="govuk-table"
+              class="govuk-table"
             >
               <thead
-                className="govuk-table__head"
+                class="govuk-table__head"
               >
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 />
               </thead>
               <tbody
-                className="govuk-table__body"
+                class="govuk-table__body"
               >
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Email address
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
               </tbody>
             </table>
             <div
-              className="govuk-form-group"
+              class="govuk-form-group"
             >
               <div
-                className="govuk-form-group"
+                class="govuk-form-group"
                 id="password"
               >
                 <label
-                  className="govuk-label govuk-label--s"
-                  htmlFor="password-input"
+                  class="govuk-label govuk-label--s"
+                  for="password-input"
                 >
                   Password
                 </label>
                 <div
-                  className="govuk-hint"
+                  class="govuk-hint"
                   id="password-hint"
                 >
                   Your password should be at least 8 characters long
                 </div>
                 <div
-                  className=""
+                  class=""
                 >
                   <input
                     aria-describedby="password-hint"
-                    className="govuk-input w-3/4"
-                    disabled={false}
+                    class="govuk-input w-3/4"
                     id="password-input"
-                    maxLength={100}
+                    maxlength="100"
                     name="password"
-                    onChange={[Function]}
                     type="password"
+                    value=""
                   />
                 </div>
               </div>
             </div>
             <div
-              className="govuk-form-group"
+              class="govuk-form-group"
             >
               <div
-                className="govuk-form-group"
+                class="govuk-form-group"
                 id="confirm-password"
               >
                 <label
-                  className="govuk-label govuk-label--s"
-                  htmlFor="confirm-password-input"
+                  class="govuk-label govuk-label--s"
+                  for="confirm-password-input"
                 >
                   Confirm password
                 </label>
                 <div
-                  className=""
+                  class=""
                 >
                   <input
-                    className="govuk-input w-3/4"
-                    disabled={false}
+                    class="govuk-input w-3/4"
                     id="confirm-password-input"
-                    maxLength={100}
+                    maxlength="100"
                     name="confirmPassword"
-                    onChange={[Function]}
                     type="password"
+                    value=""
                   />
                 </div>
               </div>
@@ -158,17 +151,20 @@ exports[`register > should render correctly when there are no inputs 1`] = `
             <input
               name="email"
               type="hidden"
+              value=""
             />
             <input
               name="key"
               type="hidden"
+              value=""
             />
             <input
               name="orgId"
               type="hidden"
+              value=""
             />
             <button
-              className="govuk-button mt-8"
+              class="govuk-button mt-8"
             >
               Save password
             </button>
@@ -178,138 +174,112 @@ exports[`register > should render correctly when there are no inputs 1`] = `
     </main>
     <div>
       <h2
-        className="govuk-heading-s"
+        class="govuk-heading-s"
       >
         Help and Support
       </h2>
       <p
-        className="govuk-body"
+        class="govuk-body"
       >
-        If you are having problems, please contact the Create Disruption Service via this link:
-         
+        If you are having problems, please contact the Create Disruption Service via this link: 
         <a
-          className="govuk-link govuk-!-font-size-19"
+          class="govuk-link govuk-!-font-size-19"
           href="/contact"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           Contact us
         </a>
       </p>
     </div>
-  </div>,
+  </div>
   <footer
-    className="govuk-footer"
+    class="govuk-footer"
     role="contentinfo"
   >
     <div
-      className="govuk-width-container"
+      class="govuk-width-container"
     >
       <div
-        className="govuk-footer__meta"
+        class="govuk-footer__meta"
       >
         <div
-          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
         >
           <h2
-            className="govuk-visually-hidden"
+            class="govuk-visually-hidden"
           >
             Support links
           </h2>
           <ul
-            className="govuk-footer__inline-list"
+            class="govuk-footer__inline-list"
           >
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Help
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/cookies"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Cookies
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Contact
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/accessibility"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Accessibility
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="https://www.gov.uk/help/terms-conditions"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Terms and conditions
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/privacy"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Privacy
               </a>
             </li>
           </ul>
           <p
-            className="govuk-footer__body"
+            class="govuk-footer__body"
           >
-            Built by the
-             
+            Built by the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.gov.uk/government/organisations/department-for-transport"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="noreferrer"
               target="_blank"
             >
@@ -318,7 +288,7 @@ exports[`register > should render correctly when there are no inputs 1`] = `
           </p>
           <svg
             aria-hidden="true"
-            className="govuk-footer__licence-logo"
+            class="govuk-footer__licence-logo"
             focusable="false"
             height="17"
             viewBox="0 0 483.2 195.7"
@@ -331,16 +301,12 @@ exports[`register > should render correctly when there are no inputs 1`] = `
             />
           </svg>
           <span
-            className="govuk-footer__licence-description"
+            class="govuk-footer__licence-description"
           >
-            All content is available under the
-             
+            All content is available under the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="license"
             >
               Open Government Licence v3.0
@@ -349,466 +315,70 @@ exports[`register > should render correctly when there are no inputs 1`] = `
           </span>
         </div>
         <div
-          className="govuk-footer__meta-item"
+          class="govuk-footer__meta-item"
         >
           <a
-            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             © Crown copyright
           </a>
         </div>
       </div>
     </div>
-  </footer>,
-]
+  </footer>
+</DocumentFragment>
 `;
 
-exports[`register > should render correctly with inputs and no errors 1`] = `
-[
+exports[`Register > should render correctly with inputs and errors 1`] = `
+<DocumentFragment>
   <div
-    className="app-phase-banner__wrapper"
+    class="app-phase-banner__wrapper"
   >
     <div
-      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
     >
       <p
-        className="govuk-phase-banner__content"
+        class="govuk-phase-banner__content"
       >
         <strong
-          className="govuk-tag govuk-phase-banner__content__tag"
+          class="govuk-tag govuk-phase-banner__content__tag"
         >
           beta
         </strong>
         <span
-          className="govuk-phase-banner__text"
+          class="govuk-phase-banner__text"
         >
-          This is a new service – your
-           
+          This is a new service – your 
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/feedback"
             id="feedback-link"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             feedback
           </a>
-           
-          will help us to improve it.
+           will help us to improve it.
         </span>
       </p>
     </div>
-  </div>,
+  </div>
   <div
-    className="govuk-width-container"
+    class="govuk-width-container"
   >
     <main
-      className="govuk-main-wrapper"
+      class="govuk-main-wrapper"
       id="main-content"
     >
       <h1
-        className="govuk-heading-xl"
+        class="govuk-heading-xl"
       >
         Create an account
       </h1>
       <div
-        className="govuk-grid-row"
+        class="govuk-grid-row"
       >
         <div
-          className="govuk-grid-column-two-thirds"
-        >
-          <form
-            action="/api/register"
-            method="post"
-          >
-            <input
-              name="csrf_token"
-              type="hidden"
-              value=""
-            />
-            <table
-              className="govuk-table"
-            >
-              <thead
-                className="govuk-table__head"
-              >
-                <tr
-                  className="govuk-table__row"
-                />
-              </thead>
-              <tbody
-                className="govuk-table__body"
-              >
-                <tr
-                  className="govuk-table__row"
-                >
-                  <th
-                    className="govuk-table__header align-middle"
-                    scope="row"
-                  >
-                    Email address
-                  </th>
-                  <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                  >
-                    dummyUser@gmail.com
-                  </td>
-                </tr>
-                <tr
-                  className="govuk-table__row"
-                >
-                  <th
-                    className="govuk-table__header align-middle"
-                    scope="row"
-                  >
-                    Organisation
-                  </th>
-                  <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                  >
-                    Test Org
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <div
-              className="govuk-form-group"
-            >
-              <div
-                className="govuk-form-group"
-                id="password"
-              >
-                <label
-                  className="govuk-label govuk-label--s"
-                  htmlFor="password-input"
-                >
-                  Password
-                </label>
-                <div
-                  className="govuk-hint"
-                  id="password-hint"
-                >
-                  Your password should be at least 8 characters long
-                </div>
-                <div
-                  className=""
-                >
-                  <input
-                    aria-describedby="password-hint"
-                    className="govuk-input w-3/4"
-                    defaultValue="dummyPassword"
-                    disabled={false}
-                    id="password-input"
-                    maxLength={100}
-                    name="password"
-                    onChange={[Function]}
-                    type="password"
-                  />
-                </div>
-              </div>
-            </div>
-            <div
-              className="govuk-form-group"
-            >
-              <div
-                className="govuk-form-group"
-                id="confirm-password"
-              >
-                <label
-                  className="govuk-label govuk-label--s"
-                  htmlFor="confirm-password-input"
-                >
-                  Confirm password
-                </label>
-                <div
-                  className=""
-                >
-                  <input
-                    className="govuk-input w-3/4"
-                    defaultValue="dummyPassword"
-                    disabled={false}
-                    id="confirm-password-input"
-                    maxLength={100}
-                    name="confirmPassword"
-                    onChange={[Function]}
-                    type="password"
-                  />
-                </div>
-              </div>
-            </div>
-            <input
-              name="email"
-              type="hidden"
-              value="dummyUser@gmail.com"
-            />
-            <input
-              name="key"
-              type="hidden"
-              value="key123"
-            />
-            <input
-              name="orgId"
-              type="hidden"
-            />
-            <button
-              className="govuk-button mt-8"
-            >
-              Save password
-            </button>
-          </form>
-        </div>
-      </div>
-    </main>
-    <div>
-      <h2
-        className="govuk-heading-s"
-      >
-        Help and Support
-      </h2>
-      <p
-        className="govuk-body"
-      >
-        If you are having problems, please contact the Create Disruption Service via this link:
-         
-        <a
-          className="govuk-link govuk-!-font-size-19"
-          href="/contact"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
-        >
-          Contact us
-        </a>
-      </p>
-    </div>
-  </div>,
-  <footer
-    className="govuk-footer"
-    role="contentinfo"
-  >
-    <div
-      className="govuk-width-container"
-    >
-      <div
-        className="govuk-footer__meta"
-      >
-        <div
-          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
-        >
-          <h2
-            className="govuk-visually-hidden"
-          >
-            Support links
-          </h2>
-          <ul
-            className="govuk-footer__inline-list"
-          >
-            <li
-              className="govuk-footer__inline-list-item"
-            >
-              <a
-                className="govuk-footer__link"
-                href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
-              >
-                Help
-              </a>
-            </li>
-            <li
-              className="govuk-footer__inline-list-item"
-            >
-              <a
-                className="govuk-footer__link"
-                href="/cookies"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
-              >
-                Cookies
-              </a>
-            </li>
-            <li
-              className="govuk-footer__inline-list-item"
-            >
-              <a
-                className="govuk-footer__link"
-                href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
-              >
-                Contact
-              </a>
-            </li>
-            <li
-              className="govuk-footer__inline-list-item"
-            >
-              <a
-                className="govuk-footer__link"
-                href="/accessibility"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
-              >
-                Accessibility
-              </a>
-            </li>
-            <li
-              className="govuk-footer__inline-list-item"
-            >
-              <a
-                className="govuk-footer__link"
-                href="https://www.gov.uk/help/terms-conditions"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
-              >
-                Terms and conditions
-              </a>
-            </li>
-            <li
-              className="govuk-footer__inline-list-item"
-            >
-              <a
-                className="govuk-footer__link"
-                href="/privacy"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
-              >
-                Privacy
-              </a>
-            </li>
-          </ul>
-          <p
-            className="govuk-footer__body"
-          >
-            Built by the
-             
-            <a
-              className="govuk-footer__link"
-              href="https://www.gov.uk/government/organisations/department-for-transport"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
-              rel="noreferrer"
-              target="_blank"
-            >
-              Department for Transport
-            </a>
-          </p>
-          <svg
-            aria-hidden="true"
-            className="govuk-footer__licence-logo"
-            focusable="false"
-            height="17"
-            viewBox="0 0 483.2 195.7"
-            width="41"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145"
-              fill="currentColor"
-            />
-          </svg>
-          <span
-            className="govuk-footer__licence-description"
-          >
-            All content is available under the
-             
-            <a
-              className="govuk-footer__link"
-              href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
-              rel="license"
-            >
-              Open Government Licence v3.0
-            </a>
-            , except where otherwise stated
-          </span>
-        </div>
-        <div
-          className="govuk-footer__meta-item"
-        >
-          <a
-            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
-            href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
-          >
-            © Crown copyright
-          </a>
-        </div>
-      </div>
-    </div>
-  </footer>,
-]
-`;
-
-exports[`register > should render correctly with inputs and with errors 1`] = `
-[
-  <div
-    className="app-phase-banner__wrapper"
-  >
-    <div
-      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
-    >
-      <p
-        className="govuk-phase-banner__content"
-      >
-        <strong
-          className="govuk-tag govuk-phase-banner__content__tag"
-        >
-          beta
-        </strong>
-        <span
-          className="govuk-phase-banner__text"
-        >
-          This is a new service – your
-           
-          <a
-            className="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
-          >
-            feedback
-          </a>
-           
-          will help us to improve it.
-        </span>
-      </p>
-    </div>
-  </div>,
-  <div
-    className="govuk-width-container"
-  >
-    <main
-      className="govuk-main-wrapper"
-      id="main-content"
-    >
-      <h1
-        className="govuk-heading-xl"
-      >
-        Create an account
-      </h1>
-      <div
-        className="govuk-grid-row"
-      >
-        <div
-          className="govuk-grid-column-two-thirds"
+          class="govuk-grid-column-two-thirds"
         >
           <form
             action="/api/register"
@@ -821,22 +391,22 @@ exports[`register > should render correctly with inputs and with errors 1`] = `
             />
             <div
               aria-labelledby="error-summary-title"
-              className="govuk-error-summary"
+              class="govuk-error-summary"
               data-module="govuk-error-summary"
               role="alert"
-              tabIndex={-1}
+              tabindex="-1"
             >
               <h2
-                className="govuk-error-summary__title"
+                class="govuk-error-summary__title"
                 id="error-summary-title"
               >
                 There is a problem
               </h2>
               <div
-                className="govuk-error-summary__body"
+                class="govuk-error-summary__body"
               >
                 <ul
-                  className="govuk-list govuk-error-summary__list"
+                  class="govuk-list govuk-error-summary__list"
                 >
                   <li>
                     <a
@@ -849,44 +419,44 @@ exports[`register > should render correctly with inputs and with errors 1`] = `
               </div>
             </div>
             <table
-              className="govuk-table"
+              class="govuk-table"
             >
               <thead
-                className="govuk-table__head"
+                class="govuk-table__head"
               >
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 />
               </thead>
               <tbody
-                className="govuk-table__body"
+                class="govuk-table__body"
               >
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Email address
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     dummyUser@gmail.com
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Organisation
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     Test Org
                   </td>
@@ -894,66 +464,62 @@ exports[`register > should render correctly with inputs and with errors 1`] = `
               </tbody>
             </table>
             <div
-              className="govuk-form-group"
+              class="govuk-form-group"
             >
               <div
-                className="govuk-form-group"
+                class="govuk-form-group"
                 id="password"
               >
                 <label
-                  className="govuk-label govuk-label--s"
-                  htmlFor="password-input"
+                  class="govuk-label govuk-label--s"
+                  for="password-input"
                 >
                   Password
                 </label>
                 <div
-                  className="govuk-hint"
+                  class="govuk-hint"
                   id="password-hint"
                 >
                   Your password should be at least 8 characters long
                 </div>
                 <div
-                  className=""
+                  class=""
                 >
                   <input
                     aria-describedby="password-hint"
-                    className="govuk-input w-3/4"
-                    defaultValue="dummyPassword"
-                    disabled={false}
+                    class="govuk-input w-3/4"
                     id="password-input"
-                    maxLength={100}
+                    maxlength="100"
                     name="password"
-                    onChange={[Function]}
                     type="password"
+                    value="dummyPassword"
                   />
                 </div>
               </div>
             </div>
             <div
-              className="govuk-form-group"
+              class="govuk-form-group"
             >
               <div
-                className="govuk-form-group"
+                class="govuk-form-group"
                 id="confirm-password"
               >
                 <label
-                  className="govuk-label govuk-label--s"
-                  htmlFor="confirm-password-input"
+                  class="govuk-label govuk-label--s"
+                  for="confirm-password-input"
                 >
                   Confirm password
                 </label>
                 <div
-                  className=""
+                  class=""
                 >
                   <input
-                    className="govuk-input w-3/4"
-                    defaultValue="dummyPassword"
-                    disabled={false}
+                    class="govuk-input w-3/4"
                     id="confirm-password-input"
-                    maxLength={100}
+                    maxlength="100"
                     name="confirmPassword"
-                    onChange={[Function]}
                     type="password"
+                    value="dummyPassword"
                   />
                 </div>
               </div>
@@ -971,9 +537,10 @@ exports[`register > should render correctly with inputs and with errors 1`] = `
             <input
               name="orgId"
               type="hidden"
+              value=""
             />
             <button
-              className="govuk-button mt-8"
+              class="govuk-button mt-8"
             >
               Save password
             </button>
@@ -983,138 +550,112 @@ exports[`register > should render correctly with inputs and with errors 1`] = `
     </main>
     <div>
       <h2
-        className="govuk-heading-s"
+        class="govuk-heading-s"
       >
         Help and Support
       </h2>
       <p
-        className="govuk-body"
+        class="govuk-body"
       >
-        If you are having problems, please contact the Create Disruption Service via this link:
-         
+        If you are having problems, please contact the Create Disruption Service via this link: 
         <a
-          className="govuk-link govuk-!-font-size-19"
+          class="govuk-link govuk-!-font-size-19"
           href="/contact"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           Contact us
         </a>
       </p>
     </div>
-  </div>,
+  </div>
   <footer
-    className="govuk-footer"
+    class="govuk-footer"
     role="contentinfo"
   >
     <div
-      className="govuk-width-container"
+      class="govuk-width-container"
     >
       <div
-        className="govuk-footer__meta"
+        class="govuk-footer__meta"
       >
         <div
-          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
         >
           <h2
-            className="govuk-visually-hidden"
+            class="govuk-visually-hidden"
           >
             Support links
           </h2>
           <ul
-            className="govuk-footer__inline-list"
+            class="govuk-footer__inline-list"
           >
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Help
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/cookies"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Cookies
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Contact
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/accessibility"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Accessibility
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="https://www.gov.uk/help/terms-conditions"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Terms and conditions
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/privacy"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Privacy
               </a>
             </li>
           </ul>
           <p
-            className="govuk-footer__body"
+            class="govuk-footer__body"
           >
-            Built by the
-             
+            Built by the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.gov.uk/government/organisations/department-for-transport"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="noreferrer"
               target="_blank"
             >
@@ -1123,7 +664,7 @@ exports[`register > should render correctly with inputs and with errors 1`] = `
           </p>
           <svg
             aria-hidden="true"
-            className="govuk-footer__licence-logo"
+            class="govuk-footer__licence-logo"
             focusable="false"
             height="17"
             viewBox="0 0 483.2 195.7"
@@ -1136,16 +677,12 @@ exports[`register > should render correctly with inputs and with errors 1`] = `
             />
           </svg>
           <span
-            className="govuk-footer__licence-description"
+            class="govuk-footer__licence-description"
           >
-            All content is available under the
-             
+            All content is available under the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="license"
             >
               Open Government Licence v3.0
@@ -1154,20 +691,364 @@ exports[`register > should render correctly with inputs and with errors 1`] = `
           </span>
         </div>
         <div
-          className="govuk-footer__meta-item"
+          class="govuk-footer__meta-item"
         >
           <a
-            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             © Crown copyright
           </a>
         </div>
       </div>
     </div>
-  </footer>,
-]
+  </footer>
+</DocumentFragment>
+`;
+
+exports[`Register > should render correctly with inputs and no errors 1`] = `
+<DocumentFragment>
+  <div
+    class="app-phase-banner__wrapper"
+  >
+    <div
+      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    >
+      <p
+        class="govuk-phase-banner__content"
+      >
+        <strong
+          class="govuk-tag govuk-phase-banner__content__tag"
+        >
+          Beta
+        </strong>
+        <span
+          class="govuk-phase-banner__text"
+        >
+          This is a new service – your 
+          <a
+            class="govuk-link"
+            href="/feedback"
+            id="feedback-link"
+          >
+            feedback
+          </a>
+           will help us to improve it.
+        </span>
+      </p>
+    </div>
+  </div>
+  <div
+    class="govuk-width-container"
+  >
+    <main
+      class="govuk-main-wrapper"
+      id="main-content"
+    >
+      <h1
+        class="govuk-heading-xl"
+      >
+        Create an account
+      </h1>
+      <div
+        class="govuk-grid-row"
+      >
+        <div
+          class="govuk-grid-column-two-thirds"
+        >
+          <form
+            action="/api/register"
+            method="post"
+          >
+            <input
+              name="csrf_token"
+              type="hidden"
+              value=""
+            />
+            <table
+              class="govuk-table"
+            >
+              <thead
+                class="govuk-table__head"
+              >
+                <tr
+                  class="govuk-table__row"
+                />
+              </thead>
+              <tbody
+                class="govuk-table__body"
+              >
+                <tr
+                  class="govuk-table__row"
+                >
+                  <th
+                    class="govuk-table__header align-middle"
+                    scope="row"
+                  >
+                    Email address
+                  </th>
+                  <td
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  >
+                    dummyUser@gmail.com
+                  </td>
+                </tr>
+                <tr
+                  class="govuk-table__row"
+                >
+                  <th
+                    class="govuk-table__header align-middle"
+                    scope="row"
+                  >
+                    Organisation
+                  </th>
+                  <td
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  >
+                    Test Org
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div
+              class="govuk-form-group"
+            >
+              <div
+                class="govuk-form-group"
+                id="password"
+              >
+                <label
+                  class="govuk-label govuk-label--s"
+                  for="password-input"
+                >
+                  Password
+                </label>
+                <div
+                  class="govuk-hint"
+                  id="password-hint"
+                >
+                  Your password should be at least 8 characters long
+                </div>
+                <div
+                  class=""
+                >
+                  <input
+                    aria-describedby="password-hint"
+                    class="govuk-input w-3/4"
+                    id="password-input"
+                    maxlength="100"
+                    name="password"
+                    type="password"
+                    value="dummyPassword"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="govuk-form-group"
+            >
+              <div
+                class="govuk-form-group"
+                id="confirm-password"
+              >
+                <label
+                  class="govuk-label govuk-label--s"
+                  for="confirm-password-input"
+                >
+                  Confirm password
+                </label>
+                <div
+                  class=""
+                >
+                  <input
+                    class="govuk-input w-3/4"
+                    id="confirm-password-input"
+                    maxlength="100"
+                    name="confirmPassword"
+                    type="password"
+                    value="dummyPassword"
+                  />
+                </div>
+              </div>
+            </div>
+            <input
+              name="email"
+              type="hidden"
+              value="dummyUser@gmail.com"
+            />
+            <input
+              name="key"
+              type="hidden"
+              value="key123"
+            />
+            <input
+              name="orgId"
+              type="hidden"
+              value=""
+            />
+            <button
+              class="govuk-button mt-8"
+            >
+              Save password
+            </button>
+          </form>
+        </div>
+      </div>
+    </main>
+    <div>
+      <h2
+        class="govuk-heading-s"
+      >
+        Help and Support
+      </h2>
+      <p
+        class="govuk-body"
+      >
+        If you are having problems, please contact the Create Disruption Service via this link: 
+        <a
+          class="govuk-link govuk-!-font-size-19"
+          href="/contact"
+        >
+          Contact us
+        </a>
+      </p>
+    </div>
+  </div>
+  <footer
+    class="govuk-footer"
+    role="contentinfo"
+  >
+    <div
+      class="govuk-width-container"
+    >
+      <div
+        class="govuk-footer__meta"
+      >
+        <div
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
+        >
+          <h2
+            class="govuk-visually-hidden"
+          >
+            Support links
+          </h2>
+          <ul
+            class="govuk-footer__inline-list"
+          >
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/contact"
+              >
+                Help
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/cookies"
+              >
+                Cookies
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/contact"
+              >
+                Contact
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/accessibility"
+              >
+                Accessibility
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="https://www.gov.uk/help/terms-conditions"
+              >
+                Terms and conditions
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/privacy"
+              >
+                Privacy
+              </a>
+            </li>
+          </ul>
+          <p
+            class="govuk-footer__body"
+          >
+            Built by the 
+            <a
+              class="govuk-footer__link"
+              href="https://www.gov.uk/government/organisations/department-for-transport"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Department for Transport
+            </a>
+          </p>
+          <svg
+            aria-hidden="true"
+            class="govuk-footer__licence-logo"
+            focusable="false"
+            height="17"
+            viewBox="0 0 483.2 195.7"
+            width="41"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145"
+              fill="currentColor"
+            />
+          </svg>
+          <span
+            class="govuk-footer__licence-description"
+          >
+            All content is available under the 
+            <a
+              class="govuk-footer__link"
+              href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+              rel="license"
+            >
+              Open Government Licence v3.0
+            </a>
+            , except where otherwise stated
+          </span>
+        </div>
+        <div
+          class="govuk-footer__meta-item"
+        >
+          <a
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+          >
+            © Crown copyright
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</DocumentFragment>
 `;

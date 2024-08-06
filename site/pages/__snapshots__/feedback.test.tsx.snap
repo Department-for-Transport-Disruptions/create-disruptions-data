@@ -1,61 +1,55 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`pages > feedback > should render correctly after feedback has been successfully submitted 1`] = `
-[
+<DocumentFragment>
   <div
-    className="app-phase-banner__wrapper"
+    class="app-phase-banner__wrapper"
   >
     <div
-      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
     >
       <p
-        className="govuk-phase-banner__content"
+        class="govuk-phase-banner__content"
       >
         <strong
-          className="govuk-tag govuk-phase-banner__content__tag"
+          class="govuk-tag govuk-phase-banner__content__tag"
         >
           beta
         </strong>
         <span
-          className="govuk-phase-banner__text"
+          class="govuk-phase-banner__text"
         >
-          This is a new service – your
-           
+          This is a new service – your 
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/feedback"
             id="feedback-link"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             feedback
           </a>
-           
-          will help us to improve it.
+           will help us to improve it.
         </span>
       </p>
     </div>
-  </div>,
+  </div>
   <div
-    className="govuk-width-container"
+    class="govuk-width-container"
   >
     <button
-      className="govuk-back-link mb-7"
-      onClick={[Function]}
+      class="govuk-back-link mb-7"
       type="button"
     >
       Back
     </button>
     <main
-      className="govuk-main-wrapper"
+      class="govuk-main-wrapper"
       id="main-content"
     >
       <div
-        className="govuk-grid-row"
+        class="govuk-grid-row"
       >
         <div
-          className="govuk-grid-column-two-thirds"
+          class="govuk-grid-column-two-thirds"
         >
           <form
             action="/api/feedback"
@@ -67,130 +61,126 @@ exports[`pages > feedback > should render correctly after feedback has been succ
               value=""
             />
             <div
-              className="block p-5 mb-12.5 border-4 border-govGreen"
+              class="block p-5 mb-12.5 border-4 border-govGreen"
             >
               <h2
-                className="govuk-heading-m"
+                class="govuk-heading-m"
               >
-                Your feedback was 
-                submitted
+                Your feedback was submitted
               </h2>
               <p
-                className="govuk-body"
+                class="govuk-body"
               >
                 Thank you for taking the time to improve the service
               </p>
               <p
-                className="govuk-body"
+                class="govuk-body"
               >
                 <a
-                  className="govuk-link"
+                  class="govuk-link"
                   href="/"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
                 >
                   Click here to return to the homepage
                 </a>
               </p>
             </div>
             <h1
-              className="govuk-heading-l"
+              class="govuk-heading-l"
             >
               Help us improve Create Transport Disruption Data
             </h1>
             <span
-              className="govuk-hint"
+              class="govuk-hint"
             >
               Thank you for providing feedback and comments. Answer any questions which apply to your experience using Create Transport Disruption Data, and be as specific as possible
             </span>
             <div
-              className="govuk-form-group govuk-!-padding-top-3"
+              class="govuk-form-group govuk-!-padding-top-3"
             >
               <h1
-                className="govuk-label-wrapper"
+                class="govuk-label-wrapper"
               >
                 <label
-                  className="govuk-label govuk-label--m"
-                  htmlFor="hear-about-service-question"
+                  class="govuk-label govuk-label--m"
+                  for="hear-about-service-question"
                 >
                   How did you hear about our service?
                 </label>
               </h1>
               <textarea
-                className="govuk-textarea"
+                class="govuk-textarea"
                 id="hear-about-service-question"
                 name="hearAboutServiceQuestion"
-                rows={3}
+                rows="3"
               />
             </div>
             <div
-              className="govuk-form-group govuk-!-padding-top-3"
+              class="govuk-form-group govuk-!-padding-top-3"
             >
               <h1
-                className="govuk-label-wrapper"
+                class="govuk-label-wrapper"
               >
                 <label
-                  className="govuk-label govuk-label--m"
-                  htmlFor="general-feedback-question"
+                  class="govuk-label govuk-label--m"
+                  for="general-feedback-question"
                 >
                   Please let us know any feedback or suggestions for improvements you may have
                 </label>
               </h1>
               <textarea
-                className="govuk-textarea"
+                class="govuk-textarea"
                 id="general-feedback-question"
                 name="generalFeedbackQuestion"
-                rows={6}
+                rows="6"
               />
             </div>
             <div
-              className="govuk-!-padding-bottom-3"
+              class="govuk-!-padding-bottom-3"
             >
               <fieldset
                 aria-describedby="contact-header"
-                className="govuk-fieldset"
+                class="govuk-fieldset"
               >
                 <legend
-                  className="govuk-fieldset__legend govuk-fieldset__legend--m"
+                  class="govuk-fieldset__legend govuk-fieldset__legend--m"
                   id="contact-header"
                 >
                   Did you contact us for assistance at any point?
                 </legend>
                 <div
-                  className="govuk-radios"
+                  class="govuk-radios"
                   id="contact-radios"
                 >
                   <div
-                    className="govuk-radios__item"
+                    class="govuk-radios__item"
                   >
                     <input
-                      className="govuk-radios__input"
+                      class="govuk-radios__input"
                       id="contact-question-yes"
                       name="contactQuestion"
                       type="radio"
                       value="Yes"
                     />
                     <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="contact-question-yes"
+                      class="govuk-label govuk-radios__label"
+                      for="contact-question-yes"
                     >
                       Yes
                     </label>
                   </div>
                   <div
-                    className="govuk-radios__item"
+                    class="govuk-radios__item"
                   >
                     <input
-                      className="govuk-radios__input"
+                      class="govuk-radios__input"
                       id="contact-question-no"
                       name="contactQuestion"
                       type="radio"
                       value="No"
                     />
                     <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="contact-question-no"
+                      class="govuk-label govuk-radios__label"
+                      for="contact-question-no"
                     >
                       No
                     </label>
@@ -199,52 +189,52 @@ exports[`pages > feedback > should render correctly after feedback has been succ
               </fieldset>
             </div>
             <div
-              className="govuk-!-padding-bottom-6"
+              class="govuk-!-padding-bottom-6"
             >
               <fieldset
                 aria-describedby="problem-header"
-                className="govuk-fieldset"
+                class="govuk-fieldset"
               >
                 <legend
-                  className="govuk-fieldset__legend govuk-fieldset__legend--m"
+                  class="govuk-fieldset__legend govuk-fieldset__legend--m"
                   id="problem-header"
                 >
                   Did we solve your problem?
                 </legend>
                 <div
-                  className="govuk-radios"
+                  class="govuk-radios"
                   id="problem-radios"
                 >
                   <div
-                    className="govuk-radios__item"
+                    class="govuk-radios__item"
                   >
                     <input
-                      className="govuk-radios__input"
+                      class="govuk-radios__input"
                       id="problem-question-yes"
                       name="problemQuestion"
                       type="radio"
                       value="Yes"
                     />
                     <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="problem-question-yes"
+                      class="govuk-label govuk-radios__label"
+                      for="problem-question-yes"
                     >
                       Yes
                     </label>
                   </div>
                   <div
-                    className="govuk-radios__item"
+                    class="govuk-radios__item"
                   >
                     <input
-                      className="govuk-radios__input"
+                      class="govuk-radios__input"
                       id="problem-question-no"
                       name="problemQuestion"
                       type="radio"
                       value="No"
                     />
                     <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="problem-question-no"
+                      class="govuk-label govuk-radios__label"
+                      for="problem-question-no"
                     >
                       No
                     </label>
@@ -253,7 +243,7 @@ exports[`pages > feedback > should render correctly after feedback has been succ
               </fieldset>
             </div>
             <button
-              className="govuk-button"
+              class="govuk-button"
               data-module="govuk-button"
               id="continue-button"
             >
@@ -265,138 +255,112 @@ exports[`pages > feedback > should render correctly after feedback has been succ
     </main>
     <div>
       <h2
-        className="govuk-heading-s"
+        class="govuk-heading-s"
       >
         Help and Support
       </h2>
       <p
-        className="govuk-body"
+        class="govuk-body"
       >
-        If you are having problems, please contact the Create Disruption Service via this link:
-         
+        If you are having problems, please contact the Create Disruption Service via this link: 
         <a
-          className="govuk-link govuk-!-font-size-19"
+          class="govuk-link govuk-!-font-size-19"
           href="/contact"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           Contact us
         </a>
       </p>
     </div>
-  </div>,
+  </div>
   <footer
-    className="govuk-footer"
+    class="govuk-footer"
     role="contentinfo"
   >
     <div
-      className="govuk-width-container"
+      class="govuk-width-container"
     >
       <div
-        className="govuk-footer__meta"
+        class="govuk-footer__meta"
       >
         <div
-          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
         >
           <h2
-            className="govuk-visually-hidden"
+            class="govuk-visually-hidden"
           >
             Support links
           </h2>
           <ul
-            className="govuk-footer__inline-list"
+            class="govuk-footer__inline-list"
           >
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Help
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/cookies"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Cookies
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Contact
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/accessibility"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Accessibility
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="https://www.gov.uk/help/terms-conditions"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Terms and conditions
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/privacy"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Privacy
               </a>
             </li>
           </ul>
           <p
-            className="govuk-footer__body"
+            class="govuk-footer__body"
           >
-            Built by the
-             
+            Built by the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.gov.uk/government/organisations/department-for-transport"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="noreferrer"
               target="_blank"
             >
@@ -405,7 +369,7 @@ exports[`pages > feedback > should render correctly after feedback has been succ
           </p>
           <svg
             aria-hidden="true"
-            className="govuk-footer__licence-logo"
+            class="govuk-footer__licence-logo"
             focusable="false"
             height="17"
             viewBox="0 0 483.2 195.7"
@@ -418,16 +382,12 @@ exports[`pages > feedback > should render correctly after feedback has been succ
             />
           </svg>
           <span
-            className="govuk-footer__licence-description"
+            class="govuk-footer__licence-description"
           >
-            All content is available under the
-             
+            All content is available under the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="license"
             >
               Open Government Licence v3.0
@@ -436,80 +396,71 @@ exports[`pages > feedback > should render correctly after feedback has been succ
           </span>
         </div>
         <div
-          className="govuk-footer__meta-item"
+          class="govuk-footer__meta-item"
         >
           <a
-            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             © Crown copyright
           </a>
         </div>
       </div>
     </div>
-  </footer>,
-]
+  </footer>
+</DocumentFragment>
 `;
 
 exports[`pages > feedback > should render correctly after the user tries to submit no feedback 1`] = `
-[
+<DocumentFragment>
   <div
-    className="app-phase-banner__wrapper"
+    class="app-phase-banner__wrapper"
   >
     <div
-      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
     >
       <p
-        className="govuk-phase-banner__content"
+        class="govuk-phase-banner__content"
       >
         <strong
-          className="govuk-tag govuk-phase-banner__content__tag"
+          class="govuk-tag govuk-phase-banner__content__tag"
         >
           beta
         </strong>
         <span
-          className="govuk-phase-banner__text"
+          class="govuk-phase-banner__text"
         >
-          This is a new service – your
-           
+          This is a new service – your 
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/feedback"
             id="feedback-link"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             feedback
           </a>
-           
-          will help us to improve it.
+           will help us to improve it.
         </span>
       </p>
     </div>
-  </div>,
+  </div>
   <div
-    className="govuk-width-container"
+    class="govuk-width-container"
   >
     <button
-      className="govuk-back-link mb-7"
-      onClick={[Function]}
+      class="govuk-back-link mb-7"
       type="button"
     >
       Back
     </button>
     <main
-      className="govuk-main-wrapper"
+      class="govuk-main-wrapper"
       id="main-content"
     >
       <div
-        className="govuk-grid-row"
+        class="govuk-grid-row"
       >
         <div
-          className="govuk-grid-column-two-thirds"
+          class="govuk-grid-column-two-thirds"
         >
           <form
             action="/api/feedback"
@@ -521,130 +472,126 @@ exports[`pages > feedback > should render correctly after the user tries to subm
               value=""
             />
             <div
-              className="block p-5 mb-12.5 border-4 border-govRed"
+              class="block p-5 mb-12.5 border-4 border-govRed"
             >
               <h2
-                className="govuk-heading-m"
+                class="govuk-heading-m"
               >
-                Your feedback was 
-                not submitted
+                Your feedback was not submitted
               </h2>
               <p
-                className="govuk-body"
+                class="govuk-body"
               >
                 The feedback form was empty, at least one question has to be answered
               </p>
               <p
-                className="govuk-body"
+                class="govuk-body"
               >
                 <a
-                  className="govuk-link"
+                  class="govuk-link"
                   href="/"
-                  onClick={[Function]}
-                  onMouseEnter={[Function]}
-                  onTouchStart={[Function]}
                 >
                   Click here to return to the homepage
                 </a>
               </p>
             </div>
             <h1
-              className="govuk-heading-l"
+              class="govuk-heading-l"
             >
               Help us improve Create Transport Disruption Data
             </h1>
             <span
-              className="govuk-hint"
+              class="govuk-hint"
             >
               Thank you for providing feedback and comments. Answer any questions which apply to your experience using Create Transport Disruption Data, and be as specific as possible
             </span>
             <div
-              className="govuk-form-group govuk-!-padding-top-3"
+              class="govuk-form-group govuk-!-padding-top-3"
             >
               <h1
-                className="govuk-label-wrapper"
+                class="govuk-label-wrapper"
               >
                 <label
-                  className="govuk-label govuk-label--m"
-                  htmlFor="hear-about-service-question"
+                  class="govuk-label govuk-label--m"
+                  for="hear-about-service-question"
                 >
                   How did you hear about our service?
                 </label>
               </h1>
               <textarea
-                className="govuk-textarea"
+                class="govuk-textarea"
                 id="hear-about-service-question"
                 name="hearAboutServiceQuestion"
-                rows={3}
+                rows="3"
               />
             </div>
             <div
-              className="govuk-form-group govuk-!-padding-top-3"
+              class="govuk-form-group govuk-!-padding-top-3"
             >
               <h1
-                className="govuk-label-wrapper"
+                class="govuk-label-wrapper"
               >
                 <label
-                  className="govuk-label govuk-label--m"
-                  htmlFor="general-feedback-question"
+                  class="govuk-label govuk-label--m"
+                  for="general-feedback-question"
                 >
                   Please let us know any feedback or suggestions for improvements you may have
                 </label>
               </h1>
               <textarea
-                className="govuk-textarea"
+                class="govuk-textarea"
                 id="general-feedback-question"
                 name="generalFeedbackQuestion"
-                rows={6}
+                rows="6"
               />
             </div>
             <div
-              className="govuk-!-padding-bottom-3"
+              class="govuk-!-padding-bottom-3"
             >
               <fieldset
                 aria-describedby="contact-header"
-                className="govuk-fieldset"
+                class="govuk-fieldset"
               >
                 <legend
-                  className="govuk-fieldset__legend govuk-fieldset__legend--m"
+                  class="govuk-fieldset__legend govuk-fieldset__legend--m"
                   id="contact-header"
                 >
                   Did you contact us for assistance at any point?
                 </legend>
                 <div
-                  className="govuk-radios"
+                  class="govuk-radios"
                   id="contact-radios"
                 >
                   <div
-                    className="govuk-radios__item"
+                    class="govuk-radios__item"
                   >
                     <input
-                      className="govuk-radios__input"
+                      class="govuk-radios__input"
                       id="contact-question-yes"
                       name="contactQuestion"
                       type="radio"
                       value="Yes"
                     />
                     <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="contact-question-yes"
+                      class="govuk-label govuk-radios__label"
+                      for="contact-question-yes"
                     >
                       Yes
                     </label>
                   </div>
                   <div
-                    className="govuk-radios__item"
+                    class="govuk-radios__item"
                   >
                     <input
-                      className="govuk-radios__input"
+                      class="govuk-radios__input"
                       id="contact-question-no"
                       name="contactQuestion"
                       type="radio"
                       value="No"
                     />
                     <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="contact-question-no"
+                      class="govuk-label govuk-radios__label"
+                      for="contact-question-no"
                     >
                       No
                     </label>
@@ -653,52 +600,52 @@ exports[`pages > feedback > should render correctly after the user tries to subm
               </fieldset>
             </div>
             <div
-              className="govuk-!-padding-bottom-6"
+              class="govuk-!-padding-bottom-6"
             >
               <fieldset
                 aria-describedby="problem-header"
-                className="govuk-fieldset"
+                class="govuk-fieldset"
               >
                 <legend
-                  className="govuk-fieldset__legend govuk-fieldset__legend--m"
+                  class="govuk-fieldset__legend govuk-fieldset__legend--m"
                   id="problem-header"
                 >
                   Did we solve your problem?
                 </legend>
                 <div
-                  className="govuk-radios"
+                  class="govuk-radios"
                   id="problem-radios"
                 >
                   <div
-                    className="govuk-radios__item"
+                    class="govuk-radios__item"
                   >
                     <input
-                      className="govuk-radios__input"
+                      class="govuk-radios__input"
                       id="problem-question-yes"
                       name="problemQuestion"
                       type="radio"
                       value="Yes"
                     />
                     <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="problem-question-yes"
+                      class="govuk-label govuk-radios__label"
+                      for="problem-question-yes"
                     >
                       Yes
                     </label>
                   </div>
                   <div
-                    className="govuk-radios__item"
+                    class="govuk-radios__item"
                   >
                     <input
-                      className="govuk-radios__input"
+                      class="govuk-radios__input"
                       id="problem-question-no"
                       name="problemQuestion"
                       type="radio"
                       value="No"
                     />
                     <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="problem-question-no"
+                      class="govuk-label govuk-radios__label"
+                      for="problem-question-no"
                     >
                       No
                     </label>
@@ -707,7 +654,7 @@ exports[`pages > feedback > should render correctly after the user tries to subm
               </fieldset>
             </div>
             <button
-              className="govuk-button"
+              class="govuk-button"
               data-module="govuk-button"
               id="continue-button"
             >
@@ -719,138 +666,112 @@ exports[`pages > feedback > should render correctly after the user tries to subm
     </main>
     <div>
       <h2
-        className="govuk-heading-s"
+        class="govuk-heading-s"
       >
         Help and Support
       </h2>
       <p
-        className="govuk-body"
+        class="govuk-body"
       >
-        If you are having problems, please contact the Create Disruption Service via this link:
-         
+        If you are having problems, please contact the Create Disruption Service via this link: 
         <a
-          className="govuk-link govuk-!-font-size-19"
+          class="govuk-link govuk-!-font-size-19"
           href="/contact"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           Contact us
         </a>
       </p>
     </div>
-  </div>,
+  </div>
   <footer
-    className="govuk-footer"
+    class="govuk-footer"
     role="contentinfo"
   >
     <div
-      className="govuk-width-container"
+      class="govuk-width-container"
     >
       <div
-        className="govuk-footer__meta"
+        class="govuk-footer__meta"
       >
         <div
-          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
         >
           <h2
-            className="govuk-visually-hidden"
+            class="govuk-visually-hidden"
           >
             Support links
           </h2>
           <ul
-            className="govuk-footer__inline-list"
+            class="govuk-footer__inline-list"
           >
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Help
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/cookies"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Cookies
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Contact
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/accessibility"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Accessibility
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="https://www.gov.uk/help/terms-conditions"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Terms and conditions
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/privacy"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Privacy
               </a>
             </li>
           </ul>
           <p
-            className="govuk-footer__body"
+            class="govuk-footer__body"
           >
-            Built by the
-             
+            Built by the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.gov.uk/government/organisations/department-for-transport"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="noreferrer"
               target="_blank"
             >
@@ -859,7 +780,7 @@ exports[`pages > feedback > should render correctly after the user tries to subm
           </p>
           <svg
             aria-hidden="true"
-            className="govuk-footer__licence-logo"
+            class="govuk-footer__licence-logo"
             focusable="false"
             height="17"
             viewBox="0 0 483.2 195.7"
@@ -872,16 +793,12 @@ exports[`pages > feedback > should render correctly after the user tries to subm
             />
           </svg>
           <span
-            className="govuk-footer__licence-description"
+            class="govuk-footer__licence-description"
           >
-            All content is available under the
-             
+            All content is available under the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="license"
             >
               Open Government Licence v3.0
@@ -890,80 +807,71 @@ exports[`pages > feedback > should render correctly after the user tries to subm
           </span>
         </div>
         <div
-          className="govuk-footer__meta-item"
+          class="govuk-footer__meta-item"
         >
           <a
-            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             © Crown copyright
           </a>
         </div>
       </div>
     </div>
-  </footer>,
-]
+  </footer>
+</DocumentFragment>
 `;
 
 exports[`pages > feedback > should render correctly when the page is first visited 1`] = `
-[
+<DocumentFragment>
   <div
-    className="app-phase-banner__wrapper"
+    class="app-phase-banner__wrapper"
   >
     <div
-      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
     >
       <p
-        className="govuk-phase-banner__content"
+        class="govuk-phase-banner__content"
       >
         <strong
-          className="govuk-tag govuk-phase-banner__content__tag"
+          class="govuk-tag govuk-phase-banner__content__tag"
         >
           beta
         </strong>
         <span
-          className="govuk-phase-banner__text"
+          class="govuk-phase-banner__text"
         >
-          This is a new service – your
-           
+          This is a new service – your 
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/feedback"
             id="feedback-link"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             feedback
           </a>
-           
-          will help us to improve it.
+           will help us to improve it.
         </span>
       </p>
     </div>
-  </div>,
+  </div>
   <div
-    className="govuk-width-container"
+    class="govuk-width-container"
   >
     <button
-      className="govuk-back-link mb-7"
-      onClick={[Function]}
+      class="govuk-back-link mb-7"
       type="button"
     >
       Back
     </button>
     <main
-      className="govuk-main-wrapper"
+      class="govuk-main-wrapper"
       id="main-content"
     >
       <div
-        className="govuk-grid-row"
+        class="govuk-grid-row"
       >
         <div
-          className="govuk-grid-column-two-thirds"
+          class="govuk-grid-column-two-thirds"
         >
           <form
             action="/api/feedback"
@@ -975,102 +883,102 @@ exports[`pages > feedback > should render correctly when the page is first visit
               value=""
             />
             <h1
-              className="govuk-heading-l"
+              class="govuk-heading-l"
             >
               Help us improve Create Transport Disruption Data
             </h1>
             <span
-              className="govuk-hint"
+              class="govuk-hint"
             >
               Thank you for providing feedback and comments. Answer any questions which apply to your experience using Create Transport Disruption Data, and be as specific as possible
             </span>
             <div
-              className="govuk-form-group govuk-!-padding-top-3"
+              class="govuk-form-group govuk-!-padding-top-3"
             >
               <h1
-                className="govuk-label-wrapper"
+                class="govuk-label-wrapper"
               >
                 <label
-                  className="govuk-label govuk-label--m"
-                  htmlFor="hear-about-service-question"
+                  class="govuk-label govuk-label--m"
+                  for="hear-about-service-question"
                 >
                   How did you hear about our service?
                 </label>
               </h1>
               <textarea
-                className="govuk-textarea"
+                class="govuk-textarea"
                 id="hear-about-service-question"
                 name="hearAboutServiceQuestion"
-                rows={3}
+                rows="3"
               />
             </div>
             <div
-              className="govuk-form-group govuk-!-padding-top-3"
+              class="govuk-form-group govuk-!-padding-top-3"
             >
               <h1
-                className="govuk-label-wrapper"
+                class="govuk-label-wrapper"
               >
                 <label
-                  className="govuk-label govuk-label--m"
-                  htmlFor="general-feedback-question"
+                  class="govuk-label govuk-label--m"
+                  for="general-feedback-question"
                 >
                   Please let us know any feedback or suggestions for improvements you may have
                 </label>
               </h1>
               <textarea
-                className="govuk-textarea"
+                class="govuk-textarea"
                 id="general-feedback-question"
                 name="generalFeedbackQuestion"
-                rows={6}
+                rows="6"
               />
             </div>
             <div
-              className="govuk-!-padding-bottom-3"
+              class="govuk-!-padding-bottom-3"
             >
               <fieldset
                 aria-describedby="contact-header"
-                className="govuk-fieldset"
+                class="govuk-fieldset"
               >
                 <legend
-                  className="govuk-fieldset__legend govuk-fieldset__legend--m"
+                  class="govuk-fieldset__legend govuk-fieldset__legend--m"
                   id="contact-header"
                 >
                   Did you contact us for assistance at any point?
                 </legend>
                 <div
-                  className="govuk-radios"
+                  class="govuk-radios"
                   id="contact-radios"
                 >
                   <div
-                    className="govuk-radios__item"
+                    class="govuk-radios__item"
                   >
                     <input
-                      className="govuk-radios__input"
+                      class="govuk-radios__input"
                       id="contact-question-yes"
                       name="contactQuestion"
                       type="radio"
                       value="Yes"
                     />
                     <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="contact-question-yes"
+                      class="govuk-label govuk-radios__label"
+                      for="contact-question-yes"
                     >
                       Yes
                     </label>
                   </div>
                   <div
-                    className="govuk-radios__item"
+                    class="govuk-radios__item"
                   >
                     <input
-                      className="govuk-radios__input"
+                      class="govuk-radios__input"
                       id="contact-question-no"
                       name="contactQuestion"
                       type="radio"
                       value="No"
                     />
                     <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="contact-question-no"
+                      class="govuk-label govuk-radios__label"
+                      for="contact-question-no"
                     >
                       No
                     </label>
@@ -1079,52 +987,52 @@ exports[`pages > feedback > should render correctly when the page is first visit
               </fieldset>
             </div>
             <div
-              className="govuk-!-padding-bottom-6"
+              class="govuk-!-padding-bottom-6"
             >
               <fieldset
                 aria-describedby="problem-header"
-                className="govuk-fieldset"
+                class="govuk-fieldset"
               >
                 <legend
-                  className="govuk-fieldset__legend govuk-fieldset__legend--m"
+                  class="govuk-fieldset__legend govuk-fieldset__legend--m"
                   id="problem-header"
                 >
                   Did we solve your problem?
                 </legend>
                 <div
-                  className="govuk-radios"
+                  class="govuk-radios"
                   id="problem-radios"
                 >
                   <div
-                    className="govuk-radios__item"
+                    class="govuk-radios__item"
                   >
                     <input
-                      className="govuk-radios__input"
+                      class="govuk-radios__input"
                       id="problem-question-yes"
                       name="problemQuestion"
                       type="radio"
                       value="Yes"
                     />
                     <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="problem-question-yes"
+                      class="govuk-label govuk-radios__label"
+                      for="problem-question-yes"
                     >
                       Yes
                     </label>
                   </div>
                   <div
-                    className="govuk-radios__item"
+                    class="govuk-radios__item"
                   >
                     <input
-                      className="govuk-radios__input"
+                      class="govuk-radios__input"
                       id="problem-question-no"
                       name="problemQuestion"
                       type="radio"
                       value="No"
                     />
                     <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="problem-question-no"
+                      class="govuk-label govuk-radios__label"
+                      for="problem-question-no"
                     >
                       No
                     </label>
@@ -1133,7 +1041,7 @@ exports[`pages > feedback > should render correctly when the page is first visit
               </fieldset>
             </div>
             <button
-              className="govuk-button"
+              class="govuk-button"
               data-module="govuk-button"
               id="continue-button"
             >
@@ -1145,138 +1053,112 @@ exports[`pages > feedback > should render correctly when the page is first visit
     </main>
     <div>
       <h2
-        className="govuk-heading-s"
+        class="govuk-heading-s"
       >
         Help and Support
       </h2>
       <p
-        className="govuk-body"
+        class="govuk-body"
       >
-        If you are having problems, please contact the Create Disruption Service via this link:
-         
+        If you are having problems, please contact the Create Disruption Service via this link: 
         <a
-          className="govuk-link govuk-!-font-size-19"
+          class="govuk-link govuk-!-font-size-19"
           href="/contact"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           Contact us
         </a>
       </p>
     </div>
-  </div>,
+  </div>
   <footer
-    className="govuk-footer"
+    class="govuk-footer"
     role="contentinfo"
   >
     <div
-      className="govuk-width-container"
+      class="govuk-width-container"
     >
       <div
-        className="govuk-footer__meta"
+        class="govuk-footer__meta"
       >
         <div
-          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
         >
           <h2
-            className="govuk-visually-hidden"
+            class="govuk-visually-hidden"
           >
             Support links
           </h2>
           <ul
-            className="govuk-footer__inline-list"
+            class="govuk-footer__inline-list"
           >
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Help
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/cookies"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Cookies
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Contact
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/accessibility"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Accessibility
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="https://www.gov.uk/help/terms-conditions"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Terms and conditions
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/privacy"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Privacy
               </a>
             </li>
           </ul>
           <p
-            className="govuk-footer__body"
+            class="govuk-footer__body"
           >
-            Built by the
-             
+            Built by the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.gov.uk/government/organisations/department-for-transport"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="noreferrer"
               target="_blank"
             >
@@ -1285,7 +1167,7 @@ exports[`pages > feedback > should render correctly when the page is first visit
           </p>
           <svg
             aria-hidden="true"
-            className="govuk-footer__licence-logo"
+            class="govuk-footer__licence-logo"
             focusable="false"
             height="17"
             viewBox="0 0 483.2 195.7"
@@ -1298,16 +1180,12 @@ exports[`pages > feedback > should render correctly when the page is first visit
             />
           </svg>
           <span
-            className="govuk-footer__licence-description"
+            class="govuk-footer__licence-description"
           >
-            All content is available under the
-             
+            All content is available under the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="license"
             >
               Open Government Licence v3.0
@@ -1316,20 +1194,17 @@ exports[`pages > feedback > should render correctly when the page is first visit
           </span>
         </div>
         <div
-          className="govuk-footer__meta-item"
+          class="govuk-footer__meta-item"
         >
           <a
-            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             © Crown copyright
           </a>
         </div>
       </div>
     </div>
-  </footer>,
-]
+  </footer>
+</DocumentFragment>
 `;

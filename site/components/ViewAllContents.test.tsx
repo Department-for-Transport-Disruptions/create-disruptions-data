@@ -1,21 +1,11 @@
 import { Progress, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { Dayjs } from "dayjs";
-import renderer, { act } from "react-test-renderer";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { getWorstSeverity, isClosingOrClosed } from "../pages/api/get-all-disruptions/[organisationId].api";
 import { DEFAULT_ORG_ID, mockServices, mockViewAllDisruptionsData } from "../testData/mockData";
 import ViewAllContents, { Filter, filterContents } from "./ViewAllContents";
-
-type Renderer = {
-    toJSON: () => void;
-};
-
-const defaultRenderer: Renderer = {
-    toJSON: () => {
-        return;
-    },
-};
+import { render, waitFor } from "@testing-library/react";
 
 const disruptions = mockViewAllDisruptionsData;
 
@@ -38,20 +28,18 @@ describe("pages", () => {
                 json: vi.fn().mockResolvedValue({ disruptions: [] }),
             } as unknown as Response);
 
-            let component: Renderer = defaultRenderer;
+            const { asFragment } = render(
+                <ViewAllContents
+                    newContentId={defaultNewDisruptionId}
+                    adminAreaCodes={["099"]}
+                    enableLoadingSpinnerOnPageLoad={false}
+                    orgId={DEFAULT_ORG_ID}
+                />,
+            );
 
-            await act(() => {
-                component = renderer.create(
-                    <ViewAllContents
-                        newContentId={defaultNewDisruptionId}
-                        adminAreaCodes={["099"]}
-                        enableLoadingSpinnerOnPageLoad={false}
-                        orgId={DEFAULT_ORG_ID}
-                    />,
-                );
+            await waitFor(() => {
+                expect(asFragment()).toMatchSnapshot();
             });
-
-            expect(component.toJSON()).toMatchSnapshot();
         });
 
         it("should render correctly when there are enough disruptions for no pagination", async () => {
@@ -59,20 +47,18 @@ describe("pages", () => {
                 json: vi.fn().mockResolvedValue({ disruptions }),
             } as unknown as Response);
 
-            let component: Renderer = defaultRenderer;
+            const { asFragment } = render(
+                <ViewAllContents
+                    newContentId={defaultNewDisruptionId}
+                    adminAreaCodes={["099"]}
+                    enableLoadingSpinnerOnPageLoad={false}
+                    orgId={DEFAULT_ORG_ID}
+                />,
+            );
 
-            await act(() => {
-                component = renderer.create(
-                    <ViewAllContents
-                        newContentId={defaultNewDisruptionId}
-                        adminAreaCodes={["099"]}
-                        enableLoadingSpinnerOnPageLoad={false}
-                        orgId={DEFAULT_ORG_ID}
-                    />,
-                );
+            await waitFor(() => {
+                expect(asFragment()).toMatchSnapshot();
             });
-
-            expect(component.toJSON()).toMatchSnapshot();
         });
 
         it("should render correctly when there are enough disruptions for pagination", async () => {
@@ -87,20 +73,18 @@ describe("pages", () => {
                 }),
             } as unknown as Response);
 
-            let component: Renderer = defaultRenderer;
+            const { asFragment } = render(
+                <ViewAllContents
+                    newContentId={defaultNewDisruptionId}
+                    adminAreaCodes={["099"]}
+                    enableLoadingSpinnerOnPageLoad={false}
+                    orgId={DEFAULT_ORG_ID}
+                />,
+            );
 
-            await act(() => {
-                component = renderer.create(
-                    <ViewAllContents
-                        newContentId={defaultNewDisruptionId}
-                        adminAreaCodes={["099"]}
-                        enableLoadingSpinnerOnPageLoad={false}
-                        orgId={DEFAULT_ORG_ID}
-                    />,
-                );
+            await waitFor(() => {
+                expect(asFragment()).toMatchSnapshot();
             });
-
-            expect(component.toJSON()).toMatchSnapshot();
         });
 
         it("should render correctly when filter is set to pending approval status", async () => {
@@ -115,21 +99,19 @@ describe("pages", () => {
                 }),
             } as unknown as Response);
 
-            let component: Renderer = defaultRenderer;
+            const { asFragment } = render(
+                <ViewAllContents
+                    newContentId={defaultNewDisruptionId}
+                    adminAreaCodes={["099"]}
+                    filterStatus={Progress.pendingApproval}
+                    enableLoadingSpinnerOnPageLoad={false}
+                    orgId={DEFAULT_ORG_ID}
+                />,
+            );
 
-            await act(() => {
-                component = renderer.create(
-                    <ViewAllContents
-                        newContentId={defaultNewDisruptionId}
-                        adminAreaCodes={["099"]}
-                        filterStatus={Progress.pendingApproval}
-                        enableLoadingSpinnerOnPageLoad={false}
-                        orgId={DEFAULT_ORG_ID}
-                    />,
-                );
+            await waitFor(() => {
+                expect(asFragment()).toMatchSnapshot();
             });
-
-            expect(component.toJSON()).toMatchSnapshot();
         });
 
         it("should render correctly when filter is set to draft status", async () => {
@@ -144,21 +126,19 @@ describe("pages", () => {
                 }),
             } as unknown as Response);
 
-            let component: Renderer = defaultRenderer;
+            const { asFragment } = render(
+                <ViewAllContents
+                    newContentId={defaultNewDisruptionId}
+                    adminAreaCodes={["099"]}
+                    filterStatus={Progress.draft}
+                    enableLoadingSpinnerOnPageLoad={false}
+                    orgId={DEFAULT_ORG_ID}
+                />,
+            );
 
-            await act(() => {
-                component = renderer.create(
-                    <ViewAllContents
-                        newContentId={defaultNewDisruptionId}
-                        adminAreaCodes={["099"]}
-                        filterStatus={Progress.draft}
-                        enableLoadingSpinnerOnPageLoad={false}
-                        orgId={DEFAULT_ORG_ID}
-                    />,
-                );
+            await waitFor(() => {
+                expect(asFragment()).toMatchSnapshot();
             });
-
-            expect(component.toJSON()).toMatchSnapshot();
         });
     });
 });
