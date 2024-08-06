@@ -1,54 +1,48 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`pages > CreateConsequenceNetwork > should render correctly with inputs & disruptionAreas 1`] = `
-[
+<DocumentFragment>
   <div
-    className="app-phase-banner__wrapper"
+    class="app-phase-banner__wrapper"
   >
     <div
-      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
     >
       <p
-        className="govuk-phase-banner__content"
+        class="govuk-phase-banner__content"
       >
         <strong
-          className="govuk-tag govuk-phase-banner__content__tag"
+          class="govuk-tag govuk-phase-banner__content__tag"
         >
           Beta
         </strong>
         <span
-          className="govuk-phase-banner__text"
+          class="govuk-phase-banner__text"
         >
-          This is a new service – your
-           
+          This is a new service – your 
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/feedback"
             id="feedback-link"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             feedback
           </a>
-           
-          will help us to improve it.
+           will help us to improve it.
         </span>
       </p>
     </div>
-  </div>,
+  </div>
   <div
-    className="govuk-width-container"
+    class="govuk-width-container"
   >
     <button
-      className="govuk-back-link mb-7"
-      onClick={[Function]}
+      class="govuk-back-link mb-7"
       type="button"
     >
       Back
     </button>
     <main
-      className="govuk-main-wrapper"
+      class="govuk-main-wrapper"
       id="main-content"
     >
       <form
@@ -61,49 +55,46 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
           value=""
         />
         <div
-          className="govuk-form-group"
+          class="govuk-form-group"
         >
           <h1
-            className="govuk-heading-xl"
+            class="govuk-heading-xl"
           >
             Add a consequence
           </h1>
           <table
-            className="govuk-table"
+            class="govuk-table"
           >
             <thead
-              className="govuk-table__head"
+              class="govuk-table__head"
             >
               <tr
-                className="govuk-table__row"
+                class="govuk-table__row"
               />
             </thead>
             <tbody
-              className="govuk-table__body"
+              class="govuk-table__body"
             >
               <tr
-                className="govuk-table__row"
+                class="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header align-middle"
+                  class="govuk-table__header align-middle"
                   scope="row"
                 >
                   Consequence type
                 </th>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Network wide
                 </td>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
-                    className="govuk-link"
+                    class="govuk-link"
                     href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0"
-                    onClick={[Function]}
-                    onMouseEnter={[Function]}
-                    onTouchStart={[Function]}
                   >
                     Change
                   </a>
@@ -112,88 +103,83 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
             </tbody>
           </table>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <fieldset
-              className="govuk-fieldset"
+              class="govuk-fieldset"
               id="disruption-area"
               role="group"
             >
               <legend
-                className="govuk-fieldset__legend"
+                class="govuk-fieldset__legend"
               >
                 <span
-                  className="govuk-heading-l govuk-!-margin-bottom-0"
+                  class="govuk-heading-l govuk-!-margin-bottom-0"
                 >
                   Disruption Area
                 </span>
               </legend>
               <div
-                className="govuk-hint"
+                class="govuk-hint"
                 id="disruption-area-hint"
               >
                 Which area does the network cover?
               </div>
               <div
-                className="govuk-checkboxes flex govuk-checkboxes--small"
+                class="govuk-checkboxes flex govuk-checkboxes--small"
                 data-module="govuk-checkboxes"
               >
                 <div
-                  className=""
+                  class=""
                 >
                   <div
-                    className="govuk-checkboxes__item"
+                    class="govuk-checkboxes__item"
                   >
                     <input
-                      className="govuk-checkboxes__input"
-                      defaultChecked={true}
+                      checked=""
+                      class="govuk-checkboxes__input"
                       id="disruption-area-082"
                       name="disruptionArea"
-                      onChange={[Function]}
                       type="checkbox"
                       value="082"
                     />
                     <label
-                      className="govuk-label govuk-checkboxes__label"
-                      htmlFor="disruption-area-082"
+                      class="govuk-label govuk-checkboxes__label"
+                      for="disruption-area-082"
                     >
                       Test admin area - 082
                     </label>
                   </div>
                   <div
-                    className="govuk-checkboxes__item"
+                    class="govuk-checkboxes__item"
                   >
                     <input
-                      className="govuk-checkboxes__input"
-                      defaultChecked={false}
+                      class="govuk-checkboxes__input"
                       id="disruption-area-099"
                       name="disruptionArea"
-                      onChange={[Function]}
                       type="checkbox"
                       value="099"
                     />
                     <label
-                      className="govuk-label govuk-checkboxes__label"
-                      htmlFor="disruption-area-099"
+                      class="govuk-label govuk-checkboxes__label"
+                      for="disruption-area-099"
                     >
                       Test admin area 2 - 099
                     </label>
                   </div>
                   <div
-                    className="govuk-checkboxes__item"
+                    class="govuk-checkboxes__item"
                   >
                     <input
-                      className="govuk-checkboxes__input"
-                      defaultChecked={false}
+                      class="govuk-checkboxes__input"
                       id="disruption-area-147"
                       name="disruptionArea"
-                      onChange={[Function]}
                       type="checkbox"
                       value="147"
                     />
                     <label
-                      className="govuk-label govuk-checkboxes__label"
-                      htmlFor="disruption-area-147"
+                      class="govuk-label govuk-checkboxes__label"
+                      for="disruption-area-147"
                     >
                       Test admin area 3 - 147
                     </label>
@@ -203,30 +189,29 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
             </fieldset>
           </div>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              class="govuk-form-group"
               id="vehicle-mode"
             >
               <label
-                className="govuk-label govuk-label--l"
-                htmlFor="vehicle-mode-input"
+                class="govuk-label govuk-label--l"
+                for="vehicle-mode-input"
               >
                 Mode of transport
               </label>
               <div
-                className=""
+                class=""
               >
                 <select
-                  className="govuk-select w-3/4"
-                  defaultValue=""
+                  class="govuk-select w-3/4"
                   id="vehicle-mode-input"
                   name="vehicleMode"
-                  onChange={[Function]}
                 >
                   <option
-                    disabled={true}
+                    disabled=""
+                    selected=""
                     value=""
                   >
                     Select mode of transport
@@ -256,99 +241,96 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
             </div>
           </div>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              class="govuk-form-group"
               id="description"
             >
               <label
-                className="govuk-label govuk-label--l"
-                htmlFor="description-input"
+                class="govuk-label govuk-label--l"
+                for="description-input"
               >
                 Consequence description
               </label>
               <div
-                className="govuk-hint"
+                class="govuk-hint"
                 id="description-hint"
               >
                 What advice would you like to display?
               </div>
               <div
-                className=""
+                class=""
               >
                 <textarea
                   aria-describedby="description-hint"
-                  className="govuk-textarea w-3/4"
-                  defaultValue="A truck broke down on a bridge"
+                  class="govuk-textarea w-3/4"
                   id="description-input"
-                  maxLength={1000}
+                  maxlength="1000"
                   name="description"
-                  onChange={[Function]}
-                  rows={3}
-                />
+                  rows="3"
+                >
+                  A truck broke down on a bridge
+                </textarea>
               </div>
             </div>
           </div>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <fieldset
-              className="govuk-fieldset"
+              class="govuk-fieldset"
               id="remove-from-journey-planners"
             >
               <legend
-                className="govuk-fieldset__legend"
+                class="govuk-fieldset__legend"
               >
                 <span
-                  className="govuk-heading-l govuk-!-margin-bottom-0"
+                  class="govuk-heading-l govuk-!-margin-bottom-0"
                 >
                   Remove from journey planners
                 </span>
               </legend>
               <div
-                className=""
+                class=""
               >
                 <div
-                  className="govuk-radios"
+                  class="govuk-radios"
                   data-module="govuk-radios"
                 >
                   <div
-                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                    class="govuk-radios__item govuk-!-margin-bottom-1"
                   >
                     <input
-                      className="govuk-radios__input"
+                      checked=""
+                      class="govuk-radios__input"
                       data-aria-controls="remove-from-journey-planners-yes-conditional"
-                      defaultChecked={true}
                       id="remove-from-journey-planners-yes"
                       name="removeFromJourneyPlanners"
-                      onChange={[Function]}
                       type="radio"
                       value="yes"
                     />
                     <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="remove-from-journey-planners-yes"
+                      class="govuk-label govuk-radios__label"
+                      for="remove-from-journey-planners-yes"
                     >
                       Yes
                     </label>
                   </div>
                   <div
-                    className="govuk-radios__item"
+                    class="govuk-radios__item"
                   >
                     <input
-                      className="govuk-radios__input"
+                      class="govuk-radios__input"
                       data-aria-controls="remove-from-journey-planners-no-conditional"
-                      defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="removeFromJourneyPlanners"
-                      onChange={[Function]}
                       type="radio"
                       value="no"
                     />
                     <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="remove-from-journey-planners-no"
+                      class="govuk-label govuk-radios__label"
+                      for="remove-from-journey-planners-no"
                     >
                       No
                     </label>
@@ -358,45 +340,43 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
             </fieldset>
           </div>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <div
-              className="govuk-form-group "
+              class="govuk-form-group "
               id="disruption-delay"
             >
               <div>
                 <label
-                  className="govuk-label govuk-label--l"
-                  htmlFor="disruption-delay-input"
+                  class="govuk-label govuk-label--l"
+                  for="disruption-delay-input"
                 >
                   Delay (optional)
                 </label>
               </div>
               <div
-                className="govuk-hint"
+                class="govuk-hint"
                 id="disruption-delay-hint"
               >
                 Enter time in minutes
               </div>
               <div
-                className="mt-auto"
+                class="mt-auto"
               >
                 <div
-                  className=""
+                  class=""
                 >
                   <div
-                    className=""
+                    class=""
                   >
                     <input
                       aria-describedby="disruption-delay-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
-                      defaultValue="yes"
-                      disabled={false}
+                      class="govuk-input govuk-date-input__input govuk-input--width-4"
                       id="disruption-delay-input"
                       name="disruptionDelay"
-                      onChange={[Function]}
                       placeholder=""
                       type="text"
+                      value="yes"
                     />
                   </div>
                 </div>
@@ -404,30 +384,28 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
             </div>
           </div>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              class="govuk-form-group"
               id="disruption-severity"
             >
               <label
-                className="govuk-label govuk-label--l"
-                htmlFor="disruption-severity-input"
+                class="govuk-label govuk-label--l"
+                for="disruption-severity-input"
               >
                 Disruption severity
               </label>
               <div
-                className=""
+                class=""
               >
                 <select
-                  className="govuk-select w-3/4"
-                  defaultValue="severe"
+                  class="govuk-select w-3/4"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
-                  onChange={[Function]}
                 >
                   <option
-                    disabled={true}
+                    disabled=""
                     value=""
                   >
                     Select severity
@@ -453,6 +431,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                     Normal
                   </option>
                   <option
+                    selected=""
                     value="severe"
                   >
                     Severe
@@ -479,24 +458,25 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
           <input
             name="consequenceIndex"
             type="hidden"
+            value=""
           />
           <button
-            className="govuk-button mt-8"
+            class="govuk-button mt-8"
             data-module="govuk-button"
           >
             Save and continue
           </button>
           <button
-            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            class="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api/create-consequence-network?draft=true"
+            formaction="/api/create-consequence-network?draft=true"
           >
             Save as draft
           </button>
           <button
-            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            class="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api/create-consequence-network?addAnotherConsequence=true"
+            formaction="/api/create-consequence-network?addAnotherConsequence=true"
           >
             Add another consequence
           </button>
@@ -505,138 +485,112 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
     </main>
     <div>
       <h2
-        className="govuk-heading-s"
+        class="govuk-heading-s"
       >
         Help and Support
       </h2>
       <p
-        className="govuk-body"
+        class="govuk-body"
       >
-        If you are having problems, please contact the Create Disruption Service via this link:
-         
+        If you are having problems, please contact the Create Disruption Service via this link: 
         <a
-          className="govuk-link govuk-!-font-size-19"
+          class="govuk-link govuk-!-font-size-19"
           href="/contact"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           Contact us
         </a>
       </p>
     </div>
-  </div>,
+  </div>
   <footer
-    className="govuk-footer"
+    class="govuk-footer"
     role="contentinfo"
   >
     <div
-      className="govuk-width-container"
+      class="govuk-width-container"
     >
       <div
-        className="govuk-footer__meta"
+        class="govuk-footer__meta"
       >
         <div
-          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
         >
           <h2
-            className="govuk-visually-hidden"
+            class="govuk-visually-hidden"
           >
             Support links
           </h2>
           <ul
-            className="govuk-footer__inline-list"
+            class="govuk-footer__inline-list"
           >
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Help
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/cookies"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Cookies
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Contact
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/accessibility"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Accessibility
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="https://www.gov.uk/help/terms-conditions"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Terms and conditions
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/privacy"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Privacy
               </a>
             </li>
           </ul>
           <p
-            className="govuk-footer__body"
+            class="govuk-footer__body"
           >
-            Built by the
-             
+            Built by the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.gov.uk/government/organisations/department-for-transport"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="noreferrer"
               target="_blank"
             >
@@ -645,7 +599,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
           </p>
           <svg
             aria-hidden="true"
-            className="govuk-footer__licence-logo"
+            class="govuk-footer__licence-logo"
             focusable="false"
             height="17"
             viewBox="0 0 483.2 195.7"
@@ -658,16 +612,12 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
             />
           </svg>
           <span
-            className="govuk-footer__licence-description"
+            class="govuk-footer__licence-description"
           >
-            All content is available under the
-             
+            All content is available under the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="license"
             >
               Open Government Licence v3.0
@@ -676,73 +626,64 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
           </span>
         </div>
         <div
-          className="govuk-footer__meta-item"
+          class="govuk-footer__meta-item"
         >
           <a
-            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             © Crown copyright
           </a>
         </div>
       </div>
     </div>
-  </footer>,
-]
+  </footer>
+</DocumentFragment>
 `;
 
 exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 1`] = `
-[
+<DocumentFragment>
   <div
-    className="app-phase-banner__wrapper"
+    class="app-phase-banner__wrapper"
   >
     <div
-      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
     >
       <p
-        className="govuk-phase-banner__content"
+        class="govuk-phase-banner__content"
       >
         <strong
-          className="govuk-tag govuk-phase-banner__content__tag"
+          class="govuk-tag govuk-phase-banner__content__tag"
         >
           Beta
         </strong>
         <span
-          className="govuk-phase-banner__text"
+          class="govuk-phase-banner__text"
         >
-          This is a new service – your
-           
+          This is a new service – your 
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/feedback"
             id="feedback-link"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             feedback
           </a>
-           
-          will help us to improve it.
+           will help us to improve it.
         </span>
       </p>
     </div>
-  </div>,
+  </div>
   <div
-    className="govuk-width-container"
+    class="govuk-width-container"
   >
     <button
-      className="govuk-back-link mb-7"
-      onClick={[Function]}
+      class="govuk-back-link mb-7"
       type="button"
     >
       Back
     </button>
     <main
-      className="govuk-main-wrapper"
+      class="govuk-main-wrapper"
       id="main-content"
     >
       <form
@@ -755,49 +696,46 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
           value=""
         />
         <div
-          className="govuk-form-group"
+          class="govuk-form-group"
         >
           <h1
-            className="govuk-heading-xl"
+            class="govuk-heading-xl"
           >
             Add a consequence
           </h1>
           <table
-            className="govuk-table"
+            class="govuk-table"
           >
             <thead
-              className="govuk-table__head"
+              class="govuk-table__head"
             >
               <tr
-                className="govuk-table__row"
+                class="govuk-table__row"
               />
             </thead>
             <tbody
-              className="govuk-table__body"
+              class="govuk-table__body"
             >
               <tr
-                className="govuk-table__row"
+                class="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header align-middle"
+                  class="govuk-table__header align-middle"
                   scope="row"
                 >
                   Consequence type
                 </th>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Network wide
                 </td>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
-                    className="govuk-link"
+                    class="govuk-link"
                     href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0"
-                    onClick={[Function]}
-                    onMouseEnter={[Function]}
-                    onTouchStart={[Function]}
                   >
                     Change
                   </a>
@@ -806,63 +744,62 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
             </tbody>
           </table>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <fieldset
-              className="govuk-fieldset"
+              class="govuk-fieldset"
               id="disruption-area"
               role="group"
             >
               <legend
-                className="govuk-fieldset__legend"
+                class="govuk-fieldset__legend"
               >
                 <span
-                  className="govuk-heading-l govuk-!-margin-bottom-0"
+                  class="govuk-heading-l govuk-!-margin-bottom-0"
                 >
                   Disruption Area
                 </span>
               </legend>
               <div
-                className="govuk-hint"
+                class="govuk-hint"
                 id="disruption-area-hint"
               >
                 Which area does the network cover?
               </div>
               <div
-                className="govuk-checkboxes flex govuk-checkboxes--small"
+                class="govuk-checkboxes flex govuk-checkboxes--small"
                 data-module="govuk-checkboxes"
               >
                 <div
-                  className=""
+                  class=""
                 />
               </div>
             </fieldset>
           </div>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              class="govuk-form-group"
               id="vehicle-mode"
             >
               <label
-                className="govuk-label govuk-label--l"
-                htmlFor="vehicle-mode-input"
+                class="govuk-label govuk-label--l"
+                for="vehicle-mode-input"
               >
                 Mode of transport
               </label>
               <div
-                className=""
+                class=""
               >
                 <select
-                  className="govuk-select w-3/4"
-                  defaultValue=""
+                  class="govuk-select w-3/4"
                   id="vehicle-mode-input"
                   name="vehicleMode"
-                  onChange={[Function]}
                 >
                   <option
-                    disabled={true}
+                    disabled=""
+                    selected=""
                     value=""
                   >
                     Select mode of transport
@@ -892,99 +829,96 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
             </div>
           </div>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              class="govuk-form-group"
               id="description"
             >
               <label
-                className="govuk-label govuk-label--l"
-                htmlFor="description-input"
+                class="govuk-label govuk-label--l"
+                for="description-input"
               >
                 Consequence description
               </label>
               <div
-                className="govuk-hint"
+                class="govuk-hint"
                 id="description-hint"
               >
                 What advice would you like to display?
               </div>
               <div
-                className=""
+                class=""
               >
                 <textarea
                   aria-describedby="description-hint"
-                  className="govuk-textarea w-3/4"
-                  defaultValue="A truck broke down on a bridge"
+                  class="govuk-textarea w-3/4"
                   id="description-input"
-                  maxLength={1000}
+                  maxlength="1000"
                   name="description"
-                  onChange={[Function]}
-                  rows={3}
-                />
+                  rows="3"
+                >
+                  A truck broke down on a bridge
+                </textarea>
               </div>
             </div>
           </div>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <fieldset
-              className="govuk-fieldset"
+              class="govuk-fieldset"
               id="remove-from-journey-planners"
             >
               <legend
-                className="govuk-fieldset__legend"
+                class="govuk-fieldset__legend"
               >
                 <span
-                  className="govuk-heading-l govuk-!-margin-bottom-0"
+                  class="govuk-heading-l govuk-!-margin-bottom-0"
                 >
                   Remove from journey planners
                 </span>
               </legend>
               <div
-                className=""
+                class=""
               >
                 <div
-                  className="govuk-radios"
+                  class="govuk-radios"
                   data-module="govuk-radios"
                 >
                   <div
-                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                    class="govuk-radios__item govuk-!-margin-bottom-1"
                   >
                     <input
-                      className="govuk-radios__input"
+                      checked=""
+                      class="govuk-radios__input"
                       data-aria-controls="remove-from-journey-planners-yes-conditional"
-                      defaultChecked={true}
                       id="remove-from-journey-planners-yes"
                       name="removeFromJourneyPlanners"
-                      onChange={[Function]}
                       type="radio"
                       value="yes"
                     />
                     <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="remove-from-journey-planners-yes"
+                      class="govuk-label govuk-radios__label"
+                      for="remove-from-journey-planners-yes"
                     >
                       Yes
                     </label>
                   </div>
                   <div
-                    className="govuk-radios__item"
+                    class="govuk-radios__item"
                   >
                     <input
-                      className="govuk-radios__input"
+                      class="govuk-radios__input"
                       data-aria-controls="remove-from-journey-planners-no-conditional"
-                      defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="removeFromJourneyPlanners"
-                      onChange={[Function]}
                       type="radio"
                       value="no"
                     />
                     <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="remove-from-journey-planners-no"
+                      class="govuk-label govuk-radios__label"
+                      for="remove-from-journey-planners-no"
                     >
                       No
                     </label>
@@ -994,45 +928,43 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
             </fieldset>
           </div>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <div
-              className="govuk-form-group "
+              class="govuk-form-group "
               id="disruption-delay"
             >
               <div>
                 <label
-                  className="govuk-label govuk-label--l"
-                  htmlFor="disruption-delay-input"
+                  class="govuk-label govuk-label--l"
+                  for="disruption-delay-input"
                 >
                   Delay (optional)
                 </label>
               </div>
               <div
-                className="govuk-hint"
+                class="govuk-hint"
                 id="disruption-delay-hint"
               >
                 Enter time in minutes
               </div>
               <div
-                className="mt-auto"
+                class="mt-auto"
               >
                 <div
-                  className=""
+                  class=""
                 >
                   <div
-                    className=""
+                    class=""
                   >
                     <input
                       aria-describedby="disruption-delay-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
-                      defaultValue="yes"
-                      disabled={false}
+                      class="govuk-input govuk-date-input__input govuk-input--width-4"
                       id="disruption-delay-input"
                       name="disruptionDelay"
-                      onChange={[Function]}
                       placeholder=""
                       type="text"
+                      value="yes"
                     />
                   </div>
                 </div>
@@ -1040,30 +972,28 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
             </div>
           </div>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              class="govuk-form-group"
               id="disruption-severity"
             >
               <label
-                className="govuk-label govuk-label--l"
-                htmlFor="disruption-severity-input"
+                class="govuk-label govuk-label--l"
+                for="disruption-severity-input"
               >
                 Disruption severity
               </label>
               <div
-                className=""
+                class=""
               >
                 <select
-                  className="govuk-select w-3/4"
-                  defaultValue="severe"
+                  class="govuk-select w-3/4"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
-                  onChange={[Function]}
                 >
                   <option
-                    disabled={true}
+                    disabled=""
                     value=""
                   >
                     Select severity
@@ -1089,6 +1019,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                     Normal
                   </option>
                   <option
+                    selected=""
                     value="severe"
                   >
                     Severe
@@ -1115,24 +1046,25 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
           <input
             name="consequenceIndex"
             type="hidden"
+            value=""
           />
           <button
-            className="govuk-button mt-8"
+            class="govuk-button mt-8"
             data-module="govuk-button"
           >
             Save and continue
           </button>
           <button
-            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            class="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api/create-consequence-network?draft=true"
+            formaction="/api/create-consequence-network?draft=true"
           >
             Save as draft
           </button>
           <button
-            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            class="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api/create-consequence-network?addAnotherConsequence=true"
+            formaction="/api/create-consequence-network?addAnotherConsequence=true"
           >
             Add another consequence
           </button>
@@ -1141,138 +1073,112 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
     </main>
     <div>
       <h2
-        className="govuk-heading-s"
+        class="govuk-heading-s"
       >
         Help and Support
       </h2>
       <p
-        className="govuk-body"
+        class="govuk-body"
       >
-        If you are having problems, please contact the Create Disruption Service via this link:
-         
+        If you are having problems, please contact the Create Disruption Service via this link: 
         <a
-          className="govuk-link govuk-!-font-size-19"
+          class="govuk-link govuk-!-font-size-19"
           href="/contact"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           Contact us
         </a>
       </p>
     </div>
-  </div>,
+  </div>
   <footer
-    className="govuk-footer"
+    class="govuk-footer"
     role="contentinfo"
   >
     <div
-      className="govuk-width-container"
+      class="govuk-width-container"
     >
       <div
-        className="govuk-footer__meta"
+        class="govuk-footer__meta"
       >
         <div
-          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
         >
           <h2
-            className="govuk-visually-hidden"
+            class="govuk-visually-hidden"
           >
             Support links
           </h2>
           <ul
-            className="govuk-footer__inline-list"
+            class="govuk-footer__inline-list"
           >
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Help
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/cookies"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Cookies
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Contact
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/accessibility"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Accessibility
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="https://www.gov.uk/help/terms-conditions"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Terms and conditions
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/privacy"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Privacy
               </a>
             </li>
           </ul>
           <p
-            className="govuk-footer__body"
+            class="govuk-footer__body"
           >
-            Built by the
-             
+            Built by the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.gov.uk/government/organisations/department-for-transport"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="noreferrer"
               target="_blank"
             >
@@ -1281,7 +1187,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
           </p>
           <svg
             aria-hidden="true"
-            className="govuk-footer__licence-logo"
+            class="govuk-footer__licence-logo"
             focusable="false"
             height="17"
             viewBox="0 0 483.2 195.7"
@@ -1294,16 +1200,12 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
             />
           </svg>
           <span
-            className="govuk-footer__licence-description"
+            class="govuk-footer__licence-description"
           >
-            All content is available under the
-             
+            All content is available under the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="license"
             >
               Open Government Licence v3.0
@@ -1312,73 +1214,64 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
           </span>
         </div>
         <div
-          className="govuk-footer__meta-item"
+          class="govuk-footer__meta-item"
         >
           <a
-            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             © Crown copyright
           </a>
         </div>
       </div>
     </div>
-  </footer>,
-]
+  </footer>
+</DocumentFragment>
 `;
 
 exports[`pages > CreateConsequenceNetwork > should render correctly with inputs and showUnderground is true 1`] = `
-[
+<DocumentFragment>
   <div
-    className="app-phase-banner__wrapper"
+    class="app-phase-banner__wrapper"
   >
     <div
-      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
     >
       <p
-        className="govuk-phase-banner__content"
+        class="govuk-phase-banner__content"
       >
         <strong
-          className="govuk-tag govuk-phase-banner__content__tag"
+          class="govuk-tag govuk-phase-banner__content__tag"
         >
           Beta
         </strong>
         <span
-          className="govuk-phase-banner__text"
+          class="govuk-phase-banner__text"
         >
-          This is a new service – your
-           
+          This is a new service – your 
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/feedback"
             id="feedback-link"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             feedback
           </a>
-           
-          will help us to improve it.
+           will help us to improve it.
         </span>
       </p>
     </div>
-  </div>,
+  </div>
   <div
-    className="govuk-width-container"
+    class="govuk-width-container"
   >
     <button
-      className="govuk-back-link mb-7"
-      onClick={[Function]}
+      class="govuk-back-link mb-7"
       type="button"
     >
       Back
     </button>
     <main
-      className="govuk-main-wrapper"
+      class="govuk-main-wrapper"
       id="main-content"
     >
       <form
@@ -1391,49 +1284,46 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
           value=""
         />
         <div
-          className="govuk-form-group"
+          class="govuk-form-group"
         >
           <h1
-            className="govuk-heading-xl"
+            class="govuk-heading-xl"
           >
             Add a consequence
           </h1>
           <table
-            className="govuk-table"
+            class="govuk-table"
           >
             <thead
-              className="govuk-table__head"
+              class="govuk-table__head"
             >
               <tr
-                className="govuk-table__row"
+                class="govuk-table__row"
               />
             </thead>
             <tbody
-              className="govuk-table__body"
+              class="govuk-table__body"
             >
               <tr
-                className="govuk-table__row"
+                class="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header align-middle"
+                  class="govuk-table__header align-middle"
                   scope="row"
                 >
                   Consequence type
                 </th>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Network wide
                 </td>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
-                    className="govuk-link"
+                    class="govuk-link"
                     href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0"
-                    onClick={[Function]}
-                    onMouseEnter={[Function]}
-                    onTouchStart={[Function]}
                   >
                     Change
                   </a>
@@ -1442,63 +1332,62 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
             </tbody>
           </table>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <fieldset
-              className="govuk-fieldset"
+              class="govuk-fieldset"
               id="disruption-area"
               role="group"
             >
               <legend
-                className="govuk-fieldset__legend"
+                class="govuk-fieldset__legend"
               >
                 <span
-                  className="govuk-heading-l govuk-!-margin-bottom-0"
+                  class="govuk-heading-l govuk-!-margin-bottom-0"
                 >
                   Disruption Area
                 </span>
               </legend>
               <div
-                className="govuk-hint"
+                class="govuk-hint"
                 id="disruption-area-hint"
               >
                 Which area does the network cover?
               </div>
               <div
-                className="govuk-checkboxes flex govuk-checkboxes--small"
+                class="govuk-checkboxes flex govuk-checkboxes--small"
                 data-module="govuk-checkboxes"
               >
                 <div
-                  className=""
+                  class=""
                 />
               </div>
             </fieldset>
           </div>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              class="govuk-form-group"
               id="vehicle-mode"
             >
               <label
-                className="govuk-label govuk-label--l"
-                htmlFor="vehicle-mode-input"
+                class="govuk-label govuk-label--l"
+                for="vehicle-mode-input"
               >
                 Mode of transport
               </label>
               <div
-                className=""
+                class=""
               >
                 <select
-                  className="govuk-select w-3/4"
-                  defaultValue=""
+                  class="govuk-select w-3/4"
                   id="vehicle-mode-input"
                   name="vehicleMode"
-                  onChange={[Function]}
                 >
                   <option
-                    disabled={true}
+                    disabled=""
+                    selected=""
                     value=""
                   >
                     Select mode of transport
@@ -1533,99 +1422,96 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
             </div>
           </div>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              class="govuk-form-group"
               id="description"
             >
               <label
-                className="govuk-label govuk-label--l"
-                htmlFor="description-input"
+                class="govuk-label govuk-label--l"
+                for="description-input"
               >
                 Consequence description
               </label>
               <div
-                className="govuk-hint"
+                class="govuk-hint"
                 id="description-hint"
               >
                 What advice would you like to display?
               </div>
               <div
-                className=""
+                class=""
               >
                 <textarea
                   aria-describedby="description-hint"
-                  className="govuk-textarea w-3/4"
-                  defaultValue="A truck broke down on a bridge"
+                  class="govuk-textarea w-3/4"
                   id="description-input"
-                  maxLength={1000}
+                  maxlength="1000"
                   name="description"
-                  onChange={[Function]}
-                  rows={3}
-                />
+                  rows="3"
+                >
+                  A truck broke down on a bridge
+                </textarea>
               </div>
             </div>
           </div>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <fieldset
-              className="govuk-fieldset"
+              class="govuk-fieldset"
               id="remove-from-journey-planners"
             >
               <legend
-                className="govuk-fieldset__legend"
+                class="govuk-fieldset__legend"
               >
                 <span
-                  className="govuk-heading-l govuk-!-margin-bottom-0"
+                  class="govuk-heading-l govuk-!-margin-bottom-0"
                 >
                   Remove from journey planners
                 </span>
               </legend>
               <div
-                className=""
+                class=""
               >
                 <div
-                  className="govuk-radios"
+                  class="govuk-radios"
                   data-module="govuk-radios"
                 >
                   <div
-                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                    class="govuk-radios__item govuk-!-margin-bottom-1"
                   >
                     <input
-                      className="govuk-radios__input"
+                      checked=""
+                      class="govuk-radios__input"
                       data-aria-controls="remove-from-journey-planners-yes-conditional"
-                      defaultChecked={true}
                       id="remove-from-journey-planners-yes"
                       name="removeFromJourneyPlanners"
-                      onChange={[Function]}
                       type="radio"
                       value="yes"
                     />
                     <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="remove-from-journey-planners-yes"
+                      class="govuk-label govuk-radios__label"
+                      for="remove-from-journey-planners-yes"
                     >
                       Yes
                     </label>
                   </div>
                   <div
-                    className="govuk-radios__item"
+                    class="govuk-radios__item"
                   >
                     <input
-                      className="govuk-radios__input"
+                      class="govuk-radios__input"
                       data-aria-controls="remove-from-journey-planners-no-conditional"
-                      defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="removeFromJourneyPlanners"
-                      onChange={[Function]}
                       type="radio"
                       value="no"
                     />
                     <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="remove-from-journey-planners-no"
+                      class="govuk-label govuk-radios__label"
+                      for="remove-from-journey-planners-no"
                     >
                       No
                     </label>
@@ -1635,45 +1521,43 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
             </fieldset>
           </div>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <div
-              className="govuk-form-group "
+              class="govuk-form-group "
               id="disruption-delay"
             >
               <div>
                 <label
-                  className="govuk-label govuk-label--l"
-                  htmlFor="disruption-delay-input"
+                  class="govuk-label govuk-label--l"
+                  for="disruption-delay-input"
                 >
                   Delay (optional)
                 </label>
               </div>
               <div
-                className="govuk-hint"
+                class="govuk-hint"
                 id="disruption-delay-hint"
               >
                 Enter time in minutes
               </div>
               <div
-                className="mt-auto"
+                class="mt-auto"
               >
                 <div
-                  className=""
+                  class=""
                 >
                   <div
-                    className=""
+                    class=""
                   >
                     <input
                       aria-describedby="disruption-delay-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
-                      defaultValue="yes"
-                      disabled={false}
+                      class="govuk-input govuk-date-input__input govuk-input--width-4"
                       id="disruption-delay-input"
                       name="disruptionDelay"
-                      onChange={[Function]}
                       placeholder=""
                       type="text"
+                      value="yes"
                     />
                   </div>
                 </div>
@@ -1681,30 +1565,28 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
             </div>
           </div>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              class="govuk-form-group"
               id="disruption-severity"
             >
               <label
-                className="govuk-label govuk-label--l"
-                htmlFor="disruption-severity-input"
+                class="govuk-label govuk-label--l"
+                for="disruption-severity-input"
               >
                 Disruption severity
               </label>
               <div
-                className=""
+                class=""
               >
                 <select
-                  className="govuk-select w-3/4"
-                  defaultValue="severe"
+                  class="govuk-select w-3/4"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
-                  onChange={[Function]}
                 >
                   <option
-                    disabled={true}
+                    disabled=""
                     value=""
                   >
                     Select severity
@@ -1730,6 +1612,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                     Normal
                   </option>
                   <option
+                    selected=""
                     value="severe"
                   >
                     Severe
@@ -1756,24 +1639,25 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
           <input
             name="consequenceIndex"
             type="hidden"
+            value=""
           />
           <button
-            className="govuk-button mt-8"
+            class="govuk-button mt-8"
             data-module="govuk-button"
           >
             Save and continue
           </button>
           <button
-            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            class="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api/create-consequence-network?draft=true"
+            formaction="/api/create-consequence-network?draft=true"
           >
             Save as draft
           </button>
           <button
-            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            class="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api/create-consequence-network?addAnotherConsequence=true"
+            formaction="/api/create-consequence-network?addAnotherConsequence=true"
           >
             Add another consequence
           </button>
@@ -1782,138 +1666,112 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
     </main>
     <div>
       <h2
-        className="govuk-heading-s"
+        class="govuk-heading-s"
       >
         Help and Support
       </h2>
       <p
-        className="govuk-body"
+        class="govuk-body"
       >
-        If you are having problems, please contact the Create Disruption Service via this link:
-         
+        If you are having problems, please contact the Create Disruption Service via this link: 
         <a
-          className="govuk-link govuk-!-font-size-19"
+          class="govuk-link govuk-!-font-size-19"
           href="/contact"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           Contact us
         </a>
       </p>
     </div>
-  </div>,
+  </div>
   <footer
-    className="govuk-footer"
+    class="govuk-footer"
     role="contentinfo"
   >
     <div
-      className="govuk-width-container"
+      class="govuk-width-container"
     >
       <div
-        className="govuk-footer__meta"
+        class="govuk-footer__meta"
       >
         <div
-          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
         >
           <h2
-            className="govuk-visually-hidden"
+            class="govuk-visually-hidden"
           >
             Support links
           </h2>
           <ul
-            className="govuk-footer__inline-list"
+            class="govuk-footer__inline-list"
           >
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Help
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/cookies"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Cookies
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Contact
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/accessibility"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Accessibility
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="https://www.gov.uk/help/terms-conditions"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Terms and conditions
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/privacy"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Privacy
               </a>
             </li>
           </ul>
           <p
-            className="govuk-footer__body"
+            class="govuk-footer__body"
           >
-            Built by the
-             
+            Built by the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.gov.uk/government/organisations/department-for-transport"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="noreferrer"
               target="_blank"
             >
@@ -1922,7 +1780,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
           </p>
           <svg
             aria-hidden="true"
-            className="govuk-footer__licence-logo"
+            class="govuk-footer__licence-logo"
             focusable="false"
             height="17"
             viewBox="0 0 483.2 195.7"
@@ -1935,16 +1793,12 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
             />
           </svg>
           <span
-            className="govuk-footer__licence-description"
+            class="govuk-footer__licence-description"
           >
-            All content is available under the
-             
+            All content is available under the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="license"
             >
               Open Government Licence v3.0
@@ -1953,73 +1807,64 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
           </span>
         </div>
         <div
-          className="govuk-footer__meta-item"
+          class="govuk-footer__meta-item"
         >
           <a
-            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             © Crown copyright
           </a>
         </div>
       </div>
     </div>
-  </footer>,
-]
+  </footer>
+</DocumentFragment>
 `;
 
 exports[`pages > CreateConsequenceNetwork > should render correctly with no inputs 1`] = `
-[
+<DocumentFragment>
   <div
-    className="app-phase-banner__wrapper"
+    class="app-phase-banner__wrapper"
   >
     <div
-      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
     >
       <p
-        className="govuk-phase-banner__content"
+        class="govuk-phase-banner__content"
       >
         <strong
-          className="govuk-tag govuk-phase-banner__content__tag"
+          class="govuk-tag govuk-phase-banner__content__tag"
         >
           Beta
         </strong>
         <span
-          className="govuk-phase-banner__text"
+          class="govuk-phase-banner__text"
         >
-          This is a new service – your
-           
+          This is a new service – your 
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/feedback"
             id="feedback-link"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             feedback
           </a>
-           
-          will help us to improve it.
+           will help us to improve it.
         </span>
       </p>
     </div>
-  </div>,
+  </div>
   <div
-    className="govuk-width-container"
+    class="govuk-width-container"
   >
     <button
-      className="govuk-back-link mb-7"
-      onClick={[Function]}
+      class="govuk-back-link mb-7"
       type="button"
     >
       Back
     </button>
     <main
-      className="govuk-main-wrapper"
+      class="govuk-main-wrapper"
       id="main-content"
     >
       <form
@@ -2032,49 +1877,46 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
           value=""
         />
         <div
-          className="govuk-form-group"
+          class="govuk-form-group"
         >
           <h1
-            className="govuk-heading-xl"
+            class="govuk-heading-xl"
           >
             Add a consequence
           </h1>
           <table
-            className="govuk-table"
+            class="govuk-table"
           >
             <thead
-              className="govuk-table__head"
+              class="govuk-table__head"
             >
               <tr
-                className="govuk-table__row"
+                class="govuk-table__row"
               />
             </thead>
             <tbody
-              className="govuk-table__body"
+              class="govuk-table__body"
             >
               <tr
-                className="govuk-table__row"
+                class="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header align-middle"
+                  class="govuk-table__header align-middle"
                   scope="row"
                 >
                   Consequence type
                 </th>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Network wide
                 </td>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
-                    className="govuk-link"
+                    class="govuk-link"
                     href="/type-of-consequence//0"
-                    onClick={[Function]}
-                    onMouseEnter={[Function]}
-                    onTouchStart={[Function]}
                   >
                     Change
                   </a>
@@ -2083,63 +1925,62 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
             </tbody>
           </table>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <fieldset
-              className="govuk-fieldset"
+              class="govuk-fieldset"
               id="disruption-area"
               role="group"
             >
               <legend
-                className="govuk-fieldset__legend"
+                class="govuk-fieldset__legend"
               >
                 <span
-                  className="govuk-heading-l govuk-!-margin-bottom-0"
+                  class="govuk-heading-l govuk-!-margin-bottom-0"
                 >
                   Disruption Area
                 </span>
               </legend>
               <div
-                className="govuk-hint"
+                class="govuk-hint"
                 id="disruption-area-hint"
               >
                 Which area does the network cover?
               </div>
               <div
-                className="govuk-checkboxes flex govuk-checkboxes--small"
+                class="govuk-checkboxes flex govuk-checkboxes--small"
                 data-module="govuk-checkboxes"
               >
                 <div
-                  className=""
+                  class=""
                 />
               </div>
             </fieldset>
           </div>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              class="govuk-form-group"
               id="vehicle-mode"
             >
               <label
-                className="govuk-label govuk-label--l"
-                htmlFor="vehicle-mode-input"
+                class="govuk-label govuk-label--l"
+                for="vehicle-mode-input"
               >
                 Mode of transport
               </label>
               <div
-                className=""
+                class=""
               >
                 <select
-                  className="govuk-select w-3/4"
-                  defaultValue=""
+                  class="govuk-select w-3/4"
                   id="vehicle-mode-input"
                   name="vehicleMode"
-                  onChange={[Function]}
                 >
                   <option
-                    disabled={true}
+                    disabled=""
+                    selected=""
                     value=""
                   >
                     Select mode of transport
@@ -2169,109 +2010,103 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
             </div>
           </div>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              class="govuk-form-group"
               id="description"
             >
               <label
-                className="govuk-label govuk-label--l"
-                htmlFor="description-input"
+                class="govuk-label govuk-label--l"
+                for="description-input"
               >
                 Consequence description
               </label>
               <div
-                className="govuk-hint"
+                class="govuk-hint"
                 id="description-hint"
               >
                 What advice would you like to display?
               </div>
               <div
-                className=""
+                class=""
               >
                 <textarea
                   aria-describedby="description-hint"
-                  className="govuk-textarea w-3/4"
+                  class="govuk-textarea w-3/4"
                   id="description-input"
-                  maxLength={1000}
+                  maxlength="1000"
                   name="description"
-                  onChange={[Function]}
-                  rows={3}
+                  rows="3"
                 />
               </div>
             </div>
           </div>
           <button
-            className="mt-3 govuk-link"
+            class="mt-3 govuk-link"
             data-module="govuk-button"
-            onClick={[Function]}
           >
             <p
-              className="text-govBlue govuk-body-m"
+              class="text-govBlue govuk-body-m"
             >
               Copy from disruption description
             </p>
           </button>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <fieldset
-              className="govuk-fieldset"
+              class="govuk-fieldset"
               id="remove-from-journey-planners"
             >
               <legend
-                className="govuk-fieldset__legend"
+                class="govuk-fieldset__legend"
               >
                 <span
-                  className="govuk-heading-l govuk-!-margin-bottom-0"
+                  class="govuk-heading-l govuk-!-margin-bottom-0"
                 >
                   Remove from journey planners
                 </span>
               </legend>
               <div
-                className=""
+                class=""
               >
                 <div
-                  className="govuk-radios"
+                  class="govuk-radios"
                   data-module="govuk-radios"
                 >
                   <div
-                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                    class="govuk-radios__item govuk-!-margin-bottom-1"
                   >
                     <input
-                      className="govuk-radios__input"
+                      class="govuk-radios__input"
                       data-aria-controls="remove-from-journey-planners-yes-conditional"
-                      defaultChecked={false}
                       id="remove-from-journey-planners-yes"
                       name="removeFromJourneyPlanners"
-                      onChange={[Function]}
                       type="radio"
                       value="yes"
                     />
                     <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="remove-from-journey-planners-yes"
+                      class="govuk-label govuk-radios__label"
+                      for="remove-from-journey-planners-yes"
                     >
                       Yes
                     </label>
                   </div>
                   <div
-                    className="govuk-radios__item"
+                    class="govuk-radios__item"
                   >
                     <input
-                      className="govuk-radios__input"
+                      class="govuk-radios__input"
                       data-aria-controls="remove-from-journey-planners-no-conditional"
-                      defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="removeFromJourneyPlanners"
-                      onChange={[Function]}
                       type="radio"
                       value="no"
                     />
                     <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="remove-from-journey-planners-no"
+                      class="govuk-label govuk-radios__label"
+                      for="remove-from-journey-planners-no"
                     >
                       No
                     </label>
@@ -2281,44 +2116,43 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
             </fieldset>
           </div>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <div
-              className="govuk-form-group "
+              class="govuk-form-group "
               id="disruption-delay"
             >
               <div>
                 <label
-                  className="govuk-label govuk-label--l"
-                  htmlFor="disruption-delay-input"
+                  class="govuk-label govuk-label--l"
+                  for="disruption-delay-input"
                 >
                   Delay (optional)
                 </label>
               </div>
               <div
-                className="govuk-hint"
+                class="govuk-hint"
                 id="disruption-delay-hint"
               >
                 Enter time in minutes
               </div>
               <div
-                className="mt-auto"
+                class="mt-auto"
               >
                 <div
-                  className=""
+                  class=""
                 >
                   <div
-                    className=""
+                    class=""
                   >
                     <input
                       aria-describedby="disruption-delay-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
-                      disabled={false}
+                      class="govuk-input govuk-date-input__input govuk-input--width-4"
                       id="disruption-delay-input"
                       name="disruptionDelay"
-                      onChange={[Function]}
                       placeholder=""
                       type="text"
+                      value=""
                     />
                   </div>
                 </div>
@@ -2326,30 +2160,29 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
             </div>
           </div>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              class="govuk-form-group"
               id="disruption-severity"
             >
               <label
-                className="govuk-label govuk-label--l"
-                htmlFor="disruption-severity-input"
+                class="govuk-label govuk-label--l"
+                for="disruption-severity-input"
               >
                 Disruption severity
               </label>
               <div
-                className=""
+                class=""
               >
                 <select
-                  className="govuk-select w-3/4"
-                  defaultValue=""
+                  class="govuk-select w-3/4"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
-                  onChange={[Function]}
                 >
                   <option
-                    disabled={true}
+                    disabled=""
+                    selected=""
                     value=""
                   >
                     Select severity
@@ -2396,28 +2229,30 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
           <input
             name="disruptionId"
             type="hidden"
+            value=""
           />
           <input
             name="consequenceIndex"
             type="hidden"
+            value=""
           />
           <button
-            className="govuk-button mt-8"
+            class="govuk-button mt-8"
             data-module="govuk-button"
           >
             Save and continue
           </button>
           <button
-            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            class="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api/create-consequence-network?draft=true"
+            formaction="/api/create-consequence-network?draft=true"
           >
             Save as draft
           </button>
           <button
-            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            class="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api/create-consequence-network?addAnotherConsequence=true"
+            formaction="/api/create-consequence-network?addAnotherConsequence=true"
           >
             Add another consequence
           </button>
@@ -2426,138 +2261,112 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
     </main>
     <div>
       <h2
-        className="govuk-heading-s"
+        class="govuk-heading-s"
       >
         Help and Support
       </h2>
       <p
-        className="govuk-body"
+        class="govuk-body"
       >
-        If you are having problems, please contact the Create Disruption Service via this link:
-         
+        If you are having problems, please contact the Create Disruption Service via this link: 
         <a
-          className="govuk-link govuk-!-font-size-19"
+          class="govuk-link govuk-!-font-size-19"
           href="/contact"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           Contact us
         </a>
       </p>
     </div>
-  </div>,
+  </div>
   <footer
-    className="govuk-footer"
+    class="govuk-footer"
     role="contentinfo"
   >
     <div
-      className="govuk-width-container"
+      class="govuk-width-container"
     >
       <div
-        className="govuk-footer__meta"
+        class="govuk-footer__meta"
       >
         <div
-          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
         >
           <h2
-            className="govuk-visually-hidden"
+            class="govuk-visually-hidden"
           >
             Support links
           </h2>
           <ul
-            className="govuk-footer__inline-list"
+            class="govuk-footer__inline-list"
           >
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Help
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/cookies"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Cookies
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Contact
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/accessibility"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Accessibility
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="https://www.gov.uk/help/terms-conditions"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Terms and conditions
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/privacy"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Privacy
               </a>
             </li>
           </ul>
           <p
-            className="govuk-footer__body"
+            class="govuk-footer__body"
           >
-            Built by the
-             
+            Built by the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.gov.uk/government/organisations/department-for-transport"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="noreferrer"
               target="_blank"
             >
@@ -2566,7 +2375,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
           </p>
           <svg
             aria-hidden="true"
-            className="govuk-footer__licence-logo"
+            class="govuk-footer__licence-logo"
             focusable="false"
             height="17"
             viewBox="0 0 483.2 195.7"
@@ -2579,16 +2388,12 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
             />
           </svg>
           <span
-            className="govuk-footer__licence-description"
+            class="govuk-footer__licence-description"
           >
-            All content is available under the
-             
+            All content is available under the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="license"
             >
               Open Government Licence v3.0
@@ -2597,73 +2402,64 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
           </span>
         </div>
         <div
-          className="govuk-footer__meta-item"
+          class="govuk-footer__meta-item"
         >
           <a
-            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             © Crown copyright
           </a>
         </div>
       </div>
     </div>
-  </footer>,
-]
+  </footer>
+</DocumentFragment>
 `;
 
 exports[`pages > CreateConsequenceNetwork > should render correctly with query params 1`] = `
-[
+<DocumentFragment>
   <div
-    className="app-phase-banner__wrapper"
+    class="app-phase-banner__wrapper"
   >
     <div
-      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
     >
       <p
-        className="govuk-phase-banner__content"
+        class="govuk-phase-banner__content"
       >
         <strong
-          className="govuk-tag govuk-phase-banner__content__tag"
+          class="govuk-tag govuk-phase-banner__content__tag"
         >
           Beta
         </strong>
         <span
-          className="govuk-phase-banner__text"
+          class="govuk-phase-banner__text"
         >
-          This is a new service – your
-           
+          This is a new service – your 
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/feedback"
             id="feedback-link"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             feedback
           </a>
-           
-          will help us to improve it.
+           will help us to improve it.
         </span>
       </p>
     </div>
-  </div>,
+  </div>
   <div
-    className="govuk-width-container"
+    class="govuk-width-container"
   >
     <button
-      className="govuk-back-link mb-7"
-      onClick={[Function]}
+      class="govuk-back-link mb-7"
       type="button"
     >
       Back
     </button>
     <main
-      className="govuk-main-wrapper"
+      class="govuk-main-wrapper"
       id="main-content"
     >
       <form
@@ -2676,49 +2472,46 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
           value=""
         />
         <div
-          className="govuk-form-group"
+          class="govuk-form-group"
         >
           <h1
-            className="govuk-heading-xl"
+            class="govuk-heading-xl"
           >
             Add a consequence
           </h1>
           <table
-            className="govuk-table"
+            class="govuk-table"
           >
             <thead
-              className="govuk-table__head"
+              class="govuk-table__head"
             >
               <tr
-                className="govuk-table__row"
+                class="govuk-table__row"
               />
             </thead>
             <tbody
-              className="govuk-table__body"
+              class="govuk-table__body"
             >
               <tr
-                className="govuk-table__row"
+                class="govuk-table__row"
               >
                 <th
-                  className="govuk-table__header align-middle"
+                  class="govuk-table__header align-middle"
                   scope="row"
                 >
                   Consequence type
                 </th>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   Network wide
                 </td>
                 <td
-                  className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
-                    className="govuk-link"
+                    class="govuk-link"
                     href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0"
-                    onClick={[Function]}
-                    onMouseEnter={[Function]}
-                    onTouchStart={[Function]}
                   >
                     Change
                   </a>
@@ -2727,63 +2520,62 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
             </tbody>
           </table>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <fieldset
-              className="govuk-fieldset"
+              class="govuk-fieldset"
               id="disruption-area"
               role="group"
             >
               <legend
-                className="govuk-fieldset__legend"
+                class="govuk-fieldset__legend"
               >
                 <span
-                  className="govuk-heading-l govuk-!-margin-bottom-0"
+                  class="govuk-heading-l govuk-!-margin-bottom-0"
                 >
                   Disruption Area
                 </span>
               </legend>
               <div
-                className="govuk-hint"
+                class="govuk-hint"
                 id="disruption-area-hint"
               >
                 Which area does the network cover?
               </div>
               <div
-                className="govuk-checkboxes flex govuk-checkboxes--small"
+                class="govuk-checkboxes flex govuk-checkboxes--small"
                 data-module="govuk-checkboxes"
               >
                 <div
-                  className=""
+                  class=""
                 />
               </div>
             </fieldset>
           </div>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              class="govuk-form-group"
               id="vehicle-mode"
             >
               <label
-                className="govuk-label govuk-label--l"
-                htmlFor="vehicle-mode-input"
+                class="govuk-label govuk-label--l"
+                for="vehicle-mode-input"
               >
                 Mode of transport
               </label>
               <div
-                className=""
+                class=""
               >
                 <select
-                  className="govuk-select w-3/4"
-                  defaultValue=""
+                  class="govuk-select w-3/4"
                   id="vehicle-mode-input"
                   name="vehicleMode"
-                  onChange={[Function]}
                 >
                   <option
-                    disabled={true}
+                    disabled=""
+                    selected=""
                     value=""
                   >
                     Select mode of transport
@@ -2813,99 +2605,96 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
             </div>
           </div>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              class="govuk-form-group"
               id="description"
             >
               <label
-                className="govuk-label govuk-label--l"
-                htmlFor="description-input"
+                class="govuk-label govuk-label--l"
+                for="description-input"
               >
                 Consequence description
               </label>
               <div
-                className="govuk-hint"
+                class="govuk-hint"
                 id="description-hint"
               >
                 What advice would you like to display?
               </div>
               <div
-                className=""
+                class=""
               >
                 <textarea
                   aria-describedby="description-hint"
-                  className="govuk-textarea w-3/4"
-                  defaultValue="A truck broke down on a bridge"
+                  class="govuk-textarea w-3/4"
                   id="description-input"
-                  maxLength={1000}
+                  maxlength="1000"
                   name="description"
-                  onChange={[Function]}
-                  rows={3}
-                />
+                  rows="3"
+                >
+                  A truck broke down on a bridge
+                </textarea>
               </div>
             </div>
           </div>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <fieldset
-              className="govuk-fieldset"
+              class="govuk-fieldset"
               id="remove-from-journey-planners"
             >
               <legend
-                className="govuk-fieldset__legend"
+                class="govuk-fieldset__legend"
               >
                 <span
-                  className="govuk-heading-l govuk-!-margin-bottom-0"
+                  class="govuk-heading-l govuk-!-margin-bottom-0"
                 >
                   Remove from journey planners
                 </span>
               </legend>
               <div
-                className=""
+                class=""
               >
                 <div
-                  className="govuk-radios"
+                  class="govuk-radios"
                   data-module="govuk-radios"
                 >
                   <div
-                    className="govuk-radios__item govuk-!-margin-bottom-1"
+                    class="govuk-radios__item govuk-!-margin-bottom-1"
                   >
                     <input
-                      className="govuk-radios__input"
+                      checked=""
+                      class="govuk-radios__input"
                       data-aria-controls="remove-from-journey-planners-yes-conditional"
-                      defaultChecked={true}
                       id="remove-from-journey-planners-yes"
                       name="removeFromJourneyPlanners"
-                      onChange={[Function]}
                       type="radio"
                       value="yes"
                     />
                     <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="remove-from-journey-planners-yes"
+                      class="govuk-label govuk-radios__label"
+                      for="remove-from-journey-planners-yes"
                     >
                       Yes
                     </label>
                   </div>
                   <div
-                    className="govuk-radios__item"
+                    class="govuk-radios__item"
                   >
                     <input
-                      className="govuk-radios__input"
+                      class="govuk-radios__input"
                       data-aria-controls="remove-from-journey-planners-no-conditional"
-                      defaultChecked={false}
                       id="remove-from-journey-planners-no"
                       name="removeFromJourneyPlanners"
-                      onChange={[Function]}
                       type="radio"
                       value="no"
                     />
                     <label
-                      className="govuk-label govuk-radios__label"
-                      htmlFor="remove-from-journey-planners-no"
+                      class="govuk-label govuk-radios__label"
+                      for="remove-from-journey-planners-no"
                     >
                       No
                     </label>
@@ -2915,45 +2704,43 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
             </fieldset>
           </div>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <div
-              className="govuk-form-group "
+              class="govuk-form-group "
               id="disruption-delay"
             >
               <div>
                 <label
-                  className="govuk-label govuk-label--l"
-                  htmlFor="disruption-delay-input"
+                  class="govuk-label govuk-label--l"
+                  for="disruption-delay-input"
                 >
                   Delay (optional)
                 </label>
               </div>
               <div
-                className="govuk-hint"
+                class="govuk-hint"
                 id="disruption-delay-hint"
               >
                 Enter time in minutes
               </div>
               <div
-                className="mt-auto"
+                class="mt-auto"
               >
                 <div
-                  className=""
+                  class=""
                 >
                   <div
-                    className=""
+                    class=""
                   >
                     <input
                       aria-describedby="disruption-delay-hint"
-                      className="govuk-input govuk-date-input__input govuk-input--width-4"
-                      defaultValue="yes"
-                      disabled={false}
+                      class="govuk-input govuk-date-input__input govuk-input--width-4"
                       id="disruption-delay-input"
                       name="disruptionDelay"
-                      onChange={[Function]}
                       placeholder=""
                       type="text"
+                      value="yes"
                     />
                   </div>
                 </div>
@@ -2961,30 +2748,28 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
             </div>
           </div>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              class="govuk-form-group"
               id="disruption-severity"
             >
               <label
-                className="govuk-label govuk-label--l"
-                htmlFor="disruption-severity-input"
+                class="govuk-label govuk-label--l"
+                for="disruption-severity-input"
               >
                 Disruption severity
               </label>
               <div
-                className=""
+                class=""
               >
                 <select
-                  className="govuk-select w-3/4"
-                  defaultValue="severe"
+                  class="govuk-select w-3/4"
                   id="disruption-severity-input"
                   name="disruptionSeverity"
-                  onChange={[Function]}
                 >
                   <option
-                    disabled={true}
+                    disabled=""
                     value=""
                   >
                     Select severity
@@ -3010,6 +2795,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
                     Normal
                   </option>
                   <option
+                    selected=""
                     value="severe"
                   >
                     Severe
@@ -3036,24 +2822,25 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
           <input
             name="consequenceIndex"
             type="hidden"
+            value=""
           />
           <button
-            className="govuk-button mt-8"
+            class="govuk-button mt-8"
             data-module="govuk-button"
           >
             Save and continue
           </button>
           <button
-            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            class="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api/create-consequence-network?draft=true"
+            formaction="/api/create-consequence-network?draft=true"
           >
             Save as draft
           </button>
           <button
-            className="govuk-button mt-8 ml-5 govuk-button--secondary"
+            class="govuk-button mt-8 ml-5 govuk-button--secondary"
             data-module="govuk-button"
-            formAction="/api/create-consequence-network?addAnotherConsequence=true"
+            formaction="/api/create-consequence-network?addAnotherConsequence=true"
           >
             Add another consequence
           </button>
@@ -3062,138 +2849,112 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
     </main>
     <div>
       <h2
-        className="govuk-heading-s"
+        class="govuk-heading-s"
       >
         Help and Support
       </h2>
       <p
-        className="govuk-body"
+        class="govuk-body"
       >
-        If you are having problems, please contact the Create Disruption Service via this link:
-         
+        If you are having problems, please contact the Create Disruption Service via this link: 
         <a
-          className="govuk-link govuk-!-font-size-19"
+          class="govuk-link govuk-!-font-size-19"
           href="/contact"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           Contact us
         </a>
       </p>
     </div>
-  </div>,
+  </div>
   <footer
-    className="govuk-footer"
+    class="govuk-footer"
     role="contentinfo"
   >
     <div
-      className="govuk-width-container"
+      class="govuk-width-container"
     >
       <div
-        className="govuk-footer__meta"
+        class="govuk-footer__meta"
       >
         <div
-          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
         >
           <h2
-            className="govuk-visually-hidden"
+            class="govuk-visually-hidden"
           >
             Support links
           </h2>
           <ul
-            className="govuk-footer__inline-list"
+            class="govuk-footer__inline-list"
           >
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Help
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/cookies"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Cookies
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Contact
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/accessibility"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Accessibility
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="https://www.gov.uk/help/terms-conditions"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Terms and conditions
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/privacy"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Privacy
               </a>
             </li>
           </ul>
           <p
-            className="govuk-footer__body"
+            class="govuk-footer__body"
           >
-            Built by the
-             
+            Built by the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.gov.uk/government/organisations/department-for-transport"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="noreferrer"
               target="_blank"
             >
@@ -3202,7 +2963,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
           </p>
           <svg
             aria-hidden="true"
-            className="govuk-footer__licence-logo"
+            class="govuk-footer__licence-logo"
             focusable="false"
             height="17"
             viewBox="0 0 483.2 195.7"
@@ -3215,16 +2976,12 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
             />
           </svg>
           <span
-            className="govuk-footer__licence-description"
+            class="govuk-footer__licence-description"
           >
-            All content is available under the
-             
+            All content is available under the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="license"
             >
               Open Government Licence v3.0
@@ -3233,20 +2990,17 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
           </span>
         </div>
         <div
-          className="govuk-footer__meta-item"
+          class="govuk-footer__meta-item"
         >
           <a
-            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             © Crown copyright
           </a>
         </div>
       </div>
     </div>
-  </footer>,
-]
+  </footer>
+</DocumentFragment>
 `;

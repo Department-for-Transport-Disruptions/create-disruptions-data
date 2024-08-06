@@ -1,264 +1,253 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`SortableTable > should render correctly 1`] = `
-<table
-  className="govuk-table"
->
-  <thead
-    className="govuk-table__head"
+<DocumentFragment>
+  <table
+    class="govuk-table"
   >
-    <tr
-      className="govuk-table__row"
+    <thead
+      class="govuk-table__head"
     >
-      <th
-        className="govuk-table__header align-middle px-2 "
-        scope="col"
+      <tr
+        class="govuk-table__row"
       >
-        ID
-      </th>
-      <th
-        className="govuk-table__header align-middle px-2 "
-        scope="col"
-      >
-        Name
-      </th>
-      <th
-        className="govuk-table__header align-middle px-2 "
-        onClick={[Function]}
-        scope="col"
-      >
-        <div
-          className="flex flex-row items-center"
+        <th
+          class="govuk-table__header align-middle px-2 "
+          scope="col"
         >
-          Start
+          ID
+        </th>
+        <th
+          class="govuk-table__header align-middle px-2 "
+          scope="col"
+        >
+          Name
+        </th>
+        <th
+          class="govuk-table__header align-middle px-2 "
+          scope="col"
+        >
           <div
-            className="flex flex-col pl-1 text-arrow"
+            class="flex flex-row items-center"
           >
-            <span
-              className="-mb-1"
+            Start
+            <div
+              class="flex flex-col pl-1 text-arrow"
             >
-              ▲
-            </span>
-            <span>
-              ▼
-            </span>
+              <span
+                class="-mb-1"
+              >
+                ▲
+              </span>
+              <span>
+                ▼
+              </span>
+            </div>
           </div>
-        </div>
-      </th>
-      <th
-        className="govuk-table__header align-middle px-2 "
-        onClick={[Function]}
-        scope="col"
-      >
-        <div
-          className="flex flex-row items-center"
+        </th>
+        <th
+          class="govuk-table__header align-middle px-2 "
+          scope="col"
         >
-          Role
           <div
-            className="flex flex-col pl-1 text-arrow"
+            class="flex flex-row items-center"
           >
-            <span
-              className="-mb-1"
+            Role
+            <div
+              class="flex flex-col pl-1 text-arrow"
             >
-              ▲
-            </span>
-            <span>
-              ▼
-            </span>
+              <span
+                class="-mb-1"
+              >
+                ▲
+              </span>
+              <span>
+                ▼
+              </span>
+            </div>
           </div>
-        </div>
-      </th>
-    </tr>
-  </thead>
-  <tbody
-    className="govuk-table__body"
-  >
-    <tr
-      className="govuk-table__row"
+        </th>
+      </tr>
+    </thead>
+    <tbody
+      class="govuk-table__body"
     >
-      <td
-        className="govuk-table__cell align-middle px-2"
+      <tr
+        class="govuk-table__row"
       >
-        <a
-          className="govuk-link"
-          href="/disruption-detail/id?return=%2Fview-all-disruptions"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
+        <td
+          class="govuk-table__cell align-middle px-2"
         >
-          aft62h
-        </a>
-      </td>
-      <td
-        className="govuk-table__cell align-middle px-2"
-      >
-        Random name1
-      </td>
-      <td
-        className="govuk-table__cell align-middle px-2"
-      >
-        25/03/2023
-      </td>
-      <td
-        className="govuk-table__cell align-middle px-2"
-      >
-        Engineer
-      </td>
-    </tr>
-    <tr
-      className="govuk-table__row"
-    >
-      <td
-        className="govuk-table__cell align-middle px-2"
-      >
-        <a
-          className="govuk-link"
-          href="/disruption-detail/id?return=%2Fview-all-disruptions"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
+          <a
+            class="govuk-link"
+            href="/disruption-detail/id?return=%2Fview-all-disruptions"
+          >
+            aft62h
+          </a>
+        </td>
+        <td
+          class="govuk-table__cell align-middle px-2"
         >
-          aft62h
-        </a>
-      </td>
-      <td
-        className="govuk-table__cell align-middle px-2"
-      >
-        Random name4
-      </td>
-      <td
-        className="govuk-table__cell align-middle px-2"
-      >
-        25/03/2023
-      </td>
-      <td
-        className="govuk-table__cell align-middle px-2"
-      >
-        Architect
-      </td>
-    </tr>
-    <tr
-      className="govuk-table__row"
-    >
-      <td
-        className="govuk-table__cell align-middle px-2"
-      >
-        <a
-          className="govuk-link"
-          href="/disruption-detail/id?return=%2Fview-all-disruptions"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
+          Random name1
+        </td>
+        <td
+          class="govuk-table__cell align-middle px-2"
         >
-          aft62h
-        </a>
-      </td>
-      <td
-        className="govuk-table__cell align-middle px-2"
-      >
-        Random name2
-      </td>
-      <td
-        className="govuk-table__cell align-middle px-2"
-      >
-        20/04/2023
-      </td>
-      <td
-        className="govuk-table__cell align-middle px-2"
-      >
-        Engineer
-      </td>
-    </tr>
-    <tr
-      className="govuk-table__row"
-    >
-      <td
-        className="govuk-table__cell align-middle px-2"
-      >
-        <a
-          className="govuk-link"
-          href="/disruption-detail/id?return=%2Fview-all-disruptions"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
+          25/03/2023
+        </td>
+        <td
+          class="govuk-table__cell align-middle px-2"
         >
-          aft62h
-        </a>
-      </td>
-      <td
-        className="govuk-table__cell align-middle px-2"
+          Engineer
+        </td>
+      </tr>
+      <tr
+        class="govuk-table__row"
       >
-        Random name3
-      </td>
-      <td
-        className="govuk-table__cell align-middle px-2"
+        <td
+          class="govuk-table__cell align-middle px-2"
+        >
+          <a
+            class="govuk-link"
+            href="/disruption-detail/id?return=%2Fview-all-disruptions"
+          >
+            aft62h
+          </a>
+        </td>
+        <td
+          class="govuk-table__cell align-middle px-2"
+        >
+          Random name4
+        </td>
+        <td
+          class="govuk-table__cell align-middle px-2"
+        >
+          25/03/2023
+        </td>
+        <td
+          class="govuk-table__cell align-middle px-2"
+        >
+          Architect
+        </td>
+      </tr>
+      <tr
+        class="govuk-table__row"
       >
-        25/03/2024
-      </td>
-      <td
-        className="govuk-table__cell align-middle px-2"
+        <td
+          class="govuk-table__cell align-middle px-2"
+        >
+          <a
+            class="govuk-link"
+            href="/disruption-detail/id?return=%2Fview-all-disruptions"
+          >
+            aft62h
+          </a>
+        </td>
+        <td
+          class="govuk-table__cell align-middle px-2"
+        >
+          Random name2
+        </td>
+        <td
+          class="govuk-table__cell align-middle px-2"
+        >
+          20/04/2023
+        </td>
+        <td
+          class="govuk-table__cell align-middle px-2"
+        >
+          Engineer
+        </td>
+      </tr>
+      <tr
+        class="govuk-table__row"
       >
-        Director
-      </td>
-    </tr>
-  </tbody>
-</table>
+        <td
+          class="govuk-table__cell align-middle px-2"
+        >
+          <a
+            class="govuk-link"
+            href="/disruption-detail/id?return=%2Fview-all-disruptions"
+          >
+            aft62h
+          </a>
+        </td>
+        <td
+          class="govuk-table__cell align-middle px-2"
+        >
+          Random name3
+        </td>
+        <td
+          class="govuk-table__cell align-middle px-2"
+        >
+          25/03/2024
+        </td>
+        <td
+          class="govuk-table__cell align-middle px-2"
+        >
+          Director
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</DocumentFragment>
 `;
 
 exports[`SortableTable > should render correctly when empty arrays are passed 1`] = `
-<table
-  className="govuk-table"
->
-  <thead
-    className="govuk-table__head"
+<DocumentFragment>
+  <table
+    class="govuk-table"
   >
-    <tr
-      className="govuk-table__row"
+    <thead
+      class="govuk-table__head"
+    >
+      <tr
+        class="govuk-table__row"
+      />
+    </thead>
+    <tbody
+      class="govuk-table__body"
     />
-  </thead>
-  <tbody
-    className="govuk-table__body"
-  />
-</table>
+  </table>
+</DocumentFragment>
 `;
 
 exports[`SortableTable > should render correctly with pagination 1`] = `
-[
+<DocumentFragment>
   <table
-    className="govuk-table"
+    class="govuk-table"
   >
     <thead
-      className="govuk-table__head"
+      class="govuk-table__head"
     >
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <th
-          className="govuk-table__header align-middle px-2 "
+          class="govuk-table__header align-middle px-2 "
           scope="col"
         >
           ID
         </th>
         <th
-          className="govuk-table__header align-middle px-2 "
+          class="govuk-table__header align-middle px-2 "
           scope="col"
         >
           Name
         </th>
         <th
-          className="govuk-table__header align-middle px-2 "
-          onClick={[Function]}
+          class="govuk-table__header align-middle px-2 "
           scope="col"
         >
           <div
-            className="flex flex-row items-center"
+            class="flex flex-row items-center"
           >
             Start
             <div
-              className="flex flex-col pl-1 text-arrow"
+              class="flex flex-col pl-1 text-arrow"
             >
               <span
-                className="-mb-1"
+                class="-mb-1"
               >
                 ▲
               </span>
@@ -269,19 +258,18 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
           </div>
         </th>
         <th
-          className="govuk-table__header align-middle px-2 "
-          onClick={[Function]}
+          class="govuk-table__header align-middle px-2 "
           scope="col"
         >
           <div
-            className="flex flex-row items-center"
+            class="flex flex-row items-center"
           >
             Role
             <div
-              className="flex flex-col pl-1 text-arrow"
+              class="flex flex-col pl-1 text-arrow"
             >
               <span
-                className="-mb-1"
+                class="-mb-1"
               >
                 ▲
               </span>
@@ -294,434 +282,385 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
       </tr>
     </thead>
     <tbody
-      className="govuk-table__body"
+      class="govuk-table__body"
     >
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             aft62h
           </a>
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Random name1
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           25/03/2023
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Engineer
         </td>
       </tr>
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             aft62h
           </a>
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Random name4
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           25/03/2023
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Architect
         </td>
       </tr>
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             aft62h
           </a>
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Random name2
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           20/04/2023
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Engineer
         </td>
       </tr>
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             aft62h
           </a>
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Random name3
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           25/03/2024
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Director
         </td>
       </tr>
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             aft62h
           </a>
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Random name1
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           25/03/2023
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Engineer
         </td>
       </tr>
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             aft62h
           </a>
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Random name4
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           25/03/2023
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Architect
         </td>
       </tr>
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             aft62h
           </a>
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Random name2
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           20/04/2023
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Engineer
         </td>
       </tr>
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             aft62h
           </a>
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Random name3
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           25/03/2024
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Director
         </td>
       </tr>
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             aft62h
           </a>
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Random name1
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           25/03/2023
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Engineer
         </td>
       </tr>
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             aft62h
           </a>
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Random name4
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           25/03/2023
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Architect
         </td>
       </tr>
     </tbody>
-  </table>,
+  </table>
   <nav
-    className="govuk-pagination justify-center"
+    class="govuk-pagination justify-center"
   >
     <ul
-      className="govuk-pagination__list"
+      class="govuk-pagination__list"
     >
        
       <li
-        className="govuk-pagination__item govuk-pagination__item--current"
+        class="govuk-pagination__item govuk-pagination__item--current"
       >
         <a
           aria-label="Page 1"
-          className="govuk-link govuk-pagination__link"
+          class="govuk-link govuk-pagination__link"
           data-module="govuk-button"
           draggable="false"
           href="#"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
           role="button"
         >
-          1
-           
+          1 
         </a>
       </li>
       <li
-        className="govuk-pagination__item"
+        class="govuk-pagination__item"
       >
         <a
           aria-label="Page 2"
-          className="govuk-link govuk-pagination__link"
+          class="govuk-link govuk-pagination__link"
           data-module="govuk-button"
           draggable="false"
           href="#"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
           role="button"
         >
-          2
-           
+          2 
         </a>
       </li>
       <li
-        className="govuk-pagination__item"
+        class="govuk-pagination__item"
       >
         <a
           aria-label="Page 3"
-          className="govuk-link govuk-pagination__link"
+          class="govuk-link govuk-pagination__link"
           data-module="govuk-button"
           draggable="false"
           href="#"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
           role="button"
         >
-          3
-           
+          3 
         </a>
       </li>
       <li
-        className="govuk-pagination__item"
+        class="govuk-pagination__item"
       >
         <a
           aria-label="Page 4"
-          className="govuk-link govuk-pagination__link"
+          class="govuk-link govuk-pagination__link"
           data-module="govuk-button"
           draggable="false"
           href="#"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
           role="button"
         >
-          4
-           
+          4 
         </a>
       </li>
     </ul>
     <div
-      className="govuk-pagination__next"
+      class="govuk-pagination__next"
     >
       <a
         aria-label="Page 4"
-        className="govuk-link govuk-pagination__link"
+        class="govuk-link govuk-pagination__link"
         data-module="govuk-button"
         draggable="false"
         href=""
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
         rel="next"
         role="button"
       >
         <span
-          className="govuk-pagination__link-title"
+          class="govuk-pagination__link-title"
         >
           Next
         </span>
          
         <svg
           aria-hidden="true"
-          className="govuk-pagination__icon govuk-pagination__icon--next"
+          class="govuk-pagination__icon govuk-pagination__icon--next"
           focusable="false"
           height="13"
           viewBox="0 0 15 13"
@@ -734,47 +673,46 @@ exports[`SortableTable > should render correctly with pagination 1`] = `
         </svg>
       </a>
     </div>
-  </nav>,
-]
+  </nav>
+</DocumentFragment>
 `;
 
 exports[`SortableTable > should render correctly with sorting function 1`] = `
-[
+<DocumentFragment>
   <table
-    className="govuk-table"
+    class="govuk-table"
   >
     <thead
-      className="govuk-table__head"
+      class="govuk-table__head"
     >
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <th
-          className="govuk-table__header align-middle px-2 "
+          class="govuk-table__header align-middle px-2 "
           scope="col"
         >
           ID
         </th>
         <th
-          className="govuk-table__header align-middle px-2 "
+          class="govuk-table__header align-middle px-2 "
           scope="col"
         >
           Name
         </th>
         <th
-          className="govuk-table__header align-middle px-2 "
-          onClick={[Function]}
+          class="govuk-table__header align-middle px-2 "
           scope="col"
         >
           <div
-            className="flex flex-row items-center"
+            class="flex flex-row items-center"
           >
             Start
             <div
-              className="flex flex-col pl-1 text-arrow"
+              class="flex flex-col pl-1 text-arrow"
             >
               <span
-                className="-mb-1"
+                class="-mb-1"
               >
                 ▲
               </span>
@@ -785,19 +723,18 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
           </div>
         </th>
         <th
-          className="govuk-table__header align-middle px-2 "
-          onClick={[Function]}
+          class="govuk-table__header align-middle px-2 "
           scope="col"
         >
           <div
-            className="flex flex-row items-center"
+            class="flex flex-row items-center"
           >
             Role
             <div
-              className="flex flex-col pl-1 text-arrow"
+              class="flex flex-col pl-1 text-arrow"
             >
               <span
-                className="-mb-1"
+                class="-mb-1"
               >
                 ▲
               </span>
@@ -810,434 +747,385 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
       </tr>
     </thead>
     <tbody
-      className="govuk-table__body"
+      class="govuk-table__body"
     >
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             aft62h
           </a>
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Random name1
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           25/03/2023
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Engineer
         </td>
       </tr>
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             aft62h
           </a>
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Random name4
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           25/03/2023
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Architect
         </td>
       </tr>
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             aft62h
           </a>
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Random name2
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           20/04/2023
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Engineer
         </td>
       </tr>
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             aft62h
           </a>
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Random name3
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           25/03/2024
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Director
         </td>
       </tr>
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             aft62h
           </a>
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Random name1
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           25/03/2023
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Engineer
         </td>
       </tr>
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             aft62h
           </a>
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Random name4
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           25/03/2023
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Architect
         </td>
       </tr>
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             aft62h
           </a>
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Random name2
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           20/04/2023
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Engineer
         </td>
       </tr>
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             aft62h
           </a>
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Random name3
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           25/03/2024
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Director
         </td>
       </tr>
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             aft62h
           </a>
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Random name1
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           25/03/2023
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Engineer
         </td>
       </tr>
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/disruption-detail/id?return=%2Fview-all-disruptions"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             aft62h
           </a>
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Random name4
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           25/03/2023
         </td>
         <td
-          className="govuk-table__cell align-middle px-2"
+          class="govuk-table__cell align-middle px-2"
         >
           Architect
         </td>
       </tr>
     </tbody>
-  </table>,
+  </table>
   <nav
-    className="govuk-pagination justify-center"
+    class="govuk-pagination justify-center"
   >
     <ul
-      className="govuk-pagination__list"
+      class="govuk-pagination__list"
     >
        
       <li
-        className="govuk-pagination__item govuk-pagination__item--current"
+        class="govuk-pagination__item govuk-pagination__item--current"
       >
         <a
           aria-label="Page 1"
-          className="govuk-link govuk-pagination__link"
+          class="govuk-link govuk-pagination__link"
           data-module="govuk-button"
           draggable="false"
           href="#"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
           role="button"
         >
-          1
-           
+          1 
         </a>
       </li>
       <li
-        className="govuk-pagination__item"
+        class="govuk-pagination__item"
       >
         <a
           aria-label="Page 2"
-          className="govuk-link govuk-pagination__link"
+          class="govuk-link govuk-pagination__link"
           data-module="govuk-button"
           draggable="false"
           href="#"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
           role="button"
         >
-          2
-           
+          2 
         </a>
       </li>
       <li
-        className="govuk-pagination__item"
+        class="govuk-pagination__item"
       >
         <a
           aria-label="Page 3"
-          className="govuk-link govuk-pagination__link"
+          class="govuk-link govuk-pagination__link"
           data-module="govuk-button"
           draggable="false"
           href="#"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
           role="button"
         >
-          3
-           
+          3 
         </a>
       </li>
       <li
-        className="govuk-pagination__item"
+        class="govuk-pagination__item"
       >
         <a
           aria-label="Page 4"
-          className="govuk-link govuk-pagination__link"
+          class="govuk-link govuk-pagination__link"
           data-module="govuk-button"
           draggable="false"
           href="#"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
           role="button"
         >
-          4
-           
+          4 
         </a>
       </li>
     </ul>
     <div
-      className="govuk-pagination__next"
+      class="govuk-pagination__next"
     >
       <a
         aria-label="Page 4"
-        className="govuk-link govuk-pagination__link"
+        class="govuk-link govuk-pagination__link"
         data-module="govuk-button"
         draggable="false"
         href=""
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
         rel="next"
         role="button"
       >
         <span
-          className="govuk-pagination__link-title"
+          class="govuk-pagination__link-title"
         >
           Next
         </span>
          
         <svg
           aria-hidden="true"
-          className="govuk-pagination__icon govuk-pagination__icon--next"
+          class="govuk-pagination__icon govuk-pagination__icon--next"
           focusable="false"
           height="13"
           viewBox="0 0 15 13"
@@ -1250,6 +1138,6 @@ exports[`SortableTable > should render correctly with sorting function 1`] = `
         </svg>
       </a>
     </div>
-  </nav>,
-]
+  </nav>
+</DocumentFragment>
 `;

@@ -1,231 +1,196 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`pages > viewAllSocialMedia > should render correctly when social media posts are not present 1`] = `
-[
+exports[`ViewAllSocialMedia > should render correctly when social media posts are not present 1`] = `
+<DocumentFragment>
   <div
-    className="app-phase-banner__wrapper"
+    class="app-phase-banner__wrapper"
   >
     <div
-      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
     >
       <p
-        className="govuk-phase-banner__content"
+        class="govuk-phase-banner__content"
       >
         <strong
-          className="govuk-tag govuk-phase-banner__content__tag"
+          class="govuk-tag govuk-phase-banner__content__tag"
         >
           Beta
         </strong>
         <span
-          className="govuk-phase-banner__text"
+          class="govuk-phase-banner__text"
         >
-          This is a new service – your
-           
+          This is a new service – your 
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/feedback"
             id="feedback-link"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             feedback
           </a>
-           
-          will help us to improve it.
+           will help us to improve it.
         </span>
       </p>
     </div>
-  </div>,
+  </div>
   <div
-    className="govuk-width-container"
+    class="govuk-width-container"
   >
     <button
-      className="govuk-back-link mb-7"
-      onClick={[Function]}
+      class="govuk-back-link mb-7"
       type="button"
     >
       Back
     </button>
     <main
-      className="govuk-main-wrapper"
+      class="govuk-main-wrapper"
       id="main-content"
     >
       <h1
-        className="govuk-heading-xl"
+        class="govuk-heading-xl"
       >
         Social media posts
       </h1>
       <div
         aria-labelledby="govuk-notification-banner-title"
-        className="govuk-notification-banner"
+        class="govuk-notification-banner"
         data-module="govuk-notification-banner"
         role="region"
       >
         <div
-          className="govuk-notification-banner__header"
+          class="govuk-notification-banner__header"
         >
           <h2
-            className="govuk-notification-banner__title"
+            class="govuk-notification-banner__title"
             id="govuk-notification-banner-title"
           >
             Important
           </h2>
         </div>
         <div
-          className="govuk-notification-banner__content"
+          class="govuk-notification-banner__content"
         >
           <p
-            className="govuk-notification-banner__heading"
+            class="govuk-notification-banner__heading"
           >
             No live or upcoming disruptions currently have an associated social media message
           </p>
         </div>
       </div>
       <a
-        className="govuk-button"
+        class="govuk-button"
         href="/dashboard"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
       >
         Return to dashboard
       </a>
     </main>
     <div>
       <h2
-        className="govuk-heading-s"
+        class="govuk-heading-s"
       >
         Help and Support
       </h2>
       <p
-        className="govuk-body"
+        class="govuk-body"
       >
-        If you are having problems, please contact the Create Disruption Service via this link:
-         
+        If you are having problems, please contact the Create Disruption Service via this link: 
         <a
-          className="govuk-link govuk-!-font-size-19"
+          class="govuk-link govuk-!-font-size-19"
           href="/contact"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           Contact us
         </a>
       </p>
     </div>
-  </div>,
+  </div>
   <footer
-    className="govuk-footer"
+    class="govuk-footer"
     role="contentinfo"
   >
     <div
-      className="govuk-width-container"
+      class="govuk-width-container"
     >
       <div
-        className="govuk-footer__meta"
+        class="govuk-footer__meta"
       >
         <div
-          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
         >
           <h2
-            className="govuk-visually-hidden"
+            class="govuk-visually-hidden"
           >
             Support links
           </h2>
           <ul
-            className="govuk-footer__inline-list"
+            class="govuk-footer__inline-list"
           >
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Help
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/cookies"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Cookies
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Contact
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/accessibility"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Accessibility
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="https://www.gov.uk/help/terms-conditions"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Terms and conditions
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/privacy"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Privacy
               </a>
             </li>
           </ul>
           <p
-            className="govuk-footer__body"
+            class="govuk-footer__body"
           >
-            Built by the
-             
+            Built by the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.gov.uk/government/organisations/department-for-transport"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="noreferrer"
               target="_blank"
             >
@@ -234,7 +199,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
           </p>
           <svg
             aria-hidden="true"
-            className="govuk-footer__licence-logo"
+            class="govuk-footer__licence-logo"
             focusable="false"
             height="17"
             viewBox="0 0 483.2 195.7"
@@ -247,16 +212,12 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
             />
           </svg>
           <span
-            className="govuk-footer__licence-description"
+            class="govuk-footer__licence-description"
           >
-            All content is available under the
-             
+            All content is available under the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="license"
             >
               Open Government Licence v3.0
@@ -265,96 +226,87 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
           </span>
         </div>
         <div
-          className="govuk-footer__meta-item"
+          class="govuk-footer__meta-item"
         >
           <a
-            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             © Crown copyright
           </a>
         </div>
       </div>
     </div>
-  </footer>,
-]
+  </footer>
+</DocumentFragment>
 `;
 
-exports[`pages > viewAllSocialMedia > should render correctly when social media posts are present 1`] = `
-[
+exports[`ViewAllSocialMedia > should render correctly when social media posts are present 1`] = `
+<DocumentFragment>
   <div
-    className="app-phase-banner__wrapper"
+    class="app-phase-banner__wrapper"
   >
     <div
-      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
     >
       <p
-        className="govuk-phase-banner__content"
+        class="govuk-phase-banner__content"
       >
         <strong
-          className="govuk-tag govuk-phase-banner__content__tag"
+          class="govuk-tag govuk-phase-banner__content__tag"
         >
           Beta
         </strong>
         <span
-          className="govuk-phase-banner__text"
+          class="govuk-phase-banner__text"
         >
-          This is a new service – your
-           
+          This is a new service – your 
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/feedback"
             id="feedback-link"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             feedback
           </a>
-           
-          will help us to improve it.
+           will help us to improve it.
         </span>
       </p>
     </div>
-  </div>,
+  </div>
   <div
-    className="govuk-width-container"
+    class="govuk-width-container"
   >
     <button
-      className="govuk-back-link mb-7"
-      onClick={[Function]}
+      class="govuk-back-link mb-7"
       type="button"
     >
       Back
     </button>
     <main
-      className="govuk-main-wrapper"
+      class="govuk-main-wrapper"
       id="main-content"
     >
       <h1
-        className="govuk-heading-xl"
+        class="govuk-heading-xl"
       >
         Social media posts
       </h1>
       <div
-        className="govuk-accordion"
+        class="govuk-accordion"
         data-module="govuk-accordion"
         id="accordion-default"
       >
         <div
-          className="govuk-accordion__section"
+          class="govuk-accordion__section"
         >
           <div
-            className="govuk-accordion__section-header"
+            class="govuk-accordion__section-header"
           >
             <h2
-              className="govuk-accordion__section-heading"
+              class="govuk-accordion__section-heading"
             >
               <span
-                className="govuk-accordion__section-button"
+                class="govuk-accordion__section-button"
                 id="accordion-default-heading-1"
               >
                 Social media post 1
@@ -363,143 +315,143 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
           </div>
           <div
             aria-labelledby="accordion-default-heading-1"
-            className="govuk-accordion__section-content"
+            class="govuk-accordion__section-content"
             id="accordion-default-content-1"
           >
             <table
-              className="govuk-table"
+              class="govuk-table"
             >
               <thead
-                className="govuk-table__head"
+                class="govuk-table__head"
               >
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 />
               </thead>
               <tbody
-                className="govuk-table__body"
+                class="govuk-table__body"
               >
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Message to appear
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     a post
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Image
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     No image uploaded
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Publish date
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     28/06/2023
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Publish time
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     1700
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Account name
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     25858639
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     HootSuite profile
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     138196022
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Nextdoor area boundaries
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     N/A
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Status
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     Successful
                   </td>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
               </tbody>
@@ -507,16 +459,16 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
           </div>
         </div>
         <div
-          className="govuk-accordion__section"
+          class="govuk-accordion__section"
         >
           <div
-            className="govuk-accordion__section-header"
+            class="govuk-accordion__section-header"
           >
             <h2
-              className="govuk-accordion__section-heading"
+              class="govuk-accordion__section-heading"
             >
               <span
-                className="govuk-accordion__section-button"
+                class="govuk-accordion__section-button"
                 id="accordion-default-heading-2"
               >
                 Social media post 2
@@ -525,151 +477,148 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
           </div>
           <div
             aria-labelledby="accordion-default-heading-2"
-            className="govuk-accordion__section-content"
+            class="govuk-accordion__section-content"
             id="accordion-default-content-2"
           >
             <table
-              className="govuk-table"
+              class="govuk-table"
             >
               <thead
-                className="govuk-table__head"
+                class="govuk-table__head"
               >
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 />
               </thead>
               <tbody
-                className="govuk-table__body"
+                class="govuk-table__body"
               >
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Message to appear
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     test 12345
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Image
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     <a
-                      className="govuk-link text-govBlue"
+                      class="govuk-link text-govBlue"
                       href="https://cdd-image-bucket-teststage.s3.eu-west-2.amazonaws.com/12345"
-                      onClick={[Function]}
-                      onMouseEnter={[Function]}
-                      onTouchStart={[Function]}
                     >
                       1200px-SNice.svg.png
                     </a>
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Publish date
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     28/06/2023
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Publish time
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     1800
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Account name
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     25858639
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     HootSuite profile
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     138196022
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Nextdoor area boundaries
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     N/A
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Status
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     Successful
                   </td>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
               </tbody>
@@ -677,16 +626,16 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
           </div>
         </div>
         <div
-          className="govuk-accordion__section"
+          class="govuk-accordion__section"
         >
           <div
-            className="govuk-accordion__section-header"
+            class="govuk-accordion__section-header"
           >
             <h2
-              className="govuk-accordion__section-heading"
+              class="govuk-accordion__section-heading"
             >
               <span
-                className="govuk-accordion__section-button"
+                class="govuk-accordion__section-button"
                 id="accordion-default-heading-3"
               >
                 Social media post 3
@@ -695,151 +644,148 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
           </div>
           <div
             aria-labelledby="accordion-default-heading-3"
-            className="govuk-accordion__section-content"
+            class="govuk-accordion__section-content"
             id="accordion-default-content-3"
           >
             <table
-              className="govuk-table"
+              class="govuk-table"
             >
               <thead
-                className="govuk-table__head"
+                class="govuk-table__head"
               >
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 />
               </thead>
               <tbody
-                className="govuk-table__body"
+                class="govuk-table__body"
               >
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Message to appear
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     oh no
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Image
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     <a
-                      className="govuk-link text-govBlue"
+                      class="govuk-link text-govBlue"
                       href="https://cdd-image-bucket-teststage.s3.eu-west-2.amazonaws.com/12345"
-                      onClick={[Function]}
-                      onMouseEnter={[Function]}
-                      onTouchStart={[Function]}
                     >
                       1200px-SNice.svg.png
                     </a>
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Publish date
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     04/07/2023
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Publish time
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     1900
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Account name
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     25858639
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     HootSuite profile
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     138196022
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Nextdoor area boundaries
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     N/A
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Status
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     Successful
                   </td>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
               </tbody>
@@ -847,16 +793,16 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
           </div>
         </div>
         <div
-          className="govuk-accordion__section"
+          class="govuk-accordion__section"
         >
           <div
-            className="govuk-accordion__section-header"
+            class="govuk-accordion__section-header"
           >
             <h2
-              className="govuk-accordion__section-heading"
+              class="govuk-accordion__section-heading"
             >
               <span
-                className="govuk-accordion__section-button"
+                class="govuk-accordion__section-button"
                 id="accordion-default-heading-4"
               >
                 Social media post 4
@@ -865,143 +811,143 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
           </div>
           <div
             aria-labelledby="accordion-default-heading-4"
-            className="govuk-accordion__section-content"
+            class="govuk-accordion__section-content"
             id="accordion-default-content-4"
           >
             <table
-              className="govuk-table"
+              class="govuk-table"
             >
               <thead
-                className="govuk-table__head"
+                class="govuk-table__head"
               >
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 />
               </thead>
               <tbody
-                className="govuk-table__body"
+                class="govuk-table__body"
               >
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Message to appear
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     a post
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Image
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     No image uploaded
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Publish date
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     28/06/2023
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Publish time
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     1700
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Account name
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     25858639
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     HootSuite profile
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     138196022
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Nextdoor area boundaries
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     N/A
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Status
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     Rejected
                   </td>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
               </tbody>
@@ -1009,16 +955,16 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
           </div>
         </div>
         <div
-          className="govuk-accordion__section"
+          class="govuk-accordion__section"
         >
           <div
-            className="govuk-accordion__section-header"
+            class="govuk-accordion__section-header"
           >
             <h2
-              className="govuk-accordion__section-heading"
+              class="govuk-accordion__section-heading"
             >
               <span
-                className="govuk-accordion__section-button"
+                class="govuk-accordion__section-button"
                 id="accordion-default-heading-5"
               >
                 Social media post 5
@@ -1027,143 +973,143 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
           </div>
           <div
             aria-labelledby="accordion-default-heading-5"
-            className="govuk-accordion__section-content"
+            class="govuk-accordion__section-content"
             id="accordion-default-content-5"
           >
             <table
-              className="govuk-table"
+              class="govuk-table"
             >
               <thead
-                className="govuk-table__head"
+                class="govuk-table__head"
               >
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 />
               </thead>
               <tbody
-                className="govuk-table__body"
+                class="govuk-table__body"
               >
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Message to appear
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     twitter post
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Image
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     No image uploaded
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Publish date
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     N/A
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Publish time
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     N/A
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Account name
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     25858639
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     HootSuite profile
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     N/A
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Nextdoor area boundaries
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     N/A
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Status
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     Successful
                   </td>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
               </tbody>
@@ -1172,149 +1118,120 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
         </div>
       </div>
       <a
-        className="govuk-button"
+        class="govuk-button"
         href="/dashboard"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
       >
         Return to dashboard
       </a>
     </main>
     <div>
       <h2
-        className="govuk-heading-s"
+        class="govuk-heading-s"
       >
         Help and Support
       </h2>
       <p
-        className="govuk-body"
+        class="govuk-body"
       >
-        If you are having problems, please contact the Create Disruption Service via this link:
-         
+        If you are having problems, please contact the Create Disruption Service via this link: 
         <a
-          className="govuk-link govuk-!-font-size-19"
+          class="govuk-link govuk-!-font-size-19"
           href="/contact"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           Contact us
         </a>
       </p>
     </div>
-  </div>,
+  </div>
   <footer
-    className="govuk-footer"
+    class="govuk-footer"
     role="contentinfo"
   >
     <div
-      className="govuk-width-container"
+      class="govuk-width-container"
     >
       <div
-        className="govuk-footer__meta"
+        class="govuk-footer__meta"
       >
         <div
-          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
         >
           <h2
-            className="govuk-visually-hidden"
+            class="govuk-visually-hidden"
           >
             Support links
           </h2>
           <ul
-            className="govuk-footer__inline-list"
+            class="govuk-footer__inline-list"
           >
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Help
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/cookies"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Cookies
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Contact
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/accessibility"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Accessibility
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="https://www.gov.uk/help/terms-conditions"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Terms and conditions
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/privacy"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Privacy
               </a>
             </li>
           </ul>
           <p
-            className="govuk-footer__body"
+            class="govuk-footer__body"
           >
-            Built by the
-             
+            Built by the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.gov.uk/government/organisations/department-for-transport"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="noreferrer"
               target="_blank"
             >
@@ -1323,7 +1240,7 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
           </p>
           <svg
             aria-hidden="true"
-            className="govuk-footer__licence-logo"
+            class="govuk-footer__licence-logo"
             focusable="false"
             height="17"
             viewBox="0 0 483.2 195.7"
@@ -1336,16 +1253,12 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
             />
           </svg>
           <span
-            className="govuk-footer__licence-description"
+            class="govuk-footer__licence-description"
           >
-            All content is available under the
-             
+            All content is available under the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="license"
             >
               Open Government Licence v3.0
@@ -1354,20 +1267,17 @@ exports[`pages > viewAllSocialMedia > should render correctly when social media 
           </span>
         </div>
         <div
-          className="govuk-footer__meta-item"
+          class="govuk-footer__meta-item"
         >
           <a
-            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             © Crown copyright
           </a>
         </div>
       </div>
     </div>
-  </footer>,
-]
+  </footer>
+</DocumentFragment>
 `;

@@ -1,39 +1,36 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`PhaseBanner > should render correctly 1`] = `
-<div
-  className="app-phase-banner__wrapper"
->
+<DocumentFragment>
   <div
-    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    class="app-phase-banner__wrapper"
   >
-    <p
-      className="govuk-phase-banner__content"
+    <div
+      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
     >
-      <strong
-        className="govuk-tag govuk-phase-banner__content__tag"
+      <p
+        class="govuk-phase-banner__content"
       >
-        Beta
-      </strong>
-      <span
-        className="govuk-phase-banner__text"
-      >
-        This is a new service – your
-         
-        <a
-          className="govuk-link"
-          href="/feedback"
-          id="feedback-link"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
+        <strong
+          class="govuk-tag govuk-phase-banner__content__tag"
         >
-          feedback
-        </a>
-         
-        will help us to improve it.
-      </span>
-    </p>
+          Beta
+        </strong>
+        <span
+          class="govuk-phase-banner__text"
+        >
+          This is a new service – your 
+          <a
+            class="govuk-link"
+            href="/feedback"
+            id="feedback-link"
+          >
+            feedback
+          </a>
+           will help us to improve it.
+        </span>
+      </p>
+    </div>
   </div>
-</div>
+</DocumentFragment>
 `;

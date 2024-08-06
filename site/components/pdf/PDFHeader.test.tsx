@@ -1,10 +1,10 @@
-import renderer from "react-test-renderer";
-import { describe, expect, it } from "vitest";
-import PDFHeader from "./PDFHeader";
+import { render } from '@testing-library/react';
+import { describe, expect, it } from 'vitest';
+import PDFHeader from './PDFHeader';
 
-describe("PDFHeader", () => {
-    it("should render correctly", () => {
-        const tree = renderer.create(<PDFHeader />).toJSON();
-        expect(tree).toMatchSnapshot();
+describe('PDFHeader', () => {
+    it('should render correctly', () => {
+        const { asFragment } = render(<PDFHeader />);
+        expect(asFragment()).toMatchSnapshot();
     });
 });

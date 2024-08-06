@@ -1,4 +1,4 @@
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import SocialMediaAccounts, { SocialMediaAccountsPageProps } from "./social-media-accounts.page";
 
@@ -42,40 +42,38 @@ const withInputs: SocialMediaAccountsPageProps = {
     isOperator: false,
 };
 
-describe("socialMediaAccounts", () => {
+describe("SocialMediaAccounts", () => {
     it("should render correctly when there are no inputs", () => {
-        const tree = renderer.create(<SocialMediaAccounts {...blankInputs} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<SocialMediaAccounts {...blankInputs} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly with inputs", () => {
-        const tree = renderer.create(<SocialMediaAccounts {...withInputs} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<SocialMediaAccounts {...withInputs} />);
+        expect(asFragment()).toMatchSnapshot();
     });
+
     it("should render correctly with inputs and an error", () => {
-        const tree = renderer
-            .create(
-                <SocialMediaAccounts
-                    {...{
-                        ...withInputs,
-                        errors: [{ id: "nextdoor", errorMessage: "Only agency accounts can be connected" }],
-                    }}
-                />,
-            )
-            .toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(
+            <SocialMediaAccounts
+                {...{
+                    ...withInputs,
+                    errors: [{ id: "nextdoor", errorMessage: "Only agency accounts can be connected" }],
+                }}
+            />
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
+
     it("should not show the nextdoor button when there is an operator user", () => {
-        const tree = renderer
-            .create(
-                <SocialMediaAccounts
-                    {...{
-                        ...withInputs,
-                        isOperator: true,
-                    }}
-                />,
-            )
-            .toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(
+            <SocialMediaAccounts
+                {...{
+                    ...withInputs,
+                    isOperator: true,
+                }}
+            />
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 });

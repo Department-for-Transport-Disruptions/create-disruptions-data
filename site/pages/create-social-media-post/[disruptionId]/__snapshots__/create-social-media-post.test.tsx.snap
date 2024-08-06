@@ -1,97 +1,89 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`pages > CreateSocialMediaPost > should render correctly with inputs and no errors 1`] = `
-[
+<DocumentFragment>
   <div
-    className="app-phase-banner__wrapper"
+    class="app-phase-banner__wrapper"
   >
     <div
-      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
     >
       <p
-        className="govuk-phase-banner__content"
+        class="govuk-phase-banner__content"
       >
         <strong
-          className="govuk-tag govuk-phase-banner__content__tag"
+          class="govuk-tag govuk-phase-banner__content__tag"
         >
           Beta
         </strong>
         <span
-          className="govuk-phase-banner__text"
+          class="govuk-phase-banner__text"
         >
-          This is a new service – your
-           
+          This is a new service – your 
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/feedback"
             id="feedback-link"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             feedback
           </a>
-           
-          will help us to improve it.
+           will help us to improve it.
         </span>
       </p>
     </div>
-  </div>,
+  </div>
   <div
-    className="govuk-width-container"
+    class="govuk-width-container"
   >
     <button
-      className="govuk-back-link mb-7"
-      onClick={[Function]}
+      class="govuk-back-link mb-7"
       type="button"
     >
       Back
     </button>
     <main
-      className="govuk-main-wrapper"
+      class="govuk-main-wrapper"
       id="main-content"
     >
       <form
         action="/api/create-social-media-post?_csrf="
-        encType="multipart/form-data"
+        enctype="multipart/form-data"
         method="post"
       >
         <div
-          className="govuk-form-group"
+          class="govuk-form-group"
         >
           <h1
-            className="govuk-heading-xl"
+            class="govuk-heading-xl"
           >
             Social media message
           </h1>
           <div
-            className="govuk-form-group govuk-!-padding-top-3"
+            class="govuk-form-group govuk-!-padding-top-3"
           >
             <div
-              className="govuk-form-group"
+              class="govuk-form-group"
             >
               <div
-                className="govuk-form-group"
+                class="govuk-form-group"
                 id="social-account"
               >
                 <label
-                  className="govuk-label govuk-label--l"
-                  htmlFor="social-account-input"
+                  class="govuk-label govuk-label--l"
+                  for="social-account-input"
                 >
                   Select social media account
                 </label>
                 <div
-                  className=""
+                  class=""
                 >
                   <select
-                    className="govuk-select w-3/4"
-                    defaultValue="13958638"
+                    class="govuk-select w-3/4"
                     id="social-account-input"
                     name="socialAccount"
-                    onChange={[Function]}
                   >
                     <option
-                      disabled={true}
+                      disabled=""
                       value=""
                     >
                       Social account
@@ -112,47 +104,47 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
             </div>
           </div>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              class="govuk-form-group"
               id="message-content"
             >
               <div
-                className=""
+                class=""
               >
                 <div
-                  className="govuk-form-group"
+                  class="govuk-form-group"
                 >
                   <div
-                    className="govuk-form-group"
+                    class="govuk-form-group"
                     id="message-content"
                   >
                     <label
-                      className="govuk-label govuk-label--l"
-                      htmlFor="message-content-input"
+                      class="govuk-label govuk-label--l"
+                      for="message-content-input"
                     >
                       Message content
                     </label>
                     <div
-                      className="govuk-hint"
+                      class="govuk-hint"
                       id="message-content-hint"
                     >
                       You can enter up to 280 characters
                     </div>
                     <div
-                      className=""
+                      class=""
                     >
                       <textarea
                         aria-describedby="message-content-hint"
-                        className="govuk-textarea w-3/4"
-                        defaultValue="Test post 12345"
+                        class="govuk-textarea w-3/4"
                         id="message-content-input"
-                        maxLength={280}
+                        maxlength="280"
                         name="messageContent"
-                        onChange={[Function]}
-                        rows={3}
-                      />
+                        rows="3"
+                      >
+                        Test post 12345
+                      </textarea>
                     </div>
                   </div>
                 </div>
@@ -161,21 +153,21 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
           </div>
           <br />
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <fieldset
-              className="govuk-fieldset"
+              class="govuk-fieldset"
             >
               <legend
-                className="govuk-fieldset__legend govuk-fieldset__legend--m"
+                class="govuk-fieldset__legend govuk-fieldset__legend--m"
               >
                 <h2
-                  className="govuk-fieldset__heading govuk-visually-hidden"
+                  class="govuk-fieldset__heading govuk-visually-hidden"
                   id="passenger-type-page-heading"
                 >
                   <label
-                    className="govuk-label govuk-label--s"
-                    htmlFor="image"
+                    class="govuk-label govuk-label--s"
+                    for="image"
                     id="image-label"
                   >
                     Upload File
@@ -183,12 +175,12 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
                 </h2>
               </legend>
               <div
-                className=""
+                class=""
               >
                 <input
                   accept="image/png, image/jpeg, image/jpg"
                   aria-labelledby="image-label"
-                  className="govuk-file-upload"
+                  class="govuk-file-upload"
                   id="image"
                   name="image"
                   type="file"
@@ -200,18 +192,20 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
         <input
           name="disruptionId"
           type="hidden"
+          value=""
         />
         <input
           name="socialMediaPostIndex"
           type="hidden"
-          value={0}
+          value="0"
         />
         <input
           name="createdByOperatorOrgId"
           type="hidden"
+          value=""
         />
         <button
-          className="govuk-button mt-8"
+          class="govuk-button mt-8"
           data-module="govuk-button"
         >
           Save and continue
@@ -220,138 +214,112 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
     </main>
     <div>
       <h2
-        className="govuk-heading-s"
+        class="govuk-heading-s"
       >
         Help and Support
       </h2>
       <p
-        className="govuk-body"
+        class="govuk-body"
       >
-        If you are having problems, please contact the Create Disruption Service via this link:
-         
+        If you are having problems, please contact the Create Disruption Service via this link: 
         <a
-          className="govuk-link govuk-!-font-size-19"
+          class="govuk-link govuk-!-font-size-19"
           href="/contact"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           Contact us
         </a>
       </p>
     </div>
-  </div>,
+  </div>
   <footer
-    className="govuk-footer"
+    class="govuk-footer"
     role="contentinfo"
   >
     <div
-      className="govuk-width-container"
+      class="govuk-width-container"
     >
       <div
-        className="govuk-footer__meta"
+        class="govuk-footer__meta"
       >
         <div
-          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
         >
           <h2
-            className="govuk-visually-hidden"
+            class="govuk-visually-hidden"
           >
             Support links
           </h2>
           <ul
-            className="govuk-footer__inline-list"
+            class="govuk-footer__inline-list"
           >
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Help
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/cookies"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Cookies
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Contact
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/accessibility"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Accessibility
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="https://www.gov.uk/help/terms-conditions"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Terms and conditions
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/privacy"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Privacy
               </a>
             </li>
           </ul>
           <p
-            className="govuk-footer__body"
+            class="govuk-footer__body"
           >
-            Built by the
-             
+            Built by the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.gov.uk/government/organisations/department-for-transport"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="noreferrer"
               target="_blank"
             >
@@ -360,7 +328,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
           </p>
           <svg
             aria-hidden="true"
-            className="govuk-footer__licence-logo"
+            class="govuk-footer__licence-logo"
             focusable="false"
             height="17"
             viewBox="0 0 483.2 195.7"
@@ -373,16 +341,12 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
             />
           </svg>
           <span
-            className="govuk-footer__licence-description"
+            class="govuk-footer__licence-description"
           >
-            All content is available under the
-             
+            All content is available under the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="license"
             >
               Open Government Licence v3.0
@@ -391,116 +355,106 @@ exports[`pages > CreateSocialMediaPost > should render correctly with inputs and
           </span>
         </div>
         <div
-          className="govuk-footer__meta-item"
+          class="govuk-footer__meta-item"
         >
           <a
-            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             © Crown copyright
           </a>
         </div>
       </div>
     </div>
-  </footer>,
-]
+  </footer>
+</DocumentFragment>
 `;
 
 exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 1`] = `
-[
+<DocumentFragment>
   <div
-    className="app-phase-banner__wrapper"
+    class="app-phase-banner__wrapper"
   >
     <div
-      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
     >
       <p
-        className="govuk-phase-banner__content"
+        class="govuk-phase-banner__content"
       >
         <strong
-          className="govuk-tag govuk-phase-banner__content__tag"
+          class="govuk-tag govuk-phase-banner__content__tag"
         >
           Beta
         </strong>
         <span
-          className="govuk-phase-banner__text"
+          class="govuk-phase-banner__text"
         >
-          This is a new service – your
-           
+          This is a new service – your 
           <a
-            className="govuk-link"
+            class="govuk-link"
             href="/feedback"
             id="feedback-link"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             feedback
           </a>
-           
-          will help us to improve it.
+           will help us to improve it.
         </span>
       </p>
     </div>
-  </div>,
+  </div>
   <div
-    className="govuk-width-container"
+    class="govuk-width-container"
   >
     <button
-      className="govuk-back-link mb-7"
-      onClick={[Function]}
+      class="govuk-back-link mb-7"
       type="button"
     >
       Back
     </button>
     <main
-      className="govuk-main-wrapper"
+      class="govuk-main-wrapper"
       id="main-content"
     >
       <form
         action="/api/create-social-media-post?_csrf="
-        encType="multipart/form-data"
+        enctype="multipart/form-data"
         method="post"
       >
         <div
-          className="govuk-form-group"
+          class="govuk-form-group"
         >
           <h1
-            className="govuk-heading-xl"
+            class="govuk-heading-xl"
           >
             Social media message
           </h1>
           <div
-            className="govuk-form-group govuk-!-padding-top-3"
+            class="govuk-form-group govuk-!-padding-top-3"
           >
             <div
-              className="govuk-form-group"
+              class="govuk-form-group"
             >
               <div
-                className="govuk-form-group"
+                class="govuk-form-group"
                 id="social-account"
               >
                 <label
-                  className="govuk-label govuk-label--l"
-                  htmlFor="social-account-input"
+                  class="govuk-label govuk-label--l"
+                  for="social-account-input"
                 >
                   Select social media account
                 </label>
                 <div
-                  className=""
+                  class=""
                 >
                   <select
-                    className="govuk-select w-3/4"
-                    defaultValue=""
+                    class="govuk-select w-3/4"
                     id="social-account-input"
                     name="socialAccount"
-                    onChange={[Function]}
                   >
                     <option
-                      disabled={true}
+                      disabled=""
+                      selected=""
                       value=""
                     >
                       Social account
@@ -511,45 +465,44 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
             </div>
           </div>
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <div
-              className="govuk-form-group"
+              class="govuk-form-group"
               id="message-content"
             >
               <div
-                className=""
+                class=""
               >
                 <div
-                  className="govuk-form-group"
+                  class="govuk-form-group"
                 >
                   <div
-                    className="govuk-form-group"
+                    class="govuk-form-group"
                     id="message-content"
                   >
                     <label
-                      className="govuk-label govuk-label--l"
-                      htmlFor="message-content-input"
+                      class="govuk-label govuk-label--l"
+                      for="message-content-input"
                     >
                       Message content
                     </label>
                     <div
-                      className="govuk-hint"
+                      class="govuk-hint"
                       id="message-content-hint"
                     >
                       You can enter up to 280 characters
                     </div>
                     <div
-                      className=""
+                      class=""
                     >
                       <textarea
                         aria-describedby="message-content-hint"
-                        className="govuk-textarea w-3/4"
+                        class="govuk-textarea w-3/4"
                         id="message-content-input"
-                        maxLength={280}
+                        maxlength="280"
                         name="messageContent"
-                        onChange={[Function]}
-                        rows={3}
+                        rows="3"
                       />
                     </div>
                   </div>
@@ -558,33 +511,32 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
             </div>
           </div>
           <button
-            className="govuk-link"
+            class="govuk-link"
             data-module="govuk-button"
-            onClick={[Function]}
           >
             <p
-              className="text-govBlue govuk-body-m"
+              class="text-govBlue govuk-body-m"
             >
               Copy from disruption description
             </p>
           </button>
           <br />
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <fieldset
-              className="govuk-fieldset"
+              class="govuk-fieldset"
             >
               <legend
-                className="govuk-fieldset__legend govuk-fieldset__legend--m"
+                class="govuk-fieldset__legend govuk-fieldset__legend--m"
               >
                 <h2
-                  className="govuk-fieldset__heading govuk-visually-hidden"
+                  class="govuk-fieldset__heading govuk-visually-hidden"
                   id="passenger-type-page-heading"
                 >
                   <label
-                    className="govuk-label govuk-label--s"
-                    htmlFor="image"
+                    class="govuk-label govuk-label--s"
+                    for="image"
                     id="image-label"
                   >
                     Upload File
@@ -592,12 +544,12 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
                 </h2>
               </legend>
               <div
-                className=""
+                class=""
               >
                 <input
                   accept="image/png, image/jpeg, image/jpg"
                   aria-labelledby="image-label"
-                  className="govuk-file-upload"
+                  class="govuk-file-upload"
                   id="image"
                   name="image"
                   type="file"
@@ -609,18 +561,20 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
         <input
           name="disruptionId"
           type="hidden"
+          value=""
         />
         <input
           name="socialMediaPostIndex"
           type="hidden"
-          value={0}
+          value="0"
         />
         <input
           name="createdByOperatorOrgId"
           type="hidden"
+          value=""
         />
         <button
-          className="govuk-button mt-8"
+          class="govuk-button mt-8"
           data-module="govuk-button"
         >
           Save and continue
@@ -629,138 +583,112 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
     </main>
     <div>
       <h2
-        className="govuk-heading-s"
+        class="govuk-heading-s"
       >
         Help and Support
       </h2>
       <p
-        className="govuk-body"
+        class="govuk-body"
       >
-        If you are having problems, please contact the Create Disruption Service via this link:
-         
+        If you are having problems, please contact the Create Disruption Service via this link: 
         <a
-          className="govuk-link govuk-!-font-size-19"
+          class="govuk-link govuk-!-font-size-19"
           href="/contact"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           Contact us
         </a>
       </p>
     </div>
-  </div>,
+  </div>
   <footer
-    className="govuk-footer"
+    class="govuk-footer"
     role="contentinfo"
   >
     <div
-      className="govuk-width-container"
+      class="govuk-width-container"
     >
       <div
-        className="govuk-footer__meta"
+        class="govuk-footer__meta"
       >
         <div
-          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
         >
           <h2
-            className="govuk-visually-hidden"
+            class="govuk-visually-hidden"
           >
             Support links
           </h2>
           <ul
-            className="govuk-footer__inline-list"
+            class="govuk-footer__inline-list"
           >
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Help
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/cookies"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Cookies
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Contact
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/accessibility"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Accessibility
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="https://www.gov.uk/help/terms-conditions"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Terms and conditions
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/privacy"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Privacy
               </a>
             </li>
           </ul>
           <p
-            className="govuk-footer__body"
+            class="govuk-footer__body"
           >
-            Built by the
-             
+            Built by the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.gov.uk/government/organisations/department-for-transport"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="noreferrer"
               target="_blank"
             >
@@ -769,7 +697,7 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
           </p>
           <svg
             aria-hidden="true"
-            className="govuk-footer__licence-logo"
+            class="govuk-footer__licence-logo"
             focusable="false"
             height="17"
             viewBox="0 0 483.2 195.7"
@@ -782,16 +710,12 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
             />
           </svg>
           <span
-            className="govuk-footer__licence-description"
+            class="govuk-footer__licence-description"
           >
-            All content is available under the
-             
+            All content is available under the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="license"
             >
               Open Government Licence v3.0
@@ -800,20 +724,17 @@ exports[`pages > CreateSocialMediaPost > should render correctly with no inputs 
           </span>
         </div>
         <div
-          className="govuk-footer__meta-item"
+          class="govuk-footer__meta-item"
         >
           <a
-            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             © Crown copyright
           </a>
         </div>
       </div>
     </div>
-  </footer>,
-]
+  </footer>
+</DocumentFragment>
 `;

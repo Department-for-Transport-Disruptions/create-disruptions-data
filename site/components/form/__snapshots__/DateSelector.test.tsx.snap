@@ -1,474 +1,412 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`DateSelector > should render correctly when disabled 1`] = `
-<div
-  className="govuk-form-group"
->
+<DocumentFragment>
   <div
-    className="govuk-form-group govuk-!-margin-bottom-0 "
-    id="field-1"
+    class="govuk-form-group"
   >
-    <div>
-      <label
-        className="govuk-label govuk-label--s"
-        htmlFor="field-1-input"
-      >
-        Start date
-      </label>
-    </div>
     <div
-      className="govuk-hint"
+      class="govuk-form-group govuk-!-margin-bottom-0 "
+      id="field-1"
     >
-      Enter in format DD/MM/YYYY
-    </div>
-    <div
-      className="flex flex-col mt-auto"
-    >
+      <div>
+        <label
+          class="govuk-label govuk-label--s"
+          for="field-1-input"
+        >
+          Start date
+        </label>
+      </div>
       <div
-        className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
+        class="govuk-hint"
+      >
+        Enter in format DD/MM/YYYY
+      </div>
+      <div
+        class="flex flex-col mt-auto"
       >
         <div
-          className="govuk-date-input__item govuk-!-margin-right-0 "
+          class="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
         >
           <div
-            className=""
+            class="govuk-date-input__item govuk-!-margin-right-0 "
           >
-            <input
-              className="govuk-input govuk-date-input__input govuk-input--width-6 "
-              disabled={true}
-              id="field-1-input"
-              name="field1"
-              onChange={[Function]}
-              placeholder="N/A"
-              type="tel"
-              value=""
-            />
-          </div>
-        </div>
-        <div
-          className="flex items-end pb-5"
-        >
-          <div
-            className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-          >
-            <button
-              aria-label="Choose date"
-              className="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-              disabled={true}
-              onBlur={[Function]}
-              onClick={[Function]}
-              onContextMenu={[Function]}
-              onDragLeave={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onMouseDown={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-              tabIndex={-1}
-              type="button"
+            <div
+              class=""
             >
-              <svg
-                aria-hidden={true}
-                className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                data-testid="CalendarIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
+              <input
+                class="govuk-input govuk-date-input__input govuk-input--width-6 "
+                disabled=""
+                id="field-1-input"
+                name="field1"
+                placeholder="N/A"
+                type="tel"
+                value="01/01/2024"
+              />
+            </div>
+          </div>
+          <div
+            class="flex items-end pb-5"
+          >
+            <div
+              class="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
+            >
+              <button
+                aria-label="Choose date, selected date is Jan 1, 2024"
+                class="MuiButtonBase-root Mui-disabled MuiIconButton-root Mui-disabled MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                disabled=""
+                tabindex="-1"
+                type="button"
               >
-                <path
-                  d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                />
-              </svg>
-            </button>
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="CalendarIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`DateSelector > should render correctly with an input 1`] = `
-<div
-  className="govuk-form-group"
->
+<DocumentFragment>
   <div
-    className="govuk-form-group govuk-!-margin-bottom-0 "
-    id="field-1"
+    class="govuk-form-group"
   >
-    <div>
-      <label
-        className="govuk-label govuk-label--s"
-        htmlFor="field-1-input"
-      >
-        Start date
-      </label>
-    </div>
     <div
-      className="govuk-hint"
+      class="govuk-form-group govuk-!-margin-bottom-0 "
+      id="field-1"
     >
-      Enter in format DD/MM/YYYY
-    </div>
-    <div
-      className="flex flex-col mt-auto"
-    >
+      <div>
+        <label
+          class="govuk-label govuk-label--s"
+          for="field-1-input"
+        >
+          Start date
+        </label>
+      </div>
       <div
-        className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
+        class="govuk-hint"
+      >
+        Enter in format DD/MM/YYYY
+      </div>
+      <div
+        class="flex flex-col mt-auto"
       >
         <div
-          className="govuk-date-input__item govuk-!-margin-right-0 "
+          class="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
         >
           <div
-            className=""
+            class="govuk-date-input__item govuk-!-margin-right-0 "
           >
-            <input
-              className="govuk-input govuk-date-input__input govuk-input--width-6 "
-              disabled={false}
-              id="field-1-input"
-              name="field1"
-              onChange={[Function]}
-              placeholder="DD/MM/YYYY"
-              type="tel"
-              value="01/01/2024"
-            />
-          </div>
-        </div>
-        <div
-          className="flex items-end pb-5"
-        >
-          <div
-            className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-          >
-            <button
-              aria-label="Choose date, selected date is Jan 1, 2024"
-              className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-              disabled={false}
-              onBlur={[Function]}
-              onClick={[Function]}
-              onContextMenu={[Function]}
-              onDragLeave={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onMouseDown={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-              tabIndex={0}
-              type="button"
+            <div
+              class=""
             >
-              <svg
-                aria-hidden={true}
-                className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                data-testid="CalendarIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                />
-              </svg>
-              <span
-                className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              <input
+                class="govuk-input govuk-date-input__input govuk-input--width-6 "
+                id="field-1-input"
+                name="field1"
+                placeholder="DD/MM/YYYY"
+                type="tel"
+                value="01/01/2024"
               />
-            </button>
+            </div>
+          </div>
+          <div
+            class="flex items-end pb-5"
+          >
+            <div
+              class="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
+            >
+              <button
+                aria-label="Choose date, selected date is Jan 1, 2024"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                tabindex="0"
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="CalendarIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                  />
+                </svg>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`DateSelector > should render correctly with errors 1`] = `
-<div
-  className="govuk-form-group govuk-form-group--error"
->
+<DocumentFragment>
   <div
-    className="govuk-form-group govuk-!-margin-bottom-0 "
-    id="field-1"
+    class="govuk-form-group govuk-form-group--error"
   >
-    <div>
-      <label
-        className="govuk-label govuk-label--s"
-        htmlFor="field-1-input"
-      >
-        Start date
-      </label>
-    </div>
     <div
-      className="govuk-hint"
+      class="govuk-form-group govuk-!-margin-bottom-0 "
+      id="field-1"
     >
-      Enter in format DD/MM/YYYY
-    </div>
-    <div
-      className="flex flex-col mt-auto"
-    >
+      <div>
+        <label
+          class="govuk-label govuk-label--s"
+          for="field-1-input"
+        >
+          Start date
+        </label>
+      </div>
       <div
-        className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
+        class="govuk-hint"
+      >
+        Enter in format DD/MM/YYYY
+      </div>
+      <div
+        class="flex flex-col mt-auto"
       >
         <div
-          className="govuk-date-input__item govuk-!-margin-right-0 "
+          class="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
         >
           <div
-            className=""
+            class="govuk-date-input__item govuk-!-margin-right-0 "
           >
-            <span
-              className="govuk-error-message"
-              id="field1-error"
+            <div
+              class=""
             >
               <span
-                className="govuk-visually-hidden"
+                class="govuk-error-message"
+                id="field1-error"
               >
-                Error: 
+                <span
+                  class="govuk-visually-hidden"
+                >
+                  Error: 
+                </span>
+                There was an error
               </span>
-              There was an error
-            </span>
-            <input
-              aria-describedby="field1-error"
-              className="govuk-input govuk-date-input__input govuk-input--width-6  govuk-input--error"
-              disabled={false}
-              id="field-1-input"
-              name="field1"
-              onChange={[Function]}
-              placeholder="DD/MM/YYYY"
-              type="tel"
-              value=""
-            />
+              <input
+                aria-describedby="field1-error"
+                class="govuk-input govuk-date-input__input govuk-input--width-6  govuk-input--error"
+                id="field-1-input"
+                name="field1"
+                placeholder="DD/MM/YYYY"
+                type="tel"
+                value=""
+              />
+            </div>
           </div>
-        </div>
-        <div
-          className="flex items-end pb-5"
-        >
           <div
-            className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
+            class="flex items-end pb-5"
           >
-            <button
-              aria-label="Choose date"
-              className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-              disabled={false}
-              onBlur={[Function]}
-              onClick={[Function]}
-              onContextMenu={[Function]}
-              onDragLeave={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onMouseDown={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-              tabIndex={0}
-              type="button"
+            <div
+              class="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
             >
-              <svg
-                aria-hidden={true}
-                className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                data-testid="CalendarIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
+              <button
+                aria-label="Choose date"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                tabindex="0"
+                type="button"
               >
-                <path
-                  d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="CalendarIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                  />
+                </svg>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                 />
-              </svg>
-            </button>
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</DocumentFragment>
+`;
+
+exports[`DateSelector > should render correctly with hint hidden 1`] = `
+<DocumentFragment>
+  <div
+    class="govuk-form-group"
+  >
+    <div
+      class="govuk-form-group govuk-!-margin-bottom-0 "
+      id="field-1"
+    >
+      <div>
+        <label
+          class="govuk-label govuk-label--s"
+          for="field-1-input"
+        >
+          Start date
+        </label>
+      </div>
+      <div
+        class="govuk-hint govuk-visually-hidden"
+      >
+        Enter in format DD/MM/YYYY
+      </div>
+      <div
+        class="flex flex-col mt-auto"
+      >
+        <div
+          class="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
+        >
+          <div
+            class="govuk-date-input__item govuk-!-margin-right-0 "
+          >
+            <div
+              class=""
+            >
+              <input
+                class="govuk-input govuk-date-input__input govuk-input--width-6 "
+                id="field-1-input"
+                name="field1"
+                placeholder="DD/MM/YYYY"
+                type="tel"
+                value=""
+              />
+            </div>
+          </div>
+          <div
+            class="flex items-end pb-5"
+          >
+            <div
+              class="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
+            >
+              <button
+                aria-label="Choose date"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                tabindex="0"
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="CalendarIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                  />
+                </svg>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
 `;
 
 exports[`DateSelector > should render correctly with no input 1`] = `
-<div
-  className="govuk-form-group"
->
+<DocumentFragment>
   <div
-    className="govuk-form-group govuk-!-margin-bottom-0 "
-    id="field-1"
+    class="govuk-form-group"
   >
-    <div>
-      <label
-        className="govuk-label govuk-label--s"
-        htmlFor="field-1-input"
-      >
-        Start date
-      </label>
-    </div>
     <div
-      className="govuk-hint"
+      class="govuk-form-group govuk-!-margin-bottom-0 "
+      id="field-1"
     >
-      Enter in format DD/MM/YYYY
-    </div>
-    <div
-      className="flex flex-col mt-auto"
-    >
-      <div
-        className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
-      >
-        <div
-          className="govuk-date-input__item govuk-!-margin-right-0 "
+      <div>
+        <label
+          class="govuk-label govuk-label--s"
+          for="field-1-input"
         >
-          <div
-            className=""
-          >
-            <input
-              className="govuk-input govuk-date-input__input govuk-input--width-6 "
-              disabled={false}
-              id="field-1-input"
-              name="field1"
-              onChange={[Function]}
-              placeholder="DD/MM/YYYY"
-              type="tel"
-              value=""
-            />
-          </div>
-        </div>
-        <div
-          className="flex items-end pb-5"
-        >
-          <div
-            className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-          >
-            <button
-              aria-label="Choose date"
-              className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-              disabled={false}
-              onBlur={[Function]}
-              onClick={[Function]}
-              onContextMenu={[Function]}
-              onDragLeave={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onMouseDown={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-              tabIndex={0}
-              type="button"
-            >
-              <svg
-                aria-hidden={true}
-                className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                data-testid="CalendarIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
+          Start date
+        </label>
       </div>
-    </div>
-  </div>
-</div>
-`;
-
-exports[`DateSelector > should render correctly with no input and the hint is hidden 1`] = `
-<div
-  className="govuk-form-group"
->
-  <div
-    className="govuk-form-group govuk-!-margin-bottom-0 "
-    id="field-1"
-  >
-    <div>
-      <label
-        className="govuk-label govuk-label--s"
-        htmlFor="field-1-input"
-      >
-        Start date
-      </label>
-    </div>
-    <div
-      className="govuk-hint govuk-visually-hidden"
-    >
-      Enter in format DD/MM/YYYY
-    </div>
-    <div
-      className="flex flex-col mt-auto"
-    >
       <div
-        className="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
+        class="govuk-hint"
+      >
+        Enter in format DD/MM/YYYY
+      </div>
+      <div
+        class="flex flex-col mt-auto"
       >
         <div
-          className="govuk-date-input__item govuk-!-margin-right-0 "
+          class="govuk-date-input flex flex-row [&_.MuiSvgIcon-root]:fill-govBlue"
         >
           <div
-            className=""
+            class="govuk-date-input__item govuk-!-margin-right-0 "
           >
-            <input
-              className="govuk-input govuk-date-input__input govuk-input--width-6 "
-              disabled={false}
-              id="field-1-input"
-              name="field1"
-              onChange={[Function]}
-              placeholder="DD/MM/YYYY"
-              type="tel"
-              value=""
-            />
-          </div>
-        </div>
-        <div
-          className="flex items-end pb-5"
-        >
-          <div
-            className="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
-          >
-            <button
-              aria-label="Choose date"
-              className="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
-              disabled={false}
-              onBlur={[Function]}
-              onClick={[Function]}
-              onContextMenu={[Function]}
-              onDragLeave={[Function]}
-              onFocus={[Function]}
-              onKeyDown={[Function]}
-              onKeyUp={[Function]}
-              onMouseDown={[Function]}
-              onMouseLeave={[Function]}
-              onMouseUp={[Function]}
-              onTouchEnd={[Function]}
-              onTouchMove={[Function]}
-              onTouchStart={[Function]}
-              tabIndex={0}
-              type="button"
+            <div
+              class=""
             >
-              <svg
-                aria-hidden={true}
-                className="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                data-testid="CalendarIcon"
-                focusable="false"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
-                />
-              </svg>
-              <span
-                className="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+              <input
+                class="govuk-input govuk-date-input__input govuk-input--width-6 "
+                id="field-1-input"
+                name="field1"
+                placeholder="DD/MM/YYYY"
+                type="tel"
+                value=""
               />
-            </button>
+            </div>
+          </div>
+          <div
+            class="flex items-end pb-5"
+          >
+            <div
+              class="MuiInputAdornment-root MuiInputAdornment-positionEnd css-1laqsz7-MuiInputAdornment-root"
+            >
+              <button
+                aria-label="Choose date"
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-edgeEnd MuiIconButton-sizeMedium css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root"
+                tabindex="0"
+                type="button"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="CalendarIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"
+                  />
+                </svg>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</DocumentFragment>
 `;
