@@ -1,0 +1,240 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`SummaryList Component > matches the snapshot with ReactNode as value 1`] = `
+<dl
+  className="govuk-summary-list"
+>
+  <div
+    className="govuk-summary-list__row"
+  >
+    <dt
+      className="govuk-summary-list__key"
+    >
+      Header 1
+    </dt>
+    <dd
+      className="govuk-summary-list__value"
+    >
+      <span>
+        ReactNode Value
+      </span>
+    </dd>
+    <dd
+      className="govuk-summary-list__actions"
+    >
+      <ul
+        className="govuk-summary-list__actions-list"
+      />
+    </dd>
+  </div>
+</dl>
+`;
+
+exports[`SummaryList Component > matches the snapshot with rows without actions 1`] = `
+<dl
+  className="govuk-summary-list"
+>
+  <div
+    className="govuk-summary-list__row"
+  >
+    <dt
+      className="govuk-summary-list__key"
+    >
+      Header 1
+    </dt>
+    <dd
+      className="govuk-summary-list__value"
+    >
+      Value 1
+    </dd>
+    <dd
+      className="govuk-summary-list__actions"
+    >
+      <ul
+        className="govuk-summary-list__actions-list"
+      />
+    </dd>
+  </div>
+</dl>
+`;
+
+exports[`SummaryList Component > matches the snapshot with rows, headers, values, and actions 1`] = `
+<dl
+  className="govuk-summary-list"
+>
+  <div
+    className="govuk-summary-list__row"
+  >
+    <dt
+      className="govuk-summary-list__key"
+    >
+      Header 1
+    </dt>
+    <dd
+      className="govuk-summary-list__value"
+    >
+      Value 1
+    </dd>
+    <dd
+      className="govuk-summary-list__actions"
+    >
+      <ul
+        className="govuk-summary-list__actions-list"
+      >
+        <li
+          className="govuk-summary-list__actions-list-item"
+        >
+          <a
+            className="govuk-link"
+            href="/path1"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+          >
+            Action 1
+            <span
+              className="govuk-visually-hidden"
+            >
+              Header 1
+            </span>
+          </a>
+        </li>
+      </ul>
+    </dd>
+  </div>
+  <div
+    className="govuk-summary-list__row"
+  >
+    <dt
+      className="govuk-summary-list__key"
+    >
+      Header 2
+    </dt>
+    <dd
+      className="govuk-summary-list__value"
+    >
+      Value 2
+    </dd>
+    <dd
+      className="govuk-summary-list__actions"
+    >
+      <ul
+        className="govuk-summary-list__actions-list"
+      >
+        <li
+          className="govuk-summary-list__actions-list-item"
+        >
+          <a
+            className="govuk-link"
+            href="/path2"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+          >
+            Action 2
+            <span
+              className="govuk-visually-hidden"
+            >
+              Header 2
+            </span>
+          </a>
+        </li>
+      </ul>
+    </dd>
+  </div>
+</dl>
+`;
+
+exports[`SummaryList Component > renders the correct href and text for actions 1`] = `
+<dl
+  className="govuk-summary-list"
+>
+  <div
+    className="govuk-summary-list__row"
+  >
+    <dt
+      className="govuk-summary-list__key"
+    >
+      Header 1
+    </dt>
+    <dd
+      className="govuk-summary-list__value"
+    >
+      Value 1
+    </dd>
+    <dd
+      className="govuk-summary-list__actions"
+    >
+      <ul
+        className="govuk-summary-list__actions-list"
+      >
+        <li
+          className="govuk-summary-list__actions-list-item"
+        >
+          <a
+            className="govuk-link"
+            href="/path1"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+          >
+            Action 1
+            <span
+              className="govuk-visually-hidden"
+            >
+              Header 1
+            </span>
+          </a>
+        </li>
+      </ul>
+    </dd>
+  </div>
+</dl>
+`;
+
+exports[`SummaryList Component > renders visually-hidden text for each action 1`] = `
+<dl
+  className="govuk-summary-list"
+>
+  <div
+    className="govuk-summary-list__row"
+  >
+    <dt
+      className="govuk-summary-list__key"
+    >
+      Header 1
+    </dt>
+    <dd
+      className="govuk-summary-list__value"
+    >
+      Value 1
+    </dd>
+    <dd
+      className="govuk-summary-list__actions"
+    >
+      <ul
+        className="govuk-summary-list__actions-list"
+      >
+        <li
+          className="govuk-summary-list__actions-list-item"
+        >
+          <a
+            className="govuk-link"
+            href="/path1"
+            onClick={[Function]}
+            onMouseEnter={[Function]}
+            onTouchStart={[Function]}
+          >
+            Action 1
+            <span
+              className="govuk-visually-hidden"
+            >
+              Header 1
+            </span>
+          </a>
+        </li>
+      </ul>
+    </dd>
+  </div>
+</dl>
+`;
