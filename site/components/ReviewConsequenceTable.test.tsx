@@ -1,9 +1,9 @@
 import { Consequence, Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { EnvironmentReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
-import renderer from "react-test-renderer";
-import { describe, expect, it, vi } from "vitest";
-import { DEFAULT_ORG_ID } from "../testData/mockData";
+import { cleanup, render } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import ReviewConsequenceTable from "./ReviewConsequenceTable";
+import { DEFAULT_ORG_ID } from "../testData/mockData";
 
 const previousConsequencesInformation: Consequence = {
     vehicleMode: VehicleMode.bus,
@@ -49,33 +49,32 @@ const previousDisruptionInformation: Disruption = {
     template: false,
 };
 
+afterEach(cleanup)
+
 describe("ReviewConsequenceTable", () => {
     it("should render the table with data", () => {
-        const tree = renderer
-            .create(
-                <ReviewConsequenceTable
-                    consequence={previousConsequencesInformation}
-                    disruption={previousDisruptionInformation}
-                    deleteActionHandler={vi.fn()}
-                    isEditingAllowed={true}
-                    enableCancellationsFeatureFlag={false}
-                />,
-            )
-            .toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(
+            <ReviewConsequenceTable
+                consequence={previousConsequencesInformation}
+                disruption={previousDisruptionInformation}
+                deleteActionHandler={vi.fn()}
+                isEditingAllowed={true}
+                enableCancellationsFeatureFlag={false}
+            />
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
+
     it("should render the table with data without change links", () => {
-        const tree = renderer
-            .create(
-                <ReviewConsequenceTable
-                    consequence={previousConsequencesInformation}
-                    disruption={previousDisruptionInformation}
-                    deleteActionHandler={vi.fn()}
-                    isEditingAllowed={false}
-                    enableCancellationsFeatureFlag={false}
-                />,
-            )
-            .toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(
+            <ReviewConsequenceTable
+                consequence={previousConsequencesInformation}
+                disruption={previousDisruptionInformation}
+                deleteActionHandler={vi.fn()}
+                isEditingAllowed={false}
+                enableCancellationsFeatureFlag={false}
+            />
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 });

@@ -1,13 +1,14 @@
-import { render } from "@testing-library/react";
+import { cleanup, render } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
-import renderer from "react-test-renderer";
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, afterEach } from "vitest";
 import DeleteDisruptionButton from "./DeleteDisruptionButton";
 
+
+afterEach(cleanup)
 describe("DeleteDisruptionButton", () => {
     it("should render correctly", () => {
-        const tree = renderer.create(<DeleteDisruptionButton disruptionId="123" csrfToken="csrf" />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<DeleteDisruptionButton disruptionId="123" csrfToken="csrf" />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("shows modal when button is clicked", async () => {

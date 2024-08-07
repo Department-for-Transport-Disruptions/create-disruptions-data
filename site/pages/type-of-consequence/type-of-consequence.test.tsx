@@ -1,5 +1,4 @@
 import { render } from "@testing-library/react";
-import renderer from "react-test-renderer";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
 import { ErrorInfo } from "../../interfaces/index";
@@ -28,33 +27,33 @@ beforeEach(() => {
 describe("pages", () => {
     describe("CreateDisruption", () => {
         it("should render correctly with no inputs and no errors", () => {
-            const tree = renderer.create(<TypeOfConsequence errors={noErrors} inputs={{}} />).toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(<TypeOfConsequence errors={noErrors} inputs={{}} />);
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with inputs and with errors", () => {
-            const tree = renderer.create(<TypeOfConsequence errors={withErrors} inputs={withInputs} />).toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(<TypeOfConsequence errors={withErrors} inputs={withInputs} />);
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with inputs and without errors", () => {
-            const tree = renderer.create(<TypeOfConsequence errors={noErrors} inputs={withInputs} />).toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(<TypeOfConsequence errors={noErrors} inputs={withInputs} />);
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly for operator user with inputs and without errors", () => {
-            const tree = renderer
-                .create(<TypeOfConsequence errors={noErrors} inputs={withInputs} isOperatorUser={true} />)
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(
+                <TypeOfConsequence errors={noErrors} inputs={withInputs} isOperatorUser={true} />,
+            );
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with query params", () => {
             useRouter.mockImplementation(() => ({
                 query: { return: "/review-disruption" },
             }));
-            const tree = renderer.create(<TypeOfConsequence errors={noErrors} inputs={withInputs} />).toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(<TypeOfConsequence errors={noErrors} inputs={withInputs} />);
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with appropriate buttons", () => {
@@ -75,12 +74,11 @@ describe("pages", () => {
         });
 
         it("should render correctly if cancellations feature flag is set to true", () => {
-            const tree = renderer
-                .create(
-                    <TypeOfConsequence errors={noErrors} inputs={withInputs} enableCancellationsFeatureFlag={true} />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(
+                <TypeOfConsequence errors={noErrors} inputs={withInputs} enableCancellationsFeatureFlag={true} />,
+            );
+
+            expect(asFragment()).toMatchSnapshot();
         });
     });
 });

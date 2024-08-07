@@ -7,9 +7,8 @@ import {
     SocialMediaPostStatus,
     VehicleMode,
 } from "@create-disruptions-data/shared-ts/enums";
-import { render } from "@testing-library/react";
-import renderer from "react-test-renderer";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { cleanup, render } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { SocialMediaPost } from "../../schemas/social-media.schema";
 import { DEFAULT_OPERATOR_ORG_ID, DEFAULT_ORG_ID } from "../../testData/mockData";
@@ -67,6 +66,8 @@ const journeyConsequence: Consequence = {
         },
     ],
 };
+
+afterEach(cleanup)
 
 const previousConsequencesInformation: Consequence[] = [
     {
@@ -193,84 +194,79 @@ describe("pages", () => {
             }));
         });
         it("should render correctly with inputs and no errors", () => {
-            const tree = renderer
-                .create(
-                    <DisruptionDetail
-                        disruption={previousDisruptionInformation}
-                        redirect={"/dashboard"}
-                        errors={[]}
-                        canPublish
-                    />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(
+                <DisruptionDetail
+                    disruption={previousDisruptionInformation}
+                    redirect={"/dashboard"}
+                    errors={[]}
+                    canPublish
+                />,
+            );
+
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with inputs and no errors if an operator is viewing a disruption made by an LTA", () => {
-            const tree = renderer
-                .create(
-                    <DisruptionDetail
-                        disruption={previousDisruptionInformation}
-                        redirect={"/dashboard"}
-                        errors={[]}
-                        canPublish
-                        operatorOrgId={DEFAULT_OPERATOR_ORG_ID}
-                    />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(
+                <DisruptionDetail
+                    disruption={previousDisruptionInformation}
+                    redirect={"/dashboard"}
+                    errors={[]}
+                    canPublish
+                    operatorOrgId={DEFAULT_OPERATOR_ORG_ID}
+                />,
+            );
+
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with inputs and no errors if an operator is viewing a disruption made by another operator who does not have the same operatorOrgId", () => {
-            const tree = renderer
-                .create(
-                    <DisruptionDetail
-                        disruption={{
-                            ...previousDisruptionInformation,
-                            createdByOperatorOrgId: "e17489ff-779c-4e74-b5cb-623be0adf24f",
-                        }}
-                        redirect={"/dashboard"}
-                        errors={[]}
-                        canPublish
-                        operatorOrgId={DEFAULT_OPERATOR_ORG_ID}
-                    />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(
+                <DisruptionDetail
+                    disruption={{
+                        ...previousDisruptionInformation,
+                        createdByOperatorOrgId: "e17489ff-779c-4e74-b5cb-623be0adf24f",
+                    }}
+                    redirect={"/dashboard"}
+                    errors={[]}
+                    canPublish
+                    operatorOrgId={DEFAULT_OPERATOR_ORG_ID}
+                />,
+            );
+
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with inputs and no errors if a non-operator user is viewing an operator disruption", () => {
-            const tree = renderer
-                .create(
-                    <DisruptionDetail
-                        disruption={{
-                            ...previousDisruptionInformation,
-                            createdByOperatorOrgId: "e17489ff-779c-4e74-b5cb-623be0adf24f",
-                        }}
-                        redirect={"/dashboard"}
-                        errors={[]}
-                        canPublish
-                    />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(
+                <DisruptionDetail
+                    disruption={{
+                        ...previousDisruptionInformation,
+                        createdByOperatorOrgId: "e17489ff-779c-4e74-b5cb-623be0adf24f",
+                    }}
+                    redirect={"/dashboard"}
+                    errors={[]}
+                    canPublish
+                />,
+            );
+
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with inputs and state set to saved", () => {
-            const tree = renderer
-                .create(
-                    <DisruptionDetail
-                        disruption={{
-                            ...previousDisruptionInformation,
-                            publishStatus: PublishStatus.editing,
-                        }}
-                        redirect={"/view-all-disruptions"}
-                        errors={[]}
-                        canPublish
-                    />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(
+                <DisruptionDetail
+                    disruption={{
+                        ...previousDisruptionInformation,
+                        publishStatus: PublishStatus.editing,
+                    }}
+                    redirect={"/view-all-disruptions"}
+                    errors={[]}
+                    canPublish
+                />,
+            );
+
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should display Send to review button for staff user role", () => {
@@ -334,35 +330,33 @@ describe("pages", () => {
         });
 
         it("should render correctly with inputs and no errors when disruption is a template", () => {
-            const tree = renderer
-                .create(
-                    <DisruptionDetail
-                        disruption={{ ...previousDisruptionInformation, template: true }}
-                        redirect={"/dashboard"}
-                        errors={[]}
-                        canPublish
-                    />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(
+                <DisruptionDetail
+                    disruption={{ ...previousDisruptionInformation, template: true }}
+                    redirect={"/dashboard"}
+                    errors={[]}
+                    canPublish
+                />,
+            );
+
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with inputs and no errors for an edited template", () => {
-            const tree = renderer
-                .create(
-                    <DisruptionDetail
-                        disruption={{
-                            ...previousDisruptionInformation,
-                            template: true,
-                            publishStatus: PublishStatus.editing,
-                        }}
-                        redirect={"/dashboard"}
-                        errors={[]}
-                        canPublish
-                    />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(
+                <DisruptionDetail
+                    disruption={{
+                        ...previousDisruptionInformation,
+                        template: true,
+                        publishStatus: PublishStatus.editing,
+                    }}
+                    redirect={"/dashboard"}
+                    errors={[]}
+                    canPublish
+                />,
+            );
+
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with inputs and create new disruption button for published templates", () => {
@@ -488,18 +482,17 @@ describe("pages", () => {
                 consequences: previousDisruptionInformation.consequences?.concat(journeyConsequence),
             };
 
-            const tree = renderer
-                .create(
-                    <DisruptionDetail
-                        disruption={disruption}
-                        redirect={"/dashboard"}
-                        errors={[]}
-                        canPublish
-                        enableCancellationsFeatureFlag={true}
-                    />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(
+                <DisruptionDetail
+                    disruption={disruption}
+                    redirect={"/dashboard"}
+                    errors={[]}
+                    canPublish
+                    enableCancellationsFeatureFlag={true}
+                />,
+            );
+
+            expect(asFragment()).toMatchSnapshot();
         });
     });
 });

@@ -1,10 +1,14 @@
-import renderer from "react-test-renderer";
-import { describe, expect, it } from "vitest";
-import ExpiredLink from "./expired-link.page";
+import { render, cleanup } from '@testing-library/react';
+import { afterEach, describe, expect, it } from 'vitest';
+import ExpiredLink from './expired-link.page';
 
-describe("expiredLink", () => {
-    it("should render correctly", () => {
-        const tree = renderer.create(<ExpiredLink />).toJSON();
-        expect(tree).toMatchSnapshot();
+afterEach(() => {
+    cleanup();
+});
+
+describe('ExpiredLink', () => {
+    it('should render correctly', () => {
+        const { asFragment } = render(<ExpiredLink />);
+        expect(asFragment()).toMatchSnapshot();
     });
 });

@@ -38,76 +38,75 @@ const Header = ({ session, csrfToken }: HeaderProps): ReactElement => {
                         </svg>
                     </Link>
                 </div>
-
-                <div className="govuk-header__content max-[950px]:float-none max-[950px]:pl-0">
-                    <Link href="/" id="title-link" className="govuk-header__link govuk-header__link--service-name">
+                <div className="govuk-header__content">
+                    <Link href="/" className="govuk-header__link govuk-header__service-name">
                         Create Transport Disruption Data
                     </Link>
-                </div>
 
-                <div className="govuk-header__account-link mt-2.5 mb-5 xs:m-0 xs:absolute xs:right-0 xs:top-1/2 xs:w-80 xs:text-right xs:-translate-y-1/2">
-                    {session ? (
-                        <>
-                            <div className="group govuk-header__link mr-1.5 overflow-hidden float-right">
-                                <button
-                                    className="text-white px-5 py-2 m-0 focus:outline-govYellow focus:bg-govYellow focus:text-focusText"
-                                    {...buttonProps}
-                                >
-                                    <FontAwesomeIcon className="mr-2" icon={faUser} />
-                                    <strong>My Account</strong>
-                                    <FontAwesomeIcon className="ml-2" icon={faAngleDown} />
-                                </button>
-                                <div
-                                    className={`absolute bg-white min-w-max shadow-md z-10 px-0.5 group-hover:block group-focus:block ${
-                                        isOpen ? "visible" : "invisible"
-                                    }`}
-                                    role="menu"
-                                >
-                                    <Link
-                                        className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
-                                        href="/account-settings"
-                                        onClick={() => setIsOpen(false)}
-                                        {...itemProps[0]}
+                    <div className="govuk-header__account-link mt-2.5 mb-5 xs:m-0 xs:absolute xs:right-0 xs:top-1/2 xs:w-80 xs:text-right xs:-translate-y-1/2">
+                        {session ? (
+                            <>
+                                <div className="group govuk-header__link mr-1.5 overflow-hidden float-right">
+                                    <button
+                                        className="text-white px-5 py-2 m-0 focus:outline-govYellow focus:bg-govYellow focus:text-focusText"
+                                        {...buttonProps}
                                     >
-                                        Account settings
-                                    </Link>
-                                    {session?.isOrgAdmin && (
+                                        <FontAwesomeIcon className="mr-2" icon={faUser} />
+                                        <strong>My Account</strong>
+                                        <FontAwesomeIcon className="ml-2" icon={faAngleDown} />
+                                    </button>
+                                    <div
+                                        className={`absolute bg-white min-w-max shadow-md z-10 px-0.5 group-hover:block group-focus:block ${
+                                            isOpen ? "visible" : "invisible"
+                                        }`}
+                                        role="menu"
+                                    >
                                         <Link
                                             className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
-                                            href={USER_MANAGEMENT_PAGE_PATH}
+                                            href="/account-settings"
                                             onClick={() => setIsOpen(false)}
-                                            {...itemProps[1]}
+                                            {...itemProps[0]}
                                         >
-                                            User management
+                                            Account settings
                                         </Link>
-                                    )}
-                                    {(session?.isOrgAdmin || session?.isOperatorUser) && (
-                                        <Link
-                                            className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
-                                            href={SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH}
-                                            onClick={() => setIsOpen(false)}
-                                            {...itemProps[2]}
-                                        >
-                                            Social media
-                                        </Link>
-                                    )}
-                                    <CsrfForm action="/api/sign-out" method="post" csrfToken={csrfToken}>
-                                        <button
-                                            className="float-none text-black text-left px-5 w-full block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
-                                            onClick={() => setIsOpen(false)}
-                                            {...(itemProps[itemProps.length - 1] as object)}
-                                        >
-                                            Sign out
-                                        </button>
-                                    </CsrfForm>
+                                        {session?.isOrgAdmin && (
+                                            <Link
+                                                className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
+                                                href={USER_MANAGEMENT_PAGE_PATH}
+                                                onClick={() => setIsOpen(false)}
+                                                {...itemProps[1]}
+                                            >
+                                                User management
+                                            </Link>
+                                        )}
+                                        {(session?.isOrgAdmin || session?.isOperatorUser) && (
+                                            <Link
+                                                className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
+                                                href={SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH}
+                                                onClick={() => setIsOpen(false)}
+                                                {...itemProps[2]}
+                                            >
+                                                Social media
+                                            </Link>
+                                        )}
+                                        <CsrfForm action="/api/sign-out" method="post" csrfToken={csrfToken}>
+                                            <button
+                                                className="float-none text-black text-left px-5 w-full block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
+                                                onClick={() => setIsOpen(false)}
+                                                {...(itemProps[itemProps.length - 1] as object)}
+                                            >
+                                                Sign out
+                                            </button>
+                                        </CsrfForm>
+                                    </div>
                                 </div>
-                            </div>
-                        </>
-                    ) : (
-                        <Link href={LOGIN_PAGE_PATH} className="govuk-header__link">
-                            <span> {"Sign in"} </span>
-                        </Link>
-                    )}
+                            </>
+                        ) : (
+                            <Link href={LOGIN_PAGE_PATH} className="govuk-header__link">
+                                <span> {"Sign in"} </span>
+                            </Link>
+                        )}
+                    </div>
                 </div>
             </div>
         </header>

@@ -1,28 +1,30 @@
-import renderer from "react-test-renderer";
-import { describe, expect, it, vi } from "vitest";
+import { render, cleanup } from "@testing-library/react";
+import { describe, expect, it, vi, afterEach } from "vitest";
 import DeleteConfirmationPopup from "./DeleteConfirmationPopup";
 
 const cancelActionHandler = vi.fn();
 
 describe("DeleteConfirmationPopup", () => {
+    afterEach(() => {
+        cleanup();
+    });
+
     it("should render correctly", () => {
-        const tree = renderer
-            .create(
-                <DeleteConfirmationPopup
-                    isOpen={true}
-                    entityName="test"
-                    deleteUrl="https://test.com/api/delete"
-                    cancelActionHandler={cancelActionHandler}
-                    csrfToken="123"
-                    hiddenInputs={[
-                        {
-                            name: "id",
-                            value: "acde070d-8c4c-4f0d-9d8a-162843c10333",
-                        },
-                    ]}
-                />,
-            )
-            .toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(
+            <DeleteConfirmationPopup
+                isOpen={true}
+                entityName="test"
+                deleteUrl="https://test.com/api/delete"
+                cancelActionHandler={cancelActionHandler}
+                csrfToken="123"
+                hiddenInputs={[
+                    {
+                        name: "id",
+                        value: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+                    },
+                ]}
+            />,
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 });

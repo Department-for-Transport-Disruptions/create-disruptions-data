@@ -1,550 +1,209 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`DownloadPDF > should render correctly 1`] = `
-<DOCUMENT>
-  <PAGE
-    orientation="landscape"
-    size="A1"
-    style={
-      {
-        "flexDirection": "column",
-        "fontFamily": "Helvetica",
-      }
-    }
-    wrap={true}
-  >
-    <VIEW
-      fixed={true}
-      style={
-        {
-          "alignItems": "flex-start",
-          "borderBottomWidth": 4,
-          "borderLeftWidth": 0,
-          "borderRightWidth": 0,
-          "borderTopWidth": 0,
-          "flexDirection": "row",
-          "fontFamily": "Helvetica-Bold",
-          "fontStyle": "bold",
-          "margin": 2,
-          "textAlign": "left",
-        }
-      }
+<DocumentFragment>
+  <document>
+    <page
+      orientation="landscape"
+      style="flex-direction: column; font-family: Helvetica;"
     >
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "6.7%",
-            "padding": "0 5px",
-            "width": "6.7%",
-            "wordWrap": "break-word",
-          }
-        }
+      <view
+        style="flex-direction: row; align-items: flex-start; text-align: left; font-style: bold; border-top-width: 0; border-right-width: 0; border-left-width: 0; border-bottom-width: 4px; margin: 2px; font-family: Helvetica-Bold;"
       >
-        id
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "12.5%",
-            "padding": "0 5px",
-            "width": "12.5%",
-            "wordWrap": "break-word",
-          }
-        }
+        <text
+          style="width: 6.7%; flex: 1; word-wrap: break-word; max-width: 6.7%; padding: 0px 5px;"
+        >
+          id
+        </text>
+        <text
+          style="width: 12.5%; flex: 1; word-wrap: break-word; max-width: 12.5%; padding: 0px 5px;"
+        >
+          title
+        </text>
+        <text
+          style="width: 6.7%; flex: 1; word-wrap: break-word; max-width: 6.7%; padding: 0px 5px;"
+        >
+          mode
+        </text>
+        <text
+          style="width: 6.7%; flex: 1; word-wrap: break-word; max-width: 6.7%; padding: 0px 5px;"
+        >
+          operator wide
+        </text>
+        <text
+          style="width: 6.7%; flex: 1; word-wrap: break-word; max-width: 6.7%; padding: 0px 5px;"
+        >
+          network wide
+        </text>
+        <text
+          style="width: 6.7%; flex: 1; word-wrap: break-word; max-width: 6.7%; padding: 0px 5px;"
+        >
+          services affected
+        </text>
+        <text
+          style="width: 6.7%; flex: 1; word-wrap: break-word; max-width: 6.7%; padding: 0px 5px;"
+        >
+          stops affected
+        </text>
+        <text
+          style="width: 5.5%; flex: 1; word-wrap: break-word; max-width: 5.5%; padding: 0px 5px;"
+        >
+          start date
+        </text>
+        <text
+          style="width: 5.5%; flex: 1; word-wrap: break-word; max-width: 5.5%; padding: 0px 5px;"
+        >
+          end date
+        </text>
+        <text
+          style="width: 5.5%; flex: 1; word-wrap: break-word; max-width: 5.5%; padding: 0px 5px;"
+        >
+          publish start date
+        </text>
+        <text
+          style="width: 5.5%; flex: 1; word-wrap: break-word; max-width: 5.5%; padding: 0px 5px;"
+        >
+          publish end date
+        </text>
+        <text
+          style="width: 9%; flex: 1; word-wrap: break-word; max-width: 9%; padding: 0px 5px;"
+        >
+          severity
+        </text>
+        <text
+          style="width: 9%; flex: 1; word-wrap: break-word; max-width: 9%; padding: 0px 5px;"
+        >
+          live
+        </text>
+        <text
+          style="width: 9%; flex: 1; word-wrap: break-word; max-width: 9%; padding: 0px 5px;"
+        >
+          status
+        </text>
+        <text
+          style="width: 12.5%; flex: 1; word-wrap: break-word; max-width: 12.5%; padding: 0px 5px;"
+        >
+          description of disruption
+        </text>
+        <text
+          style="width: 9%; flex: 1; word-wrap: break-word; max-width: 9%; padding: 0px 5px;"
+        >
+          disruption type
+        </text>
+        <text
+          style="width: 5.5%; flex: 1; word-wrap: break-word; max-width: 5.5%; padding: 0px 5px;"
+        >
+          creation time
+        </text>
+        <text
+          style="width: 6.7%; flex: 1; word-wrap: break-word; max-width: 6.7%; padding: 0px 5px;"
+        >
+          disruption reason
+        </text>
+        <text
+          style="width: 6.7%; flex: 1; word-wrap: break-word; max-width: 6.7%; padding: 0px 5px;"
+        >
+          list of services affected
+        </text>
+      </view>
+      <view
+        style="flex-direction: row; align-items: flex-start; text-align: left; border-top-width: 0; border-right-width: 0; border-left-width: 0; border-bottom-width: 1px; margin: 2px; font-family: Helvetica; padding-bottom: 5px;"
       >
-        title
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "6.7%",
-            "padding": "0 5px",
-            "width": "6.7%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        mode
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "6.7%",
-            "padding": "0 5px",
-            "width": "6.7%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        operator wide
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "6.7%",
-            "padding": "0 5px",
-            "width": "6.7%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        network wide
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "6.7%",
-            "padding": "0 5px",
-            "width": "6.7%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        services affected
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "6.7%",
-            "padding": "0 5px",
-            "width": "6.7%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        stops affected
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "5.5%",
-            "padding": "0 5px",
-            "width": "5.5%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        start date
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "5.5%",
-            "padding": "0 5px",
-            "width": "5.5%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        end date
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "5.5%",
-            "padding": "0 5px",
-            "width": "5.5%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        publish start date
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "5.5%",
-            "padding": "0 5px",
-            "width": "5.5%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        publish end date
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "9%",
-            "padding": "0 5px",
-            "width": "9%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        severity
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "9%",
-            "padding": "0 5px",
-            "width": "9%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        live
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "9%",
-            "padding": "0 5px",
-            "width": "9%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        status
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "12.5%",
-            "padding": "0 5px",
-            "width": "12.5%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        description of disruption
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "9%",
-            "padding": "0 5px",
-            "width": "9%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        disruption type
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "5.5%",
-            "padding": "0 5px",
-            "width": "5.5%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        creation time
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "6.7%",
-            "padding": "0 5px",
-            "width": "6.7%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        disruption reason
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "6.7%",
-            "padding": "0 5px",
-            "width": "6.7%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        list of services affected
-      </TEXT>
-    </VIEW>
-    <VIEW
-      style={
-        {
-          "alignItems": "flex-start",
-          "borderBottomWidth": 1,
-          "borderLeftWidth": 0,
-          "borderRightWidth": 0,
-          "borderTopWidth": 0,
-          "flexDirection": "row",
-          "fontFamily": "Helvetica",
-          "margin": 2,
-          "paddingBottom": 5,
-          "textAlign": "left",
-        }
-      }
-      wrap={false}
-    >
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "6.7%",
-            "padding": "0 5px",
-            "width": "6.7%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        8fg3ha
-      </TEXT>
-      <TEXT
-        hyphenationCallback={[Function]}
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "12.5%",
-            "padding": "0 5px",
-            "width": "12.5%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        Test summary
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "6.7%",
-            "padding": "0 5px",
-            "width": "6.7%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        Bus
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "6.7%",
-            "padding": "0 5px",
-            "width": "6.7%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        yes
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "6.7%",
-            "padding": "0 5px",
-            "width": "6.7%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        no
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "6.7%",
-            "padding": "0 5px",
-            "width": "6.7%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        0
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "6.7%",
-            "padding": "0 5px",
-            "width": "6.7%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        5
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "5.5%",
-            "padding": "0 5px",
-            "width": "5.5%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        24/11/2023
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "5.5%",
-            "padding": "0 5px",
-            "width": "5.5%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        25/11/2023
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "5.5%",
-            "padding": "0 5px",
-            "width": "5.5%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        24/11/2023
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "5.5%",
-            "padding": "0 5px",
-            "width": "5.5%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        25/11/2023
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "9%",
-            "padding": "0 5px",
-            "width": "9%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        Unknown
-      </TEXT>
-      <TEXT
-        hyphenationCallback={[Function]}
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "9%",
-            "padding": "0 5px",
-            "width": "9%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        yes
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "9%",
-            "padding": "0 5px",
-            "width": "9%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        Pending Approval
-      </TEXT>
-      <TEXT
-        hyphenationCallback={[Function]}
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "12.5%",
-            "padding": "0 5px",
-            "width": "12.5%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        A description
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "9%",
-            "padding": "0 5px",
-            "width": "9%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        Planned
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "5.5%",
-            "padding": "0 5px",
-            "width": "5.5%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        24/11/2023
-      </TEXT>
-      <TEXT
-        hyphenationCallback={[Function]}
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "6.7%",
-            "padding": "0 5px",
-            "width": "6.7%",
-            "wordWrap": "break-word",
-          }
-        }
-      >
-        roadworks
-      </TEXT>
-      <TEXT
-        style={
-          {
-            "flex": 1,
-            "maxWidth": "6.7%",
-            "padding": "0 5px",
-            "width": "6.7%",
-            "wordWrap": "break-word",
-          }
-        }
-      />
-    </VIEW>
-  </PAGE>
-</DOCUMENT>
+        <text
+          style="width: 6.7%; flex: 1; word-wrap: break-word; max-width: 6.7%; padding: 0px 5px;"
+        >
+          8fg3ha
+        </text>
+        <text
+          style="width: 12.5%; flex: 1; word-wrap: break-word; max-width: 12.5%; padding: 0px 5px;"
+        >
+          Test summary
+        </text>
+        <text
+          style="width: 6.7%; flex: 1; word-wrap: break-word; max-width: 6.7%; padding: 0px 5px;"
+        >
+          Bus
+        </text>
+        <text
+          style="width: 6.7%; flex: 1; word-wrap: break-word; max-width: 6.7%; padding: 0px 5px;"
+        >
+          yes
+        </text>
+        <text
+          style="width: 6.7%; flex: 1; word-wrap: break-word; max-width: 6.7%; padding: 0px 5px;"
+        >
+          no
+        </text>
+        <text
+          style="width: 6.7%; flex: 1; word-wrap: break-word; max-width: 6.7%; padding: 0px 5px;"
+        >
+          0
+        </text>
+        <text
+          style="width: 6.7%; flex: 1; word-wrap: break-word; max-width: 6.7%; padding: 0px 5px;"
+        >
+          5
+        </text>
+        <text
+          style="width: 5.5%; flex: 1; word-wrap: break-word; max-width: 5.5%; padding: 0px 5px;"
+        >
+          24/11/2023
+        </text>
+        <text
+          style="width: 5.5%; flex: 1; word-wrap: break-word; max-width: 5.5%; padding: 0px 5px;"
+        >
+          25/11/2023
+        </text>
+        <text
+          style="width: 5.5%; flex: 1; word-wrap: break-word; max-width: 5.5%; padding: 0px 5px;"
+        >
+          24/11/2023
+        </text>
+        <text
+          style="width: 5.5%; flex: 1; word-wrap: break-word; max-width: 5.5%; padding: 0px 5px;"
+        >
+          25/11/2023
+        </text>
+        <text
+          style="width: 9%; flex: 1; word-wrap: break-word; max-width: 9%; padding: 0px 5px;"
+        >
+          Unknown
+        </text>
+        <text
+          style="width: 9%; flex: 1; word-wrap: break-word; max-width: 9%; padding: 0px 5px;"
+        >
+          yes
+        </text>
+        <text
+          style="width: 9%; flex: 1; word-wrap: break-word; max-width: 9%; padding: 0px 5px;"
+        >
+          Pending Approval
+        </text>
+        <text
+          style="width: 12.5%; flex: 1; word-wrap: break-word; max-width: 12.5%; padding: 0px 5px;"
+        >
+          A description
+        </text>
+        <text
+          style="width: 9%; flex: 1; word-wrap: break-word; max-width: 9%; padding: 0px 5px;"
+        >
+          Planned
+        </text>
+        <text
+          style="width: 5.5%; flex: 1; word-wrap: break-word; max-width: 5.5%; padding: 0px 5px;"
+        >
+          24/11/2023
+        </text>
+        <text
+          style="width: 6.7%; flex: 1; word-wrap: break-word; max-width: 6.7%; padding: 0px 5px;"
+        >
+          roadworks
+        </text>
+        <text
+          style="width: 6.7%; flex: 1; word-wrap: break-word; max-width: 6.7%; padding: 0px 5px;"
+        />
+      </view>
+    </page>
+  </document>
+</DocumentFragment>
 `;

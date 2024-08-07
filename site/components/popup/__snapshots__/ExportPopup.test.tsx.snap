@@ -1,114 +1,111 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`ExportPopup > should render correctly 1`] = `
-<div
-  className="bg-black/[.2] fixed justify-center items-center top-0 left-0 flex w-full h-screen z-50 "
->
+<DocumentFragment>
   <div
-    className="trap"
+    class="bg-black/[.2] fixed justify-center items-center top-0 left-0 flex w-full h-screen z-50 "
   >
     <div
-      className="relative bg-white w-full max-w-xl p-10"
+      class="trap"
     >
       <div
-        className="govuk-form-group"
+        class="relative bg-white w-full max-w-xl p-10"
       >
-        <fieldset
-          className="govuk-fieldset"
-          id="export-type"
+        <div
+          class="govuk-form-group"
         >
-          <legend
-            className="govuk-fieldset__legend govuk-!-padding-top"
+          <fieldset
+            class="govuk-fieldset"
+            id="export-type"
           >
-            <span
-              className="govuk-heading-s govuk-!-margin-bottom-0"
+            <legend
+              class="govuk-fieldset__legend govuk-!-padding-top"
             >
-              What format would you like to export this as?
-            </span>
-          </legend>
-          <div
-            className=""
-          >
+              <span
+                class="govuk-heading-s govuk-!-margin-bottom-0"
+              >
+                What format would you like to export this as?
+              </span>
+            </legend>
             <div
-              className="govuk-radios"
-              data-module="govuk-radios"
+              class=""
             >
               <div
-                className="govuk-radios__item govuk-!-margin-bottom-1"
+                class="govuk-radios"
+                data-module="govuk-radios"
               >
-                <input
-                  className="govuk-radios__input"
-                  data-aria-controls="export-type-csv-conditional"
-                  id="export-type-csv"
-                  name="exportType"
-                  onChange={[Function]}
-                  type="radio"
-                  value="csv"
-                />
-                <label
-                  className="govuk-label govuk-radios__label"
-                  htmlFor="export-type-csv"
+                <div
+                  class="govuk-radios__item govuk-!-margin-bottom-1"
                 >
-                  CSV
-                </label>
-              </div>
-              <div
-                className="govuk-radios__item govuk-!-margin-bottom-1"
-              >
-                <input
-                  className="govuk-radios__input"
-                  data-aria-controls="export-type-excel-conditional"
-                  id="export-type-excel"
-                  name="exportType"
-                  onChange={[Function]}
-                  type="radio"
-                  value="excel"
-                />
-                <label
-                  className="govuk-label govuk-radios__label"
-                  htmlFor="export-type-excel"
+                  <input
+                    class="govuk-radios__input"
+                    data-aria-controls="export-type-csv-conditional"
+                    id="export-type-csv"
+                    name="exportType"
+                    type="radio"
+                    value="csv"
+                  />
+                  <label
+                    class="govuk-label govuk-radios__label"
+                    for="export-type-csv"
+                  >
+                    CSV
+                  </label>
+                </div>
+                <div
+                  class="govuk-radios__item govuk-!-margin-bottom-1"
                 >
-                  Excel
-                </label>
-              </div>
-              <div
-                className="govuk-radios__item"
-              >
-                <input
-                  className="govuk-radios__input"
-                  data-aria-controls="export-type-pdf-conditional"
-                  id="export-type-pdf"
-                  name="exportType"
-                  onChange={[Function]}
-                  type="radio"
-                  value="pdf"
-                />
-                <label
-                  className="govuk-label govuk-radios__label"
-                  htmlFor="export-type-pdf"
+                  <input
+                    class="govuk-radios__input"
+                    data-aria-controls="export-type-excel-conditional"
+                    id="export-type-excel"
+                    name="exportType"
+                    type="radio"
+                    value="excel"
+                  />
+                  <label
+                    class="govuk-label govuk-radios__label"
+                    for="export-type-excel"
+                  >
+                    Excel
+                  </label>
+                </div>
+                <div
+                  class="govuk-radios__item"
                 >
-                  PDF
-                </label>
+                  <input
+                    class="govuk-radios__input"
+                    data-aria-controls="export-type-pdf-conditional"
+                    id="export-type-pdf"
+                    name="exportType"
+                    type="radio"
+                    value="pdf"
+                  />
+                  <label
+                    class="govuk-label govuk-radios__label"
+                    for="export-type-pdf"
+                  >
+                    PDF
+                  </label>
+                </div>
               </div>
             </div>
-          </div>
-        </fieldset>
+          </fieldset>
+        </div>
+        <button
+          class="govuk-button"
+          data-module="govuk-button"
+        >
+          Export
+        </button>
+        <button
+          class="govuk-button ml-5 govuk-button--secondary"
+          data-module="govuk-button"
+        >
+          Cancel
+        </button>
       </div>
-      <button
-        className="govuk-button"
-        data-module="govuk-button"
-        onClick={[Function]}
-      >
-        Export
-      </button>
-      <button
-        className="govuk-button ml-5 govuk-button--secondary"
-        data-module="govuk-button"
-        onClick={[MockFunction spy]}
-      >
-        Cancel
-      </button>
     </div>
   </div>
-</div>
+</DocumentFragment>
 `;

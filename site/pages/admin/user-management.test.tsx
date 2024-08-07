@@ -1,7 +1,7 @@
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
-import renderer from "react-test-renderer";
-import { afterEach, describe, expect, it, vi } from "vitest";
-import UserManagement, { UserManagementPageProps } from "./user-management.page";
+import { render } from '@testing-library/react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import UserManagement, { UserManagementPageProps } from './user-management.page';
 
 const blankInputs: UserManagementPageProps = {
     userList: [],
@@ -24,7 +24,7 @@ const withInputs: UserManagementPageProps = {
     ],
 };
 
-describe("userManagement", () => {
+describe("UserManagement", () => {
     vi.mock("../../data/cognito", () => ({
         listUsersWithGroups: vi.fn(),
     }));
@@ -34,12 +34,12 @@ describe("userManagement", () => {
     });
 
     it("should render correctly when there are no inputs", () => {
-        const tree = renderer.create(<UserManagement {...blankInputs} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<UserManagement {...blankInputs} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly with inputs", () => {
-        const tree = renderer.create(<UserManagement {...withInputs} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<UserManagement {...withInputs} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 });

@@ -1,50 +1,51 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`DeleteConfirmationPopup > should render correctly 1`] = `
-<div
-  className="modal-overlay bg-black/[.2] fixed justify-center items-center top-0 left-0 flex w-full h-screen z-50"
->
+<DocumentFragment>
   <div
-    className="trap"
+    class="modal-overlay bg-black/[.2] fixed justify-center items-center top-0 left-0 flex w-full h-screen z-50"
   >
     <div
-      className="relative bg-white w-full max-w-xl p-10"
+      class="trap"
     >
-      <form
-        action="https://test.com/api/delete"
-        method="post"
+      <div
+        class="relative bg-white w-full max-w-xl p-10"
       >
-        <input
-          name="csrf_token"
-          type="hidden"
-          value="123"
-        />
-        <h1
-          className="govuk-heading-l"
+        <form
+          action="https://test.com/api/delete"
+          method="post"
         >
-          Are you sure you wish to delete test?
-        </h1>
-        <input
-          name="id"
-          type="hidden"
-          value="acde070d-8c4c-4f0d-9d8a-162843c10333"
-        />
-        <button
-          className="govuk-button mr-6 mt-4 mb-0 "
-          data-module="govuk-button"
-          id="popup-continue-button"
-        >
-          Yes, delete
-        </button>
-        <button
-          className="govuk-button govuk-button--secondary mr-6 mt-4 mb-0"
-          id="popup-cancel-button"
-          onClick={[MockFunction spy]}
-        >
-          No, return
-        </button>
-      </form>
+          <input
+            name="csrf_token"
+            type="hidden"
+            value="123"
+          />
+          <h1
+            class="govuk-heading-l"
+          >
+            Are you sure you wish to delete test?
+          </h1>
+          <input
+            name="id"
+            type="hidden"
+            value="acde070d-8c4c-4f0d-9d8a-162843c10333"
+          />
+          <button
+            class="govuk-button mr-6 mt-4 mb-0 "
+            data-module="govuk-button"
+            id="popup-continue-button"
+          >
+            Yes, delete
+          </button>
+          <button
+            class="govuk-button govuk-button--secondary mr-6 mt-4 mb-0"
+            id="popup-cancel-button"
+          >
+            No, return
+          </button>
+        </form>
+      </div>
     </div>
   </div>
-</div>
+</DocumentFragment>
 `;

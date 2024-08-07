@@ -1,12 +1,14 @@
-import renderer from "react-test-renderer";
-import { describe, expect, it } from "vitest";
-import CookieDetails from "./cookie-details.page";
+import { render, cleanup } from '@testing-library/react';
+import { describe, expect, it, afterEach } from 'vitest';
+import CookieDetails from './cookie-details.page';
 
-describe("pages", () => {
-    describe("cookieDetails", () => {
-        it("should render correctly", () => {
-            const tree = renderer.create(<CookieDetails />).toJSON();
-            expect(tree).toMatchSnapshot();
+describe('pages', () => {
+    describe('cookieDetails', () => {
+        afterEach(cleanup);
+
+        it('should render correctly', () => {
+            const { asFragment } = render(<CookieDetails />);
+            expect(asFragment()).toMatchSnapshot();
         });
     });
 });

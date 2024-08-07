@@ -65,7 +65,7 @@ const ViewAllSocialMedia = ({ socialMediaPosts }: ViewAllSocialMediaProps): Reac
                 header: "Nextdoor area boundaries",
                 cells: [
                     post.accountType === "Nextdoor"
-                        ? post.nextdoorAgencyBoundaries?.map((boundary) => boundary.name).join(", ")
+                        ? post.nextdoorAgencyBoundaries?.map((boundary) => boundary.name).join(", ") || "N/A"
                         : "N/A",
                 ],
             },

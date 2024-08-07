@@ -1,8 +1,7 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
-import { render } from "@testing-library/react";
+import { cleanup, render } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
-import renderer from "react-test-renderer";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { SocialMediaPost } from "../../../schemas/social-media.schema";
 import CreateSocialMediaPost from "./[socialMediaPostIndex].page";
 
@@ -25,6 +24,8 @@ const previousCreateSocialMediaPostInformation: SocialMediaPost = {
     accountType: "Hootsuite",
 };
 
+afterEach(cleanup)
+
 describe("pages", () => {
     describe("CreateSocialMediaPost", () => {
         const useRouter = vi.spyOn(require("next/router"), "useRouter");
@@ -35,76 +36,74 @@ describe("pages", () => {
         });
 
         it("should render correctly with inputs and no errors", () => {
-            const tree = renderer
-                .create(
-                    <CreateSocialMediaPost
-                        agencyBoundaries={[
-                            {
-                                nextdoorUserId: "985654341",
-                                boundaries: [
-                                    { name: "Test Area 1", groupId: 1234, type: "boundary", geometryId: 1234 },
-                                    { name: "Test Area 2", groupId: 1264, type: "boundary", geometryId: 12345 },
-                                ],
-                            },
-                        ]}
-                        disruptionDescription="test summary 123"
-                        socialMediaPostIndex={0}
-                        errors={[]}
-                        inputs={previousCreateSocialMediaPostInformation}
-                        socialAccounts={[
-                            {
-                                display: "testemail@gmail.com",
-                                accountType: "Hootsuite",
-                                hootsuiteProfiles: [
-                                    {
-                                        id: "138196022",
-                                        socialNetworkId: "138196022",
-                                        type: "TWITTER",
-                                        socialNetworkUsername: null,
-                                    },
-                                    {
-                                        id: "138196178",
-                                        socialNetworkId: "138196178",
-                                        type: "FACEBOOK",
-                                        socialNetworkUsername: "Test Account",
-                                    },
-                                ],
-                                addedBy: "Test User",
-                                expiresIn: "Never",
-                                id: "138196022",
-                            },
-                            {
-                                display: "nextdoor@example.com",
-                                accountType: "Nextdoor",
-                                addedBy: "Test User",
-                                expiresIn: "Never",
-                                id: "985654341",
-                                groupIds: [
-                                    { name: "Test Area 1", groupId: 1234 },
-                                    { name: "Test Area 2", groupId: 1264 },
-                                ],
-                            },
-                        ]}
-                    />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(
+                <CreateSocialMediaPost
+                    agencyBoundaries={[
+                        {
+                            nextdoorUserId: "985654341",
+                            boundaries: [
+                                { name: "Test Area 1", groupId: 1234, type: "boundary", geometryId: 1234 },
+                                { name: "Test Area 2", groupId: 1264, type: "boundary", geometryId: 12345 },
+                            ],
+                        },
+                    ]}
+                    disruptionDescription="test summary 123"
+                    socialMediaPostIndex={0}
+                    errors={[]}
+                    inputs={previousCreateSocialMediaPostInformation}
+                    socialAccounts={[
+                        {
+                            display: "testemail@gmail.com",
+                            accountType: "Hootsuite",
+                            hootsuiteProfiles: [
+                                {
+                                    id: "138196022",
+                                    socialNetworkId: "138196022",
+                                    type: "TWITTER",
+                                    socialNetworkUsername: null,
+                                },
+                                {
+                                    id: "138196178",
+                                    socialNetworkId: "138196178",
+                                    type: "FACEBOOK",
+                                    socialNetworkUsername: "Test Account",
+                                },
+                            ],
+                            addedBy: "Test User",
+                            expiresIn: "Never",
+                            id: "138196022",
+                        },
+                        {
+                            display: "nextdoor@example.com",
+                            accountType: "Nextdoor",
+                            addedBy: "Test User",
+                            expiresIn: "Never",
+                            id: "985654341",
+                            groupIds: [
+                                { name: "Test Area 1", groupId: 1234 },
+                                { name: "Test Area 2", groupId: 1264 },
+                            ],
+                        },
+                    ]}
+                />,
+            );
+
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with no inputs", () => {
-            const tree = renderer
-                .create(
-                    <CreateSocialMediaPost
-                        agencyBoundaries={[]}
-                        disruptionDescription="test summary 123"
-                        socialMediaPostIndex={0}
-                        errors={[]}
-                        inputs={{}}
-                        socialAccounts={[]}
-                    />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(
+                <CreateSocialMediaPost
+                    agencyBoundaries={[]}
+                    disruptionDescription="test summary 123"
+                    socialMediaPostIndex={0}
+                    errors={[]}
+                    inputs={{}}
+                    socialAccounts={[]}
+                />,
+            );
+
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should only show message content input when twitter account selected", async () => {

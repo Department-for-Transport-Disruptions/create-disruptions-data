@@ -1,7 +1,6 @@
 import { ConsequenceOperators } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Severity } from "@create-disruptions-data/shared-ts/enums";
 import { render } from "@testing-library/react";
-import renderer from "react-test-renderer";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
 import { mockOperators } from "../../testData/mockData";
@@ -44,28 +43,26 @@ beforeEach(() => {
 describe("pages", () => {
     describe("CreateConsequenceOperator", () => {
         it("should render correctly with no inputs", () => {
-            const tree = renderer.create(<CreateConsequenceOperator {...blankInputs} />).toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(<CreateConsequenceOperator {...blankInputs} />);
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with inputs", () => {
-            const tree = renderer.create(<CreateConsequenceOperator {...withInputs} />).toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(<CreateConsequenceOperator {...withInputs} />);
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with inputs and showUnderground is true", () => {
-            const tree = renderer
-                .create(<CreateConsequenceOperator {...{ ...withInputs, showUnderground: true }} />)
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(<CreateConsequenceOperator {...{ ...withInputs, showUnderground: true }} />);
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with query params", () => {
             useRouter.mockImplementation(() => ({
                 query: { return: "/review-disruption" },
             }));
-            const tree = renderer.create(<CreateConsequenceOperator {...withInputs} />).toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(<CreateConsequenceOperator {...withInputs} />);
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with appropriate buttons", () => {
