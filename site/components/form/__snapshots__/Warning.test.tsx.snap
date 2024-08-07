@@ -15,7 +15,7 @@ exports[`Warning > should render correctly 1`] = `
       class="govuk-warning-text__text"
     >
       <span
-        class="govuk-warning-text__assistive"
+        class="govuk-visually-hidden"
       >
         Warning
       </span>
@@ -40,7 +40,7 @@ exports[`Warning > should render correctly with optional props 1`] = `
       class="govuk-warning-text__text"
     >
       <span
-        class="govuk-warning-text__assistive"
+        class="govuk-visually-hidden"
       >
         WARNING!!!
       </span>
