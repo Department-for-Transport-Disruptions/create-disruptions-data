@@ -3,34 +3,30 @@
 exports[`pages > DisruptionDetail > should render correctly with inputs and no errors 1`] = `
 <DocumentFragment>
   <div
-    class="app-phase-banner__wrapper"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      class="govuk-phase-banner__content"
     >
-      <p
-        class="govuk-phase-banner__content"
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          class="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
         >
-          Beta
-        </strong>
-        <span
-          class="govuk-phase-banner__text"
-        >
-          This is a new service – your 
-          <a
-            class="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-          >
-            feedback
-          </a>
-           will help us to improve it.
-        </span>
-      </p>
-    </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
   </div>
   <div
     class="govuk-width-container"
@@ -2192,34 +2188,30 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
 exports[`pages > DisruptionDetail > should render correctly with inputs and no errors for an edited template 1`] = `
 <DocumentFragment>
   <div
-    class="app-phase-banner__wrapper"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      class="govuk-phase-banner__content"
     >
-      <p
-        class="govuk-phase-banner__content"
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          class="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
         >
-          Beta
-        </strong>
-        <span
-          class="govuk-phase-banner__text"
-        >
-          This is a new service – your 
-          <a
-            class="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-          >
-            feedback
-          </a>
-           will help us to improve it.
-        </span>
-      </p>
-    </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
   </div>
   <div
     class="govuk-width-container"
@@ -4371,34 +4363,30 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
 exports[`pages > DisruptionDetail > should render correctly with inputs and no errors if a non-operator user is viewing an operator disruption 1`] = `
 <DocumentFragment>
   <div
-    class="app-phase-banner__wrapper"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      class="govuk-phase-banner__content"
     >
-      <p
-        class="govuk-phase-banner__content"
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          class="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
         >
-          Beta
-        </strong>
-        <span
-          class="govuk-phase-banner__text"
-        >
-          This is a new service – your 
-          <a
-            class="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-          >
-            feedback
-          </a>
-           will help us to improve it.
-        </span>
-      </p>
-    </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
   </div>
   <div
     class="govuk-width-container"
@@ -5771,34 +5759,30 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
 exports[`pages > DisruptionDetail > should render correctly with inputs and no errors if an operator is viewing a disruption made by an LTA 1`] = `
 <DocumentFragment>
   <div
-    class="app-phase-banner__wrapper"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      class="govuk-phase-banner__content"
     >
-      <p
-        class="govuk-phase-banner__content"
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          class="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
         >
-          Beta
-        </strong>
-        <span
-          class="govuk-phase-banner__text"
-        >
-          This is a new service – your 
-          <a
-            class="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-          >
-            feedback
-          </a>
-           will help us to improve it.
-        </span>
-      </p>
-    </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
   </div>
   <div
     class="govuk-width-container"
@@ -7171,34 +7155,30 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
 exports[`pages > DisruptionDetail > should render correctly with inputs and no errors if an operator is viewing a disruption made by another operator who does not have the same operatorOrgId 1`] = `
 <DocumentFragment>
   <div
-    class="app-phase-banner__wrapper"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      class="govuk-phase-banner__content"
     >
-      <p
-        class="govuk-phase-banner__content"
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          class="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
         >
-          Beta
-        </strong>
-        <span
-          class="govuk-phase-banner__text"
-        >
-          This is a new service – your 
-          <a
-            class="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-          >
-            feedback
-          </a>
-           will help us to improve it.
-        </span>
-      </p>
-    </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
   </div>
   <div
     class="govuk-width-container"
@@ -8571,34 +8551,30 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
 exports[`pages > DisruptionDetail > should render correctly with inputs and no errors when cancellations feature flag is set to true 1`] = `
 <DocumentFragment>
   <div
-    class="app-phase-banner__wrapper"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      class="govuk-phase-banner__content"
     >
-      <p
-        class="govuk-phase-banner__content"
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          class="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
         >
-          Beta
-        </strong>
-        <span
-          class="govuk-phase-banner__text"
-        >
-          This is a new service – your 
-          <a
-            class="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-          >
-            feedback
-          </a>
-           will help us to improve it.
-        </span>
-      </p>
-    </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
   </div>
   <div
     class="govuk-width-container"
@@ -11060,34 +11036,30 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
 exports[`pages > DisruptionDetail > should render correctly with inputs and no errors when disruption is a template 1`] = `
 <DocumentFragment>
   <div
-    class="app-phase-banner__wrapper"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      class="govuk-phase-banner__content"
     >
-      <p
-        class="govuk-phase-banner__content"
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          class="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
         >
-          Beta
-        </strong>
-        <span
-          class="govuk-phase-banner__text"
-        >
-          This is a new service – your 
-          <a
-            class="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-          >
-            feedback
-          </a>
-           will help us to improve it.
-        </span>
-      </p>
-    </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
   </div>
   <div
     class="govuk-width-container"
@@ -13240,34 +13212,30 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
 exports[`pages > DisruptionDetail > should render correctly with inputs and state set to saved 1`] = `
 <DocumentFragment>
   <div
-    class="app-phase-banner__wrapper"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      class="govuk-phase-banner__content"
     >
-      <p
-        class="govuk-phase-banner__content"
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          class="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
         >
-          Beta
-        </strong>
-        <span
-          class="govuk-phase-banner__text"
-        >
-          This is a new service – your 
-          <a
-            class="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-          >
-            feedback
-          </a>
-           will help us to improve it.
-        </span>
-      </p>
-    </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
   </div>
   <div
     class="govuk-width-container"

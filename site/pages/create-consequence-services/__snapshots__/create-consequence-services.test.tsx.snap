@@ -3,34 +3,30 @@
 exports[`pages > CreateConsequenceServices > should render correctly when global datasource does not match consequence datasource 1`] = `
 <DocumentFragment>
   <div
-    class="app-phase-banner__wrapper"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      class="govuk-phase-banner__content"
     >
-      <p
-        class="govuk-phase-banner__content"
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          class="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
         >
-          Beta
-        </strong>
-        <span
-          class="govuk-phase-banner__text"
-        >
-          This is a new service – your 
-          <a
-            class="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-          >
-            feedback
-          </a>
-           will help us to improve it.
-        </span>
-      </p>
-    </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
   </div>
   <div
     class="govuk-width-container"
@@ -1003,34 +999,30 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
 exports[`pages > CreateConsequenceServices > should render correctly with errors and incorrect inputs 1`] = `
 <DocumentFragment>
   <div
-    class="app-phase-banner__wrapper"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      class="govuk-phase-banner__content"
     >
-      <p
-        class="govuk-phase-banner__content"
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          class="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
         >
-          Beta
-        </strong>
-        <span
-          class="govuk-phase-banner__text"
-        >
-          This is a new service – your 
-          <a
-            class="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-          >
-            feedback
-          </a>
-           will help us to improve it.
-        </span>
-      </p>
-    </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
   </div>
   <div
     class="govuk-width-container"
@@ -2042,34 +2034,30 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
 exports[`pages > CreateConsequenceServices > should render correctly with inputs 1`] = `
 <DocumentFragment>
   <div
-    class="app-phase-banner__wrapper"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      class="govuk-phase-banner__content"
     >
-      <p
-        class="govuk-phase-banner__content"
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          class="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
         >
-          Beta
-        </strong>
-        <span
-          class="govuk-phase-banner__text"
-        >
-          This is a new service – your 
-          <a
-            class="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-          >
-            feedback
-          </a>
-           will help us to improve it.
-        </span>
-      </p>
-    </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
   </div>
   <div
     class="govuk-width-container"
@@ -3016,34 +3004,30 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
 exports[`pages > CreateConsequenceServices > should render correctly with inputs and showUnderground is true 1`] = `
 <DocumentFragment>
   <div
-    class="app-phase-banner__wrapper"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      class="govuk-phase-banner__content"
     >
-      <p
-        class="govuk-phase-banner__content"
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          class="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
         >
-          Beta
-        </strong>
-        <span
-          class="govuk-phase-banner__text"
-        >
-          This is a new service – your 
-          <a
-            class="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-          >
-            feedback
-          </a>
-           will help us to improve it.
-        </span>
-      </p>
-    </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
   </div>
   <div
     class="govuk-width-container"
@@ -3995,34 +3979,30 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
 exports[`pages > CreateConsequenceServices > should render correctly with no inputs 1`] = `
 <DocumentFragment>
   <div
-    class="app-phase-banner__wrapper"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      class="govuk-phase-banner__content"
     >
-      <p
-        class="govuk-phase-banner__content"
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          class="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
         >
-          Beta
-        </strong>
-        <span
-          class="govuk-phase-banner__text"
-        >
-          This is a new service – your 
-          <a
-            class="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-          >
-            feedback
-          </a>
-           will help us to improve it.
-        </span>
-      </p>
-    </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
   </div>
   <div
     class="govuk-width-container"
@@ -4845,34 +4825,30 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
 exports[`pages > CreateConsequenceServices > should render correctly with query params 1`] = `
 <DocumentFragment>
   <div
-    class="app-phase-banner__wrapper"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      class="govuk-phase-banner__content"
     >
-      <p
-        class="govuk-phase-banner__content"
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          class="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
         >
-          Beta
-        </strong>
-        <span
-          class="govuk-phase-banner__text"
-        >
-          This is a new service – your 
-          <a
-            class="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-          >
-            feedback
-          </a>
-           will help us to improve it.
-        </span>
-      </p>
-    </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
   </div>
   <div
     class="govuk-width-container"
