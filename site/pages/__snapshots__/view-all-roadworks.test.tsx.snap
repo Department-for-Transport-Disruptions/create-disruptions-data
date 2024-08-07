@@ -63,7 +63,7 @@ exports[`ViewAllRoadworks > should render correctly when no roadworks data is pr
           class="govuk-warning-text__text"
         >
           <span
-            class="govuk-warning-text__assistive"
+            class="govuk-visually-hidden"
           >
             Warning
           </span>
