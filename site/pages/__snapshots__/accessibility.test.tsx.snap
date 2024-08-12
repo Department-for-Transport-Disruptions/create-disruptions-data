@@ -1,0 +1,391 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`accessibility > should render correctly 1`] = `
+<div>
+  <div
+    class="app-phase-banner__wrapper"
+  >
+    <div
+      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    >
+      <p
+        class="govuk-phase-banner__content"
+      >
+        <strong
+          class="govuk-tag govuk-phase-banner__content__tag"
+        >
+          beta
+        </strong>
+        <span
+          class="govuk-phase-banner__text"
+        >
+          This is a new service – your
+           
+          <a
+            class="govuk-link"
+            href="/feedback"
+            id="feedback-link"
+          >
+            feedback
+          </a>
+           
+          will help us to improve it.
+        </span>
+      </p>
+    </div>
+  </div>
+  <div
+    class="govuk-width-container"
+  >
+    <button
+      class="govuk-back-link mb-7"
+      type="button"
+    >
+      Back
+    </button>
+    <main
+      class="govuk-main-wrapper"
+      id="main-content"
+    >
+      <h1
+        class="govuk-heading-l"
+      >
+        Accessibility statement for the Create Transport Disruption Data Service
+      </h1>
+      <p
+        class="govuk-body"
+      >
+        This service is part of the wider GOV.UK website. There’s a separate accessibility statement for the main GOV.UK website.
+      </p>
+      <p
+        class="govuk-body"
+      >
+        This page only contains information about the Create Transport Disruption Data Service, available at 
+        <a
+          href="https://disruption-data.dft.gov.uk"
+        >
+          https://disruption-data.dft.gov.uk
+        </a>
+        .
+      </p>
+      <h2
+        class="govuk-heading-m"
+      >
+        Using this service
+      </h2>
+      <p
+        class="govuk-body"
+      >
+        This service is run by the Department for Transport. We want as many people as possible to be able to use this service. For example, that means you should be able to:
+      </p>
+      <ol
+        class="govuk-list govuk-list--bullet"
+      >
+        <li>
+          change colours, contrast levels and fonts
+        </li>
+        <li>
+          zoom in up to 300% without the text spilling off the screen
+        </li>
+        <li>
+          get from the start of the service to the end using just a keyboard
+        </li>
+        <li>
+          get from the start of the service to the end using speech recognition software
+        </li>
+        <li>
+          listen to the service using a screen reader (including the most recent versions of JAWS, NVDA and VoiceOver)
+        </li>
+      </ol>
+      <p
+        class="govuk-body"
+      >
+        We’ve also made the text in the service as simple as possible to understand.
+      </p>
+      <p
+        class="govuk-body"
+      >
+        <a
+          href="https://mcmw.abilitynet.org.uk/"
+          rel="external"
+        >
+          AbilityNet
+        </a>
+         has advice on making your device easier to use if you have a disability.
+      </p>
+      <h2
+        class="govuk-heading-m"
+      >
+        How accessible this service is
+      </h2>
+      <p
+        class="govuk-body"
+      >
+        Some of the language and concepts used throughout this service are aimed at users within the transport industry.
+      </p>
+      <p
+        class="govuk-body"
+      >
+        Some documents are in PDF format and are not accessible.
+      </p>
+      <h2
+        class="govuk-heading-m"
+      >
+        Feedback and contact information
+      </h2>
+      <p
+        class="govuk-body"
+      >
+        If you have difficulty using this service, 
+        <a
+          href="/contact"
+        >
+          contact us
+        </a>
+        .
+      </p>
+      <h2
+        class="govuk-heading-m"
+      >
+        Reporting accessibility problems with this service
+      </h2>
+      <p
+        class="govuk-body"
+      >
+        We’re always looking to improve the accessibility of this service. If you find any problems that are not listed on this page or think we’re not meeting accessibility requirements, 
+        <a
+          href="/contact"
+        >
+          contact us
+        </a>
+        .
+      </p>
+      <h2
+        class="govuk-heading-m"
+      >
+        Enforcement procedure
+      </h2>
+      <p
+        class="govuk-body"
+      >
+        The Equality and Human Rights Commission (EHRC) is responsible for enforcing the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018 (the ‘accessibility regulations’). If you’re not happy with how we respond to your complaint, 
+        <a
+          href="https://www.equalityadvisoryservice.com/"
+        >
+          contact the Equality Advisory and Support Service (EASS)
+        </a>
+        .
+      </p>
+      <h2
+        class="govuk-heading-m"
+      >
+        Contacting us
+      </h2>
+      <p
+        class="govuk-body"
+      >
+        Find out how to 
+        <a
+          href="/contact"
+        >
+          contact us
+        </a>
+        .
+      </p>
+      <h2
+        class="govuk-heading-m"
+      >
+        Technical information about this website’s accessibility
+      </h2>
+      <p
+        class="govuk-body"
+      >
+        The Department for Transport is committed to making its websites accessible, in accordance with the Public Sector Bodies (Websites and Mobile Applications) (No. 2) Accessibility Regulations 2018.
+      </p>
+      <h2
+        class="govuk-heading-m"
+      >
+        Compliance status
+      </h2>
+      <p
+        class="govuk-body"
+      >
+        This service is fully compliant with the 
+        <a
+          href="https://www.w3.org/TR/WCAG21/"
+        >
+          Web Content Accessibility Guidelines version 2.1 AA standard
+        </a>
+        .
+      </p>
+      <h2
+        class="govuk-heading-m"
+      >
+         Preparation of this accessibility statement
+      </h2>
+      <p
+        class="govuk-body"
+      >
+        This statement was prepared on 12 August 2024. It was last reviewed on 12 August 2024.
+      </p>
+    </main>
+    <div>
+      <h2
+        class="govuk-heading-s"
+      >
+        Help and Support
+      </h2>
+      <p
+        class="govuk-body"
+      >
+        If you are having problems, please contact the Create Disruption Service via this link:
+         
+        <a
+          class="govuk-link govuk-!-font-size-19"
+          href="/contact"
+        >
+          Contact us
+        </a>
+      </p>
+    </div>
+  </div>
+  <footer
+    class="govuk-footer"
+    role="contentinfo"
+  >
+    <div
+      class="govuk-width-container"
+    >
+      <div
+        class="govuk-footer__meta"
+      >
+        <div
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
+        >
+          <h2
+            class="govuk-visually-hidden"
+          >
+            Support links
+          </h2>
+          <ul
+            class="govuk-footer__inline-list"
+          >
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/contact"
+              >
+                Help
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/cookies"
+              >
+                Cookies
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/contact"
+              >
+                Contact
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/accessibility"
+              >
+                Accessibility
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="https://www.gov.uk/help/terms-conditions"
+              >
+                Terms and conditions
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/privacy"
+              >
+                Privacy
+              </a>
+            </li>
+          </ul>
+          <p
+            class="govuk-footer__body"
+          >
+            Built by the
+             
+            <a
+              class="govuk-footer__link"
+              href="https://www.gov.uk/government/organisations/department-for-transport"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Department for Transport
+            </a>
+          </p>
+          <svg
+            aria-hidden="true"
+            class="govuk-footer__licence-logo"
+            focusable="false"
+            height="17"
+            viewBox="0 0 483.2 195.7"
+            width="41"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145"
+              fill="currentColor"
+            />
+          </svg>
+          <span
+            class="govuk-footer__licence-description"
+          >
+            All content is available under the
+             
+            <a
+              class="govuk-footer__link"
+              href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+              rel="license"
+            >
+              Open Government Licence v3.0
+            </a>
+            , except where otherwise stated
+          </span>
+        </div>
+        <div
+          class="govuk-footer__meta-item"
+        >
+          <a
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+          >
+            © Crown copyright
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+`;
