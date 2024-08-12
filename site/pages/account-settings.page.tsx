@@ -260,7 +260,7 @@ const AccountSettings = ({
                 <div className="mb-12">
                     {!sessionWithOrg.isOperatorUser && !sessionWithOrg.isSystemAdmin ? (
                         <>
-                            <h2 className="govuk-heading-m">Email Notifications</h2>
+                            <h2 className="govuk-heading-m">Email notifications</h2>
                             <FormGroupWrapper errorIds={["streetManagerEmailPreferences"]} errors={errors}>
                                 <FormElementWrapper
                                     errors={errors}
@@ -268,7 +268,7 @@ const AccountSettings = ({
                                     errorClass="govuk-radios--street-manager-email-preferences--error"
                                 >
                                     <div className="flex flex-row items-center">
-                                        <p className="font-bold mr-28">Street manager roadworks</p>
+                                        <p className="font-bold mr-28 text-lg">Street manager roadworks</p>
                                         <div
                                             className="govuk-radios govuk-radios--inline ml-auto"
                                             data-module="govuk-radios"
@@ -327,7 +327,7 @@ const AccountSettings = ({
                                 errorClass="govuk-radios--disrption-approval-email-preferences--error"
                             >
                                 <div className="flex flex-row items-center">
-                                    <p className="font-bold mr-28">Disruptions requiring approval</p>
+                                    <p className="font-bold mr-28 text-lg">Disruptions requiring approval</p>
                                     <div
                                         className="govuk-radios govuk-radios--inline ml-auto"
                                         data-module="govuk-radios"

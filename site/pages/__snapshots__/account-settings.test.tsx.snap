@@ -594,7 +594,7 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
               <h2
                 className="govuk-heading-m"
               >
-                Email Notifications
+                Email notifications
               </h2>
               <div
                 className="govuk-form-group"
@@ -606,7 +606,7 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
                     className="flex flex-row items-center"
                   >
                     <p
-                      className="font-bold mr-28"
+                      className="font-bold mr-28 text-lg"
                     >
                       Street manager roadworks
                     </p>
@@ -665,7 +665,7 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
                     className="flex flex-row items-center"
                   >
                     <p
-                      className="font-bold mr-28"
+                      className="font-bold mr-28 text-lg"
                     >
                       Disruptions requiring approval
                     </p>
@@ -1351,7 +1351,7 @@ exports[`accountSettings > should render correctly for organisation admin and sh
               <h2
                 className="govuk-heading-m"
               >
-                Email Notifications
+                Email notifications
               </h2>
               <div
                 className="govuk-form-group"
@@ -1363,7 +1363,7 @@ exports[`accountSettings > should render correctly for organisation admin and sh
                     className="flex flex-row items-center"
                   >
                     <p
-                      className="font-bold mr-28"
+                      className="font-bold mr-28 text-lg"
                     >
                       Street manager roadworks
                     </p>
@@ -1422,7 +1422,7 @@ exports[`accountSettings > should render correctly for organisation admin and sh
                     className="flex flex-row items-center"
                   >
                     <p
-                      className="font-bold mr-28"
+                      className="font-bold mr-28 text-lg"
                     >
                       Disruptions requiring approval
                     </p>
@@ -2163,7 +2163,7 @@ exports[`accountSettings > should render correctly for publisher user 1`] = `
               <h2
                 className="govuk-heading-m"
               >
-                Email Notifications
+                Email notifications
               </h2>
               <div
                 className="govuk-form-group"
@@ -2175,7 +2175,7 @@ exports[`accountSettings > should render correctly for publisher user 1`] = `
                     className="flex flex-row items-center"
                   >
                     <p
-                      className="font-bold mr-28"
+                      className="font-bold mr-28 text-lg"
                     >
                       Street manager roadworks
                     </p>
@@ -2603,7 +2603,7 @@ exports[`accountSettings > should render correctly for staff user 1`] = `
               <h2
                 className="govuk-heading-m"
               >
-                Email Notifications
+                Email notifications
               </h2>
               <div
                 className="govuk-form-group"
@@ -2615,7 +2615,7 @@ exports[`accountSettings > should render correctly for staff user 1`] = `
                     className="flex flex-row items-center"
                   >
                     <p
-                      className="font-bold mr-28"
+                      className="font-bold mr-28 text-lg"
                     >
                       Street manager roadworks
                     </p>
