@@ -659,7 +659,7 @@ exports[`Login > should render correctly with inputs and no errors 1`] = `
         <strong
           class="govuk-tag govuk-phase-banner__content__tag"
         >
-          Beta
+          beta
         </strong>
         <span
           class="govuk-phase-banner__text"
