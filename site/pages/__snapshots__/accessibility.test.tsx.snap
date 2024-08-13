@@ -14,7 +14,7 @@ exports[`accessibility > should render correctly 1`] = `
         <strong
           class="govuk-tag govuk-phase-banner__content__tag"
         >
-          beta
+          Beta
         </strong>
         <span
           class="govuk-phase-banner__text"
