@@ -1,6 +1,6 @@
-import renderer from "react-test-renderer";
-import SummaryList from "./SummaryList";
+import { render } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
+import SummaryList from "./SummaryList";
 
 describe("SummaryList Component", () => {
     it("matches the snapshot with rows, headers, values, and actions", () => {
@@ -27,8 +27,8 @@ describe("SummaryList Component", () => {
             },
         ];
 
-        const tree = renderer.create(<SummaryList rows={rows} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<SummaryList rows={rows} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("matches the snapshot with rows without actions", () => {
@@ -39,8 +39,8 @@ describe("SummaryList Component", () => {
             },
         ];
 
-        const tree = renderer.create(<SummaryList rows={rows} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<SummaryList rows={rows} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("matches the snapshot with ReactNode as value", () => {
@@ -51,8 +51,8 @@ describe("SummaryList Component", () => {
             },
         ];
 
-        const tree = renderer.create(<SummaryList rows={rows} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<SummaryList rows={rows} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders the correct href and text for actions", () => {
@@ -69,8 +69,8 @@ describe("SummaryList Component", () => {
             },
         ];
 
-        const tree = renderer.create(<SummaryList rows={rows} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<SummaryList rows={rows} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("renders visually-hidden text for each action", () => {
@@ -87,7 +87,7 @@ describe("SummaryList Component", () => {
             },
         ];
 
-        const tree = renderer.create(<SummaryList rows={rows} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<SummaryList rows={rows} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 });
