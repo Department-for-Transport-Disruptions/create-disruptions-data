@@ -12,7 +12,7 @@ const Warning = ({ text, symbol = "!", title = "Warning" }: WarningProps): React
             {symbol}
         </span>
         <strong className="govuk-warning-text__text">
-            <span className="govuk-visually-hidden">{title}</span>
+            <span className="govuk-warning-text__assistive">{title}</span>
             {text}
         </strong>
     </div>
