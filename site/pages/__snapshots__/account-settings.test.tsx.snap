@@ -3,39 +3,34 @@
 exports[`accountSettings > should render correctly for operator 1`] = `
 [
   <div
-    className="app-phase-banner__wrapper"
+    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      className="govuk-phase-banner__content"
     >
-      <p
-        className="govuk-phase-banner__content"
+      <strong
+        className="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          className="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        className="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and
+         
+        <a
+          className="govuk-link"
+          href="/feedback"
+          id="feedback-link"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
         >
-          Beta
-        </strong>
-        <span
-          className="govuk-phase-banner__text"
-        >
-          This is a new service – your
-           
-          <a
-            className="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
-          >
-            feedback
-          </a>
-           
-          will help us to improve it.
-        </span>
-      </p>
-    </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
   </div>,
   <div
     className="govuk-width-container"
@@ -414,39 +409,34 @@ exports[`accountSettings > should render correctly for operator 1`] = `
 exports[`accountSettings > should render correctly for organisation admin 1`] = `
 [
   <div
-    className="app-phase-banner__wrapper"
+    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      className="govuk-phase-banner__content"
     >
-      <p
-        className="govuk-phase-banner__content"
+      <strong
+        className="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          className="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        className="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and
+         
+        <a
+          className="govuk-link"
+          href="/feedback"
+          id="feedback-link"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
         >
-          Beta
-        </strong>
-        <span
-          className="govuk-phase-banner__text"
-        >
-          This is a new service – your
-           
-          <a
-            className="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
-          >
-            feedback
-          </a>
-           
-          will help us to improve it.
-        </span>
-      </p>
-    </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
   </div>,
   <div
     className="govuk-width-container"
@@ -1169,39 +1159,34 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
 exports[`accountSettings > should render correctly for organisation admin and showUnderground is true 1`] = `
 [
   <div
-    className="app-phase-banner__wrapper"
+    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      className="govuk-phase-banner__content"
     >
-      <p
-        className="govuk-phase-banner__content"
+      <strong
+        className="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          className="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        className="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and
+         
+        <a
+          className="govuk-link"
+          href="/feedback"
+          id="feedback-link"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
         >
-          Beta
-        </strong>
-        <span
-          className="govuk-phase-banner__text"
-        >
-          This is a new service – your
-           
-          <a
-            className="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
-          >
-            feedback
-          </a>
-           
-          will help us to improve it.
-        </span>
-      </p>
-    </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
   </div>,
   <div
     className="govuk-width-container"
@@ -1983,39 +1968,34 @@ exports[`accountSettings > should render correctly for organisation admin and sh
 exports[`accountSettings > should render correctly for publisher user 1`] = `
 [
   <div
-    className="app-phase-banner__wrapper"
+    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      className="govuk-phase-banner__content"
     >
-      <p
-        className="govuk-phase-banner__content"
+      <strong
+        className="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          className="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        className="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and
+         
+        <a
+          className="govuk-link"
+          href="/feedback"
+          id="feedback-link"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
         >
-          Beta
-        </strong>
-        <span
-          className="govuk-phase-banner__text"
-        >
-          This is a new service – your
-           
-          <a
-            className="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
-          >
-            feedback
-          </a>
-           
-          will help us to improve it.
-        </span>
-      </p>
-    </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
   </div>,
   <div
     className="govuk-width-container"
@@ -2423,39 +2403,34 @@ exports[`accountSettings > should render correctly for publisher user 1`] = `
 exports[`accountSettings > should render correctly for staff user 1`] = `
 [
   <div
-    className="app-phase-banner__wrapper"
+    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      className="govuk-phase-banner__content"
     >
-      <p
-        className="govuk-phase-banner__content"
+      <strong
+        className="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          className="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        className="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and
+         
+        <a
+          className="govuk-link"
+          href="/feedback"
+          id="feedback-link"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
         >
-          Beta
-        </strong>
-        <span
-          className="govuk-phase-banner__text"
-        >
-          This is a new service – your
-           
-          <a
-            className="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
-          >
-            feedback
-          </a>
-           
-          will help us to improve it.
-        </span>
-      </p>
-    </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
   </div>,
   <div
     className="govuk-width-container"
