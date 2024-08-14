@@ -6,8 +6,7 @@ exports[`Warning > should render correctly 1`] = `
     class="govuk-warning-text"
   >
     <span
-      aria-hidden="true"
-      class="govuk-warning-text__icon"
+      className="govuk-visually-hidden"
     >
       !
     </span>
@@ -31,8 +30,7 @@ exports[`Warning > should render correctly with optional props 1`] = `
     class="govuk-warning-text"
   >
     <span
-      aria-hidden="true"
-      class="govuk-warning-text__icon"
+      className="govuk-visually-hidden"
     >
       ?
     </span>

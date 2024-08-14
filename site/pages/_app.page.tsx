@@ -2,11 +2,12 @@ import "../styles/globals.scss";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import type { AppContext, AppInitialProps, AppProps } from "next/app";
 import App from "next/app";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Header from "../components/layout/Header";
 import type { Session } from "../schemas/session.schema";
 import { getCsrfToken } from "../utils";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import { initAll } from "govuk-frontend";
 
 config.autoAddCss = false;
 
@@ -24,9 +25,22 @@ type ExtendedAppProps = {
 };
 
 const CustomApp = ({ Component, pageProps, csrfToken, session }: AppProps & ExtendedAppProps) => {
+    const initialized = useRef(false);
+
     useEffect(() => {
-        document.getElementsByTagName("body")[0].classList.add("js-enabled");
-    });
+        if (!initialized.current) {
+            initialized.current = true;
+    
+            const bodyElement = document.getElementsByTagName("body")[0];
+            bodyElement.classList.add("js-enabled");
+    
+            if ("noModule" in HTMLScriptElement.prototype) {
+                bodyElement.classList.add("govuk-frontend-supported");
+            }
+    
+            initAll();
+        }
+    }, []);
 
     return (
         <>

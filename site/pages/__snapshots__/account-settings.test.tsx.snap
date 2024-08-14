@@ -3,34 +3,30 @@
 exports[`accountSettings > should render correctly for operator 1`] = `
 <DocumentFragment>
   <div
-    class="app-phase-banner__wrapper"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      class="govuk-phase-banner__content"
     >
-      <p
-        class="govuk-phase-banner__content"
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          class="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
         >
-          beta
-        </strong>
-        <span
-          class="govuk-phase-banner__text"
-        >
-          This is a new service – your 
-          <a
-            class="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-          >
-            feedback
-          </a>
-           will help us to improve it.
-        </span>
-      </p>
-    </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
   </div>
   <div
     class="govuk-width-container"
@@ -372,34 +368,30 @@ exports[`accountSettings > should render correctly for operator 1`] = `
 exports[`accountSettings > should render correctly for organisation admin 1`] = `
 <DocumentFragment>
   <div
-    class="app-phase-banner__wrapper"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      class="govuk-phase-banner__content"
     >
-      <p
-        class="govuk-phase-banner__content"
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          class="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
         >
-          beta
-        </strong>
-        <span
-          class="govuk-phase-banner__text"
-        >
-          This is a new service – your 
-          <a
-            class="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-          >
-            feedback
-          </a>
-           will help us to improve it.
-        </span>
-      </p>
-    </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
   </div>
   <div
     class="govuk-width-container"
@@ -555,7 +547,7 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
                     class="flex flex-row items-center"
                   >
                     <p
-                      class="font-bold mr-28 text-lg"
+                      class="font-bold mr-28"
                     >
                       Street manager roadworks
                     </p>
@@ -612,7 +604,7 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
                     class="flex flex-row items-center"
                   >
                     <p
-                      class="font-bold mr-28 text-lg"
+                      class="font-bold mr-28"
                     >
                       Disruptions requiring approval
                     </p>
@@ -1069,34 +1061,30 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
 exports[`accountSettings > should render correctly for organisation admin and showUnderground is true 1`] = `
 <DocumentFragment>
   <div
-    class="app-phase-banner__wrapper"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      class="govuk-phase-banner__content"
     >
-      <p
-        class="govuk-phase-banner__content"
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          class="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
         >
-          beta
-        </strong>
-        <span
-          class="govuk-phase-banner__text"
-        >
-          This is a new service – your 
-          <a
-            class="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-          >
-            feedback
-          </a>
-           will help us to improve it.
-        </span>
-      </p>
-    </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
   </div>
   <div
     class="govuk-width-container"
@@ -1254,7 +1242,7 @@ exports[`accountSettings > should render correctly for organisation admin and sh
                     class="flex flex-row items-center"
                   >
                     <p
-                      class="font-bold mr-28 text-lg"
+                      class="font-bold mr-28"
                     >
                       Street manager roadworks
                     </p>
@@ -1311,7 +1299,7 @@ exports[`accountSettings > should render correctly for organisation admin and sh
                     class="flex flex-row items-center"
                   >
                     <p
-                      class="font-bold mr-28 text-lg"
+                      class="font-bold mr-28"
                     >
                       Disruptions requiring approval
                     </p>
@@ -1822,34 +1810,30 @@ exports[`accountSettings > should render correctly for organisation admin and sh
 exports[`accountSettings > should render correctly for publisher user 1`] = `
 <DocumentFragment>
   <div
-    class="app-phase-banner__wrapper"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      class="govuk-phase-banner__content"
     >
-      <p
-        class="govuk-phase-banner__content"
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          class="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
         >
-          beta
-        </strong>
-        <span
-          class="govuk-phase-banner__text"
-        >
-          This is a new service – your 
-          <a
-            class="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-          >
-            feedback
-          </a>
-           will help us to improve it.
-        </span>
-      </p>
-    </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
   </div>
   <div
     class="govuk-width-container"
@@ -2005,7 +1989,7 @@ exports[`accountSettings > should render correctly for publisher user 1`] = `
                     class="flex flex-row items-center"
                   >
                     <p
-                      class="font-bold mr-28 text-lg"
+                      class="font-bold mr-28"
                     >
                       Street manager roadworks
                     </p>
@@ -2218,34 +2202,30 @@ exports[`accountSettings > should render correctly for publisher user 1`] = `
 exports[`accountSettings > should render correctly for staff user 1`] = `
 <DocumentFragment>
   <div
-    class="app-phase-banner__wrapper"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      class="govuk-phase-banner__content"
     >
-      <p
-        class="govuk-phase-banner__content"
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          class="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
         >
-          beta
-        </strong>
-        <span
-          class="govuk-phase-banner__text"
-        >
-          This is a new service – your 
-          <a
-            class="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-          >
-            feedback
-          </a>
-           will help us to improve it.
-        </span>
-      </p>
-    </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
   </div>
   <div
     class="govuk-width-container"
@@ -2401,7 +2381,7 @@ exports[`accountSettings > should render correctly for staff user 1`] = `
                     class="flex flex-row items-center"
                   >
                     <p
-                      class="font-bold mr-28 text-lg"
+                      class="font-bold mr-28"
                     >
                       Street manager roadworks
                     </p>

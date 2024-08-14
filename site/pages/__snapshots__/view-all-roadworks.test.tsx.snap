@@ -3,35 +3,35 @@
 exports[`ViewAllRoadworks > should render correctly when no roadworks data is present 1`] = `
 <DocumentFragment>
   <div
-    class="app-phase-banner__wrapper"
+    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      className="govuk-phase-banner__content"
     >
-      <p
-        class="govuk-phase-banner__content"
+      <strong
+        className="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          class="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        className="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and
+         
+        <a
+          className="govuk-link"
+          href="/feedback"
+          id="feedback-link"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
         >
-          beta
-        </strong>
-        <span
-          class="govuk-phase-banner__text"
-        >
-          This is a new service – your 
-          <a
-            class="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-          >
-            feedback
-          </a>
-           will help us to improve it.
-        </span>
-      </p>
-    </div>
-  </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
+  </div>,
   <div
     class="govuk-width-container"
   >
@@ -63,7 +63,7 @@ exports[`ViewAllRoadworks > should render correctly when no roadworks data is pr
           class="govuk-warning-text__text"
         >
           <span
-            class="govuk-warning-text__assistive"
+            className="govuk-visually-hidden"
           >
             Warning
           </span>
@@ -293,35 +293,35 @@ exports[`ViewAllRoadworks > should render correctly when no roadworks data is pr
 exports[`ViewAllRoadworks > should render correctly when roadworks data is present 1`] = `
 <DocumentFragment>
   <div
-    class="app-phase-banner__wrapper"
+    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      className="govuk-phase-banner__content"
     >
-      <p
-        class="govuk-phase-banner__content"
+      <strong
+        className="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          class="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        className="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and
+         
+        <a
+          className="govuk-link"
+          href="/feedback"
+          id="feedback-link"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
         >
-          beta
-        </strong>
-        <span
-          class="govuk-phase-banner__text"
-        >
-          This is a new service – your 
-          <a
-            class="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-          >
-            feedback
-          </a>
-           will help us to improve it.
-        </span>
-      </p>
-    </div>
-  </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
+  </div>,
   <div
     class="govuk-width-container"
   >
