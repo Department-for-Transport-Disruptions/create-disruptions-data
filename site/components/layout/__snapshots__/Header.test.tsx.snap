@@ -39,107 +39,106 @@ exports[`Header > should render correctly with a session 1`] = `
       </a>
     </div>
     <div
-      className="govuk-header__content max-[950px]:float-none max-[950px]:pl-0"
+      className="govuk-header__content"
     >
       <a
-        className="govuk-header__link govuk-header__link--service-name"
+        className="govuk-header__link govuk-header__service-name"
         href="/"
-        id="title-link"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
       >
         Create Transport Disruption Data
       </a>
-    </div>
-    <div
-      className="govuk-header__account-link mt-2.5 mb-5 xs:m-0 xs:absolute xs:right-0 xs:top-1/2 xs:w-80 xs:text-right xs:-translate-y-1/2"
-    >
       <div
-        className="group govuk-header__link mr-1.5 overflow-hidden float-right"
+        className="govuk-header__account-link mt-2.5 mb-5 xs:m-0 xs:absolute xs:right-0 xs:top-1/2 xs:w-80 xs:text-right xs:-translate-y-1/2"
       >
-        <button
-          aria-expanded={false}
-          aria-haspopup={true}
-          className="text-white px-5 py-2 m-0 focus:outline-govYellow focus:bg-govYellow focus:text-focusText"
-          onClick={[Function]}
-          onKeyDown={[Function]}
-          role="button"
-          tabIndex={0}
-        >
-          <svg
-            aria-hidden="true"
-            className="svg-inline--fa fa-user mr-2"
-            data-icon="user"
-            data-prefix="fas"
-            focusable="false"
-            role="img"
-            style={{}}
-            viewBox="0 0 448 512"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"
-              fill="currentColor"
-              style={{}}
-            />
-          </svg>
-          <strong>
-            My Account
-          </strong>
-          <svg
-            aria-hidden="true"
-            className="svg-inline--fa fa-angle-down ml-2"
-            data-icon="angle-down"
-            data-prefix="fas"
-            focusable="false"
-            role="img"
-            style={{}}
-            viewBox="0 0 448 512"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M201.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 306.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"
-              fill="currentColor"
-              style={{}}
-            />
-          </svg>
-        </button>
         <div
-          className="absolute bg-white min-w-max shadow-md z-10 px-0.5 group-hover:block group-focus:block invisible"
-          role="menu"
+          className="group govuk-header__link mr-1.5 overflow-hidden float-right"
         >
-          <a
-            className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
-            href="/account-settings"
+          <button
+            aria-expanded={false}
+            aria-haspopup={true}
+            className="text-white px-5 py-2 m-0 focus:outline-govYellow focus:bg-govYellow focus:text-focusText"
             onClick={[Function]}
             onKeyDown={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
-            role="menuitem"
-            tabIndex={-1}
+            role="button"
+            tabIndex={0}
           >
-            Account settings
-          </a>
-          <form
-            action="/api/sign-out"
-            method="post"
+            <svg
+              aria-hidden="true"
+              className="svg-inline--fa fa-user mr-2"
+              data-icon="user"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              style={{}}
+              viewBox="0 0 448 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"
+                fill="currentColor"
+                style={{}}
+              />
+            </svg>
+            <strong>
+              My Account
+            </strong>
+            <svg
+              aria-hidden="true"
+              className="svg-inline--fa fa-angle-down ml-2"
+              data-icon="angle-down"
+              data-prefix="fas"
+              focusable="false"
+              role="img"
+              style={{}}
+              viewBox="0 0 448 512"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M201.4 374.6c12.5 12.5 32.8 12.5 45.3 0l160-160c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L224 306.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l160 160z"
+                fill="currentColor"
+                style={{}}
+              />
+            </svg>
+          </button>
+          <div
+            className="absolute bg-white min-w-max shadow-md z-10 px-0.5 group-hover:block group-focus:block invisible"
+            role="menu"
           >
-            <input
-              name="csrf_token"
-              type="hidden"
-              value=""
-            />
-            <button
-              className="float-none text-black text-left px-5 w-full block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
+            <a
+              className="float-none text-black text-left px-5 block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
+              href="/account-settings"
               onClick={[Function]}
               onKeyDown={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
               role="menuitem"
               tabIndex={-1}
             >
-              Sign out
-            </button>
-          </form>
+              Account settings
+            </a>
+            <form
+              action="/api/sign-out"
+              method="post"
+            >
+              <input
+                name="csrf_token"
+                type="hidden"
+                value=""
+              />
+              <button
+                className="float-none text-black text-left px-5 w-full block hover:bg-slate-100 py-2 focus:text-focusText focus:bg-govYellow focus:outline-govYellow"
+                onClick={[Function]}
+                onKeyDown={[Function]}
+                role="menuitem"
+                tabIndex={-1}
+              >
+                Sign out
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </div>
@@ -186,35 +185,34 @@ exports[`Header > should render correctly without a session 1`] = `
       </a>
     </div>
     <div
-      className="govuk-header__content max-[950px]:float-none max-[950px]:pl-0"
+      className="govuk-header__content"
     >
       <a
-        className="govuk-header__link govuk-header__link--service-name"
+        className="govuk-header__link govuk-header__service-name"
         href="/"
-        id="title-link"
         onClick={[Function]}
         onMouseEnter={[Function]}
         onTouchStart={[Function]}
       >
         Create Transport Disruption Data
       </a>
-    </div>
-    <div
-      className="govuk-header__account-link mt-2.5 mb-5 xs:m-0 xs:absolute xs:right-0 xs:top-1/2 xs:w-80 xs:text-right xs:-translate-y-1/2"
-    >
-      <a
-        className="govuk-header__link"
-        href="/login"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
+      <div
+        className="govuk-header__account-link mt-2.5 mb-5 xs:m-0 xs:absolute xs:right-0 xs:top-1/2 xs:w-80 xs:text-right xs:-translate-y-1/2"
       >
-        <span>
-           
-          Sign in
-           
-        </span>
-      </a>
+        <a
+          className="govuk-header__link"
+          href="/login"
+          onClick={[Function]}
+          onMouseEnter={[Function]}
+          onTouchStart={[Function]}
+        >
+          <span>
+             
+            Sign in
+             
+          </span>
+        </a>
+      </div>
     </div>
   </div>
 </header>
