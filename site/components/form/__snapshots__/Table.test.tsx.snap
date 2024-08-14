@@ -1,189 +1,195 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`Table > should render correctly 1`] = `
-<table
-  className="govuk-table"
->
-  <caption
-    className="govuk-table__caption govuk-table__caption--l"
+<DocumentFragment>
+  <table
+    class="govuk-table"
   >
-    test table
-  </caption>
-  <thead
-    className="govuk-table__head"
-  >
-    <tr
-      className="govuk-table__row"
+    <caption
+      class="govuk-table__caption govuk-table__caption--l"
     >
-      <th
-        className="govuk-table__header align-middle px-2"
-        scope="col"
-      >
-        test col 1
-      </th>
-      <th
-        className="govuk-table__header align-middle px-2"
-        scope="col"
-      >
-        test col 2
-      </th>
-    </tr>
-  </thead>
-  <tbody
-    className="govuk-table__body"
-  >
-    <tr
-      className="govuk-table__row"
+      test table
+    </caption>
+    <thead
+      class="govuk-table__head"
     >
-      <th
-        className="govuk-table__header align-middle"
-        scope="row"
+      <tr
+        class="govuk-table__row"
       >
-        test row 1
-      </th>
-      <td
-        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-      >
-        1
-      </td>
-    </tr>
-    <tr
-      className="govuk-table__row"
+        <th
+          class="govuk-table__header align-middle px-2"
+          scope="col"
+        >
+          test col 1
+        </th>
+        <th
+          class="govuk-table__header align-middle px-2"
+          scope="col"
+        >
+          test col 2
+        </th>
+      </tr>
+    </thead>
+    <tbody
+      class="govuk-table__body"
     >
-      <th
-        className="govuk-table__header align-middle"
-        scope="row"
+      <tr
+        class="govuk-table__row"
       >
-        test row 2
-      </th>
-      <td
-        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+        <th
+          class="govuk-table__header align-middle"
+          scope="row"
+        >
+          test row 1
+        </th>
+        <td
+          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+        >
+          1
+        </td>
+      </tr>
+      <tr
+        class="govuk-table__row"
       >
-        2
-      </td>
-    </tr>
-  </tbody>
-</table>
+        <th
+          class="govuk-table__header align-middle"
+          scope="row"
+        >
+          test row 2
+        </th>
+        <td
+          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+        >
+          2
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</DocumentFragment>
 `;
 
 exports[`Table > should render correctly with jsx element 1`] = `
-<table
-  className="govuk-table"
->
-  <caption
-    className="govuk-table__caption govuk-table__caption--l"
+<DocumentFragment>
+  <table
+    class="govuk-table"
   >
-    test table
-  </caption>
-  <thead
-    className="govuk-table__head"
-  >
-    <tr
-      className="govuk-table__row"
+    <caption
+      class="govuk-table__caption govuk-table__caption--l"
     >
-      <th
-        className="govuk-table__header align-middle px-2"
-        scope="col"
-      >
-        test col 1
-      </th>
-      <th
-        className="govuk-table__header align-middle px-2"
-        scope="col"
-      >
-        test col 2
-      </th>
-    </tr>
-  </thead>
-  <tbody
-    className="govuk-table__body"
-  >
-    <tr
-      className="govuk-table__row"
+      test table
+    </caption>
+    <thead
+      class="govuk-table__head"
     >
-      <th
-        className="govuk-table__header align-middle"
-        scope="row"
+      <tr
+        class="govuk-table__row"
       >
-        test row 1
-      </th>
-      <td
-        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-      >
-        <p>
-          test 1
-        </p>
-      </td>
-    </tr>
-    <tr
-      className="govuk-table__row"
+        <th
+          class="govuk-table__header align-middle px-2"
+          scope="col"
+        >
+          test col 1
+        </th>
+        <th
+          class="govuk-table__header align-middle px-2"
+          scope="col"
+        >
+          test col 2
+        </th>
+      </tr>
+    </thead>
+    <tbody
+      class="govuk-table__body"
     >
-      <th
-        className="govuk-table__header align-middle"
-        scope="row"
+      <tr
+        class="govuk-table__row"
       >
-        test row 2
-      </th>
-      <td
-        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+        <th
+          class="govuk-table__header align-middle"
+          scope="row"
+        >
+          test row 1
+        </th>
+        <td
+          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+        >
+          <p>
+            test 1
+          </p>
+        </td>
+      </tr>
+      <tr
+        class="govuk-table__row"
       >
-        2
-      </td>
-    </tr>
-  </tbody>
-</table>
+        <th
+          class="govuk-table__header align-middle"
+          scope="row"
+        >
+          test row 2
+        </th>
+        <td
+          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+        >
+          2
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</DocumentFragment>
 `;
 
 exports[`Table > should render correctly without a header 1`] = `
-<table
-  className="govuk-table"
->
-  <caption
-    className="govuk-table__caption govuk-table__caption--l"
+<DocumentFragment>
+  <table
+    class="govuk-table"
   >
-    test table
-  </caption>
-  <thead
-    className="govuk-table__head"
-  >
-    <tr
-      className="govuk-table__row"
+    <caption
+      class="govuk-table__caption govuk-table__caption--l"
     >
-      <th
-        className="govuk-table__header align-middle px-2"
-        scope="col"
-      >
-        test col 1
-      </th>
-      <th
-        className="govuk-table__header align-middle px-2"
-        scope="col"
-      >
-        test col 2
-      </th>
-    </tr>
-  </thead>
-  <tbody
-    className="govuk-table__body"
-  >
-    <tr
-      className="govuk-table__row"
+      test table
+    </caption>
+    <thead
+      class="govuk-table__head"
     >
-      <td
-        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+      <tr
+        class="govuk-table__row"
       >
-        1
-      </td>
-    </tr>
-    <tr
-      className="govuk-table__row"
+        <th
+          class="govuk-table__header align-middle px-2"
+          scope="col"
+        >
+          test col 1
+        </th>
+        <th
+          class="govuk-table__header align-middle px-2"
+          scope="col"
+        >
+          test col 2
+        </th>
+      </tr>
+    </thead>
+    <tbody
+      class="govuk-table__body"
     >
-      <td
-        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+      <tr
+        class="govuk-table__row"
       >
-        2
-      </td>
-    </tr>
-  </tbody>
-</table>
+        <td
+          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+        >
+          1
+        </td>
+      </tr>
+      <tr
+        class="govuk-table__row"
+      >
+        <td
+          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+        >
+          2
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</DocumentFragment>
 `;

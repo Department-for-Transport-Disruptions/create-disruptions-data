@@ -1,247 +1,203 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`OperatorSearch > should render correctly with errors 1`] = `
-<div
-  className="govuk-form-group"
->
+<DocumentFragment>
   <div
-    className="govuk-form-group"
-    id="consequence-operators"
+    class="govuk-form-group"
   >
-    <label
-      className="govuk-label govuk-label--l"
-      htmlFor="operator-search-dropdown-value"
-    >
-      Operators impacted
-    </label>
     <div
-      className=""
+      class="govuk-form-group"
+      id="consequence-operators"
     >
-      <div
-        className="text-lg text-black css-b62m3t-container"
-        id="operator-search"
-        onKeyDown={[Function]}
+      <label
+        class="govuk-label govuk-label--l"
+        for="operator-search-dropdown-value"
       >
-        <span
-          className="css-1f43avz-a11yText-A11yText"
-          id="react-select-operator-dropdown-live-region"
-        />
-        <span
-          aria-atomic="false"
-          aria-live="polite"
-          aria-relevant="additions text"
-          className="css-1f43avz-a11yText-A11yText"
-          role="log"
-        />
+        Operators impacted
+      </label>
+      <div
+        class=""
+      >
         <div
-          className=" css-1efjb9t-control"
-          onMouseDown={[Function]}
-          onTouchEnd={[Function]}
+          class="text-lg text-black css-b62m3t-container"
+          id="operator-search"
         >
+          <span
+            class="css-1f43avz-a11yText-A11yText"
+            id="react-select-operator-dropdown-live-region"
+          />
+          <span
+            aria-atomic="false"
+            aria-live="polite"
+            aria-relevant="additions text"
+            class="css-1f43avz-a11yText-A11yText"
+            role="log"
+          />
           <div
-            className=" css-1fdsijx-ValueContainer"
+            class=" css-1efjb9t-control"
           >
             <div
-              className=" css-yl2wa5-placeholder"
-              id="react-select-operator-dropdown-placeholder"
+              class=" css-1fdsijx-ValueContainer"
             >
-              Select operators
-            </div>
-            <div
-              className=" css-qbdosj-Input"
-              data-value=""
-            >
-              <input
-                aria-activedescendant=""
-                aria-autocomplete="list"
-                aria-describedby="react-select-operator-dropdown-placeholder"
-                aria-expanded={false}
-                aria-haspopup={true}
-                autoCapitalize="none"
-                autoComplete="off"
-                autoCorrect="off"
-                className=""
-                disabled={false}
-                id="operator-search-dropdown-value"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                role="combobox"
-                spellCheck="false"
-                style={
-                  {
-                    "background": 0,
-                    "border": 0,
-                    "color": "inherit",
-                    "font": "inherit",
-                    "gridArea": "1 / 2",
-                    "label": "input",
-                    "margin": 0,
-                    "minWidth": "2px",
-                    "opacity": 1,
-                    "outline": 0,
-                    "padding": 0,
-                    "width": "100%",
-                  }
-                }
-                tabIndex={0}
-                type="text"
-                value=""
-              />
-            </div>
-          </div>
-          <div
-            className=" css-1hb7zxy-IndicatorsContainer"
-          >
-            <span
-              className=" css-1u9des2-indicatorSeparator"
-            />
-            <div
-              aria-hidden="true"
-              className=" css-1xc3v61-indicatorContainer"
-              onMouseDown={[Function]}
-              onTouchEnd={[Function]}
-            >
-              <svg
-                aria-hidden="true"
-                className="css-tj5bde-Svg"
-                focusable="false"
-                height={20}
-                viewBox="0 0 20 20"
-                width={20}
+              <div
+                class=" css-yl2wa5-placeholder"
+                id="react-select-operator-dropdown-placeholder"
               >
-                <path
-                  d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                Select operators
+              </div>
+              <div
+                class=" css-qbdosj-Input"
+                data-value=""
+              >
+                <input
+                  aria-activedescendant=""
+                  aria-autocomplete="list"
+                  aria-describedby="react-select-operator-dropdown-placeholder"
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  autocapitalize="none"
+                  autocomplete="off"
+                  autocorrect="off"
+                  class=""
+                  id="operator-search-dropdown-value"
+                  role="combobox"
+                  spellcheck="false"
+                  style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                  tabindex="0"
+                  type="text"
+                  value=""
                 />
-              </svg>
+              </div>
+            </div>
+            <div
+              class=" css-1hb7zxy-IndicatorsContainer"
+            >
+              <span
+                class=" css-1u9des2-indicatorSeparator"
+              />
+              <div
+                aria-hidden="true"
+                class=" css-1xc3v61-indicatorContainer"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="css-tj5bde-Svg"
+                  focusable="false"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  width="20"
+                >
+                  <path
+                    d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                  />
+                </svg>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`OperatorSearch > should render correctly with no errors 1`] = `
-<div
-  className="govuk-form-group"
->
+<DocumentFragment>
   <div
-    className="govuk-form-group"
-    id="consequence-operators"
+    class="govuk-form-group"
   >
-    <label
-      className="govuk-label govuk-label--l"
-      htmlFor="operator-search-dropdown-value"
-    >
-      Operators impacted
-    </label>
     <div
-      className=""
+      class="govuk-form-group"
+      id="consequence-operators"
     >
-      <div
-        className="text-lg text-black css-b62m3t-container"
-        id="operator-search"
-        onKeyDown={[Function]}
+      <label
+        class="govuk-label govuk-label--l"
+        for="operator-search-dropdown-value"
       >
-        <span
-          className="css-1f43avz-a11yText-A11yText"
-          id="react-select-operator-dropdown-live-region"
-        />
-        <span
-          aria-atomic="false"
-          aria-live="polite"
-          aria-relevant="additions text"
-          className="css-1f43avz-a11yText-A11yText"
-          role="log"
-        />
+        Operators impacted
+      </label>
+      <div
+        class=""
+      >
         <div
-          className=" css-1efjb9t-control"
-          onMouseDown={[Function]}
-          onTouchEnd={[Function]}
+          class="text-lg text-black css-b62m3t-container"
+          id="operator-search"
         >
+          <span
+            class="css-1f43avz-a11yText-A11yText"
+            id="react-select-operator-dropdown-live-region"
+          />
+          <span
+            aria-atomic="false"
+            aria-live="polite"
+            aria-relevant="additions text"
+            class="css-1f43avz-a11yText-A11yText"
+            role="log"
+          />
           <div
-            className=" css-1fdsijx-ValueContainer"
+            class=" css-1efjb9t-control"
           >
             <div
-              className=" css-yl2wa5-placeholder"
-              id="react-select-operator-dropdown-placeholder"
+              class=" css-1fdsijx-ValueContainer"
             >
-              Select operators
-            </div>
-            <div
-              className=" css-qbdosj-Input"
-              data-value=""
-            >
-              <input
-                aria-activedescendant=""
-                aria-autocomplete="list"
-                aria-describedby="react-select-operator-dropdown-placeholder"
-                aria-expanded={false}
-                aria-haspopup={true}
-                autoCapitalize="none"
-                autoComplete="off"
-                autoCorrect="off"
-                className=""
-                disabled={false}
-                id="operator-search-dropdown-value"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                role="combobox"
-                spellCheck="false"
-                style={
-                  {
-                    "background": 0,
-                    "border": 0,
-                    "color": "inherit",
-                    "font": "inherit",
-                    "gridArea": "1 / 2",
-                    "label": "input",
-                    "margin": 0,
-                    "minWidth": "2px",
-                    "opacity": 1,
-                    "outline": 0,
-                    "padding": 0,
-                    "width": "100%",
-                  }
-                }
-                tabIndex={0}
-                type="text"
-                value=""
-              />
-            </div>
-          </div>
-          <div
-            className=" css-1hb7zxy-IndicatorsContainer"
-          >
-            <span
-              className=" css-1u9des2-indicatorSeparator"
-            />
-            <div
-              aria-hidden="true"
-              className=" css-1xc3v61-indicatorContainer"
-              onMouseDown={[Function]}
-              onTouchEnd={[Function]}
-            >
-              <svg
-                aria-hidden="true"
-                className="css-tj5bde-Svg"
-                focusable="false"
-                height={20}
-                viewBox="0 0 20 20"
-                width={20}
+              <div
+                class=" css-yl2wa5-placeholder"
+                id="react-select-operator-dropdown-placeholder"
               >
-                <path
-                  d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                Select operators
+              </div>
+              <div
+                class=" css-qbdosj-Input"
+                data-value=""
+              >
+                <input
+                  aria-activedescendant=""
+                  aria-autocomplete="list"
+                  aria-describedby="react-select-operator-dropdown-placeholder"
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  autocapitalize="none"
+                  autocomplete="off"
+                  autocorrect="off"
+                  class=""
+                  id="operator-search-dropdown-value"
+                  role="combobox"
+                  spellcheck="false"
+                  style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                  tabindex="0"
+                  type="text"
+                  value=""
                 />
-              </svg>
+              </div>
+            </div>
+            <div
+              class=" css-1hb7zxy-IndicatorsContainer"
+            >
+              <span
+                class=" css-1u9des2-indicatorSeparator"
+              />
+              <div
+                aria-hidden="true"
+                class=" css-1xc3v61-indicatorContainer"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="css-tj5bde-Svg"
+                  focusable="false"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  width="20"
+                >
+                  <path
+                    d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                  />
+                </svg>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</DocumentFragment>
 `;

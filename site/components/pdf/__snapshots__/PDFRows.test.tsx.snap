@@ -1,271 +1,103 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`PDFRows > should render correctly 1`] = `
-<VIEW
-  style={
-    {
-      "alignItems": "flex-start",
-      "borderBottomWidth": 1,
-      "borderLeftWidth": 0,
-      "borderRightWidth": 0,
-      "borderTopWidth": 0,
-      "flexDirection": "row",
-      "fontFamily": "Helvetica",
-      "margin": 2,
-      "paddingBottom": 5,
-      "textAlign": "left",
-    }
-  }
-  wrap={false}
->
-  <TEXT
-    style={
-      {
-        "flex": 1,
-        "maxWidth": "6.7%",
-        "padding": "0 5px",
-        "width": "6.7%",
-        "wordWrap": "break-word",
-      }
-    }
+<DocumentFragment>
+  <view
+    style="flex-direction: row; align-items: flex-start; text-align: left; border-top-width: 0; border-right-width: 0; border-left-width: 0; border-bottom-width: 1px; margin: 2px; font-family: Helvetica; padding-bottom: 5px;"
   >
-    8fg3ha
-  </TEXT>
-  <TEXT
-    hyphenationCallback={[Function]}
-    style={
-      {
-        "flex": 1,
-        "maxWidth": "12.5%",
-        "padding": "0 5px",
-        "width": "12.5%",
-        "wordWrap": "break-word",
-      }
-    }
-  >
-    Test summary
-  </TEXT>
-  <TEXT
-    style={
-      {
-        "flex": 1,
-        "maxWidth": "6.7%",
-        "padding": "0 5px",
-        "width": "6.7%",
-        "wordWrap": "break-word",
-      }
-    }
-  >
-    Bus
-  </TEXT>
-  <TEXT
-    style={
-      {
-        "flex": 1,
-        "maxWidth": "6.7%",
-        "padding": "0 5px",
-        "width": "6.7%",
-        "wordWrap": "break-word",
-      }
-    }
-  >
-    yes
-  </TEXT>
-  <TEXT
-    style={
-      {
-        "flex": 1,
-        "maxWidth": "6.7%",
-        "padding": "0 5px",
-        "width": "6.7%",
-        "wordWrap": "break-word",
-      }
-    }
-  >
-    no
-  </TEXT>
-  <TEXT
-    style={
-      {
-        "flex": 1,
-        "maxWidth": "6.7%",
-        "padding": "0 5px",
-        "width": "6.7%",
-        "wordWrap": "break-word",
-      }
-    }
-  >
-    0
-  </TEXT>
-  <TEXT
-    style={
-      {
-        "flex": 1,
-        "maxWidth": "6.7%",
-        "padding": "0 5px",
-        "width": "6.7%",
-        "wordWrap": "break-word",
-      }
-    }
-  >
-    5
-  </TEXT>
-  <TEXT
-    style={
-      {
-        "flex": 1,
-        "maxWidth": "5.5%",
-        "padding": "0 5px",
-        "width": "5.5%",
-        "wordWrap": "break-word",
-      }
-    }
-  >
-    24/11/2023
-  </TEXT>
-  <TEXT
-    style={
-      {
-        "flex": 1,
-        "maxWidth": "5.5%",
-        "padding": "0 5px",
-        "width": "5.5%",
-        "wordWrap": "break-word",
-      }
-    }
-  >
-    25/11/2023
-  </TEXT>
-  <TEXT
-    style={
-      {
-        "flex": 1,
-        "maxWidth": "5.5%",
-        "padding": "0 5px",
-        "width": "5.5%",
-        "wordWrap": "break-word",
-      }
-    }
-  >
-    24/11/2023
-  </TEXT>
-  <TEXT
-    style={
-      {
-        "flex": 1,
-        "maxWidth": "5.5%",
-        "padding": "0 5px",
-        "width": "5.5%",
-        "wordWrap": "break-word",
-      }
-    }
-  >
-    25/11/2023
-  </TEXT>
-  <TEXT
-    style={
-      {
-        "flex": 1,
-        "maxWidth": "9%",
-        "padding": "0 5px",
-        "width": "9%",
-        "wordWrap": "break-word",
-      }
-    }
-  >
-    Unknown
-  </TEXT>
-  <TEXT
-    hyphenationCallback={[Function]}
-    style={
-      {
-        "flex": 1,
-        "maxWidth": "9%",
-        "padding": "0 5px",
-        "width": "9%",
-        "wordWrap": "break-word",
-      }
-    }
-  >
-    yes
-  </TEXT>
-  <TEXT
-    style={
-      {
-        "flex": 1,
-        "maxWidth": "9%",
-        "padding": "0 5px",
-        "width": "9%",
-        "wordWrap": "break-word",
-      }
-    }
-  >
-    Pending Approval
-  </TEXT>
-  <TEXT
-    hyphenationCallback={[Function]}
-    style={
-      {
-        "flex": 1,
-        "maxWidth": "12.5%",
-        "padding": "0 5px",
-        "width": "12.5%",
-        "wordWrap": "break-word",
-      }
-    }
-  >
-    A description
-  </TEXT>
-  <TEXT
-    style={
-      {
-        "flex": 1,
-        "maxWidth": "9%",
-        "padding": "0 5px",
-        "width": "9%",
-        "wordWrap": "break-word",
-      }
-    }
-  >
-    Planned
-  </TEXT>
-  <TEXT
-    style={
-      {
-        "flex": 1,
-        "maxWidth": "5.5%",
-        "padding": "0 5px",
-        "width": "5.5%",
-        "wordWrap": "break-word",
-      }
-    }
-  >
-    24/11/2023
-  </TEXT>
-  <TEXT
-    hyphenationCallback={[Function]}
-    style={
-      {
-        "flex": 1,
-        "maxWidth": "6.7%",
-        "padding": "0 5px",
-        "width": "6.7%",
-        "wordWrap": "break-word",
-      }
-    }
-  >
-    roadworks
-  </TEXT>
-  <TEXT
-    style={
-      {
-        "flex": 1,
-        "maxWidth": "6.7%",
-        "padding": "0 5px",
-        "width": "6.7%",
-        "wordWrap": "break-word",
-      }
-    }
-  />
-</VIEW>
+    <text
+      style="width: 6.7%; flex: 1; word-wrap: break-word; max-width: 6.7%; padding: 0px 5px;"
+    >
+      8fg3ha
+    </text>
+    <text
+      style="width: 12.5%; flex: 1; word-wrap: break-word; max-width: 12.5%; padding: 0px 5px;"
+    >
+      Test summary
+    </text>
+    <text
+      style="width: 6.7%; flex: 1; word-wrap: break-word; max-width: 6.7%; padding: 0px 5px;"
+    >
+      Bus
+    </text>
+    <text
+      style="width: 6.7%; flex: 1; word-wrap: break-word; max-width: 6.7%; padding: 0px 5px;"
+    >
+      yes
+    </text>
+    <text
+      style="width: 6.7%; flex: 1; word-wrap: break-word; max-width: 6.7%; padding: 0px 5px;"
+    >
+      no
+    </text>
+    <text
+      style="width: 6.7%; flex: 1; word-wrap: break-word; max-width: 6.7%; padding: 0px 5px;"
+    >
+      0
+    </text>
+    <text
+      style="width: 6.7%; flex: 1; word-wrap: break-word; max-width: 6.7%; padding: 0px 5px;"
+    >
+      5
+    </text>
+    <text
+      style="width: 5.5%; flex: 1; word-wrap: break-word; max-width: 5.5%; padding: 0px 5px;"
+    >
+      24/11/2023
+    </text>
+    <text
+      style="width: 5.5%; flex: 1; word-wrap: break-word; max-width: 5.5%; padding: 0px 5px;"
+    >
+      25/11/2023
+    </text>
+    <text
+      style="width: 5.5%; flex: 1; word-wrap: break-word; max-width: 5.5%; padding: 0px 5px;"
+    >
+      24/11/2023
+    </text>
+    <text
+      style="width: 5.5%; flex: 1; word-wrap: break-word; max-width: 5.5%; padding: 0px 5px;"
+    >
+      25/11/2023
+    </text>
+    <text
+      style="width: 9%; flex: 1; word-wrap: break-word; max-width: 9%; padding: 0px 5px;"
+    >
+      Unknown
+    </text>
+    <text
+      style="width: 9%; flex: 1; word-wrap: break-word; max-width: 9%; padding: 0px 5px;"
+    >
+      yes
+    </text>
+    <text
+      style="width: 9%; flex: 1; word-wrap: break-word; max-width: 9%; padding: 0px 5px;"
+    >
+      Pending Approval
+    </text>
+    <text
+      style="width: 12.5%; flex: 1; word-wrap: break-word; max-width: 12.5%; padding: 0px 5px;"
+    >
+      A description
+    </text>
+    <text
+      style="width: 9%; flex: 1; word-wrap: break-word; max-width: 9%; padding: 0px 5px;"
+    >
+      Planned
+    </text>
+    <text
+      style="width: 5.5%; flex: 1; word-wrap: break-word; max-width: 5.5%; padding: 0px 5px;"
+    >
+      24/11/2023
+    </text>
+    <text
+      style="width: 6.7%; flex: 1; word-wrap: break-word; max-width: 6.7%; padding: 0px 5px;"
+    >
+      roadworks
+    </text>
+    <text
+      style="width: 6.7%; flex: 1; word-wrap: break-word; max-width: 6.7%; padding: 0px 5px;"
+    />
+  </view>
+</DocumentFragment>
 `;

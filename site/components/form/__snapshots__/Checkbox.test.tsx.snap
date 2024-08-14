@@ -1,101 +1,102 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`Checkbox > should render correctly when default checked 1`] = `
-<div
-  className="govuk-form-group"
->
-  <fieldset
-    className="govuk-fieldset"
-    id="field-1"
-    role="group"
+<DocumentFragment>
+  <div
+    class="govuk-form-group"
   >
-    <legend
-      className="govuk-fieldset__legend govuk-visually-hidden"
+    <fieldset
+      class="govuk-fieldset"
+      id="field-1"
+      role="group"
     >
-      <span
-        className="govuk-heading-s govuk-!-margin-bottom-0"
+      <legend
+        class="govuk-fieldset__legend govuk-visually-hidden"
       >
-        Display Legend
-      </span>
-    </legend>
-    <div
-      className="govuk-checkboxes flex govuk-checkboxes--small"
-      data-module="govuk-checkboxes"
-    >
+        <span
+          class="govuk-heading-s govuk-!-margin-bottom-0"
+        >
+          Display Legend
+        </span>
+      </legend>
       <div
-        className=""
+        class="govuk-checkboxes flex govuk-checkboxes--small"
+        data-module="govuk-checkboxes"
       >
         <div
-          className="govuk-checkboxes__item"
+          class=""
         >
-          <input
-            className="govuk-checkboxes__input"
-            defaultChecked={true}
-            id="field-1-radioValue"
-            name="field1"
-            onChange={[Function]}
-            type="checkbox"
-            value="radioValue"
-          />
-          <label
-            className="govuk-label govuk-checkboxes__label"
-            htmlFor="field-1-radioValue"
+          <div
+            class="govuk-checkboxes__item"
           >
-            Radio Label
-          </label>
+            <input
+              checked=""
+              class="govuk-checkboxes__input"
+              id="field-1-radioValue"
+              name="field1"
+              type="checkbox"
+              value="radioValue"
+            />
+            <label
+              class="govuk-label govuk-checkboxes__label"
+              for="field-1-radioValue"
+            >
+              Radio Label
+            </label>
+          </div>
         </div>
       </div>
-    </div>
-  </fieldset>
-</div>
+    </fieldset>
+  </div>
+</DocumentFragment>
 `;
 
 exports[`Checkbox > should render correctly when not default checked 1`] = `
-<div
-  className="govuk-form-group"
->
-  <fieldset
-    className="govuk-fieldset"
-    id="field-1"
-    role="group"
+<DocumentFragment>
+  <div
+    class="govuk-form-group"
   >
-    <legend
-      className="govuk-fieldset__legend govuk-visually-hidden"
+    <fieldset
+      class="govuk-fieldset"
+      id="field-1"
+      role="group"
     >
-      <span
-        className="govuk-heading-s govuk-!-margin-bottom-0"
+      <legend
+        class="govuk-fieldset__legend govuk-visually-hidden"
       >
-        Display Legend
-      </span>
-    </legend>
-    <div
-      className="govuk-checkboxes flex govuk-checkboxes--small"
-      data-module="govuk-checkboxes"
-    >
+        <span
+          class="govuk-heading-s govuk-!-margin-bottom-0"
+        >
+          Display Legend
+        </span>
+      </legend>
       <div
-        className=""
+        class="govuk-checkboxes flex govuk-checkboxes--small"
+        data-module="govuk-checkboxes"
       >
         <div
-          className="govuk-checkboxes__item"
+          class=""
         >
-          <input
-            className="govuk-checkboxes__input"
-            defaultChecked={false}
-            id="field-1-radioValue"
-            name="field1"
-            onChange={[Function]}
-            type="checkbox"
-            value="radioValue"
-          />
-          <label
-            className="govuk-label govuk-checkboxes__label"
-            htmlFor="field-1-radioValue"
+          <div
+            class="govuk-checkboxes__item"
           >
-            Radio Label
-          </label>
+            <input
+              class="govuk-checkboxes__input"
+              id="field-1-radioValue"
+              name="field1"
+              type="checkbox"
+              value="radioValue"
+            />
+            <label
+              class="govuk-label govuk-checkboxes__label"
+              for="field-1-radioValue"
+            >
+              Radio Label
+            </label>
+          </div>
         </div>
       </div>
-    </div>
-  </fieldset>
-</div>
+    </fieldset>
+  </div>
+</DocumentFragment>
 `;

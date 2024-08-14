@@ -1,223 +1,217 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`Radios > should render correctly with a padding 1`] = `
-<div
-  className="govuk-form-group"
->
-  <fieldset
-    className="govuk-fieldset"
-    id="field-1"
+<DocumentFragment>
+  <div
+    class="govuk-form-group"
   >
-    <legend
-      className="govuk-fieldset__legend govuk-!-padding-top-2"
+    <fieldset
+      class="govuk-fieldset"
+      id="field-1"
     >
-      <span
-        className="govuk-heading-s govuk-!-margin-bottom-0"
+      <legend
+        class="govuk-fieldset__legend govuk-!-padding-top-2"
       >
-        Type of disruption
-      </span>
-    </legend>
-    <div
-      className=""
-    >
+        <span
+          class="govuk-heading-s govuk-!-margin-bottom-0"
+        >
+          Type of disruption
+        </span>
+      </legend>
       <div
-        className="govuk-radios"
-        data-module="govuk-radios"
+        class=""
       >
         <div
-          className="govuk-radios__item govuk-!-margin-bottom-1"
+          class="govuk-radios"
+          data-module="govuk-radios"
         >
-          <input
-            className="govuk-radios__input"
-            data-aria-controls="field-1-planned-conditional"
-            defaultChecked={false}
-            id="field-1-planned"
-            name="field1"
-            onChange={[Function]}
-            type="radio"
-            value="planned"
-          />
-          <label
-            className="govuk-label govuk-radios__label"
-            htmlFor="field-1-planned"
+          <div
+            class="govuk-radios__item govuk-!-margin-bottom-1"
           >
-            Planned
-          </label>
-        </div>
-        <div
-          className="govuk-radios__item"
-        >
-          <input
-            className="govuk-radios__input"
-            data-aria-controls="field-1-unplanned-conditional"
-            defaultChecked={false}
-            id="field-1-unplanned"
-            name="field1"
-            onChange={[Function]}
-            type="radio"
-            value="unplanned"
-          />
-          <label
-            className="govuk-label govuk-radios__label"
-            htmlFor="field-1-unplanned"
+            <input
+              class="govuk-radios__input"
+              data-aria-controls="field-1-planned-conditional"
+              id="field-1-planned"
+              name="field1"
+              type="radio"
+              value="planned"
+            />
+            <label
+              class="govuk-label govuk-radios__label"
+              for="field-1-planned"
+            >
+              Planned
+            </label>
+          </div>
+          <div
+            class="govuk-radios__item"
           >
-            Unplanned
-          </label>
+            <input
+              class="govuk-radios__input"
+              data-aria-controls="field-1-unplanned-conditional"
+              id="field-1-unplanned"
+              name="field1"
+              type="radio"
+              value="unplanned"
+            />
+            <label
+              class="govuk-label govuk-radios__label"
+              for="field-1-unplanned"
+            >
+              Unplanned
+            </label>
+          </div>
         </div>
       </div>
-    </div>
-  </fieldset>
-</div>
+    </fieldset>
+  </div>
+</DocumentFragment>
 `;
 
 exports[`Radios > should render correctly with errors 1`] = `
-<div
-  className="govuk-form-group govuk-form-group--error"
->
-  <fieldset
-    className="govuk-fieldset"
-    id="field-1"
+<DocumentFragment>
+  <div
+    class="govuk-form-group govuk-form-group--error"
   >
-    <legend
-      className="govuk-fieldset__legend"
+    <fieldset
+      class="govuk-fieldset"
+      id="field-1"
     >
-      <span
-        className="govuk-heading-s govuk-!-margin-bottom-0"
-      >
-        Type of disruption
-      </span>
-    </legend>
-    <div
-      className=""
-    >
-      <span
-        className="govuk-error-message"
-        id="field1-error"
+      <legend
+        class="govuk-fieldset__legend"
       >
         <span
-          className="govuk-visually-hidden"
+          class="govuk-heading-s govuk-!-margin-bottom-0"
         >
-          Error: 
+          Type of disruption
         </span>
-        There was an error
-      </span>
+      </legend>
       <div
-        aria-describedby="field1-error"
-        className="govuk-radios govuk-radios--error"
-        data-module="govuk-radios"
+        class=""
       >
-        <div
-          className="govuk-radios__item govuk-!-margin-bottom-1"
+        <span
+          class="govuk-error-message"
+          id="field1-error"
         >
-          <input
-            className="govuk-radios__input"
-            data-aria-controls="field-1-planned-conditional"
-            defaultChecked={false}
-            id="field-1-planned"
-            name="field1"
-            onChange={[Function]}
-            type="radio"
-            value="planned"
-          />
-          <label
-            className="govuk-label govuk-radios__label"
-            htmlFor="field-1-planned"
+          <span
+            class="govuk-visually-hidden"
           >
-            Planned
-          </label>
-        </div>
+            Error: 
+          </span>
+          There was an error
+        </span>
         <div
-          className="govuk-radios__item"
+          aria-describedby="field1-error"
+          class="govuk-radios govuk-radios--error"
+          data-module="govuk-radios"
         >
-          <input
-            className="govuk-radios__input"
-            data-aria-controls="field-1-unplanned-conditional"
-            defaultChecked={false}
-            id="field-1-unplanned"
-            name="field1"
-            onChange={[Function]}
-            type="radio"
-            value="unplanned"
-          />
-          <label
-            className="govuk-label govuk-radios__label"
-            htmlFor="field-1-unplanned"
+          <div
+            class="govuk-radios__item govuk-!-margin-bottom-1"
           >
-            Unplanned
-          </label>
+            <input
+              class="govuk-radios__input"
+              data-aria-controls="field-1-planned-conditional"
+              id="field-1-planned"
+              name="field1"
+              type="radio"
+              value="planned"
+            />
+            <label
+              class="govuk-label govuk-radios__label"
+              for="field-1-planned"
+            >
+              Planned
+            </label>
+          </div>
+          <div
+            class="govuk-radios__item"
+          >
+            <input
+              class="govuk-radios__input"
+              data-aria-controls="field-1-unplanned-conditional"
+              id="field-1-unplanned"
+              name="field1"
+              type="radio"
+              value="unplanned"
+            />
+            <label
+              class="govuk-label govuk-radios__label"
+              for="field-1-unplanned"
+            >
+              Unplanned
+            </label>
+          </div>
         </div>
       </div>
-    </div>
-  </fieldset>
-</div>
+    </fieldset>
+  </div>
+</DocumentFragment>
 `;
 
 exports[`Radios > should render correctly with no errors 1`] = `
-<div
-  className="govuk-form-group"
->
-  <fieldset
-    className="govuk-fieldset"
-    id="field-1"
+<DocumentFragment>
+  <div
+    class="govuk-form-group"
   >
-    <legend
-      className="govuk-fieldset__legend"
+    <fieldset
+      class="govuk-fieldset"
+      id="field-1"
     >
-      <span
-        className="govuk-heading-s govuk-!-margin-bottom-0"
+      <legend
+        class="govuk-fieldset__legend"
       >
-        Type of disruption
-      </span>
-    </legend>
-    <div
-      className=""
-    >
+        <span
+          class="govuk-heading-s govuk-!-margin-bottom-0"
+        >
+          Type of disruption
+        </span>
+      </legend>
       <div
-        className="govuk-radios"
-        data-module="govuk-radios"
+        class=""
       >
         <div
-          className="govuk-radios__item govuk-!-margin-bottom-1"
+          class="govuk-radios"
+          data-module="govuk-radios"
         >
-          <input
-            className="govuk-radios__input"
-            data-aria-controls="field-1-planned-conditional"
-            defaultChecked={false}
-            id="field-1-planned"
-            name="field1"
-            onChange={[Function]}
-            type="radio"
-            value="planned"
-          />
-          <label
-            className="govuk-label govuk-radios__label"
-            htmlFor="field-1-planned"
+          <div
+            class="govuk-radios__item govuk-!-margin-bottom-1"
           >
-            Planned
-          </label>
-        </div>
-        <div
-          className="govuk-radios__item"
-        >
-          <input
-            className="govuk-radios__input"
-            data-aria-controls="field-1-unplanned-conditional"
-            defaultChecked={false}
-            id="field-1-unplanned"
-            name="field1"
-            onChange={[Function]}
-            type="radio"
-            value="unplanned"
-          />
-          <label
-            className="govuk-label govuk-radios__label"
-            htmlFor="field-1-unplanned"
+            <input
+              class="govuk-radios__input"
+              data-aria-controls="field-1-planned-conditional"
+              id="field-1-planned"
+              name="field1"
+              type="radio"
+              value="planned"
+            />
+            <label
+              class="govuk-label govuk-radios__label"
+              for="field-1-planned"
+            >
+              Planned
+            </label>
+          </div>
+          <div
+            class="govuk-radios__item"
           >
-            Unplanned
-          </label>
+            <input
+              class="govuk-radios__input"
+              data-aria-controls="field-1-unplanned-conditional"
+              id="field-1-unplanned"
+              name="field1"
+              type="radio"
+              value="unplanned"
+            />
+            <label
+              class="govuk-label govuk-radios__label"
+              for="field-1-unplanned"
+            >
+              Unplanned
+            </label>
+          </div>
         </div>
       </div>
-    </div>
-  </fieldset>
-</div>
+    </fieldset>
+  </div>
+</DocumentFragment>
 `;
