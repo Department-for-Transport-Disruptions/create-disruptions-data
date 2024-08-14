@@ -1,42 +1,39 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`ReviewConsequenceTable > should render the table with data 1`] = `
-[
+<DocumentFragment>
   <dl
-    className="govuk-summary-list"
+    class="govuk-summary-list"
   >
     <div
-      className="govuk-summary-list__row"
+      class="govuk-summary-list__row"
     >
       <dt
-        className="govuk-summary-list__key"
+        class="govuk-summary-list__key"
       >
         Consequence type
       </dt>
       <dd
-        className="govuk-summary-list__value"
+        class="govuk-summary-list__value"
       >
         Network wide
       </dd>
       <dd
-        className="govuk-summary-list__actions"
+        class="govuk-summary-list__actions"
       >
         <ul
-          className="govuk-summary-list__actions-list"
+          class="govuk-summary-list__actions-list"
         >
           <li
-            className="govuk-summary-list__actions-list-item"
+            class="govuk-summary-list__actions-list-item"
           >
             <a
-              className="govuk-link"
+              class="govuk-link"
               href="/type-of-consequence/2/0?return=%2Freview-disruption"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
             >
               Change
               <span
-                className="govuk-visually-hidden"
+                class="govuk-visually-hidden"
               >
                 Consequence type
               </span>
@@ -46,37 +43,34 @@ exports[`ReviewConsequenceTable > should render the table with data 1`] = `
       </dd>
     </div>
     <div
-      className="govuk-summary-list__row"
+      class="govuk-summary-list__row"
     >
       <dt
-        className="govuk-summary-list__key"
+        class="govuk-summary-list__key"
       >
         Mode of transport
       </dt>
       <dd
-        className="govuk-summary-list__value"
+        class="govuk-summary-list__value"
       >
         Bus
       </dd>
       <dd
-        className="govuk-summary-list__actions"
+        class="govuk-summary-list__actions"
       >
         <ul
-          className="govuk-summary-list__actions-list"
+          class="govuk-summary-list__actions-list"
         >
           <li
-            className="govuk-summary-list__actions-list-item"
+            class="govuk-summary-list__actions-list-item"
           >
             <a
-              className="govuk-link"
+              class="govuk-link"
               href="/create-consequence-network/2/0?return=%2Freview-disruption"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
             >
               Change
               <span
-                className="govuk-visually-hidden"
+                class="govuk-visually-hidden"
               >
                 Mode of transport
               </span>
@@ -86,37 +80,34 @@ exports[`ReviewConsequenceTable > should render the table with data 1`] = `
       </dd>
     </div>
     <div
-      className="govuk-summary-list__row"
+      class="govuk-summary-list__row"
     >
       <dt
-        className="govuk-summary-list__key"
+        class="govuk-summary-list__key"
       >
         Disruption Area
       </dt>
       <dd
-        className="govuk-summary-list__value"
+        class="govuk-summary-list__value"
       >
         N/A
       </dd>
       <dd
-        className="govuk-summary-list__actions"
+        class="govuk-summary-list__actions"
       >
         <ul
-          className="govuk-summary-list__actions-list"
+          class="govuk-summary-list__actions-list"
         >
           <li
-            className="govuk-summary-list__actions-list-item"
+            class="govuk-summary-list__actions-list-item"
           >
             <a
-              className="govuk-link"
+              class="govuk-link"
               href="/create-consequence-network/2/0?return=%2Freview-disruption"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
             >
               Change
               <span
-                className="govuk-visually-hidden"
+                class="govuk-visually-hidden"
               >
                 Disruption Area
               </span>
@@ -126,37 +117,34 @@ exports[`ReviewConsequenceTable > should render the table with data 1`] = `
       </dd>
     </div>
     <div
-      className="govuk-summary-list__row"
+      class="govuk-summary-list__row"
     >
       <dt
-        className="govuk-summary-list__key"
+        class="govuk-summary-list__key"
       >
         Advice to display
       </dt>
       <dd
-        className="govuk-summary-list__value"
+        class="govuk-summary-list__value"
       >
         The road is closed for the following reasons: Example, example, example, example
       </dd>
       <dd
-        className="govuk-summary-list__actions"
+        class="govuk-summary-list__actions"
       >
         <ul
-          className="govuk-summary-list__actions-list"
+          class="govuk-summary-list__actions-list"
         >
           <li
-            className="govuk-summary-list__actions-list-item"
+            class="govuk-summary-list__actions-list-item"
           >
             <a
-              className="govuk-link"
+              class="govuk-link"
               href="/create-consequence-network/2/0?return=%2Freview-disruption"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
             >
               Change
               <span
-                className="govuk-visually-hidden"
+                class="govuk-visually-hidden"
               >
                 Advice to display
               </span>
@@ -166,37 +154,34 @@ exports[`ReviewConsequenceTable > should render the table with data 1`] = `
       </dd>
     </div>
     <div
-      className="govuk-summary-list__row"
+      class="govuk-summary-list__row"
     >
       <dt
-        className="govuk-summary-list__key"
+        class="govuk-summary-list__key"
       >
         Remove from journey planner
       </dt>
       <dd
-        className="govuk-summary-list__value"
+        class="govuk-summary-list__value"
       >
         Yes
       </dd>
       <dd
-        className="govuk-summary-list__actions"
+        class="govuk-summary-list__actions"
       >
         <ul
-          className="govuk-summary-list__actions-list"
+          class="govuk-summary-list__actions-list"
         >
           <li
-            className="govuk-summary-list__actions-list-item"
+            class="govuk-summary-list__actions-list-item"
           >
             <a
-              className="govuk-link"
+              class="govuk-link"
               href="/create-consequence-network/2/0?return=%2Freview-disruption"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
             >
               Change
               <span
-                className="govuk-visually-hidden"
+                class="govuk-visually-hidden"
               >
                 Remove from journey planner
               </span>
@@ -206,37 +191,34 @@ exports[`ReviewConsequenceTable > should render the table with data 1`] = `
       </dd>
     </div>
     <div
-      className="govuk-summary-list__row"
+      class="govuk-summary-list__row"
     >
       <dt
-        className="govuk-summary-list__key"
+        class="govuk-summary-list__key"
       >
         Disruption delay
       </dt>
       <dd
-        className="govuk-summary-list__value"
+        class="govuk-summary-list__value"
       >
         33 minutes
       </dd>
       <dd
-        className="govuk-summary-list__actions"
+        class="govuk-summary-list__actions"
       >
         <ul
-          className="govuk-summary-list__actions-list"
+          class="govuk-summary-list__actions-list"
         >
           <li
-            className="govuk-summary-list__actions-list-item"
+            class="govuk-summary-list__actions-list-item"
           >
             <a
-              className="govuk-link"
+              class="govuk-link"
               href="/create-consequence-network/2/0?return=%2Freview-disruption"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
             >
               Change
               <span
-                className="govuk-visually-hidden"
+                class="govuk-visually-hidden"
               >
                 Disruption delay
               </span>
@@ -245,7 +227,7 @@ exports[`ReviewConsequenceTable > should render the table with data 1`] = `
         </ul>
       </dd>
     </div>
-  </dl>,
+  </dl>
   <button
     class="govuk-button govuk-button--warning mt-4"
     data-module="govuk-button"
@@ -263,134 +245,136 @@ exports[`ReviewConsequenceTable > should render the table with data 1`] = `
 `;
 
 exports[`ReviewConsequenceTable > should render the table with data without change links 1`] = `
-<dl
-  className="govuk-summary-list"
->
-  <div
-    className="govuk-summary-list__row"
+<DocumentFragment>
+  <dl
+    class="govuk-summary-list"
   >
-    <dt
-      className="govuk-summary-list__key"
+    <div
+      class="govuk-summary-list__row"
     >
-      Consequence type
-    </dt>
-    <dd
-      className="govuk-summary-list__value"
+      <dt
+        class="govuk-summary-list__key"
+      >
+        Consequence type
+      </dt>
+      <dd
+        class="govuk-summary-list__value"
+      >
+        Network wide
+      </dd>
+      <dd
+        class="govuk-summary-list__actions"
+      >
+        <ul
+          class="govuk-summary-list__actions-list"
+        />
+      </dd>
+    </div>
+    <div
+      class="govuk-summary-list__row"
     >
-      Network wide
-    </dd>
-    <dd
-      className="govuk-summary-list__actions"
+      <dt
+        class="govuk-summary-list__key"
+      >
+        Mode of transport
+      </dt>
+      <dd
+        class="govuk-summary-list__value"
+      >
+        Bus
+      </dd>
+      <dd
+        class="govuk-summary-list__actions"
+      >
+        <ul
+          class="govuk-summary-list__actions-list"
+        />
+      </dd>
+    </div>
+    <div
+      class="govuk-summary-list__row"
     >
-      <ul
-        className="govuk-summary-list__actions-list"
-      />
-    </dd>
-  </div>
-  <div
-    className="govuk-summary-list__row"
-  >
-    <dt
-      className="govuk-summary-list__key"
+      <dt
+        class="govuk-summary-list__key"
+      >
+        Disruption Area
+      </dt>
+      <dd
+        class="govuk-summary-list__value"
+      >
+        N/A
+      </dd>
+      <dd
+        class="govuk-summary-list__actions"
+      >
+        <ul
+          class="govuk-summary-list__actions-list"
+        />
+      </dd>
+    </div>
+    <div
+      class="govuk-summary-list__row"
     >
-      Mode of transport
-    </dt>
-    <dd
-      className="govuk-summary-list__value"
+      <dt
+        class="govuk-summary-list__key"
+      >
+        Advice to display
+      </dt>
+      <dd
+        class="govuk-summary-list__value"
+      >
+        The road is closed for the following reasons: Example, example, example, example
+      </dd>
+      <dd
+        class="govuk-summary-list__actions"
+      >
+        <ul
+          class="govuk-summary-list__actions-list"
+        />
+      </dd>
+    </div>
+    <div
+      class="govuk-summary-list__row"
     >
-      Bus
-    </dd>
-    <dd
-      className="govuk-summary-list__actions"
+      <dt
+        class="govuk-summary-list__key"
+      >
+        Remove from journey planner
+      </dt>
+      <dd
+        class="govuk-summary-list__value"
+      >
+        Yes
+      </dd>
+      <dd
+        class="govuk-summary-list__actions"
+      >
+        <ul
+          class="govuk-summary-list__actions-list"
+        />
+      </dd>
+    </div>
+    <div
+      class="govuk-summary-list__row"
     >
-      <ul
-        className="govuk-summary-list__actions-list"
-      />
-    </dd>
-  </div>
-  <div
-    className="govuk-summary-list__row"
-  >
-    <dt
-      className="govuk-summary-list__key"
-    >
-      Disruption Area
-    </dt>
-    <dd
-      className="govuk-summary-list__value"
-    >
-      N/A
-    </dd>
-    <dd
-      className="govuk-summary-list__actions"
-    >
-      <ul
-        className="govuk-summary-list__actions-list"
-      />
-    </dd>
-  </div>
-  <div
-    className="govuk-summary-list__row"
-  >
-    <dt
-      className="govuk-summary-list__key"
-    >
-      Advice to display
-    </dt>
-    <dd
-      className="govuk-summary-list__value"
-    >
-      The road is closed for the following reasons: Example, example, example, example
-    </dd>
-    <dd
-      className="govuk-summary-list__actions"
-    >
-      <ul
-        className="govuk-summary-list__actions-list"
-      />
-    </dd>
-  </div>
-  <div
-    className="govuk-summary-list__row"
-  >
-    <dt
-      className="govuk-summary-list__key"
-    >
-      Remove from journey planner
-    </dt>
-    <dd
-      className="govuk-summary-list__value"
-    >
-      Yes
-    </dd>
-    <dd
-      className="govuk-summary-list__actions"
-    >
-      <ul
-        className="govuk-summary-list__actions-list"
-      />
-    </dd>
-  </div>
-  <div
-    className="govuk-summary-list__row"
-  >
-    <dt
-      className="govuk-summary-list__key"
-    >
-      Disruption delay
-    </dt>
-    <dd
-      className="govuk-summary-list__value"
-    >
-      33 minutes
-    </dd>
-    <dd
-      className="govuk-summary-list__actions"
-    >
-      <ul
-        className="govuk-summary-list__actions-list"
-      />
-    </dd>
-  </div>
-</dl>
+      <dt
+        class="govuk-summary-list__key"
+      >
+        Disruption delay
+      </dt>
+      <dd
+        class="govuk-summary-list__value"
+      >
+        33 minutes
+      </dd>
+      <dd
+        class="govuk-summary-list__actions"
+      >
+        <ul
+          class="govuk-summary-list__actions-list"
+        />
+      </dd>
+    </div>
+  </dl>
+</DocumentFragment>
 `;
