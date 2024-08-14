@@ -1,172 +1,251 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`ReviewConsequenceTable > should render the table with data 1`] = `
-<DocumentFragment>
-  <table
-    class="govuk-table"
+[
+  <dl
+    className="govuk-summary-list"
   >
-    <thead
-      class="govuk-table__head"
+    <div
+      className="govuk-summary-list__row"
     >
-      <tr
-        class="govuk-table__row"
-      />
-    </thead>
-    <tbody
-      class="govuk-table__body"
+      <dt
+        className="govuk-summary-list__key"
+      >
+        Consequence type
+      </dt>
+      <dd
+        className="govuk-summary-list__value"
+      >
+        Network wide
+      </dd>
+      <dd
+        className="govuk-summary-list__actions"
+      >
+        <ul
+          className="govuk-summary-list__actions-list"
+        >
+          <li
+            className="govuk-summary-list__actions-list-item"
+          >
+            <a
+              className="govuk-link"
+              href="/type-of-consequence/2/0?return=%2Freview-disruption"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+            >
+              Change
+              <span
+                className="govuk-visually-hidden"
+              >
+                Consequence type
+              </span>
+            </a>
+          </li>
+        </ul>
+      </dd>
+    </div>
+    <div
+      className="govuk-summary-list__row"
     >
-      <tr
-        class="govuk-table__row"
+      <dt
+        className="govuk-summary-list__key"
       >
-        <th
-          class="govuk-table__header align-middle"
-          scope="row"
-        >
-          Consequence type
-        </th>
-        <td
-          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/2"
-        >
-          Network wide
-        </td>
-        <td
-          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
-        >
-          <a
-            class="govuk-link"
-            href="/type-of-consequence/2/0?return=%2Freview-disruption"
-          >
-            Change
-          </a>
-        </td>
-      </tr>
-      <tr
-        class="govuk-table__row"
+        Mode of transport
+      </dt>
+      <dd
+        className="govuk-summary-list__value"
       >
-        <th
-          class="govuk-table__header align-middle"
-          scope="row"
-        >
-          Mode of transport
-        </th>
-        <td
-          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-        >
-          Bus
-        </td>
-        <td
-          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-        >
-          <a
-            class="govuk-link"
-            href="/create-consequence-network/2/0?return=%2Freview-disruption"
-          >
-            Change
-          </a>
-        </td>
-      </tr>
-      <tr
-        class="govuk-table__row"
+        Bus
+      </dd>
+      <dd
+        className="govuk-summary-list__actions"
       >
-        <th
-          class="govuk-table__header align-middle"
-          scope="row"
+        <ul
+          className="govuk-summary-list__actions-list"
         >
-          Disruption Area
-        </th>
-        <td
-          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-        >
-          N/A
-        </td>
-        <td
-          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-        >
-          <a
-            class="govuk-link"
-            href="/create-consequence-network/2/0?return=%2Freview-disruption"
+          <li
+            className="govuk-summary-list__actions-list-item"
           >
-            Change
-          </a>
-        </td>
-      </tr>
-      <tr
-        class="govuk-table__row"
+            <a
+              className="govuk-link"
+              href="/create-consequence-network/2/0?return=%2Freview-disruption"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+            >
+              Change
+              <span
+                className="govuk-visually-hidden"
+              >
+                Mode of transport
+              </span>
+            </a>
+          </li>
+        </ul>
+      </dd>
+    </div>
+    <div
+      className="govuk-summary-list__row"
+    >
+      <dt
+        className="govuk-summary-list__key"
       >
-        <th
-          class="govuk-table__header align-middle"
-          scope="row"
-        >
-          Advice to display
-        </th>
-        <td
-          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-        >
-          The road is closed for the following reasons: Example, example, example, example
-        </td>
-        <td
-          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-        >
-          <a
-            class="govuk-link"
-            href="/create-consequence-network/2/0?return=%2Freview-disruption"
-          >
-            Change
-          </a>
-        </td>
-      </tr>
-      <tr
-        class="govuk-table__row"
+        Disruption Area
+      </dt>
+      <dd
+        className="govuk-summary-list__value"
       >
-        <th
-          class="govuk-table__header align-middle"
-          scope="row"
-        >
-          Remove from journey planner
-        </th>
-        <td
-          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-        >
-          Yes
-        </td>
-        <td
-          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-        >
-          <a
-            class="govuk-link"
-            href="/create-consequence-network/2/0?return=%2Freview-disruption"
-          >
-            Change
-          </a>
-        </td>
-      </tr>
-      <tr
-        class="govuk-table__row"
+        N/A
+      </dd>
+      <dd
+        className="govuk-summary-list__actions"
       >
-        <th
-          class="govuk-table__header align-middle"
-          scope="row"
+        <ul
+          className="govuk-summary-list__actions-list"
         >
-          Disruption delay
-        </th>
-        <td
-          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-        >
-          33 minutes
-        </td>
-        <td
-          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-        >
-          <a
-            class="govuk-link"
-            href="/create-consequence-network/2/0?return=%2Freview-disruption"
+          <li
+            className="govuk-summary-list__actions-list-item"
           >
-            Change
-          </a>
-        </td>
-      </tr>
-    </tbody>
-  </table>
+            <a
+              className="govuk-link"
+              href="/create-consequence-network/2/0?return=%2Freview-disruption"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+            >
+              Change
+              <span
+                className="govuk-visually-hidden"
+              >
+                Disruption Area
+              </span>
+            </a>
+          </li>
+        </ul>
+      </dd>
+    </div>
+    <div
+      className="govuk-summary-list__row"
+    >
+      <dt
+        className="govuk-summary-list__key"
+      >
+        Advice to display
+      </dt>
+      <dd
+        className="govuk-summary-list__value"
+      >
+        The road is closed for the following reasons: Example, example, example, example
+      </dd>
+      <dd
+        className="govuk-summary-list__actions"
+      >
+        <ul
+          className="govuk-summary-list__actions-list"
+        >
+          <li
+            className="govuk-summary-list__actions-list-item"
+          >
+            <a
+              className="govuk-link"
+              href="/create-consequence-network/2/0?return=%2Freview-disruption"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+            >
+              Change
+              <span
+                className="govuk-visually-hidden"
+              >
+                Advice to display
+              </span>
+            </a>
+          </li>
+        </ul>
+      </dd>
+    </div>
+    <div
+      className="govuk-summary-list__row"
+    >
+      <dt
+        className="govuk-summary-list__key"
+      >
+        Remove from journey planner
+      </dt>
+      <dd
+        className="govuk-summary-list__value"
+      >
+        Yes
+      </dd>
+      <dd
+        className="govuk-summary-list__actions"
+      >
+        <ul
+          className="govuk-summary-list__actions-list"
+        >
+          <li
+            className="govuk-summary-list__actions-list-item"
+          >
+            <a
+              className="govuk-link"
+              href="/create-consequence-network/2/0?return=%2Freview-disruption"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+            >
+              Change
+              <span
+                className="govuk-visually-hidden"
+              >
+                Remove from journey planner
+              </span>
+            </a>
+          </li>
+        </ul>
+      </dd>
+    </div>
+    <div
+      className="govuk-summary-list__row"
+    >
+      <dt
+        className="govuk-summary-list__key"
+      >
+        Disruption delay
+      </dt>
+      <dd
+        className="govuk-summary-list__value"
+      >
+        33 minutes
+      </dd>
+      <dd
+        className="govuk-summary-list__actions"
+      >
+        <ul
+          className="govuk-summary-list__actions-list"
+        >
+          <li
+            className="govuk-summary-list__actions-list-item"
+          >
+            <a
+              className="govuk-link"
+              href="/create-consequence-network/2/0?return=%2Freview-disruption"
+              onClick={[Function]}
+              onMouseEnter={[Function]}
+              onTouchStart={[Function]}
+            >
+              Change
+              <span
+                className="govuk-visually-hidden"
+              >
+                Disruption delay
+              </span>
+            </a>
+          </li>
+        </ul>
+      </dd>
+    </div>
+  </dl>,
   <button
     class="govuk-button govuk-button--warning mt-4"
     data-module="govuk-button"
@@ -184,129 +263,134 @@ exports[`ReviewConsequenceTable > should render the table with data 1`] = `
 `;
 
 exports[`ReviewConsequenceTable > should render the table with data without change links 1`] = `
-<DocumentFragment>
-  <table
-    class="govuk-table"
+<dl
+  className="govuk-summary-list"
+>
+  <div
+    className="govuk-summary-list__row"
   >
-    <thead
-      class="govuk-table__head"
+    <dt
+      className="govuk-summary-list__key"
     >
-      <tr
-        class="govuk-table__row"
+      Consequence type
+    </dt>
+    <dd
+      className="govuk-summary-list__value"
+    >
+      Network wide
+    </dd>
+    <dd
+      className="govuk-summary-list__actions"
+    >
+      <ul
+        className="govuk-summary-list__actions-list"
       />
-    </thead>
-    <tbody
-      class="govuk-table__body"
+    </dd>
+  </div>
+  <div
+    className="govuk-summary-list__row"
+  >
+    <dt
+      className="govuk-summary-list__key"
     >
-      <tr
-        class="govuk-table__row"
-      >
-        <th
-          class="govuk-table__header align-middle"
-          scope="row"
-        >
-          Consequence type
-        </th>
-        <td
-          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/2"
-        >
-          Network wide
-        </td>
-        <td
-          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl w-1/10"
-        />
-      </tr>
-      <tr
-        class="govuk-table__row"
-      >
-        <th
-          class="govuk-table__header align-middle"
-          scope="row"
-        >
-          Mode of transport
-        </th>
-        <td
-          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-        >
-          Bus
-        </td>
-        <td
-          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-        />
-      </tr>
-      <tr
-        class="govuk-table__row"
-      >
-        <th
-          class="govuk-table__header align-middle"
-          scope="row"
-        >
-          Disruption Area
-        </th>
-        <td
-          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-        >
-          N/A
-        </td>
-        <td
-          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-        />
-      </tr>
-      <tr
-        class="govuk-table__row"
-      >
-        <th
-          class="govuk-table__header align-middle"
-          scope="row"
-        >
-          Advice to display
-        </th>
-        <td
-          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-        >
-          The road is closed for the following reasons: Example, example, example, example
-        </td>
-        <td
-          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-        />
-      </tr>
-      <tr
-        class="govuk-table__row"
-      >
-        <th
-          class="govuk-table__header align-middle"
-          scope="row"
-        >
-          Remove from journey planner
-        </th>
-        <td
-          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-        >
-          Yes
-        </td>
-        <td
-          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-        />
-      </tr>
-      <tr
-        class="govuk-table__row"
-      >
-        <th
-          class="govuk-table__header align-middle"
-          scope="row"
-        >
-          Disruption delay
-        </th>
-        <td
-          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-        >
-          33 minutes
-        </td>
-        <td
-          class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-        />
-      </tr>
-    </tbody>
-  </table>
-</DocumentFragment>
+      Mode of transport
+    </dt>
+    <dd
+      className="govuk-summary-list__value"
+    >
+      Bus
+    </dd>
+    <dd
+      className="govuk-summary-list__actions"
+    >
+      <ul
+        className="govuk-summary-list__actions-list"
+      />
+    </dd>
+  </div>
+  <div
+    className="govuk-summary-list__row"
+  >
+    <dt
+      className="govuk-summary-list__key"
+    >
+      Disruption Area
+    </dt>
+    <dd
+      className="govuk-summary-list__value"
+    >
+      N/A
+    </dd>
+    <dd
+      className="govuk-summary-list__actions"
+    >
+      <ul
+        className="govuk-summary-list__actions-list"
+      />
+    </dd>
+  </div>
+  <div
+    className="govuk-summary-list__row"
+  >
+    <dt
+      className="govuk-summary-list__key"
+    >
+      Advice to display
+    </dt>
+    <dd
+      className="govuk-summary-list__value"
+    >
+      The road is closed for the following reasons: Example, example, example, example
+    </dd>
+    <dd
+      className="govuk-summary-list__actions"
+    >
+      <ul
+        className="govuk-summary-list__actions-list"
+      />
+    </dd>
+  </div>
+  <div
+    className="govuk-summary-list__row"
+  >
+    <dt
+      className="govuk-summary-list__key"
+    >
+      Remove from journey planner
+    </dt>
+    <dd
+      className="govuk-summary-list__value"
+    >
+      Yes
+    </dd>
+    <dd
+      className="govuk-summary-list__actions"
+    >
+      <ul
+        className="govuk-summary-list__actions-list"
+      />
+    </dd>
+  </div>
+  <div
+    className="govuk-summary-list__row"
+  >
+    <dt
+      className="govuk-summary-list__key"
+    >
+      Disruption delay
+    </dt>
+    <dd
+      className="govuk-summary-list__value"
+    >
+      33 minutes
+    </dd>
+    <dd
+      className="govuk-summary-list__actions"
+    >
+      <ul
+        className="govuk-summary-list__actions-list"
+      />
+    </dd>
+  </div>
+</dl>
 `;
