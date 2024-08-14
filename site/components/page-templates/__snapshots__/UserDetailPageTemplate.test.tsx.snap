@@ -3,35 +3,31 @@
 exports[`UserDetailPageTemplate > should render the add-user page correctly 1`] = `
 <DocumentFragment>
   <div
-    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
     <p
-      className="govuk-phase-banner__content"
+      class="govuk-phase-banner__content"
     >
       <strong
-        className="govuk-tag govuk-phase-banner__content__tag"
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
         Beta
       </strong>
       <span
-        className="govuk-phase-banner__text"
+        class="govuk-phase-banner__text"
       >
-        This is a new service. Help us improve it and
-         
+        This is a new service. Help us improve it and 
         <a
-          className="govuk-link"
+          class="govuk-link"
           href="/feedback"
           id="feedback-link"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           give your feedback (opens in new tab)
         </a>
         .
       </span>
     </p>
-  </div>,
+  </div>
   <div
     class="govuk-width-container"
   >
@@ -454,35 +450,31 @@ exports[`UserDetailPageTemplate > should render the add-user page correctly 1`] 
 exports[`UserDetailPageTemplate > should render the edit-user page correctly 1`] = `
 <DocumentFragment>
   <div
-    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
     <p
-      className="govuk-phase-banner__content"
+      class="govuk-phase-banner__content"
     >
       <strong
-        className="govuk-tag govuk-phase-banner__content__tag"
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
         Beta
       </strong>
       <span
-        className="govuk-phase-banner__text"
+        class="govuk-phase-banner__text"
       >
-        This is a new service. Help us improve it and
-         
+        This is a new service. Help us improve it and 
         <a
-          className="govuk-link"
+          class="govuk-link"
           href="/feedback"
           id="feedback-link"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           give your feedback (opens in new tab)
         </a>
         .
       </span>
     </p>
-  </div>,
+  </div>
   <div
     class="govuk-width-container"
   >

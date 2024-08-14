@@ -3,35 +3,31 @@
 exports[`pages > CreateDisruption > should render correctly for operator user with inputs and without errors 1`] = `
 <DocumentFragment>
   <div
-    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
     <p
-      className="govuk-phase-banner__content"
+      class="govuk-phase-banner__content"
     >
       <strong
-        className="govuk-tag govuk-phase-banner__content__tag"
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
         Beta
       </strong>
       <span
-        className="govuk-phase-banner__text"
+        class="govuk-phase-banner__text"
       >
-        This is a new service. Help us improve it and
-         
+        This is a new service. Help us improve it and 
         <a
-          className="govuk-link"
+          class="govuk-link"
           href="/feedback"
           id="feedback-link"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           give your feedback (opens in new tab)
         </a>
         .
       </span>
     </p>
-  </div>,
+  </div>
   <div
     class="govuk-width-container"
   >
@@ -317,35 +313,31 @@ exports[`pages > CreateDisruption > should render correctly for operator user wi
 exports[`pages > CreateDisruption > should render correctly if cancellations feature flag is set to true 1`] = `
 <DocumentFragment>
   <div
-    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
     <p
-      className="govuk-phase-banner__content"
+      class="govuk-phase-banner__content"
     >
       <strong
-        className="govuk-tag govuk-phase-banner__content__tag"
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
         Beta
       </strong>
       <span
-        className="govuk-phase-banner__text"
+        class="govuk-phase-banner__text"
       >
-        This is a new service. Help us improve it and
-         
+        This is a new service. Help us improve it and 
         <a
-          className="govuk-link"
+          class="govuk-link"
           href="/feedback"
           id="feedback-link"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           give your feedback (opens in new tab)
         </a>
         .
       </span>
     </p>
-  </div>,
+  </div>
   <div
     class="govuk-width-container"
   >
@@ -686,35 +678,31 @@ exports[`pages > CreateDisruption > should render correctly if cancellations fea
 exports[`pages > CreateDisruption > should render correctly with inputs and with errors 1`] = `
 <DocumentFragment>
   <div
-    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
     <p
-      className="govuk-phase-banner__content"
+      class="govuk-phase-banner__content"
     >
       <strong
-        className="govuk-tag govuk-phase-banner__content__tag"
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
         Beta
       </strong>
       <span
-        className="govuk-phase-banner__text"
+        class="govuk-phase-banner__text"
       >
-        This is a new service. Help us improve it and
-         
+        This is a new service. Help us improve it and 
         <a
-          className="govuk-link"
+          class="govuk-link"
           href="/feedback"
           id="feedback-link"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           give your feedback (opens in new tab)
         </a>
         .
       </span>
     </p>
-  </div>,
+  </div>
   <div
     class="govuk-width-container"
   >
@@ -1085,35 +1073,31 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
 exports[`pages > CreateDisruption > should render correctly with inputs and without errors 1`] = `
 <DocumentFragment>
   <div
-    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
     <p
-      className="govuk-phase-banner__content"
+      class="govuk-phase-banner__content"
     >
       <strong
-        className="govuk-tag govuk-phase-banner__content__tag"
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
         Beta
       </strong>
       <span
-        className="govuk-phase-banner__text"
+        class="govuk-phase-banner__text"
       >
-        This is a new service. Help us improve it and
-         
+        This is a new service. Help us improve it and 
         <a
-          className="govuk-link"
+          class="govuk-link"
           href="/feedback"
           id="feedback-link"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           give your feedback (opens in new tab)
         </a>
         .
       </span>
     </p>
-  </div>,
+  </div>
   <div
     class="govuk-width-container"
   >
@@ -1436,35 +1420,31 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
 exports[`pages > CreateDisruption > should render correctly with no inputs and no errors 1`] = `
 <DocumentFragment>
   <div
-    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
     <p
-      className="govuk-phase-banner__content"
+      class="govuk-phase-banner__content"
     >
       <strong
-        className="govuk-tag govuk-phase-banner__content__tag"
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
         Beta
       </strong>
       <span
-        className="govuk-phase-banner__text"
+        class="govuk-phase-banner__text"
       >
-        This is a new service. Help us improve it and
-         
+        This is a new service. Help us improve it and 
         <a
-          className="govuk-link"
+          class="govuk-link"
           href="/feedback"
           id="feedback-link"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           give your feedback (opens in new tab)
         </a>
         .
       </span>
     </p>
-  </div>,
+  </div>
   <div
     class="govuk-width-container"
   >
@@ -1786,35 +1766,31 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
 exports[`pages > CreateDisruption > should render correctly with query params 1`] = `
 <DocumentFragment>
   <div
-    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
     <p
-      className="govuk-phase-banner__content"
+      class="govuk-phase-banner__content"
     >
       <strong
-        className="govuk-tag govuk-phase-banner__content__tag"
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
         Beta
       </strong>
       <span
-        className="govuk-phase-banner__text"
+        class="govuk-phase-banner__text"
       >
-        This is a new service. Help us improve it and
-         
+        This is a new service. Help us improve it and 
         <a
-          className="govuk-link"
+          class="govuk-link"
           href="/feedback"
           id="feedback-link"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           give your feedback (opens in new tab)
         </a>
         .
       </span>
     </p>
-  </div>,
+  </div>
   <div
     class="govuk-width-container"
   >

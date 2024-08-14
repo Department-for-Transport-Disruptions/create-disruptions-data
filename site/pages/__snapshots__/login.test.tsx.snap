@@ -3,35 +3,31 @@
 exports[`Login > should render correctly when there are no inputs 1`] = `
 <DocumentFragment>
   <div
-    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
     <p
-      className="govuk-phase-banner__content"
+      class="govuk-phase-banner__content"
     >
       <strong
-        className="govuk-tag govuk-phase-banner__content__tag"
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
         Beta
       </strong>
       <span
-        className="govuk-phase-banner__text"
+        class="govuk-phase-banner__text"
       >
-        This is a new service. Help us improve it and
-         
+        This is a new service. Help us improve it and 
         <a
-          className="govuk-link"
+          class="govuk-link"
           href="/feedback"
           id="feedback-link"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           give your feedback (opens in new tab)
         </a>
         .
       </span>
     </p>
-  </div>,
+  </div>
   <div
     class="govuk-width-container"
   >
@@ -305,35 +301,31 @@ exports[`Login > should render correctly when there are no inputs 1`] = `
 exports[`Login > should render correctly with inputs and errors 1`] = `
 <DocumentFragment>
   <div
-    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
     <p
-      className="govuk-phase-banner__content"
+      class="govuk-phase-banner__content"
     >
       <strong
-        className="govuk-tag govuk-phase-banner__content__tag"
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
         Beta
       </strong>
       <span
-        className="govuk-phase-banner__text"
+        class="govuk-phase-banner__text"
       >
-        This is a new service. Help us improve it and
-         
+        This is a new service. Help us improve it and 
         <a
-          className="govuk-link"
+          class="govuk-link"
           href="/feedback"
           id="feedback-link"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           give your feedback (opens in new tab)
         </a>
         .
       </span>
     </p>
-  </div>,
+  </div>
   <div
     class="govuk-width-container"
   >
@@ -350,346 +342,7 @@ exports[`Login > should render correctly with inputs and errors 1`] = `
         class="govuk-grid-row"
       >
         <div
-          className="govuk-grid-column-two-thirds"
-        >
-          <form
-            action="/api/login"
-            method="post"
-          >
-            <input
-              name="csrf_token"
-              type="hidden"
-              value=""
-            />
-            <h2
-              className="govuk-heading-m w-3/4"
-            >
-              Enter your Create Transport Disruption Data account details to sign in
-            </h2>
-            <div
-              className="govuk-form-group"
-            >
-              <div
-                className="govuk-form-group"
-                id="email"
-              >
-                <label
-                  className="govuk-label govuk-label--s"
-                  htmlFor="email-input"
-                >
-                  Email address
-                </label>
-                <div
-                  className=""
-                >
-                  <input
-                    className="govuk-input w-3/4"
-                    defaultValue="dummyUser@gmail.com"
-                    disabled={false}
-                    id="email-input"
-                    maxLength={100}
-                    name="email"
-                    onChange={[Function]}
-                    type="text"
-                  />
-                </div>
-              </div>
-            </div>
-            <div
-              className="govuk-form-group"
-            >
-              <div
-                className="govuk-form-group"
-                id="password"
-              >
-                <label
-                  className="govuk-label govuk-label--s"
-                  htmlFor="password-input"
-                >
-                  Password
-                </label>
-                <div
-                  className=""
-                >
-                  <input
-                    className="govuk-input w-3/4"
-                    defaultValue="dummyPassword"
-                    disabled={false}
-                    id="password-input"
-                    maxLength={100}
-                    name="password"
-                    onChange={[Function]}
-                    type="password"
-                  />
-                </div>
-              </div>
-            </div>
-            <button
-              className="govuk-button mt-8"
-            >
-              Sign In
-            </button>
-          </form>
-        </div>
-        <div
-          className="govuk-grid-column-one-third"
-        >
-          <div>
-            <h2
-              className="govuk-heading-m"
-            >
-              Forgot your password?
-            </h2>
-            <a
-              className="govuk-link govuk-!-font-size-19"
-              href="/forgot-password"
-            >
-              Reset your password
-            </a>
-          </div>
-        </div>
-      </div>
-    </main>
-    <div>
-      <h2
-        className="govuk-heading-s"
-      >
-        Help and Support
-      </h2>
-      <p
-        className="govuk-body"
-      >
-        If you are having problems, please contact the Create Disruption Service via this link:
-         
-        <a
-          className="govuk-link govuk-!-font-size-19"
-          href="/contact"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
-        >
-          Contact us
-        </a>
-      </p>
-    </div>
-  </div>,
-  <footer
-    className="govuk-footer"
-    role="contentinfo"
-  >
-    <div
-      className="govuk-width-container"
-    >
-      <div
-        className="govuk-footer__meta"
-      >
-        <div
-          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
-        >
-          <h2
-            className="govuk-visually-hidden"
-          >
-            Support links
-          </h2>
-          <ul
-            className="govuk-footer__inline-list"
-          >
-            <li
-              className="govuk-footer__inline-list-item"
-            >
-              <a
-                className="govuk-footer__link"
-                href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
-              >
-                Help
-              </a>
-            </li>
-            <li
-              className="govuk-footer__inline-list-item"
-            >
-              <a
-                className="govuk-footer__link"
-                href="/cookies"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
-              >
-                Cookies
-              </a>
-            </li>
-            <li
-              className="govuk-footer__inline-list-item"
-            >
-              <a
-                className="govuk-footer__link"
-                href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
-              >
-                Contact
-              </a>
-            </li>
-            <li
-              className="govuk-footer__inline-list-item"
-            >
-              <a
-                className="govuk-footer__link"
-                href="/accessibility"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
-              >
-                Accessibility
-              </a>
-            </li>
-            <li
-              className="govuk-footer__inline-list-item"
-            >
-              <a
-                className="govuk-footer__link"
-                href="https://www.gov.uk/help/terms-conditions"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
-              >
-                Terms and conditions
-              </a>
-            </li>
-            <li
-              className="govuk-footer__inline-list-item"
-            >
-              <a
-                className="govuk-footer__link"
-                href="/privacy"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
-              >
-                Privacy
-              </a>
-            </li>
-          </ul>
-          <p
-            className="govuk-footer__body"
-          >
-            Built by the
-             
-            <a
-              className="govuk-footer__link"
-              href="https://www.gov.uk/government/organisations/department-for-transport"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
-              rel="noreferrer"
-              target="_blank"
-            >
-              Department for Transport
-            </a>
-          </p>
-          <svg
-            aria-hidden="true"
-            className="govuk-footer__licence-logo"
-            focusable="false"
-            height="17"
-            viewBox="0 0 483.2 195.7"
-            width="41"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145"
-              fill="currentColor"
-            />
-          </svg>
-          <span
-            className="govuk-footer__licence-description"
-          >
-            All content is available under the
-             
-            <a
-              className="govuk-footer__link"
-              href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
-              rel="license"
-            >
-              Open Government Licence v3.0
-            </a>
-            , except where otherwise stated
-          </span>
-        </div>
-        <div
-          className="govuk-footer__meta-item"
-        >
-          <a
-            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
-            href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
-          >
-            © Crown copyright
-          </a>
-        </div>
-      </div>
-    </div>
-  </footer>,
-]
-`;
-
-exports[`login > should render correctly with inputs and with errors 1`] = `
-[
-  <div
-    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
-  >
-    <p
-      className="govuk-phase-banner__content"
-    >
-      <strong
-        className="govuk-tag govuk-phase-banner__content__tag"
-      >
-        Beta
-      </strong>
-      <span
-        className="govuk-phase-banner__text"
-      >
-        This is a new service. Help us improve it and
-         
-        <a
-          className="govuk-link"
-          href="/feedback"
-          id="feedback-link"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
-        >
-          give your feedback (opens in new tab)
-        </a>
-        .
-      </span>
-    </p>
-  </div>,
-  <div
-    className="govuk-width-container"
-  >
-    <main
-      className="govuk-main-wrapper"
-      id="main-content"
-    >
-      <h1
-        className="govuk-heading-xl"
-      >
-        Sign in
-      </h1>
-      <div
-        className="govuk-grid-row"
-      >
-        <div
-          className="govuk-grid-column-two-thirds"
+          class="govuk-grid-column-two-thirds"
         >
           <form
             action="/api/login"
@@ -987,34 +640,30 @@ exports[`login > should render correctly with inputs and with errors 1`] = `
 exports[`Login > should render correctly with inputs and no errors 1`] = `
 <DocumentFragment>
   <div
-    class="app-phase-banner__wrapper"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      class="govuk-phase-banner__content"
     >
-      <p
-        class="govuk-phase-banner__content"
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          class="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
         >
-          beta
-        </strong>
-        <span
-          class="govuk-phase-banner__text"
-        >
-          This is a new service – your 
-          <a
-            class="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-          >
-            feedback
-          </a>
-           will help us to improve it.
-        </span>
-      </p>
-    </div>
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
   </div>
   <div
     class="govuk-width-container"

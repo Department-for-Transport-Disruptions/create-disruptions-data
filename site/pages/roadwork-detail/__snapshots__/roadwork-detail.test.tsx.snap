@@ -3,35 +3,31 @@
 exports[`RoadworkDetail > should render correctly (without create disruption button) when roadworks data is present for operator user 1`] = `
 <DocumentFragment>
   <div
-    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
     <p
-      className="govuk-phase-banner__content"
+      class="govuk-phase-banner__content"
     >
       <strong
-        className="govuk-tag govuk-phase-banner__content__tag"
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
         Beta
       </strong>
       <span
-        className="govuk-phase-banner__text"
+        class="govuk-phase-banner__text"
       >
-        This is a new service. Help us improve it and
-         
+        This is a new service. Help us improve it and 
         <a
-          className="govuk-link"
+          class="govuk-link"
           href="/feedback"
           id="feedback-link"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           give your feedback (opens in new tab)
         </a>
         .
       </span>
     </p>
-  </div>,
+  </div>
   <div
     class="govuk-width-container"
   >
@@ -422,35 +418,31 @@ exports[`RoadworkDetail > should render correctly (without create disruption but
 exports[`RoadworkDetail > should render correctly when roadwork data is present and a draft disruption exists for given roadwork for LTA user 1`] = `
 <DocumentFragment>
   <div
-    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
     <p
-      className="govuk-phase-banner__content"
+      class="govuk-phase-banner__content"
     >
       <strong
-        className="govuk-tag govuk-phase-banner__content__tag"
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
         Beta
       </strong>
       <span
-        className="govuk-phase-banner__text"
+        class="govuk-phase-banner__text"
       >
-        This is a new service. Help us improve it and
-         
+        This is a new service. Help us improve it and 
         <a
-          className="govuk-link"
+          class="govuk-link"
           href="/feedback"
           id="feedback-link"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           give your feedback (opens in new tab)
         </a>
         .
       </span>
     </p>
-  </div>,
+  </div>
   <div
     class="govuk-width-container"
   >
@@ -851,35 +843,31 @@ exports[`RoadworkDetail > should render correctly when roadwork data is present 
 exports[`RoadworkDetail > should render correctly when roadwork data is present and a draft disruption exists for given roadwork for an operator user 1`] = `
 <DocumentFragment>
   <div
-    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
     <p
-      className="govuk-phase-banner__content"
+      class="govuk-phase-banner__content"
     >
       <strong
-        className="govuk-tag govuk-phase-banner__content__tag"
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
         Beta
       </strong>
       <span
-        className="govuk-phase-banner__text"
+        class="govuk-phase-banner__text"
       >
-        This is a new service. Help us improve it and
-         
+        This is a new service. Help us improve it and 
         <a
-          className="govuk-link"
+          class="govuk-link"
           href="/feedback"
           id="feedback-link"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           give your feedback (opens in new tab)
         </a>
         .
       </span>
     </p>
-  </div>,
+  </div>
   <div
     class="govuk-width-container"
   >
@@ -1270,35 +1258,31 @@ exports[`RoadworkDetail > should render correctly when roadwork data is present 
 exports[`RoadworkDetail > should render correctly when roadwork data is present and a published disruption exists for given roadwork for LTA user 1`] = `
 <DocumentFragment>
   <div
-    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
     <p
-      className="govuk-phase-banner__content"
+      class="govuk-phase-banner__content"
     >
       <strong
-        className="govuk-tag govuk-phase-banner__content__tag"
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
         Beta
       </strong>
       <span
-        className="govuk-phase-banner__text"
+        class="govuk-phase-banner__text"
       >
-        This is a new service. Help us improve it and
-         
+        This is a new service. Help us improve it and 
         <a
-          className="govuk-link"
+          class="govuk-link"
           href="/feedback"
           id="feedback-link"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           give your feedback (opens in new tab)
         </a>
         .
       </span>
     </p>
-  </div>,
+  </div>
   <div
     class="govuk-width-container"
   >
@@ -1699,35 +1683,31 @@ exports[`RoadworkDetail > should render correctly when roadwork data is present 
 exports[`RoadworkDetail > should render correctly when roadwork data is present and a published disruption exists for given roadwork for operator user 1`] = `
 <DocumentFragment>
   <div
-    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
     <p
-      className="govuk-phase-banner__content"
+      class="govuk-phase-banner__content"
     >
       <strong
-        className="govuk-tag govuk-phase-banner__content__tag"
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
         Beta
       </strong>
       <span
-        className="govuk-phase-banner__text"
+        class="govuk-phase-banner__text"
       >
-        This is a new service. Help us improve it and
-         
+        This is a new service. Help us improve it and 
         <a
-          className="govuk-link"
+          class="govuk-link"
           href="/feedback"
           id="feedback-link"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           give your feedback (opens in new tab)
         </a>
         .
       </span>
     </p>
-  </div>,
+  </div>
   <div
     class="govuk-width-container"
   >
@@ -2128,35 +2108,31 @@ exports[`RoadworkDetail > should render correctly when roadwork data is present 
 exports[`RoadworkDetail > should render correctly when roadworks data is present for LTA user 1`] = `
 <DocumentFragment>
   <div
-    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
     <p
-      className="govuk-phase-banner__content"
+      class="govuk-phase-banner__content"
     >
       <strong
-        className="govuk-tag govuk-phase-banner__content__tag"
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
         Beta
       </strong>
       <span
-        className="govuk-phase-banner__text"
+        class="govuk-phase-banner__text"
       >
-        This is a new service. Help us improve it and
-         
+        This is a new service. Help us improve it and 
         <a
-          className="govuk-link"
+          class="govuk-link"
           href="/feedback"
           id="feedback-link"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           give your feedback (opens in new tab)
         </a>
         .
       </span>
     </p>
-  </div>,
+  </div>
   <div
     class="govuk-width-container"
   >
