@@ -198,9 +198,16 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                 Mode of transport
               </label>
               <div
+                class="govuk-hint"
+                id="vehicle-mode-hint"
+              >
+                Select a mode before continuing
+              </div>
+              <div
                 class=""
               >
                 <select
+                  aria-describedby="vehicleMode-hint"
                   class="govuk-select w-3/4"
                   id="vehicle-mode-input"
                   name="vehicleMode"
@@ -782,9 +789,16 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                 Mode of transport
               </label>
               <div
+                class="govuk-hint"
+                id="vehicle-mode-hint"
+              >
+                Select a mode before continuing
+              </div>
+              <div
                 class=""
               >
                 <select
+                  aria-describedby="vehicleMode-hint"
                   class="govuk-select w-3/4"
                   id="vehicle-mode-input"
                   name="vehicleMode"
@@ -1366,9 +1380,16 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                 Mode of transport
               </label>
               <div
+                class="govuk-hint"
+                id="vehicle-mode-hint"
+              >
+                Select a mode before continuing
+              </div>
+              <div
                 class=""
               >
                 <select
+                  aria-describedby="vehicleMode-hint"
                   class="govuk-select w-3/4"
                   id="vehicle-mode-input"
                   name="vehicleMode"
@@ -1955,9 +1976,16 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                 Mode of transport
               </label>
               <div
+                class="govuk-hint"
+                id="vehicle-mode-hint"
+              >
+                Select a mode before continuing
+              </div>
+              <div
                 class=""
               >
                 <select
+                  aria-describedby="vehicleMode-hint"
                   class="govuk-select w-3/4"
                   id="vehicle-mode-input"
                   name="vehicleMode"
@@ -2546,9 +2574,16 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
                 Mode of transport
               </label>
               <div
+                class="govuk-hint"
+                id="vehicle-mode-hint"
+              >
+                Select a mode before continuing
+              </div>
+              <div
                 class=""
               >
                 <select
+                  aria-describedby="vehicleMode-hint"
                   class="govuk-select w-3/4"
                   id="vehicle-mode-input"
                   name="vehicleMode"

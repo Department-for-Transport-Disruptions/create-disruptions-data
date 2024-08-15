@@ -148,6 +148,7 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             initialErrors={pageState.errors}
                             schema={operatorConsequenceSchema.shape.vehicleMode}
                             displaySize="l"
+                            hint={"Select a mode before continuing"}
                         />
 
                         <OperatorSearch<OperatorConsequence>
