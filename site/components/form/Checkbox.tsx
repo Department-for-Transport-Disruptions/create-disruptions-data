@@ -52,7 +52,7 @@ const Checkbox = <T extends object>({
                         {hint}
                     </div>
                 ) : null}
-                <div className="govuk-checkboxes flex govuk-checkboxes--small" data-module="govuk-checkboxes">
+                <div className="govuk-checkboxes govuk-checkboxes--small" data-module="govuk-checkboxes">
                     <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-radios--error">
                         <>
                             {checkboxDetail.map((item) => (

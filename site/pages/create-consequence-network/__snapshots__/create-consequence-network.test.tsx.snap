@@ -122,7 +122,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                 Which area does the network cover?
               </div>
               <div
-                class="govuk-checkboxes flex govuk-checkboxes--small"
+                class="govuk-checkboxes govuk-checkboxes--small"
                 data-module="govuk-checkboxes"
               >
                 <div
@@ -759,7 +759,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                 Which area does the network cover?
               </div>
               <div
-                class="govuk-checkboxes flex govuk-checkboxes--small"
+                class="govuk-checkboxes govuk-checkboxes--small"
                 data-module="govuk-checkboxes"
               >
                 <div
@@ -1343,7 +1343,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                 Which area does the network cover?
               </div>
               <div
-                class="govuk-checkboxes flex govuk-checkboxes--small"
+                class="govuk-checkboxes govuk-checkboxes--small"
                 data-module="govuk-checkboxes"
               >
                 <div
@@ -1932,7 +1932,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with no inpu
                 Which area does the network cover?
               </div>
               <div
-                class="govuk-checkboxes flex govuk-checkboxes--small"
+                class="govuk-checkboxes govuk-checkboxes--small"
                 data-module="govuk-checkboxes"
               >
                 <div
@@ -2523,7 +2523,7 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with query p
                 Which area does the network cover?
               </div>
               <div
-                class="govuk-checkboxes flex govuk-checkboxes--small"
+                class="govuk-checkboxes govuk-checkboxes--small"
                 data-module="govuk-checkboxes"
               >
                 <div
