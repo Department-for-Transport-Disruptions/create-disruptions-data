@@ -753,7 +753,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
                 </span>
               </legend>
               <div
-                class="govuk-checkboxes flex govuk-checkboxes--small"
+                class="govuk-checkboxes govuk-checkboxes--small"
                 data-module="govuk-checkboxes"
               >
                 <div
@@ -2187,7 +2187,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
                 </span>
               </legend>
               <div
-                class="govuk-checkboxes flex govuk-checkboxes--small"
+                class="govuk-checkboxes govuk-checkboxes--small"
                 data-module="govuk-checkboxes"
               >
                 <div
@@ -3683,7 +3683,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                 </span>
               </legend>
               <div
-                class="govuk-checkboxes flex govuk-checkboxes--small"
+                class="govuk-checkboxes govuk-checkboxes--small"
                 data-module="govuk-checkboxes"
               >
                 <div

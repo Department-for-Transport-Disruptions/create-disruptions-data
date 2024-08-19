@@ -20,7 +20,7 @@ exports[`Checkbox > should render correctly when default checked 1`] = `
         </span>
       </legend>
       <div
-        class="govuk-checkboxes flex govuk-checkboxes--small"
+        class="govuk-checkboxes govuk-checkboxes--small"
         data-module="govuk-checkboxes"
       >
         <div
@@ -71,7 +71,7 @@ exports[`Checkbox > should render correctly when not default checked 1`] = `
         </span>
       </legend>
       <div
-        class="govuk-checkboxes flex govuk-checkboxes--small"
+        class="govuk-checkboxes govuk-checkboxes--small"
         data-module="govuk-checkboxes"
       >
         <div
