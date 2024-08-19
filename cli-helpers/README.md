@@ -4,7 +4,16 @@
 
 -   [Usage](#usage)
 -   [Commands](#commands)
+-   [Dev Notes](#devnotes)
 <!-- tocstop -->
+
+# Dev Notes
+
+<!-- devnotes -->
+
+If you are creating a new command create a folder that represents the command name, add an index.ts file in that folder with the code and run `pnpm i` and `pnpm run build` once the code is ready to be tested.
+
+<!-- devnotesstop -->
 
 # Usage
 
@@ -29,9 +38,11 @@ USAGE
 <!-- commands -->
 
 - [cdd-helpers](#cdd-helpers)
+- [Dev Notes](#dev-notes)
 - [Usage](#usage)
 - [Commands](#commands)
   - [`cdd-helpers create-org`](#cdd-helpers-create-org)
+  - [`cdd-helpers create-operator-org`](#cdd-helpers-create-operator-org)
   - [`cdd-helpers create-user`](#cdd-helpers-create-user)
   - [`cdd-helpers change-group`](#cdd-helpers-change-group)
   - [`cdd-helpers help [COMMANDS]`](#cdd-helpers-help-commands)
@@ -53,7 +64,24 @@ DESCRIPTION
   Create organisation
 ```
 
-_See code: [dist/cli-helpers/src/commands/create-org/index.ts](https://github.com/Department-for-Transport-Disruptions/create-disruptions-data/blob/v0.0.0/dist/cli-helpers/src/commands/create-org/index.ts)_
+## `cdd-helpers create-operator-org`
+
+Create operator organisation
+
+```
+USAGE
+  $ ./bin/run.js create-operator-org --name <value> --adminAreaCodes <value> --stage <value>
+
+FLAGS
+  --nocCodes=<value>        (required) Comma-separated list of noc codes
+  --name=<value>            (required) Name of operator organisation
+  --stage=<value>           (required) SST stage to use
+
+DESCRIPTION
+  Create operator organisation
+```
+
+_See code: [dist/cli-helpers/src/commands/create-operator-org/index.ts](https://github.com/Department-for-Transport-Disruptions/create-disruptions-data/blob/v0.0.0/dist/cli-helpers/src/commands/create-operator-org/index.ts)_
 
 ## `cdd-helpers create-user`
 
@@ -73,6 +101,7 @@ FLAGS
   --lastName=<value>   Last name of user
   --orgId=<value>      ID for organisation that user belongs to
   --poolId=<value>     ID of user pool to add user to
+  --operatorOrgId=<value> Operator organisation ID
   --stage=<value>      (required) SST stage to use
 
 DESCRIPTION
