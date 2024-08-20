@@ -15,6 +15,7 @@ import { TableDisruption } from "../schemas/disruption.schema";
 import { reduceStringWithEllipsis } from "../utils";
 import { canPublish, getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 import { convertDateTimeToFormat } from "../utils/dates";
+import Warning from "../components/form/Warning";
 
 const title = "Create Disruptions Dashboard";
 const description = "Create Disruptions Dashboard page for the Create Transport Disruptions Service";
@@ -184,14 +185,10 @@ const Dashboard = ({
         <BaseLayout title={title} description={description} errors={[]} disableBackButton>
             <h1 className="govuk-heading-xl">{orgName} disruptions data</h1>
             {pendingApprovalCount && pendingApprovalCount > 0 && canPublish && !isOperatorUser ? (
-                <div className="govuk-warning-text">
-                    <span className="govuk-warning-text__icon" aria-hidden="true">
-                        !
-                    </span>
-                    <strong className="govuk-warning-text__text">
-                        <span className="govuk-warning-text__assistive">Warning</span>
-                        You have {pendingApprovalCount} new disruption{pendingApprovalCount > 1 ? "s" : ""} that require
-                        {pendingApprovalCount === 1 ? "s" : ""} approval.
+                    <Warning
+                        text={`You have ${pendingApprovalCount} new disruption${pendingApprovalCount > 1 ? "s" : ""} that require
+                        ${pendingApprovalCount === 1 ? "s" : ""} approval.`}
+                    >
                         <Link
                             className="govuk-link"
                             href={{
@@ -203,8 +200,7 @@ const Dashboard = ({
                         >
                             <h2 className="govuk-heading-s text-govBlue">View all</h2>
                         </Link>
-                    </strong>
-                </div>
+                    </Warning>
             ) : null}
             <Link
                 href={`/create-disruption/${newDisruptionId}`}
