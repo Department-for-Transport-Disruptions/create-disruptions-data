@@ -5,10 +5,13 @@ import { Cron, Function, StackContext, use } from "sst/constructs";
 import { DynamoDBStack } from "./DynamoDBStack";
 import { MonitoringStack } from "./MonitoringStack";
 import { createBucket } from "./utils";
+import { SnsAction } from "aws-cdk-lib/aws-cloudwatch-actions";
+import { TreatMissingData } from "aws-cdk-lib/aws-cloudwatch";
 
 export const SiriGeneratorStack = ({ stack }: StackContext) => {
     const { disruptionsTable, organisationsTableV2: organisationsTable } = use(DynamoDBStack);
-    const { siriGeneratorNamespace, siriPublishSuccessMetric, siriValidationFailureMetric } = use(MonitoringStack);
+    const { siriGeneratorNamespace, siriPublishSuccessMetric, siriValidationFailureMetric, alarmTopic } =
+        use(MonitoringStack);
 
     const siriSXBucket = createBucket(stack, "cdd-siri-sx", true);
 
@@ -88,6 +91,16 @@ export const SiriGeneratorStack = ({ stack }: StackContext) => {
         schedule: `rate(${stack.stage === "prod" || stack.stage === "preprod" ? "1 minute" : "5 minutes"})`,
     });
 
+    siriGenerator
+        .metric("Errors")
+        .createAlarm(stack, "cdd-siri-generator-failure-alarm", {
+            evaluationPeriods: 1,
+            threshold: 1,
+            treatMissingData: TreatMissingData.NOT_BREACHING,
+            alarmName: `cdd-siri-generator-failure-alarm-${stack.stage}`,
+        })
+        .addAlarmAction(new SnsAction(alarmTopic));
+
     const siriValidator = new Function(stack, "cdd-siri-sx-validator", {
         functionName: `cdd-siri-sx-validator-${stack.stage}`,
         environment: {
@@ -126,6 +139,16 @@ export const SiriGeneratorStack = ({ stack }: StackContext) => {
     );
 
     validatorBucket.addEventNotification(EventType.OBJECT_CREATED, new LambdaDestination(siriValidator));
+
+    siriValidator
+        .metric("Errors")
+        .createAlarm(stack, "cdd-siri-validator-failure-alarm", {
+            evaluationPeriods: 1,
+            threshold: 1,
+            treatMissingData: TreatMissingData.NOT_BREACHING,
+            alarmName: `cdd-siri-generator-validator-failure-alarm-${stack.stage}`,
+        })
+        .addAlarmAction(new SnsAction(alarmTopic));
 
     return {
         siriSXBucket,
