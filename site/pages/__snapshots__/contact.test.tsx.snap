@@ -1,115 +1,102 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`contact > should render correctly 1`] = `
-[
+<DocumentFragment>
   <div
-    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
     <p
-      className="govuk-phase-banner__content"
+      class="govuk-phase-banner__content"
     >
       <strong
-        className="govuk-tag govuk-phase-banner__content__tag"
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
         Beta
       </strong>
       <span
-        className="govuk-phase-banner__text"
+        class="govuk-phase-banner__text"
       >
-        This is a new service. Help us improve it and
-         
+        This is a new service. Help us improve it and 
         <a
-          className="govuk-link"
+          class="govuk-link"
           href="/feedback"
           id="feedback-link"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           give your feedback (opens in new tab)
         </a>
         .
       </span>
     </p>
-  </div>,
+  </div>
   <div
-    className="govuk-width-container"
+    class="govuk-width-container"
   >
     <button
-      className="govuk-back-link mb-7"
-      onClick={[Function]}
+      class="govuk-back-link mb-7"
       type="button"
     >
       Back
     </button>
     <main
-      className="govuk-main-wrapper"
+      class="govuk-main-wrapper"
       id="main-content"
     >
       <div
-        className="govuk-grid-row"
+        class="govuk-grid-row"
       >
         <div
-          className="govuk-grid-column-two-thirds"
+          class="govuk-grid-column-two-thirds"
         >
           <h1
-            className="govuk-heading-l"
+            class="govuk-heading-l"
           >
             Contact the Create Transport Disruption Data Service team
           </h1>
           <h2
-            className="govuk-heading-m"
+            class="govuk-heading-m"
           >
             Feedback and support
           </h2>
           <p
-            className="govuk-body"
+            class="govuk-body"
           >
             If you are experiencing technical issues, or if you have any suggestions, comments or criticisms, please contact the Create Transport Disruption Data team through one of the channels below.
           </p>
           <p
-            className="govuk-body"
+            class="govuk-body"
           >
             The Help Desk is available Monday to Friday, 9am to 5pm (excluding Bank Holidays in England and Wales, and the 24th of December).
           </p>
           <p
-            className="govuk-body"
+            class="govuk-body"
           >
             The Help Desk can be contacted by telephone or email as follows.
           </p>
           <p
-            className="govuk-body"
+            class="govuk-body"
           >
-            Telephone: 
-            0800 028 0930
+            Telephone: 0800 028 0930
             <br />
-            Email:
-             
+            Email: 
             <a
-              className="govuk-link"
+              class="govuk-link"
               href="mailto:bodshelpdesk@kpmg.co.uk"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
             >
               bodshelpdesk@kpmg.co.uk
             </a>
           </p>
           <h3
-            className="govuk-heading-s"
+            class="govuk-heading-s"
           >
             Related services
           </h3>
           <p
-            className="govuk-body"
+            class="govuk-body"
           >
             <a
               aria-label="go to the bus open data service"
-              className="underline govuk-link"
+              class="underline govuk-link"
               href="https://www.bus-data.dft.gov.uk/contact/"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
             >
               https://www.bus-data.dft.gov.uk/contact/
             </a>
@@ -119,133 +106,111 @@ exports[`contact > should render correctly 1`] = `
           </p>
         </div>
         <div
-          className="govuk-grid-column-one-third"
+          class="govuk-grid-column-one-third"
         >
           <h2
-            className="govuk-heading-s"
+            class="govuk-heading-s"
           >
             Create Transport Disruption Data Service
           </h2>
           <p
-            className="govuk-body"
+            class="govuk-body"
           >
             The Create Transport Disruption Data Service gives local transport authorities and operators within England the ability to create disruptions for bus, light rail, ferry and tram services Help documents
           </p>
         </div>
       </div>
     </main>
-  </div>,
+  </div>
   <footer
-    className="govuk-footer"
+    class="govuk-footer"
     role="contentinfo"
   >
     <div
-      className="govuk-width-container"
+      class="govuk-width-container"
     >
       <div
-        className="govuk-footer__meta"
+        class="govuk-footer__meta"
       >
         <div
-          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
         >
           <h2
-            className="govuk-visually-hidden"
+            class="govuk-visually-hidden"
           >
             Support links
           </h2>
           <ul
-            className="govuk-footer__inline-list"
+            class="govuk-footer__inline-list"
           >
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Help
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/cookies"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Cookies
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Contact
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/accessibility"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Accessibility
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="https://www.gov.uk/help/terms-conditions"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Terms and conditions
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/privacy"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Privacy
               </a>
             </li>
           </ul>
           <p
-            className="govuk-footer__body"
+            class="govuk-footer__body"
           >
-            Built by the
-             
+            Built by the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.gov.uk/government/organisations/department-for-transport"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="noreferrer"
               target="_blank"
             >
@@ -254,7 +219,7 @@ exports[`contact > should render correctly 1`] = `
           </p>
           <svg
             aria-hidden="true"
-            className="govuk-footer__licence-logo"
+            class="govuk-footer__licence-logo"
             focusable="false"
             height="17"
             viewBox="0 0 483.2 195.7"
@@ -267,16 +232,12 @@ exports[`contact > should render correctly 1`] = `
             />
           </svg>
           <span
-            className="govuk-footer__licence-description"
+            class="govuk-footer__licence-description"
           >
-            All content is available under the
-             
+            All content is available under the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="license"
             >
               Open Government Licence v3.0
@@ -285,20 +246,17 @@ exports[`contact > should render correctly 1`] = `
           </span>
         </div>
         <div
-          className="govuk-footer__meta-item"
+          class="govuk-footer__meta-item"
         >
           <a
-            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             © Crown copyright
           </a>
         </div>
       </div>
     </div>
-  </footer>,
-]
+  </footer>
+</DocumentFragment>
 `;

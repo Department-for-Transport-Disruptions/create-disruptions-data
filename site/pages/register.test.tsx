@@ -1,6 +1,6 @@
-import renderer from "react-test-renderer";
-import { describe, expect, it } from "vitest";
-import Register, { RegisterPageProps } from "./register.page";
+import { render, cleanup } from '@testing-library/react';
+import { afterEach, describe, expect, it } from 'vitest';
+import Register, { RegisterPageProps } from './register.page';
 
 const blankInputs: RegisterPageProps = {
     errors: [],
@@ -23,19 +23,23 @@ const withInputsAndErrors: RegisterPageProps = {
     errors: [{ errorMessage: "Enter a valid email address", id: "email" }],
 };
 
-describe("register", () => {
-    it("should render correctly when there are no inputs", () => {
-        const tree = renderer.create(<Register {...blankInputs} />).toJSON();
-        expect(tree).toMatchSnapshot();
+afterEach(() => {
+    cleanup();
+});
+
+describe('Register', () => {
+    it('should render correctly when there are no inputs', () => {
+        const { asFragment } = render(<Register {...blankInputs} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
-    it("should render correctly with inputs and no errors", () => {
-        const tree = renderer.create(<Register {...withInputsAndNoErrors} />).toJSON();
-        expect(tree).toMatchSnapshot();
+    it('should render correctly with inputs and no errors', () => {
+        const { asFragment } = render(<Register {...withInputsAndNoErrors} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
-    it("should render correctly with inputs and with errors", () => {
-        const tree = renderer.create(<Register {...withInputsAndErrors} />).toJSON();
-        expect(tree).toMatchSnapshot();
+    it('should render correctly with inputs and errors', () => {
+        const { asFragment } = render(<Register {...withInputsAndErrors} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 });

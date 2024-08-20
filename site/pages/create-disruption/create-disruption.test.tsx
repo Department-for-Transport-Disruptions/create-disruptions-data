@@ -1,6 +1,5 @@
 import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
 import { render } from "@testing-library/react";
-import renderer from "react-test-renderer";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import {
     DISRUPTION_DETAIL_PAGE_PATH,
@@ -56,21 +55,21 @@ beforeEach(() => {
 describe("pages", () => {
     describe("CreateDisruption", () => {
         it("should render correctly with no inputs", () => {
-            const tree = renderer.create(<CreateDisruption {...blankInputs} />).toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(<CreateDisruption {...blankInputs} />)
+            expect( asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with inputs", () => {
-            const tree = renderer.create(<CreateDisruption {...withInputs} />).toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(<CreateDisruption {...withInputs} />)
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with query params", () => {
             useRouter.mockImplementation(() => ({
                 query: { return: REVIEW_DISRUPTION_PAGE_PATH },
             }));
-            const tree = renderer.create(<CreateDisruption {...withInputs} />).toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(<CreateDisruption {...withInputs} />)
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with appropriate text when redirected from template overview", () => {

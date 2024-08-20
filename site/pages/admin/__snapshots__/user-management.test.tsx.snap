@@ -1,94 +1,89 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`userManagement > should render correctly when there are no inputs 1`] = `
-[
+exports[`UserManagement > should render correctly when there are no inputs 1`] = `
+<DocumentFragment>
   <div
-    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
     <p
-      className="govuk-phase-banner__content"
+      class="govuk-phase-banner__content"
     >
       <strong
-        className="govuk-tag govuk-phase-banner__content__tag"
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
         Beta
       </strong>
       <span
-        className="govuk-phase-banner__text"
+        class="govuk-phase-banner__text"
       >
-        This is a new service. Help us improve it and
-         
+        This is a new service. Help us improve it and 
         <a
-          className="govuk-link"
+          class="govuk-link"
           href="/feedback"
           id="feedback-link"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           give your feedback (opens in new tab)
         </a>
         .
       </span>
     </p>
-  </div>,
+  </div>
   <div
-    className="govuk-width-container"
+    class="govuk-width-container"
   >
     <button
-      className="govuk-back-link mb-7"
-      onClick={[Function]}
+      class="govuk-back-link mb-7"
       type="button"
     >
       Back
     </button>
     <main
-      className="govuk-main-wrapper"
+      class="govuk-main-wrapper"
       id="main-content"
     >
       <div
-        className="govuk-form-group"
+        class="govuk-form-group"
       >
         <h1
-          className="govuk-heading-xl"
+          class="govuk-heading-xl"
         >
           User Management
         </h1>
       </div>
       <table
-        className="govuk-table"
+        class="govuk-table"
       >
         <caption
-          className="govuk-table__caption govuk-table__caption--m"
+          class="govuk-table__caption govuk-table__caption--m"
         >
           Users
         </caption>
         <thead
-          className="govuk-table__head"
+          class="govuk-table__head"
         >
           <tr
-            className="govuk-table__row"
+            class="govuk-table__row"
           >
             <th
-              className="govuk-table__header align-middle px-2"
+              class="govuk-table__header align-middle px-2"
               scope="col"
             >
               Account type
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              class="govuk-table__header align-middle px-2"
               scope="col"
             >
               User email
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              class="govuk-table__header align-middle px-2"
               scope="col"
             >
               Status
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              class="govuk-table__header align-middle px-2"
               scope="col"
             >
               Action
@@ -96,25 +91,19 @@ exports[`userManagement > should render correctly when there are no inputs 1`] =
           </tr>
         </thead>
         <tbody
-          className="govuk-table__body"
+          class="govuk-table__body"
         />
       </table>
       <a
-        className="govuk-button--secondary govuk-button mt-5 mr-5"
+        class="govuk-button--secondary govuk-button mt-5 mr-5"
         href="/admin/add-user"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
         role="button"
       >
         Add new user
       </a>
       <a
-        className="govuk-button--secondary govuk-button mt-5"
+        class="govuk-button--secondary govuk-button mt-5"
         href="/admin/add-operator"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
         role="button"
       >
         Add new Operator
@@ -122,138 +111,112 @@ exports[`userManagement > should render correctly when there are no inputs 1`] =
     </main>
     <div>
       <h2
-        className="govuk-heading-s"
+        class="govuk-heading-s"
       >
         Help and Support
       </h2>
       <p
-        className="govuk-body"
+        class="govuk-body"
       >
-        If you are having problems, please contact the Create Disruption Service via this link:
-         
+        If you are having problems, please contact the Create Disruption Service via this link: 
         <a
-          className="govuk-link govuk-!-font-size-19"
+          class="govuk-link govuk-!-font-size-19"
           href="/contact"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           Contact us
         </a>
       </p>
     </div>
-  </div>,
+  </div>
   <footer
-    className="govuk-footer"
+    class="govuk-footer"
     role="contentinfo"
   >
     <div
-      className="govuk-width-container"
+      class="govuk-width-container"
     >
       <div
-        className="govuk-footer__meta"
+        class="govuk-footer__meta"
       >
         <div
-          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
         >
           <h2
-            className="govuk-visually-hidden"
+            class="govuk-visually-hidden"
           >
             Support links
           </h2>
           <ul
-            className="govuk-footer__inline-list"
+            class="govuk-footer__inline-list"
           >
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Help
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/cookies"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Cookies
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Contact
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/accessibility"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Accessibility
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="https://www.gov.uk/help/terms-conditions"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Terms and conditions
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/privacy"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Privacy
               </a>
             </li>
           </ul>
           <p
-            className="govuk-footer__body"
+            class="govuk-footer__body"
           >
-            Built by the
-             
+            Built by the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.gov.uk/government/organisations/department-for-transport"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="noreferrer"
               target="_blank"
             >
@@ -262,7 +225,7 @@ exports[`userManagement > should render correctly when there are no inputs 1`] =
           </p>
           <svg
             aria-hidden="true"
-            className="govuk-footer__licence-logo"
+            class="govuk-footer__licence-logo"
             focusable="false"
             height="17"
             viewBox="0 0 483.2 195.7"
@@ -275,16 +238,12 @@ exports[`userManagement > should render correctly when there are no inputs 1`] =
             />
           </svg>
           <span
-            className="govuk-footer__licence-description"
+            class="govuk-footer__licence-description"
           >
-            All content is available under the
-             
+            All content is available under the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="license"
             >
               Open Government Licence v3.0
@@ -293,113 +252,105 @@ exports[`userManagement > should render correctly when there are no inputs 1`] =
           </span>
         </div>
         <div
-          className="govuk-footer__meta-item"
+          class="govuk-footer__meta-item"
         >
           <a
-            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             © Crown copyright
           </a>
         </div>
       </div>
     </div>
-  </footer>,
-]
+  </footer>
+</DocumentFragment>
 `;
 
-exports[`userManagement > should render correctly with inputs 1`] = `
-[
+exports[`UserManagement > should render correctly with inputs 1`] = `
+<DocumentFragment>
   <div
-    className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
     <p
-      className="govuk-phase-banner__content"
+      class="govuk-phase-banner__content"
     >
       <strong
-        className="govuk-tag govuk-phase-banner__content__tag"
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
         Beta
       </strong>
       <span
-        className="govuk-phase-banner__text"
+        class="govuk-phase-banner__text"
       >
-        This is a new service. Help us improve it and
-         
+        This is a new service. Help us improve it and 
         <a
-          className="govuk-link"
+          class="govuk-link"
           href="/feedback"
           id="feedback-link"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           give your feedback (opens in new tab)
         </a>
         .
       </span>
     </p>
-  </div>,
+  </div>
   <div
-    className="govuk-width-container"
+    class="govuk-width-container"
   >
     <button
-      className="govuk-back-link mb-7"
-      onClick={[Function]}
+      class="govuk-back-link mb-7"
       type="button"
     >
       Back
     </button>
     <main
-      className="govuk-main-wrapper"
+      class="govuk-main-wrapper"
       id="main-content"
     >
       <div
-        className="govuk-form-group"
+        class="govuk-form-group"
       >
         <h1
-          className="govuk-heading-xl"
+          class="govuk-heading-xl"
         >
           User Management
         </h1>
       </div>
       <table
-        className="govuk-table"
+        class="govuk-table"
       >
         <caption
-          className="govuk-table__caption govuk-table__caption--m"
+          class="govuk-table__caption govuk-table__caption--m"
         >
           Users
         </caption>
         <thead
-          className="govuk-table__head"
+          class="govuk-table__head"
         >
           <tr
-            className="govuk-table__row"
+            class="govuk-table__row"
           >
             <th
-              className="govuk-table__header align-middle px-2"
+              class="govuk-table__header align-middle px-2"
               scope="col"
             >
               Account type
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              class="govuk-table__header align-middle px-2"
               scope="col"
             >
               User email
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              class="govuk-table__header align-middle px-2"
               scope="col"
             >
               Status
             </th>
             <th
-              className="govuk-table__header align-middle px-2"
+              class="govuk-table__header align-middle px-2"
               scope="col"
             >
               Action
@@ -407,42 +358,38 @@ exports[`userManagement > should render correctly with inputs 1`] = `
           </tr>
         </thead>
         <tbody
-          className="govuk-table__body"
+          class="govuk-table__body"
         >
           <tr
-            className="govuk-table__row"
+            class="govuk-table__row"
           >
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Admin
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               dummy.user@gmail.com
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               Active
             </td>
             <td
-              className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+              class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
             >
               <a
-                className="govuk-link"
+                class="govuk-link"
                 href="/admin/edit-user/2f99b92e-a86f-4457-a2dc-923db4781c52"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Edit
               </a>
               <br />
               <button
-                className="govuk-link"
-                onClick={[Function]}
+                class="govuk-link"
               >
                 Remove
               </button>
@@ -451,21 +398,15 @@ exports[`userManagement > should render correctly with inputs 1`] = `
         </tbody>
       </table>
       <a
-        className="govuk-button--secondary govuk-button mt-5 mr-5"
+        class="govuk-button--secondary govuk-button mt-5 mr-5"
         href="/admin/add-user"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
         role="button"
       >
         Add new user
       </a>
       <a
-        className="govuk-button--secondary govuk-button mt-5"
+        class="govuk-button--secondary govuk-button mt-5"
         href="/admin/add-operator"
-        onClick={[Function]}
-        onMouseEnter={[Function]}
-        onTouchStart={[Function]}
         role="button"
       >
         Add new Operator
@@ -473,138 +414,112 @@ exports[`userManagement > should render correctly with inputs 1`] = `
     </main>
     <div>
       <h2
-        className="govuk-heading-s"
+        class="govuk-heading-s"
       >
         Help and Support
       </h2>
       <p
-        className="govuk-body"
+        class="govuk-body"
       >
-        If you are having problems, please contact the Create Disruption Service via this link:
-         
+        If you are having problems, please contact the Create Disruption Service via this link: 
         <a
-          className="govuk-link govuk-!-font-size-19"
+          class="govuk-link govuk-!-font-size-19"
           href="/contact"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           Contact us
         </a>
       </p>
     </div>
-  </div>,
+  </div>
   <footer
-    className="govuk-footer"
+    class="govuk-footer"
     role="contentinfo"
   >
     <div
-      className="govuk-width-container"
+      class="govuk-width-container"
     >
       <div
-        className="govuk-footer__meta"
+        class="govuk-footer__meta"
       >
         <div
-          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
         >
           <h2
-            className="govuk-visually-hidden"
+            class="govuk-visually-hidden"
           >
             Support links
           </h2>
           <ul
-            className="govuk-footer__inline-list"
+            class="govuk-footer__inline-list"
           >
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Help
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/cookies"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Cookies
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Contact
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/accessibility"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Accessibility
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="https://www.gov.uk/help/terms-conditions"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Terms and conditions
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/privacy"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Privacy
               </a>
             </li>
           </ul>
           <p
-            className="govuk-footer__body"
+            class="govuk-footer__body"
           >
-            Built by the
-             
+            Built by the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.gov.uk/government/organisations/department-for-transport"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="noreferrer"
               target="_blank"
             >
@@ -613,7 +528,7 @@ exports[`userManagement > should render correctly with inputs 1`] = `
           </p>
           <svg
             aria-hidden="true"
-            className="govuk-footer__licence-logo"
+            class="govuk-footer__licence-logo"
             focusable="false"
             height="17"
             viewBox="0 0 483.2 195.7"
@@ -626,16 +541,12 @@ exports[`userManagement > should render correctly with inputs 1`] = `
             />
           </svg>
           <span
-            className="govuk-footer__licence-description"
+            class="govuk-footer__licence-description"
           >
-            All content is available under the
-             
+            All content is available under the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="license"
             >
               Open Government Licence v3.0
@@ -644,20 +555,17 @@ exports[`userManagement > should render correctly with inputs 1`] = `
           </span>
         </div>
         <div
-          className="govuk-footer__meta-item"
+          class="govuk-footer__meta-item"
         >
           <a
-            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             © Crown copyright
           </a>
         </div>
       </div>
     </div>
-  </footer>,
-]
+  </footer>
+</DocumentFragment>
 `;

@@ -1,346 +1,302 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`SearchSelect > should render correctly with errors 1`] = `
-<div
-  className="govuk-form-group govuk-form-group--error"
->
+<DocumentFragment>
   <div
-    className="govuk-form-group"
+    class="govuk-form-group govuk-form-group--error"
   >
-    <label
-      className="govuk-label govuk-label--l"
-      htmlFor="test-id-input"
-      id="test-id-label"
-    >
-      Test Data
-    </label>
     <div
-      className=""
+      class="govuk-form-group"
     >
-      <span
-        className="govuk-error-message"
-        id="test-id-error"
+      <label
+        class="govuk-label govuk-label--l"
+        for="test-id-input"
+        id="test-id-label"
       >
-        <span
-          className="govuk-visually-hidden"
-        >
-          Error: 
-        </span>
-        There was an error
-      </span>
+        Test Data
+      </label>
       <div
-        className="text-lg text-black govuk-input--error css-b62m3t-container"
-        id="test-id"
-        onKeyDown={[Function]}
+        class=""
       >
         <span
-          className="css-1f43avz-a11yText-A11yText"
-          id="react-select-dropdown-test-id-live-region"
-        />
-        <span
-          aria-atomic="false"
-          aria-live="polite"
-          aria-relevant="additions text"
-          className="css-1f43avz-a11yText-A11yText"
-          role="log"
-        />
-        <div
-          className=" css-1kxfjwu-control"
-          onMouseDown={[Function]}
-          onTouchEnd={[Function]}
+          class="govuk-error-message"
+          id="test-id-error"
         >
+          <span
+            class="govuk-visually-hidden"
+          >
+            Error: 
+          </span>
+          There was an error
+        </span>
+        <div
+          class="text-lg text-black govuk-input--error css-b62m3t-container"
+          id="test-id"
+        >
+          <span
+            class="css-1f43avz-a11yText-A11yText"
+            id="react-select-dropdown-test-id-live-region"
+          />
+          <span
+            aria-atomic="false"
+            aria-live="polite"
+            aria-relevant="additions text"
+            class="css-1f43avz-a11yText-A11yText"
+            role="log"
+          />
           <div
-            className=" css-1fdsijx-ValueContainer"
+            class=" css-1kxfjwu-control"
           >
             <div
-              className=" css-1dimb5e-singleValue"
+              class=" css-1fdsijx-ValueContainer"
             >
-              Ocean
-            </div>
-            <div
-              className=" css-qbdosj-Input"
-              data-value=""
-            >
-              <input
-                aria-activedescendant=""
-                aria-autocomplete="list"
-                aria-expanded={false}
-                aria-haspopup={true}
-                aria-labelledby="test-id-label"
-                autoCapitalize="none"
-                autoComplete="off"
-                autoCorrect="off"
-                className=""
-                disabled={false}
-                id="test-id-input"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                role="combobox"
-                spellCheck="false"
-                style={
-                  {
-                    "background": 0,
-                    "border": 0,
-                    "color": "inherit",
-                    "font": "inherit",
-                    "gridArea": "1 / 2",
-                    "label": "input",
-                    "margin": 0,
-                    "minWidth": "2px",
-                    "opacity": 1,
-                    "outline": 0,
-                    "padding": 0,
-                    "width": "100%",
-                  }
-                }
-                tabIndex={0}
-                type="text"
-                value=""
-              />
-            </div>
-          </div>
-          <div
-            className=" css-1hb7zxy-IndicatorsContainer"
-          >
-            <span
-              className=" css-1u9des2-indicatorSeparator"
-            />
-            <div
-              aria-hidden="true"
-              className=" css-1xc3v61-indicatorContainer"
-              onMouseDown={[Function]}
-              onTouchEnd={[Function]}
-            >
-              <svg
-                aria-hidden="true"
-                className="css-tj5bde-Svg"
-                focusable="false"
-                height={20}
-                viewBox="0 0 20 20"
-                width={20}
+              <div
+                class=" css-1dimb5e-singleValue"
               >
-                <path
-                  d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                Ocean
+              </div>
+              <div
+                class=" css-qbdosj-Input"
+                data-value=""
+              >
+                <input
+                  aria-activedescendant=""
+                  aria-autocomplete="list"
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  aria-labelledby="test-id-label"
+                  autocapitalize="none"
+                  autocomplete="off"
+                  autocorrect="off"
+                  class=""
+                  id="test-id-input"
+                  role="combobox"
+                  spellcheck="false"
+                  style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                  tabindex="0"
+                  type="text"
+                  value=""
                 />
-              </svg>
+              </div>
+            </div>
+            <div
+              class=" css-1hb7zxy-IndicatorsContainer"
+            >
+              <span
+                class=" css-1u9des2-indicatorSeparator"
+              />
+              <div
+                aria-hidden="true"
+                class=" css-1xc3v61-indicatorContainer"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="css-tj5bde-Svg"
+                  focusable="false"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  width="20"
+                >
+                  <path
+                    d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                  />
+                </svg>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <table
+        class="govuk-table"
+      >
+        <thead
+          class="govuk-table__head"
+        >
+          <tr
+            class="govuk-table__row"
+          />
+        </thead>
+        <tbody
+          class="govuk-table__body"
+        >
+          <tr
+            class="govuk-table__row"
+          >
+            <th
+              class="govuk-table__header align-middle"
+              scope="row"
+            >
+              test row 1
+            </th>
+            <td
+              class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              1
+            </td>
+          </tr>
+          <tr
+            class="govuk-table__row"
+          >
+            <th
+              class="govuk-table__header align-middle"
+              scope="row"
+            >
+              test row 2
+            </th>
+            <td
+              class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              2
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <table
-      className="govuk-table"
-    >
-      <thead
-        className="govuk-table__head"
-      >
-        <tr
-          className="govuk-table__row"
-        />
-      </thead>
-      <tbody
-        className="govuk-table__body"
-      >
-        <tr
-          className="govuk-table__row"
-        >
-          <th
-            className="govuk-table__header align-middle"
-            scope="row"
-          >
-            test row 1
-          </th>
-          <td
-            className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-          >
-            1
-          </td>
-        </tr>
-        <tr
-          className="govuk-table__row"
-        >
-          <th
-            className="govuk-table__header align-middle"
-            scope="row"
-          >
-            test row 2
-          </th>
-          <td
-            className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-          >
-            2
-          </td>
-        </tr>
-      </tbody>
-    </table>
   </div>
-</div>
+</DocumentFragment>
 `;
 
 exports[`SearchSelect > should render correctly with no errors 1`] = `
-<div
-  className="govuk-form-group"
->
+<DocumentFragment>
   <div
-    className="govuk-form-group"
+    class="govuk-form-group"
   >
-    <label
-      className="govuk-label govuk-label--l"
-      htmlFor="test-id-input"
-      id="test-id-label"
-    >
-      Test Data
-    </label>
     <div
-      className=""
+      class="govuk-form-group"
     >
-      <div
-        className="text-lg text-black css-b62m3t-container"
-        id="test-id"
-        onKeyDown={[Function]}
+      <label
+        class="govuk-label govuk-label--l"
+        for="test-id-input"
+        id="test-id-label"
       >
-        <span
-          className="css-1f43avz-a11yText-A11yText"
-          id="react-select-dropdown-test-id-live-region"
-        />
-        <span
-          aria-atomic="false"
-          aria-live="polite"
-          aria-relevant="additions text"
-          className="css-1f43avz-a11yText-A11yText"
-          role="log"
-        />
+        Test Data
+      </label>
+      <div
+        class=""
+      >
         <div
-          className=" css-1kxfjwu-control"
-          onMouseDown={[Function]}
-          onTouchEnd={[Function]}
+          class="text-lg text-black css-b62m3t-container"
+          id="test-id"
         >
+          <span
+            class="css-1f43avz-a11yText-A11yText"
+            id="react-select-dropdown-test-id-live-region"
+          />
+          <span
+            aria-atomic="false"
+            aria-live="polite"
+            aria-relevant="additions text"
+            class="css-1f43avz-a11yText-A11yText"
+            role="log"
+          />
           <div
-            className=" css-1fdsijx-ValueContainer"
+            class=" css-1kxfjwu-control"
           >
             <div
-              className=" css-1dimb5e-singleValue"
+              class=" css-1fdsijx-ValueContainer"
             >
-              Ocean
-            </div>
-            <div
-              className=" css-qbdosj-Input"
-              data-value=""
-            >
-              <input
-                aria-activedescendant=""
-                aria-autocomplete="list"
-                aria-expanded={false}
-                aria-haspopup={true}
-                aria-labelledby="test-id-label"
-                autoCapitalize="none"
-                autoComplete="off"
-                autoCorrect="off"
-                className=""
-                disabled={false}
-                id="test-id-input"
-                onBlur={[Function]}
-                onChange={[Function]}
-                onFocus={[Function]}
-                role="combobox"
-                spellCheck="false"
-                style={
-                  {
-                    "background": 0,
-                    "border": 0,
-                    "color": "inherit",
-                    "font": "inherit",
-                    "gridArea": "1 / 2",
-                    "label": "input",
-                    "margin": 0,
-                    "minWidth": "2px",
-                    "opacity": 1,
-                    "outline": 0,
-                    "padding": 0,
-                    "width": "100%",
-                  }
-                }
-                tabIndex={0}
-                type="text"
-                value=""
-              />
-            </div>
-          </div>
-          <div
-            className=" css-1hb7zxy-IndicatorsContainer"
-          >
-            <span
-              className=" css-1u9des2-indicatorSeparator"
-            />
-            <div
-              aria-hidden="true"
-              className=" css-1xc3v61-indicatorContainer"
-              onMouseDown={[Function]}
-              onTouchEnd={[Function]}
-            >
-              <svg
-                aria-hidden="true"
-                className="css-tj5bde-Svg"
-                focusable="false"
-                height={20}
-                viewBox="0 0 20 20"
-                width={20}
+              <div
+                class=" css-1dimb5e-singleValue"
               >
-                <path
-                  d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                Ocean
+              </div>
+              <div
+                class=" css-qbdosj-Input"
+                data-value=""
+              >
+                <input
+                  aria-activedescendant=""
+                  aria-autocomplete="list"
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  aria-labelledby="test-id-label"
+                  autocapitalize="none"
+                  autocomplete="off"
+                  autocorrect="off"
+                  class=""
+                  id="test-id-input"
+                  role="combobox"
+                  spellcheck="false"
+                  style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                  tabindex="0"
+                  type="text"
+                  value=""
                 />
-              </svg>
+              </div>
+            </div>
+            <div
+              class=" css-1hb7zxy-IndicatorsContainer"
+            >
+              <span
+                class=" css-1u9des2-indicatorSeparator"
+              />
+              <div
+                aria-hidden="true"
+                class=" css-1xc3v61-indicatorContainer"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="css-tj5bde-Svg"
+                  focusable="false"
+                  height="20"
+                  viewBox="0 0 20 20"
+                  width="20"
+                >
+                  <path
+                    d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                  />
+                </svg>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <table
+        class="govuk-table"
+      >
+        <thead
+          class="govuk-table__head"
+        >
+          <tr
+            class="govuk-table__row"
+          />
+        </thead>
+        <tbody
+          class="govuk-table__body"
+        >
+          <tr
+            class="govuk-table__row"
+          >
+            <th
+              class="govuk-table__header align-middle"
+              scope="row"
+            >
+              test row 1
+            </th>
+            <td
+              class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              1
+            </td>
+          </tr>
+          <tr
+            class="govuk-table__row"
+          >
+            <th
+              class="govuk-table__header align-middle"
+              scope="row"
+            >
+              test row 2
+            </th>
+            <td
+              class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+            >
+              2
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <table
-      className="govuk-table"
-    >
-      <thead
-        className="govuk-table__head"
-      >
-        <tr
-          className="govuk-table__row"
-        />
-      </thead>
-      <tbody
-        className="govuk-table__body"
-      >
-        <tr
-          className="govuk-table__row"
-        >
-          <th
-            className="govuk-table__header align-middle"
-            scope="row"
-          >
-            test row 1
-          </th>
-          <td
-            className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-          >
-            1
-          </td>
-        </tr>
-        <tr
-          className="govuk-table__row"
-        >
-          <th
-            className="govuk-table__header align-middle"
-            scope="row"
-          >
-            test row 2
-          </th>
-          <td
-            className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-          >
-            2
-          </td>
-        </tr>
-      </tbody>
-    </table>
   </div>
-</div>
+</DocumentFragment>
 `;

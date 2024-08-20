@@ -1,27 +1,24 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`pages > ViewAllContents > should render correctly when filter is set to draft status 1`] = `
-[
+<DocumentFragment>
   <h1
-    className="govuk-heading-xl"
+    class="govuk-heading-xl"
   >
     View all disruptions
-  </h1>,
+  </h1>
   <div>
     <a
-      className="govuk-button govuk-button--start"
+      class="govuk-button govuk-button--start"
       data-module="govuk-button"
       draggable="false"
       href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333"
       id="create-new-button"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-      onTouchStart={[Function]}
       role="button"
     >
       Create new disruption
       <svg
-        className="govuk-button__start-icon"
+        class="govuk-button__start-icon"
         focusable="false"
         height="19"
         role="presentation"
@@ -36,66 +33,62 @@ exports[`pages > ViewAllContents > should render correctly when filter is set to
       </svg>
     </a>
     <div
-      className="flex"
+      class="flex"
     >
       <button
-        className="govuk-button govuk-button--secondary block"
+        class="govuk-button govuk-button--secondary block"
         data-module="govuk-button"
-        onClick={[Function]}
       >
-        Show 
-        filters
+        Show filters
       </button>
       <button
-        className="govuk-button govuk-button--secondary ml-2"
+        class="govuk-button govuk-button--secondary ml-2"
         data-module="govuk-button"
-        onClick={[Function]}
       >
         Export
       </button>
     </div>
-  </div>,
+  </div>
   <table
-    className="govuk-table"
+    class="govuk-table"
   >
     <thead
-      className="govuk-table__head"
+      class="govuk-table__head"
     >
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <th
-          className="govuk-table__header align-middle px-2 w-[10%]"
+          class="govuk-table__header align-middle px-2 w-[10%]"
           scope="col"
         >
           ID
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[30%]"
+          class="govuk-table__header align-middle px-2 w-[30%]"
           scope="col"
         >
           Summary
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[10%]"
+          class="govuk-table__header align-middle px-2 w-[10%]"
           scope="col"
         >
           Modes
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[13%]"
-          onClick={[Function]}
+          class="govuk-table__header align-middle px-2 w-[13%]"
           scope="col"
         >
           <div
-            className="flex flex-row items-center"
+            class="flex flex-row items-center"
           >
             Start
             <div
-              className="flex flex-col pl-1 text-arrow"
+              class="flex flex-col pl-1 text-arrow"
             >
               <span
-                className="-mb-1"
+                class="-mb-1"
               >
                 ▲
               </span>
@@ -106,19 +99,18 @@ exports[`pages > ViewAllContents > should render correctly when filter is set to
           </div>
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[13%]"
-          onClick={[Function]}
+          class="govuk-table__header align-middle px-2 w-[13%]"
           scope="col"
         >
           <div
-            className="flex flex-row items-center"
+            class="flex flex-row items-center"
           >
             End
             <div
-              className="flex flex-col pl-1 text-arrow"
+              class="flex flex-col pl-1 text-arrow"
             >
               <span
-                className="-mb-1"
+                class="-mb-1"
               >
                 ▲
               </span>
@@ -129,13 +121,13 @@ exports[`pages > ViewAllContents > should render correctly when filter is set to
           </div>
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[12%]"
+          class="govuk-table__header align-middle px-2 w-[12%]"
           scope="col"
         >
           Severity
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[12%]"
+          class="govuk-table__header align-middle px-2 w-[12%]"
           scope="col"
         >
           Status
@@ -143,34 +135,31 @@ exports[`pages > ViewAllContents > should render correctly when filter is set to
       </tr>
     </thead>
     <tbody
-      className="govuk-table__body"
+      class="govuk-table__body"
     />
-  </table>,
-]
+  </table>
+</DocumentFragment>
 `;
 
 exports[`pages > ViewAllContents > should render correctly when filter is set to pending approval status 1`] = `
-[
+<DocumentFragment>
   <h1
-    className="govuk-heading-xl"
+    class="govuk-heading-xl"
   >
     View all disruptions
-  </h1>,
+  </h1>
   <div>
     <a
-      className="govuk-button govuk-button--start"
+      class="govuk-button govuk-button--start"
       data-module="govuk-button"
       draggable="false"
       href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333"
       id="create-new-button"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-      onTouchStart={[Function]}
       role="button"
     >
       Create new disruption
       <svg
-        className="govuk-button__start-icon"
+        class="govuk-button__start-icon"
         focusable="false"
         height="19"
         role="presentation"
@@ -185,66 +174,62 @@ exports[`pages > ViewAllContents > should render correctly when filter is set to
       </svg>
     </a>
     <div
-      className="flex"
+      class="flex"
     >
       <button
-        className="govuk-button govuk-button--secondary block"
+        class="govuk-button govuk-button--secondary block"
         data-module="govuk-button"
-        onClick={[Function]}
       >
-        Show 
-        filters
+        Show filters
       </button>
       <button
-        className="govuk-button govuk-button--secondary ml-2"
+        class="govuk-button govuk-button--secondary ml-2"
         data-module="govuk-button"
-        onClick={[Function]}
       >
         Export
       </button>
     </div>
-  </div>,
+  </div>
   <table
-    className="govuk-table"
+    class="govuk-table"
   >
     <thead
-      className="govuk-table__head"
+      class="govuk-table__head"
     >
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <th
-          className="govuk-table__header align-middle px-2 w-[10%]"
+          class="govuk-table__header align-middle px-2 w-[10%]"
           scope="col"
         >
           ID
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[30%]"
+          class="govuk-table__header align-middle px-2 w-[30%]"
           scope="col"
         >
           Summary
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[10%]"
+          class="govuk-table__header align-middle px-2 w-[10%]"
           scope="col"
         >
           Modes
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[13%]"
-          onClick={[Function]}
+          class="govuk-table__header align-middle px-2 w-[13%]"
           scope="col"
         >
           <div
-            className="flex flex-row items-center"
+            class="flex flex-row items-center"
           >
             Start
             <div
-              className="flex flex-col pl-1 text-arrow"
+              class="flex flex-col pl-1 text-arrow"
             >
               <span
-                className="-mb-1"
+                class="-mb-1"
               >
                 ▲
               </span>
@@ -255,19 +240,18 @@ exports[`pages > ViewAllContents > should render correctly when filter is set to
           </div>
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[13%]"
-          onClick={[Function]}
+          class="govuk-table__header align-middle px-2 w-[13%]"
           scope="col"
         >
           <div
-            className="flex flex-row items-center"
+            class="flex flex-row items-center"
           >
             End
             <div
-              className="flex flex-col pl-1 text-arrow"
+              class="flex flex-col pl-1 text-arrow"
             >
               <span
-                className="-mb-1"
+                class="-mb-1"
               >
                 ▲
               </span>
@@ -278,13 +262,13 @@ exports[`pages > ViewAllContents > should render correctly when filter is set to
           </div>
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[12%]"
+          class="govuk-table__header align-middle px-2 w-[12%]"
           scope="col"
         >
           Severity
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[12%]"
+          class="govuk-table__header align-middle px-2 w-[12%]"
           scope="col"
         >
           Status
@@ -292,34 +276,31 @@ exports[`pages > ViewAllContents > should render correctly when filter is set to
       </tr>
     </thead>
     <tbody
-      className="govuk-table__body"
+      class="govuk-table__body"
     />
-  </table>,
-]
+  </table>
+</DocumentFragment>
 `;
 
 exports[`pages > ViewAllContents > should render correctly when there are enough disruptions for no pagination 1`] = `
-[
+<DocumentFragment>
   <h1
-    className="govuk-heading-xl"
+    class="govuk-heading-xl"
   >
     View all disruptions
-  </h1>,
+  </h1>
   <div>
     <a
-      className="govuk-button govuk-button--start"
+      class="govuk-button govuk-button--start"
       data-module="govuk-button"
       draggable="false"
       href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333"
       id="create-new-button"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-      onTouchStart={[Function]}
       role="button"
     >
       Create new disruption
       <svg
-        className="govuk-button__start-icon"
+        class="govuk-button__start-icon"
         focusable="false"
         height="19"
         role="presentation"
@@ -334,66 +315,62 @@ exports[`pages > ViewAllContents > should render correctly when there are enough
       </svg>
     </a>
     <div
-      className="flex"
+      class="flex"
     >
       <button
-        className="govuk-button govuk-button--secondary block"
+        class="govuk-button govuk-button--secondary block"
         data-module="govuk-button"
-        onClick={[Function]}
       >
-        Show 
-        filters
+        Show filters
       </button>
       <button
-        className="govuk-button govuk-button--secondary ml-2"
+        class="govuk-button govuk-button--secondary ml-2"
         data-module="govuk-button"
-        onClick={[Function]}
       >
         Export
       </button>
     </div>
-  </div>,
+  </div>
   <table
-    className="govuk-table"
+    class="govuk-table"
   >
     <thead
-      className="govuk-table__head"
+      class="govuk-table__head"
     >
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <th
-          className="govuk-table__header align-middle px-2 w-[10%]"
+          class="govuk-table__header align-middle px-2 w-[10%]"
           scope="col"
         >
           ID
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[30%]"
+          class="govuk-table__header align-middle px-2 w-[30%]"
           scope="col"
         >
           Summary
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[10%]"
+          class="govuk-table__header align-middle px-2 w-[10%]"
           scope="col"
         >
           Modes
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[13%]"
-          onClick={[Function]}
+          class="govuk-table__header align-middle px-2 w-[13%]"
           scope="col"
         >
           <div
-            className="flex flex-row items-center"
+            class="flex flex-row items-center"
           >
             Start
             <div
-              className="flex flex-col pl-1 text-arrow"
+              class="flex flex-col pl-1 text-arrow"
             >
               <span
-                className="-mb-1"
+                class="-mb-1"
               >
                 ▲
               </span>
@@ -404,19 +381,18 @@ exports[`pages > ViewAllContents > should render correctly when there are enough
           </div>
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[13%]"
-          onClick={[Function]}
+          class="govuk-table__header align-middle px-2 w-[13%]"
           scope="col"
         >
           <div
-            className="flex flex-row items-center"
+            class="flex flex-row items-center"
           >
             End
             <div
-              className="flex flex-col pl-1 text-arrow"
+              class="flex flex-col pl-1 text-arrow"
             >
               <span
-                className="-mb-1"
+                class="-mb-1"
               >
                 ▲
               </span>
@@ -427,13 +403,13 @@ exports[`pages > ViewAllContents > should render correctly when there are enough
           </div>
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[12%]"
+          class="govuk-table__header align-middle px-2 w-[12%]"
           scope="col"
         >
           Severity
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[12%]"
+          class="govuk-table__header align-middle px-2 w-[12%]"
           scope="col"
         >
           Status
@@ -441,34 +417,31 @@ exports[`pages > ViewAllContents > should render correctly when there are enough
       </tr>
     </thead>
     <tbody
-      className="govuk-table__body"
+      class="govuk-table__body"
     />
-  </table>,
-]
+  </table>
+</DocumentFragment>
 `;
 
 exports[`pages > ViewAllContents > should render correctly when there are enough disruptions for pagination 1`] = `
-[
+<DocumentFragment>
   <h1
-    className="govuk-heading-xl"
+    class="govuk-heading-xl"
   >
     View all disruptions
-  </h1>,
+  </h1>
   <div>
     <a
-      className="govuk-button govuk-button--start"
+      class="govuk-button govuk-button--start"
       data-module="govuk-button"
       draggable="false"
       href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333"
       id="create-new-button"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-      onTouchStart={[Function]}
       role="button"
     >
       Create new disruption
       <svg
-        className="govuk-button__start-icon"
+        class="govuk-button__start-icon"
         focusable="false"
         height="19"
         role="presentation"
@@ -483,66 +456,62 @@ exports[`pages > ViewAllContents > should render correctly when there are enough
       </svg>
     </a>
     <div
-      className="flex"
+      class="flex"
     >
       <button
-        className="govuk-button govuk-button--secondary block"
+        class="govuk-button govuk-button--secondary block"
         data-module="govuk-button"
-        onClick={[Function]}
       >
-        Show 
-        filters
+        Show filters
       </button>
       <button
-        className="govuk-button govuk-button--secondary ml-2"
+        class="govuk-button govuk-button--secondary ml-2"
         data-module="govuk-button"
-        onClick={[Function]}
       >
         Export
       </button>
     </div>
-  </div>,
+  </div>
   <table
-    className="govuk-table"
+    class="govuk-table"
   >
     <thead
-      className="govuk-table__head"
+      class="govuk-table__head"
     >
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <th
-          className="govuk-table__header align-middle px-2 w-[10%]"
+          class="govuk-table__header align-middle px-2 w-[10%]"
           scope="col"
         >
           ID
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[30%]"
+          class="govuk-table__header align-middle px-2 w-[30%]"
           scope="col"
         >
           Summary
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[10%]"
+          class="govuk-table__header align-middle px-2 w-[10%]"
           scope="col"
         >
           Modes
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[13%]"
-          onClick={[Function]}
+          class="govuk-table__header align-middle px-2 w-[13%]"
           scope="col"
         >
           <div
-            className="flex flex-row items-center"
+            class="flex flex-row items-center"
           >
             Start
             <div
-              className="flex flex-col pl-1 text-arrow"
+              class="flex flex-col pl-1 text-arrow"
             >
               <span
-                className="-mb-1"
+                class="-mb-1"
               >
                 ▲
               </span>
@@ -553,19 +522,18 @@ exports[`pages > ViewAllContents > should render correctly when there are enough
           </div>
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[13%]"
-          onClick={[Function]}
+          class="govuk-table__header align-middle px-2 w-[13%]"
           scope="col"
         >
           <div
-            className="flex flex-row items-center"
+            class="flex flex-row items-center"
           >
             End
             <div
-              className="flex flex-col pl-1 text-arrow"
+              class="flex flex-col pl-1 text-arrow"
             >
               <span
-                className="-mb-1"
+                class="-mb-1"
               >
                 ▲
               </span>
@@ -576,13 +544,13 @@ exports[`pages > ViewAllContents > should render correctly when there are enough
           </div>
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[12%]"
+          class="govuk-table__header align-middle px-2 w-[12%]"
           scope="col"
         >
           Severity
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[12%]"
+          class="govuk-table__header align-middle px-2 w-[12%]"
           scope="col"
         >
           Status
@@ -590,34 +558,31 @@ exports[`pages > ViewAllContents > should render correctly when there are enough
       </tr>
     </thead>
     <tbody
-      className="govuk-table__body"
+      class="govuk-table__body"
     />
-  </table>,
-]
+  </table>
+</DocumentFragment>
 `;
 
 exports[`pages > ViewAllContents > should render correctly when there are no disruptions 1`] = `
-[
+<DocumentFragment>
   <h1
-    className="govuk-heading-xl"
+    class="govuk-heading-xl"
   >
     View all disruptions
-  </h1>,
+  </h1>
   <div>
     <a
-      className="govuk-button govuk-button--start"
+      class="govuk-button govuk-button--start"
       data-module="govuk-button"
       draggable="false"
       href="/create-disruption/acde070d-8c4c-4f0d-9d8a-162843c10333"
       id="create-new-button"
-      onClick={[Function]}
-      onMouseEnter={[Function]}
-      onTouchStart={[Function]}
       role="button"
     >
       Create new disruption
       <svg
-        className="govuk-button__start-icon"
+        class="govuk-button__start-icon"
         focusable="false"
         height="19"
         role="presentation"
@@ -632,66 +597,62 @@ exports[`pages > ViewAllContents > should render correctly when there are no dis
       </svg>
     </a>
     <div
-      className="flex"
+      class="flex"
     >
       <button
-        className="govuk-button govuk-button--secondary block"
+        class="govuk-button govuk-button--secondary block"
         data-module="govuk-button"
-        onClick={[Function]}
       >
-        Show 
-        filters
+        Show filters
       </button>
       <button
-        className="govuk-button govuk-button--secondary ml-2"
+        class="govuk-button govuk-button--secondary ml-2"
         data-module="govuk-button"
-        onClick={[Function]}
       >
         Export
       </button>
     </div>
-  </div>,
+  </div>
   <table
-    className="govuk-table"
+    class="govuk-table"
   >
     <thead
-      className="govuk-table__head"
+      class="govuk-table__head"
     >
       <tr
-        className="govuk-table__row"
+        class="govuk-table__row"
       >
         <th
-          className="govuk-table__header align-middle px-2 w-[10%]"
+          class="govuk-table__header align-middle px-2 w-[10%]"
           scope="col"
         >
           ID
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[30%]"
+          class="govuk-table__header align-middle px-2 w-[30%]"
           scope="col"
         >
           Summary
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[10%]"
+          class="govuk-table__header align-middle px-2 w-[10%]"
           scope="col"
         >
           Modes
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[13%]"
-          onClick={[Function]}
+          class="govuk-table__header align-middle px-2 w-[13%]"
           scope="col"
         >
           <div
-            className="flex flex-row items-center"
+            class="flex flex-row items-center"
           >
             Start
             <div
-              className="flex flex-col pl-1 text-arrow"
+              class="flex flex-col pl-1 text-arrow"
             >
               <span
-                className="-mb-1"
+                class="-mb-1"
               >
                 ▲
               </span>
@@ -702,19 +663,18 @@ exports[`pages > ViewAllContents > should render correctly when there are no dis
           </div>
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[13%]"
-          onClick={[Function]}
+          class="govuk-table__header align-middle px-2 w-[13%]"
           scope="col"
         >
           <div
-            className="flex flex-row items-center"
+            class="flex flex-row items-center"
           >
             End
             <div
-              className="flex flex-col pl-1 text-arrow"
+              class="flex flex-col pl-1 text-arrow"
             >
               <span
-                className="-mb-1"
+                class="-mb-1"
               >
                 ▲
               </span>
@@ -725,13 +685,13 @@ exports[`pages > ViewAllContents > should render correctly when there are no dis
           </div>
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[12%]"
+          class="govuk-table__header align-middle px-2 w-[12%]"
           scope="col"
         >
           Severity
         </th>
         <th
-          className="govuk-table__header align-middle px-2 w-[12%]"
+          class="govuk-table__header align-middle px-2 w-[12%]"
           scope="col"
         >
           Status
@@ -739,8 +699,8 @@ exports[`pages > ViewAllContents > should render correctly when there are no dis
       </tr>
     </thead>
     <tbody
-      className="govuk-table__body"
+      class="govuk-table__body"
     />
-  </table>,
-]
+  </table>
+</DocumentFragment>
 `;

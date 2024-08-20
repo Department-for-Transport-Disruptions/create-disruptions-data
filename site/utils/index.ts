@@ -68,7 +68,7 @@ export const getCsrfToken = (ctx: NextPageContext): string =>
 export const splitCamelCaseToString = (s: string) => upperFirst(lowerCase(startCase(s)));
 
 export const getDisplayByValue = (items: DisplayValuePair[], value: string) =>
-    items.find((item) => item.value === value)?.display;
+    items.find((item) => item.value === value)?.display || "N/A";
 
 export const getServiceLabel = (service: Service) =>
     `${service.lineName} - ${service.origin} - ${service.destination} (${service.operatorShortName})`;

@@ -1,47 +1,51 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`Warning > should render correctly 1`] = `
-<div
-  className="govuk-warning-text"
->
-  <span
-    aria-hidden="true"
-    className="govuk-warning-text__icon"
-  >
-    !
-  </span>
-  <strong
-    className="govuk-warning-text__text"
+<DocumentFragment>
+  <div
+    class="govuk-warning-text"
   >
     <span
-      className="govuk-visually-hidden"
+      aria-hidden="true"
+      class="govuk-warning-text__icon"
     >
-      Warning
+      !
     </span>
-    Test Warning Message
-  </strong>
-</div>
+    <strong
+      class="govuk-warning-text__text"
+    >
+      <span
+        class="govuk-visually-hidden"
+      >
+        Warning
+      </span>
+      Test Warning Message
+    </strong>
+  </div>
+</DocumentFragment>
 `;
 
 exports[`Warning > should render correctly with optional props 1`] = `
-<div
-  className="govuk-warning-text"
->
-  <span
-    aria-hidden="true"
-    className="govuk-warning-text__icon"
-  >
-    ?
-  </span>
-  <strong
-    className="govuk-warning-text__text"
+<DocumentFragment>
+  <div
+    class="govuk-warning-text"
   >
     <span
-      className="govuk-visually-hidden"
+      aria-hidden="true"
+      class="govuk-warning-text__icon"
     >
-      WARNING!!!
+      ?
     </span>
-    Test Warning Message
-  </strong>
-</div>
+    <strong
+      class="govuk-warning-text__text"
+    >
+      <span
+        class="govuk-visually-hidden"
+      >
+        WARNING!!!
+      </span>
+      Test Warning Message
+    </strong>
+  </div>
+</DocumentFragment>
 `;
