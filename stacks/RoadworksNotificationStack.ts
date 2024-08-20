@@ -2,10 +2,14 @@ import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { Cron, Function, StackContext, use } from "sst/constructs";
 import { CognitoStack } from "./CognitoStack";
 import { DynamoDBStack } from "./DynamoDBStack";
+import { TreatMissingData } from "aws-cdk-lib/aws-cloudwatch";
+import { SnsAction } from "aws-cdk-lib/aws-cloudwatch-actions";
+import { MonitoringStack } from "./MonitoringStack";
 
 export const RoadworksNotificationStack = ({ stack }: StackContext) => {
     const { disruptionsTable, organisationsTableV2: organisationsTable } = use(DynamoDBStack);
     const { clientId, clientSecret, userPoolId, userPoolArn } = use(CognitoStack);
+    const { alarmTopic } = use(MonitoringStack);
 
     const apiUrl = !["preprod", "prod"].includes(stack.stage)
         ? "https://api.test.ref-data.dft-create-data.com/v1"
@@ -55,6 +59,16 @@ export const RoadworksNotificationStack = ({ stack }: StackContext) => {
         schedule: "rate(5 minutes)",
     });
 
+    cancelledRoadworkNotification
+        .metric("Errors")
+        .createAlarm(stack, "cdd-cancelled-roadworks-notification-failure-alarm", {
+            evaluationPeriods: 1,
+            threshold: 1,
+            treatMissingData: TreatMissingData.NOT_BREACHING,
+            alarmName: `cdd-cancelled-roadworks-notification-failure-alarm-${stack.stage}`,
+        })
+        .addAlarmAction(new SnsAction(alarmTopic));
+
     const newRoadworkNotification = new Function(stack, "cdd-roadworks-new-notification", {
         functionName: `cdd-roadworks-new-notification-${stack.stage}`,
         environment: {
@@ -90,4 +104,14 @@ export const RoadworksNotificationStack = ({ stack }: StackContext) => {
         job: newRoadworkNotification,
         schedule: "cron(0 8 * * ? *)",
     });
+
+    newRoadworkNotification
+        .metric("Errors")
+        .createAlarm(stack, "cdd-new-roadworks-notification-failure-alarm", {
+            evaluationPeriods: 1,
+            threshold: 1,
+            treatMissingData: TreatMissingData.NOT_BREACHING,
+            alarmName: `cdd-new-roadworks-notification-failure-alarm-${stack.stage}`,
+        })
+        .addAlarmAction(new SnsAction(alarmTopic));
 };
