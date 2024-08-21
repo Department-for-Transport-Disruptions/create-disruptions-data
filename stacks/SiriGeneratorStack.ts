@@ -140,16 +140,6 @@ export const SiriGeneratorStack = ({ stack }: StackContext) => {
 
     validatorBucket.addEventNotification(EventType.OBJECT_CREATED, new LambdaDestination(siriValidator));
 
-    siriValidator
-        .metric("Errors")
-        .createAlarm(stack, "cdd-siri-validator-failure-alarm", {
-            evaluationPeriods: 1,
-            threshold: 1,
-            treatMissingData: TreatMissingData.NOT_BREACHING,
-            alarmName: `cdd-siri-generator-validator-failure-alarm-${stack.stage}`,
-        })
-        .addAlarmAction(new SnsAction(alarmTopic));
-
     return {
         siriSXBucket,
         disruptionsJsonBucket,
