@@ -1,5 +1,6 @@
 # siri-sx-importer
 
+This script has now deprecated as ParticpantRef is now a fixed value and can no longer be used to identify an organisation.
 This script is for importing SIRI-SX files into the Disruptions tool.
 
 It performs the following functions:

@@ -45,6 +45,7 @@ export const infoLinkSchema = z.object({
     Uri: z.string().url(),
 });
 
+// Adjust ParticipantRef to literal when ENABLE_PARTICIPANT_REF_FEATURE_FLAG is removed
 export const situationElementRefSchema = z.object({
     CreationTime: z.string().datetime().optional(),
     VersionedAtTime: z.string().datetime().optional(),
