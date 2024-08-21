@@ -148,9 +148,16 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                 Mode of transport
               </label>
               <div
+                class="govuk-hint"
+                id="vehicle-mode-hint"
+              >
+                Select a mode before continuing
+              </div>
+              <div
                 class=""
               >
                 <select
+                  aria-describedby="vehicleMode-hint"
                   class="govuk-select w-3/4"
                   id="vehicle-mode-input"
                   name="vehicleMode"
@@ -904,9 +911,16 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                 Mode of transport
               </label>
               <div
+                class="govuk-hint"
+                id="vehicle-mode-hint"
+              >
+                Select a mode before continuing
+              </div>
+              <div
                 class=""
               >
                 <select
+                  aria-describedby="vehicleMode-hint"
                   class="govuk-select w-3/4"
                   id="vehicle-mode-input"
                   name="vehicleMode"
@@ -1630,9 +1644,16 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs an
                 Mode of transport
               </label>
               <div
+                class="govuk-hint"
+                id="vehicle-mode-hint"
+              >
+                Select a mode before continuing
+              </div>
+              <div
                 class=""
               >
                 <select
+                  aria-describedby="vehicleMode-hint"
                   class="govuk-select w-3/4"
                   id="vehicle-mode-input"
                   name="vehicleMode"
@@ -2361,9 +2382,16 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                 Mode of transport
               </label>
               <div
+                class="govuk-hint"
+                id="vehicle-mode-hint"
+              >
+                Select a mode before continuing
+              </div>
+              <div
                 class=""
               >
                 <select
+                  aria-describedby="vehicleMode-hint"
                   class="govuk-select w-3/4"
                   id="vehicle-mode-input"
                   name="vehicleMode"
@@ -3017,9 +3045,16 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
                 Mode of transport
               </label>
               <div
+                class="govuk-hint"
+                id="vehicle-mode-hint"
+              >
+                Select a mode before continuing
+              </div>
+              <div
                 class=""
               >
                 <select
+                  aria-describedby="vehicleMode-hint"
                   class="govuk-select w-3/4"
                   id="vehicle-mode-input"
                   name="vehicleMode"
