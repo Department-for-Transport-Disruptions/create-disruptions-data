@@ -33,5 +33,6 @@ export const MonitoringStack = ({ stack }: StackContext) => {
         siriGeneratorNamespace,
         siriValidationFailureMetric,
         siriPublishSuccessMetric,
+        alarmTopic,
     };
 };
