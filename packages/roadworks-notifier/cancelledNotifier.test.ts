@@ -47,7 +47,7 @@ describe("roadWorksCancelledNotification", () => {
 
         vi.spyOn(dynamo, "getDisruptionsWithRoadworks").mockResolvedValue([
             {
-                disruptionId: "d29b9753-d804-4912-9b90-07100ff35cfd",
+                id: "d29b9753-d804-4912-9b90-07100ff35cfd",
                 disruptionType: "unplanned",
                 summary: "Farringdon Street - Utility repair and maintenance works",
                 description: "oh no ",
@@ -118,7 +118,7 @@ describe("roadWorksCancelledNotification", () => {
 
         vi.spyOn(dynamo, "getDisruptionsWithRoadworks").mockResolvedValue([
             {
-                disruptionId: "d29b9753-d804-4912-9b90-07100ff35cfd",
+                id: "d29b9753-d804-4912-9b90-07100ff35cfd",
                 disruptionType: "unplanned",
                 summary: "Farringdon Street - Utility repair and maintenance works",
                 description: "oh no ",
@@ -197,7 +197,7 @@ describe("roadWorksCancelledNotification", () => {
 
         vi.spyOn(dynamo, "getDisruptionsWithRoadworks").mockResolvedValue([
             {
-                disruptionId: "d29b9753-d804-4912-9b90-07100ff35cfd",
+                id: "d29b9753-d804-4912-9b90-07100ff35cfd",
                 disruptionType: "unplanned",
                 summary: "Farringdon Street - Utility repair and maintenance works",
                 description: "oh no ",

@@ -8,7 +8,7 @@ import { Fragment, ReactElement } from "react";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 import { DISRUPTION_DETAIL_PAGE_PATH } from "../../constants/index";
-import { getDisruptionById } from "../../data/dynamo";
+import { getDisruptionById } from "../../data/db";
 import { DisplayValuePair } from "../../interfaces";
 import { getDisplayByValue } from "../../utils";
 import { getSession } from "../../utils/apiUtils/auth";
@@ -127,7 +127,7 @@ export const getServerSideProps = async (
     return {
         props: {
             history,
-            disruptionId: disruption.disruptionId,
+            disruptionId: disruption.id,
         },
     };
 };

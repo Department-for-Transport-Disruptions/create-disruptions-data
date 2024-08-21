@@ -4,9 +4,8 @@ import { getSortedDisruptionFinalEndDate, sortDisruptionsByStartDate } from "@cr
 import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { Dayjs } from "dayjs";
 import { NextApiRequest, NextApiResponse } from "next";
-import { z } from "zod";
 import { VEHICLE_MODES } from "../../../constants";
-import { getDisruptionsDataFromDynamo } from "../../../data/dynamo";
+import { getDisruptionsDataFromDynamo } from "../../../data/db";
 import { TableDisruption } from "../../../schemas/disruption.schema";
 import {
     filterDisruptionsForOperatorUser,
@@ -176,7 +175,7 @@ export const formatSortedDisruption = (disruption: Disruption): TableDisruption 
         services,
         dataSource,
         operators: disruptionOperators,
-        id: disruption.disruptionId,
+        id: disruption.id,
         summary: reduceStringWithEllipsis(disruption.summary, 95),
         validityPeriods: mapValidityPeriods(disruption),
         publishStartDate: getDatetimeFromDateAndTime(
@@ -219,21 +218,7 @@ const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResp
         return;
     }
 
-    const nextKeyParsed = z
-        .object({ PK: z.string(), SK: z.string() })
-        .safeParse(req.query.nextKey ? JSON.parse(decodeURIComponent(req.query.nextKey.toString())) : undefined);
-
-    let nextKey: Record<string, unknown> | undefined = undefined;
-
-    if (nextKeyParsed.success) {
-        nextKey = nextKeyParsed.data;
-    }
-
-    const { disruptions, nextKey: newNextKey } = await getDisruptionsDataFromDynamo(
-        sessionOrgId,
-        template === "true",
-        nextKey,
-    );
+    const disruptions = await getDisruptionsDataFromDynamo(sessionOrgId, template === "true", 10, 0);
 
     let disruptionsData = disruptions;
 
@@ -255,7 +240,7 @@ const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResp
 
         const shortenedData = sortedDisruptions.map(formatSortedDisruption);
 
-        res.status(200).json({ disruptions: shortenedData, nextKey: newNextKey });
+        res.status(200).json({ disruptions: shortenedData });
     } else {
         res.status(200).json({});
     }

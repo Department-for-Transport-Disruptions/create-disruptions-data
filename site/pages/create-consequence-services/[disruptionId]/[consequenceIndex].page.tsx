@@ -34,7 +34,8 @@ import {
     DISRUPTION_SEVERITIES,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../../constants";
-import { getDisruptionById, getNocCodesForOperatorOrg } from "../../../data/dynamo";
+import { getDisruptionById } from "../../../data/db";
+import { getNocCodesForOperatorOrg } from "../../../data/dynamo";
 import { fetchServiceRoutes, fetchServices, fetchServicesByStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { ServiceWithStopsAndRoutesPreformatted } from "../../../schemas/consequence.schema";
@@ -799,11 +800,7 @@ export const getServerSideProps = async (
         throw new Error("No session found");
     }
 
-    const disruption = await getDisruptionById(
-        ctx.query.disruptionId?.toString() ?? "",
-        session.orgId,
-        !!ctx.query.template,
-    );
+    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "", session.orgId);
 
     if (!disruption) {
         return {
@@ -821,7 +818,7 @@ export const getServerSideProps = async (
     const pageState = getPageState<ServicesConsequence>(
         errorCookie,
         servicesConsequenceSchema,
-        disruption.disruptionId,
+        disruption.id,
         consequence && isServicesConsequence(consequence) ? consequence : undefined,
     );
 

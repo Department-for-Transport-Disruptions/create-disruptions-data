@@ -18,7 +18,7 @@ const previousConsequencesInformation: Consequence = {
 
 const previousDisruptionInformation: Disruption = {
     disruptionType: "planned",
-    disruptionId: "2",
+    id: "2",
     summary: "Road closure due to flooding and cattle on road and no sign of movement example example example etc etc",
     description:
         "Road closure due to flooding and cattle on road and no sign of movement example example example etc etc",

@@ -69,7 +69,7 @@ const generateDisruptionsAndWriteToS3 = async (orgId: string, tableName: string,
             }
 
             return {
-                disruptionId: disruption.disruptionId,
+                id: disruption.id,
                 disruptionReason: disruption.disruptionReason,
                 disruptionStartDate: disruption.disruptionStartDate,
                 disruptionStartTime: disruption.disruptionStartTime,

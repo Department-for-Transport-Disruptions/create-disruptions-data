@@ -157,7 +157,7 @@ export const main = async (): Promise<void> => {
 
         const contentsForEmail = usersInOrgs.map((user) => ({
             ...user,
-            disruptionIds: groupByOrgId[user.orgId].map((disruption) => disruption.disruptionId),
+            disruptionIds: groupByOrgId[user.orgId].map((disruption) => disruption.id),
         }));
 
         const emailChunks = chunkArray(contentsForEmail, 50);

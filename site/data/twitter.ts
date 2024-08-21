@@ -7,7 +7,8 @@ import { SocialMediaAccount } from "../schemas/social-media-accounts.schema";
 import { TwitterPost } from "../schemas/social-media.schema";
 import { setCookieOnResponseObject } from "../utils/apiUtils";
 import logger from "../utils/logger";
-import { getOrgSocialAccounts, upsertSocialMediaPost } from "./dynamo";
+import { upsertSocialMediaPost } from "./db";
+import { getOrgSocialAccounts } from "./dynamo";
 import { getObject } from "./s3";
 
 type TwitterClientParams = {
@@ -85,7 +86,6 @@ export const sendTweet = async (
     orgId: string,
     post: TwitterPost,
     isUserStaff: boolean,
-    canPublish: boolean,
     authedClient: TwitterApi | null,
 ) => {
     try {
@@ -130,7 +130,6 @@ export const sendTweet = async (
                 },
                 orgId,
                 isUserStaff,
-                canPublish,
             ),
         ]);
     } catch (e) {
@@ -142,7 +141,6 @@ export const sendTweet = async (
             },
             orgId,
             isUserStaff,
-            canPublish,
         );
     }
 };

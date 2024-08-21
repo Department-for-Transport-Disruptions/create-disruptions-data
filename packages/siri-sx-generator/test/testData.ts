@@ -66,7 +66,7 @@ export const baseSiriJson: PtSituationElement = {
 };
 
 export const baseSiteDisruptionInfo: DisruptionInfo = {
-    disruptionId: "aaaaa-bbbbb-ccccc",
+    id: "aaaaa-bbbbb-ccccc",
     disruptionStartDate: "03/03/2023",
     disruptionStartTime: "0110",
     publishStartDate: "02/03/2020",

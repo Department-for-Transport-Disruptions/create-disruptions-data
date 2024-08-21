@@ -2,6 +2,7 @@ import { PublishStatus, SocialMediaPostStatus } from "@create-disruptions-data/s
 import MockDate from "mockdate";
 import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { DASHBOARD_PAGE_PATH, ERROR_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
+import * as db from "../../data/db";
 import * as dynamo from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { Organisation, defaultModes } from "../../schemas/organisation.schema";
@@ -58,8 +59,8 @@ describe("publishEdit", () => {
 
     MockDate.set("2023-03-03");
 
-    const insertDisruptionSpy = vi.spyOn(dynamo, "insertPublishedDisruptionIntoDynamoAndUpdateDraft");
-    const getDisruptionSpy = vi.spyOn(dynamo, "getDisruptionById");
+    const insertDisruptionSpy = vi.spyOn(db, "insertPublishedDisruptionIntoDynamoAndUpdateDraft");
+    const getDisruptionSpy = vi.spyOn(db, "getDisruptionById");
     const publishSocialMediaSpy = vi.spyOn(apiUtils, "publishSocialMedia");
     const getOrganisationInfoByIdSpy = vi.spyOn(dynamo, "getOrganisationInfoById");
     const getSessionSpy = vi.spyOn(session, "getSession");
@@ -92,11 +93,10 @@ describe("publishEdit", () => {
 
         await publishEdit(req, res);
 
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
-        expect(dynamo.publishEditedConsequencesAndSocialMediaPosts).toBeCalledTimes(1);
-        expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
-        expect(dynamo.deleteDisruptionsInPending).toBeCalledTimes(1);
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
+        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
+        expect(db.publishEditedConsequencesAndSocialMediaPosts).toBeCalledTimes(1);
+        expect(db.deleteEditedDisruption).toBeCalledTimes(1);
+        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
             disruptionWithConsequences,
             DEFAULT_ORG_ID,
             PublishStatus.published,
@@ -129,11 +129,10 @@ describe("publishEdit", () => {
             false,
             true,
         );
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
-        expect(dynamo.publishEditedConsequencesAndSocialMediaPosts).toBeCalledTimes(1);
-        expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
-        expect(dynamo.deleteDisruptionsInPending).toBeCalledTimes(1);
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
+        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
+        expect(db.publishEditedConsequencesAndSocialMediaPosts).toBeCalledTimes(1);
+        expect(db.deleteEditedDisruption).toBeCalledTimes(1);
+        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
             disruptionWithConsequencesAndSocialMediaPosts,
             DEFAULT_ORG_ID,
             PublishStatus.published,
@@ -159,10 +158,10 @@ describe("publishEdit", () => {
         await publishEdit(req, res);
 
         expect(publishSocialMediaSpy).not.toHaveBeenCalled();
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
-        expect(dynamo.publishEditedConsequencesAndSocialMediaPosts).toBeCalledTimes(1);
-        expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
+        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
+        expect(db.publishEditedConsequencesAndSocialMediaPosts).toBeCalledTimes(1);
+        expect(db.deleteEditedDisruption).toBeCalledTimes(1);
+        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
             disruptionWithConsequencesAndSocialMediaPosts,
             DEFAULT_ORG_ID,
             PublishStatus.pendingApproval,
@@ -189,10 +188,10 @@ describe("publishEdit", () => {
         await publishEdit(req, res);
 
         expect(publishSocialMediaSpy).not.toHaveBeenCalled();
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
-        expect(dynamo.publishEditedConsequencesAndSocialMediaPosts).toBeCalledTimes(1);
-        expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
+        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
+        expect(db.publishEditedConsequencesAndSocialMediaPosts).toBeCalledTimes(1);
+        expect(db.deleteEditedDisruption).toBeCalledTimes(1);
+        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
             { ...disruptionWithConsequencesAndSocialMediaPosts, template: true },
             DEFAULT_ORG_ID,
             PublishStatus.published,
@@ -215,11 +214,10 @@ describe("publishEdit", () => {
 
         await publishEdit(req, res);
 
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
-        expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
-        expect(dynamo.deleteDisruptionsInPending).toBeCalledTimes(1);
-        expect(dynamo.updatePendingDisruptionStatus).not.toBeCalled();
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
+        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
+        expect(db.deleteEditedDisruption).toBeCalledTimes(1);
+        expect(db.updatePendingDisruptionStatus).not.toBeCalled();
+        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
             disruptionWithConsequences,
             DEFAULT_ORG_ID,
             PublishStatus.published,
@@ -245,10 +243,9 @@ describe("publishEdit", () => {
 
         await publishEdit(req, res);
 
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
-        expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
-        expect(dynamo.deleteDisruptionsInPending).not.toBeCalled();
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
+        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
+        expect(db.deleteEditedDisruption).toBeCalledTimes(1);
+        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
             disruptionWithConsequencesAndSocialMediaPosts,
             DEFAULT_ORG_ID,
             PublishStatus.pendingApproval,
@@ -267,10 +264,9 @@ describe("publishEdit", () => {
 
         await publishEdit(req, res);
 
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
-        expect(dynamo.publishEditedConsequencesAndSocialMediaPosts).not.toBeCalled();
-        expect(dynamo.deleteDisruptionsInEdit).not.toBeCalled();
-        expect(dynamo.deleteDisruptionsInPending).not.toBeCalled();
+        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
+        expect(db.publishEditedConsequencesAndSocialMediaPosts).not.toBeCalled();
+        expect(db.deleteEditedDisruption).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 
@@ -285,10 +281,9 @@ describe("publishEdit", () => {
 
         await publishEdit(req, res);
 
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
-        expect(dynamo.publishEditedConsequencesAndSocialMediaPosts).not.toBeCalled();
-        expect(dynamo.deleteDisruptionsInEdit).not.toBeCalled();
-        expect(dynamo.deleteDisruptionsInPending).not.toBeCalled();
+        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
+        expect(db.publishEditedConsequencesAndSocialMediaPosts).not.toBeCalled();
+        expect(db.deleteEditedDisruption).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 
@@ -298,7 +293,7 @@ describe("publishEdit", () => {
             getDisruptionSpy.mockResolvedValue(disruption);
             const { req, res } = getMockRequestAndResponse({
                 body: {
-                    disruptionId: disruption.disruptionId,
+                    disruptionId: disruption.id,
                 },
                 mockWriteHeadFn: writeHeadMock,
             });
@@ -326,7 +321,7 @@ describe("publishEdit", () => {
             disruptionWithConsequences.summary,
             disruptionWithConsequences.description,
             mockSession.name,
-            disruptionWithConsequences.disruptionId,
+            disruptionWithConsequences.id,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: DASHBOARD_PAGE_PATH,
@@ -353,10 +348,9 @@ describe("publishEdit", () => {
 
         await publishEdit(req, res);
 
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
-        expect(dynamo.publishEditedConsequencesAndSocialMediaPosts).not.toBeCalled();
-        expect(dynamo.deleteDisruptionsInEdit).not.toBeCalled();
-        expect(dynamo.deleteDisruptionsInPending).not.toBeCalled();
+        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
+        expect(db.publishEditedConsequencesAndSocialMediaPosts).not.toBeCalled();
+        expect(db.deleteEditedDisruption).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 
@@ -381,11 +375,10 @@ describe("publishEdit", () => {
 
         await publishEdit(req, res);
 
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
-        expect(dynamo.publishEditedConsequencesAndSocialMediaPosts).toBeCalledTimes(1);
-        expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
-        expect(dynamo.deleteDisruptionsInPending).toBeCalledTimes(1);
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
+        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
+        expect(db.publishEditedConsequencesAndSocialMediaPosts).toBeCalledTimes(1);
+        expect(db.deleteEditedDisruption).toBeCalledTimes(1);
+        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
             {
                 ...disruptionWithConsequences,
                 createdByOperatorOrgId: DEFAULT_OPERATOR_ORG_ID,

@@ -26,3 +26,15 @@ test-%:
 
 lint-with-fix:
 	pnpm run lint:fix
+
+dev-containers-up:
+	docker compose --project-directory dev up -d
+
+dev-containers-down:
+	docker compose --project-directory dev down
+
+dev-containers-kill:
+	docker compose --project-directory dev kill
+
+dev-containers-stop-%:
+	docker compose --project-directory dev stop $*

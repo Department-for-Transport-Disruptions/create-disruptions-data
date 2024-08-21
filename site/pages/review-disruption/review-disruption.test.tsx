@@ -164,7 +164,7 @@ const previousCreateSocialMediaPostsInformation: SocialMediaPost[] = [
 const previousDisruptionInformation: FullDisruption = {
     publishStatus: PublishStatus.draft,
     disruptionType: "planned",
-    disruptionId: defaultDisruptionId,
+    id: defaultDisruptionId,
     summary: "Road closure due to flooding and cattle on road and no sign of movement example example example etc etc",
     description:
         "Road closure due to flooding and cattle on road and no sign of movement example example example etc etc",

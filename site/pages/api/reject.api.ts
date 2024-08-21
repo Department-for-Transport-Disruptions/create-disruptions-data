@@ -2,13 +2,12 @@ import { PublishStatus, SocialMediaPostStatus } from "@create-disruptions-data/s
 import { NextApiRequest, NextApiResponse } from "next";
 import { COOKIES_DISRUPTION_DETAIL_ERRORS, DISRUPTION_DETAIL_PAGE_PATH, ERROR_PATH } from "../../constants";
 import {
-    deleteDisruptionsInEdit,
-    deleteDisruptionsInPending,
+    deleteEditedDisruption,
     getDisruptionById,
-    getOrganisationInfoById,
     insertPublishedDisruptionIntoDynamoAndUpdateDraft,
     upsertSocialMediaPost,
-} from "../../data/dynamo";
+} from "../../data/db";
+import { getOrganisationInfoById } from "../../data/dynamo";
 import { publishDisruptionSchema, publishSchema } from "../../schemas/publish.schema";
 import { flattenZodErrors } from "../../utils";
 import { cleardownCookies, redirectTo, redirectToError, setCookieOnResponseObject } from "../../utils/apiUtils";
@@ -53,10 +52,7 @@ const reject = async (req: NextApiRequest, res: NextApiResponse) => {
             redirectTo(res, `${DISRUPTION_DETAIL_PAGE_PATH}/${validatedBody.data.disruptionId}`);
             return;
         }
-        await Promise.all([
-            deleteDisruptionsInEdit(draftDisruption.disruptionId, session.orgId),
-            deleteDisruptionsInPending(draftDisruption.disruptionId, session.orgId),
-        ]);
+        await Promise.all([deleteEditedDisruption(draftDisruption.id, session.orgId)]);
 
         const isEditPendingDsp =
             draftDisruption.publishStatus === PublishStatus.pendingAndEditing ||

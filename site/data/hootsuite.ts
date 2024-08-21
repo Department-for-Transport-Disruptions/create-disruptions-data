@@ -17,7 +17,8 @@ import { notEmpty } from "../utils";
 import { delay, setCookieOnResponseObject } from "../utils/apiUtils";
 import { formatAndDefaultDateTime, formatDate } from "../utils/dates";
 import logger from "../utils/logger";
-import { addSocialAccountToOrg, getOrgSocialAccounts, upsertSocialMediaPost } from "./dynamo";
+import { upsertSocialMediaPost } from "./db";
+import { addSocialAccountToOrg, getOrgSocialAccounts } from "./dynamo";
 import { getObject } from "./s3";
 
 let hootsuiteClientId: string | null = null;
@@ -334,7 +335,6 @@ export const publishToHootsuite = async (
     socialMediaPost: HootsuitePost,
     orgId: string,
     isUserStaff: boolean,
-    canPublish: boolean,
     accessToken: string,
 ) => {
     try {
@@ -378,8 +378,6 @@ export const publishToHootsuite = async (
             },
             orgId,
             isUserStaff,
-            canPublish,
-            undefined,
         );
     } catch (e) {
         logger.error(e);
@@ -391,7 +389,6 @@ export const publishToHootsuite = async (
             },
             orgId,
             isUserStaff,
-            canPublish,
         );
     }
 };

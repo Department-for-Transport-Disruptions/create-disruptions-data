@@ -2,7 +2,7 @@ import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@crea
 import * as sharedUtils from "@create-disruptions-data/shared-ts/utils";
 import MockDate from "mockdate";
 import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import * as dynamo from "../../../data/dynamo";
+import * as db from "../../../data/db";
 import { FullDisruption } from "../../../schemas/disruption.schema";
 import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession, sortedDisruption } from "../../../testData/mockData";
 import * as utils from "../../../utils";
@@ -21,7 +21,7 @@ describe("getAllDisruptions", () => {
         filterDisruptionsForOperatorUser: vi.fn(),
     }));
 
-    const getDisruptionsDataFromDynamoSpy = vi.spyOn(dynamo, "getDisruptionsDataFromDynamo");
+    const getDisruptionsDataFromDynamoSpy = vi.spyOn(db, "getDisruptionsDataFromDynamo");
     const sortDisruptionsByStartDateSpy = vi.spyOn(sharedUtils, "sortDisruptionsByStartDate");
     const getSessionSpy = vi.spyOn(session, "getSession");
     const filterDisruptionsForOperatorUserSpy = vi.spyOn(utils, "filterDisruptionsForOperatorUser");
@@ -57,7 +57,7 @@ describe("getAllDisruptions", () => {
             ],
             description: "testpending81",
             displayId: "415351",
-            disruptionId: "00831a54-0ecb-4b0c-8d73-310888968747",
+            id: "00831a54-0ecb-4b0c-8d73-310888968747",
             disruptionNoEndDateTime: "true",
             disruptionReason: MiscellaneousReason.accident,
             disruptionRepeats: "doesntRepeat",
@@ -89,7 +89,7 @@ describe("getAllDisruptions", () => {
             ],
             description: "testfilter3",
             displayId: "124b84",
-            disruptionId: "01b15519-41b5-4ace-a212-5331a1622771",
+            id: "01b15519-41b5-4ace-a212-5331a1622771",
             disruptionNoEndDateTime: "true",
             disruptionReason: MiscellaneousReason.accident,
             disruptionRepeats: "doesntRepeat",
@@ -108,7 +108,7 @@ describe("getAllDisruptions", () => {
     ];
 
     it("should be successful when session is set", async () => {
-        getDisruptionsDataFromDynamoSpy.mockResolvedValue({ disruptions });
+        getDisruptionsDataFromDynamoSpy.mockResolvedValue(disruptions);
 
         const { req, res } = getMockRequestAndResponse({
             query: {
@@ -164,7 +164,7 @@ describe("getAllDisruptions", () => {
             return operatorDisruptions;
         });
 
-        getDisruptionsDataFromDynamoSpy.mockResolvedValue({ disruptions: disruptionsWithOperatorDisruptions });
+        getDisruptionsDataFromDynamoSpy.mockResolvedValue(disruptionsWithOperatorDisruptions);
 
         const { req, res } = getMockRequestAndResponse({
             query: {

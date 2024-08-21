@@ -1,7 +1,7 @@
 import MockDate from "mockdate";
 import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
 import { DISRUPTION_DETAIL_PAGE_PATH, ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants/index";
-import * as dynamo from "../../data/dynamo";
+import * as db from "../../data/db";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import deletePost from "./delete-post.api";
 
@@ -28,7 +28,7 @@ describe("deletePost", () => {
 
     MockDate.set("2023-03-03");
 
-    const deletePostSpy = vi.spyOn(dynamo, "removeSocialMediaPostFromDisruption");
+    const deletePostSpy = vi.spyOn(db, "removeSocialMediaPostFromDisruption");
 
     afterEach(() => {
         vi.resetAllMocks();
@@ -49,7 +49,7 @@ describe("deletePost", () => {
 
         await deletePost(req, res);
 
-        expect(dynamo.removeSocialMediaPostFromDisruption).toBeCalledTimes(1);
+        expect(db.removeSocialMediaPostFromDisruption).toBeCalledTimes(1);
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
         });
@@ -67,7 +67,7 @@ describe("deletePost", () => {
 
         await deletePost(req, res);
 
-        expect(dynamo.upsertSocialMediaPost).toBeCalledTimes(1);
+        expect(db.upsertSocialMediaPost).toBeCalledTimes(1);
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${DISRUPTION_DETAIL_PAGE_PATH}/${defaultDisruptionId}`,
         });
@@ -80,7 +80,7 @@ describe("deletePost", () => {
 
         await deletePost(req, res);
 
-        expect(dynamo.removeSocialMediaPostFromDisruption).not.toBeCalled();
+        expect(db.removeSocialMediaPostFromDisruption).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 

@@ -8,7 +8,7 @@ import {
     DISRUPTION_DETAIL_PAGE_PATH,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
-import * as dynamo from "../../data/dynamo";
+import * as db from "../../data/db";
 import { ErrorInfo } from "../../interfaces";
 import {
     DEFAULT_OPERATOR_ORG_ID,
@@ -69,7 +69,7 @@ describe("create-disruption API", () => {
         destroyCookieOnResponseObject: vi.fn(),
     }));
 
-    const upsertDisruptionSpy = vi.spyOn(dynamo, "upsertDisruptionInfo");
+    const upsertDisruptionSpy = vi.spyOn(db, "upsertDisruptionInfo");
     vi.mock("../../data/dynamo", () => ({
         upsertDisruptionInfo: vi.fn(),
     }));

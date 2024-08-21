@@ -8,7 +8,7 @@ import {
     DASHBOARD_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants/index";
-import { upsertDisruptionInfo } from "../../data/dynamo";
+import { upsertDisruptionInfo } from "../../data/db";
 import { flattenZodErrors } from "../../utils";
 import {
     destroyCookieOnResponseObject,
@@ -75,11 +75,11 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
 
         const { draft } = req.query;
 
-        const body = req.body as DisruptionInfo & { consequenceIndex: number | undefined };
+        const body = req.body as DisruptionInfo & { consequenceIndex: number | undefined; disruptionId: string };
 
         const consequenceIndex = body.consequenceIndex || 0;
 
-        if (!body.disruptionId) {
+        if (!body.id) {
             throw new Error("No disruptionId found");
         }
 
@@ -112,7 +112,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
                 req,
                 res,
                 template ? ["template"] : [],
-                `${CREATE_DISRUPTION_PAGE_PATH}/${body.disruptionId}`,
+                `${CREATE_DISRUPTION_PAGE_PATH}/${body.id}`,
                 queryParam ? [queryParam] : [],
             );
 
@@ -143,7 +143,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
                   req,
                   res,
                   template ? ["template"] : [],
-                  `${decodeURIComponent(queryParam.split("=")[1].split("&")[0])}/${validatedBody.data.disruptionId}`,
+                  `${decodeURIComponent(queryParam.split("=")[1].split("&")[0])}/${validatedBody.data.id}`,
               )
             : draft
               ? redirectTo(res, DASHBOARD_PAGE_PATH)
@@ -151,7 +151,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
                     req,
                     res,
                     template ? ["template"] : [],
-                    `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.disruptionId}/${consequenceIndex}`,
+                    `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${validatedBody.data.id}/${consequenceIndex}`,
                     isFromTemplate ? [`${isFromTemplate}`] : [],
                 );
 

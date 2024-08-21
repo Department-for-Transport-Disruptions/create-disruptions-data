@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { DISRUPTION_DETAIL_PAGE_PATH, ERROR_PATH } from "../../constants";
-import * as dynamo from "../../data/dynamo";
+import * as db from "../../data/db";
 import { getMockRequestAndResponse, mockSession } from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
 import cancelChanges from "./cancel-changes.api";
@@ -33,7 +33,7 @@ describe("cancelChanges", () => {
         });
     });
 
-    const isDisruptionInEditSpy = vi.spyOn(dynamo, "isDisruptionInEdit");
+    const isDisruptionInEditSpy = vi.spyOn(db, "isDisruptionInEdit");
 
     it("should redirect to /disruption-detail page after cancelling disruptions for admin user", async () => {
         isDisruptionInEditSpy.mockResolvedValue(true);
@@ -46,7 +46,7 @@ describe("cancelChanges", () => {
 
         await cancelChanges(req, res);
 
-        expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
+        expect(db.deleteEditedDisruption).toBeCalledTimes(1);
 
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${DISRUPTION_DETAIL_PAGE_PATH}/${defaultDisruptionId}`,
@@ -65,7 +65,7 @@ describe("cancelChanges", () => {
 
         await cancelChanges(req, res);
 
-        expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
+        expect(db.deleteEditedDisruption).toBeCalledTimes(1);
 
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${DISRUPTION_DETAIL_PAGE_PATH}/${defaultDisruptionId}?template=true`,
@@ -87,8 +87,7 @@ describe("cancelChanges", () => {
 
         await cancelChanges(req, res);
 
-        expect(dynamo.deleteDisruptionsInEdit).toBeCalledTimes(1);
-        expect(dynamo.deleteDisruptionsInPending).toBeCalledTimes(1);
+        expect(db.deleteEditedDisruption).toBeCalledTimes(1);
 
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${DISRUPTION_DETAIL_PAGE_PATH}/${defaultDisruptionId}`,
@@ -103,7 +102,7 @@ describe("cancelChanges", () => {
 
         await cancelChanges(req, res);
 
-        expect(dynamo.deleteDisruptionsInEdit).not.toBeCalled();
+        expect(db.deleteEditedDisruption).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 });

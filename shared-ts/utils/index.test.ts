@@ -6,7 +6,7 @@ import { EnvironmentReason, MiscellaneousReason, PublishStatus } from "../enums"
 const DEFAULT_ORG_ID = "35bae327-4af0-4bbf-8bfa-2c085f214483";
 
 const disruptionInfo: DisruptionInfo = {
-    disruptionId: "test",
+    id: "test",
     description: "Test description",
     disruptionType: "planned",
     summary: "Some summary",
@@ -28,6 +28,7 @@ describe("sortDisruptionsByStartDate", () => {
             publishStatus: PublishStatus.draft,
             disruptionStartDate: "25/03/2026",
             disruptionStartTime: "1123",
+            creationTime: undefined,
             validity: [
                 {
                     disruptionStartDate: "25/12/2022",
@@ -56,12 +57,14 @@ describe("sortDisruptionsByStartDate", () => {
             disruptionStartDate: "21/03/2025",
             disruptionStartTime: "1123",
             template: false,
+            creationTime: undefined,
         },
         {
             ...disruptionInfo,
             publishStatus: PublishStatus.draft,
             disruptionStartDate: "24/04/2022",
             disruptionStartTime: "1123",
+            creationTime: undefined,
             validity: [
                 {
                     disruptionStartDate: "22/04/2022",
@@ -194,7 +197,7 @@ describe("getSortedDisruptionFinalEndDate", () => {
     it("gets the final end date for a non-repeating sorted disruption", () => {
         const disruption: Disruption = {
             publishStatus: PublishStatus.draft,
-            disruptionId: "test",
+            id: "test",
             description: "Test description",
             disruptionType: "planned",
             summary: "Some summary",
@@ -237,7 +240,7 @@ describe("getSortedDisruptionFinalEndDate", () => {
     it("gets the final end date for a repeating sorted disruption", () => {
         const disruption: Disruption = {
             publishStatus: PublishStatus.draft,
-            disruptionId: "test",
+            id: "test",
             description: "Test description",
             disruptionType: "planned",
             summary: "Some summary",

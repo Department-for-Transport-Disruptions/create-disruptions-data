@@ -6,6 +6,7 @@ import {
     CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
+import * as db from "../../data/db";
 import * as dynamo from "../../data/dynamo";
 import * as s3 from "../../data/s3";
 import { ErrorInfo } from "../../interfaces";
@@ -41,7 +42,7 @@ describe("create-social-media-post API", () => {
     const env = process.env;
     process.env.IMAGE_BUCKET_NAME = DEFAULT_IMAGE_BUCKET_NAME;
 
-    const upsertSocialMediaPostSpy = vi.spyOn(dynamo, "upsertSocialMediaPost");
+    const upsertSocialMediaPostSpy = vi.spyOn(db, "upsertSocialMediaPost");
     const getOrgSocialAccountSpy = vi.spyOn(dynamo, "getOrgSocialAccount");
 
     beforeEach(() => {

@@ -213,7 +213,7 @@ export const validitySchemaRefined = validitySchema
     );
 
 export const disruptionInfoSchema = z.object({
-    disruptionId: z.string().uuid(),
+    id: z.string().uuid(),
     disruptionType: z.union(
         [z.literal("planned"), z.literal("unplanned")],
         setZodDefaultError("Select a disruption type"),
@@ -258,7 +258,7 @@ export const disruptionInfoSchema = z.object({
         .optional(),
     displayId: z.string(),
     orgId: z.string().uuid().optional(),
-    createdByOperatorOrgId: z.string().uuid().optional(),
+    createdByOperatorOrgId: z.string().uuid().optional().nullable(),
     creationTime: z.string().datetime().nullish(),
     permitReferenceNumber: z.string().nullish(),
 });
@@ -914,9 +914,9 @@ export const disruptionSchema = disruptionInfoSchemaRefined.and(
             .optional(),
         publishStatus: z.nativeEnum(PublishStatus).default(PublishStatus.draft),
         template: z.boolean().optional().default(false),
-        createdByOperatorOrgId: z.string().uuid().optional(),
-        lastUpdated: z.string().optional(),
-        creationTime: z.string().optional().nullable(),
+        createdByOperatorOrgId: z.string().uuid().nullish(),
+        lastUpdated: z.string().datetime().optional(),
+        creationTime: z.string().datetime().optional(),
         history: z.array(historySchema).optional(),
     }),
 );

@@ -12,7 +12,8 @@ import {
 import { SocialMediaAccount } from "../schemas/social-media-accounts.schema";
 import { NextdoorPost } from "../schemas/social-media.schema";
 import logger from "../utils/logger";
-import { addSocialAccountToOrg, getOrgSocialAccounts, upsertSocialMediaPost } from "./dynamo";
+import { upsertSocialMediaPost } from "./db";
+import { addSocialAccountToOrg, getOrgSocialAccounts } from "./dynamo";
 import { getItem } from "./s3";
 
 export const nextdoorRedirectUri = `${process.env.DOMAIN_NAME as string}/api/nextdoor-callback`;
@@ -213,7 +214,6 @@ export const publishToNextdoor = async (
     socialMediaPost: NextdoorPost,
     orgId: string,
     isUserStaff: boolean,
-    canPublish: boolean,
     accessToken: string,
 ) => {
     try {
@@ -269,8 +269,6 @@ export const publishToNextdoor = async (
             },
             orgId,
             isUserStaff,
-            canPublish,
-            undefined,
         );
     } catch (e) {
         logger.error(e);
@@ -282,7 +280,6 @@ export const publishToNextdoor = async (
             },
             orgId,
             isUserStaff,
-            canPublish,
         );
     }
 };

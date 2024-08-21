@@ -147,7 +147,7 @@ export interface GetMockRequestAndResponse {
 
 export const disruptionWithNoConsequences: FullDisruption = {
     publishStatus: PublishStatus.draft,
-    disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+    id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
     description: "Test description",
     disruptionType: "planned",
     summary: "Some summary",
@@ -529,7 +529,7 @@ export const exportDisruption: ExportDisruptions = [
 
 export const sortedDisruption: Disruption = {
     publishStatus: PublishStatus.draft,
-    disruptionId: "test",
+    id: "test",
     description: "Test description",
     disruptionType: "planned",
     summary: "Some summary",
@@ -1036,7 +1036,7 @@ export const createDisruptionWithConsquences = (consequences: Consequence[]): Fu
     const defaultPublishStartDate = getFutureDateAsString(1);
     const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
     return {
-        disruptionId: defaultDisruptionId,
+        id: defaultDisruptionId,
         disruptionType: "planned",
         summary: "A test disruption",
         description: "oh no",

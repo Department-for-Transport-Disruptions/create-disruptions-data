@@ -9,7 +9,7 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
-import { getDisruptionById, upsertConsequence, upsertDisruptionInfo, upsertSocialMediaPost } from "../../data/dynamo";
+import { getDisruptionById, upsertConsequence, upsertDisruptionInfo, upsertSocialMediaPost } from "../../data/db";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
@@ -34,7 +34,6 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
         const disruptionToDuplicate = await getDisruptionById(
             createDisruptionFromTemplate && templateId ? (templateId as string) : disruptionId,
             session.orgId,
-            createDisruptionFromTemplate,
         );
 
         if (!disruptionToDuplicate) {
@@ -56,7 +55,7 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
         const draftDisruption: FullDisruption = {
             ...validatedDisruptionBody.data,
             publishStatus: PublishStatus.draft,
-            disruptionId: newDisruptionId,
+            id: newDisruptionId,
             displayId,
             ...(disruptionToDuplicate.consequences
                 ? {
@@ -75,6 +74,7 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
                   }
                 : {}),
             template: false,
+            creationTime: undefined,
         };
 
         if (!draftDisruption.disruptionNoEndDateTime) {
@@ -84,7 +84,7 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
         await upsertDisruptionInfo(
             {
                 ...validatedDisruptionBody.data,
-                disruptionId: newDisruptionId,
+                id: newDisruptionId,
                 displayId,
             },
             session.orgId,

@@ -1,7 +1,7 @@
 import MockDate from "mockdate";
 import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
 import { ERROR_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants/index";
-import * as dynamo from "../../data/dynamo";
+import * as db from "../../data/db";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import {
     DEFAULT_ORG_ID,
@@ -33,8 +33,8 @@ describe("deleteDisruption", () => {
 
     MockDate.set("2023-03-03");
 
-    const deleteDisruptionSpy = vi.spyOn(dynamo, "deletePublishedDisruption");
-    const getDisruptionSpy = vi.spyOn(dynamo, "getDisruptionById");
+    const deleteDisruptionSpy = vi.spyOn(db, "deletePublishedDisruption");
+    const getDisruptionSpy = vi.spyOn(db, "getDisruptionById");
 
     afterEach(() => {
         vi.resetAllMocks();
@@ -55,8 +55,8 @@ describe("deleteDisruption", () => {
 
         await deleteDisruption(req, res);
 
-        expect(dynamo.deletePublishedDisruption).toBeCalledTimes(1);
-        expect(dynamo.deletePublishedDisruption).toBeCalledWith(
+        expect(db.deletePublishedDisruption).toBeCalledTimes(1);
+        expect(db.deletePublishedDisruption).toBeCalledWith(
             disruptionWithConsequencesAndSocialMediaPosts,
             defaultDisruptionId,
             DEFAULT_ORG_ID,
@@ -79,8 +79,8 @@ describe("deleteDisruption", () => {
 
         await deleteDisruption(req, res);
 
-        expect(dynamo.deletePublishedDisruption).toBeCalledTimes(1);
-        expect(dynamo.deletePublishedDisruption).toBeCalledWith(
+        expect(db.deletePublishedDisruption).toBeCalledTimes(1);
+        expect(db.deletePublishedDisruption).toBeCalledWith(
             disruptionWithConsequencesAndSocialMediaPosts,
             defaultDisruptionId,
             DEFAULT_ORG_ID,
@@ -103,8 +103,8 @@ describe("deleteDisruption", () => {
 
         await deleteDisruption(req, res);
 
-        expect(dynamo.deletePublishedDisruption).toBeCalledTimes(1);
-        expect(dynamo.deletePublishedDisruption).toBeCalledWith(
+        expect(db.deletePublishedDisruption).toBeCalledTimes(1);
+        expect(db.deletePublishedDisruption).toBeCalledWith(
             disruptionWithConsequencesAndSocialMediaPosts,
             defaultDisruptionId,
             DEFAULT_ORG_ID,
@@ -123,7 +123,7 @@ describe("deleteDisruption", () => {
 
         await deleteDisruption(req, res);
 
-        expect(dynamo.deletePublishedDisruption).not.toBeCalled();
+        expect(db.deletePublishedDisruption).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 
@@ -138,7 +138,7 @@ describe("deleteDisruption", () => {
 
         await deleteDisruption(req, res);
 
-        expect(dynamo.deletePublishedDisruption).not.toBeCalled();
+        expect(db.deletePublishedDisruption).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 
@@ -148,7 +148,7 @@ describe("deleteDisruption", () => {
             getDisruptionSpy.mockResolvedValue(disruption);
             const { req, res } = getMockRequestAndResponse({
                 body: {
-                    id: disruption.disruptionId,
+                    id: disruption.id,
                 },
                 mockWriteHeadFn: writeHeadMock,
             });

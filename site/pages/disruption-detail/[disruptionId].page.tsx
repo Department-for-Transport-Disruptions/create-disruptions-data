@@ -24,7 +24,7 @@ import {
     ENABLE_CANCELLATIONS_FEATURE_FLAG,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../constants";
-import { getDisruptionById } from "../../data/dynamo";
+import { getDisruptionById } from "../../data/db";
 import { getItem } from "../../data/s3";
 import { ErrorInfo, PageState } from "../../interfaces";
 import { FullDisruption } from "../../schemas/disruption.schema";
@@ -79,7 +79,7 @@ const DisruptionDetail = ({
         },
         {
             name: "disruptionId",
-            value: disruption.disruptionId,
+            value: disruption.id,
         },
         {
             name: "inEdit",
@@ -108,7 +108,7 @@ const DisruptionDetail = ({
                                 ? createChangeLink(
                                       "message-to-appear",
                                       CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                      disruption.disruptionId,
+                                      disruption.id,
                                       post.socialMediaPostIndex,
                                       true,
                                       true,
@@ -139,7 +139,7 @@ const DisruptionDetail = ({
                                 ? createChangeLink(
                                       "hootsuite-profile",
                                       CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                      disruption.disruptionId,
+                                      disruption.id,
                                       post.socialMediaPostIndex,
                                       true,
                                       true,
@@ -161,7 +161,7 @@ const DisruptionDetail = ({
                                 ? createChangeLink(
                                       "publish-date",
                                       CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                      disruption.disruptionId,
+                                      disruption.id,
                                       post.socialMediaPostIndex,
                                       true,
                                       true,
@@ -183,7 +183,7 @@ const DisruptionDetail = ({
                                 ? createChangeLink(
                                       "publish-time",
                                       CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                      disruption.disruptionId,
+                                      disruption.id,
                                       post.socialMediaPostIndex,
                                       true,
                                       true,
@@ -208,7 +208,7 @@ const DisruptionDetail = ({
                                 ? createChangeLink(
                                       "account-to-publish",
                                       CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                      disruption.disruptionId,
+                                      disruption.id,
                                       post.socialMediaPostIndex,
                                       true,
                                       true,
@@ -230,7 +230,7 @@ const DisruptionDetail = ({
                                 ? createChangeLink(
                                       "hootsuite-profile",
                                       CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                      disruption.disruptionId,
+                                      disruption.id,
                                       post.socialMediaPostIndex,
                                       true,
                                       true,
@@ -254,7 +254,7 @@ const DisruptionDetail = ({
                                 ? createChangeLink(
                                       "nextdoorAgencyBoundaries",
                                       CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                      disruption.disruptionId,
+                                      disruption.id,
                                       post.socialMediaPostIndex,
                                       true,
                                       true,
@@ -363,7 +363,7 @@ const DisruptionDetail = ({
                         createChangeLink(
                             `validity-period-${i + 1}`,
                             "/create-disruption",
-                            disruption.disruptionId,
+                            disruption.id,
                             undefined,
                             true,
                             true,
@@ -441,16 +441,13 @@ const DisruptionDetail = ({
                                     key="create-disruption-from-template"
                                     className="govuk-button"
                                     data-module="govuk-button"
-                                    formAction={`/api/duplicate-disruption?templateId=${disruption.disruptionId}`}
+                                    formAction={`/api/duplicate-disruption?templateId=${disruption.id}`}
                                 >
                                     Create disruption
                                 </button>
                             )}
                         {!disruption.template && isEditingAllowed && (
-                            <Link
-                                className="govuk-link"
-                                href={`${DISRUPTION_HISTORY_PAGE_PATH}/${disruption.disruptionId}`}
-                            >
+                            <Link className="govuk-link" href={`${DISRUPTION_HISTORY_PAGE_PATH}/${disruption.id}`}>
                                 <h2 className="govuk-heading-s text-govBlue">View disruption history</h2>
                             </Link>
                         )}
@@ -480,7 +477,7 @@ const DisruptionDetail = ({
                                                 createChangeLink(
                                                     "type-of-disruption",
                                                     "/create-disruption",
-                                                    disruption.disruptionId,
+                                                    disruption.id,
                                                     undefined,
                                                     true,
                                                     true,
@@ -504,7 +501,7 @@ const DisruptionDetail = ({
                                                 createChangeLink(
                                                     "summary",
                                                     "/create-disruption",
-                                                    disruption.disruptionId,
+                                                    disruption.id,
                                                     undefined,
                                                     true,
                                                     true,
@@ -525,7 +522,7 @@ const DisruptionDetail = ({
                                                 createChangeLink(
                                                     "description",
                                                     "/create-disruption",
-                                                    disruption.disruptionId,
+                                                    disruption.id,
                                                     undefined,
                                                     true,
                                                     true,
@@ -546,7 +543,7 @@ const DisruptionDetail = ({
                                                 createChangeLink(
                                                     "associated-link",
                                                     "/create-disruption",
-                                                    disruption.disruptionId,
+                                                    disruption.id,
                                                     undefined,
                                                     true,
                                                     true,
@@ -567,7 +564,7 @@ const DisruptionDetail = ({
                                                 createChangeLink(
                                                     "disruption-reason",
                                                     "/create-disruption",
-                                                    disruption.disruptionId,
+                                                    disruption.id,
                                                     undefined,
                                                     true,
                                                     true,
@@ -589,7 +586,7 @@ const DisruptionDetail = ({
                                                 createChangeLink(
                                                     "publish-start-date",
                                                     "/create-disruption",
-                                                    disruption.disruptionId,
+                                                    disruption.id,
                                                     undefined,
                                                     true,
                                                     true,
@@ -610,7 +607,7 @@ const DisruptionDetail = ({
                                                 createChangeLink(
                                                     "publish-start-time",
                                                     "/create-disruption",
-                                                    disruption.disruptionId,
+                                                    disruption.id,
                                                     undefined,
                                                     true,
                                                     true,
@@ -631,7 +628,7 @@ const DisruptionDetail = ({
                                                 createChangeLink(
                                                     "publish-end-date",
                                                     "/create-disruption",
-                                                    disruption.disruptionId,
+                                                    disruption.id,
                                                     undefined,
                                                     true,
                                                     true,
@@ -654,7 +651,7 @@ const DisruptionDetail = ({
                                                 createChangeLink(
                                                     "publish-end-time",
                                                     "/create-disruption",
-                                                    disruption.disruptionId,
+                                                    disruption.id,
                                                     undefined,
                                                     true,
                                                     true,
@@ -719,7 +716,7 @@ const DisruptionDetail = ({
                         {isEditingAllowed && (
                             <Link
                                 href={{
-                                    pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.disruptionId}/${nextIndex}`,
+                                    pathname: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${disruption.id}/${nextIndex}`,
                                     query: {
                                         return: DISRUPTION_DETAIL_PAGE_PATH,
                                         ...(disruption.template ? { template: disruption.template?.toString() } : {}),
@@ -790,7 +787,7 @@ const DisruptionDetail = ({
                                         : ""
                                 }`}
                                 href={{
-                                    pathname: `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.disruptionId}/${nextIndexSocialMedia}`,
+                                    pathname: `${CREATE_SOCIAL_MEDIA_POST_PAGE_PATH}/${disruption.id}/${nextIndexSocialMedia}`,
                                     query: {
                                         return: DISRUPTION_DETAIL_PAGE_PATH,
                                         ...(disruption.template ? { template: disruption.template?.toString() } : {}),
@@ -804,7 +801,7 @@ const DisruptionDetail = ({
                         )}
                         <br />
 
-                        <input type="hidden" name="disruptionId" value={disruption.disruptionId} />
+                        <input type="hidden" name="disruptionId" value={disruption.id} />
 
                         {(disruption.publishStatus !== PublishStatus.editing &&
                             disruption.publishStatus !== PublishStatus.pendingAndEditing) ||
@@ -874,7 +871,7 @@ const DisruptionDetail = ({
                                     deleteActionHandler(queryParams.template ? "template" : "disruption", [
                                         {
                                             name: "id",
-                                            value: disruption.disruptionId,
+                                            value: disruption.id,
                                         },
                                     ]);
                                 }}
@@ -894,7 +891,7 @@ const DisruptionDetail = ({
                                         hiddenInputs: [
                                             {
                                                 name: "disruptionId",
-                                                value: disruption.disruptionId,
+                                                value: disruption.id,
                                             },
                                         ],
                                     });
@@ -923,11 +920,7 @@ export const getServerSideProps = async (
         throw new Error("No session found");
     }
 
-    const disruption = await getDisruptionById(
-        ctx.query.disruptionId?.toString() ?? "",
-        session.orgId,
-        !!ctx.query?.template,
-    );
+    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "", session.orgId);
 
     const cookies = parseCookies(ctx);
     const errorCookie = cookies[COOKIES_DISRUPTION_DETAIL_ERRORS];

@@ -3,7 +3,7 @@ import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import MockDate from "mockdate";
 import renderer from "react-test-renderer";
 import { afterAll, describe, expect, it, vi } from "vitest";
-import * as dynamo from "../../data/dynamo";
+import * as db from "../../data/db";
 import { DEFAULT_DISRUPTION_ID, disruptionWithConsequences, getMockContext } from "../../testData/mockData";
 import DisruptionHistory, { getServerSideProps } from "./[disruptionId].page";
 
@@ -44,7 +44,7 @@ const historyToSort: History[] = [
 ];
 
 describe("pages", () => {
-    const getDisruptionSpy = vi.spyOn(dynamo, "getDisruptionById");
+    const getDisruptionSpy = vi.spyOn(db, "getDisruptionById");
 
     vi.mock("../../data/dynamo", () => ({
         getDisruptionById: vi.fn(),
@@ -75,7 +75,7 @@ describe("pages", () => {
 
             expect(props).toEqual({
                 props: {
-                    disruptionId: disruptionWithConsequences.disruptionId,
+                    disruptionId: disruptionWithConsequences.id,
                     history: [
                         {
                             datetime: "2023-05-19T14:40:00Z",
@@ -114,7 +114,7 @@ describe("pages", () => {
 
             expect(props).toEqual({
                 props: {
-                    disruptionId: disruptionWithConsequences.disruptionId,
+                    disruptionId: disruptionWithConsequences.id,
                     history: [
                         {
                             datetime: "2023-05-20T11:00:00.000Z",

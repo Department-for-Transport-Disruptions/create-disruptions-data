@@ -27,7 +27,7 @@ import {
     STAGE,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../../constants";
-import { getDisruptionById } from "../../../data/dynamo";
+import { getDisruptionById } from "../../../data/db";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { filterVehicleModes, isNetworkConsequence } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
@@ -280,11 +280,7 @@ export const getServerSideProps = async (
         throw new Error("No session found");
     }
 
-    const disruption = await getDisruptionById(
-        ctx.query.disruptionId?.toString() ?? "",
-        session.orgId,
-        !!ctx.query.template,
-    );
+    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "", session.orgId);
 
     if (!disruption) {
         return {
@@ -302,7 +298,7 @@ export const getServerSideProps = async (
     const pageState = getPageState<NetworkConsequence>(
         errorCookie,
         networkConsequenceSchema,
-        disruption.disruptionId,
+        disruption.id,
         consequence && isNetworkConsequence(consequence) ? consequence : undefined,
     );
 

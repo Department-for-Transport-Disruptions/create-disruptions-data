@@ -31,7 +31,7 @@ import {
     DISRUPTION_SEVERITIES,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../../constants";
-import { getDisruptionById } from "../../../data/dynamo";
+import { getDisruptionById } from "../../../data/db";
 import { fetchStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { filterStopList, filterVehicleModes, flattenZodErrors, isStopsConsequence } from "../../../utils";
@@ -448,11 +448,7 @@ export const getServerSideProps = async (
         throw new Error("No session found");
     }
 
-    const disruption = await getDisruptionById(
-        ctx.query.disruptionId?.toString() ?? "",
-        session.orgId,
-        !!ctx.query.template,
-    );
+    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "", session.orgId);
 
     if (!disruption) {
         return {
@@ -470,7 +466,7 @@ export const getServerSideProps = async (
     const pageState = getPageState<StopsConsequence>(
         errorCookie,
         stopsConsequenceSchema,
-        disruption.disruptionId,
+        disruption.id,
         consequence && isStopsConsequence(consequence) ? consequence : undefined,
     );
 

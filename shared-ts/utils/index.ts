@@ -128,10 +128,7 @@ export const filterActiveDisruptions = (disruptions: Disruption[]): Disruption[]
     const currentDatetime = getDate();
 
     return sortedDisruptions
-        .filter(
-            (value, index, self) =>
-                index === self.findIndex((disruption) => disruption.disruptionId === value.disruptionId),
-        )
+        .filter((value, index, self) => index === self.findIndex((disruption) => disruption.id === value.id))
         .filter((disruption) => {
             const firstValidity = disruption.validity?.[0];
             const finalValidity = disruption.validity?.[disruption.validity.length - 1];

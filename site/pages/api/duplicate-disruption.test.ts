@@ -11,7 +11,7 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
-import * as dynamo from "../../data/dynamo";
+import * as db from "../../data/db";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import {
     DEFAULT_OPERATOR_ORG_ID,
@@ -45,7 +45,7 @@ const defaultDisruptionStartDate = getFutureDateAsString(2);
 const defaultPublishStartDate = getFutureDateAsString(1);
 
 const disruption: FullDisruption = {
-    disruptionId: defaultDisruptionId,
+    id: defaultDisruptionId,
     disruptionType: "planned",
     summary: "A test disruption",
     description: "oh no",
@@ -82,8 +82,8 @@ describe("duplicate-disruption API", () => {
         default: vi.fn(),
     }));
 
-    const upsertConsequenceSpy = vi.spyOn(dynamo, "upsertConsequence");
-    const upsertDisruptionInfoSpy = vi.spyOn(dynamo, "upsertDisruptionInfo");
+    const upsertConsequenceSpy = vi.spyOn(db, "upsertConsequence");
+    const upsertDisruptionInfoSpy = vi.spyOn(db, "upsertDisruptionInfo");
     vi.mock("../../data/dynamo", () => ({
         upsertConsequence: vi.fn(),
         upsertDisruptionInfo: vi.fn(),
@@ -97,7 +97,7 @@ describe("duplicate-disruption API", () => {
     const cryptoRandomStringSpy = vi.spyOn(cryptoRandomString, "default");
     const getSessionSpy = vi.spyOn(session, "getSession");
 
-    const getDisruptionByIdSpy = vi.spyOn(dynamo, "getDisruptionById");
+    const getDisruptionByIdSpy = vi.spyOn(db, "getDisruptionById");
 
     const randomUUIDSpy = vi.spyOn(crypto, "randomUUID");
 

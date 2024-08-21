@@ -7,11 +7,8 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
-import {
-    getDisruptionById,
-    getOrganisationInfoById,
-    insertPublishedDisruptionIntoDynamoAndUpdateDraft,
-} from "../../data/dynamo";
+import { getDisruptionById, insertPublishedDisruptionIntoDynamoAndUpdateDraft } from "../../data/db";
+import { getOrganisationInfoById } from "../../data/dynamo";
 import { publishDisruptionSchema, publishSchema } from "../../schemas/publish.schema";
 import { flattenZodErrors } from "../../utils";
 import {
@@ -38,7 +35,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         const [draftDisruption, orgInfo] = await Promise.all([
-            getDisruptionById(validatedBody.data.disruptionId, session.orgId, template === "true"),
+            getDisruptionById(validatedBody.data.disruptionId, session.orgId),
             getOrganisationInfoById(session.orgId),
         ]);
 
@@ -86,8 +83,6 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
                 : canPublish(session)
                   ? "Disruption created and published"
                   : "Disruption submitted for review",
-            template === "true",
-            status === PublishStatus.published,
         );
 
         if (
@@ -102,7 +97,6 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
                 ),
                 session.orgId,
                 session.isOrgStaff,
-                canPublish(session),
             );
         }
 
@@ -114,7 +108,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
                 validatedDisruptionBody.data.summary,
                 validatedDisruptionBody.data.description,
                 session.name,
-                validatedDisruptionBody.data.disruptionId,
+                validatedDisruptionBody.data.id,
             );
         }
 

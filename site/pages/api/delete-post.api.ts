@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { DISRUPTION_DETAIL_PAGE_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
-import { removeSocialMediaPostFromDisruption, upsertSocialMediaPost } from "../../data/dynamo";
-import { SocialMediaPostTransformed as SocialMediaPost } from "../../schemas/social-media.schema";
+import { removeSocialMediaPostFromDisruption } from "../../data/db";
 import { redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 
@@ -37,16 +36,9 @@ const deletePost = async (req: NextApiRequest, res: NextApiResponse): Promise<vo
             );
         }
 
-        if (inEdit) {
-            const socialMediaPost: Pick<SocialMediaPost, "disruptionId" | "socialMediaPostIndex"> & {
-                isDeleted: boolean;
-            } = {
-                disruptionId: disruptionId,
-                socialMediaPostIndex: Number(id),
-                isDeleted: true,
-            };
-            await upsertSocialMediaPost(socialMediaPost, session.orgId, session.isOrgStaff, false, template === "true");
+        await removeSocialMediaPostFromDisruption(Number(id), disruptionId, session.orgId);
 
+        if (inEdit) {
             redirectToWithQueryParams(
                 req,
                 res,
@@ -56,7 +48,6 @@ const deletePost = async (req: NextApiRequest, res: NextApiResponse): Promise<vo
 
             return;
         }
-        await removeSocialMediaPostFromDisruption(Number(id), disruptionId, session.orgId, template === "true");
 
         redirectToWithQueryParams(
             req,

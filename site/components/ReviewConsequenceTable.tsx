@@ -89,7 +89,7 @@ const getRows = (
                         createChangeLink(
                             "consequence-type",
                             TYPE_OF_CONSEQUENCE_PAGE_PATH,
-                            disruption.disruptionId,
+                            disruption.id,
                             consequence.consequenceIndex,
                             true,
                             isDisruptionDetail,
@@ -111,7 +111,7 @@ const getRows = (
                         createChangeLink(
                             "vehicle-mode",
                             getConsequenceUrl(consequence.consequenceType),
-                            disruption.disruptionId,
+                            disruption.id,
                             consequence.consequenceIndex,
                             true,
                             isDisruptionDetail,
@@ -143,7 +143,7 @@ const getRows = (
                         createChangeLink(
                             "service",
                             getConsequenceUrl(consequence.consequenceType),
-                            disruption.disruptionId,
+                            disruption.id,
                             consequence.consequenceIndex,
                             true,
                             isDisruptionDetail,
@@ -175,7 +175,7 @@ const getRows = (
                         createChangeLink(
                             "stops-affected",
                             getConsequenceUrl(consequence.consequenceType),
-                            disruption.disruptionId,
+                            disruption.id,
                             consequence.consequenceIndex,
                             true,
                             isDisruptionDetail,
@@ -203,7 +203,7 @@ const getRows = (
                         createChangeLink(
                             "journeys",
                             getConsequenceUrl(consequence.consequenceType),
-                            disruption.disruptionId,
+                            disruption.id,
                             consequence.consequenceIndex,
                             true,
                             isDisruptionDetail,
@@ -229,7 +229,7 @@ const getRows = (
                         createChangeLink(
                             "operators-affected",
                             getConsequenceUrl(consequence.consequenceType),
-                            disruption.disruptionId,
+                            disruption.id,
                             consequence.consequenceIndex,
                             true,
                             isDisruptionDetail,
@@ -252,7 +252,7 @@ const getRows = (
                         createChangeLink(
                             "disruption-area",
                             getConsequenceUrl(consequence.consequenceType),
-                            disruption.disruptionId,
+                            disruption.id,
                             consequence.consequenceIndex,
                             true,
                             isDisruptionDetail,
@@ -276,7 +276,7 @@ const getRows = (
                         createChangeLink(
                             "advice-to-display",
                             getConsequenceUrl(consequence.consequenceType),
-                            disruption.disruptionId,
+                            disruption.id,
                             consequence.consequenceIndex,
                             true,
                             isDisruptionDetail,
@@ -300,7 +300,7 @@ const getRows = (
                         createChangeLink(
                             "remove-from-journey-planners",
                             getConsequenceUrl(consequence.consequenceType),
-                            disruption.disruptionId,
+                            disruption.id,
                             consequence.consequenceIndex,
                             true,
                             isDisruptionDetail,
@@ -321,7 +321,7 @@ const getRows = (
                         createChangeLink(
                             "disruption-delay",
                             getConsequenceUrl(consequence.consequenceType),
-                            disruption.disruptionId,
+                            disruption.id,
                             consequence.consequenceIndex,
                             true,
                             isDisruptionDetail,
@@ -366,7 +366,7 @@ const ReviewConsequenceTable = ({
         },
         {
             name: "disruptionId",
-            value: disruption.disruptionId,
+            value: disruption.id,
         },
     ];
 

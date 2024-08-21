@@ -6,7 +6,7 @@ import {
     ERROR_PATH,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
-import { deletePublishedDisruption, getDisruptionById } from "../../data/dynamo";
+import { deletePublishedDisruption, getDisruptionById } from "../../data/db";
 import { redirectTo, redirectToError } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import logger from "../../utils/logger";
@@ -35,7 +35,7 @@ const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             );
         }
 
-        const disruption = await getDisruptionById(id, session.orgId, template === "true");
+        const disruption = await getDisruptionById(id, session.orgId);
 
         if (!disruption) {
             logger.error(`Disruption ${id} not found to delete`);
@@ -47,7 +47,7 @@ const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             throw new Error(`Insufficient permissions to delete disruption (${id})`);
         }
 
-        await deletePublishedDisruption(disruption, id, session.orgId, template === "true");
+        await deletePublishedDisruption(disruption.id, id);
 
         redirectTo(res, getRedirectPath(template?.toString(), returnPath?.toString()));
         return;

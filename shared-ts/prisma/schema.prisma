@@ -1,0 +1,155 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator json {
+  provider = "prisma-json-types-generator"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model disruptions {
+  id                       String         @id
+  displayId                String
+  orgId                    String
+  summary                  String
+  description              String
+  disruptionReason         String
+  disruptionType           String
+  publishStatus            PublishStatus
+  publishStartDate         String
+  publishStartTime         String
+  publishEndDate           String?
+  publishEndTime           String?
+  disruptionStartDate      String
+  disruptionStartTime      String
+  disruptionEndDate        String?
+  disruptionEndTime        String?
+  disruptionNoEndDateTime  String?
+  disruptionRepeats        String?
+  disruptionRepeatsEndDate String?
+  /// [PrismaValidity]
+  validity                 Json[]
+  createdByOperatorOrgId   String?
+  consequences             consequences[]
+  /// [PrismaSocialMedia]
+  socialMediaPosts         Json[]
+  /// [PrismaHistory]
+  history                  Json[]         @default([])
+  permitReferenceNumber    String?
+  associatedLink           String?
+  template                 Boolean        @default(false)
+  creationTime             DateTime       @default(now())
+  lastUpdated              DateTime       @updatedAt
+}
+
+model consequences {
+  id                        Int          @id @default(autoincrement())
+  disruption                disruptions? @relation(fields: [disruptionId], references: [id], onDelete: Cascade)
+  disruptionId              String
+  consequenceIndex          Int
+  consequenceType           String
+  description               String
+  disruptionDelay           String?
+  disruptionDirection       String?
+  disruptionSeverity        Severity
+  removeFromJourneyPlanners String
+  vehicleMode               VehicleMode
+  /// [PrismaService]
+  services                  Json[]       @default([])
+  /// [PrismaStop]
+  stops                     Json[]       @default([])
+  /// [PrismaOperators]
+  consequenceOperators      Json[]       @default([])
+  disruptionArea            String[]     @default([])
+
+  @@unique([disruptionId, consequenceIndex])
+}
+
+model disruptionsEdited {
+  id                       String               @id
+  displayId                String
+  orgId                    String
+  summary                  String
+  description              String
+  disruptionReason         String
+  disruptionType           String
+  publishStatus            PublishStatus
+  publishStartDate         String
+  publishStartTime         String
+  publishEndDate           String?
+  publishEndTime           String?
+  disruptionStartDate      String
+  disruptionStartTime      String
+  disruptionEndDate        String?
+  disruptionEndTime        String?
+  disruptionNoEndDateTime  String?
+  disruptionRepeats        String?
+  disruptionRepeatsEndDate String?
+  /// [PrismaValidity]
+  validity                 Json[]
+  createdByOperatorOrgId   String?
+  consequences             consequencesEdited[]
+  /// [PrismaSocialMedia]
+  socialMediaPosts         Json[]
+  /// [PrismaHistory]
+  history                  Json[]               @default([])
+  permitReferenceNumber    String?
+  associatedLink           String?
+  template                 Boolean              @default(false)
+  creationTime             DateTime             @default(now())
+  lastUpdated              DateTime             @updatedAt
+}
+
+model consequencesEdited {
+  id                        Int                @id @default(autoincrement())
+  disruption                disruptionsEdited? @relation(fields: [disruptionId], references: [id], onDelete: Cascade)
+  disruptionId              String?
+  consequenceIndex          Int
+  consequenceType           String
+  description               String
+  disruptionDelay           String?
+  disruptionDirection       String?
+  disruptionSeverity        Severity
+  removeFromJourneyPlanners String
+  vehicleMode               VehicleMode
+  /// [PrismaService]
+  services                  Json[]             @default([])
+  /// [PrismaStop]
+  stops                     Json[]             @default([])
+  /// [PrismaOperators]
+  consequenceOperators      Json[]             @default([])
+  disruptionArea            String[]           @default([])
+
+  @@unique([disruptionId, consequenceIndex], name: "disruptionId_consequenceIndex")
+}
+
+enum PublishStatus {
+  DRAFT
+  PUBLISHED
+  EDITING
+  PENDING_APPROVAL
+  REJECTED
+  EDIT_PENDING_APPROVAL
+  PENDING_EDITING
+}
+
+enum VehicleMode {
+  bus
+  tram
+  ferryService
+  rail
+  underground
+}
+
+enum Severity {
+  unknown
+  normal
+  verySlight
+  slight
+  severe
+  verySevere
+}

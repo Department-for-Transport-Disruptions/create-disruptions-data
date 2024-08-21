@@ -22,7 +22,7 @@ const mockDisruptionReasonCountStat = {
 };
 
 const mockDisruption: Disruption = {
-    disruptionId: "0ecde498-cbee-59ee-a604-2b0ceea971e3",
+    id: "0ecde498-cbee-59ee-a604-2b0ceea971e3",
     disruptionType: "planned" as const,
     summary: "Pilley Village (Barnsley)",
     description:

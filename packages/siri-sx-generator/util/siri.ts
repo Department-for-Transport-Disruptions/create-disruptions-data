@@ -94,7 +94,7 @@ export const getPtSituationElementFromSiteDisruption = (
         Summary: disruption.summary,
         Description: disruption.description,
         ParticipantRef: participantRef,
-        SituationNumber: disruption.disruptionId,
+        SituationNumber: disruption.id,
         PublicationWindow: {
             StartTime: getDatetimeFromDateAndTime(
                 disruption.publishStartDate,

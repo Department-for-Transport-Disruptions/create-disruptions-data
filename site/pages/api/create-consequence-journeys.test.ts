@@ -11,6 +11,7 @@ import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
+import * as db from "../../data/db";
 import * as dynamo from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
 import { FullDisruption } from "../../schemas/disruption.schema";
@@ -134,7 +135,7 @@ describe("create-consequence-journeys API", () => {
         destroyCookieOnResponseObject: vi.fn(),
     }));
 
-    const upsertConsequenceSpy = vi.spyOn(dynamo, "upsertConsequence");
+    const upsertConsequenceSpy = vi.spyOn(db, "upsertConsequence");
     const getNocCodesForOperatorOrgSpy = vi.spyOn(dynamo, "getNocCodesForOperatorOrg");
 
     vi.mock("../../data/dynamo", () => ({

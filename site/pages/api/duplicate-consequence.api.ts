@@ -1,7 +1,7 @@
 import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { NextApiRequest, NextApiResponse } from "next";
 import { COOKIES_DISRUPTION_DETAIL_ERRORS, COOKIES_REVIEW_DISRUPTION_ERRORS } from "../../constants";
-import { getDisruptionById } from "../../data/dynamo";
+import { getDisruptionById } from "../../data/db";
 import { TooManyConsequencesError } from "../../errors";
 import { duplicateConsequenceSchema } from "../../schemas/consequence.schema";
 import { getLargestConsequenceIndex } from "../../utils";
@@ -39,11 +39,7 @@ const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): 
             throw new Error("disruptionId is required to duplicate a consequence");
         }
 
-        const disruption = await getDisruptionById(
-            validatedBody.data.disruptionId,
-            session.orgId,
-            !!req.query?.template,
-        );
+        const disruption = await getDisruptionById(validatedBody.data.disruptionId, session.orgId);
 
         if (!disruption || !disruption.consequences) {
             throw new Error("No disruption / disruption with consequences found");

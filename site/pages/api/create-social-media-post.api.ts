@@ -7,7 +7,8 @@ import {
     DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants/index";
-import { getOrgSocialAccount, upsertSocialMediaPost } from "../../data/dynamo";
+import { upsertSocialMediaPost } from "../../data/db";
+import { getOrgSocialAccount } from "../../data/dynamo";
 import { putItem } from "../../data/s3";
 import { NextdoorAgencyBoundaryInput } from "../../schemas/nextdoor.schema";
 import { SocialMediaPost, refineImageSchema } from "../../schemas/social-media.schema";
@@ -144,7 +145,7 @@ const createSocialMediaPost = async (req: NextApiRequest, res: NextApiResponse):
                               : SocialMediaPostStatus.rejected,
                   };
 
-        await upsertSocialMediaPost(socialMediaToUpsert, session.orgId, session.isOrgStaff, false, template === "true");
+        await upsertSocialMediaPost(socialMediaToUpsert, session.orgId, session.isOrgStaff);
 
         destroyCookieOnResponseObject(COOKIES_SOCIAL_MEDIA_ERRORS, res);
 

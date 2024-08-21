@@ -33,6 +33,7 @@
         "aws-cdk-lib": "2.142.1",
         "constructs": "10.3.0",
         "husky": "^8.0.0",
+        "prisma": "^5.18.0",
         "sst": "2.43.3",
         "typescript": "^5.3.3"
     },

@@ -27,7 +27,7 @@ import {
     DISRUPTION_REASONS,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
-import { getDisruptionById } from "../../data/dynamo";
+import { getDisruptionById } from "../../data/db";
 import { PageState } from "../../interfaces";
 import { flattenZodErrors } from "../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
@@ -639,7 +639,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                         </button>
                     </div>
 
-                    <input type="hidden" name="disruptionId" value={props.disruptionId} />
+                    <input type="hidden" name="id" value={props.disruptionId} />
                     <input type="hidden" name="displayId" value={pageState.inputs.displayId} />
                     <input type="hidden" name="consequenceIndex" value={props.consequenceIndex} />
 
@@ -708,7 +708,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     }
 
     const disruptionId = ctx.query.disruptionId?.toString() ?? "";
-    const disruption = await getDisruptionById(disruptionId, session.orgId, !!ctx.query.template);
+    const disruption = await getDisruptionById(disruptionId, session.orgId);
 
     const pageState = getPageState(errorCookie, disruptionInfoSchema, disruptionId, disruption ?? undefined);
 

@@ -157,7 +157,7 @@ export const getPublishedDisruptionsDataFromDynamo = async (
     }
 
     const disruptionIds = disruptions
-        .map((item) => (item as Disruption).disruptionId)
+        .map((item) => (item as Disruption).id)
         .filter((value, index, array) => array.indexOf(value) === index);
 
     return disruptionIds?.map((id) => collectDisruptionsData(disruptions || [], id, logger)).filter(notEmpty) ?? [];

@@ -12,7 +12,7 @@ import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
-import * as dynamo from "../../data/dynamo";
+import * as db from "../../data/db";
 import { ErrorInfo } from "../../interfaces";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import {
@@ -98,7 +98,7 @@ describe("create-consequence-stops API", () => {
         destroyCookieOnResponseObject: vi.fn(),
     }));
 
-    const upsertConsequenceSpy = vi.spyOn(dynamo, "upsertConsequence");
+    const upsertConsequenceSpy = vi.spyOn(db, "upsertConsequence");
     vi.mock("../../data/dynamo", () => ({
         upsertConsequence: vi.fn(),
     }));
