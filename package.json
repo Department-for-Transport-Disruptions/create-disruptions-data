@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.8.3",
+    "@playwright/test": "^1.46.1",
     "@tsconfig/node20": "^20.1.2",
     "@types/node": "^20.10.5",
     "@vitest/coverage-c8": "^0.29.2",
@@ -46,6 +47,7 @@
     "@aws-sdk/lib-dynamodb": "^3.609.0",
     "@aws-sdk/util-dynamodb": "^3.609.0",
     "@create-disruptions-data/shared-ts": "workspace:^",
+    "dotenv": "^16.4.5",
     "zod": "^3.23.3"
   }
 }
