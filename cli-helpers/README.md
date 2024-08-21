@@ -70,12 +70,13 @@ Create operator organisation
 
 ```
 USAGE
-  $ ./bin/run.js create-operator-org --name <value> --adminAreaCodes <value> --stage <value>
+  $ ./bin/run.js create-operator-org --name <value> --nocCodes <value> --stage <value> --orgId <value>
 
 FLAGS
   --nocCodes=<value>        (required) Comma-separated list of noc codes
   --name=<value>            (required) Name of operator organisation
   --stage=<value>           (required) SST stage to use
+  --orgId=<value>           (required) ID for organisation that the operator organisation belongs to
 
 DESCRIPTION
   Create operator organisation
