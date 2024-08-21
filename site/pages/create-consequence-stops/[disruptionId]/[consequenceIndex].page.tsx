@@ -234,6 +234,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             value={pageState.inputs.vehicleMode}
                             initialErrors={pageState.errors}
                             displaySize="l"
+                            hint={"Select a mode before continuing"}
                         />
 
                         <SearchSelect<Stop>
