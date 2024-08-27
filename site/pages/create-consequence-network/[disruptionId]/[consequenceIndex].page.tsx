@@ -134,6 +134,7 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                             value={pageState.inputs.vehicleMode}
                             initialErrors={pageState.errors}
                             displaySize="l"
+                            hint={"Select a mode before continuing"}
                         />
 
                         <TextInput<NetworkConsequence>

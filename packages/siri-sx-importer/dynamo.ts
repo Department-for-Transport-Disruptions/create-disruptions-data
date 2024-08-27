@@ -19,6 +19,7 @@ export const getOrgIdFromDynamo = async (participantRef: string, tableName: stri
 
     const parsedOrg = organisationSchema.parse(dbData.Items);
 
+    // This code is deprecated and this mapping no longer works.
     const filteredOrg: Organisation = parsedOrg.filter((item) => item.name === participantRef);
 
     return filteredOrg ? filteredOrg[0].PK : "";

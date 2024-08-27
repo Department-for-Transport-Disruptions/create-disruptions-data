@@ -489,6 +489,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                             value={pageState?.inputs?.vehicleMode}
                             initialErrors={pageState.errors}
                             displaySize="l"
+                            hint={"Select a mode before continuing"}
                         />
 
                         <SearchSelect<Service>

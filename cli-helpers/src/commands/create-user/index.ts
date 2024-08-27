@@ -10,13 +10,59 @@ import { Command, Flags } from "@oclif/core";
 import inquirer from "inquirer";
 import { z } from "zod";
 import { UserGroups } from "../../../../shared-ts/enums.js";
+import { recursiveQuery } from "../../utils.js";
+import { orgsSchema } from "../../utils.js";
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
 const cognito = new CognitoIdentityProviderClient({
     region: "eu-west-2",
 });
 
-const orgsSchema = z.object({ PK: z.string().uuid(), name: z.string(), adminAreaCodes: z.array(z.string()) });
+const subOrganisationSchema = z.object({
+    name: z.string(),
+    PK: z.string(),
+    nocCodes: z.array(z.string()),
+    SK: z.string(),
+});
+
+const operatorOrgSchema = subOrganisationSchema.transform((data) => ({
+    orgId: data.PK,
+    operatorOrgId: data.SK.replace("OPERATOR#", ""),
+    name: data.name,
+    nocCodes: data.nocCodes,
+}));
+
+const operatorOrgListSchema = z.array(operatorOrgSchema);
+
+type SubOrganisation = z.infer<typeof subOrganisationSchema>;
+
+const listOperatorsForOrg = async (orgId: string, stage: string) => {
+    let dbData: Record<string, unknown>[] = [];
+
+    dbData = await recursiveQuery(ddbDocClient, {
+        TableName: `cdd-organisations-v2-table-${stage}`,
+        KeyConditionExpression: "PK = :1 AND begins_with(SK, :2)",
+        ExpressionAttributeValues: {
+            ":1": orgId,
+            ":2": "OPERATOR",
+        },
+    });
+
+    const operators = dbData.map((item) => ({
+        PK: (item as SubOrganisation).PK,
+        name: (item as SubOrganisation).name,
+        nocCodes: (item as SubOrganisation).nocCodes,
+        SK: (item as SubOrganisation).SK?.slice(9),
+    }));
+
+    const parsedOperators = operatorOrgListSchema.safeParse(operators);
+
+    if (!parsedOperators.success) {
+        return [];
+    }
+
+    return parsedOperators.data;
+};
 
 export default class CreateUser extends Command {
     static description = "Create user";
@@ -24,6 +70,7 @@ export default class CreateUser extends Command {
     static flags = {
         orgId: Flags.string({ description: "ID for organisation that user belongs to" }),
         group: Flags.string({ description: "Cognito group to add user to" }),
+        operatorOrgId: Flags.string({ description: "Enter the operatorOrgId for the operator user" }),
         email: Flags.string({ description: "Email for user" }),
         firstName: Flags.string({ description: "First name of user" }),
         lastName: Flags.string({ description: "Last name of user" }),
@@ -34,7 +81,7 @@ export default class CreateUser extends Command {
     async run(): Promise<void> {
         const { flags } = await this.parse(CreateUser);
 
-        let { orgId, group, email, firstName, lastName, stage, poolId } = flags;
+        let { orgId, group, email, firstName, lastName, stage, poolId, operatorOrgId } = flags;
 
         if (!poolId) {
             const userPoolsResult = await cognito.send(
@@ -93,6 +140,20 @@ export default class CreateUser extends Command {
             ]);
 
             group = responses.group;
+        }
+
+        if (group && group === UserGroups.operators && orgId && !operatorOrgId) {
+            const operators = await listOperatorsForOrg(orgId, flags.stage);
+            const responses = await inquirer.prompt([
+                {
+                    name: "operator",
+                    message: "Select an operator",
+                    type: "list",
+                    choices: operators.map((operator) => ({ name: operator.name, value: operator.operatorOrgId })),
+                },
+            ]);
+
+            operatorOrgId = responses.operator;
         }
 
         if (!email) {
@@ -159,6 +220,14 @@ export default class CreateUser extends Command {
                         Name: "email",
                         Value: email,
                     },
+                    ...(operatorOrgId
+                        ? [
+                              {
+                                  Name: "custom:operatorOrgId",
+                                  Value: operatorOrgId,
+                              },
+                          ]
+                        : []),
                 ],
             }),
         );

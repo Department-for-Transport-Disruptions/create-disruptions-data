@@ -7,11 +7,15 @@ import { CognitoStack } from "./CognitoStack";
 import { DynamoDBStack } from "./DynamoDBStack";
 import { OrgDisruptionsGeneratorStack } from "./OrgDisruptionsGenerator";
 import { createBucket } from "./utils";
+import { TreatMissingData } from "aws-cdk-lib/aws-cloudwatch";
+import { SnsAction } from "aws-cdk-lib/aws-cloudwatch-actions";
+import { MonitoringStack } from "./MonitoringStack";
 
 export const SiteStack = ({ stack }: StackContext) => {
     const { disruptionsTable, organisationsTableV2: organisationsTable, templateDisruptionsTable } = use(DynamoDBStack);
     const { clientId, clientSecret, cognitoIssuer, userPoolId, userPoolArn } = use(CognitoStack);
     const { orgDisruptionsBucket } = use(OrgDisruptionsGeneratorStack);
+    const { alarmTopic } = use(MonitoringStack);
 
     const siteImageBucket = createBucket(stack, "cdd-image-bucket", true);
 
@@ -186,4 +190,14 @@ export const SiteStack = ({ stack }: StackContext) => {
         job: nextDoorTokenRefresher,
         schedule: "rate(4 hours)",
     });
+
+    nextDoorTokenRefresher
+        .metric("Errors")
+        .createAlarm(stack, "cdd-nextdoor-token-refresher-failure-alarm", {
+            evaluationPeriods: 1,
+            threshold: 1,
+            treatMissingData: TreatMissingData.NOT_BREACHING,
+            alarmName: `cdd-nextdoor-token-refresher-failure-alarm-${stack.stage}`,
+        })
+        .addAlarmAction(new SnsAction(alarmTopic));
 };
