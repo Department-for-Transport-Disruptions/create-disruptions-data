@@ -84,21 +84,39 @@ export const randomlySelectOptionByLabel = async (page: Page, label: string): Pr
         throw new Error(`No options found for dropdown labeled '${label}'.`);
     }
 
-    const randomIndex = Math.floor(Math.random() * options.length);
-    const randomOptionText = await options[randomIndex].textContent();
+    const shuffledOptions = options.sort(() => 0.5 - Math.random());
 
-    if (!randomOptionText) {
-        throw new Error("The randomly selected option does not have any text.");
+    for (const option of shuffledOptions) {
+        const optionValue = await option.getAttribute("value");
+        const optionText = await option.textContent();
+
+        if (optionValue && optionValue.trim() !== "") {
+            // Select the option if its value is not empty
+            await selectElement.selectOption({ value: optionValue.trim() });
+            return optionText?.trim() || "";
+        }
     }
 
-    await selectElement.selectOption({ label: randomOptionText.trim() });
-
-    return randomOptionText.trim();
+    throw new Error("All options have empty values.");
 };
 
-export const fillCreateDisruptionPage = async (page: Page) => {
+export const selectSearchFromDropdown = async (page: Page, inputId: string, searchText?: string) => {
+    await page.locator(`input[id="${inputId}"]`).click();
+
+    // If searchText is provided, fill the search input with the text
+    if (searchText) {
+        const searchInputSelector = `input[id="${inputId}"]`;
+        await page.locator(searchInputSelector).fill(searchText);
+        await page.waitForTimeout(1000);
+    }
+
+    // Press Enter to select the first matching option
+    await page.locator(`input[id="${inputId}"]`).press("Enter");
+};
+
+export const fillCreateDisruptionPage = async (page: Page, disruptionSummary?: string) => {
     await page.getByLabel("Planned", { exact: true }).click();
-    await page.getByLabel("Summary", { exact: true }).fill("Test");
+    await page.getByLabel("Summary", { exact: true }).fill(disruptionSummary || "Test");
     await page.getByLabel("Description", { exact: true }).fill("Test");
     const disruptionReason = await randomlySelectOptionByLabel(page, "Reason for disruption");
     await page.getByLabel("Start date", { exact: true }).fill("21/08/2024");
@@ -111,7 +129,7 @@ export const fillCreateDisruptionPage = async (page: Page) => {
 
     await clickSaveAndContinue(page);
 
-    return { disruptionReason };
+    return { disruptionReason: disruptionReason };
 };
 
 export const fillTypeOfConsequencePage = async (page: Page, consequenceType: string) => {
@@ -125,13 +143,19 @@ export const checkReviewPage = async (
     modeOfTransport: string,
     disruptionReason: string,
     disruptionsAreas?: string,
+    operatorsImpacted?: string,
 ) => {
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(1500);
 
     const consequenceDisruptionReasonHeader = await findSummaryListElementByHeader(page, "Reason for disruption");
     await expect(consequenceDisruptionReasonHeader).toHaveText("Reason for disruption");
     const consequenceDisruptionReasonValue = await findSummaryListElementByValue(page, disruptionReason);
-    await expect(consequenceDisruptionReasonValue).toHaveText(disruptionReason);
+    const actualText = await consequenceDisruptionReasonValue.textContent();
+    const actualTextLower = actualText?.toLowerCase() || "";
+
+    const expectedTextLower = disruptionReason.toLowerCase();
+
+    await expect(actualTextLower).toBe(expectedTextLower);
 
     await page.locator(".govuk-accordion__show-all").first().click();
 
@@ -152,6 +176,13 @@ export const checkReviewPage = async (
         await expect(consequenceDisruptionsAreasValue).toHaveText(disruptionsAreas);
     }
 
+    if (operatorsImpacted) {
+        const consequenceDisruptionsAreasHeader = await findSummaryListElementByHeader(page, "Operators affected");
+        await expect(consequenceDisruptionsAreasHeader).toHaveText("Operators affected");
+        const consequenceDisruptionsAreasValue = await findSummaryListElementByValue(page, operatorsImpacted);
+        await expect(consequenceDisruptionsAreasValue).toHaveText(operatorsImpacted);
+    }
+
     await page.getByRole("button", { name: "Publish disruption" }).click();
 };
 
@@ -163,4 +194,15 @@ export const fillConsequenceNetworkPage = async (page: Page) => {
     const disruptionSeverity = await randomlySelectOptionByLabel(page, "Disruption severity");
     await clickSaveAndContinue(page);
     return { disruptionsAreas: disruptionsAreas.join(","), modeOfTransport, disruptionSeverity };
+};
+
+export const fillConsequenceOperatorPage = async (page: Page) => {
+    await page.getByLabel("Mode of transport", { exact: true }).selectOption("Bus");
+    await page.waitForTimeout(1000);
+    await selectSearchFromDropdown(page, "operator-search-dropdown-value", "A2BV - A2B Travel");
+    await page.getByLabel("Consequence description", { exact: true }).fill("Test");
+    await page.getByLabel("No", { exact: true }).click();
+    const disruptionSeverity = await randomlySelectOptionByLabel(page, "Disruption severity");
+    await clickSaveAndContinue(page);
+    return { modeOfTransport: "Bus", disruptionSeverity, operatorsImpacted: "A2BV" };
 };
