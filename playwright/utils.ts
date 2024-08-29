@@ -11,8 +11,10 @@ export const clickSaveAndContinue = async (page: Page) => {
     await page.getByRole("button", { name: "Save and continue" }).click();
 };
 
-export const findSummaryListElementByHeader = async (page: Page, header: string): Promise<Locator> => {
-    const locator = page.locator(`dt.govuk-summary-list__key:has-text("${header}")`);
+export const findSummaryListElementByHeader = async (page: Page, header: string, exact?: boolean): Promise<Locator> => {
+    const locator = exact
+        ? page.locator(`dt.govuk-summary-list__key:text-is("${header}")`)
+        : page.locator(`dt.govuk-summary-list__key:has-text("${header}")`);
 
     await locator.first().waitFor({ state: "attached" });
 
@@ -144,6 +146,9 @@ export const checkReviewPage = async (
     disruptionReason: string,
     disruptionsAreas?: string,
     operatorsImpacted?: string,
+    servicesImpacted?: string,
+    stops?: string,
+    journeys?: string,
 ) => {
     await page.waitForTimeout(1500);
 
@@ -183,6 +188,32 @@ export const checkReviewPage = async (
         await expect(consequenceDisruptionsAreasValue).toHaveText(operatorsImpacted);
     }
 
+    if (servicesImpacted) {
+        const consequenceDisruptionsAreasHeader = await findSummaryListElementByHeader(page, "Service(s)");
+        await expect(consequenceDisruptionsAreasHeader).toHaveText("Service(s)");
+        const consequenceDisruptionsAreasValue = await findSummaryListElementByValue(page, servicesImpacted);
+        await expect(consequenceDisruptionsAreasValue).toHaveText(servicesImpacted);
+    }
+
+    if (stops) {
+        const consequenceDisruptionsAreasHeader = await findSummaryListElementByHeader(page, "Stops affected");
+        await expect(consequenceDisruptionsAreasHeader).toHaveText("Stops affected");
+        const consequenceDisruptionsAreasValue = await findSummaryListElementByValue(page, stops);
+        await expect(consequenceDisruptionsAreasValue).toHaveText(stops);
+    }
+
+    if (journeys) {
+        const consequenceDisruptionsAreasHeader = await findSummaryListElementByHeader(page, "Journeys", true);
+        await expect(consequenceDisruptionsAreasHeader).toHaveText("Journeys");
+        const consequenceDisruptionsAreasValue = await findSummaryListElementByValue(page, journeys);
+        await expect(consequenceDisruptionsAreasValue).toHaveText(journeys);
+    }
+
+    if (consequenceType === "Journeys") {
+        const consequenceDisruptionsAreasHeader = await findSummaryListElementByHeader(page, "Cancel Journeys", true);
+        await expect(consequenceDisruptionsAreasHeader).toHaveText("Cancel Journeys");
+    }
+
     await page.getByRole("button", { name: "Publish disruption" }).click();
 };
 
@@ -205,4 +236,56 @@ export const fillConsequenceOperatorPage = async (page: Page) => {
     const disruptionSeverity = await randomlySelectOptionByLabel(page, "Disruption severity");
     await clickSaveAndContinue(page);
     return { modeOfTransport: "Bus", disruptionSeverity, operatorsImpacted: "A2BV" };
+};
+
+export const fillConsequenceServicePage = async (page: Page) => {
+    await page.getByLabel("Mode of transport", { exact: true }).selectOption("Bus");
+    await page.waitForTimeout(2000);
+    await selectSearchFromDropdown(page, "services-input", "1 - Ashford - Canterbury (Stagecoach)");
+    await page.waitForTimeout(1000);
+    await page.getByLabel("Consequence description", { exact: true }).fill("Test");
+    await page.getByLabel("No", { exact: true }).click();
+    const disruptionSeverity = await randomlySelectOptionByLabel(page, "Disruption severity");
+    await page.getByLabel("All directions", { exact: true }).click();
+    await clickSaveAndContinue(page);
+    return {
+        modeOfTransport: "Bus",
+        disruptionSeverity,
+        servicesImpacted: "1 - Ashford - Canterbury (Stagecoach)",
+        stops: "",
+    };
+};
+
+export const fillConsequenceStopsPage = async (page: Page) => {
+    await page.getByLabel("Mode of transport", { exact: true }).selectOption("Bus");
+    await page.waitForTimeout(2000);
+    await selectSearchFromDropdown(page, "stops-input", "bla");
+    await page.waitForTimeout(1000);
+    await page.getByLabel("Consequence description", { exact: true }).fill("Test");
+    await page.getByLabel("No", { exact: true }).click();
+    const disruptionSeverity = await randomlySelectOptionByLabel(page, "Disruption severity");
+    await clickSaveAndContinue(page);
+    return {
+        modeOfTransport: "Bus",
+        disruptionSeverity,
+        stops: "The Black Robin opp 2400A043350A",
+    };
+};
+
+export const fillConsequenceJourneysPage = async (page: Page) => {
+    await page.getByLabel("Mode of transport", { exact: true }).selectOption("Bus");
+    await page.waitForTimeout(2000);
+    await selectSearchFromDropdown(page, "services-input", "1 - Ashford - Canterbury (Stagecoach)");
+    await page.waitForTimeout(1000);
+    await selectSearchFromDropdown(page, "journeys-input", "");
+    await page.getByLabel("Consequence description", { exact: true }).fill("Test");
+    await page.getByLabel("No", { exact: true }).click();
+    const disruptionSeverity = await randomlySelectOptionByLabel(page, "Disruption severity");
+    await clickSaveAndContinue(page);
+    return {
+        modeOfTransport: "Bus",
+        disruptionSeverity,
+        servicesImpacted: "1 - Ashford - Canterbury (Stagecoach)",
+        journeys: "06:50:00 outbound",
+    };
 };
