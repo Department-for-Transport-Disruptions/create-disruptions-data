@@ -11,22 +11,28 @@ const Changelog = (): ReactElement => {
             <p className="govuk-body">Last updated: 30 August 2024</p>
             <hr className="govuk-section-break govuk-section-break--xl govuk-section-break--visible" />
             <h2 className="govuk-heading-l">July 2024 (1.60.1)</h2>{" "}
+            <p className="govuk-body">This release will deploy the following changes:</p>
             <ul className="govuk-list govuk-list--bullet">
-                <li>TBD</li>{" "}
+                <li>Updated to WCAG 2.2AA standard.</li>{" "}
             </ul>
             <hr className="govuk-section-break govuk-section-break--xl govuk-section-break--visible" />
-            <h2 className="govuk-heading-l">May 2024 (1.58.0)</h2>{" "}
+            <h2 className="govuk-heading-l">June 2024 (1.57.0)</h2>{" "}
+            <p className="govuk-body">This release will deploy the following changes:</p>
             <ul className="govuk-list govuk-list--bullet">
-                <li>TBD</li>{" "}
-            </ul>{" "}
-            <h2 className="govuk-heading-l">May 2024 (1.57.0)</h2>
-            <ul className="govuk-list govuk-list--bullet">
-                {" "}
                 <li>
                     Addition of <code>VersionedAtTime</code> in SIRI-SX output.
                 </li>
+                <li>
+                    Addition of <code>AffectsPlace</code> group in SIRI-SX output including <code>PlaceRef</code>,{" "}
+                    <code>PlaceName</code>, <code>PlaceCategory</code>.
+                </li>
+                <li>
+                    Addition of <code>PublishedLineName</code> in SIRI-SX output.
+                </li>
             </ul>{" "}
+            <hr className="govuk-section-break govuk-section-break--xl govuk-section-break--visible" />{" "}
             <h2 className="govuk-heading-l">May 2024 (1.56.0)</h2>
+            <p className="govuk-body">This release will deploy the following changes:</p>
             <ul className="govuk-list govuk-list--bullet">
                 <li>Functionality to include an image in Nextdoor social media posts.</li>{" "}
                 <li>Increase to the character limit for Nextdoor posts.</li>{" "}
@@ -34,12 +40,14 @@ const Changelog = (): ReactElement => {
             </ul>{" "}
             <hr className="govuk-section-break govuk-section-break--xl govuk-section-break--visible" />{" "}
             <h2 className="govuk-heading-l">April 2024 (1.55.0)</h2>{" "}
+            <p className="govuk-body">This release will deploy the following changes:</p>
             <ul className="govuk-list govuk-list--bullet">
                 {" "}
                 <li>Integration with Nextdoor social media platform.</li>{" "}
             </ul>{" "}
             <hr className="govuk-section-break govuk-section-break--xl govuk-section-break--visible" />{" "}
             <h2 className="govuk-heading-l">March 2024 (1.54.0)</h2>{" "}
+            <p className="govuk-body">This release will deploy the following changes:</p>
             <ul className="govuk-list govuk-list--bullet">
                 {" "}
                 <li>Email notifications for new Street Manager roadworks in your area.</li>{" "}
@@ -52,12 +60,14 @@ const Changelog = (): ReactElement => {
             </ul>{" "}
             <hr className="govuk-section-break govuk-section-break--xl govuk-section-break--visible" />{" "}
             <h2 className="govuk-heading-l">February 2024 (1.53.0)</h2>{" "}
+            <p className="govuk-body">This release will deploy the following changes:</p>
             <ul className="govuk-list govuk-list--bullet">
                 {" "}
                 <li>Street Manager map visual.</li> <li>Improvement to dashboard page performance.</li>{" "}
             </ul>{" "}
             <hr className="govuk-section-break govuk-section-break--xl govuk-section-break--visible" />{" "}
             <h2 className="govuk-heading-l">January 2024 (1.52.0)</h2>{" "}
+            <p className="govuk-body">This release will deploy the following changes:</p>
             <ul className="govuk-list govuk-list--bullet">
                 {" "}
                 <li>Street Manager integration.</li>{" "}

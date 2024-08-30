@@ -70,7 +70,7 @@ exports[`Changelog > should render correctly 1`] = `
             class="govuk-list govuk-list--bullet"
           >
             <li>
-              TBD
+              Updated to WCAG 2.2AA standard.
             </li>
              
           </ul>
@@ -80,27 +80,12 @@ exports[`Changelog > should render correctly 1`] = `
           <h2
             class="govuk-heading-l"
           >
-            May 2024 (1.58.0)
+            June 2024 (1.57.0)
           </h2>
            
           <ul
             class="govuk-list govuk-list--bullet"
           >
-            <li>
-              TBD
-            </li>
-             
-          </ul>
-           
-          <h2
-            class="govuk-heading-l"
-          >
-            May 2024 (1.57.0)
-          </h2>
-          <ul
-            class="govuk-list govuk-list--bullet"
-          >
-             
             <li>
               Addition of 
               <code>
@@ -108,7 +93,37 @@ exports[`Changelog > should render correctly 1`] = `
               </code>
                in SIRI-SX output.
             </li>
+            <li>
+              Addition of 
+              <code>
+                AffectsPlace
+              </code>
+               group in SIRI-SX output including 
+              <code>
+                PlaceRef
+              </code>
+              , 
+              <code>
+                PlaceName
+              </code>
+              , 
+              <code>
+                PlaceCategory
+              </code>
+              .
+            </li>
+            <li>
+              Addition of 
+              <code>
+                PublishedLineName
+              </code>
+               in SIRI-SX output.
+            </li>
           </ul>
+           
+          <hr
+            class="govuk-section-break govuk-section-break--xl govuk-section-break--visible"
+          />
            
           <h2
             class="govuk-heading-l"
