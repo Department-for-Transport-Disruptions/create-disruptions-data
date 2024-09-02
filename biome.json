@@ -14,11 +14,12 @@
             "cdk.context.json",
             ".cache",
             "/test-results/",
-            "/playwright-report/",
+            "./playwright-report",
             "/blob-report/",
             "/playwright/.cache/",
             ".env.playwright",
-            "playwright/.auth"
+            "playwright/.auth",
+            "./public/scripts/all.js"
         ]
     },
     "formatter": {
