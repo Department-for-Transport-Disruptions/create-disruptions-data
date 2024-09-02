@@ -7,6 +7,7 @@ import Link from "next/link";
 import { ReactElement, useEffect, useRef, useState } from "react";
 import { getDisruptionData } from "../components/ViewAllContents";
 import Table from "../components/form/Table";
+import Warning from "../components/form/Warning";
 import { BaseLayout } from "../components/layout/Layout";
 import PageNumbers from "../components/layout/PageNumbers";
 import Tabs from "../components/layout/Tabs";
@@ -15,7 +16,6 @@ import { TableDisruption } from "../schemas/disruption.schema";
 import { reduceStringWithEllipsis } from "../utils";
 import { canPublish, getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 import { convertDateTimeToFormat } from "../utils/dates";
-import Warning from "../components/form/Warning";
 
 const title = "Create Disruptions Dashboard";
 const description = "Create Disruptions Dashboard page for the Create Transport Disruptions Service";
@@ -185,22 +185,22 @@ const Dashboard = ({
         <BaseLayout title={title} description={description} errors={[]} disableBackButton>
             <h1 className="govuk-heading-xl">{orgName} disruptions data</h1>
             {pendingApprovalCount && pendingApprovalCount > 0 && canPublish && !isOperatorUser ? (
-                    <Warning
-                        text={`You have ${pendingApprovalCount} new disruption${pendingApprovalCount > 1 ? "s" : ""} that require
+                <Warning
+                    text={`You have ${pendingApprovalCount} new disruption${pendingApprovalCount > 1 ? "s" : ""} that require
                         ${pendingApprovalCount === 1 ? "s" : ""} approval.`}
+                >
+                    <Link
+                        className="govuk-link"
+                        href={{
+                            pathname: VIEW_ALL_DISRUPTIONS_PAGE_PATH,
+                            query: {
+                                pending: true,
+                            },
+                        }}
                     >
-                        <Link
-                            className="govuk-link"
-                            href={{
-                                pathname: VIEW_ALL_DISRUPTIONS_PAGE_PATH,
-                                query: {
-                                    pending: true,
-                                },
-                            }}
-                        >
-                            <h2 className="govuk-heading-s text-govBlue">View all</h2>
-                        </Link>
-                    </Warning>
+                        <h2 className="govuk-heading-s text-govBlue">View all</h2>
+                    </Link>
+                </Warning>
             ) : null}
             <Link
                 href={`/create-disruption/${newDisruptionId}`}

@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
-import TimeSelector from "./TimeSelector";
 import { TestInputs } from "../../interfaces";
+import TimeSelector from "./TimeSelector";
 
 describe("TimeSelector", () => {
     it("should render correctly with no inputs", () => {

@@ -2,8 +2,8 @@ import { Consequence, Disruption } from "@create-disruptions-data/shared-ts/disr
 import { EnvironmentReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { cleanup, render } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
-import ReviewConsequenceTable from "./ReviewConsequenceTable";
 import { DEFAULT_ORG_ID } from "../testData/mockData";
+import ReviewConsequenceTable from "./ReviewConsequenceTable";
 
 const previousConsequencesInformation: Consequence = {
     vehicleMode: VehicleMode.bus,
@@ -49,7 +49,7 @@ const previousDisruptionInformation: Disruption = {
     template: false,
 };
 
-afterEach(cleanup)
+afterEach(cleanup);
 
 describe("ReviewConsequenceTable", () => {
     it("should render the table with data", () => {
@@ -60,7 +60,7 @@ describe("ReviewConsequenceTable", () => {
                 deleteActionHandler={vi.fn()}
                 isEditingAllowed={true}
                 enableCancellationsFeatureFlag={false}
-            />
+            />,
         );
         expect(asFragment()).toMatchSnapshot();
     });
@@ -73,7 +73,7 @@ describe("ReviewConsequenceTable", () => {
                 deleteActionHandler={vi.fn()}
                 isEditingAllowed={false}
                 enableCancellationsFeatureFlag={false}
-            />
+            />,
         );
         expect(asFragment()).toMatchSnapshot();
     });

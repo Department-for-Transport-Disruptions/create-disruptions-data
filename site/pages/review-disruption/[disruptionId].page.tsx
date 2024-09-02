@@ -7,14 +7,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { Fragment, ReactElement, useEffect, useRef, useState } from "react";
+import ReviewConsequenceTable, { createChangeLinkSummaryList } from "../../components/ReviewConsequenceTable";
 import CsrfForm from "../../components/form/CsrfForm";
 import ErrorSummary from "../../components/form/ErrorSummary";
+import SummaryList from "../../components/form/SummaryList";
 import { BaseLayout } from "../../components/layout/Layout";
 import NotificationBanner from "../../components/layout/NotificationBanner";
 import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPopup";
-import ReviewConsequenceTable, {
-    createChangeLinkSummaryList,
-} from "../../components/ReviewConsequenceTable";
 import {
     COOKIES_REVIEW_DISRUPTION_ERRORS,
     COOKIES_REVIEW_DISRUPTION_REFERER,
@@ -35,7 +34,6 @@ import { getLargestConsequenceIndex, splitCamelCaseToString } from "../../utils"
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import { formatTime, getEndingOnDateText } from "../../utils/dates";
-import SummaryList from "../../components/form/SummaryList";
 
 const title = "Review Disruption";
 const description = "Review Disruption page for the Create Transport Disruptions Service";

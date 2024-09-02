@@ -36,7 +36,7 @@ describe("ManageOrgs", () => {
 
     afterEach(() => {
         vi.resetAllMocks();
-        cleanup()
+        cleanup();
     });
 
     it("should render correctly when there are no inputs", () => {

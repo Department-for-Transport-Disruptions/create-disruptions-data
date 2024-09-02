@@ -1,4 +1,4 @@
-import { expect, Page, ElementHandle, Locator } from "@playwright/test";
+import { ElementHandle, Locator, Page, expect } from "@playwright/test";
 
 export const checkIfOnDashboard = async (page: Page) => {
     await page.waitForTimeout(1000);

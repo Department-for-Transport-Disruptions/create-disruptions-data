@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
-import TextInput from "./TextInput";
 import { TestInputs } from "../../interfaces";
+import TextInput from "./TextInput";
 
 describe("TextInput", () => {
     it("should render correctly with no errors", () => {

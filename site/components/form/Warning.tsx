@@ -4,7 +4,7 @@ interface WarningProps {
     text: string;
     symbol?: string;
     title?: string;
-    children?: ReactNode
+    children?: ReactNode;
 }
 
 const Warning = ({ text, symbol = "!", title = "Warning", children }: WarningProps): ReactElement => (

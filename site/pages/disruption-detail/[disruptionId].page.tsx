@@ -8,8 +8,10 @@ import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 import { Fragment, ReactElement, useEffect, useRef, useState } from "react";
 import ReviewConsequenceTable from "../../components/ReviewConsequenceTable";
+import { createChangeLinkSummaryList } from "../../components/ReviewConsequenceTable";
 import CsrfForm from "../../components/form/CsrfForm";
 import ErrorSummary from "../../components/form/ErrorSummary";
+import SummaryList from "../../components/form/SummaryList";
 import { BaseLayout } from "../../components/layout/Layout";
 import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPopup";
 import Popup from "../../components/popup/Popup";
@@ -32,8 +34,6 @@ import { getLargestConsequenceIndex, splitCamelCaseToString } from "../../utils"
 import { destroyCookieOnResponseObject, setCookieOnResponseObject } from "../../utils/apiUtils";
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import { formatTime, getEndingOnDateText } from "../../utils/dates";
-import { createChangeLinkSummaryList } from "../../components/ReviewConsequenceTable";
-import SummaryList from "../../components/form/SummaryList";
 
 const description = "Disruption Detail page for the Create Transport Disruptions Service";
 

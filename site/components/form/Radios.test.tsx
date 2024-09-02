@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
-import Radios from "./Radios";
 import { TestInputs } from "../../interfaces";
+import Radios from "./Radios";
 
 describe("Radios", () => {
     it("should render correctly with no errors", () => {

@@ -1,10 +1,9 @@
 import { cleanup, render } from "@testing-library/react";
 import { userEvent } from "@testing-library/user-event";
-import { describe, expect, it, afterEach } from "vitest";
+import { afterEach, describe, expect, it } from "vitest";
 import DeleteDisruptionButton from "./DeleteDisruptionButton";
 
-
-afterEach(cleanup)
+afterEach(cleanup);
 describe("DeleteDisruptionButton", () => {
     it("should render correctly", () => {
         const { asFragment } = render(<DeleteDisruptionButton disruptionId="123" csrfToken="csrf" />);

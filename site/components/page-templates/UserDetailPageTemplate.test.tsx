@@ -1,9 +1,9 @@
-import { render } from '@testing-library/react';
-import { describe, expect, it, vi } from 'vitest';
-import { UserGroups } from '@create-disruptions-data/shared-ts/enums';
-import { AddUserPageProps } from '../../pages/admin/add-user.page';
-import { EditUserPageProps } from '../../pages/admin/edit-user/[username].page';
-import UserDetailPageTemplate from './UserDetailPageTemplate';
+import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
+import { render } from "@testing-library/react";
+import { describe, expect, it, vi } from "vitest";
+import { AddUserPageProps } from "../../pages/admin/add-user.page";
+import { EditUserPageProps } from "../../pages/admin/edit-user/[username].page";
+import UserDetailPageTemplate from "./UserDetailPageTemplate";
 
 const editPageInputs = {
     title: "Edit User - Create Transport Disruptions Service",
@@ -34,10 +34,10 @@ const addUserPageInputs = {
     description: "Add User page for the Create Transport Disruptions Service",
 };
 
-describe('UserDetailPageTemplate', () => {
+describe("UserDetailPageTemplate", () => {
     const setPageState = vi.fn();
 
-    it('should render the edit-user page correctly', () => {
+    it("should render the edit-user page correctly", () => {
         const { asFragment } = render(
             <UserDetailPageTemplate
                 pageType="editUser"
@@ -45,12 +45,12 @@ describe('UserDetailPageTemplate', () => {
                 description={editPageInputs.description}
                 pageState={editUserPageState}
                 setPageState={setPageState}
-            />
+            />,
         );
         expect(asFragment()).toMatchSnapshot();
     });
 
-    it('should render the add-user page correctly', () => {
+    it("should render the add-user page correctly", () => {
         const { asFragment } = render(
             <UserDetailPageTemplate
                 pageType="addUser"
@@ -58,7 +58,7 @@ describe('UserDetailPageTemplate', () => {
                 description={addUserPageInputs.description}
                 pageState={addUserPageState}
                 setPageState={setPageState}
-            />
+            />,
         );
         expect(asFragment()).toMatchSnapshot();
     });

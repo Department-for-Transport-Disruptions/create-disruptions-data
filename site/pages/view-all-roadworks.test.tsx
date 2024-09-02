@@ -1,8 +1,8 @@
+import { getDate, sortEarliestDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import { render } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { mockViewAllRoadworksData } from "../testData/mockData";
 import ViewAllRoadworks from "./view-all-roadworks.page";
-import { getDate, sortEarliestDate } from "@create-disruptions-data/shared-ts/utils/dates";
 
 const mockLiveRoadworks = mockViewAllRoadworksData
     .filter((roadwork) => roadwork.workStatus === "Works in progress" && !roadwork.actualEndDateTime)
