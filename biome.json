@@ -12,7 +12,8 @@
             "./site/public/scripts/all.js",
             ".open-next",
             "cdk.context.json",
-            ".cache"
+            ".cache",
+            "/test-results/"
         ]
     },
     "formatter": {
