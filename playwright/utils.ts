@@ -224,7 +224,7 @@ export const fillConsequenceNetworkPage = async (page: Page) => {
     await page.getByLabel("No", { exact: true }).click();
     const disruptionSeverity = await randomlySelectOptionByLabel(page, "Disruption severity");
     await clickSaveAndContinue(page);
-    return { disruptionsAreas: disruptionsAreas.join(","), modeOfTransport, disruptionSeverity };
+    return { disruptionsAreas: disruptionsAreas.join(", "), modeOfTransport, disruptionSeverity };
 };
 
 export const fillConsequenceOperatorPage = async (page: Page) => {
