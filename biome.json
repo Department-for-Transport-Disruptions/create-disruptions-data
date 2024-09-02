@@ -13,7 +13,12 @@
             ".open-next",
             "cdk.context.json",
             ".cache",
-            "/test-results/"
+            "/test-results/",
+            "/playwright-report/",
+            "/blob-report/",
+            "/playwright/.cache/",
+            ".env.playwright",
+            "playwright/.auth"
         ]
     },
     "formatter": {
