@@ -1,4 +1,4 @@
-import { test, Page } from "@playwright/test";
+import { test } from "@playwright/test";
 import {
     checkIfOnDashboard,
     checkReviewPage,
@@ -13,7 +13,7 @@ import {
 
 test.use({ storageState: "playwright/.auth/publisher.json" });
 
-test("create network disruption", async ({ page }: { page: Page }) => {
+test("create network disruption", async ({ page }) => {
     await page.goto("/dashboard");
 
     await page.getByRole("button", { name: "Create new disruption" }).click();
@@ -25,7 +25,7 @@ test("create network disruption", async ({ page }: { page: Page }) => {
     await checkIfOnDashboard(page);
 });
 
-test("create operator disruption", async ({ page }: { page: Page }) => {
+test("create operator disruption", async ({ page }) => {
     await page.goto("/dashboard");
 
     await page.getByRole("button", { name: "Create new disruption" }).click();
@@ -37,7 +37,7 @@ test("create operator disruption", async ({ page }: { page: Page }) => {
     await checkIfOnDashboard(page);
 });
 
-test("create service disruption", async ({ page }: { page: Page }) => {
+test("create service disruption", async ({ page }) => {
     await page.goto("/dashboard");
 
     await page.getByRole("button", { name: "Create new disruption" }).click();
@@ -49,7 +49,7 @@ test("create service disruption", async ({ page }: { page: Page }) => {
     await checkIfOnDashboard(page);
 });
 
-test("create stop disruption", async ({ page }: { page: Page }) => {
+test("create stop disruption", async ({ page }) => {
     await page.goto("/dashboard");
 
     await page.getByRole("button", { name: "Create new disruption" }).click();
@@ -61,7 +61,7 @@ test("create stop disruption", async ({ page }: { page: Page }) => {
     await checkIfOnDashboard(page);
 });
 
-test("create journey disruption", async ({ page }: { page: Page }) => {
+test("create journey disruption", async ({ page }) => {
     await page.goto("/dashboard");
 
     await page.getByRole("button", { name: "Create new disruption" }).click();
