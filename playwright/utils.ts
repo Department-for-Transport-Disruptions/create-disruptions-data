@@ -259,7 +259,7 @@ export const fillConsequenceServicePage = async (page: Page) => {
 export const fillConsequenceStopsPage = async (page: Page) => {
     await page.getByLabel("Mode of transport", { exact: true }).selectOption("Bus");
     await page.waitForTimeout(2000);
-    await selectSearchFromDropdown(page, "stops-input", "bla");
+    await selectSearchFromDropdown(page, "stops-input", "2400A043350A");
     await page.waitForTimeout(1000);
     await page.getByLabel("Consequence description", { exact: true }).fill("Test");
     await page.getByLabel("No", { exact: true }).click();
