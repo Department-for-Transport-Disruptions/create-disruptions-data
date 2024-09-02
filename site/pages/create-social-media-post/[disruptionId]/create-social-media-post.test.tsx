@@ -24,7 +24,7 @@ const previousCreateSocialMediaPostInformation: SocialMediaPost = {
     accountType: "Hootsuite",
 };
 
-afterEach(cleanup)
+afterEach(cleanup);
 
 describe("pages", () => {
     describe("CreateSocialMediaPost", () => {

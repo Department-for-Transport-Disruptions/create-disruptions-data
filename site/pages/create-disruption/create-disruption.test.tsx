@@ -55,12 +55,12 @@ beforeEach(() => {
 describe("pages", () => {
     describe("CreateDisruption", () => {
         it("should render correctly with no inputs", () => {
-            const { asFragment } = render(<CreateDisruption {...blankInputs} />)
-            expect( asFragment()).toMatchSnapshot();
+            const { asFragment } = render(<CreateDisruption {...blankInputs} />);
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with inputs", () => {
-            const { asFragment } = render(<CreateDisruption {...withInputs} />)
+            const { asFragment } = render(<CreateDisruption {...withInputs} />);
             expect(asFragment()).toMatchSnapshot();
         });
 
@@ -68,7 +68,7 @@ describe("pages", () => {
             useRouter.mockImplementation(() => ({
                 query: { return: REVIEW_DISRUPTION_PAGE_PATH },
             }));
-            const { asFragment } = render(<CreateDisruption {...withInputs} />)
+            const { asFragment } = render(<CreateDisruption {...withInputs} />);
             expect(asFragment()).toMatchSnapshot();
         });
 

@@ -1,6 +1,6 @@
-import { render, cleanup } from '@testing-library/react';
-import { afterEach, describe, expect, it } from 'vitest';
-import Register, { RegisterPageProps } from './register.page';
+import { cleanup, render } from "@testing-library/react";
+import { afterEach, describe, expect, it } from "vitest";
+import Register, { RegisterPageProps } from "./register.page";
 
 const blankInputs: RegisterPageProps = {
     errors: [],
@@ -27,18 +27,18 @@ afterEach(() => {
     cleanup();
 });
 
-describe('Register', () => {
-    it('should render correctly when there are no inputs', () => {
+describe("Register", () => {
+    it("should render correctly when there are no inputs", () => {
         const { asFragment } = render(<Register {...blankInputs} />);
         expect(asFragment()).toMatchSnapshot();
     });
 
-    it('should render correctly with inputs and no errors', () => {
+    it("should render correctly with inputs and no errors", () => {
         const { asFragment } = render(<Register {...withInputsAndNoErrors} />);
         expect(asFragment()).toMatchSnapshot();
     });
 
-    it('should render correctly with inputs and errors', () => {
+    it("should render correctly with inputs and errors", () => {
         const { asFragment } = render(<Register {...withInputsAndErrors} />);
         expect(asFragment()).toMatchSnapshot();
     });

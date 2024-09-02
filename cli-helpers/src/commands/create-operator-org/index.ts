@@ -3,8 +3,8 @@ import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, PutCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
 import { Command, Flags } from "@oclif/core";
 import inquirer from "inquirer";
-import { orgsSchema } from "../../utils.js";
 import { z } from "zod";
+import { orgsSchema } from "../../utils.js";
 
 const ddbDocClient = DynamoDBDocumentClient.from(new DynamoDBClient({ region: "eu-west-2" }));
 

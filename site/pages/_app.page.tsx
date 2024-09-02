@@ -30,14 +30,14 @@ const CustomApp = ({ Component, pageProps, csrfToken, session }: AppProps & Exte
     useEffect(() => {
         if (!initialized.current) {
             initialized.current = true;
-    
+
             const bodyElement = document.getElementsByTagName("body")[0];
             bodyElement.classList.add("js-enabled");
-    
+
             if ("noModule" in HTMLScriptElement.prototype) {
                 bodyElement.classList.add("govuk-frontend-supported");
             }
-    
+
             initAll();
         }
     }, []);

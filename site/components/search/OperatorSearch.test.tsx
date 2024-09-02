@@ -1,6 +1,6 @@
-import { render, cleanup } from "@testing-library/react";
-import { describe, expect, it, vi, afterEach } from "vitest";
 import { OperatorConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { cleanup, render } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { mockOperators } from "../../testData/mockData";
 import OperatorSearch from "./OperatorSearch";
 

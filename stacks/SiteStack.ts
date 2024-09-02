@@ -1,15 +1,15 @@
 import { Certificate } from "aws-cdk-lib/aws-certificatemanager";
+import { TreatMissingData } from "aws-cdk-lib/aws-cloudwatch";
+import { SnsAction } from "aws-cdk-lib/aws-cloudwatch-actions";
 import { AccessKey, ManagedPolicy, PolicyStatement, User } from "aws-cdk-lib/aws-iam";
 import { Secret } from "aws-cdk-lib/aws-secretsmanager";
 import { Cron, Function, NextjsSite, StackContext, use } from "sst/constructs";
 import { getDomain, isSandbox } from "../shared-ts/utils/domain";
 import { CognitoStack } from "./CognitoStack";
 import { DynamoDBStack } from "./DynamoDBStack";
+import { MonitoringStack } from "./MonitoringStack";
 import { OrgDisruptionsGeneratorStack } from "./OrgDisruptionsGenerator";
 import { createBucket } from "./utils";
-import { TreatMissingData } from "aws-cdk-lib/aws-cloudwatch";
-import { SnsAction } from "aws-cdk-lib/aws-cloudwatch-actions";
-import { MonitoringStack } from "./MonitoringStack";
 
 export const SiteStack = ({ stack }: StackContext) => {
     const { disruptionsTable, organisationsTableV2: organisationsTable, templateDisruptionsTable } = use(DynamoDBStack);

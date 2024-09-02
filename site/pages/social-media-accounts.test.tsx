@@ -60,7 +60,7 @@ describe("SocialMediaAccounts", () => {
                     ...withInputs,
                     errors: [{ id: "nextdoor", errorMessage: "Only agency accounts can be connected" }],
                 }}
-            />
+            />,
         );
         expect(asFragment()).toMatchSnapshot();
     });
@@ -72,7 +72,7 @@ describe("SocialMediaAccounts", () => {
                     ...withInputs,
                     isOperator: true,
                 }}
-            />
+            />,
         );
         expect(asFragment()).toMatchSnapshot();
     });
