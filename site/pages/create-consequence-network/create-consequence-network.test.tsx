@@ -46,37 +46,37 @@ beforeEach(() => {
     }));
 });
 
-afterEach(cleanup)
+afterEach(cleanup);
 
 describe("pages", () => {
     describe("CreateConsequenceNetwork", () => {
         it("should render correctly with inputs", () => {
             const { asFragment } = render(<CreateConsequenceNetwork {...withInputs} />);
             expect(asFragment()).toMatchSnapshot();
-          });
-        
-          it("should render correctly with inputs & disruptionAreas", () => {
+        });
+
+        it("should render correctly with inputs & disruptionAreas", () => {
             const { asFragment } = render(<CreateConsequenceNetwork {...withInputsAndDisruptionAreas} />);
             expect(asFragment()).toMatchSnapshot();
-          });
-        
-          it("should render correctly with inputs and showUnderground is true", () => {
+        });
+
+        it("should render correctly with inputs and showUnderground is true", () => {
             const { asFragment } = render(<CreateConsequenceNetwork {...{ ...withInputs, showUnderground: true }} />);
             expect(asFragment()).toMatchSnapshot();
-          });
-        
-          it("should render correctly with no inputs", () => {
+        });
+
+        it("should render correctly with no inputs", () => {
             const { asFragment } = render(<CreateConsequenceNetwork {...blankInputs} />);
             expect(asFragment()).toMatchSnapshot();
-          });
-        
-          it("should render correctly with query params", () => {
+        });
+
+        it("should render correctly with query params", () => {
             useRouter.mockImplementation(() => ({
-              query: { return: "/review-disruption" },
+                query: { return: "/review-disruption" },
             }));
             const { asFragment } = render(<CreateConsequenceNetwork {...withInputs} />);
             expect(asFragment()).toMatchSnapshot();
-          });
+        });
 
         it("should render correctly with appropriate buttons", () => {
             useRouter.mockImplementation(() => ({

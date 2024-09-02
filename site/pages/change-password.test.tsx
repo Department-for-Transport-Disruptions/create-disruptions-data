@@ -1,7 +1,7 @@
-import { render, cleanup } from "@testing-library/react";
-import { describe, expect, it, beforeEach, afterEach, vi } from "vitest";
-import ChangePassword, { ChangePasswordPageProps } from "./change-password.page";
+import { cleanup, render } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { mockSessionWithOrgDetail } from "../testData/mockData";
+import ChangePassword, { ChangePasswordPageProps } from "./change-password.page";
 
 const blankInputs: ChangePasswordPageProps = {
     errors: [],

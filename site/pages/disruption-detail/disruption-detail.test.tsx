@@ -67,7 +67,7 @@ const journeyConsequence: Consequence = {
     ],
 };
 
-afterEach(cleanup)
+afterEach(cleanup);
 
 const previousConsequencesInformation: Consequence[] = [
     {

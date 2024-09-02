@@ -1,11 +1,11 @@
-import { render, cleanup } from '@testing-library/react';
-import { describe, expect, it, afterEach } from 'vitest';
-import Contact from './contact.page';
+import { cleanup, render } from "@testing-library/react";
+import { afterEach, describe, expect, it } from "vitest";
+import Contact from "./contact.page";
 
-describe('contact', () => {
+describe("contact", () => {
     afterEach(cleanup);
 
-    it('should render correctly', () => {
+    it("should render correctly", () => {
         const { asFragment } = render(<Contact />);
         expect(asFragment()).toMatchSnapshot();
     });

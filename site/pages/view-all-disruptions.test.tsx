@@ -1,17 +1,17 @@
-import { render, cleanup } from '@testing-library/react';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import ViewAllDisruptions from './view-all-disruptions.page';
-import { DEFAULT_ORG_ID, mockViewAllDisruptionsData } from '../testData/mockData';
+import { cleanup, render } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { DEFAULT_ORG_ID, mockViewAllDisruptionsData } from "../testData/mockData";
+import ViewAllDisruptions from "./view-all-disruptions.page";
 
 const disruptions = mockViewAllDisruptionsData;
-const defaultNewDisruptionId = 'acde070d-8c4c-4f0d-9d8a-162843c10333';
+const defaultNewDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
-const fetchSpy = vi.spyOn(global, 'fetch');
-const useRouter = vi.spyOn(require('next/router'), 'useRouter');
+const fetchSpy = vi.spyOn(global, "fetch");
+const useRouter = vi.spyOn(require("next/router"), "useRouter");
 
 beforeEach(() => {
     useRouter.mockImplementation(() => ({
-        query: '',
+        query: "",
     }));
 });
 
@@ -20,8 +20,8 @@ afterEach(() => {
     cleanup();
 });
 
-describe('ViewAllDisruptions', () => {
-    it('should render correctly when there are no disruptions', async () => {
+describe("ViewAllDisruptions", () => {
+    it("should render correctly when there are no disruptions", async () => {
         fetchSpy.mockResolvedValue({
             json: vi.fn().mockResolvedValue({ disruptions: [] }),
         } as unknown as Response);
@@ -29,16 +29,16 @@ describe('ViewAllDisruptions', () => {
         const { asFragment } = render(
             <ViewAllDisruptions
                 newContentId={defaultNewDisruptionId}
-                adminAreaCodes={['099']}
+                adminAreaCodes={["099"]}
                 enableLoadingSpinnerOnPageLoad={false}
                 orgId={DEFAULT_ORG_ID}
-            />
+            />,
         );
 
         expect(asFragment()).toMatchSnapshot();
     });
 
-    it('should render correctly when there are enough disruptions for no pagination', async () => {
+    it("should render correctly when there are enough disruptions for no pagination", async () => {
         fetchSpy.mockResolvedValue({
             json: vi.fn().mockResolvedValue({ disruptions }),
         } as unknown as Response);
@@ -46,16 +46,16 @@ describe('ViewAllDisruptions', () => {
         const { asFragment } = render(
             <ViewAllDisruptions
                 newContentId={defaultNewDisruptionId}
-                adminAreaCodes={['099']}
+                adminAreaCodes={["099"]}
                 enableLoadingSpinnerOnPageLoad={false}
                 orgId={DEFAULT_ORG_ID}
-            />
+            />,
         );
 
         expect(asFragment()).toMatchSnapshot();
     });
 
-    it('should render correctly when there are enough disruptions for pagination', async () => {
+    it("should render correctly when there are enough disruptions for pagination", async () => {
         fetchSpy.mockResolvedValue({
             json: vi.fn().mockResolvedValue({
                 disruptions: [
@@ -70,10 +70,10 @@ describe('ViewAllDisruptions', () => {
         const { asFragment } = render(
             <ViewAllDisruptions
                 newContentId={defaultNewDisruptionId}
-                adminAreaCodes={['099']}
+                adminAreaCodes={["099"]}
                 enableLoadingSpinnerOnPageLoad={false}
                 orgId={DEFAULT_ORG_ID}
-            />
+            />,
         );
 
         expect(asFragment()).toMatchSnapshot();

@@ -1,7 +1,7 @@
-import { render } from "@testing-library/react";
-import { afterEach, describe, expect, it, vi } from "vitest";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { Roadwork } from "@create-disruptions-data/shared-ts/roadwork.zod";
+import { render } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import RoadworkDetail from "./[permitReferenceNumber].page";
 
 const mockNewDisruptionId = "d7991c1b-f332-4f6e-a150-faffebcd1ff6";
@@ -35,7 +35,7 @@ describe("RoadworkDetail", () => {
 
     it("should render correctly when roadworks data is present for LTA user", () => {
         const { asFragment } = render(
-            <RoadworkDetail roadwork={mockRoadwork} newDisruptionId={mockNewDisruptionId} isOperatorUser={false} />
+            <RoadworkDetail roadwork={mockRoadwork} newDisruptionId={mockNewDisruptionId} isOperatorUser={false} />,
         );
         expect(asFragment()).toMatchSnapshot();
     });
@@ -48,7 +48,7 @@ describe("RoadworkDetail", () => {
                 disruptionId={mockNewDisruptionId}
                 disruptionPublishStatus={PublishStatus.published}
                 isOperatorUser={false}
-            />
+            />,
         );
         expect(asFragment()).toMatchSnapshot();
     });
@@ -61,14 +61,14 @@ describe("RoadworkDetail", () => {
                 disruptionId={mockNewDisruptionId}
                 disruptionPublishStatus={PublishStatus.draft}
                 isOperatorUser={false}
-            />
+            />,
         );
         expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly (without create disruption button) when roadworks data is present for operator user", () => {
         const { asFragment } = render(
-            <RoadworkDetail roadwork={mockRoadwork} newDisruptionId={mockNewDisruptionId} isOperatorUser={true} />
+            <RoadworkDetail roadwork={mockRoadwork} newDisruptionId={mockNewDisruptionId} isOperatorUser={true} />,
         );
         expect(asFragment()).toMatchSnapshot();
     });
@@ -81,7 +81,7 @@ describe("RoadworkDetail", () => {
                 disruptionId={mockNewDisruptionId}
                 disruptionPublishStatus={PublishStatus.published}
                 isOperatorUser={true}
-            />
+            />,
         );
         expect(asFragment()).toMatchSnapshot();
     });
@@ -94,7 +94,7 @@ describe("RoadworkDetail", () => {
                 disruptionId={mockNewDisruptionId}
                 disruptionPublishStatus={PublishStatus.draft}
                 isOperatorUser={true}
-            />
+            />,
         );
         expect(asFragment()).toMatchSnapshot();
     });

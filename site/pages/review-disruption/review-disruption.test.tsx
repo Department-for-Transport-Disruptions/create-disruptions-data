@@ -24,7 +24,7 @@ const defaultConsequenceOperators: ConsequenceOperators[] = [
     },
 ];
 
-afterEach(cleanup)
+afterEach(cleanup);
 
 const journeyConsequence: Consequence = {
     vehicleMode: VehicleMode.bus,
@@ -368,7 +368,7 @@ describe("pages", () => {
             expect(reviewButton).toBeTruthy();
             expect(deleteButton).toBeTruthy();
             expect(header).toBeTruthy();
-            expect(deleteTemplateButton).toBeFalsy()
+            expect(deleteTemplateButton).toBeFalsy();
             expect(cancelButton).toBeFalsy();
 
             unmount();

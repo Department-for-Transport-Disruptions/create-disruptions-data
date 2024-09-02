@@ -26,3 +26,6 @@ test-%:
 
 lint-with-fix:
 	pnpm run lint:fix
+
+run-ui-tests:
+	pnpm playwright test --ui

@@ -1,8 +1,8 @@
 import { render } from "@testing-library/react";
+import Link from "next/link";
 import { describe, expect, it } from "vitest";
 import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../../constants";
 import SortableTable, { TableColumn } from "./SortableTable";
-import Link from "next/link";
 
 interface RandomTable {
     id: string | JSX.Element;

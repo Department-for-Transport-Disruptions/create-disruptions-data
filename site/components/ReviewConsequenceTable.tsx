@@ -1,5 +1,6 @@
 import { Consequence, Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { MAX_CONSEQUENCES } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import Link from "next/link";
 import { ReactElement } from "react";
 import {
     CONSEQUENCE_TYPES,
@@ -15,7 +16,6 @@ import {
 } from "../constants";
 import { getDisplayByValue, splitCamelCaseToString } from "../utils";
 import SummaryList from "./form/SummaryList";
-import Link from "next/link";
 
 const getConsequenceUrl = (type: Consequence["consequenceType"]) => {
     switch (type) {
