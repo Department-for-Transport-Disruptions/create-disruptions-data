@@ -160,6 +160,8 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                                   ? { stopTypes: "MET, PLT" }
                                   : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
                                     ? { stopTypes: "FER, FBT" }
+                                    : vehicleMode === Modes.coach
+                                    ? { stopTypes: "BCT, BCS" }
                                     : { stopTypes: "undefined" }),
                         });
 

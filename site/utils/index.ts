@@ -168,7 +168,9 @@ export const getStops = async (
                   ? { stopTypes: "MET, PLT" }
                   : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
                     ? { stopTypes: "FER, FBT" }
-                    : { stopTypes: "undefined" }),
+                    : vehicleMode === Modes.coach
+                      ? { stopTypes: "BCT, BCS" }
+                      : { stopTypes: "undefined" }),
         });
 
         if (stopsData) {

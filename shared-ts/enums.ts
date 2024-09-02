@@ -144,6 +144,7 @@ export enum VehicleMode {
     ferryService = "ferryService",
     rail = "rail",
     underground = "underground",
+    coach = "coach",
 }
 
 export enum Severity {
