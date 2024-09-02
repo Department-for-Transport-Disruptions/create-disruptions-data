@@ -66,6 +66,11 @@ exports[`Changelog > should render correctly 1`] = `
             July 2024 (1.60.1)
           </h2>
            
+          <p
+            class="govuk-body"
+          >
+            This release will deploy the following changes:
+          </p>
           <ul
             class="govuk-list govuk-list--bullet"
           >
@@ -83,6 +88,11 @@ exports[`Changelog > should render correctly 1`] = `
             June 2024 (1.57.0)
           </h2>
            
+          <p
+            class="govuk-body"
+          >
+            This release will deploy the following changes:
+          </p>
           <ul
             class="govuk-list govuk-list--bullet"
           >
@@ -130,6 +140,11 @@ exports[`Changelog > should render correctly 1`] = `
           >
             May 2024 (1.56.0)
           </h2>
+          <p
+            class="govuk-body"
+          >
+            This release will deploy the following changes:
+          </p>
           <ul
             class="govuk-list govuk-list--bullet"
           >
@@ -157,6 +172,11 @@ exports[`Changelog > should render correctly 1`] = `
             April 2024 (1.55.0)
           </h2>
            
+          <p
+            class="govuk-body"
+          >
+            This release will deploy the following changes:
+          </p>
           <ul
             class="govuk-list govuk-list--bullet"
           >
@@ -177,6 +197,11 @@ exports[`Changelog > should render correctly 1`] = `
             March 2024 (1.54.0)
           </h2>
            
+          <p
+            class="govuk-body"
+          >
+            This release will deploy the following changes:
+          </p>
           <ul
             class="govuk-list govuk-list--bullet"
           >
@@ -209,6 +234,11 @@ exports[`Changelog > should render correctly 1`] = `
             February 2024 (1.53.0)
           </h2>
            
+          <p
+            class="govuk-body"
+          >
+            This release will deploy the following changes:
+          </p>
           <ul
             class="govuk-list govuk-list--bullet"
           >
@@ -233,6 +263,11 @@ exports[`Changelog > should render correctly 1`] = `
             January 2024 (1.52.0)
           </h2>
            
+          <p
+            class="govuk-body"
+          >
+            This release will deploy the following changes:
+          </p>
           <ul
             class="govuk-list govuk-list--bullet"
           >
