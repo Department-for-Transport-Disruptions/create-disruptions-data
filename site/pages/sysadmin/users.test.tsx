@@ -1,9 +1,9 @@
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
+import { render } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { mockSessionWithOrgDetail } from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
 import SysAdminUserManagement, { SysAdminUserManagementProps } from "./users.page";
-import { render } from "@testing-library/react";
 
 const blankInputs: SysAdminUserManagementProps = {
     inputs: {},

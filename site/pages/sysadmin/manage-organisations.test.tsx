@@ -34,7 +34,7 @@ describe("manageOrganisations", () => {
 
     afterEach(() => {
         vi.resetAllMocks();
-        cleanup()
+        cleanup();
     });
 
     beforeEach(() => {

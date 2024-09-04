@@ -1,51 +1,53 @@
 {
-  "name": "create-disruptions-data",
-  "version": "0.0.0",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "preinstall": "npx only-allow pnpm",
-    "dev": "aws s3 cp s3://cdd-sandbox-dev-data/.env ./.env.local && sst dev",
-    "build": "sst build",
-    "deploy": "sst deploy",
-    "remove": "sst remove",
-    "console": "sst console",
-    "diff": "sst diff",
-    "cdk": "cdk",
-    "typecheck": "tsc --noEmit",
-    "lint": "pnpx biome check .",
-    "lint:fix": "pnpx biome check --fix --unsafe .",
-    "test:site": "pnpm --filter @create-disruptions-data/site test",
-    "test:siri": "pnpm --filter @create-disruptions-data/siri-sx-generator test",
-    "test:stats": "pnpm --filter @create-disruptions-data/siri-sx-stats-generator test",
-    "test:roadworksNotifier": "pnpm --filter @create-disruptions-data/roadworks-notifier test",
-    "test": "pnpm test --filter '@create-disruptions-data/*'",
-    "prepare": "husky install",
-    "tsc:build:site": "tsc --noemit -p site",
-    "tsc:build": "tsc --noemit && pnpm run tsc:build:site"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "1.8.3",
-    "@tsconfig/node20": "^20.1.2",
-    "@types/node": "^20.10.5",
-    "@vitest/coverage-c8": "^0.29.2",
-    "aws-cdk": "2.142.1",
-    "aws-cdk-lib": "2.142.1",
-    "constructs": "10.3.0",
-    "husky": "^8.0.0",
-    "sst": "2.43.4",
-    "typescript": "^5.3.3"
-  },
-  "overrides": {
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "jszip": "3.8.0"
-  },
-  "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.609.0",
-    "@aws-sdk/lib-dynamodb": "^3.609.0",
-    "@aws-sdk/util-dynamodb": "^3.609.0",
-    "@create-disruptions-data/shared-ts": "workspace:^",
-    "zod": "^3.23.3"
-  }
+    "name": "create-disruptions-data",
+    "version": "0.0.0",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "preinstall": "npx only-allow pnpm",
+        "dev": "aws s3 cp s3://cdd-sandbox-dev-data/.env ./.env.local && sst dev",
+        "build": "sst build",
+        "deploy": "sst deploy",
+        "remove": "sst remove",
+        "console": "sst console",
+        "diff": "sst diff",
+        "cdk": "cdk",
+        "typecheck": "tsc --noEmit",
+        "lint": "pnpm biome check .",
+        "lint:fix": "pnpm biome check --fix --unsafe .",
+        "test:site": "pnpm --filter @create-disruptions-data/site test",
+        "test:siri": "pnpm --filter @create-disruptions-data/siri-sx-generator test",
+        "test:stats": "pnpm --filter @create-disruptions-data/siri-sx-stats-generator test",
+        "test:roadworksNotifier": "pnpm --filter @create-disruptions-data/roadworks-notifier test",
+        "test": "pnpm test --filter '@create-disruptions-data/*'",
+        "prepare": "husky install",
+        "tsc:build:site": "tsc --noemit -p site",
+        "tsc:build": "tsc --noemit && pnpm run tsc:build:site"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "1.8.3",
+        "@playwright/test": "^1.46.1",
+        "@tsconfig/node20": "^20.1.2",
+        "@types/node": "^20.10.5",
+        "@vitest/coverage-c8": "^0.29.2",
+        "aws-cdk": "2.142.1",
+        "aws-cdk-lib": "2.142.1",
+        "constructs": "10.3.0",
+        "husky": "^8.0.0",
+        "sst": "2.43.4",
+        "typescript": "^5.3.3"
+    },
+    "overrides": {
+        "react": "18.3.1",
+        "react-dom": "18.3.1",
+        "jszip": "3.8.0"
+    },
+    "dependencies": {
+        "@aws-sdk/client-dynamodb": "^3.609.0",
+        "@aws-sdk/lib-dynamodb": "^3.609.0",
+        "@aws-sdk/util-dynamodb": "^3.609.0",
+        "@create-disruptions-data/shared-ts": "workspace:^",
+        "dotenv": "^16.4.5",
+        "zod": "^3.23.3"
+    }
 }

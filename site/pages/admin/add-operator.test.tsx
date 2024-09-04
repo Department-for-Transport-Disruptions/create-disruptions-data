@@ -1,6 +1,6 @@
-import { render } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
-import AddOperator, { AddOperatorPageProps } from './add-operator.page';
+import { render } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
+import AddOperator, { AddOperatorPageProps } from "./add-operator.page";
 
 const blankInputs: AddOperatorPageProps = {
     inputs: {},

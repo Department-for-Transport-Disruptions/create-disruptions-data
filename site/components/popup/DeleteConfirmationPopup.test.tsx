@@ -1,5 +1,5 @@
-import { render, cleanup } from "@testing-library/react";
-import { describe, expect, it, vi, afterEach } from "vitest";
+import { cleanup, render } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import DeleteConfirmationPopup from "./DeleteConfirmationPopup";
 
 const cancelActionHandler = vi.fn();

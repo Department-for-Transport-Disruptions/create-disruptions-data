@@ -1,10 +1,10 @@
+import { TreatMissingData } from "aws-cdk-lib/aws-cloudwatch";
+import { SnsAction } from "aws-cdk-lib/aws-cloudwatch-actions";
 import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { Function, StackContext, use } from "sst/constructs";
 import { DynamoDBStack } from "./DynamoDBStack";
-import { createBucket } from "./utils";
-import { TreatMissingData } from "aws-cdk-lib/aws-cloudwatch";
-import { SnsAction } from "aws-cdk-lib/aws-cloudwatch-actions";
 import { MonitoringStack } from "./MonitoringStack";
+import { createBucket } from "./utils";
 
 export const OrgDisruptionsGeneratorStack = ({ stack }: StackContext) => {
     const { disruptionsTable } = use(DynamoDBStack);

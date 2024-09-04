@@ -1,6 +1,6 @@
-import { render } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
+import { render } from "@testing-library/react";
+import { describe, expect, it } from "vitest";
 import { SocialMediaPost } from "../schemas/social-media.schema";
 import ViewAllSocialMedia from "./view-all-social-media.page";
 
