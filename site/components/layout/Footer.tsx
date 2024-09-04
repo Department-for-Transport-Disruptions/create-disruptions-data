@@ -38,6 +38,11 @@ const Footer = (): ReactElement => (
                                 Privacy
                             </Link>
                         </li>
+                        <li className="govuk-footer__inline-list-item">
+                            <Link className="govuk-footer__link" href="/changelog">
+                                Service changelog
+                            </Link>
+                        </li>
                     </ul>
                     <p className="govuk-footer__body">
                         Built by the{" "}

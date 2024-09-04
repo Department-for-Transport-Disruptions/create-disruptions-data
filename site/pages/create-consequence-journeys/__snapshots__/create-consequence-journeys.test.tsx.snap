@@ -869,6 +869,16 @@ exports[`pages > CreateConsequenceJourneys > should render correctly when global
                 Privacy
               </a>
             </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
+              </a>
+            </li>
           </ul>
           <p
             class="govuk-footer__body"
@@ -1836,6 +1846,16 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with errors
                 Privacy
               </a>
             </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
+              </a>
+            </li>
           </ul>
           <p
             class="govuk-footer__body"
@@ -2735,6 +2755,16 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                 href="/privacy"
               >
                 Privacy
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
               </a>
             </li>
           </ul>
@@ -3643,6 +3673,16 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                 Privacy
               </a>
             </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
+              </a>
+            </li>
           </ul>
           <p
             class="govuk-footer__body"
@@ -4418,6 +4458,16 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with no inp
                 href="/privacy"
               >
                 Privacy
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
               </a>
             </li>
           </ul>
@@ -5319,6 +5369,16 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with query 
                 href="/privacy"
               >
                 Privacy
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
               </a>
             </li>
           </ul>

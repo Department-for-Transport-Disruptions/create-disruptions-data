@@ -278,6 +278,16 @@ exports[`SocialMediaAccounts > should not show the nextdoor button when there is
                 Privacy
               </a>
             </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
+              </a>
+            </li>
           </ul>
           <p
             class="govuk-footer__body"
@@ -553,6 +563,16 @@ exports[`SocialMediaAccounts > should render correctly when there are no inputs 
                 href="/privacy"
               >
                 Privacy
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
               </a>
             </li>
           </ul>
@@ -896,6 +916,16 @@ exports[`SocialMediaAccounts > should render correctly with inputs 1`] = `
                 href="/privacy"
               >
                 Privacy
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
               </a>
             </li>
           </ul>
@@ -1268,6 +1298,16 @@ exports[`SocialMediaAccounts > should render correctly with inputs and an error 
                 href="/privacy"
               >
                 Privacy
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
               </a>
             </li>
           </ul>
