@@ -341,9 +341,11 @@ const Dashboard = ({
                 <Link className="govuk-link text-govBlue text-xl font-bold w-fit" href="/view-all-social-media">
                     View all social media
                 </Link>
-            
 
-                <Link className="govuk-link text-govBlue text-xl font-bold w-fit" href="/view-all-disruptions?draft=true">
+                <Link
+                    className="govuk-link text-govBlue text-xl font-bold w-fit"
+                    href="/view-all-disruptions?draft=true"
+                >
                     Draft disruptions
                 </Link>
 
