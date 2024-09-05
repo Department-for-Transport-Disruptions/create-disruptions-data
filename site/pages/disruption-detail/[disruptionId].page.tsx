@@ -412,12 +412,15 @@ const DisruptionDetail = ({
                                 </button>
                             )}
                         {!disruption.template && isEditingAllowed && (
-                            <Link
-                                className="govuk-link"
-                                href={`${DISRUPTION_HISTORY_PAGE_PATH}/${disruption.disruptionId}`}
-                            >
-                                <h2 className="govuk-heading-s text-govBlue">View disruption history</h2>
-                            </Link>
+                            <>
+                                <Link
+                                    className="govuk-link text-govBlue text-lg font-bold"
+                                    href={`${DISRUPTION_HISTORY_PAGE_PATH}/${disruption.disruptionId}`}
+                                >
+                                    View disruption history
+                                </Link>
+                                <br />
+                            </>
                         )}
                         <br />
                         <SummaryList
