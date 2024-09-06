@@ -238,13 +238,27 @@ export const removeDuplicates = <T, K extends keyof T>(arrayToRemoveDuplicates: 
         (value, index, self) => index === self.findIndex((item) => item[key] === value[key]),
     );
 
+export const removeDuplicatesBasedOnMode = <T extends { mode: string }, K extends keyof T>(
+    arrayToRemoveDuplicates: T[],
+    key: K,
+): T[] =>
+    arrayToRemoveDuplicates.filter(
+        (value, index, self) =>
+            index === self.findIndex((item) => item[key] === value[key] && item.mode === value.mode),
+    );
+
 export const filterVehicleModes = (showUnderground?: boolean, consequenceType?: string) =>
     VEHICLE_MODES.filter((v) => {
         if (showUnderground) {
             return true;
         }
 
-        if (consequenceType && v.value === VehicleMode.coach && consequenceType !== "journeys") {
+        if (
+            consequenceType &&
+            v.value === VehicleMode.coach &&
+            consequenceType !== "journeys" &&
+            consequenceType !== "operatorWide"
+        ) {
             return false;
         }
 
