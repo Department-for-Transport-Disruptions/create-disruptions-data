@@ -95,13 +95,13 @@ export const getLargestConsequenceIndex = (disruption: FullDisruption) => {
     const largestConsequenceIndex =
         disruption.consequences && disruption.consequences.length > 0
             ? disruption.consequences?.reduce((p, c) => (p.consequenceIndex > c.consequenceIndex ? p : c))
-                .consequenceIndex
+                  .consequenceIndex
             : 0;
 
     const largestDeletedConsequenceIndex =
         disruption.deletedConsequences && disruption.deletedConsequences.length > 0
             ? disruption.deletedConsequences?.reduce((p, c) => (p.consequenceIndex > c.consequenceIndex ? p : c))
-                .consequenceIndex
+                  .consequenceIndex
             : 0;
 
     return Math.max(largestConsequenceIndex, largestDeletedConsequenceIndex);
@@ -165,10 +165,10 @@ export const getStops = async (
                 : vehicleMode === VehicleMode.tram ||
                     vehicleMode === Modes.metro ||
                     vehicleMode === VehicleMode.underground
-                    ? { stopTypes: "MET, PLT" }
-                    : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                        ? { stopTypes: "FER, FBT" }
-                        : { stopTypes: "undefined" }),
+                  ? { stopTypes: "MET, PLT" }
+                  : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
+                    ? { stopTypes: "FER, FBT" }
+                    : { stopTypes: "undefined" }),
         });
 
         if (stopsData) {
