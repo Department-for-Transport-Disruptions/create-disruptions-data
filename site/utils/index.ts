@@ -22,7 +22,7 @@ import { ZodError, ZodErrorMap } from "zod";
 import { VEHICLE_MODES } from "../constants";
 import { fetchServiceStops } from "../data/refDataApi";
 import { DisplayValuePair, ErrorInfo } from "../interfaces";
-import { ServiceWithStopsAndRoutesPreformatted } from "../schemas/consequence.schema";
+import { Operator, ServiceWithStopsAndRoutesPreformatted } from "../schemas/consequence.schema";
 import { FullDisruption } from "../schemas/disruption.schema";
 import { sortAndFilterStops } from "./formUtils";
 
@@ -95,13 +95,13 @@ export const getLargestConsequenceIndex = (disruption: FullDisruption) => {
     const largestConsequenceIndex =
         disruption.consequences && disruption.consequences.length > 0
             ? disruption.consequences?.reduce((p, c) => (p.consequenceIndex > c.consequenceIndex ? p : c))
-                  .consequenceIndex
+                .consequenceIndex
             : 0;
 
     const largestDeletedConsequenceIndex =
         disruption.deletedConsequences && disruption.deletedConsequences.length > 0
             ? disruption.deletedConsequences?.reduce((p, c) => (p.consequenceIndex > c.consequenceIndex ? p : c))
-                  .consequenceIndex
+                .consequenceIndex
             : 0;
 
     return Math.max(largestConsequenceIndex, largestDeletedConsequenceIndex);
@@ -165,10 +165,10 @@ export const getStops = async (
                 : vehicleMode === VehicleMode.tram ||
                     vehicleMode === Modes.metro ||
                     vehicleMode === VehicleMode.underground
-                  ? { stopTypes: "MET, PLT" }
-                  : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                    ? { stopTypes: "FER, FBT" }
-                    : { stopTypes: "undefined" }),
+                    ? { stopTypes: "MET, PLT" }
+                    : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
+                        ? { stopTypes: "FER, FBT" }
+                        : { stopTypes: "undefined" }),
         });
 
         if (stopsData) {
@@ -238,7 +238,7 @@ export const removeDuplicates = <T, K extends keyof T>(arrayToRemoveDuplicates: 
         (value, index, self) => index === self.findIndex((item) => item[key] === value[key]),
     );
 
-export const removeDuplicatesBasedOnMode = <T extends { mode: string }, K extends keyof T>(
+export const removeDuplicatesBasedOnMode = <T extends Operator, K extends keyof T>(
     arrayToRemoveDuplicates: T[],
     key: K,
 ): T[] =>
