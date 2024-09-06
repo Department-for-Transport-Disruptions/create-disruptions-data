@@ -101,12 +101,6 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
         ) {
             return display;
         }
-        if (
-            pageState.inputs?.vehicleMode === VehicleMode.coach &&
-            operator.mode === VehicleMode.coach.toString()
-        ) {
-            return display;
-        }
         if (pageState.inputs?.vehicleMode === operator.mode) {
             return display;
         }
