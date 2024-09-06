@@ -288,8 +288,6 @@ const ServicesMap = ({
                                 ? { stopTypes: ["FER", "FBT"] }
                                 : vehicleMode === Modes.rail
                                   ? { stopTypes: ["RLY"] }
-                                  : vehicleMode === Modes.coach
-                                  ? { stopTypes: ["BCT", "BCS"] }
                                   : { stopTypes: ["undefined"] }),
                     });
 

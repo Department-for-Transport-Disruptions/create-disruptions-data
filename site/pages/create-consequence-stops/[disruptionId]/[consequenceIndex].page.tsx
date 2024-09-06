@@ -98,8 +98,6 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                                 ? { stopTypes: ["FER", "FBT"] }
                                 : vehicleMode === Modes.rail
                                   ? { stopTypes: ["RLY"] }
-                                  : vehicleMode === Modes.coach
-                                  ? { stopTypes: ["BCT", "BCS"] }
                                   : { stopTypes: ["undefined"] }),
                     });
 
@@ -231,7 +229,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             inputName="vehicleMode"
                             display="Mode of transport"
                             defaultDisplay="Select mode of transport"
-                            selectValues={filterVehicleModes(props.showUnderground)}
+                            selectValues={filterVehicleModes(props.showUnderground, "stops")}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.vehicleMode}
                             initialErrors={pageState.errors}

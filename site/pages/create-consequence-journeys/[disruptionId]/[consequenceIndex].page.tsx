@@ -161,8 +161,8 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                                   : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
                                     ? { stopTypes: "FER, FBT" }
                                     : vehicleMode === Modes.coach
-                                    ? { stopTypes: "BCT, BCS" }
-                                    : { stopTypes: "undefined" }),
+                                      ? { stopTypes: "BCT, BCS" }
+                                      : { stopTypes: "undefined" }),
                         });
 
                         if (serviceRoutesData) {
@@ -486,7 +486,7 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                             inputName="vehicleMode"
                             display="Mode of transport"
                             defaultDisplay="Select mode of transport"
-                            selectValues={filterVehicleModes(props.showUnderground)}
+                            selectValues={filterVehicleModes(props.showUnderground, "journeys")}
                             stateUpdater={stateUpdater}
                             value={pageState?.inputs?.vehicleMode}
                             initialErrors={pageState.errors}

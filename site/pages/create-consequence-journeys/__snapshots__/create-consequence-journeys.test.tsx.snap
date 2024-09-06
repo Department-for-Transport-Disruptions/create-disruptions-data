@@ -179,6 +179,11 @@ exports[`pages > CreateConsequenceJourneys > should render correctly when global
                   >
                     Train
                   </option>
+                  <option
+                    value="coach"
+                  >
+                    Coach
+                  </option>
                 </select>
               </div>
             </div>
@@ -1116,6 +1121,11 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with errors
                   >
                     Train
                   </option>
+                  <option
+                    value="coach"
+                  >
+                    Coach
+                  </option>
                 </select>
               </div>
             </div>
@@ -2047,6 +2057,11 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                   >
                     Train
                   </option>
+                  <option
+                    value="coach"
+                  >
+                    Coach
+                  </option>
                 </select>
               </div>
             </div>
@@ -2953,6 +2968,11 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                   >
                     Underground
                   </option>
+                  <option
+                    value="coach"
+                  >
+                    Coach
+                  </option>
                 </select>
               </div>
             </div>
@@ -3854,6 +3874,11 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with no inp
                   >
                     Train
                   </option>
+                  <option
+                    value="coach"
+                  >
+                    Coach
+                  </option>
                 </select>
               </div>
             </div>
@@ -4630,6 +4655,11 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with query 
                     value="rail"
                   >
                     Train
+                  </option>
+                  <option
+                    value="coach"
+                  >
+                    Coach
                   </option>
                 </select>
               </div>

@@ -892,6 +892,60 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
                         </div>
                       </td>
                     </tr>
+                    <tr
+                      class="govuk-table__row"
+                    >
+                      <th
+                        class="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Coach
+                      </th>
+                      <td
+                        class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <div
+                          class="govuk-radios govuk-radios--inline"
+                          data-module="govuk-radios"
+                        >
+                          <div
+                            class="govuk-radios__item"
+                          >
+                            <input
+                              class="govuk-radios__input"
+                              id="coach-tnds"
+                              name="coach-group"
+                              type="radio"
+                              value="tnds"
+                            />
+                            <label
+                              class="govuk-label govuk-radios__label"
+                              for="coach-tnds"
+                            >
+                              TNDS
+                            </label>
+                          </div>
+                          <div
+                            class="govuk-radios__item"
+                          >
+                            <input
+                              checked=""
+                              class="govuk-radios__input"
+                              id="coach-bods"
+                              name="coach-group"
+                              type="radio"
+                              value="bods"
+                            />
+                            <label
+                              class="govuk-label govuk-radios__label"
+                              for="coach-bods"
+                            >
+                              BODS
+                            </label>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -1634,6 +1688,60 @@ exports[`accountSettings > should render correctly for organisation admin and sh
                             <label
                               class="govuk-label govuk-radios__label"
                               for="underground-bods"
+                            >
+                              BODS
+                            </label>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr
+                      class="govuk-table__row"
+                    >
+                      <th
+                        class="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Coach
+                      </th>
+                      <td
+                        class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <div
+                          class="govuk-radios govuk-radios--inline"
+                          data-module="govuk-radios"
+                        >
+                          <div
+                            class="govuk-radios__item"
+                          >
+                            <input
+                              class="govuk-radios__input"
+                              id="coach-tnds"
+                              name="coach-group"
+                              type="radio"
+                              value="tnds"
+                            />
+                            <label
+                              class="govuk-label govuk-radios__label"
+                              for="coach-tnds"
+                            >
+                              TNDS
+                            </label>
+                          </div>
+                          <div
+                            class="govuk-radios__item"
+                          >
+                            <input
+                              checked=""
+                              class="govuk-radios__input"
+                              id="coach-bods"
+                              name="coach-group"
+                              type="radio"
+                              value="bods"
+                            />
+                            <label
+                              class="govuk-label govuk-radios__label"
+                              for="coach-bods"
                             >
                               BODS
                             </label>

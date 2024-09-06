@@ -168,9 +168,7 @@ export const getStops = async (
                   ? { stopTypes: "MET, PLT" }
                   : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
                     ? { stopTypes: "FER, FBT" }
-                    : vehicleMode === Modes.coach
-                      ? { stopTypes: "BCT, BCS" }
-                      : { stopTypes: "undefined" }),
+                    : { stopTypes: "undefined" }),
         });
 
         if (stopsData) {
@@ -240,8 +238,18 @@ export const removeDuplicates = <T, K extends keyof T>(arrayToRemoveDuplicates: 
         (value, index, self) => index === self.findIndex((item) => item[key] === value[key]),
     );
 
-export const filterVehicleModes = (showUnderground?: boolean) =>
-    VEHICLE_MODES.filter((v) => (showUnderground ? true : v.value !== VehicleMode.underground));
+export const filterVehicleModes = (showUnderground?: boolean, consequenceType?: string) =>
+    VEHICLE_MODES.filter((v) => {
+        if (showUnderground) {
+            return true;
+        }
+
+        if (consequenceType && v.value === VehicleMode.coach && consequenceType !== "journeys") {
+            return false;
+        }
+
+        return v.value !== VehicleMode.underground;
+    });
 
 export const filterStopList = (stops: Stop[], vehicleMode: VehicleMode | Modes, showUnderground?: boolean) =>
     stops.filter((stop) => {

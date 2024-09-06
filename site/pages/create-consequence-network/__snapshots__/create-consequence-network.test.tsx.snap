@@ -1426,6 +1426,11 @@ exports[`pages > CreateConsequenceNetwork > should render correctly with inputs 
                   >
                     Underground
                   </option>
+                  <option
+                    value="coach"
+                  >
+                    Coach
+                  </option>
                 </select>
               </div>
             </div>

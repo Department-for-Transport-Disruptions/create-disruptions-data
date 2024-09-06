@@ -152,9 +152,7 @@ const Map = ({
                                 ? { stopTypes: ["FER", "FBT"] }
                                 : vehicleMode === Modes.rail
                                   ? { stopTypes: ["RLY"] }
-                                  : vehicleMode === Modes.coach
-                                    ? { stopTypes: ["BCT", "BCS"] }
-                                    : { stopTypes: ["undefined"] }),
+                                  : { stopTypes: ["undefined"] }),
                     });
 
                     const filteredStopList = filterStopList(stopsData, vehicleMode, showUnderground);
