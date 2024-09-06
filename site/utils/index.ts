@@ -244,7 +244,12 @@ export const filterVehicleModes = (showUnderground?: boolean, consequenceType?: 
             return true;
         }
 
-        if (consequenceType && v.value === VehicleMode.coach && consequenceType !== "journeys") {
+        if (
+            consequenceType &&
+            v.value === VehicleMode.coach &&
+            consequenceType !== "journeys" &&
+            consequenceType !== "services"
+        ) {
             return false;
         }
 

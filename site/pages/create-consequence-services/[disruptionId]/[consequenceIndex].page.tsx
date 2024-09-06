@@ -165,7 +165,9 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                                   ? { stopTypes: "MET, PLT" }
                                   : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
                                     ? { stopTypes: "FER, FBT" }
-                                    : { stopTypes: "undefined" }),
+                                    : vehicleMode === VehicleMode.coach
+                                      ? { stopTypes: "BCT, BCS" }
+                                      : { stopTypes: "undefined" }),
                         });
 
                         if (serviceRoutesData) {
@@ -580,6 +582,11 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             )}
                             inputValue={stopsSearchInput}
                             setSearchInput={setStopsSearchInput}
+                            disabled={
+                                pageState.inputs.vehicleMode === VehicleMode.coach &&
+                                pageState.inputs.services &&
+                                pageState.inputs.services.length === 0
+                            }
                         />
 
                         {pageState.inputs.stops && pageState.inputs.stops?.length >= 1 && (
@@ -630,6 +637,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             setServiceOptionsForDropdown={setServiceOptionsForDropdown}
                             dataSource={dataSource}
                             showUnderground={props.showUnderground}
+                            showDrawControl={pageState.inputs.vehicleMode !== VehicleMode.coach}
                         />
 
                         <TextInput<ServicesConsequence>
