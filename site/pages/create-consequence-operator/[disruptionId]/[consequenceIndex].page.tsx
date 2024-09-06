@@ -30,7 +30,7 @@ import { fetchOperators } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { Operator } from "../../../schemas/consequence.schema";
 import { ModeType } from "../../../schemas/organisation.schema";
-import { filterVehicleModes, isOperatorConsequence, removeDuplicates, removeDuplicatesBasedOnMode } from "../../../utils";
+import { filterVehicleModes, isOperatorConsequence, removeDuplicatesBasedOnMode } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import {
