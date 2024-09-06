@@ -59,15 +59,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
             Disruption Overview
           </h1>
           <a
-            class="govuk-link"
+            class="govuk-link text-govBlue text-lg font-bold"
             href="/disruption-history/2"
           >
-            <h2
-              class="govuk-heading-s text-govBlue"
-            >
-              View disruption history
-            </h2>
+            View disruption history
           </a>
+          <br />
           <br />
           <dl
             class="govuk-summary-list"
@@ -2125,6 +2122,16 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 href="/privacy"
               >
                 Privacy
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
               </a>
             </li>
           </ul>
@@ -4302,6 +4309,16 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 Privacy
               </a>
             </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
+              </a>
+            </li>
           </ul>
           <p
             class="govuk-footer__body"
@@ -5696,6 +5713,16 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 href="/privacy"
               >
                 Privacy
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
               </a>
             </li>
           </ul>
@@ -7094,6 +7121,16 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 Privacy
               </a>
             </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
+              </a>
+            </li>
           </ul>
           <p
             class="govuk-footer__body"
@@ -8490,6 +8527,16 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 Privacy
               </a>
             </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
+              </a>
+            </li>
           </ul>
           <p
             class="govuk-footer__body"
@@ -8607,15 +8654,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
             Disruption Overview
           </h1>
           <a
-            class="govuk-link"
+            class="govuk-link text-govBlue text-lg font-bold"
             href="/disruption-history/2"
           >
-            <h2
-              class="govuk-heading-s text-govBlue"
-            >
-              View disruption history
-            </h2>
+            View disruption history
           </a>
+          <br />
           <br />
           <dl
             class="govuk-summary-list"
@@ -10975,6 +11019,16 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 Privacy
               </a>
             </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
+              </a>
+            </li>
           </ul>
           <p
             class="govuk-footer__body"
@@ -13151,6 +13205,16 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
                 Privacy
               </a>
             </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
+              </a>
+            </li>
           </ul>
           <p
             class="govuk-footer__body"
@@ -13268,15 +13332,12 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
             Review your answers before submitting your changes
           </h1>
           <a
-            class="govuk-link"
+            class="govuk-link text-govBlue text-lg font-bold"
             href="/disruption-history/2"
           >
-            <h2
-              class="govuk-heading-s text-govBlue"
-            >
-              View disruption history
-            </h2>
+            View disruption history
           </a>
+          <br />
           <br />
           <dl
             class="govuk-summary-list"
@@ -15334,6 +15395,16 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
                 href="/privacy"
               >
                 Privacy
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
               </a>
             </li>
           </ul>
