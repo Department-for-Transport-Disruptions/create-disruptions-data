@@ -262,33 +262,36 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             });
         } else {
             if (stopToAdd) {
-                const servicesForGivenStop: ServiceWithStopsAndRoutesPreformatted[] = await fetchServicesByStops({
-                    atcoCodes: [stopToAdd.atcoCode],
-                    includeRoutes: true,
-                    dataSource: dataSource,
-                    nocCodes: props.isOperatorUser && props.operatorUserNocCodes ? props.operatorUserNocCodes : [],
-                    adminAreaCodes: pageState.sessionWithOrg?.adminAreaCodes,
-                });
+                let servicesForGivenStop: ServiceWithStopsAndRoutesPreformatted[] = [];
+                if (pageState.inputs.vehicleMode !== VehicleMode.coach) {
+                    servicesForGivenStop = await fetchServicesByStops({
+                        atcoCodes: [stopToAdd.atcoCode],
+                        includeRoutes: true,
+                        dataSource: dataSource,
+                        nocCodes: props.isOperatorUser && props.operatorUserNocCodes ? props.operatorUserNocCodes : [],
+                        adminAreaCodes: pageState.sessionWithOrg?.adminAreaCodes,
+                    });
 
-                stopToAdd.serviceIds = servicesForGivenStop.map((service) => service.id);
+                    stopToAdd.serviceIds = servicesForGivenStop.map((service) => service.id).g;
 
-                const servicesRoutesForGivenStop = getRoutesForServices(servicesForGivenStop);
+                    const servicesRoutesForGivenStop = getRoutesForServices(servicesForGivenStop);
 
-                const servicesRoutesForMap = removeDuplicateRoutes([
-                    ...searchedRoutes,
-                    ...groupByJourneyPattern(servicesRoutesForGivenStop),
-                ]);
+                    const servicesRoutesForMap = removeDuplicateRoutes([
+                        ...searchedRoutes,
+                        ...groupByJourneyPattern(servicesRoutesForGivenStop),
+                    ]);
 
-                const stopsForServicesRoutes = await getStopsForRoutes(
-                    servicesRoutesForMap,
-                    pageState.inputs.vehicleMode,
-                    dataSource,
-                );
+                    const stopsForServicesRoutes = await getStopsForRoutes(
+                        servicesRoutesForMap,
+                        pageState.inputs.vehicleMode,
+                        dataSource,
+                    );
 
-                const stopsForMap = sortAndFilterStops([...stopOptions, ...stopsForServicesRoutes]);
+                    const stopsForMap = sortAndFilterStops([...stopOptions, ...stopsForServicesRoutes]);
 
-                setSearchedRoutes(servicesRoutesForMap);
-                setStopOptions(stopsForMap);
+                    setSearchedRoutes(servicesRoutesForMap);
+                    setStopOptions(stopsForMap);
+                }
 
                 setPageState({
                     ...pageState,
