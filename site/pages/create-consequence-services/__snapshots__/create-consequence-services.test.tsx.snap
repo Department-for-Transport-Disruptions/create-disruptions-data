@@ -179,6 +179,11 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
                   >
                     Train
                   </option>
+                  <option
+                    value="coach"
+                  >
+                    Coach
+                  </option>
                 </select>
               </div>
             </div>
@@ -1202,6 +1207,11 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                   >
                     Train
                   </option>
+                  <option
+                    value="coach"
+                  >
+                    Coach
+                  </option>
                 </select>
               </div>
             </div>
@@ -2217,6 +2227,11 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                     value="rail"
                   >
                     Train
+                  </option>
+                  <option
+                    value="coach"
+                  >
+                    Coach
                   </option>
                 </select>
               </div>
@@ -4202,6 +4217,11 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                   >
                     Train
                   </option>
+                  <option
+                    value="coach"
+                  >
+                    Coach
+                  </option>
                 </select>
               </div>
             </div>
@@ -5064,6 +5084,11 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                     value="rail"
                   >
                     Train
+                  </option>
+                  <option
+                    value="coach"
+                  >
+                    Coach
                   </option>
                 </select>
               </div>

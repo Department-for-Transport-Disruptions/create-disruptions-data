@@ -56,6 +56,7 @@ interface MapProps {
     serviceOptionsForDropdown: Service[];
     setServiceOptionsForDropdown: Dispatch<SetStateAction<Service[]>>;
     showUnderground?: boolean;
+    showDrawControl?: boolean;
 }
 
 const lineLayout: LineLayout = {
@@ -104,6 +105,7 @@ const ServicesMap = ({
     setServiceOptionsForDropdown,
     dataSource,
     showUnderground = false,
+    showDrawControl = true,
 }: ServiceMapProps): ReactElement | null => {
     const mapboxAccessToken = process.env.MAP_BOX_ACCESS_TOKEN;
     const [features, setFeatures] = useState<{ [key: string]: PolygonFeature }>({});
@@ -288,7 +290,9 @@ const ServicesMap = ({
                                 ? { stopTypes: ["FER", "FBT"] }
                                 : vehicleMode === Modes.rail
                                   ? { stopTypes: ["RLY"] }
-                                  : { stopTypes: ["undefined"] }),
+                                  : vehicleMode === VehicleMode.coach
+                                    ? { stopTypes: ["BCT", "BCS"] }
+                                    : { stopTypes: ["undefined"] }),
                     });
 
                     const filteredStopList = filterStopList(stopsData, vehicleMode, showUnderground);
@@ -609,7 +613,7 @@ const ServicesMap = ({
                     interactiveLayerIds={getInteractiveLayerIds()}
                     onRender={(event) => event.target.resize()}
                 >
-                    <MapControls onUpdate={onUpdate} onDelete={onDelete} />
+                    <MapControls onUpdate={onUpdate} onDelete={onDelete} showDrawControl={showDrawControl} />
                     <Markers
                         selectedStops={selectedStops}
                         stopOptions={stopOptions}

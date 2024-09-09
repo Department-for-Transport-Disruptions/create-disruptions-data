@@ -1710,11 +1710,6 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs an
                   >
                     Underground
                   </option>
-                  <option
-                    value="coach"
-                  >
-                    Coach
-                  </option>
                 </select>
               </div>
             </div>
