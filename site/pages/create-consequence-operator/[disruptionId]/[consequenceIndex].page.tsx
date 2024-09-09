@@ -30,7 +30,7 @@ import { fetchOperators } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { Operator } from "../../../schemas/consequence.schema";
 import { ModeType } from "../../../schemas/organisation.schema";
-import { filterVehicleModes, isOperatorConsequence, removeDuplicates } from "../../../utils";
+import { filterVehicleModes, isOperatorConsequence, removeDuplicatesBasedOnMode } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import {
@@ -80,6 +80,9 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
             !pageState.inputs.consequenceOperators?.find((selOp) => selOp.operatorNoc === operator.nocCode) &&
             operator.dataSource === dataSource.toString();
 
+        if (pageState.inputs?.vehicleMode === VehicleMode.coach && operator.mode === VehicleMode.coach.toString()) {
+            return display;
+        }
         if (
             pageState.inputs?.vehicleMode === VehicleMode.bus &&
             (operator.mode === VehicleMode.bus.toString() || operator.mode === "")
@@ -368,7 +371,8 @@ export const getServerSideProps = async (
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, ctx.res);
 
     const operatorsData = await fetchOperators({ adminAreaCodes: session.adminAreaCodes ?? ["undefined"] });
-    const uniqueOperators: Operator[] = removeDuplicates(operatorsData, "id");
+
+    const uniqueOperators: Operator[] = removeDuplicatesBasedOnMode(operatorsData, "id");
 
     const operatorUserNocCodes =
         session.isOperatorUser && session.operatorOrgId

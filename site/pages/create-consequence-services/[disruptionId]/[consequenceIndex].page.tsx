@@ -45,6 +45,7 @@ import {
     flattenZodErrors,
     getRoutesForServices,
     getServiceLabel,
+    getStopTypesByVehicleMode,
     getStops,
     getStopsForRoutes,
     isServicesConsequence,
@@ -152,22 +153,12 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                 const vehicleMode = pageState?.inputs?.vehicleMode || ("" as Modes | VehicleMode);
                 await Promise.all(
                     pageState.inputs.services.map(async (s) => {
+                        const stopTypes = getStopTypesByVehicleMode(vehicleMode);
                         const serviceRoutesData = await fetchServiceRoutes({
                             serviceRef: s.dataSource === Datasource.bods ? s.lineId : s.serviceCode,
                             dataSource: s.dataSource,
                             modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
-                            ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
-                            ...(vehicleMode === VehicleMode.bus
-                                ? { stopTypes: "BCT" }
-                                : vehicleMode === VehicleMode.tram ||
-                                    vehicleMode === Modes.metro ||
-                                    vehicleMode === VehicleMode.underground
-                                  ? { stopTypes: "MET, PLT" }
-                                  : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                                    ? { stopTypes: "FER, FBT" }
-                                    : vehicleMode === VehicleMode.coach
-                                      ? { stopTypes: "BCT, BCS" }
-                                      : { stopTypes: "undefined" }),
+                            ...stopTypes,
                         });
 
                         if (serviceRoutesData) {
