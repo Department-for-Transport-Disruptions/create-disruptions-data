@@ -22,7 +22,7 @@ import { ZodError, ZodErrorMap } from "zod";
 import { VEHICLE_MODES } from "../constants";
 import { fetchServiceStops } from "../data/refDataApi";
 import { DisplayValuePair, ErrorInfo } from "../interfaces";
-import { ServiceWithStopsAndRoutesPreformatted } from "../schemas/consequence.schema";
+import { Operator, ServiceWithStopsAndRoutesPreformatted } from "../schemas/consequence.schema";
 import { FullDisruption } from "../schemas/disruption.schema";
 import { sortAndFilterStops } from "./formUtils";
 
@@ -238,13 +238,27 @@ export const removeDuplicates = <T, K extends keyof T>(arrayToRemoveDuplicates: 
         (value, index, self) => index === self.findIndex((item) => item[key] === value[key]),
     );
 
+export const removeDuplicatesBasedOnMode = <T extends Operator, K extends keyof T>(
+    arrayToRemoveDuplicates: T[],
+    key: K,
+): T[] =>
+    arrayToRemoveDuplicates.filter(
+        (value, index, self) =>
+            index === self.findIndex((item) => item[key] === value[key] && item.mode === value.mode),
+    );
+
 export const filterVehicleModes = (showUnderground?: boolean, consequenceType?: string) =>
     VEHICLE_MODES.filter((v) => {
         if (showUnderground) {
             return true;
         }
 
-        if (consequenceType && v.value === VehicleMode.coach && consequenceType !== "journeys") {
+        if (
+            consequenceType &&
+            v.value === VehicleMode.coach &&
+            consequenceType !== "journeys" &&
+            consequenceType !== "operatorWide"
+        ) {
             return false;
         }
 
