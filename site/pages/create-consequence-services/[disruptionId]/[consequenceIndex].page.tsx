@@ -263,7 +263,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                         adminAreaCodes: pageState.sessionWithOrg?.adminAreaCodes,
                     });
 
-                    stopToAdd.serviceIds = servicesForGivenStop.map((service) => service.id).g;
+                    stopToAdd.serviceIds = servicesForGivenStop.map((service) => service.id);
 
                     const servicesRoutesForGivenStop = getRoutesForServices(servicesForGivenStop);
 
