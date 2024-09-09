@@ -8,7 +8,7 @@ interface MapControlsProps {
     onDelete: () => void;
     trash?: boolean;
     polygon?: boolean;
-    showDrawControl?: boolean
+    showDrawControl?: boolean;
 }
 
 const MapControls = ({
