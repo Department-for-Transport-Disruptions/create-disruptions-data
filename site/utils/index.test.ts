@@ -12,7 +12,6 @@ import { Operator } from "../schemas/consequence.schema";
 import { DEFAULT_ORG_ID, disruptionWithNoConsequences } from "../testData/mockData";
 import { getPageState } from "./apiUtils";
 import { getFutureDateAsString } from "./dates";
-import { Operator } from "../schemas/consequence.schema";
 
 describe("utils tests", () => {
     it.each([
