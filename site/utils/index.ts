@@ -234,7 +234,7 @@ export const removeDuplicates = <T, K extends keyof T>(arrayToRemoveDuplicates: 
 
 export const filterVehicleModes = (showUnderground?: boolean, consequenceType?: string) =>
     VEHICLE_MODES.filter((v) => {
-        if (showUnderground && v.value === VehicleMode.underground) {
+        if (showUnderground) {
             return true;
         }
 
