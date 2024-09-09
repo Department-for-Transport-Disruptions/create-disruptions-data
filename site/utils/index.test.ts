@@ -8,6 +8,7 @@ import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@crea
 import { describe, expect, it } from "vitest";
 import { filterDisruptionsForOperatorUser, splitCamelCaseToString, toTitleCase } from ".";
 import { CD_DATE_FORMAT } from "../constants";
+import { Operator } from "../schemas/consequence.schema";
 import { DEFAULT_ORG_ID, disruptionWithNoConsequences } from "../testData/mockData";
 import { getPageState } from "./apiUtils";
 import { getFutureDateAsString } from "./dates";

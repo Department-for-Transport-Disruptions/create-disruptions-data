@@ -155,22 +155,16 @@ export const getStops = async (
     vehicleMode?: VehicleMode | Modes,
 ): Promise<Stop[]> => {
     if (serviceRef) {
-        const stopsData = await fetchServiceStops({
-            serviceRef,
-            dataSource,
-            modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
-            ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
-            ...(vehicleMode === VehicleMode.bus
-                ? { stopTypes: "BCT" }
-                : vehicleMode === VehicleMode.tram ||
-                    vehicleMode === Modes.metro ||
-                    vehicleMode === VehicleMode.underground
-                  ? { stopTypes: "MET, PLT" }
-                  : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                    ? { stopTypes: "FER, FBT" }
-                    : { stopTypes: "undefined" }),
-        });
-
+        let stopsData: Stop[] = [];
+        if (vehicleMode) {
+            const stopTypes = getStopTypesByVehicleMode(vehicleMode);
+            stopsData = await fetchServiceStops({
+                serviceRef,
+                dataSource,
+                modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
+                ...stopTypes,
+            });
+        }
         if (stopsData) {
             return sortAndFilterStops(
                 stopsData.map((stop) => ({
@@ -240,7 +234,7 @@ export const removeDuplicates = <T, K extends keyof T>(arrayToRemoveDuplicates: 
 
 export const filterVehicleModes = (showUnderground?: boolean, consequenceType?: string) =>
     VEHICLE_MODES.filter((v) => {
-        if (showUnderground) {
+        if (showUnderground && v.value === VehicleMode.underground) {
             return true;
         }
 
@@ -261,3 +255,24 @@ export const filterStopList = (stops: Stop[], vehicleMode: VehicleMode | Modes, 
         }
         return true;
     });
+
+export const getStopTypesByVehicleMode = (vehicleMode: VehicleMode | Modes) => {
+    switch (vehicleMode) {
+        case VehicleMode.bus:
+            return {
+                busStopTypes: "MKD,CUS",
+                stopTypes: "BCT",
+            };
+        case VehicleMode.tram:
+        case Modes.metro:
+        case VehicleMode.underground:
+            return { stopTypes: "MET, PLT" };
+        case Modes.ferry:
+        case VehicleMode.ferryService:
+            return { stopTypes: "FER, FBT" };
+        case Modes.coach:
+            return { stopTypes: "BCT, BCS" };
+        default:
+            return { stopTypes: "undefined" };
+    }
+};
