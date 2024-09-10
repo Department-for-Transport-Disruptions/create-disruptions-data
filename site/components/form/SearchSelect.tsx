@@ -42,6 +42,7 @@ interface SearchSelectProps<T> {
     onBlur?: () => void;
     closeMenuOnSelect?: boolean;
     className?: string;
+    disabled?: boolean;
 }
 const SearchSelect = <T extends object>({
     selected,
@@ -67,6 +68,7 @@ const SearchSelect = <T extends object>({
     onBlur,
     closeMenuOnSelect = true,
     className = "",
+    disabled = false,
 }: SearchSelectProps<T>): ReactElement => {
     const handleInputChange = (value: string, { action }: InputActionMeta) => {
         if (action === "menu-close" || action === "input-blur" || action === "set-value") {
@@ -141,6 +143,7 @@ const SearchSelect = <T extends object>({
                         onFocus={onFocus}
                         onBlur={onBlur}
                         className={className || "text-lg text-black"}
+                        isDisabled={disabled}
                     />
                 </FormElementWrapper>
 
