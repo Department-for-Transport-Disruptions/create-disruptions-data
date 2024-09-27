@@ -12,7 +12,14 @@
             "./site/public/scripts/all.js",
             ".open-next",
             "cdk.context.json",
-            ".cache"
+            ".cache",
+            "/test-results/",
+            "./playwright-report",
+            "/blob-report/",
+            "/playwright/.cache/",
+            ".env.playwright",
+            "playwright/.auth",
+            "./public/scripts/all.js"
         ]
     },
     "formatter": {

@@ -1,0 +1,473 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Changelog > should render correctly 1`] = `
+<DocumentFragment>
+  <div
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+  >
+    <p
+      class="govuk-phase-banner__content"
+    >
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
+      >
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
+        >
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
+  </div>
+  <div
+    class="govuk-width-container"
+  >
+    <button
+      class="govuk-back-link mb-7"
+      type="button"
+    >
+      Back
+    </button>
+    <main
+      class="govuk-main-wrapper"
+      id="main-content"
+    >
+      <div
+        class="govuk-grid-row"
+      >
+        <div
+          class="govuk-grid-column-two-thirds"
+        >
+          <h1
+            class="govuk-heading-xl"
+          >
+            Service Changelog
+          </h1>
+          <p
+            class="govuk-body"
+          >
+            Last updated: 30 August 2024
+          </p>
+          <hr
+            class="govuk-section-break govuk-section-break--xl govuk-section-break--visible"
+          />
+          <h2
+            class="govuk-heading-l"
+          >
+            July 2024 (1.60.1)
+          </h2>
+           
+          <p
+            class="govuk-body"
+          >
+            This release will deploy the following changes:
+          </p>
+          <ul
+            class="govuk-list govuk-list--bullet"
+          >
+            <li>
+              Updated to WCAG 2.2AA standard.
+            </li>
+             
+          </ul>
+          <hr
+            class="govuk-section-break govuk-section-break--xl govuk-section-break--visible"
+          />
+          <h2
+            class="govuk-heading-l"
+          >
+            June 2024 (1.57.0)
+          </h2>
+           
+          <p
+            class="govuk-body"
+          >
+            This release will deploy the following changes:
+          </p>
+          <ul
+            class="govuk-list govuk-list--bullet"
+          >
+            <li>
+              Addition of 
+              <code>
+                VersionedAtTime
+              </code>
+               in SIRI-SX output.
+            </li>
+            <li>
+              Addition of 
+              <code>
+                AffectsPlace
+              </code>
+               group in SIRI-SX output including 
+              <code>
+                PlaceRef
+              </code>
+              , 
+              <code>
+                PlaceName
+              </code>
+              , 
+              <code>
+                PlaceCategory
+              </code>
+              .
+            </li>
+            <li>
+              Addition of 
+              <code>
+                PublishedLineName
+              </code>
+               in SIRI-SX output.
+            </li>
+          </ul>
+           
+          <hr
+            class="govuk-section-break govuk-section-break--xl govuk-section-break--visible"
+          />
+           
+          <h2
+            class="govuk-heading-l"
+          >
+            May 2024 (1.56.0)
+          </h2>
+          <p
+            class="govuk-body"
+          >
+            This release will deploy the following changes:
+          </p>
+          <ul
+            class="govuk-list govuk-list--bullet"
+          >
+            <li>
+              Functionality to include an image in Nextdoor social media posts.
+            </li>
+             
+            <li>
+              Increase to the character limit for Nextdoor posts.
+            </li>
+             
+            <li>
+              Addition of London Underground as a mode (for TfL users only).
+            </li>
+             
+          </ul>
+           
+          <hr
+            class="govuk-section-break govuk-section-break--xl govuk-section-break--visible"
+          />
+           
+          <h2
+            class="govuk-heading-l"
+          >
+            April 2024 (1.55.0)
+          </h2>
+           
+          <p
+            class="govuk-body"
+          >
+            This release will deploy the following changes:
+          </p>
+          <ul
+            class="govuk-list govuk-list--bullet"
+          >
+             
+            <li>
+              Integration with Nextdoor social media platform.
+            </li>
+             
+          </ul>
+           
+          <hr
+            class="govuk-section-break govuk-section-break--xl govuk-section-break--visible"
+          />
+           
+          <h2
+            class="govuk-heading-l"
+          >
+            March 2024 (1.54.0)
+          </h2>
+           
+          <p
+            class="govuk-body"
+          >
+            This release will deploy the following changes:
+          </p>
+          <ul
+            class="govuk-list govuk-list--bullet"
+          >
+             
+            <li>
+              Email notifications for new Street Manager roadworks in your area.
+            </li>
+             
+            <li>
+              Update to Account Settings for users to enable Street Manager new roadworks emails to be toggled on/off.
+            </li>
+             
+            <li>
+              Email notifications for cancelled Street Manager roadworks.
+            </li>
+             
+            <li>
+              ‘Remove all’ button for stops/services consequence pages.
+            </li>
+             
+          </ul>
+           
+          <hr
+            class="govuk-section-break govuk-section-break--xl govuk-section-break--visible"
+          />
+           
+          <h2
+            class="govuk-heading-l"
+          >
+            February 2024 (1.53.0)
+          </h2>
+           
+          <p
+            class="govuk-body"
+          >
+            This release will deploy the following changes:
+          </p>
+          <ul
+            class="govuk-list govuk-list--bullet"
+          >
+             
+            <li>
+              Street Manager map visual.
+            </li>
+             
+            <li>
+              Improvement to dashboard page performance.
+            </li>
+             
+          </ul>
+           
+          <hr
+            class="govuk-section-break govuk-section-break--xl govuk-section-break--visible"
+          />
+           
+          <h2
+            class="govuk-heading-l"
+          >
+            January 2024 (1.52.0)
+          </h2>
+           
+          <p
+            class="govuk-body"
+          >
+            This release will deploy the following changes:
+          </p>
+          <ul
+            class="govuk-list govuk-list--bullet"
+          >
+             
+            <li>
+              Street Manager integration.
+            </li>
+             
+            <li>
+              Functionality to enable users to include images within Twitter posts.
+            </li>
+             
+            <li>
+              An additional filter for different data sources when within the “View all disruptions” page.
+            </li>
+             
+            <li>
+              An update to search functionality for services consequence, text does not disappear so results can easily be re-accessed.
+            </li>
+             
+            <li>
+              The addition of a back button to improve navigation through pages.
+            </li>
+             
+            <li>
+              An extension to the reports within the tool, additional columns added, and date format updated to 
+              <code>
+                [DD/MM/YYYY]
+              </code>
+              .
+            </li>
+             
+          </ul>
+        </div>
+      </div>
+    </main>
+    <div>
+      <h2
+        class="govuk-heading-s"
+      >
+        Help and Support
+      </h2>
+      <p
+        class="govuk-body"
+      >
+        If you are having problems, please contact the Create Disruption Service via this link: 
+        <a
+          class="govuk-link govuk-!-font-size-19"
+          href="/contact"
+        >
+          Contact us
+        </a>
+      </p>
+    </div>
+  </div>
+  <footer
+    class="govuk-footer"
+    role="contentinfo"
+  >
+    <div
+      class="govuk-width-container"
+    >
+      <div
+        class="govuk-footer__meta"
+      >
+        <div
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
+        >
+          <h2
+            class="govuk-visually-hidden"
+          >
+            Support links
+          </h2>
+          <ul
+            class="govuk-footer__inline-list"
+          >
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/contact"
+              >
+                Help
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/cookies"
+              >
+                Cookies
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/contact"
+              >
+                Contact
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/accessibility"
+              >
+                Accessibility
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="https://www.gov.uk/help/terms-conditions"
+              >
+                Terms and conditions
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/privacy"
+              >
+                Privacy
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
+              </a>
+            </li>
+          </ul>
+          <p
+            class="govuk-footer__body"
+          >
+            Built by the 
+            <a
+              class="govuk-footer__link"
+              href="https://www.gov.uk/government/organisations/department-for-transport"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Department for Transport
+            </a>
+          </p>
+          <svg
+            aria-hidden="true"
+            class="govuk-footer__licence-logo"
+            focusable="false"
+            height="17"
+            viewBox="0 0 483.2 195.7"
+            width="41"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145"
+              fill="currentColor"
+            />
+          </svg>
+          <span
+            class="govuk-footer__licence-description"
+          >
+            All content is available under the 
+            <a
+              class="govuk-footer__link"
+              href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+              rel="license"
+            >
+              Open Government Licence v3.0
+            </a>
+            , except where otherwise stated
+          </span>
+        </div>
+        <div
+          class="govuk-footer__meta-item"
+        >
+          <a
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+          >
+            © Crown copyright
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</DocumentFragment>
+`;

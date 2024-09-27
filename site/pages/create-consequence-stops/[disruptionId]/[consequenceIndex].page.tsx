@@ -229,11 +229,12 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             inputName="vehicleMode"
                             display="Mode of transport"
                             defaultDisplay="Select mode of transport"
-                            selectValues={filterVehicleModes(props.showUnderground)}
+                            selectValues={filterVehicleModes(props.showUnderground, "stops")}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.vehicleMode}
                             initialErrors={pageState.errors}
                             displaySize="l"
+                            hint={"Select a mode before continuing"}
                         />
 
                         <SearchSelect<Stop>

@@ -1,5 +1,5 @@
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import AddUser, { AddUserPageProps } from "./add-user.page";
 
@@ -18,14 +18,14 @@ const withInputs: AddUserPageProps = {
     errors: [],
 };
 
-describe("addUser", () => {
+describe("AddUser", () => {
     it("should render correctly when there are no inputs", () => {
-        const tree = renderer.create(<AddUser {...blankInputs} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<AddUser {...blankInputs} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly with inputs", () => {
-        const tree = renderer.create(<AddUser {...withInputs} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<AddUser {...withInputs} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 });

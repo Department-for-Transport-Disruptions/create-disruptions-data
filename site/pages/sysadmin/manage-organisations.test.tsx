@@ -1,4 +1,4 @@
-import renderer from "react-test-renderer";
+import { cleanup, render } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { mockSessionWithOrgDetail } from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
@@ -34,6 +34,7 @@ describe("manageOrganisations", () => {
 
     afterEach(() => {
         vi.resetAllMocks();
+        cleanup();
     });
 
     beforeEach(() => {
@@ -41,12 +42,12 @@ describe("manageOrganisations", () => {
     });
 
     it("should render correctly when there are no inputs", () => {
-        const tree = renderer.create(<ManageOrganisations {...blankInputs} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<ManageOrganisations {...blankInputs} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly with inputs", () => {
-        const tree = renderer.create(<ManageOrganisations {...withInputs} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<ManageOrganisations {...withInputs} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 });

@@ -8,9 +8,16 @@ interface MapControlsProps {
     onDelete: () => void;
     trash?: boolean;
     polygon?: boolean;
+    showDrawControl?: boolean;
 }
 
-const MapControls = ({ onUpdate, onDelete, trash = true, polygon = true }: MapControlsProps): ReactElement | null => {
+const MapControls = ({
+    onUpdate,
+    onDelete,
+    trash = true,
+    polygon = true,
+    showDrawControl = true,
+}: MapControlsProps): ReactElement | null => {
     const mapboxAccessToken = process.env.MAP_BOX_ACCESS_TOKEN;
 
     return mapboxAccessToken ? (
@@ -18,24 +25,26 @@ const MapControls = ({ onUpdate, onDelete, trash = true, polygon = true }: MapCo
             <GeocoderControl mapboxAccessToken={mapboxAccessToken} position="top-right" />
             <NavigationControl showCompass={false} />
             <FullscreenControl />
-            <DrawControl
-                position="top-left"
-                displayControlsDefault={false}
-                controls={{
-                    polygon: polygon,
-                    trash: trash,
-                }}
-                defaultMode="draw_polygon"
-                onCreate={(evt) => {
-                    onUpdate(evt);
-                }}
-                onUpdate={(evt) => {
-                    onUpdate(evt);
-                }}
-                onDelete={() => {
-                    onDelete();
-                }}
-            />
+            {showDrawControl ? (
+                <DrawControl
+                    position="top-left"
+                    displayControlsDefault={false}
+                    controls={{
+                        polygon: polygon,
+                        trash: trash,
+                    }}
+                    defaultMode="draw_polygon"
+                    onCreate={(evt) => {
+                        onUpdate(evt);
+                    }}
+                    onUpdate={(evt) => {
+                        onUpdate(evt);
+                    }}
+                    onDelete={() => {
+                        onDelete();
+                    }}
+                />
+            ) : null}
         </>
     ) : null;
 };

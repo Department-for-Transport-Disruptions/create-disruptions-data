@@ -27,6 +27,7 @@ import {
     filterStopList,
     flattenZodErrors,
     getRoutesForServices,
+    getStopTypesByVehicleMode,
     getStopsForRoutes,
     removeDuplicateRoutes,
 } from "../../utils";
@@ -56,6 +57,7 @@ interface MapProps {
     serviceOptionsForDropdown: Service[];
     setServiceOptionsForDropdown: Dispatch<SetStateAction<Service[]>>;
     showUnderground?: boolean;
+    showDrawControl?: boolean;
 }
 
 const lineLayout: LineLayout = {
@@ -104,6 +106,7 @@ const ServicesMap = ({
     setServiceOptionsForDropdown,
     dataSource,
     showUnderground = false,
+    showDrawControl = true,
 }: ServiceMapProps): ReactElement | null => {
     const mapboxAccessToken = process.env.MAP_BOX_ACCESS_TOKEN;
     const [features, setFeatures] = useState<{ [key: string]: PolygonFeature }>({});
@@ -274,21 +277,12 @@ const ServicesMap = ({
                 setLoading(true);
                 const vehicleMode = state.inputs.vehicleMode as Modes | VehicleMode;
                 try {
+                    const stopTypes = getStopTypesByVehicleMode(vehicleMode);
                     const stopsData = await fetchStops({
                         adminAreaCodes: state.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
                         polygon,
-                        ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
-                        ...(vehicleMode === VehicleMode.bus
-                            ? { stopTypes: ["BCT"] }
-                            : vehicleMode === VehicleMode.tram ||
-                                vehicleMode === Modes.metro ||
-                                vehicleMode === VehicleMode.underground
-                              ? { stopTypes: ["MET", "PLT"] }
-                              : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                                ? { stopTypes: ["FER", "FBT"] }
-                                : vehicleMode === Modes.rail
-                                  ? { stopTypes: ["RLY"] }
-                                  : { stopTypes: ["undefined"] }),
+                        busStopTypes: stopTypes.busStopTypes,
+                        stopTypes: stopTypes.stopTypes.split(", "),
                     });
 
                     const filteredStopList = filterStopList(stopsData, vehicleMode, showUnderground);
@@ -609,7 +603,7 @@ const ServicesMap = ({
                     interactiveLayerIds={getInteractiveLayerIds()}
                     onRender={(event) => event.target.resize()}
                 >
-                    <MapControls onUpdate={onUpdate} onDelete={onDelete} />
+                    <MapControls onUpdate={onUpdate} onDelete={onDelete} showDrawControl={showDrawControl} />
                     <Markers
                         selectedStops={selectedStops}
                         stopOptions={stopOptions}

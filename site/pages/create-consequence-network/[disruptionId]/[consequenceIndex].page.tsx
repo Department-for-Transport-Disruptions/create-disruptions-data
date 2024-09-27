@@ -129,11 +129,12 @@ const CreateConsequenceNetwork = (props: CreateConsequenceNetworkProps): ReactEl
                             inputName="vehicleMode"
                             display="Mode of transport"
                             defaultDisplay="Select mode of transport"
-                            selectValues={filterVehicleModes(props.showUnderground)}
+                            selectValues={filterVehicleModes(props.showUnderground, "networkWide")}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.vehicleMode}
                             initialErrors={pageState.errors}
                             displaySize="l"
+                            hint={"Select a mode before continuing"}
                         />
 
                         <TextInput<NetworkConsequence>

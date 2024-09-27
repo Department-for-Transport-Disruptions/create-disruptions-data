@@ -215,6 +215,10 @@ export const VEHICLE_MODES: DisplayValuePair<VehicleMode>[] = [
         value: VehicleMode.underground,
         display: "Underground",
     },
+    {
+        value: VehicleMode.coach,
+        display: "Coach",
+    },
 ];
 
 export const OPERATOR_USER_CONSEQUENCE_TYPES = (

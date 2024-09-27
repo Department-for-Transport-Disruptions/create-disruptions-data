@@ -7,6 +7,7 @@ import Link from "next/link";
 import { ReactElement, useEffect, useRef, useState } from "react";
 import { getDisruptionData } from "../components/ViewAllContents";
 import Table from "../components/form/Table";
+import Warning from "../components/form/Warning";
 import { BaseLayout } from "../components/layout/Layout";
 import PageNumbers from "../components/layout/PageNumbers";
 import Tabs from "../components/layout/Tabs";
@@ -184,27 +185,23 @@ const Dashboard = ({
         <BaseLayout title={title} description={description} errors={[]} disableBackButton>
             <h1 className="govuk-heading-xl">{orgName} disruptions data</h1>
             {pendingApprovalCount && pendingApprovalCount > 0 && canPublish && !isOperatorUser ? (
-                <div className="govuk-warning-text">
-                    <span className="govuk-warning-text__icon" aria-hidden="true">
-                        !
-                    </span>
-                    <strong className="govuk-warning-text__text">
-                        <span className="govuk-warning-text__assistive">Warning</span>
-                        You have {pendingApprovalCount} new disruption{pendingApprovalCount > 1 ? "s" : ""} that require
-                        {pendingApprovalCount === 1 ? "s" : ""} approval.
-                        <Link
-                            className="govuk-link"
-                            href={{
-                                pathname: VIEW_ALL_DISRUPTIONS_PAGE_PATH,
-                                query: {
-                                    pending: true,
-                                },
-                            }}
-                        >
-                            <h2 className="govuk-heading-s text-govBlue">View all</h2>
-                        </Link>
-                    </strong>
-                </div>
+                <Warning
+                    text={`You have ${pendingApprovalCount} new disruption${pendingApprovalCount > 1 ? "s" : ""} that require
+                        ${pendingApprovalCount === 1 ? "s" : ""} approval.`}
+                >
+                    <br />
+                    <Link
+                        className="govuk-link text-govBlue text-xl font-bold"
+                        href={{
+                            pathname: VIEW_ALL_DISRUPTIONS_PAGE_PATH,
+                            query: {
+                                pending: true,
+                            },
+                        }}
+                    >
+                        View all
+                    </Link>
+                </Warning>
             ) : null}
             <Link
                 href={`/create-disruption/${newDisruptionId}`}
@@ -336,29 +333,32 @@ const Dashboard = ({
                 tabsTitle="Disruptions"
             />
 
-            <Link className="govuk-link" href="/view-all-disruptions">
-                <h2 className="govuk-heading-s text-govBlue">View all disruptions</h2>
-            </Link>
-
-            <Link className="govuk-link" href="/view-all-social-media">
-                <h2 className="govuk-heading-s text-govBlue">View all social media</h2>
-            </Link>
-
-            <Link className="govuk-link" href="/view-all-disruptions?draft=true">
-                <h2 className="govuk-heading-s text-govBlue">Draft disruptions</h2>
-            </Link>
-
-            {!isOperatorUser && (
-                <Link className="govuk-link" href="/view-all-templates">
-                    <h2 className="govuk-heading-s text-govBlue">Templates</h2>
+            <div className="flex flex-col space-y-4">
+                <Link className="govuk-link text-govBlue text-xl font-bold w-fit" href="/view-all-disruptions">
+                    View all disruptions
                 </Link>
-            )}
 
-            <Link className="govuk-link" href="/view-all-roadworks">
-                <h2 className="govuk-heading-s text-govBlue">
+                <Link className="govuk-link text-govBlue text-xl font-bold w-fit" href="/view-all-social-media">
+                    View all social media
+                </Link>
+
+                <Link
+                    className="govuk-link text-govBlue text-xl font-bold w-fit"
+                    href="/view-all-disruptions?draft=true"
+                >
+                    Draft disruptions
+                </Link>
+
+                {!isOperatorUser && (
+                    <Link className="govuk-link text-govBlue text-xl font-bold w-fit" href="/view-all-templates">
+                        Templates
+                    </Link>
+                )}
+
+                <Link className="govuk-link text-govBlue text-xl font-bold w-fit" href="/view-all-roadworks">
                     {isOperatorUser ? "View roadworks in your area" : "Create disruptions from roadworks in your area"}
-                </h2>
-            </Link>
+                </Link>
+            </div>
         </BaseLayout>
     );
 };

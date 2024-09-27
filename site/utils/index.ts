@@ -22,7 +22,7 @@ import { ZodError, ZodErrorMap } from "zod";
 import { VEHICLE_MODES } from "../constants";
 import { fetchServiceStops } from "../data/refDataApi";
 import { DisplayValuePair, ErrorInfo } from "../interfaces";
-import { ServiceWithStopsAndRoutesPreformatted } from "../schemas/consequence.schema";
+import { Operator, ServiceWithStopsAndRoutesPreformatted } from "../schemas/consequence.schema";
 import { FullDisruption } from "../schemas/disruption.schema";
 import { sortAndFilterStops } from "./formUtils";
 
@@ -68,7 +68,7 @@ export const getCsrfToken = (ctx: NextPageContext): string =>
 export const splitCamelCaseToString = (s: string) => upperFirst(lowerCase(startCase(s)));
 
 export const getDisplayByValue = (items: DisplayValuePair[], value: string) =>
-    items.find((item) => item.value === value)?.display;
+    items.find((item) => item.value === value)?.display || "N/A";
 
 export const getServiceLabel = (service: Service) =>
     `${service.lineName} - ${service.origin} - ${service.destination} (${service.operatorShortName})`;
@@ -155,22 +155,16 @@ export const getStops = async (
     vehicleMode?: VehicleMode | Modes,
 ): Promise<Stop[]> => {
     if (serviceRef) {
-        const stopsData = await fetchServiceStops({
-            serviceRef,
-            dataSource,
-            modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
-            ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
-            ...(vehicleMode === VehicleMode.bus
-                ? { stopTypes: "BCT" }
-                : vehicleMode === VehicleMode.tram ||
-                    vehicleMode === Modes.metro ||
-                    vehicleMode === VehicleMode.underground
-                  ? { stopTypes: "MET, PLT" }
-                  : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                    ? { stopTypes: "FER, FBT" }
-                    : { stopTypes: "undefined" }),
-        });
-
+        let stopsData: Stop[] = [];
+        if (vehicleMode) {
+            const stopTypes = getStopTypesByVehicleMode(vehicleMode);
+            stopsData = await fetchServiceStops({
+                serviceRef,
+                dataSource,
+                modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
+                ...stopTypes,
+            });
+        }
         if (stopsData) {
             return sortAndFilterStops(
                 stopsData.map((stop) => ({
@@ -238,8 +232,33 @@ export const removeDuplicates = <T, K extends keyof T>(arrayToRemoveDuplicates: 
         (value, index, self) => index === self.findIndex((item) => item[key] === value[key]),
     );
 
-export const filterVehicleModes = (showUnderground?: boolean) =>
-    VEHICLE_MODES.filter((v) => (showUnderground ? true : v.value !== VehicleMode.underground));
+export const removeDuplicatesBasedOnMode = <T extends Operator, K extends keyof T>(
+    arrayToRemoveDuplicates: T[],
+    key: K,
+): T[] =>
+    arrayToRemoveDuplicates.filter(
+        (value, index, self) =>
+            index === self.findIndex((item) => item[key] === value[key] && item.mode === value.mode),
+    );
+
+export const filterVehicleModes = (showUnderground?: boolean, consequenceType?: string) =>
+    VEHICLE_MODES.filter((v) => {
+        if (showUnderground && v.value === VehicleMode.underground) {
+            return true;
+        }
+
+        if (
+            consequenceType &&
+            v.value === VehicleMode.coach &&
+            consequenceType !== "journeys" &&
+            consequenceType !== "services" &&
+            consequenceType !== "operatorWide"
+        ) {
+            return false;
+        }
+
+        return v.value !== VehicleMode.underground;
+    });
 
 export const filterStopList = (stops: Stop[], vehicleMode: VehicleMode | Modes, showUnderground?: boolean) =>
     stops.filter((stop) => {
@@ -251,3 +270,24 @@ export const filterStopList = (stops: Stop[], vehicleMode: VehicleMode | Modes, 
         }
         return true;
     });
+
+export const getStopTypesByVehicleMode = (vehicleMode: VehicleMode | Modes) => {
+    switch (vehicleMode) {
+        case VehicleMode.bus:
+            return {
+                busStopTypes: "MKD,CUS",
+                stopTypes: "BCT",
+            };
+        case VehicleMode.tram:
+        case Modes.metro:
+        case VehicleMode.underground:
+            return { stopTypes: "MET, PLT" };
+        case Modes.ferry:
+        case VehicleMode.ferryService:
+            return { stopTypes: "FER, FBT" };
+        case Modes.coach:
+            return { stopTypes: "BCT, BCS" };
+        default:
+            return { stopTypes: "undefined" };
+    }
+};

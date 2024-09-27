@@ -7,9 +7,8 @@ import {
     SocialMediaPostStatus,
     VehicleMode,
 } from "@create-disruptions-data/shared-ts/enums";
-import { render } from "@testing-library/react";
-import renderer from "react-test-renderer";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { cleanup, render } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { SocialMediaPost } from "../../schemas/social-media.schema";
@@ -24,6 +23,8 @@ const defaultConsequenceOperators: ConsequenceOperators[] = [
         operatorPublicName: "Another operator",
     },
 ];
+
+afterEach(cleanup);
 
 const journeyConsequence: Consequence = {
     vehicleMode: VehicleMode.bus,
@@ -205,12 +206,11 @@ describe("pages", () => {
         });
 
         it("should render correctly with inputs and no errors", () => {
-            const tree = renderer
-                .create(
-                    <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish redirect="" />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(
+                <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish redirect="" />,
+            );
+
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with inputs and display Send to review button for staff user role", () => {
@@ -244,30 +244,26 @@ describe("pages", () => {
             useRouter.mockImplementation(() => ({
                 query: { duplicate: true },
             }));
-            const tree = renderer
-                .create(
-                    <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish redirect="" />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(
+                <ReviewDisruption disruption={previousDisruptionInformation} errors={[]} canPublish redirect="" />,
+            );
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with inputs and no errors when disruption is a template", () => {
-            const tree = renderer
-                .create(
-                    <ReviewDisruption
-                        disruption={{ ...previousDisruptionInformation, template: true }}
-                        errors={[]}
-                        canPublish
-                        redirect=""
-                    />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(
+                <ReviewDisruption
+                    disruption={{ ...previousDisruptionInformation, template: true }}
+                    errors={[]}
+                    canPublish
+                    redirect=""
+                />,
+            );
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with inputs and no errors when disruption is a template with appropriate buttons", () => {
-            const { queryByText, unmount } = render(
+            const { queryByText, unmount, queryAllByText } = render(
                 <ReviewDisruption
                     disruption={{ ...previousDisruptionInformation, template: true }}
                     errors={[]}
@@ -276,17 +272,19 @@ describe("pages", () => {
                 />,
             );
 
-            const deleteTemplateButton = queryByText("Delete template", {
+            const deleteTemplateButton = queryAllByText("Delete template", {
                 selector: "button",
-            });
-            const deleteButton = queryByText("Delete disruption", {
+            })[0];
+
+            const deleteButton = queryAllByText("Delete disruption", {
                 selector: "button",
-            });
+            })[0];
+
             const cancelButton = queryByText("Cancel all changes", {
                 selector: "button",
             });
 
-            const header = queryByText("Review your answers before submitting the template");
+            const header = queryAllByText("Review your answers before submitting the template")[0];
 
             expect(deleteTemplateButton).toBeTruthy();
             expect(deleteButton).toBeFalsy();
@@ -297,7 +295,7 @@ describe("pages", () => {
         });
 
         it("should render correctly with appropriate buttons", () => {
-            const { queryByText, unmount } = render(
+            const { queryByText, unmount, queryAllByText } = render(
                 <ReviewDisruption
                     disruption={previousDisruptionInformation}
                     errors={[]}
@@ -306,23 +304,25 @@ describe("pages", () => {
                 />,
             );
 
-            const publishButton = queryByText("Publish disruption", {
+            const publishButton = queryAllByText("Publish disruption", {
                 selector: "button",
-            });
+            })[0];
 
-            const draftButton = queryByText("Save as draft");
+            const draftButton = queryAllByText("Save as draft")[0];
 
-            const deleteButton = queryByText("Delete disruption", {
+            const deleteButton = queryAllByText("Delete disruption", {
                 selector: "button",
-            });
-            const deleteTemplateButton = queryByText("Delete template", {
+            })[0];
+
+            const deleteTemplateButton = queryAllByText("Delete template", {
                 selector: "button",
-            });
+            })[0];
+
             const cancelButton = queryByText("Cancel all changes", {
                 selector: "button",
             });
 
-            const header = queryByText("Review your answers before submitting the disruption");
+            const header = queryAllByText("Review your answers before submitting the disruption")[0];
 
             expect(publishButton).toBeTruthy();
             expect(draftButton).toBeTruthy();
@@ -335,7 +335,7 @@ describe("pages", () => {
         });
 
         it("should render correctly with appropriate buttons for staff user", () => {
-            const { queryByText, unmount } = render(
+            const { queryByText, unmount, queryAllByText } = render(
                 <ReviewDisruption
                     disruption={previousDisruptionInformation}
                     errors={[]}
@@ -344,23 +344,25 @@ describe("pages", () => {
                 />,
             );
 
-            const draftButton = queryByText("Save as draft");
+            const draftButton = queryAllByText("Save as draft")[0];
 
             const reviewButton = queryByText("Send to review", {
                 selector: "button",
             });
 
-            const deleteButton = queryByText("Delete disruption", {
+            const deleteButton = queryAllByText("Delete disruption", {
                 selector: "button",
-            });
-            const deleteTemplateButton = queryByText("Delete template", {
+            })[0];
+
+            const deleteTemplateButton = queryAllByText("Delete template", {
                 selector: "button",
-            });
+            })[0];
+
             const cancelButton = queryByText("Cancel all changes", {
                 selector: "button",
             });
 
-            const header = queryByText("Review your answers before submitting the disruption");
+            const header = queryAllByText("Review your answers before submitting the disruption")[0];
 
             expect(draftButton).toBeTruthy();
             expect(reviewButton).toBeTruthy();
@@ -390,53 +392,47 @@ describe("pages", () => {
         });
 
         it("should render correctly with inputs and no errors if an operator is reviewing a disruption made by an LTA", () => {
-            const tree = renderer
-                .create(
-                    <ReviewDisruption
-                        disruption={previousDisruptionInformation}
-                        redirect={"/dashboard"}
-                        errors={[]}
-                        canPublish
-                        operatorOrgId={DEFAULT_OPERATOR_ORG_ID}
-                    />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(
+                <ReviewDisruption
+                    disruption={previousDisruptionInformation}
+                    redirect={"/dashboard"}
+                    errors={[]}
+                    canPublish
+                    operatorOrgId={DEFAULT_OPERATOR_ORG_ID}
+                />,
+            );
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with inputs and no errors if an operator is reviewing a disruption made by another operator who does not have the same operatorOrgId", () => {
-            const tree = renderer
-                .create(
-                    <ReviewDisruption
-                        disruption={{
-                            ...previousDisruptionInformation,
-                            createdByOperatorOrgId: "e17489ff-779c-4e74-b5cb-623be0adf24f",
-                        }}
-                        redirect={"/dashboard"}
-                        errors={[]}
-                        canPublish
-                        operatorOrgId={DEFAULT_OPERATOR_ORG_ID}
-                    />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(
+                <ReviewDisruption
+                    disruption={{
+                        ...previousDisruptionInformation,
+                        createdByOperatorOrgId: "e17489ff-779c-4e74-b5cb-623be0adf24f",
+                    }}
+                    redirect={"/dashboard"}
+                    errors={[]}
+                    canPublish
+                    operatorOrgId={DEFAULT_OPERATOR_ORG_ID}
+                />,
+            );
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with inputs and no errors if a non-operator is reviewing an operator disruption", () => {
-            const tree = renderer
-                .create(
-                    <ReviewDisruption
-                        disruption={{
-                            ...previousDisruptionInformation,
-                            createdByOperatorOrgId: "e17489ff-779c-4e74-b5cb-623be0adf24f",
-                        }}
-                        redirect={"/dashboard"}
-                        errors={[]}
-                        canPublish
-                    />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(
+                <ReviewDisruption
+                    disruption={{
+                        ...previousDisruptionInformation,
+                        createdByOperatorOrgId: "e17489ff-779c-4e74-b5cb-623be0adf24f",
+                    }}
+                    redirect={"/dashboard"}
+                    errors={[]}
+                    canPublish
+                />,
+            );
+            expect(asFragment()).toMatchSnapshot();
         });
     });
 
@@ -446,17 +442,15 @@ describe("pages", () => {
             consequences: previousDisruptionInformation.consequences?.concat(journeyConsequence),
         };
 
-        const tree = renderer
-            .create(
-                <ReviewDisruption
-                    disruption={disruption}
-                    errors={[]}
-                    canPublish
-                    redirect=""
-                    enableCancellationsFeatureFlag={true}
-                />,
-            )
-            .toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(
+            <ReviewDisruption
+                disruption={disruption}
+                errors={[]}
+                canPublish
+                redirect=""
+                enableCancellationsFeatureFlag={true}
+            />,
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 });

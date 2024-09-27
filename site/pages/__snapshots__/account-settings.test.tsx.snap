@@ -1,143 +1,133 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`accountSettings > should render correctly for operator 1`] = `
-[
+<DocumentFragment>
   <div
-    className="app-phase-banner__wrapper"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      class="govuk-phase-banner__content"
     >
-      <p
-        className="govuk-phase-banner__content"
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          className="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
         >
-          beta
-        </strong>
-        <span
-          className="govuk-phase-banner__text"
-        >
-          This is a new service – your
-           
-          <a
-            className="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
-          >
-            feedback
-          </a>
-           
-          will help us to improve it.
-        </span>
-      </p>
-    </div>
-  </div>,
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
+  </div>
   <div
-    className="govuk-width-container"
+    class="govuk-width-container"
   >
     <button
-      className="govuk-back-link mb-7"
-      onClick={[Function]}
+      class="govuk-back-link mb-7"
       type="button"
     >
       Back
     </button>
     <main
-      className="govuk-main-wrapper"
+      class="govuk-main-wrapper"
       id="main-content"
     >
       <div
-        className="govuk-grid-row"
+        class="govuk-grid-row"
       >
         <div
-          className="govuk-grid-column-two-thirds"
+          class="govuk-grid-column-two-thirds"
         >
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <h1
-              className="govuk-heading-l"
+              class="govuk-heading-l"
             >
               Account settings
             </h1>
             <table
-              className="govuk-table"
+              class="govuk-table"
             >
               <thead
-                className="govuk-table__head"
+                class="govuk-table__head"
               >
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 />
               </thead>
               <tbody
-                className="govuk-table__body"
+                class="govuk-table__body"
               >
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Email address
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     test@example.com
                   </td>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Operator name
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     add-op
                   </td>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Password
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     <div
-                      className="govuk-form-group"
+                      class="govuk-form-group"
                     >
                       <label
-                        className="govuk-label govuk-label--s govuk-visually-hidden"
-                        htmlFor="password"
+                        class="govuk-label govuk-label--s govuk-visually-hidden"
+                        for="password"
                       >
                         Password
                       </label>
                       <input
-                        className="bg-white"
-                        disabled={true}
+                        class="bg-white"
+                        disabled=""
                         id="password"
                         name="password"
                         type="password"
@@ -146,75 +136,72 @@ exports[`accountSettings > should render correctly for operator 1`] = `
                     </div>
                   </td>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     <a
-                      className="govuk-link"
+                      class="govuk-link"
                       href="/change-password"
-                      onClick={[Function]}
-                      onMouseEnter={[Function]}
-                      onTouchStart={[Function]}
                     >
                       Change
                     </a>
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Organisation
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     Test Org
                   </td>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     NaPTAN Adminarea
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     NOC Code
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     WRAY, CPTR, MOXN
                   </td>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
               </tbody>
             </table>
             <div
-              className="mb-12"
+              class="mb-12"
             />
           </div>
         </div>
@@ -222,138 +209,122 @@ exports[`accountSettings > should render correctly for operator 1`] = `
     </main>
     <div>
       <h2
-        className="govuk-heading-s"
+        class="govuk-heading-s"
       >
         Help and Support
       </h2>
       <p
-        className="govuk-body"
+        class="govuk-body"
       >
-        If you are having problems, please contact the Create Disruption Service via this link:
-         
+        If you are having problems, please contact the Create Disruption Service via this link: 
         <a
-          className="govuk-link govuk-!-font-size-19"
+          class="govuk-link govuk-!-font-size-19"
           href="/contact"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           Contact us
         </a>
       </p>
     </div>
-  </div>,
+  </div>
   <footer
-    className="govuk-footer"
+    class="govuk-footer"
     role="contentinfo"
   >
     <div
-      className="govuk-width-container"
+      class="govuk-width-container"
     >
       <div
-        className="govuk-footer__meta"
+        class="govuk-footer__meta"
       >
         <div
-          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
         >
           <h2
-            className="govuk-visually-hidden"
+            class="govuk-visually-hidden"
           >
             Support links
           </h2>
           <ul
-            className="govuk-footer__inline-list"
+            class="govuk-footer__inline-list"
           >
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Help
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/cookies"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Cookies
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Contact
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/accessibility"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Accessibility
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="https://www.gov.uk/help/terms-conditions"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Terms and conditions
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/privacy"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Privacy
               </a>
             </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
+              </a>
+            </li>
           </ul>
           <p
-            className="govuk-footer__body"
+            class="govuk-footer__body"
           >
-            Built by the
-             
+            Built by the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.gov.uk/government/organisations/department-for-transport"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="noreferrer"
               target="_blank"
             >
@@ -362,7 +333,7 @@ exports[`accountSettings > should render correctly for operator 1`] = `
           </p>
           <svg
             aria-hidden="true"
-            className="govuk-footer__licence-logo"
+            class="govuk-footer__licence-logo"
             focusable="false"
             height="17"
             viewBox="0 0 483.2 195.7"
@@ -375,16 +346,12 @@ exports[`accountSettings > should render correctly for operator 1`] = `
             />
           </svg>
           <span
-            className="govuk-footer__licence-description"
+            class="govuk-footer__licence-description"
           >
-            All content is available under the
-             
+            All content is available under the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="license"
             >
               Open Government Licence v3.0
@@ -393,144 +360,131 @@ exports[`accountSettings > should render correctly for operator 1`] = `
           </span>
         </div>
         <div
-          className="govuk-footer__meta-item"
+          class="govuk-footer__meta-item"
         >
           <a
-            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             © Crown copyright
           </a>
         </div>
       </div>
     </div>
-  </footer>,
-]
+  </footer>
+</DocumentFragment>
 `;
 
 exports[`accountSettings > should render correctly for organisation admin 1`] = `
-[
+<DocumentFragment>
   <div
-    className="app-phase-banner__wrapper"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      class="govuk-phase-banner__content"
     >
-      <p
-        className="govuk-phase-banner__content"
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          className="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
         >
-          beta
-        </strong>
-        <span
-          className="govuk-phase-banner__text"
-        >
-          This is a new service – your
-           
-          <a
-            className="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
-          >
-            feedback
-          </a>
-           
-          will help us to improve it.
-        </span>
-      </p>
-    </div>
-  </div>,
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
+  </div>
   <div
-    className="govuk-width-container"
+    class="govuk-width-container"
   >
     <button
-      className="govuk-back-link mb-7"
-      onClick={[Function]}
+      class="govuk-back-link mb-7"
       type="button"
     >
       Back
     </button>
     <main
-      className="govuk-main-wrapper"
+      class="govuk-main-wrapper"
       id="main-content"
     >
       <div
-        className="govuk-grid-row"
+        class="govuk-grid-row"
       >
         <div
-          className="govuk-grid-column-two-thirds"
+          class="govuk-grid-column-two-thirds"
         >
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <h1
-              className="govuk-heading-l"
+              class="govuk-heading-l"
             >
               Account settings
             </h1>
             <table
-              className="govuk-table"
+              class="govuk-table"
             >
               <thead
-                className="govuk-table__head"
+                class="govuk-table__head"
               >
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 />
               </thead>
               <tbody
-                className="govuk-table__body"
+                class="govuk-table__body"
               >
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Email address
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     test@example.com
                   </td>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Password
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     <div
-                      className="govuk-form-group"
+                      class="govuk-form-group"
                     >
                       <label
-                        className="govuk-label govuk-label--s govuk-visually-hidden"
-                        htmlFor="password"
+                        class="govuk-label govuk-label--s govuk-visually-hidden"
+                        for="password"
                       >
                         Password
                       </label>
                       <input
-                        className="bg-white"
-                        disabled={true}
+                        class="bg-white"
+                        disabled=""
                         id="password"
                         name="password"
                         type="password"
@@ -539,114 +493,109 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
                     </div>
                   </td>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     <a
-                      className="govuk-link"
+                      class="govuk-link"
                       href="/change-password"
-                      onClick={[Function]}
-                      onMouseEnter={[Function]}
-                      onTouchStart={[Function]}
                     >
                       Change
                     </a>
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Organisation
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     Test Org
                   </td>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     NaPTAN Adminarea
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
               </tbody>
             </table>
             <div
-              className="mb-12"
+              class="mb-12"
             >
               <h2
-                className="govuk-heading-m"
+                class="govuk-heading-m"
               >
-                Email Notifications
+                Email notifications
               </h2>
               <div
-                className="govuk-form-group"
+                class="govuk-form-group"
               >
                 <div
-                  className=""
+                  class=""
                 >
                   <div
-                    className="flex flex-row items-center"
+                    class="flex flex-row items-center"
                   >
                     <p
-                      className="font-bold mr-28"
+                      class="font-bold mr-28 text-lg"
                     >
                       Street manager roadworks
                     </p>
                     <div
-                      className="govuk-radios govuk-radios--inline ml-auto"
+                      class="govuk-radios govuk-radios--inline ml-auto"
                       data-module="govuk-radios"
                     >
                       <div
-                        className="govuk-radios__item"
+                        class="govuk-radios__item"
                       >
                         <input
-                          className="govuk-radios__input"
+                          class="govuk-radios__input"
                           id="street-manager-notification-on"
                           name="street-manager-notification-on"
-                          onChange={[Function]}
                           type="radio"
                           value="true"
                         />
                         <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="street-manager-notification-on"
+                          class="govuk-label govuk-radios__label"
+                          for="street-manager-notification-on"
                         >
                           On
                         </label>
                       </div>
                       <div
-                        className="govuk-radios__item"
+                        class="govuk-radios__item"
                       >
                         <input
-                          checked={true}
-                          className="govuk-radios__input"
+                          checked=""
+                          class="govuk-radios__input"
                           id="street-manager-notification-off"
                           name="street-manager-notification-off"
-                          onChange={[Function]}
                           type="radio"
                           value="false"
                         />
                         <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="street-manager-notification-off"
+                          class="govuk-label govuk-radios__label"
+                          for="street-manager-notification-off"
                         >
                           Off
                         </label>
@@ -656,56 +605,54 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
                 </div>
               </div>
               <div
-                className="govuk-form-group"
+                class="govuk-form-group"
               >
                 <div
-                  className=""
+                  class=""
                 >
                   <div
-                    className="flex flex-row items-center"
+                    class="flex flex-row items-center"
                   >
                     <p
-                      className="font-bold mr-28"
+                      class="font-bold mr-28 text-lg"
                     >
                       Disruptions requiring approval
                     </p>
                     <div
-                      className="govuk-radios govuk-radios--inline ml-auto"
+                      class="govuk-radios govuk-radios--inline ml-auto"
                       data-module="govuk-radios"
                     >
                       <div
-                        className="govuk-radios__item"
+                        class="govuk-radios__item"
                       >
                         <input
-                          className="govuk-radios__input"
+                          class="govuk-radios__input"
                           id="disruption-approval-email-notification-on"
                           name="disruption-approval-email-notification-on"
-                          onChange={[Function]}
                           type="radio"
                           value="true"
                         />
                         <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="disruption-approval-email-notification-on"
+                          class="govuk-label govuk-radios__label"
+                          for="disruption-approval-email-notification-on"
                         >
                           On
                         </label>
                       </div>
                       <div
-                        className="govuk-radios__item"
+                        class="govuk-radios__item"
                       >
                         <input
-                          checked={true}
-                          className="govuk-radios__input"
+                          checked=""
+                          class="govuk-radios__input"
                           id="disruption-approval-email-notification-off"
                           name="disruption-approval-email-notification-off"
-                          onChange={[Function]}
                           type="radio"
                           value="false"
                         />
                         <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="disruption-approval-email-notification-off"
+                          class="govuk-label govuk-radios__label"
+                          for="disruption-approval-email-notification-off"
                         >
                           Off
                         </label>
@@ -716,79 +663,76 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
               </div>
             </div>
             <h2
-              className="govuk-heading-m"
+              class="govuk-heading-m"
             >
               From which source shall we acquire your data
             </h2>
             <div
-              className="govuk-form-group"
+              class="govuk-form-group"
             >
               <div
-                className=""
+                class=""
               >
                 <table
-                  className="govuk-table"
+                  class="govuk-table"
                 >
                   <thead
-                    className="govuk-table__head"
+                    class="govuk-table__head"
                   >
                     <tr
-                      className="govuk-table__row"
+                      class="govuk-table__row"
                     />
                   </thead>
                   <tbody
-                    className="govuk-table__body"
+                    class="govuk-table__body"
                   >
                     <tr
-                      className="govuk-table__row"
+                      class="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header align-middle"
+                        class="govuk-table__header align-middle"
                         scope="row"
                       >
                         Bus
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                        class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <div
-                          className="govuk-radios govuk-radios--inline"
+                          class="govuk-radios govuk-radios--inline"
                           data-module="govuk-radios"
                         >
                           <div
-                            className="govuk-radios__item"
+                            class="govuk-radios__item"
                           >
                             <input
-                              checked={false}
-                              className="govuk-radios__input"
+                              class="govuk-radios__input"
                               id="bus-tnds"
                               name="bus-group"
-                              onChange={[Function]}
                               type="radio"
                               value="tnds"
                             />
                             <label
-                              className="govuk-label govuk-radios__label"
-                              htmlFor="bus-tnds"
+                              class="govuk-label govuk-radios__label"
+                              for="bus-tnds"
                             >
                               TNDS
                             </label>
                           </div>
                           <div
-                            className="govuk-radios__item"
+                            class="govuk-radios__item"
                           >
                             <input
-                              checked={true}
-                              className="govuk-radios__input"
+                              checked=""
+                              class="govuk-radios__input"
                               id="bus-bods"
                               name="bus-group"
-                              onChange={[Function]}
                               type="radio"
                               value="bods"
                             />
                             <label
-                              className="govuk-label govuk-radios__label"
-                              htmlFor="bus-bods"
+                              class="govuk-label govuk-radios__label"
+                              for="bus-bods"
                             >
                               BODS
                             </label>
@@ -797,55 +741,52 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
                       </td>
                     </tr>
                     <tr
-                      className="govuk-table__row"
+                      class="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header align-middle"
+                        class="govuk-table__header align-middle"
                         scope="row"
                       >
                         Tram
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                        class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <div
-                          className="govuk-radios govuk-radios--inline"
+                          class="govuk-radios govuk-radios--inline"
                           data-module="govuk-radios"
                         >
                           <div
-                            className="govuk-radios__item"
+                            class="govuk-radios__item"
                           >
                             <input
-                              checked={true}
-                              className="govuk-radios__input"
+                              checked=""
+                              class="govuk-radios__input"
                               id="tram-tnds"
                               name="tram-group"
-                              onChange={[Function]}
                               type="radio"
                               value="tnds"
                             />
                             <label
-                              className="govuk-label govuk-radios__label"
-                              htmlFor="tram-tnds"
+                              class="govuk-label govuk-radios__label"
+                              for="tram-tnds"
                             >
                               TNDS
                             </label>
                           </div>
                           <div
-                            className="govuk-radios__item"
+                            class="govuk-radios__item"
                           >
                             <input
-                              checked={false}
-                              className="govuk-radios__input"
+                              class="govuk-radios__input"
                               id="tram-bods"
                               name="tram-group"
-                              onChange={[Function]}
                               type="radio"
                               value="bods"
                             />
                             <label
-                              className="govuk-label govuk-radios__label"
-                              htmlFor="tram-bods"
+                              class="govuk-label govuk-radios__label"
+                              for="tram-bods"
                             >
                               BODS
                             </label>
@@ -854,55 +795,52 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
                       </td>
                     </tr>
                     <tr
-                      className="govuk-table__row"
+                      class="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header align-middle"
+                        class="govuk-table__header align-middle"
                         scope="row"
                       >
                         Ferry
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                        class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <div
-                          className="govuk-radios govuk-radios--inline"
+                          class="govuk-radios govuk-radios--inline"
                           data-module="govuk-radios"
                         >
                           <div
-                            className="govuk-radios__item"
+                            class="govuk-radios__item"
                           >
                             <input
-                              checked={true}
-                              className="govuk-radios__input"
+                              checked=""
+                              class="govuk-radios__input"
                               id="ferryService-tnds"
                               name="ferryService-group"
-                              onChange={[Function]}
                               type="radio"
                               value="tnds"
                             />
                             <label
-                              className="govuk-label govuk-radios__label"
-                              htmlFor="ferryService-tnds"
+                              class="govuk-label govuk-radios__label"
+                              for="ferryService-tnds"
                             >
                               TNDS
                             </label>
                           </div>
                           <div
-                            className="govuk-radios__item"
+                            class="govuk-radios__item"
                           >
                             <input
-                              checked={false}
-                              className="govuk-radios__input"
+                              class="govuk-radios__input"
                               id="ferryService-bods"
                               name="ferryService-group"
-                              onChange={[Function]}
                               type="radio"
                               value="bods"
                             />
                             <label
-                              className="govuk-label govuk-radios__label"
-                              htmlFor="ferryService-bods"
+                              class="govuk-label govuk-radios__label"
+                              for="ferryService-bods"
                             >
                               BODS
                             </label>
@@ -911,55 +849,106 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
                       </td>
                     </tr>
                     <tr
-                      className="govuk-table__row"
+                      class="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header align-middle"
+                        class="govuk-table__header align-middle"
                         scope="row"
                       >
                         Rail
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                        class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <div
-                          className="govuk-radios govuk-radios--inline"
+                          class="govuk-radios govuk-radios--inline"
                           data-module="govuk-radios"
                         >
                           <div
-                            className="govuk-radios__item"
+                            class="govuk-radios__item"
                           >
                             <input
-                              checked={true}
-                              className="govuk-radios__input"
+                              checked=""
+                              class="govuk-radios__input"
                               id="rail-tnds"
                               name="rail-group"
-                              onChange={[Function]}
                               type="radio"
                               value="tnds"
                             />
                             <label
-                              className="govuk-label govuk-radios__label"
-                              htmlFor="rail-tnds"
+                              class="govuk-label govuk-radios__label"
+                              for="rail-tnds"
                             >
                               TNDS
                             </label>
                           </div>
                           <div
-                            className="govuk-radios__item"
+                            class="govuk-radios__item"
                           >
                             <input
-                              checked={false}
-                              className="govuk-radios__input"
+                              class="govuk-radios__input"
                               id="rail-bods"
                               name="rail-group"
-                              onChange={[Function]}
                               type="radio"
                               value="bods"
                             />
                             <label
-                              className="govuk-label govuk-radios__label"
-                              htmlFor="rail-bods"
+                              class="govuk-label govuk-radios__label"
+                              for="rail-bods"
+                            >
+                              BODS
+                            </label>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr
+                      class="govuk-table__row"
+                    >
+                      <th
+                        class="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Coach
+                      </th>
+                      <td
+                        class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <div
+                          class="govuk-radios govuk-radios--inline"
+                          data-module="govuk-radios"
+                        >
+                          <div
+                            class="govuk-radios__item"
+                          >
+                            <input
+                              class="govuk-radios__input"
+                              id="coach-tnds"
+                              name="coach-group"
+                              type="radio"
+                              value="tnds"
+                            />
+                            <label
+                              class="govuk-label govuk-radios__label"
+                              for="coach-tnds"
+                            >
+                              TNDS
+                            </label>
+                          </div>
+                          <div
+                            class="govuk-radios__item"
+                          >
+                            <input
+                              checked=""
+                              class="govuk-radios__input"
+                              id="coach-bods"
+                              name="coach-group"
+                              type="radio"
+                              value="bods"
+                            />
+                            <label
+                              class="govuk-label govuk-radios__label"
+                              for="coach-bods"
                             >
                               BODS
                             </label>
@@ -977,138 +966,122 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
     </main>
     <div>
       <h2
-        className="govuk-heading-s"
+        class="govuk-heading-s"
       >
         Help and Support
       </h2>
       <p
-        className="govuk-body"
+        class="govuk-body"
       >
-        If you are having problems, please contact the Create Disruption Service via this link:
-         
+        If you are having problems, please contact the Create Disruption Service via this link: 
         <a
-          className="govuk-link govuk-!-font-size-19"
+          class="govuk-link govuk-!-font-size-19"
           href="/contact"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           Contact us
         </a>
       </p>
     </div>
-  </div>,
+  </div>
   <footer
-    className="govuk-footer"
+    class="govuk-footer"
     role="contentinfo"
   >
     <div
-      className="govuk-width-container"
+      class="govuk-width-container"
     >
       <div
-        className="govuk-footer__meta"
+        class="govuk-footer__meta"
       >
         <div
-          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
         >
           <h2
-            className="govuk-visually-hidden"
+            class="govuk-visually-hidden"
           >
             Support links
           </h2>
           <ul
-            className="govuk-footer__inline-list"
+            class="govuk-footer__inline-list"
           >
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Help
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/cookies"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Cookies
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Contact
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/accessibility"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Accessibility
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="https://www.gov.uk/help/terms-conditions"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Terms and conditions
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/privacy"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Privacy
               </a>
             </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
+              </a>
+            </li>
           </ul>
           <p
-            className="govuk-footer__body"
+            class="govuk-footer__body"
           >
-            Built by the
-             
+            Built by the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.gov.uk/government/organisations/department-for-transport"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="noreferrer"
               target="_blank"
             >
@@ -1117,7 +1090,7 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
           </p>
           <svg
             aria-hidden="true"
-            className="govuk-footer__licence-logo"
+            class="govuk-footer__licence-logo"
             focusable="false"
             height="17"
             viewBox="0 0 483.2 195.7"
@@ -1130,16 +1103,12 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
             />
           </svg>
           <span
-            className="govuk-footer__licence-description"
+            class="govuk-footer__licence-description"
           >
-            All content is available under the
-             
+            All content is available under the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="license"
             >
               Open Government Licence v3.0
@@ -1148,144 +1117,131 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
           </span>
         </div>
         <div
-          className="govuk-footer__meta-item"
+          class="govuk-footer__meta-item"
         >
           <a
-            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             © Crown copyright
           </a>
         </div>
       </div>
     </div>
-  </footer>,
-]
+  </footer>
+</DocumentFragment>
 `;
 
 exports[`accountSettings > should render correctly for organisation admin and showUnderground is true 1`] = `
-[
+<DocumentFragment>
   <div
-    className="app-phase-banner__wrapper"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      class="govuk-phase-banner__content"
     >
-      <p
-        className="govuk-phase-banner__content"
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          className="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
         >
-          beta
-        </strong>
-        <span
-          className="govuk-phase-banner__text"
-        >
-          This is a new service – your
-           
-          <a
-            className="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
-          >
-            feedback
-          </a>
-           
-          will help us to improve it.
-        </span>
-      </p>
-    </div>
-  </div>,
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
+  </div>
   <div
-    className="govuk-width-container"
+    class="govuk-width-container"
   >
     <button
-      className="govuk-back-link mb-7"
-      onClick={[Function]}
+      class="govuk-back-link mb-7"
       type="button"
     >
       Back
     </button>
     <main
-      className="govuk-main-wrapper"
+      class="govuk-main-wrapper"
       id="main-content"
     >
       <div
-        className="govuk-grid-row"
+        class="govuk-grid-row"
       >
         <div
-          className="govuk-grid-column-two-thirds"
+          class="govuk-grid-column-two-thirds"
         >
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <h1
-              className="govuk-heading-l"
+              class="govuk-heading-l"
             >
               Account settings
             </h1>
             <table
-              className="govuk-table"
+              class="govuk-table"
             >
               <thead
-                className="govuk-table__head"
+                class="govuk-table__head"
               >
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 />
               </thead>
               <tbody
-                className="govuk-table__body"
+                class="govuk-table__body"
               >
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Email address
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     test@example.com
                   </td>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Password
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     <div
-                      className="govuk-form-group"
+                      class="govuk-form-group"
                     >
                       <label
-                        className="govuk-label govuk-label--s govuk-visually-hidden"
-                        htmlFor="password"
+                        class="govuk-label govuk-label--s govuk-visually-hidden"
+                        for="password"
                       >
                         Password
                       </label>
                       <input
-                        className="bg-white"
-                        disabled={true}
+                        class="bg-white"
+                        disabled=""
                         id="password"
                         name="password"
                         type="password"
@@ -1294,116 +1250,111 @@ exports[`accountSettings > should render correctly for organisation admin and sh
                     </div>
                   </td>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     <a
-                      className="govuk-link"
+                      class="govuk-link"
                       href="/change-password"
-                      onClick={[Function]}
-                      onMouseEnter={[Function]}
-                      onTouchStart={[Function]}
                     >
                       Change
                     </a>
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Organisation
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     Test Org
                   </td>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     NaPTAN Adminarea
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     082, 147
                   </td>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
               </tbody>
             </table>
             <div
-              className="mb-12"
+              class="mb-12"
             >
               <h2
-                className="govuk-heading-m"
+                class="govuk-heading-m"
               >
-                Email Notifications
+                Email notifications
               </h2>
               <div
-                className="govuk-form-group"
+                class="govuk-form-group"
               >
                 <div
-                  className=""
+                  class=""
                 >
                   <div
-                    className="flex flex-row items-center"
+                    class="flex flex-row items-center"
                   >
                     <p
-                      className="font-bold mr-28"
+                      class="font-bold mr-28 text-lg"
                     >
                       Street manager roadworks
                     </p>
                     <div
-                      className="govuk-radios govuk-radios--inline ml-auto"
+                      class="govuk-radios govuk-radios--inline ml-auto"
                       data-module="govuk-radios"
                     >
                       <div
-                        className="govuk-radios__item"
+                        class="govuk-radios__item"
                       >
                         <input
-                          className="govuk-radios__input"
+                          class="govuk-radios__input"
                           id="street-manager-notification-on"
                           name="street-manager-notification-on"
-                          onChange={[Function]}
                           type="radio"
                           value="true"
                         />
                         <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="street-manager-notification-on"
+                          class="govuk-label govuk-radios__label"
+                          for="street-manager-notification-on"
                         >
                           On
                         </label>
                       </div>
                       <div
-                        className="govuk-radios__item"
+                        class="govuk-radios__item"
                       >
                         <input
-                          checked={true}
-                          className="govuk-radios__input"
+                          checked=""
+                          class="govuk-radios__input"
                           id="street-manager-notification-off"
                           name="street-manager-notification-off"
-                          onChange={[Function]}
                           type="radio"
                           value="false"
                         />
                         <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="street-manager-notification-off"
+                          class="govuk-label govuk-radios__label"
+                          for="street-manager-notification-off"
                         >
                           Off
                         </label>
@@ -1413,56 +1364,54 @@ exports[`accountSettings > should render correctly for organisation admin and sh
                 </div>
               </div>
               <div
-                className="govuk-form-group"
+                class="govuk-form-group"
               >
                 <div
-                  className=""
+                  class=""
                 >
                   <div
-                    className="flex flex-row items-center"
+                    class="flex flex-row items-center"
                   >
                     <p
-                      className="font-bold mr-28"
+                      class="font-bold mr-28 text-lg"
                     >
                       Disruptions requiring approval
                     </p>
                     <div
-                      className="govuk-radios govuk-radios--inline ml-auto"
+                      class="govuk-radios govuk-radios--inline ml-auto"
                       data-module="govuk-radios"
                     >
                       <div
-                        className="govuk-radios__item"
+                        class="govuk-radios__item"
                       >
                         <input
-                          className="govuk-radios__input"
+                          class="govuk-radios__input"
                           id="disruption-approval-email-notification-on"
                           name="disruption-approval-email-notification-on"
-                          onChange={[Function]}
                           type="radio"
                           value="true"
                         />
                         <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="disruption-approval-email-notification-on"
+                          class="govuk-label govuk-radios__label"
+                          for="disruption-approval-email-notification-on"
                         >
                           On
                         </label>
                       </div>
                       <div
-                        className="govuk-radios__item"
+                        class="govuk-radios__item"
                       >
                         <input
-                          checked={true}
-                          className="govuk-radios__input"
+                          checked=""
+                          class="govuk-radios__input"
                           id="disruption-approval-email-notification-off"
                           name="disruption-approval-email-notification-off"
-                          onChange={[Function]}
                           type="radio"
                           value="false"
                         />
                         <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="disruption-approval-email-notification-off"
+                          class="govuk-label govuk-radios__label"
+                          for="disruption-approval-email-notification-off"
                         >
                           Off
                         </label>
@@ -1473,79 +1422,76 @@ exports[`accountSettings > should render correctly for organisation admin and sh
               </div>
             </div>
             <h2
-              className="govuk-heading-m"
+              class="govuk-heading-m"
             >
               From which source shall we acquire your data
             </h2>
             <div
-              className="govuk-form-group"
+              class="govuk-form-group"
             >
               <div
-                className=""
+                class=""
               >
                 <table
-                  className="govuk-table"
+                  class="govuk-table"
                 >
                   <thead
-                    className="govuk-table__head"
+                    class="govuk-table__head"
                   >
                     <tr
-                      className="govuk-table__row"
+                      class="govuk-table__row"
                     />
                   </thead>
                   <tbody
-                    className="govuk-table__body"
+                    class="govuk-table__body"
                   >
                     <tr
-                      className="govuk-table__row"
+                      class="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header align-middle"
+                        class="govuk-table__header align-middle"
                         scope="row"
                       >
                         Bus
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                        class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <div
-                          className="govuk-radios govuk-radios--inline"
+                          class="govuk-radios govuk-radios--inline"
                           data-module="govuk-radios"
                         >
                           <div
-                            className="govuk-radios__item"
+                            class="govuk-radios__item"
                           >
                             <input
-                              checked={false}
-                              className="govuk-radios__input"
+                              class="govuk-radios__input"
                               id="bus-tnds"
                               name="bus-group"
-                              onChange={[Function]}
                               type="radio"
                               value="tnds"
                             />
                             <label
-                              className="govuk-label govuk-radios__label"
-                              htmlFor="bus-tnds"
+                              class="govuk-label govuk-radios__label"
+                              for="bus-tnds"
                             >
                               TNDS
                             </label>
                           </div>
                           <div
-                            className="govuk-radios__item"
+                            class="govuk-radios__item"
                           >
                             <input
-                              checked={true}
-                              className="govuk-radios__input"
+                              checked=""
+                              class="govuk-radios__input"
                               id="bus-bods"
                               name="bus-group"
-                              onChange={[Function]}
                               type="radio"
                               value="bods"
                             />
                             <label
-                              className="govuk-label govuk-radios__label"
-                              htmlFor="bus-bods"
+                              class="govuk-label govuk-radios__label"
+                              for="bus-bods"
                             >
                               BODS
                             </label>
@@ -1554,55 +1500,52 @@ exports[`accountSettings > should render correctly for organisation admin and sh
                       </td>
                     </tr>
                     <tr
-                      className="govuk-table__row"
+                      class="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header align-middle"
+                        class="govuk-table__header align-middle"
                         scope="row"
                       >
                         Tram
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                        class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <div
-                          className="govuk-radios govuk-radios--inline"
+                          class="govuk-radios govuk-radios--inline"
                           data-module="govuk-radios"
                         >
                           <div
-                            className="govuk-radios__item"
+                            class="govuk-radios__item"
                           >
                             <input
-                              checked={true}
-                              className="govuk-radios__input"
+                              checked=""
+                              class="govuk-radios__input"
                               id="tram-tnds"
                               name="tram-group"
-                              onChange={[Function]}
                               type="radio"
                               value="tnds"
                             />
                             <label
-                              className="govuk-label govuk-radios__label"
-                              htmlFor="tram-tnds"
+                              class="govuk-label govuk-radios__label"
+                              for="tram-tnds"
                             >
                               TNDS
                             </label>
                           </div>
                           <div
-                            className="govuk-radios__item"
+                            class="govuk-radios__item"
                           >
                             <input
-                              checked={false}
-                              className="govuk-radios__input"
+                              class="govuk-radios__input"
                               id="tram-bods"
                               name="tram-group"
-                              onChange={[Function]}
                               type="radio"
                               value="bods"
                             />
                             <label
-                              className="govuk-label govuk-radios__label"
-                              htmlFor="tram-bods"
+                              class="govuk-label govuk-radios__label"
+                              for="tram-bods"
                             >
                               BODS
                             </label>
@@ -1611,55 +1554,52 @@ exports[`accountSettings > should render correctly for organisation admin and sh
                       </td>
                     </tr>
                     <tr
-                      className="govuk-table__row"
+                      class="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header align-middle"
+                        class="govuk-table__header align-middle"
                         scope="row"
                       >
                         Ferry
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                        class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <div
-                          className="govuk-radios govuk-radios--inline"
+                          class="govuk-radios govuk-radios--inline"
                           data-module="govuk-radios"
                         >
                           <div
-                            className="govuk-radios__item"
+                            class="govuk-radios__item"
                           >
                             <input
-                              checked={true}
-                              className="govuk-radios__input"
+                              checked=""
+                              class="govuk-radios__input"
                               id="ferryService-tnds"
                               name="ferryService-group"
-                              onChange={[Function]}
                               type="radio"
                               value="tnds"
                             />
                             <label
-                              className="govuk-label govuk-radios__label"
-                              htmlFor="ferryService-tnds"
+                              class="govuk-label govuk-radios__label"
+                              for="ferryService-tnds"
                             >
                               TNDS
                             </label>
                           </div>
                           <div
-                            className="govuk-radios__item"
+                            class="govuk-radios__item"
                           >
                             <input
-                              checked={false}
-                              className="govuk-radios__input"
+                              class="govuk-radios__input"
                               id="ferryService-bods"
                               name="ferryService-group"
-                              onChange={[Function]}
                               type="radio"
                               value="bods"
                             />
                             <label
-                              className="govuk-label govuk-radios__label"
-                              htmlFor="ferryService-bods"
+                              class="govuk-label govuk-radios__label"
+                              for="ferryService-bods"
                             >
                               BODS
                             </label>
@@ -1668,55 +1608,52 @@ exports[`accountSettings > should render correctly for organisation admin and sh
                       </td>
                     </tr>
                     <tr
-                      className="govuk-table__row"
+                      class="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header align-middle"
+                        class="govuk-table__header align-middle"
                         scope="row"
                       >
                         Rail
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                        class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <div
-                          className="govuk-radios govuk-radios--inline"
+                          class="govuk-radios govuk-radios--inline"
                           data-module="govuk-radios"
                         >
                           <div
-                            className="govuk-radios__item"
+                            class="govuk-radios__item"
                           >
                             <input
-                              checked={true}
-                              className="govuk-radios__input"
+                              checked=""
+                              class="govuk-radios__input"
                               id="rail-tnds"
                               name="rail-group"
-                              onChange={[Function]}
                               type="radio"
                               value="tnds"
                             />
                             <label
-                              className="govuk-label govuk-radios__label"
-                              htmlFor="rail-tnds"
+                              class="govuk-label govuk-radios__label"
+                              for="rail-tnds"
                             >
                               TNDS
                             </label>
                           </div>
                           <div
-                            className="govuk-radios__item"
+                            class="govuk-radios__item"
                           >
                             <input
-                              checked={false}
-                              className="govuk-radios__input"
+                              class="govuk-radios__input"
                               id="rail-bods"
                               name="rail-group"
-                              onChange={[Function]}
                               type="radio"
                               value="bods"
                             />
                             <label
-                              className="govuk-label govuk-radios__label"
-                              htmlFor="rail-bods"
+                              class="govuk-label govuk-radios__label"
+                              for="rail-bods"
                             >
                               BODS
                             </label>
@@ -1725,55 +1662,106 @@ exports[`accountSettings > should render correctly for organisation admin and sh
                       </td>
                     </tr>
                     <tr
-                      className="govuk-table__row"
+                      class="govuk-table__row"
                     >
                       <th
-                        className="govuk-table__header align-middle"
+                        class="govuk-table__header align-middle"
                         scope="row"
                       >
                         Underground
                       </th>
                       <td
-                        className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                        class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                       >
                         <div
-                          className="govuk-radios govuk-radios--inline"
+                          class="govuk-radios govuk-radios--inline"
                           data-module="govuk-radios"
                         >
                           <div
-                            className="govuk-radios__item"
+                            class="govuk-radios__item"
                           >
                             <input
-                              checked={true}
-                              className="govuk-radios__input"
+                              checked=""
+                              class="govuk-radios__input"
                               id="underground-tnds"
                               name="underground-group"
-                              onChange={[Function]}
                               type="radio"
                               value="tnds"
                             />
                             <label
-                              className="govuk-label govuk-radios__label"
-                              htmlFor="underground-tnds"
+                              class="govuk-label govuk-radios__label"
+                              for="underground-tnds"
                             >
                               TNDS
                             </label>
                           </div>
                           <div
-                            className="govuk-radios__item"
+                            class="govuk-radios__item"
                           >
                             <input
-                              checked={false}
-                              className="govuk-radios__input"
+                              class="govuk-radios__input"
                               id="underground-bods"
                               name="underground-group"
-                              onChange={[Function]}
                               type="radio"
                               value="bods"
                             />
                             <label
-                              className="govuk-label govuk-radios__label"
-                              htmlFor="underground-bods"
+                              class="govuk-label govuk-radios__label"
+                              for="underground-bods"
+                            >
+                              BODS
+                            </label>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr
+                      class="govuk-table__row"
+                    >
+                      <th
+                        class="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Coach
+                      </th>
+                      <td
+                        class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <div
+                          class="govuk-radios govuk-radios--inline"
+                          data-module="govuk-radios"
+                        >
+                          <div
+                            class="govuk-radios__item"
+                          >
+                            <input
+                              class="govuk-radios__input"
+                              id="coach-tnds"
+                              name="coach-group"
+                              type="radio"
+                              value="tnds"
+                            />
+                            <label
+                              class="govuk-label govuk-radios__label"
+                              for="coach-tnds"
+                            >
+                              TNDS
+                            </label>
+                          </div>
+                          <div
+                            class="govuk-radios__item"
+                          >
+                            <input
+                              checked=""
+                              class="govuk-radios__input"
+                              id="coach-bods"
+                              name="coach-group"
+                              type="radio"
+                              value="bods"
+                            />
+                            <label
+                              class="govuk-label govuk-radios__label"
+                              for="coach-bods"
                             >
                               BODS
                             </label>
@@ -1791,138 +1779,122 @@ exports[`accountSettings > should render correctly for organisation admin and sh
     </main>
     <div>
       <h2
-        className="govuk-heading-s"
+        class="govuk-heading-s"
       >
         Help and Support
       </h2>
       <p
-        className="govuk-body"
+        class="govuk-body"
       >
-        If you are having problems, please contact the Create Disruption Service via this link:
-         
+        If you are having problems, please contact the Create Disruption Service via this link: 
         <a
-          className="govuk-link govuk-!-font-size-19"
+          class="govuk-link govuk-!-font-size-19"
           href="/contact"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           Contact us
         </a>
       </p>
     </div>
-  </div>,
+  </div>
   <footer
-    className="govuk-footer"
+    class="govuk-footer"
     role="contentinfo"
   >
     <div
-      className="govuk-width-container"
+      class="govuk-width-container"
     >
       <div
-        className="govuk-footer__meta"
+        class="govuk-footer__meta"
       >
         <div
-          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
         >
           <h2
-            className="govuk-visually-hidden"
+            class="govuk-visually-hidden"
           >
             Support links
           </h2>
           <ul
-            className="govuk-footer__inline-list"
+            class="govuk-footer__inline-list"
           >
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Help
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/cookies"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Cookies
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Contact
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/accessibility"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Accessibility
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="https://www.gov.uk/help/terms-conditions"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Terms and conditions
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/privacy"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Privacy
               </a>
             </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
+              </a>
+            </li>
           </ul>
           <p
-            className="govuk-footer__body"
+            class="govuk-footer__body"
           >
-            Built by the
-             
+            Built by the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.gov.uk/government/organisations/department-for-transport"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="noreferrer"
               target="_blank"
             >
@@ -1931,7 +1903,7 @@ exports[`accountSettings > should render correctly for organisation admin and sh
           </p>
           <svg
             aria-hidden="true"
-            className="govuk-footer__licence-logo"
+            class="govuk-footer__licence-logo"
             focusable="false"
             height="17"
             viewBox="0 0 483.2 195.7"
@@ -1944,16 +1916,12 @@ exports[`accountSettings > should render correctly for organisation admin and sh
             />
           </svg>
           <span
-            className="govuk-footer__licence-description"
+            class="govuk-footer__licence-description"
           >
-            All content is available under the
-             
+            All content is available under the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="license"
             >
               Open Government Licence v3.0
@@ -1962,144 +1930,131 @@ exports[`accountSettings > should render correctly for organisation admin and sh
           </span>
         </div>
         <div
-          className="govuk-footer__meta-item"
+          class="govuk-footer__meta-item"
         >
           <a
-            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             © Crown copyright
           </a>
         </div>
       </div>
     </div>
-  </footer>,
-]
+  </footer>
+</DocumentFragment>
 `;
 
 exports[`accountSettings > should render correctly for publisher user 1`] = `
-[
+<DocumentFragment>
   <div
-    className="app-phase-banner__wrapper"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      class="govuk-phase-banner__content"
     >
-      <p
-        className="govuk-phase-banner__content"
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          className="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
         >
-          beta
-        </strong>
-        <span
-          className="govuk-phase-banner__text"
-        >
-          This is a new service – your
-           
-          <a
-            className="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
-          >
-            feedback
-          </a>
-           
-          will help us to improve it.
-        </span>
-      </p>
-    </div>
-  </div>,
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
+  </div>
   <div
-    className="govuk-width-container"
+    class="govuk-width-container"
   >
     <button
-      className="govuk-back-link mb-7"
-      onClick={[Function]}
+      class="govuk-back-link mb-7"
       type="button"
     >
       Back
     </button>
     <main
-      className="govuk-main-wrapper"
+      class="govuk-main-wrapper"
       id="main-content"
     >
       <div
-        className="govuk-grid-row"
+        class="govuk-grid-row"
       >
         <div
-          className="govuk-grid-column-two-thirds"
+          class="govuk-grid-column-two-thirds"
         >
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <h1
-              className="govuk-heading-l"
+              class="govuk-heading-l"
             >
               Account settings
             </h1>
             <table
-              className="govuk-table"
+              class="govuk-table"
             >
               <thead
-                className="govuk-table__head"
+                class="govuk-table__head"
               >
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 />
               </thead>
               <tbody
-                className="govuk-table__body"
+                class="govuk-table__body"
               >
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Email address
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     test@example.com
                   </td>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Password
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     <div
-                      className="govuk-form-group"
+                      class="govuk-form-group"
                     >
                       <label
-                        className="govuk-label govuk-label--s govuk-visually-hidden"
-                        htmlFor="password"
+                        class="govuk-label govuk-label--s govuk-visually-hidden"
+                        for="password"
                       >
                         Password
                       </label>
                       <input
-                        className="bg-white"
-                        disabled={true}
+                        class="bg-white"
+                        disabled=""
                         id="password"
                         name="password"
                         type="password"
@@ -2108,114 +2063,109 @@ exports[`accountSettings > should render correctly for publisher user 1`] = `
                     </div>
                   </td>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     <a
-                      className="govuk-link"
+                      class="govuk-link"
                       href="/change-password"
-                      onClick={[Function]}
-                      onMouseEnter={[Function]}
-                      onTouchStart={[Function]}
                     >
                       Change
                     </a>
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Organisation
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     Test Org
                   </td>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     NaPTAN Adminarea
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
               </tbody>
             </table>
             <div
-              className="mb-12"
+              class="mb-12"
             >
               <h2
-                className="govuk-heading-m"
+                class="govuk-heading-m"
               >
-                Email Notifications
+                Email notifications
               </h2>
               <div
-                className="govuk-form-group"
+                class="govuk-form-group"
               >
                 <div
-                  className=""
+                  class=""
                 >
                   <div
-                    className="flex flex-row items-center"
+                    class="flex flex-row items-center"
                   >
                     <p
-                      className="font-bold mr-28"
+                      class="font-bold mr-28 text-lg"
                     >
                       Street manager roadworks
                     </p>
                     <div
-                      className="govuk-radios govuk-radios--inline ml-auto"
+                      class="govuk-radios govuk-radios--inline ml-auto"
                       data-module="govuk-radios"
                     >
                       <div
-                        className="govuk-radios__item"
+                        class="govuk-radios__item"
                       >
                         <input
-                          className="govuk-radios__input"
+                          class="govuk-radios__input"
                           id="street-manager-notification-on"
                           name="street-manager-notification-on"
-                          onChange={[Function]}
                           type="radio"
                           value="true"
                         />
                         <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="street-manager-notification-on"
+                          class="govuk-label govuk-radios__label"
+                          for="street-manager-notification-on"
                         >
                           On
                         </label>
                       </div>
                       <div
-                        className="govuk-radios__item"
+                        class="govuk-radios__item"
                       >
                         <input
-                          checked={true}
-                          className="govuk-radios__input"
+                          checked=""
+                          class="govuk-radios__input"
                           id="street-manager-notification-off"
                           name="street-manager-notification-off"
-                          onChange={[Function]}
                           type="radio"
                           value="false"
                         />
                         <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="street-manager-notification-off"
+                          class="govuk-label govuk-radios__label"
+                          for="street-manager-notification-off"
                         >
                           Off
                         </label>
@@ -2231,138 +2181,122 @@ exports[`accountSettings > should render correctly for publisher user 1`] = `
     </main>
     <div>
       <h2
-        className="govuk-heading-s"
+        class="govuk-heading-s"
       >
         Help and Support
       </h2>
       <p
-        className="govuk-body"
+        class="govuk-body"
       >
-        If you are having problems, please contact the Create Disruption Service via this link:
-         
+        If you are having problems, please contact the Create Disruption Service via this link: 
         <a
-          className="govuk-link govuk-!-font-size-19"
+          class="govuk-link govuk-!-font-size-19"
           href="/contact"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           Contact us
         </a>
       </p>
     </div>
-  </div>,
+  </div>
   <footer
-    className="govuk-footer"
+    class="govuk-footer"
     role="contentinfo"
   >
     <div
-      className="govuk-width-container"
+      class="govuk-width-container"
     >
       <div
-        className="govuk-footer__meta"
+        class="govuk-footer__meta"
       >
         <div
-          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
         >
           <h2
-            className="govuk-visually-hidden"
+            class="govuk-visually-hidden"
           >
             Support links
           </h2>
           <ul
-            className="govuk-footer__inline-list"
+            class="govuk-footer__inline-list"
           >
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Help
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/cookies"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Cookies
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Contact
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/accessibility"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Accessibility
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="https://www.gov.uk/help/terms-conditions"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Terms and conditions
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/privacy"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Privacy
               </a>
             </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
+              </a>
+            </li>
           </ul>
           <p
-            className="govuk-footer__body"
+            class="govuk-footer__body"
           >
-            Built by the
-             
+            Built by the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.gov.uk/government/organisations/department-for-transport"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="noreferrer"
               target="_blank"
             >
@@ -2371,7 +2305,7 @@ exports[`accountSettings > should render correctly for publisher user 1`] = `
           </p>
           <svg
             aria-hidden="true"
-            className="govuk-footer__licence-logo"
+            class="govuk-footer__licence-logo"
             focusable="false"
             height="17"
             viewBox="0 0 483.2 195.7"
@@ -2384,16 +2318,12 @@ exports[`accountSettings > should render correctly for publisher user 1`] = `
             />
           </svg>
           <span
-            className="govuk-footer__licence-description"
+            class="govuk-footer__licence-description"
           >
-            All content is available under the
-             
+            All content is available under the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="license"
             >
               Open Government Licence v3.0
@@ -2402,144 +2332,131 @@ exports[`accountSettings > should render correctly for publisher user 1`] = `
           </span>
         </div>
         <div
-          className="govuk-footer__meta-item"
+          class="govuk-footer__meta-item"
         >
           <a
-            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             © Crown copyright
           </a>
         </div>
       </div>
     </div>
-  </footer>,
-]
+  </footer>
+</DocumentFragment>
 `;
 
 exports[`accountSettings > should render correctly for staff user 1`] = `
-[
+<DocumentFragment>
   <div
-    className="app-phase-banner__wrapper"
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
   >
-    <div
-      className="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+    <p
+      class="govuk-phase-banner__content"
     >
-      <p
-        className="govuk-phase-banner__content"
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
       >
-        <strong
-          className="govuk-tag govuk-phase-banner__content__tag"
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
         >
-          beta
-        </strong>
-        <span
-          className="govuk-phase-banner__text"
-        >
-          This is a new service – your
-           
-          <a
-            className="govuk-link"
-            href="/feedback"
-            id="feedback-link"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
-          >
-            feedback
-          </a>
-           
-          will help us to improve it.
-        </span>
-      </p>
-    </div>
-  </div>,
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
+  </div>
   <div
-    className="govuk-width-container"
+    class="govuk-width-container"
   >
     <button
-      className="govuk-back-link mb-7"
-      onClick={[Function]}
+      class="govuk-back-link mb-7"
       type="button"
     >
       Back
     </button>
     <main
-      className="govuk-main-wrapper"
+      class="govuk-main-wrapper"
       id="main-content"
     >
       <div
-        className="govuk-grid-row"
+        class="govuk-grid-row"
       >
         <div
-          className="govuk-grid-column-two-thirds"
+          class="govuk-grid-column-two-thirds"
         >
           <div
-            className="govuk-form-group"
+            class="govuk-form-group"
           >
             <h1
-              className="govuk-heading-l"
+              class="govuk-heading-l"
             >
               Account settings
             </h1>
             <table
-              className="govuk-table"
+              class="govuk-table"
             >
               <thead
-                className="govuk-table__head"
+                class="govuk-table__head"
               >
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 />
               </thead>
               <tbody
-                className="govuk-table__body"
+                class="govuk-table__body"
               >
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Email address
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     test@example.com
                   </td>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Password
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     <div
-                      className="govuk-form-group"
+                      class="govuk-form-group"
                     >
                       <label
-                        className="govuk-label govuk-label--s govuk-visually-hidden"
-                        htmlFor="password"
+                        class="govuk-label govuk-label--s govuk-visually-hidden"
+                        for="password"
                       >
                         Password
                       </label>
                       <input
-                        className="bg-white"
-                        disabled={true}
+                        class="bg-white"
+                        disabled=""
                         id="password"
                         name="password"
                         type="password"
@@ -2548,114 +2465,109 @@ exports[`accountSettings > should render correctly for staff user 1`] = `
                     </div>
                   </td>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     <a
-                      className="govuk-link"
+                      class="govuk-link"
                       href="/change-password"
-                      onClick={[Function]}
-                      onMouseEnter={[Function]}
-                      onTouchStart={[Function]}
                     >
                       Change
                     </a>
                   </td>
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     Organisation
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   >
                     Test Org
                   </td>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
                 <tr
-                  className="govuk-table__row"
+                  class="govuk-table__row"
                 >
                   <th
-                    className="govuk-table__header align-middle"
+                    class="govuk-table__header align-middle"
                     scope="row"
                   >
                     NaPTAN Adminarea
                   </th>
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                   <td
-                    className="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                   />
                 </tr>
               </tbody>
             </table>
             <div
-              className="mb-12"
+              class="mb-12"
             >
               <h2
-                className="govuk-heading-m"
+                class="govuk-heading-m"
               >
-                Email Notifications
+                Email notifications
               </h2>
               <div
-                className="govuk-form-group"
+                class="govuk-form-group"
               >
                 <div
-                  className=""
+                  class=""
                 >
                   <div
-                    className="flex flex-row items-center"
+                    class="flex flex-row items-center"
                   >
                     <p
-                      className="font-bold mr-28"
+                      class="font-bold mr-28 text-lg"
                     >
                       Street manager roadworks
                     </p>
                     <div
-                      className="govuk-radios govuk-radios--inline ml-auto"
+                      class="govuk-radios govuk-radios--inline ml-auto"
                       data-module="govuk-radios"
                     >
                       <div
-                        className="govuk-radios__item"
+                        class="govuk-radios__item"
                       >
                         <input
-                          className="govuk-radios__input"
+                          class="govuk-radios__input"
                           id="street-manager-notification-on"
                           name="street-manager-notification-on"
-                          onChange={[Function]}
                           type="radio"
                           value="true"
                         />
                         <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="street-manager-notification-on"
+                          class="govuk-label govuk-radios__label"
+                          for="street-manager-notification-on"
                         >
                           On
                         </label>
                       </div>
                       <div
-                        className="govuk-radios__item"
+                        class="govuk-radios__item"
                       >
                         <input
-                          checked={true}
-                          className="govuk-radios__input"
+                          checked=""
+                          class="govuk-radios__input"
                           id="street-manager-notification-off"
                           name="street-manager-notification-off"
-                          onChange={[Function]}
                           type="radio"
                           value="false"
                         />
                         <label
-                          className="govuk-label govuk-radios__label"
-                          htmlFor="street-manager-notification-off"
+                          class="govuk-label govuk-radios__label"
+                          for="street-manager-notification-off"
                         >
                           Off
                         </label>
@@ -2671,138 +2583,122 @@ exports[`accountSettings > should render correctly for staff user 1`] = `
     </main>
     <div>
       <h2
-        className="govuk-heading-s"
+        class="govuk-heading-s"
       >
         Help and Support
       </h2>
       <p
-        className="govuk-body"
+        class="govuk-body"
       >
-        If you are having problems, please contact the Create Disruption Service via this link:
-         
+        If you are having problems, please contact the Create Disruption Service via this link: 
         <a
-          className="govuk-link govuk-!-font-size-19"
+          class="govuk-link govuk-!-font-size-19"
           href="/contact"
-          onClick={[Function]}
-          onMouseEnter={[Function]}
-          onTouchStart={[Function]}
         >
           Contact us
         </a>
       </p>
     </div>
-  </div>,
+  </div>
   <footer
-    className="govuk-footer"
+    class="govuk-footer"
     role="contentinfo"
   >
     <div
-      className="govuk-width-container"
+      class="govuk-width-container"
     >
       <div
-        className="govuk-footer__meta"
+        class="govuk-footer__meta"
       >
         <div
-          className="govuk-footer__meta-item govuk-footer__meta-item--grow"
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
         >
           <h2
-            className="govuk-visually-hidden"
+            class="govuk-visually-hidden"
           >
             Support links
           </h2>
           <ul
-            className="govuk-footer__inline-list"
+            class="govuk-footer__inline-list"
           >
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Help
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/cookies"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Cookies
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/contact"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Contact
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/accessibility"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Accessibility
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="https://www.gov.uk/help/terms-conditions"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Terms and conditions
               </a>
             </li>
             <li
-              className="govuk-footer__inline-list-item"
+              class="govuk-footer__inline-list-item"
             >
               <a
-                className="govuk-footer__link"
+                class="govuk-footer__link"
                 href="/privacy"
-                onClick={[Function]}
-                onMouseEnter={[Function]}
-                onTouchStart={[Function]}
               >
                 Privacy
               </a>
             </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
+              </a>
+            </li>
           </ul>
           <p
-            className="govuk-footer__body"
+            class="govuk-footer__body"
           >
-            Built by the
-             
+            Built by the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.gov.uk/government/organisations/department-for-transport"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="noreferrer"
               target="_blank"
             >
@@ -2811,7 +2707,7 @@ exports[`accountSettings > should render correctly for staff user 1`] = `
           </p>
           <svg
             aria-hidden="true"
-            className="govuk-footer__licence-logo"
+            class="govuk-footer__licence-logo"
             focusable="false"
             height="17"
             viewBox="0 0 483.2 195.7"
@@ -2824,16 +2720,12 @@ exports[`accountSettings > should render correctly for staff user 1`] = `
             />
           </svg>
           <span
-            className="govuk-footer__licence-description"
+            class="govuk-footer__licence-description"
           >
-            All content is available under the
-             
+            All content is available under the 
             <a
-              className="govuk-footer__link"
+              class="govuk-footer__link"
               href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
-              onClick={[Function]}
-              onMouseEnter={[Function]}
-              onTouchStart={[Function]}
               rel="license"
             >
               Open Government Licence v3.0
@@ -2842,20 +2734,17 @@ exports[`accountSettings > should render correctly for staff user 1`] = `
           </span>
         </div>
         <div
-          className="govuk-footer__meta-item"
+          class="govuk-footer__meta-item"
         >
           <a
-            className="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
             href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
-            onClick={[Function]}
-            onMouseEnter={[Function]}
-            onTouchStart={[Function]}
           >
             © Crown copyright
           </a>
         </div>
       </div>
     </div>
-  </footer>,
-]
+  </footer>
+</DocumentFragment>
 `;

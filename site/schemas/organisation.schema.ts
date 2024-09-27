@@ -8,6 +8,7 @@ export const modeSchema = z.object({
     ferryService: z.nativeEnum(Datasource).default(Datasource.tnds),
     rail: z.nativeEnum(Datasource).default(Datasource.tnds),
     underground: z.nativeEnum(Datasource).default(Datasource.tnds),
+    coach: z.nativeEnum(Datasource).default(Datasource.bods),
 });
 
 export type ModeType = z.infer<typeof modeSchema>;
@@ -18,6 +19,7 @@ export const defaultModes: ModeType = {
     ferryService: Datasource.tnds,
     rail: Datasource.tnds,
     underground: Datasource.tnds,
+    coach: Datasource.bods,
 };
 
 export const organisationSchema = z.object({

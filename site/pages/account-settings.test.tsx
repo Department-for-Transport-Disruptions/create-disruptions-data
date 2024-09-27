@@ -1,5 +1,4 @@
-import { render, screen } from "@testing-library/react";
-import renderer from "react-test-renderer";
+import { cleanup, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
     DEFAULT_OPERATOR_ORG_ID,
@@ -10,37 +9,39 @@ import {
 import * as user from "../utils/user";
 import AccountSettings from "./account-settings.page";
 
+vi.mock("../utils/user", () => ({
+    getEmailPreferences: vi.fn(),
+}));
+
+const getEmailPreferencesSpy = vi.spyOn(user, "getEmailPreferences");
+
+beforeEach(() => {
+    getEmailPreferencesSpy.mockResolvedValue({
+        streetManagerEmailPreference: false,
+        disruptionApprovalEmailPreference: false,
+    });
+});
+
+afterEach(() => {
+    vi.resetAllMocks();
+    cleanup();
+});
+
 describe("accountSettings", () => {
-    vi.mock("../utils/user", () => ({
-        getEmailPreferences: vi.fn(),
-    }));
-
-    beforeEach(() => {
-        getEmailPreferencesSpy.mockResolvedValue({
-            streetManagerEmailPreference: false,
-            disruptionApprovalEmailPreference: false,
-        });
-    });
-
-    afterEach(() => {
-        vi.resetAllMocks();
-    });
-
-    const getEmailPreferencesSpy = vi.spyOn(user, "getEmailPreferences");
     it("should render correctly for organisation admin", () => {
-        const tree = renderer.create(<AccountSettings sessionWithOrg={mockSessionWithOrgDetail} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<AccountSettings sessionWithOrg={mockSessionWithOrgDetail} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly for organisation admin and showUnderground is true", () => {
-        const tree = renderer
-            .create(<AccountSettings sessionWithOrg={mockSessionWithOrgDetailAndShowUndergroundTrue} />)
-            .toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(
+            <AccountSettings sessionWithOrg={mockSessionWithOrgDetailAndShowUndergroundTrue} />,
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly and display the expected button for sysadmin", () => {
-        const { unmount } = render(
+        render(
             <AccountSettings
                 sessionWithOrg={{
                     ...mockSessionWithOrgDetail,
@@ -52,59 +53,51 @@ describe("accountSettings", () => {
 
         const buttonElement = screen.getByText("Return to Manage Organisations");
         expect(buttonElement).toBeDefined();
-
-        unmount();
     });
 
     it("should render correctly for staff user", () => {
-        const tree = renderer
-            .create(
-                <AccountSettings
-                    sessionWithOrg={{
-                        ...mockSessionWithOrgDetail,
-                        isOrgAdmin: false,
-                        isOrgStaff: true,
-                    }}
-                />,
-            )
-            .toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(
+            <AccountSettings
+                sessionWithOrg={{
+                    ...mockSessionWithOrgDetail,
+                    isOrgAdmin: false,
+                    isOrgStaff: true,
+                }}
+            />,
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly for publisher user", () => {
-        const tree = renderer
-            .create(
-                <AccountSettings
-                    sessionWithOrg={{
-                        ...mockSessionWithOrgDetail,
-                        isOrgAdmin: false,
-                        isOrgPublisher: true,
-                    }}
-                />,
-            )
-            .toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(
+            <AccountSettings
+                sessionWithOrg={{
+                    ...mockSessionWithOrgDetail,
+                    isOrgAdmin: false,
+                    isOrgPublisher: true,
+                }}
+            />,
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly for operator", () => {
-        const tree = renderer
-            .create(
-                <AccountSettings
-                    sessionWithOrg={{
-                        ...mockSessionWithOrgDetail,
-                        isOrgAdmin: false,
-                        isOperatorUser: true,
-                        operatorOrgId: DEFAULT_OPERATOR_ORG_ID,
-                    }}
-                    operator={{
-                        nocCodes: ["WRAY", "CPTR", "MOXN"],
-                        operatorOrgId: DEFAULT_OPERATOR_ORG_ID,
-                        orgId: DEFAULT_ORG_ID,
-                        name: "add-op",
-                    }}
-                />,
-            )
-            .toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(
+            <AccountSettings
+                sessionWithOrg={{
+                    ...mockSessionWithOrgDetail,
+                    isOrgAdmin: false,
+                    isOperatorUser: true,
+                    operatorOrgId: DEFAULT_OPERATOR_ORG_ID,
+                }}
+                operator={{
+                    nocCodes: ["WRAY", "CPTR", "MOXN"],
+                    operatorOrgId: DEFAULT_OPERATOR_ORG_ID,
+                    orgId: DEFAULT_ORG_ID,
+                    name: "add-op",
+                }}
+            />,
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 });
