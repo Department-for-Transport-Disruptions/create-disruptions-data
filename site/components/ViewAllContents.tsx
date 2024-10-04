@@ -62,6 +62,7 @@ export interface ViewAllContentProps {
     enableLoadingSpinnerOnPageLoad?: boolean;
     isTemplate?: boolean;
     showUnderground?: boolean;
+    showCoach?: boolean;
 }
 
 export interface Filter {
@@ -484,6 +485,7 @@ const ViewAllContents = ({
     isTemplate = false,
     orgId,
     showUnderground = false,
+    showCoach = false,
 }: ViewAllContentProps): ReactElement => {
     const [selectedServices, setSelectedServices] = useState<Service[]>([]);
     const [selectedOperators, setSelectedOperators] = useState<ConsequenceOperators[]>([]);
@@ -985,7 +987,7 @@ const ViewAllContents = ({
                                 defaultDisplay="Select a mode"
                                 selectValues={[
                                     { display: "Any", value: "any" },
-                                    ...filterVehicleModes(showUnderground).sort((a, b) =>
+                                    ...filterVehicleModes(showUnderground, showCoach).sort((a, b) =>
                                         a.display.localeCompare(b.display),
                                     ),
                                 ]}

@@ -370,3 +370,6 @@ export const CONSEQUENCE_TYPES = (
             : []),
     ];
 };
+
+export const ALLOWED_COACH_CONSEQUENCES = ["journeys", "services", "operatorWide"];
+export const ENABLE_COACH_MODE_FEATURE_FLAG = !["preprod", "prod"].includes(STAGE);

@@ -4,6 +4,7 @@ import { NextPageContext } from "next";
 import { ReactElement } from "react";
 import ViewAllContents, { ViewAllContentProps } from "../components/ViewAllContents";
 import { BaseLayout } from "../components/layout/Layout";
+import { ENABLE_COACH_MODE_FEATURE_FLAG } from "../constants";
 import { getSessionWithOrgDetail } from "../utils/apiUtils/auth";
 
 const title = "View All Disruptions";
@@ -16,6 +17,7 @@ const ViewAllDisruptions = ({
     enableLoadingSpinnerOnPageLoad = true,
     orgId,
     showUnderground = false,
+    showCoach = false,
 }: ViewAllContentProps): ReactElement => {
     return (
         <BaseLayout title={title} description={description}>
@@ -26,6 +28,7 @@ const ViewAllDisruptions = ({
                 enableLoadingSpinnerOnPageLoad={enableLoadingSpinnerOnPageLoad}
                 orgId={orgId}
                 showUnderground={showUnderground}
+                showCoach={showCoach}
             />
         </BaseLayout>
     );
@@ -66,6 +69,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                   ? { filterStatus: Progress.draft }
                   : {}),
             showUnderground: session.showUnderground,
+            showCoach: ENABLE_COACH_MODE_FEATURE_FLAG,
         },
     };
 };
