@@ -8,7 +8,15 @@ const Changelog = (): ReactElement => {
     return (
         <TwoThirdsLayout title={title} description={description}>
             <h1 className="govuk-heading-xl">Service Changelog</h1>
-            <p className="govuk-body">Last updated: 30 August 2024</p>
+            <p className="govuk-body">Last updated: 04 October 2024</p>
+            <hr className="govuk-section-break govuk-section-break--xl govuk-section-break--visible" />
+            <h2 className="govuk-heading-l">October 2024 (1.61.0)</h2>{" "}
+            <p className="govuk-body">This release will deploy the following changes:</p>
+            <ul className="govuk-list govuk-list--bullet">
+                <li>Service changelog page.</li>{" "}
+                <li>Further updates to bring site up to WCAG 2.2AA standard.</li>{" "}
+                <li>Additional guidance text within consequence pages.</li>{" "}
+            </ul>
             <hr className="govuk-section-break govuk-section-break--xl govuk-section-break--visible" />
             <h2 className="govuk-heading-l">July 2024 (1.60.1)</h2>{" "}
             <p className="govuk-body">This release will deploy the following changes:</p>
@@ -20,14 +28,14 @@ const Changelog = (): ReactElement => {
             <p className="govuk-body">This release will deploy the following changes:</p>
             <ul className="govuk-list govuk-list--bullet">
                 <li>
-                    Addition of <code>VersionedAtTime</code> in SIRI-SX output.
+                    Addition of <em>VersionedAtTime</em> in SIRI-SX output.
                 </li>
                 <li>
-                    Addition of <code>AffectsPlace</code> group in SIRI-SX output including <code>PlaceRef</code>,{" "}
-                    <code>PlaceName</code>, <code>PlaceCategory</code>.
+                    Addition of <em>AffectsPlace</em> group in SIRI-SX output including <em>PlaceRef</em>,{" "}
+                    <em>PlaceName</em>, <em>PlaceCategory</em>.
                 </li>
                 <li>
-                    Addition of <code>PublishedLineName</code> in SIRI-SX output.
+                    Addition of <em>PublishedLineName</em> in SIRI-SX output.
                 </li>
             </ul>{" "}
             <hr className="govuk-section-break govuk-section-break--xl govuk-section-break--visible" />{" "}
@@ -80,7 +88,7 @@ const Changelog = (): ReactElement => {
                 <li>The addition of a back button to improve navigation through pages.</li>{" "}
                 <li>
                     An extension to the reports within the tool, additional columns added, and date format updated to{" "}
-                    <code>[DD/MM/YYYY]</code>.
+                    <em>[DD/MM/YYYY]</em>.
                 </li>{" "}
             </ul>
         </TwoThirdsLayout>
