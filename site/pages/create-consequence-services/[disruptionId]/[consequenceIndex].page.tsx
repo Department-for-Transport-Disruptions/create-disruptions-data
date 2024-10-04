@@ -27,11 +27,13 @@ import { BaseLayout } from "../../../components/layout/Layout";
 import NotificationBanner from "../../../components/layout/NotificationBanner";
 import Map from "../../../components/map/ServicesMap";
 import {
+    ALLOWED_COACH_CONSEQUENCES,
     COOKIES_CONSEQUENCE_SERVICES_ERRORS,
     CREATE_CONSEQUENCE_SERVICES_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
     DISRUPTION_SEVERITIES,
+    ENABLE_COACH_MODE_FEATURE_FLAG,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById, getNocCodesForOperatorOrg } from "../../../data/dynamo";
@@ -499,7 +501,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             inputName="vehicleMode"
                             display="Mode of transport"
                             defaultDisplay="Select mode of transport"
-                            selectValues={filterVehicleModes(props.showUnderground, "services")}
+                            selectValues={filterVehicleModes(props.showUnderground, props.showCoach)}
                             stateUpdater={stateUpdater}
                             value={pageState?.inputs?.vehicleMode}
                             initialErrors={pageState.errors}
@@ -890,6 +892,7 @@ export const getServerSideProps = async (
             isOperatorUser: session.isOperatorUser,
             operatorUserNocCodes: operatorUserNocCodes,
             showUnderground: session.showUnderground,
+            showCoach: ENABLE_COACH_MODE_FEATURE_FLAG && ALLOWED_COACH_CONSEQUENCES.includes("services"),
         },
     };
 };
