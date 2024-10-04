@@ -13,8 +13,7 @@ const Changelog = (): ReactElement => {
             <h2 className="govuk-heading-l">October 2024 (1.61.0)</h2>{" "}
             <p className="govuk-body">This release will deploy the following changes:</p>
             <ul className="govuk-list govuk-list--bullet">
-                <li>Service changelog page.</li>{" "}
-                <li>Further updates to bring site up to WCAG 2.2AA standard.</li>{" "}
+                <li>Service changelog page.</li> <li>Further updates to bring site up to WCAG 2.2AA standard.</li>{" "}
                 <li>Additional guidance text within consequence pages.</li>{" "}
             </ul>
             <hr className="govuk-section-break govuk-section-break--xl govuk-section-break--visible" />
