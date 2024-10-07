@@ -100,4 +100,9 @@ describe("accountSettings", () => {
         );
         expect(asFragment()).toMatchSnapshot();
     });
+
+    it("should render correctly if coach feature flag is enables=d", () => {
+        const { asFragment } = render(<AccountSettings sessionWithOrg={mockSessionWithOrgDetail} showCoach={true} />);
+        expect(asFragment()).toMatchSnapshot();
+    });
 });

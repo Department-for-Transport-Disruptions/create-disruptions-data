@@ -902,60 +902,6 @@ exports[`accountSettings > should render correctly for organisation admin 1`] = 
                         </div>
                       </td>
                     </tr>
-                    <tr
-                      class="govuk-table__row"
-                    >
-                      <th
-                        class="govuk-table__header align-middle"
-                        scope="row"
-                      >
-                        Coach
-                      </th>
-                      <td
-                        class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <div
-                          class="govuk-radios govuk-radios--inline"
-                          data-module="govuk-radios"
-                        >
-                          <div
-                            class="govuk-radios__item"
-                          >
-                            <input
-                              class="govuk-radios__input"
-                              id="coach-tnds"
-                              name="coach-group"
-                              type="radio"
-                              value="tnds"
-                            />
-                            <label
-                              class="govuk-label govuk-radios__label"
-                              for="coach-tnds"
-                            >
-                              TNDS
-                            </label>
-                          </div>
-                          <div
-                            class="govuk-radios__item"
-                          >
-                            <input
-                              checked=""
-                              class="govuk-radios__input"
-                              id="coach-bods"
-                              name="coach-group"
-                              type="radio"
-                              value="bods"
-                            />
-                            <label
-                              class="govuk-label govuk-radios__label"
-                              for="coach-bods"
-                            >
-                              BODS
-                            </label>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
                   </tbody>
                 </table>
               </div>
@@ -1708,60 +1654,6 @@ exports[`accountSettings > should render correctly for organisation admin and sh
                             <label
                               class="govuk-label govuk-radios__label"
                               for="underground-bods"
-                            >
-                              BODS
-                            </label>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                    <tr
-                      class="govuk-table__row"
-                    >
-                      <th
-                        class="govuk-table__header align-middle"
-                        scope="row"
-                      >
-                        Coach
-                      </th>
-                      <td
-                        class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                      >
-                        <div
-                          class="govuk-radios govuk-radios--inline"
-                          data-module="govuk-radios"
-                        >
-                          <div
-                            class="govuk-radios__item"
-                          >
-                            <input
-                              class="govuk-radios__input"
-                              id="coach-tnds"
-                              name="coach-group"
-                              type="radio"
-                              value="tnds"
-                            />
-                            <label
-                              class="govuk-label govuk-radios__label"
-                              for="coach-tnds"
-                            >
-                              TNDS
-                            </label>
-                          </div>
-                          <div
-                            class="govuk-radios__item"
-                          >
-                            <input
-                              checked=""
-                              class="govuk-radios__input"
-                              id="coach-bods"
-                              name="coach-group"
-                              type="radio"
-                              value="bods"
-                            />
-                            <label
-                              class="govuk-label govuk-radios__label"
-                              for="coach-bods"
                             >
                               BODS
                             </label>
@@ -2575,6 +2467,763 @@ exports[`accountSettings > should render correctly for staff user 1`] = `
                     </div>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <div>
+      <h2
+        class="govuk-heading-s"
+      >
+        Help and Support
+      </h2>
+      <p
+        class="govuk-body"
+      >
+        If you are having problems, please contact the Create Disruption Service via this link: 
+        <a
+          class="govuk-link govuk-!-font-size-19"
+          href="/contact"
+        >
+          Contact us
+        </a>
+      </p>
+    </div>
+  </div>
+  <footer
+    class="govuk-footer"
+    role="contentinfo"
+  >
+    <div
+      class="govuk-width-container"
+    >
+      <div
+        class="govuk-footer__meta"
+      >
+        <div
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
+        >
+          <h2
+            class="govuk-visually-hidden"
+          >
+            Support links
+          </h2>
+          <ul
+            class="govuk-footer__inline-list"
+          >
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/contact"
+              >
+                Help
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/cookies"
+              >
+                Cookies
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/contact"
+              >
+                Contact
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/accessibility"
+              >
+                Accessibility
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="https://www.gov.uk/help/terms-conditions"
+              >
+                Terms and conditions
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/privacy"
+              >
+                Privacy
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
+              </a>
+            </li>
+          </ul>
+          <p
+            class="govuk-footer__body"
+          >
+            Built by the 
+            <a
+              class="govuk-footer__link"
+              href="https://www.gov.uk/government/organisations/department-for-transport"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Department for Transport
+            </a>
+          </p>
+          <svg
+            aria-hidden="true"
+            class="govuk-footer__licence-logo"
+            focusable="false"
+            height="17"
+            viewBox="0 0 483.2 195.7"
+            width="41"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145"
+              fill="currentColor"
+            />
+          </svg>
+          <span
+            class="govuk-footer__licence-description"
+          >
+            All content is available under the 
+            <a
+              class="govuk-footer__link"
+              href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+              rel="license"
+            >
+              Open Government Licence v3.0
+            </a>
+            , except where otherwise stated
+          </span>
+        </div>
+        <div
+          class="govuk-footer__meta-item"
+        >
+          <a
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+          >
+            © Crown copyright
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</DocumentFragment>
+`;
+
+exports[`accountSettings > should render correctly if coach feature flag is enables=d 1`] = `
+<DocumentFragment>
+  <div
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+  >
+    <p
+      class="govuk-phase-banner__content"
+    >
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
+      >
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
+        >
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
+  </div>
+  <div
+    class="govuk-width-container"
+  >
+    <button
+      class="govuk-back-link mb-7"
+      type="button"
+    >
+      Back
+    </button>
+    <main
+      class="govuk-main-wrapper"
+      id="main-content"
+    >
+      <div
+        class="govuk-grid-row"
+      >
+        <div
+          class="govuk-grid-column-two-thirds"
+        >
+          <div
+            class="govuk-form-group"
+          >
+            <h1
+              class="govuk-heading-l"
+            >
+              Account settings
+            </h1>
+            <table
+              class="govuk-table"
+            >
+              <thead
+                class="govuk-table__head"
+              >
+                <tr
+                  class="govuk-table__row"
+                />
+              </thead>
+              <tbody
+                class="govuk-table__body"
+              >
+                <tr
+                  class="govuk-table__row"
+                >
+                  <th
+                    class="govuk-table__header align-middle"
+                    scope="row"
+                  >
+                    Email address
+                  </th>
+                  <td
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  >
+                    test@example.com
+                  </td>
+                  <td
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  />
+                </tr>
+                <tr
+                  class="govuk-table__row"
+                >
+                  <th
+                    class="govuk-table__header align-middle"
+                    scope="row"
+                  >
+                    Password
+                  </th>
+                  <td
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  >
+                    <div
+                      class="govuk-form-group"
+                    >
+                      <label
+                        class="govuk-label govuk-label--s govuk-visually-hidden"
+                        for="password"
+                      >
+                        Password
+                      </label>
+                      <input
+                        class="bg-white"
+                        disabled=""
+                        id="password"
+                        name="password"
+                        type="password"
+                        value="myPassword"
+                      />
+                    </div>
+                  </td>
+                  <td
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  >
+                    <a
+                      class="govuk-link"
+                      href="/change-password"
+                    >
+                      Change
+                    </a>
+                  </td>
+                </tr>
+                <tr
+                  class="govuk-table__row"
+                >
+                  <th
+                    class="govuk-table__header align-middle"
+                    scope="row"
+                  >
+                    Organisation
+                  </th>
+                  <td
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  >
+                    Test Org
+                  </td>
+                  <td
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  />
+                </tr>
+                <tr
+                  class="govuk-table__row"
+                >
+                  <th
+                    class="govuk-table__header align-middle"
+                    scope="row"
+                  >
+                    NaPTAN Adminarea
+                  </th>
+                  <td
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  />
+                  <td
+                    class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  />
+                </tr>
+              </tbody>
+            </table>
+            <div
+              class="mb-12"
+            >
+              <h2
+                class="govuk-heading-m"
+              >
+                Email notifications
+              </h2>
+              <div
+                class="govuk-form-group"
+              >
+                <div
+                  class=""
+                >
+                  <div
+                    class="flex flex-row items-center"
+                  >
+                    <p
+                      class="font-bold mr-28 text-lg"
+                    >
+                      Street manager roadworks
+                    </p>
+                    <div
+                      class="govuk-radios govuk-radios--inline ml-auto"
+                      data-module="govuk-radios"
+                    >
+                      <div
+                        class="govuk-radios__item"
+                      >
+                        <input
+                          class="govuk-radios__input"
+                          id="street-manager-notification-on"
+                          name="street-manager-notification-on"
+                          type="radio"
+                          value="true"
+                        />
+                        <label
+                          class="govuk-label govuk-radios__label"
+                          for="street-manager-notification-on"
+                        >
+                          On
+                        </label>
+                      </div>
+                      <div
+                        class="govuk-radios__item"
+                      >
+                        <input
+                          checked=""
+                          class="govuk-radios__input"
+                          id="street-manager-notification-off"
+                          name="street-manager-notification-off"
+                          type="radio"
+                          value="false"
+                        />
+                        <label
+                          class="govuk-label govuk-radios__label"
+                          for="street-manager-notification-off"
+                        >
+                          Off
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="govuk-form-group"
+              >
+                <div
+                  class=""
+                >
+                  <div
+                    class="flex flex-row items-center"
+                  >
+                    <p
+                      class="font-bold mr-28 text-lg"
+                    >
+                      Disruptions requiring approval
+                    </p>
+                    <div
+                      class="govuk-radios govuk-radios--inline ml-auto"
+                      data-module="govuk-radios"
+                    >
+                      <div
+                        class="govuk-radios__item"
+                      >
+                        <input
+                          class="govuk-radios__input"
+                          id="disruption-approval-email-notification-on"
+                          name="disruption-approval-email-notification-on"
+                          type="radio"
+                          value="true"
+                        />
+                        <label
+                          class="govuk-label govuk-radios__label"
+                          for="disruption-approval-email-notification-on"
+                        >
+                          On
+                        </label>
+                      </div>
+                      <div
+                        class="govuk-radios__item"
+                      >
+                        <input
+                          checked=""
+                          class="govuk-radios__input"
+                          id="disruption-approval-email-notification-off"
+                          name="disruption-approval-email-notification-off"
+                          type="radio"
+                          value="false"
+                        />
+                        <label
+                          class="govuk-label govuk-radios__label"
+                          for="disruption-approval-email-notification-off"
+                        >
+                          Off
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h2
+              class="govuk-heading-m"
+            >
+              From which source shall we acquire your data
+            </h2>
+            <div
+              class="govuk-form-group"
+            >
+              <div
+                class=""
+              >
+                <table
+                  class="govuk-table"
+                >
+                  <thead
+                    class="govuk-table__head"
+                  >
+                    <tr
+                      class="govuk-table__row"
+                    />
+                  </thead>
+                  <tbody
+                    class="govuk-table__body"
+                  >
+                    <tr
+                      class="govuk-table__row"
+                    >
+                      <th
+                        class="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Bus
+                      </th>
+                      <td
+                        class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <div
+                          class="govuk-radios govuk-radios--inline"
+                          data-module="govuk-radios"
+                        >
+                          <div
+                            class="govuk-radios__item"
+                          >
+                            <input
+                              class="govuk-radios__input"
+                              id="bus-tnds"
+                              name="bus-group"
+                              type="radio"
+                              value="tnds"
+                            />
+                            <label
+                              class="govuk-label govuk-radios__label"
+                              for="bus-tnds"
+                            >
+                              TNDS
+                            </label>
+                          </div>
+                          <div
+                            class="govuk-radios__item"
+                          >
+                            <input
+                              checked=""
+                              class="govuk-radios__input"
+                              id="bus-bods"
+                              name="bus-group"
+                              type="radio"
+                              value="bods"
+                            />
+                            <label
+                              class="govuk-label govuk-radios__label"
+                              for="bus-bods"
+                            >
+                              BODS
+                            </label>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr
+                      class="govuk-table__row"
+                    >
+                      <th
+                        class="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Tram
+                      </th>
+                      <td
+                        class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <div
+                          class="govuk-radios govuk-radios--inline"
+                          data-module="govuk-radios"
+                        >
+                          <div
+                            class="govuk-radios__item"
+                          >
+                            <input
+                              checked=""
+                              class="govuk-radios__input"
+                              id="tram-tnds"
+                              name="tram-group"
+                              type="radio"
+                              value="tnds"
+                            />
+                            <label
+                              class="govuk-label govuk-radios__label"
+                              for="tram-tnds"
+                            >
+                              TNDS
+                            </label>
+                          </div>
+                          <div
+                            class="govuk-radios__item"
+                          >
+                            <input
+                              class="govuk-radios__input"
+                              id="tram-bods"
+                              name="tram-group"
+                              type="radio"
+                              value="bods"
+                            />
+                            <label
+                              class="govuk-label govuk-radios__label"
+                              for="tram-bods"
+                            >
+                              BODS
+                            </label>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr
+                      class="govuk-table__row"
+                    >
+                      <th
+                        class="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Ferry
+                      </th>
+                      <td
+                        class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <div
+                          class="govuk-radios govuk-radios--inline"
+                          data-module="govuk-radios"
+                        >
+                          <div
+                            class="govuk-radios__item"
+                          >
+                            <input
+                              checked=""
+                              class="govuk-radios__input"
+                              id="ferryService-tnds"
+                              name="ferryService-group"
+                              type="radio"
+                              value="tnds"
+                            />
+                            <label
+                              class="govuk-label govuk-radios__label"
+                              for="ferryService-tnds"
+                            >
+                              TNDS
+                            </label>
+                          </div>
+                          <div
+                            class="govuk-radios__item"
+                          >
+                            <input
+                              class="govuk-radios__input"
+                              id="ferryService-bods"
+                              name="ferryService-group"
+                              type="radio"
+                              value="bods"
+                            />
+                            <label
+                              class="govuk-label govuk-radios__label"
+                              for="ferryService-bods"
+                            >
+                              BODS
+                            </label>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr
+                      class="govuk-table__row"
+                    >
+                      <th
+                        class="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Rail
+                      </th>
+                      <td
+                        class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <div
+                          class="govuk-radios govuk-radios--inline"
+                          data-module="govuk-radios"
+                        >
+                          <div
+                            class="govuk-radios__item"
+                          >
+                            <input
+                              checked=""
+                              class="govuk-radios__input"
+                              id="rail-tnds"
+                              name="rail-group"
+                              type="radio"
+                              value="tnds"
+                            />
+                            <label
+                              class="govuk-label govuk-radios__label"
+                              for="rail-tnds"
+                            >
+                              TNDS
+                            </label>
+                          </div>
+                          <div
+                            class="govuk-radios__item"
+                          >
+                            <input
+                              class="govuk-radios__input"
+                              id="rail-bods"
+                              name="rail-group"
+                              type="radio"
+                              value="bods"
+                            />
+                            <label
+                              class="govuk-label govuk-radios__label"
+                              for="rail-bods"
+                            >
+                              BODS
+                            </label>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                    <tr
+                      class="govuk-table__row"
+                    >
+                      <th
+                        class="govuk-table__header align-middle"
+                        scope="row"
+                      >
+                        Coach
+                      </th>
+                      <td
+                        class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                      >
+                        <div
+                          class="govuk-radios govuk-radios--inline"
+                          data-module="govuk-radios"
+                        >
+                          <div
+                            class="govuk-radios__item"
+                          >
+                            <input
+                              class="govuk-radios__input"
+                              id="coach-tnds"
+                              name="coach-group"
+                              type="radio"
+                              value="tnds"
+                            />
+                            <label
+                              class="govuk-label govuk-radios__label"
+                              for="coach-tnds"
+                            >
+                              TNDS
+                            </label>
+                          </div>
+                          <div
+                            class="govuk-radios__item"
+                          >
+                            <input
+                              checked=""
+                              class="govuk-radios__input"
+                              id="coach-bods"
+                              name="coach-group"
+                              type="radio"
+                              value="bods"
+                            />
+                            <label
+                              class="govuk-label govuk-radios__label"
+                              for="coach-bods"
+                            >
+                              BODS
+                            </label>
+                          </div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
