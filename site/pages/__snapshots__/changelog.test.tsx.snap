@@ -55,8 +55,38 @@ exports[`Changelog > should render correctly 1`] = `
           <p
             class="govuk-body"
           >
-            Last updated: 30 August 2024
+            Last updated: 04 October 2024
           </p>
+          <hr
+            class="govuk-section-break govuk-section-break--xl govuk-section-break--visible"
+          />
+          <h2
+            class="govuk-heading-l"
+          >
+            October 2024 (1.61.0)
+          </h2>
+           
+          <p
+            class="govuk-body"
+          >
+            This release will deploy the following changes:
+          </p>
+          <ul
+            class="govuk-list govuk-list--bullet"
+          >
+            <li>
+              Service changelog page.
+            </li>
+             
+            <li>
+              Further updates to bring site up to WCAG 2.2AA standard.
+            </li>
+             
+            <li>
+              Additional guidance text within consequence pages.
+            </li>
+             
+          </ul>
           <hr
             class="govuk-section-break govuk-section-break--xl govuk-section-break--visible"
           />
@@ -98,35 +128,35 @@ exports[`Changelog > should render correctly 1`] = `
           >
             <li>
               Addition of 
-              <code>
+              <em>
                 VersionedAtTime
-              </code>
+              </em>
                in SIRI-SX output.
             </li>
             <li>
               Addition of 
-              <code>
+              <em>
                 AffectsPlace
-              </code>
+              </em>
                group in SIRI-SX output including 
-              <code>
+              <em>
                 PlaceRef
-              </code>
+              </em>
               , 
-              <code>
+              <em>
                 PlaceName
-              </code>
+              </em>
               , 
-              <code>
+              <em>
                 PlaceCategory
-              </code>
+              </em>
               .
             </li>
             <li>
               Addition of 
-              <code>
+              <em>
                 PublishedLineName
-              </code>
+              </em>
                in SIRI-SX output.
             </li>
           </ul>
@@ -294,9 +324,9 @@ exports[`Changelog > should render correctly 1`] = `
              
             <li>
               An extension to the reports within the tool, additional columns added, and date format updated to 
-              <code>
+              <em>
                 [DD/MM/YYYY]
-              </code>
+              </em>
               .
             </li>
              
