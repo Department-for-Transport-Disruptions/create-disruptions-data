@@ -24,11 +24,13 @@ import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
 import Map from "../../../components/map/StopsMap";
 import {
+    ALLOWED_COACH_CONSEQUENCES,
     COOKIES_CONSEQUENCE_STOPS_ERRORS,
     CREATE_CONSEQUENCE_STOPS_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
     DISRUPTION_SEVERITIES,
+    ENABLE_COACH_MODE_FEATURE_FLAG,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/dynamo";
@@ -229,7 +231,7 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
                             inputName="vehicleMode"
                             display="Mode of transport"
                             defaultDisplay="Select mode of transport"
-                            selectValues={filterVehicleModes(props.showUnderground, "stops")}
+                            selectValues={filterVehicleModes(props.showUnderground, props.showCoach)}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.vehicleMode}
                             initialErrors={pageState.errors}
@@ -487,6 +489,7 @@ export const getServerSideProps = async (
             template: disruption.template?.toString() || "",
             isEdit: !!consequence,
             showUnderground: session.showUnderground,
+            showCoach: ENABLE_COACH_MODE_FEATURE_FLAG && ALLOWED_COACH_CONSEQUENCES.includes("stops"),
         },
     };
 };

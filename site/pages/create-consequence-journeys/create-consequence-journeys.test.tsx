@@ -146,6 +146,11 @@ describe("pages", () => {
             expect(asFragment()).toMatchSnapshot();
         });
 
+        it("should render correctly with inputs and showCoach is true", () => {
+            const { asFragment } = render(<CreateConsequenceJourneys {...{ ...withInputs, showCoach: true }} />);
+            expect(asFragment()).toMatchSnapshot();
+        });
+
         it("should render correctly with errors and incorrect inputs", () => {
             const { asFragment } = render(<CreateConsequenceJourneys {...withInputsAndErrors} />);
             expect(asFragment()).toMatchSnapshot();

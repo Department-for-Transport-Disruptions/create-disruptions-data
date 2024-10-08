@@ -241,24 +241,14 @@ export const removeDuplicatesBasedOnMode = <T extends Operator, K extends keyof 
             index === self.findIndex((item) => item[key] === value[key] && item.mode === value.mode),
     );
 
-export const filterVehicleModes = (showUnderground?: boolean, consequenceType?: string) =>
-    VEHICLE_MODES.filter((v) => {
-        if (showUnderground && v.value === VehicleMode.underground) {
-            return true;
-        }
+export const filterVehicleModes = (showUnderground = false, showCoach = false) => {
+    return VEHICLE_MODES.filter((v) => {
+        const isCoach = v.value === VehicleMode.coach;
+        const isUnderground = v.value === VehicleMode.underground;
 
-        if (
-            consequenceType &&
-            v.value === VehicleMode.coach &&
-            consequenceType !== "journeys" &&
-            consequenceType !== "services" &&
-            consequenceType !== "operatorWide"
-        ) {
-            return false;
-        }
-
-        return v.value !== VehicleMode.underground;
+        return (showCoach || !isCoach) && (showUnderground || !isUnderground);
     });
+};
 
 export const filterStopList = (stops: Stop[], vehicleMode: VehicleMode | Modes, showUnderground?: boolean) =>
     stops.filter((stop) => {

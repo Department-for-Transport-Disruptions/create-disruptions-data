@@ -6,7 +6,7 @@ import ErrorSummary from "../components/form/ErrorSummary";
 import FormElementWrapper, { FormGroupWrapper } from "../components/form/FormElementWrapper";
 import Table from "../components/form/Table";
 import { TwoThirdsLayout } from "../components/layout/Layout";
-import { SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH } from "../constants";
+import { ENABLE_COACH_MODE_FEATURE_FLAG, SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH } from "../constants";
 import { getOperatorByOrgIdAndOperatorOrgId } from "../data/dynamo";
 import { ErrorInfo } from "../interfaces";
 import { ModeType, OperatorOrgSchema } from "../schemas/organisation.schema";
@@ -23,6 +23,7 @@ interface AccountSettingsProps {
     disruptionEmailPreference?: boolean;
     streetManagerPreference?: boolean;
     operator?: OperatorOrgSchema | null;
+    showCoach?: boolean;
 }
 
 const AccountSettings = ({
@@ -31,6 +32,7 @@ const AccountSettings = ({
     disruptionEmailPreference,
     streetManagerPreference,
     operator,
+    showCoach = false,
 }: AccountSettingsProps): ReactElement => {
     const [mode, setMode] = useState<ModeType>(sessionWithOrg.mode);
     const [errors, setErrors] = useState<ErrorInfo[]>([]);
@@ -391,6 +393,7 @@ const AccountSettings = ({
                                 <Table
                                     rows={Object.keys(mode)
                                         .filter((m) => (sessionWithOrg.showUnderground ? true : m !== "underground"))
+                                        .filter((m) => (showCoach ? true : m !== "coach"))
                                         .map((key) => ({
                                             header:
                                                 key === "ferryService"
@@ -438,6 +441,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
                 sessionWithOrg,
                 disruptionEmailPreference: emailPreferences.disruptionApprovalEmailPreference,
                 streetManagerPreference: emailPreferences.streetManagerEmailPreference,
+                showCoach: ENABLE_COACH_MODE_FEATURE_FLAG,
             },
         };
     }
@@ -454,6 +458,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             props: {
                 operator,
                 sessionWithOrg,
+                showCoach: ENABLE_COACH_MODE_FEATURE_FLAG,
             },
         };
     }
@@ -462,6 +467,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         props: {
             sessionWithOrg,
             streetManagerPreference: emailPreferences.streetManagerEmailPreference,
+            showCoach: ENABLE_COACH_MODE_FEATURE_FLAG,
         },
     };
 };

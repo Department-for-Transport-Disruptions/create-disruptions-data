@@ -57,6 +57,11 @@ describe("pages", () => {
             expect(asFragment()).toMatchSnapshot();
         });
 
+        it("should render correctly with inputs and showCoach is true", () => {
+            const { asFragment } = render(<CreateConsequenceOperator {...{ ...withInputs, showCoach: true }} />);
+            expect(asFragment()).toMatchSnapshot();
+        });
+
         it("should render correctly with query params", () => {
             useRouter.mockImplementation(() => ({
                 query: { return: "/review-disruption" },
