@@ -349,6 +349,16 @@ exports[`pages > feedback > should render correctly after feedback has been succ
                 Privacy
               </a>
             </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
+              </a>
+            </li>
           </ul>
           <p
             class="govuk-footer__body"
@@ -756,6 +766,16 @@ exports[`pages > feedback > should render correctly after the user tries to subm
                 Privacy
               </a>
             </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
+              </a>
+            </li>
           </ul>
           <p
             class="govuk-footer__body"
@@ -1137,6 +1157,16 @@ exports[`pages > feedback > should render correctly when the page is first visit
                 href="/privacy"
               >
                 Privacy
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
               </a>
             </li>
           </ul>

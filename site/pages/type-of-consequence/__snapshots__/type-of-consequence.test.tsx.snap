@@ -252,6 +252,16 @@ exports[`pages > CreateDisruption > should render correctly for operator user wi
                 Privacy
               </a>
             </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
+              </a>
+            </li>
           </ul>
           <p
             class="govuk-footer__body"
@@ -615,6 +625,16 @@ exports[`pages > CreateDisruption > should render correctly if cancellations fea
                 href="/privacy"
               >
                 Privacy
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
               </a>
             </li>
           </ul>
@@ -1012,6 +1032,16 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                 Privacy
               </a>
             </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
+              </a>
+            </li>
           </ul>
           <p
             class="govuk-footer__body"
@@ -1357,6 +1387,16 @@ exports[`pages > CreateDisruption > should render correctly with inputs and with
                 href="/privacy"
               >
                 Privacy
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
               </a>
             </li>
           </ul>
@@ -1705,6 +1745,16 @@ exports[`pages > CreateDisruption > should render correctly with no inputs and n
                 Privacy
               </a>
             </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
+              </a>
+            </li>
           </ul>
           <p
             class="govuk-footer__body"
@@ -2050,6 +2100,16 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
                 href="/privacy"
               >
                 Privacy
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
               </a>
             </li>
           </ul>

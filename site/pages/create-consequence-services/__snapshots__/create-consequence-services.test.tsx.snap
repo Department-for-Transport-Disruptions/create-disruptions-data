@@ -945,6 +945,16 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
                 Privacy
               </a>
             </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
+              </a>
+            </li>
           </ul>
           <p
             class="govuk-footer__body"
@@ -1987,6 +1997,16 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
                 Privacy
               </a>
             </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
+              </a>
+            </li>
           </ul>
           <p
             class="govuk-footer__body"
@@ -2962,6 +2982,1008 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                 href="/privacy"
               >
                 Privacy
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
+              </a>
+            </li>
+          </ul>
+          <p
+            class="govuk-footer__body"
+          >
+            Built by the 
+            <a
+              class="govuk-footer__link"
+              href="https://www.gov.uk/government/organisations/department-for-transport"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Department for Transport
+            </a>
+          </p>
+          <svg
+            aria-hidden="true"
+            class="govuk-footer__licence-logo"
+            focusable="false"
+            height="17"
+            viewBox="0 0 483.2 195.7"
+            width="41"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M421.5 142.8V.1l-50.7 32.3v161.1h112.4v-50.7zm-122.3-9.6A47.12 47.12 0 0 1 221 97.8c0-26 21.1-47.1 47.1-47.1 16.7 0 31.4 8.7 39.7 21.8l42.7-27.2A97.63 97.63 0 0 0 268.1 0c-36.5 0-68.3 20.1-85.1 49.7A98 98 0 0 0 97.8 0C43.9 0 0 43.9 0 97.8s43.9 97.8 97.8 97.8c36.5 0 68.3-20.1 85.1-49.7a97.76 97.76 0 0 0 149.6 25.4l19.4 22.2h3v-87.8h-80l24.3 27.5zM97.8 145c-26 0-47.1-21.1-47.1-47.1s21.1-47.1 47.1-47.1 47.2 21 47.2 47S123.8 145 97.8 145"
+              fill="currentColor"
+            />
+          </svg>
+          <span
+            class="govuk-footer__licence-description"
+          >
+            All content is available under the 
+            <a
+              class="govuk-footer__link"
+              href="https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/"
+              rel="license"
+            >
+              Open Government Licence v3.0
+            </a>
+            , except where otherwise stated
+          </span>
+        </div>
+        <div
+          class="govuk-footer__meta-item"
+        >
+          <a
+            class="govuk-footer__link govuk-footer__copyright-logo bg-govuk-crest"
+            href="https://www.nationalarchives.gov.uk/information-management/re-using-public-sector-information/uk-government-licensing-framework/crown-copyright/"
+          >
+            © Crown copyright
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</DocumentFragment>
+`;
+
+exports[`pages > CreateConsequenceServices > should render correctly with inputs and showCoach is true 1`] = `
+<DocumentFragment>
+  <div
+    class="govuk-phase-banner max-w-[960px] w-[90%] border-0 mx-auto app-phase-banner app-width-container"
+  >
+    <p
+      class="govuk-phase-banner__content"
+    >
+      <strong
+        class="govuk-tag govuk-phase-banner__content__tag"
+      >
+        Beta
+      </strong>
+      <span
+        class="govuk-phase-banner__text"
+      >
+        This is a new service. Help us improve it and 
+        <a
+          class="govuk-link"
+          href="/feedback"
+          id="feedback-link"
+        >
+          give your feedback (opens in new tab)
+        </a>
+        .
+      </span>
+    </p>
+  </div>
+  <div
+    class="govuk-width-container"
+  >
+    <button
+      class="govuk-back-link mb-7"
+      type="button"
+    >
+      Back
+    </button>
+    <main
+      class="govuk-main-wrapper"
+      id="main-content"
+    >
+      <form
+        action="/api/create-consequence-services"
+        method="post"
+      >
+        <input
+          name="csrf_token"
+          type="hidden"
+          value=""
+        />
+        <div
+          class="govuk-form-group"
+        >
+          <h1
+            class="govuk-heading-xl"
+          >
+            Add a consequence
+          </h1>
+          <table
+            class="govuk-table"
+          >
+            <thead
+              class="govuk-table__head"
+            >
+              <tr
+                class="govuk-table__row"
+              />
+            </thead>
+            <tbody
+              class="govuk-table__body"
+            >
+              <tr
+                class="govuk-table__row"
+              >
+                <th
+                  class="govuk-table__header align-middle"
+                  scope="row"
+                >
+                  Consequence type
+                </th>
+                <td
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  Services
+                </td>
+                <td
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                >
+                  <a
+                    class="govuk-link"
+                    href="/type-of-consequence/aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee/0"
+                  >
+                    Change
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div
+            class="govuk-form-group"
+          >
+            <div
+              class="govuk-form-group"
+              id="vehicle-mode"
+            >
+              <label
+                class="govuk-label govuk-label--l"
+                for="vehicle-mode-input"
+              >
+                Mode of transport
+              </label>
+              <div
+                class="govuk-hint"
+                id="vehicle-mode-hint"
+              >
+                Select a mode before continuing
+              </div>
+              <div
+                class=""
+              >
+                <select
+                  aria-describedby="vehicleMode-hint"
+                  class="govuk-select w-3/4"
+                  id="vehicle-mode-input"
+                  name="vehicleMode"
+                >
+                  <option
+                    disabled=""
+                    selected=""
+                    value=""
+                  >
+                    Select mode of transport
+                  </option>
+                  <option
+                    value="bus"
+                  >
+                    Bus
+                  </option>
+                  <option
+                    value="tram"
+                  >
+                    Tram
+                  </option>
+                  <option
+                    value="ferryService"
+                  >
+                    Ferry
+                  </option>
+                  <option
+                    value="rail"
+                  >
+                    Train
+                  </option>
+                  <option
+                    value="coach"
+                  >
+                    Coach
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div
+            class="govuk-form-group"
+          >
+            <div
+              class="govuk-form-group"
+            >
+              <label
+                class="govuk-label govuk-label--l"
+                for="services-input"
+                id="services-label"
+              >
+                Services impacted
+              </label>
+              <div
+                class="govuk-hint"
+                id="services-hint"
+              >
+                Services
+              </div>
+              <div
+                class=""
+              >
+                <div
+                  class="text-lg text-black css-b62m3t-container"
+                  id="services"
+                >
+                  <span
+                    class="css-1f43avz-a11yText-A11yText"
+                    id="react-select-dropdown-service-live-region"
+                  />
+                  <span
+                    aria-atomic="false"
+                    aria-live="polite"
+                    aria-relevant="additions text"
+                    class="css-1f43avz-a11yText-A11yText"
+                    role="log"
+                  />
+                  <div
+                    class=" css-1kxfjwu-control"
+                  >
+                    <div
+                      class=" css-1fdsijx-ValueContainer"
+                    >
+                      <div
+                        class=" css-yl2wa5-placeholder"
+                        id="react-select-dropdown-service-placeholder"
+                      >
+                        Select services
+                      </div>
+                      <div
+                        class=" css-qbdosj-Input"
+                        data-value=""
+                      >
+                        <input
+                          aria-activedescendant=""
+                          aria-autocomplete="list"
+                          aria-describedby="react-select-dropdown-service-placeholder"
+                          aria-expanded="false"
+                          aria-haspopup="true"
+                          aria-labelledby="services-label"
+                          autocapitalize="none"
+                          autocomplete="off"
+                          autocorrect="off"
+                          class=""
+                          id="services-input"
+                          role="combobox"
+                          spellcheck="false"
+                          style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                          tabindex="0"
+                          type="text"
+                          value=""
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class=" css-1hb7zxy-IndicatorsContainer"
+                    >
+                      <span
+                        class=" css-1u9des2-indicatorSeparator"
+                      />
+                      <div
+                        aria-hidden="true"
+                        class=" css-1xc3v61-indicatorContainer"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="css-tj5bde-Svg"
+                          focusable="false"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          width="20"
+                        >
+                          <path
+                            d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <table
+                class="govuk-table"
+              >
+                <thead
+                  class="govuk-table__head"
+                >
+                  <tr
+                    class="govuk-table__row"
+                  />
+                </thead>
+                <tbody
+                  class="govuk-table__body"
+                >
+                  <tr
+                    class="govuk-table__row"
+                  >
+                    <td
+                      class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    >
+                      1 - Jordanthorpe - HigH Green (First South Yorkshire)
+                    </td>
+                    <td
+                      class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    >
+                      <button
+                        class="govuk-link"
+                        id="remove-service-23127"
+                      >
+                        Remove
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <input
+                name="service1"
+                type="hidden"
+                value="{\\"id\\":23127,\\"lineName\\":\\"1\\",\\"operatorShortName\\":\\"First South Yorkshire\\",\\"origin\\":\\"Jordanthorpe\\",\\"destination\\":\\"HigH Green\\",\\"nocCode\\":\\"TEST\\",\\"startDate\\":\\"2023-07-23\\",\\"serviceCode\\":\\"NW_04_SCMN_149_1\\",\\"dataSource\\":\\"bods\\",\\"lineId\\":\\"SL1\\",\\"endDate\\":\\"2023-08-10\\"}"
+              />
+            </div>
+          </div>
+          <div
+            class="my-3"
+          >
+            <button
+              class="govuk-link"
+              data-module="govuk-button"
+            >
+              <p
+                class="text-govBlue govuk-body-m"
+              >
+                Remove all services
+              </p>
+            </button>
+          </div>
+          <br />
+          <div
+            class="govuk-form-group"
+          >
+            <div
+              class="govuk-form-group"
+            >
+              <label
+                class="govuk-label govuk-label--l"
+                for="stops-input"
+                id="stops-label"
+              />
+              <div
+                class="govuk-hint"
+                id="stops-hint"
+              >
+                Stops
+              </div>
+              <div
+                class=""
+              >
+                <div
+                  class="text-lg text-black css-b62m3t-container"
+                  id="stops"
+                >
+                  <span
+                    class="css-1f43avz-a11yText-A11yText"
+                    id="react-select-dropdown-stop-live-region"
+                  />
+                  <span
+                    aria-atomic="false"
+                    aria-live="polite"
+                    aria-relevant="additions text"
+                    class="css-1f43avz-a11yText-A11yText"
+                    role="log"
+                  />
+                  <div
+                    class=" css-1kxfjwu-control"
+                  >
+                    <div
+                      class=" css-1fdsijx-ValueContainer"
+                    >
+                      <div
+                        class=" css-yl2wa5-placeholder"
+                        id="react-select-dropdown-stop-placeholder"
+                      >
+                        Select stops
+                      </div>
+                      <div
+                        class=" css-qbdosj-Input"
+                        data-value=""
+                      >
+                        <input
+                          aria-activedescendant=""
+                          aria-autocomplete="list"
+                          aria-describedby="react-select-dropdown-stop-placeholder"
+                          aria-expanded="false"
+                          aria-haspopup="true"
+                          aria-labelledby="stops-label"
+                          autocapitalize="none"
+                          autocomplete="off"
+                          autocorrect="off"
+                          class=""
+                          id="stops-input"
+                          role="combobox"
+                          spellcheck="false"
+                          style="opacity: 1; width: 100%; grid-area: 1 / 2; min-width: 2px; border: 0px; margin: 0px; outline: 0; padding: 0px;"
+                          tabindex="0"
+                          type="text"
+                          value=""
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class=" css-1hb7zxy-IndicatorsContainer"
+                    >
+                      <span
+                        class=" css-1u9des2-indicatorSeparator"
+                      />
+                      <div
+                        aria-hidden="true"
+                        class=" css-1xc3v61-indicatorContainer"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="css-tj5bde-Svg"
+                          focusable="false"
+                          height="20"
+                          viewBox="0 0 20 20"
+                          width="20"
+                        >
+                          <path
+                            d="M4.516 7.548c0.436-0.446 1.043-0.481 1.576 0l3.908 3.747 3.908-3.747c0.533-0.481 1.141-0.446 1.574 0 0.436 0.445 0.408 1.197 0 1.615-0.406 0.418-4.695 4.502-4.695 4.502-0.217 0.223-0.502 0.335-0.787 0.335s-0.57-0.112-0.789-0.335c0 0-4.287-4.084-4.695-4.502s-0.436-1.17 0-1.615z"
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <table
+                class="govuk-table"
+              >
+                <thead
+                  class="govuk-table__head"
+                >
+                  <tr
+                    class="govuk-table__row"
+                  />
+                </thead>
+                <tbody
+                  class="govuk-table__body"
+                >
+                  <tr
+                    class="govuk-table__row"
+                  >
+                    <td
+                      class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    >
+                      Temple Meads Stn T3 0100BRP90310
+                    </td>
+                    <td
+                      class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    >
+                      <button
+                        class="govuk-link"
+                        id="remove-stop-0100BRP90310"
+                      >
+                        Remove
+                      </button>
+                    </td>
+                  </tr>
+                  <tr
+                    class="govuk-table__row"
+                  >
+                    <td
+                      class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    >
+                      Temple Meads Stn T7 0100BRP90311
+                    </td>
+                    <td
+                      class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    >
+                      <button
+                        class="govuk-link"
+                        id="remove-stop-0100BRP90311"
+                      >
+                        Remove
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <input
+                name="stop1"
+                type="hidden"
+                value="{\\"atcoCode\\":\\"0100BRP90310\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T3\\",\\"latitude\\":51.44901,\\"longitude\\":-2.58569}"
+              />
+              <input
+                name="stop2"
+                type="hidden"
+                value="{\\"atcoCode\\":\\"0100BRP90311\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T7\\",\\"latitude\\":51.45014,\\"longitude\\":-2.5856}"
+              />
+            </div>
+          </div>
+          <div
+            class="my-3"
+          >
+            <button
+              class="govuk-link"
+              data-module="govuk-button"
+            >
+              <p
+                class="text-govBlue govuk-body-m"
+              >
+                Remove all stops
+              </p>
+            </button>
+          </div>
+          <br />
+          <div
+            class="govuk-form-group"
+          >
+            <div
+              class="govuk-form-group"
+              id="description"
+            >
+              <label
+                class="govuk-label govuk-label--l"
+                for="description-input"
+              >
+                Consequence description
+              </label>
+              <div
+                class="govuk-hint"
+                id="description-hint"
+              >
+                What advice would you like to display?
+              </div>
+              <div
+                class=""
+              >
+                <textarea
+                  aria-describedby="description-hint"
+                  class="govuk-textarea w-3/4"
+                  id="description-input"
+                  maxlength="1000"
+                  name="description"
+                  rows="3"
+                >
+                  A truck broke down on a bridge
+                </textarea>
+              </div>
+            </div>
+          </div>
+          <div
+            class="govuk-form-group"
+          >
+            <fieldset
+              class="govuk-fieldset"
+              id="remove-from-journey-planners"
+            >
+              <legend
+                class="govuk-fieldset__legend"
+              >
+                <span
+                  class="govuk-heading-l govuk-!-margin-bottom-0"
+                >
+                  Remove from journey planners
+                </span>
+              </legend>
+              <div
+                class=""
+              >
+                <div
+                  class="govuk-radios"
+                  data-module="govuk-radios"
+                >
+                  <div
+                    class="govuk-radios__item govuk-!-margin-bottom-1"
+                  >
+                    <input
+                      checked=""
+                      class="govuk-radios__input"
+                      data-aria-controls="remove-from-journey-planners-yes-conditional"
+                      id="remove-from-journey-planners-yes"
+                      name="removeFromJourneyPlanners"
+                      type="radio"
+                      value="yes"
+                    />
+                    <label
+                      class="govuk-label govuk-radios__label"
+                      for="remove-from-journey-planners-yes"
+                    >
+                      Yes
+                    </label>
+                  </div>
+                  <div
+                    class="govuk-radios__item"
+                  >
+                    <input
+                      class="govuk-radios__input"
+                      data-aria-controls="remove-from-journey-planners-no-conditional"
+                      id="remove-from-journey-planners-no"
+                      name="removeFromJourneyPlanners"
+                      type="radio"
+                      value="no"
+                    />
+                    <label
+                      class="govuk-label govuk-radios__label"
+                      for="remove-from-journey-planners-no"
+                    >
+                      No
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+          <div
+            class="govuk-form-group"
+          >
+            <div
+              class="govuk-form-group "
+              id="disruption-delay"
+            >
+              <div>
+                <label
+                  class="govuk-label govuk-label--l"
+                  for="disruption-delay-input"
+                >
+                  Delay (optional)
+                </label>
+              </div>
+              <div
+                class="govuk-hint"
+                id="disruption-delay-hint"
+              >
+                Enter time in minutes
+              </div>
+              <div
+                class="mt-auto"
+              >
+                <div
+                  class=""
+                >
+                  <div
+                    class=""
+                  >
+                    <input
+                      aria-describedby="disruption-delay-hint"
+                      class="govuk-input govuk-date-input__input govuk-input--width-4"
+                      id="disruption-delay-input"
+                      name="disruptionDelay"
+                      placeholder=""
+                      type="text"
+                      value="45"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="govuk-form-group"
+          >
+            <div
+              class="govuk-form-group"
+              id="disruption-severity"
+            >
+              <label
+                class="govuk-label govuk-label--l"
+                for="disruption-severity-input"
+              >
+                Disruption severity
+              </label>
+              <div
+                class=""
+              >
+                <select
+                  class="govuk-select w-3/4"
+                  id="disruption-severity-input"
+                  name="disruptionSeverity"
+                >
+                  <option
+                    disabled=""
+                    value=""
+                  >
+                    Select severity
+                  </option>
+                  <option
+                    value="unknown"
+                  >
+                    Unknown
+                  </option>
+                  <option
+                    value="verySlight"
+                  >
+                    Very slight
+                  </option>
+                  <option
+                    value="slight"
+                  >
+                    Slight
+                  </option>
+                  <option
+                    value="normal"
+                  >
+                    Normal
+                  </option>
+                  <option
+                    selected=""
+                    value="severe"
+                  >
+                    Severe
+                  </option>
+                  <option
+                    value="verySevere"
+                  >
+                    Very severe
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div
+            class="govuk-form-group"
+          >
+            <fieldset
+              class="govuk-fieldset"
+              id="disruption-direction"
+            >
+              <legend
+                class="govuk-fieldset__legend"
+              >
+                <span
+                  class="govuk-heading-l govuk-!-margin-bottom-0"
+                >
+                  Direction of disruption
+                </span>
+              </legend>
+              <div
+                class=""
+              >
+                <div
+                  class="govuk-radios"
+                  data-module="govuk-radios"
+                >
+                  <div
+                    class="govuk-radios__item govuk-!-margin-bottom-1"
+                  >
+                    <input
+                      checked=""
+                      class="govuk-radios__input"
+                      data-aria-controls="disruption-direction-allDirections-conditional"
+                      id="disruption-direction-allDirections"
+                      name="disruptionDirection"
+                      type="radio"
+                      value="allDirections"
+                    />
+                    <label
+                      class="govuk-label govuk-radios__label"
+                      for="disruption-direction-allDirections"
+                    >
+                      All directions
+                    </label>
+                  </div>
+                  <div
+                    class="govuk-radios__item govuk-!-margin-bottom-1"
+                  >
+                    <input
+                      checked=""
+                      class="govuk-radios__input"
+                      data-aria-controls="disruption-direction-inbound-conditional"
+                      id="disruption-direction-inbound"
+                      name="disruptionDirection"
+                      type="radio"
+                      value="inbound"
+                    />
+                    <label
+                      class="govuk-label govuk-radios__label"
+                      for="disruption-direction-inbound"
+                    >
+                      Inbound
+                    </label>
+                  </div>
+                  <div
+                    class="govuk-radios__item"
+                  >
+                    <input
+                      class="govuk-radios__input"
+                      data-aria-controls="disruption-direction-outbound-conditional"
+                      id="disruption-direction-outbound"
+                      name="disruptionDirection"
+                      type="radio"
+                      value="outbound"
+                    />
+                    <label
+                      class="govuk-label govuk-radios__label"
+                      for="disruption-direction-outbound"
+                    >
+                      Outbound
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+          <input
+            name="consequenceType"
+            type="hidden"
+            value="services"
+          />
+          <input
+            name="disruptionId"
+            type="hidden"
+            value="aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
+          />
+          <input
+            name="consequenceIndex"
+            type="hidden"
+            value=""
+          />
+          <button
+            class="govuk-button mt-8"
+            data-module="govuk-button"
+          >
+            Save and continue
+          </button>
+          <button
+            class="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            formaction="/api/create-consequence-services?draft=true"
+          >
+            Save as draft
+          </button>
+          <button
+            class="govuk-button mt-8 ml-5 govuk-button--secondary"
+            data-module="govuk-button"
+            formaction="/api/create-consequence-services?addAnotherConsequence=true"
+          >
+            Add another consequence
+          </button>
+        </div>
+      </form>
+    </main>
+    <div>
+      <h2
+        class="govuk-heading-s"
+      >
+        Help and Support
+      </h2>
+      <p
+        class="govuk-body"
+      >
+        If you are having problems, please contact the Create Disruption Service via this link: 
+        <a
+          class="govuk-link govuk-!-font-size-19"
+          href="/contact"
+        >
+          Contact us
+        </a>
+      </p>
+    </div>
+  </div>
+  <footer
+    class="govuk-footer"
+    role="contentinfo"
+  >
+    <div
+      class="govuk-width-container"
+    >
+      <div
+        class="govuk-footer__meta"
+      >
+        <div
+          class="govuk-footer__meta-item govuk-footer__meta-item--grow"
+        >
+          <h2
+            class="govuk-visually-hidden"
+          >
+            Support links
+          </h2>
+          <ul
+            class="govuk-footer__inline-list"
+          >
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/contact"
+              >
+                Help
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/cookies"
+              >
+                Cookies
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/contact"
+              >
+                Contact
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/accessibility"
+              >
+                Accessibility
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="https://www.gov.uk/help/terms-conditions"
+              >
+                Terms and conditions
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/privacy"
+              >
+                Privacy
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
               </a>
             </li>
           </ul>
@@ -3946,6 +4968,16 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
                 Privacy
               </a>
             </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
+              </a>
+            </li>
           </ul>
           <p
             class="govuk-footer__body"
@@ -4797,6 +5829,16 @@ exports[`pages > CreateConsequenceServices > should render correctly with no inp
                 href="/privacy"
               >
                 Privacy
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
               </a>
             </li>
           </ul>
@@ -5774,6 +6816,16 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
                 href="/privacy"
               >
                 Privacy
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
               </a>
             </li>
           </ul>

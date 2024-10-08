@@ -73,6 +73,7 @@ export interface CreateConsequenceProps {
     consequenceCount?: number;
     isEdit?: boolean;
     showUnderground?: boolean;
+    showCoach?: boolean;
     disruptionAreas?: {
         name: string;
         administrativeAreaCode: string;

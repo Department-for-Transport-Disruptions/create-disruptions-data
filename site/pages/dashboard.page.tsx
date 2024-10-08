@@ -189,8 +189,9 @@ const Dashboard = ({
                     text={`You have ${pendingApprovalCount} new disruption${pendingApprovalCount > 1 ? "s" : ""} that require
                         ${pendingApprovalCount === 1 ? "s" : ""} approval.`}
                 >
+                    <br />
                     <Link
-                        className="govuk-link"
+                        className="govuk-link text-govBlue text-xl font-bold"
                         href={{
                             pathname: VIEW_ALL_DISRUPTIONS_PAGE_PATH,
                             query: {
@@ -198,7 +199,7 @@ const Dashboard = ({
                             },
                         }}
                     >
-                        <h2 className="govuk-heading-s text-govBlue">View all</h2>
+                        View all
                     </Link>
                 </Warning>
             ) : null}
@@ -332,29 +333,32 @@ const Dashboard = ({
                 tabsTitle="Disruptions"
             />
 
-            <Link className="govuk-link" href="/view-all-disruptions">
-                <h2 className="govuk-heading-s text-govBlue">View all disruptions</h2>
-            </Link>
-
-            <Link className="govuk-link" href="/view-all-social-media">
-                <h2 className="govuk-heading-s text-govBlue">View all social media</h2>
-            </Link>
-
-            <Link className="govuk-link" href="/view-all-disruptions?draft=true">
-                <h2 className="govuk-heading-s text-govBlue">Draft disruptions</h2>
-            </Link>
-
-            {!isOperatorUser && (
-                <Link className="govuk-link" href="/view-all-templates">
-                    <h2 className="govuk-heading-s text-govBlue">Templates</h2>
+            <div className="flex flex-col space-y-4">
+                <Link className="govuk-link text-govBlue text-xl font-bold w-fit" href="/view-all-disruptions">
+                    View all disruptions
                 </Link>
-            )}
 
-            <Link className="govuk-link" href="/view-all-roadworks">
-                <h2 className="govuk-heading-s text-govBlue">
+                <Link className="govuk-link text-govBlue text-xl font-bold w-fit" href="/view-all-social-media">
+                    View all social media
+                </Link>
+
+                <Link
+                    className="govuk-link text-govBlue text-xl font-bold w-fit"
+                    href="/view-all-disruptions?draft=true"
+                >
+                    Draft disruptions
+                </Link>
+
+                {!isOperatorUser && (
+                    <Link className="govuk-link text-govBlue text-xl font-bold w-fit" href="/view-all-templates">
+                        Templates
+                    </Link>
+                )}
+
+                <Link className="govuk-link text-govBlue text-xl font-bold w-fit" href="/view-all-roadworks">
                     {isOperatorUser ? "View roadworks in your area" : "Create disruptions from roadworks in your area"}
-                </h2>
-            </Link>
+                </Link>
+            </div>
         </BaseLayout>
     );
 };

@@ -237,56 +237,40 @@ exports[`pages > dashboard > should render correctly 1`] = `
           </table>
         </div>
       </div>
-      <a
-        class="govuk-link"
-        href="/view-all-disruptions"
+      <div
+        class="flex flex-col space-y-4"
       >
-        <h2
-          class="govuk-heading-s text-govBlue"
+        <a
+          class="govuk-link text-govBlue text-xl font-bold w-fit"
+          href="/view-all-disruptions"
         >
           View all disruptions
-        </h2>
-      </a>
-      <a
-        class="govuk-link"
-        href="/view-all-social-media"
-      >
-        <h2
-          class="govuk-heading-s text-govBlue"
+        </a>
+        <a
+          class="govuk-link text-govBlue text-xl font-bold w-fit"
+          href="/view-all-social-media"
         >
           View all social media
-        </h2>
-      </a>
-      <a
-        class="govuk-link"
-        href="/view-all-disruptions?draft=true"
-      >
-        <h2
-          class="govuk-heading-s text-govBlue"
+        </a>
+        <a
+          class="govuk-link text-govBlue text-xl font-bold w-fit"
+          href="/view-all-disruptions?draft=true"
         >
           Draft disruptions
-        </h2>
-      </a>
-      <a
-        class="govuk-link"
-        href="/view-all-templates"
-      >
-        <h2
-          class="govuk-heading-s text-govBlue"
+        </a>
+        <a
+          class="govuk-link text-govBlue text-xl font-bold w-fit"
+          href="/view-all-templates"
         >
           Templates
-        </h2>
-      </a>
-      <a
-        class="govuk-link"
-        href="/view-all-roadworks"
-      >
-        <h2
-          class="govuk-heading-s text-govBlue"
+        </a>
+        <a
+          class="govuk-link text-govBlue text-xl font-bold w-fit"
+          href="/view-all-roadworks"
         >
           Create disruptions from roadworks in your area
-        </h2>
-      </a>
+        </a>
+      </div>
     </main>
     <div>
       <h2
@@ -386,6 +370,16 @@ exports[`pages > dashboard > should render correctly 1`] = `
                 href="/privacy"
               >
                 Privacy
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
               </a>
             </li>
           </ul>
@@ -683,46 +677,34 @@ exports[`pages > dashboard > should render correctly for an operator user 1`] = 
           </table>
         </div>
       </div>
-      <a
-        class="govuk-link"
-        href="/view-all-disruptions"
+      <div
+        class="flex flex-col space-y-4"
       >
-        <h2
-          class="govuk-heading-s text-govBlue"
+        <a
+          class="govuk-link text-govBlue text-xl font-bold w-fit"
+          href="/view-all-disruptions"
         >
           View all disruptions
-        </h2>
-      </a>
-      <a
-        class="govuk-link"
-        href="/view-all-social-media"
-      >
-        <h2
-          class="govuk-heading-s text-govBlue"
+        </a>
+        <a
+          class="govuk-link text-govBlue text-xl font-bold w-fit"
+          href="/view-all-social-media"
         >
           View all social media
-        </h2>
-      </a>
-      <a
-        class="govuk-link"
-        href="/view-all-disruptions?draft=true"
-      >
-        <h2
-          class="govuk-heading-s text-govBlue"
+        </a>
+        <a
+          class="govuk-link text-govBlue text-xl font-bold w-fit"
+          href="/view-all-disruptions?draft=true"
         >
           Draft disruptions
-        </h2>
-      </a>
-      <a
-        class="govuk-link"
-        href="/view-all-roadworks"
-      >
-        <h2
-          class="govuk-heading-s text-govBlue"
+        </a>
+        <a
+          class="govuk-link text-govBlue text-xl font-bold w-fit"
+          href="/view-all-roadworks"
         >
           View roadworks in your area
-        </h2>
-      </a>
+        </a>
+      </div>
     </main>
     <div>
       <h2
@@ -822,6 +804,16 @@ exports[`pages > dashboard > should render correctly for an operator user 1`] = 
                 href="/privacy"
               >
                 Privacy
+              </a>
+            </li>
+            <li
+              class="govuk-footer__inline-list-item"
+            >
+              <a
+                class="govuk-footer__link"
+                href="/changelog"
+              >
+                Service changelog
               </a>
             </li>
           </ul>
