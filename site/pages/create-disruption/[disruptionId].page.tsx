@@ -276,10 +276,12 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                 {
                                     value: "planned",
                                     display: "Planned",
+                                    conditionalElement: <div />,
                                 },
                                 {
                                     value: "unplanned",
                                     display: "Unplanned",
+                                    conditionalElement: <div />,
                                 },
                             ]}
                             inputName="disruptionType"
@@ -579,6 +581,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                     value: "doesntRepeat",
                                     display: "Doesn't repeat",
                                     ref: doesntRepeatRef,
+                                    conditionalElement: <div />,
                                 },
                                 {
                                     value: "daily",
