@@ -36,7 +36,7 @@ describe("changePassword", () => {
 
         const errors: ErrorInfo[] = [
             { errorMessage: "Enter your current password", id: "currentPassword" },
-            { errorMessage: "Enter a new password", id: "newPassword" },
+            { errorMessage: "Enter a password", id: "newPassword" },
             { errorMessage: "Required", id: "confirmPassword" },
         ];
         expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
@@ -48,27 +48,9 @@ describe("changePassword", () => {
         expect(writeHeadMock).toBeCalledWith(302, { Location: CHANGE_PASSWORD_PAGE_PATH });
     });
 
-    it("should redirect to login page with appropriate errors when character length is not matched", async () => {
-        const { req, res } = getMockRequestAndResponse({
-            body: { currentPassword: "oldPassword", newPassword: "pas", confirmPassword: "pas" },
-            mockWriteHeadFn: writeHeadMock,
-        });
-
-        await changePassword(req, res);
-
-        const errors: ErrorInfo[] = [{ errorMessage: "Enter a minimum of 8 characters", id: "newPassword" }];
-        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
-        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
-            COOKIES_CHANGE_PASSWORD_ERRORS,
-            JSON.stringify({ inputs: req.body as object, errors }),
-            res,
-        );
-        expect(writeHeadMock).toBeCalledWith(302, { Location: CHANGE_PASSWORD_PAGE_PATH });
-    });
-
     it("should redirect to login page with appropriate errors when new and confirm password don't match", async () => {
         const { req, res } = getMockRequestAndResponse({
-            body: { currentPassword: "oldPassword", newPassword: "newPassword", confirmPassword: "oldPassword" },
+            body: { currentPassword: "oldPassword", newPassword: "Password1!", confirmPassword: "oldPassword" },
             mockWriteHeadFn: writeHeadMock,
         });
 
@@ -97,8 +79,8 @@ describe("changePassword", () => {
         const { req, res } = getMockRequestAndResponse({
             body: {
                 currentPassword: "oldPassword",
-                newPassword: "dummyPassword",
-                confirmPassword: "dummyPassword",
+                newPassword: "Password1!",
+                confirmPassword: "Password1!",
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -120,8 +102,8 @@ describe("changePassword", () => {
         const { req, res } = getMockRequestAndResponse({
             body: {
                 currentPassword: "oldPassword",
-                newPassword: "dummyPassword",
-                confirmPassword: "dummyPassword",
+                newPassword: "Password1!",
+                confirmPassword: "Password1!",
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -134,7 +116,7 @@ describe("changePassword", () => {
     it("should redirect to login page when incorrect password received", async () => {
         initiateAuthSpy.mockImplementation(() => {
             throw new NotAuthorizedException({
-                message: "Not authrorised",
+                message: "Not authorised",
                 $metadata: {},
             });
         });
@@ -142,8 +124,8 @@ describe("changePassword", () => {
         const { req, res } = getMockRequestAndResponse({
             body: {
                 currentPassword: "oldPassword",
-                newPassword: "dummyPassword",
-                confirmPassword: "dummyPassword",
+                newPassword: "Password1!",
+                confirmPassword: "Password1!",
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -160,4 +142,31 @@ describe("changePassword", () => {
 
         expect(writeHeadMock).toBeCalledWith(302, { Location: CHANGE_PASSWORD_PAGE_PATH });
     });
+
+    it.each([
+        ["pas", "Enter a minimum of 8 characters"],
+        ["password", "Password must contain at least one uppercase letter"],
+        ["PASSWORD", "Password must contain at least one lowercase letter"],
+        ["Password", "Password must contain at least one number"],
+        ["Password1", "Password must contain at least one special character"],
+    ])(
+        "should redirect to login page with appropriate errors when password does not match requirements: %o",
+        async (password, errorMessage) => {
+            const { req, res } = getMockRequestAndResponse({
+                body: { currentPassword: "oldPassword", newPassword: password, confirmPassword: password },
+                mockWriteHeadFn: writeHeadMock,
+            });
+
+            await changePassword(req, res);
+
+            const errors: ErrorInfo[] = [{ errorMessage: errorMessage, id: "newPassword" }];
+            expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+            expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+                COOKIES_CHANGE_PASSWORD_ERRORS,
+                JSON.stringify({ inputs: req.body as object, errors }),
+                res,
+            );
+            expect(writeHeadMock).toBeCalledWith(302, { Location: CHANGE_PASSWORD_PAGE_PATH });
+        },
+    );
 });

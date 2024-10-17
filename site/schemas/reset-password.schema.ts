@@ -1,11 +1,9 @@
 import { z } from "zod";
-import { MIN_PASSWORD_LENGTH } from "../constants";
 import { setZodDefaultError } from "../utils";
+import { passwordSchema } from "./register.schema";
 
 export const resetPasswordSchema = z.object({
-    newPassword: z
-        .string(setZodDefaultError("Enter a new password"))
-        .min(MIN_PASSWORD_LENGTH, { message: `Enter a minimum of ${MIN_PASSWORD_LENGTH} characters` }),
+    newPassword: passwordSchema,
     confirmPassword: z.string(),
     email: z.string().email({ message: "Enter a valid email address" }),
     key: z.string(setZodDefaultError("Invalid reset password link")).min(1, { message: "Invalid reset password link" }),

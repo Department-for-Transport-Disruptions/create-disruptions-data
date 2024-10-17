@@ -55,7 +55,7 @@ const Register = (props: RegisterPageProps): ReactElement => {
                             <TextInput<RegisterSchema>
                                 display="Password"
                                 inputName="password"
-                                hint={`Your password should be at least ${MIN_PASSWORD_LENGTH} characters long`}
+                                hint={`Your password should be at least ${MIN_PASSWORD_LENGTH} characters long and contain at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character.`}
                                 widthClass="w-3/4"
                                 value={pageState.inputs.password}
                                 initialErrors={pageState.errors}

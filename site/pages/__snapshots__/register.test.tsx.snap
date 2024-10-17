@@ -100,7 +100,7 @@ exports[`Register > should render correctly when there are no inputs 1`] = `
                   class="govuk-hint"
                   id="password-hint"
                 >
-                  Your password should be at least 8 characters long
+                  Your password should be at least 8 characters long and contain at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character.
                 </div>
                 <div
                   class=""
@@ -482,7 +482,7 @@ exports[`Register > should render correctly with inputs and errors 1`] = `
                   class="govuk-hint"
                   id="password-hint"
                 >
-                  Your password should be at least 8 characters long
+                  Your password should be at least 8 characters long and contain at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character.
                 </div>
                 <div
                   class=""
@@ -835,7 +835,7 @@ exports[`Register > should render correctly with inputs and no errors 1`] = `
                   class="govuk-hint"
                   id="password-hint"
                 >
-                  Your password should be at least 8 characters long
+                  Your password should be at least 8 characters long and contain at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character.
                 </div>
                 <div
                   class=""

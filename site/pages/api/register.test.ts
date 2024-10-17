@@ -76,8 +76,8 @@ describe("register", () => {
         const { req, res } = getMockRequestAndResponse({
             body: {
                 email: "test@example.com",
-                password: "dummyPassword",
-                confirmPassword: "dummyPassword",
+                password: "dummyPassword1!",
+                confirmPassword: "dummyPassword1!",
                 key: "key123",
                 orgId: "Org123",
             },
@@ -107,8 +107,8 @@ describe("register", () => {
         const { req, res } = getMockRequestAndResponse({
             body: {
                 email: "test@example.com",
-                password: "dummyPassword",
-                confirmPassword: "dummyPassword",
+                password: "dummyPassword1!",
+                confirmPassword: "dummyPassword1!",
                 key: "key123",
                 orgId: "Org123",
             },
@@ -119,4 +119,44 @@ describe("register", () => {
 
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
+
+    it.each([
+        ["pas", "Enter a minimum of 8 characters"],
+        ["password", "Password must contain at least one uppercase letter"],
+        ["PASSWORD", "Password must contain at least one lowercase letter"],
+        ["Password", "Password must contain at least one number"],
+        ["Password1", "Password must contain at least one special character"],
+    ])(
+        "should redirect to register page when password doesn't meet requirements: %o",
+        async (password, errorMessage) => {
+            const testEmail = "test@example.com";
+            const testOrgId = "Org123";
+            const testKey = "Key123";
+
+            const { req, res } = getMockRequestAndResponse({
+                body: {
+                    email: testEmail,
+                    password: password,
+                    confirmPassword: password,
+                    key: testKey,
+                    orgId: testOrgId,
+                },
+                mockWriteHeadFn: writeHeadMock,
+            });
+
+            await register(req, res);
+
+            const errors: ErrorInfo[] = [{ errorMessage: errorMessage, id: "password" }];
+
+            expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+            expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+                COOKIES_REGISTER_ERRORS,
+                JSON.stringify({ inputs: req.body as object, errors }),
+                res,
+            );
+            expect(writeHeadMock).toBeCalledWith(302, {
+                Location: `${REGISTER_PAGE_PATH}?email=${testEmail}&key=${testKey}&orgId=${testOrgId}`,
+            });
+        },
+    );
 });
