@@ -17,10 +17,11 @@ node_modules
 cdk.context.json
 
 .idea
-/test-results/
-/playwright-report/
+
+# playwright
+playwright/test-results/
+playwright/playwright-report/
 /blob-report/
 /playwright/.cache/
-
 .env.playwright
 playwright/.auth

@@ -22,7 +22,7 @@ describe("reset-password", () => {
     it("should reset user password when valid inputs are provided", async () => {
         const testEmail = "test@example.com";
         const testKey = "123";
-        const testNewPassword = "Password123";
+        const testNewPassword = "Password123!";
         const { req, res } = getMockRequestAndResponse({
             body: {
                 email: testEmail,
@@ -38,10 +38,11 @@ describe("reset-password", () => {
             Location: `${RESET_PASSWORD_PAGE_PATH}?key=${testKey}&user_name=${testEmail}&success=true`,
         });
     });
+
     it("should redirect to reset password when invalid inputs are provided", async () => {
         const testEmail = "test@example.com";
         const testKey = "123";
-        const testNewPassword = "Password123";
+        const testNewPassword = "Password123!";
         const testConfirmPassword = "differentPassword";
         const { req, res } = getMockRequestAndResponse({
             body: {
@@ -66,4 +67,38 @@ describe("reset-password", () => {
             Location: `${RESET_PASSWORD_PAGE_PATH}?key=${testKey}&user_name=${testEmail}`,
         });
     });
+
+    it.each([
+        ["pas", "Enter a minimum of 8 characters"],
+        ["password", "Password must contain at least one uppercase letter"],
+        ["PASSWORD", "Password must contain at least one lowercase letter"],
+        ["Password", "Password must contain at least one number"],
+        ["Password1", "Password must contain at least one special character"],
+    ])(
+        "should redirect to reset password when password does not meet requirements: %o",
+        async (password, errorMessage) => {
+            const testEmail = "test@example.com";
+            const testKey = "123";
+            const { req, res } = getMockRequestAndResponse({
+                body: {
+                    email: testEmail,
+                    key: testKey,
+                    newPassword: password,
+                    confirmPassword: password,
+                },
+                mockWriteHeadFn: writeHeadMock,
+            });
+            await resetPassword(req, res);
+            const errors: ErrorInfo[] = [{ errorMessage: errorMessage, id: "newPassword" }];
+            expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+            expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+                COOKIES_RESET_PASSWORD_ERRORS,
+                JSON.stringify({ inputs: req.body as object, errors }),
+                res,
+            );
+            expect(writeHeadMock).toBeCalledWith(302, {
+                Location: `${RESET_PASSWORD_PAGE_PATH}?key=${testKey}&user_name=${testEmail}`,
+            });
+        },
+    );
 });
