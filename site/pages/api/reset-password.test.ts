@@ -69,11 +69,20 @@ describe("reset-password", () => {
     });
 
     it.each([
-        ["pas", "Enter a minimum of 8 characters"],
-        ["password", "Password must contain at least one uppercase letter"],
-        ["PASSWORD", "Password must contain at least one lowercase letter"],
-        ["Password", "Password must contain at least one number"],
-        ["Password1", "Password must contain at least one special character"],
+        [
+            "pas",
+            "Password must be a minimum of 8 characters, contain at least one uppercase letter, contain at least one number, and contain at least one special character.",
+        ],
+        [
+            "password",
+            "Password must contain at least one uppercase letter, contain at least one number, and contain at least one special character.",
+        ],
+        [
+            "PASSWORD",
+            "Password must contain at least one lowercase letter, contain at least one number, and contain at least one special character.",
+        ],
+        ["Password", "Password must contain at least one number and contain at least one special character."],
+        ["Password1", "Password must contain at least one special character."],
     ])(
         "should redirect to reset password when password does not meet requirements: %o",
         async (password, errorMessage) => {
