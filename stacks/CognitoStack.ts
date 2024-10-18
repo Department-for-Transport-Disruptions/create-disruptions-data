@@ -50,10 +50,10 @@ export const CognitoStack = ({ stack }: StackContext) => {
         signInCaseSensitive: false,
         passwordPolicy: {
             minLength: 8,
-            requireDigits: false,
-            requireLowercase: false,
-            requireSymbols: false,
-            requireUppercase: false,
+            requireDigits: true,
+            requireLowercase: true,
+            requireSymbols: true,
+            requireUppercase: true,
             tempPasswordValidity: Duration.days(3),
         },
         email:
