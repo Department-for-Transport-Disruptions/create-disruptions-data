@@ -1,6 +1,5 @@
-import { render } from "@testing-library/react";
-import { userEvent } from "@testing-library/user-event";
-import renderer from "react-test-renderer";
+import { cleanup, render } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { PageState } from "../../interfaces";
 import ManageOrgs, { ManageOrgProps } from "./org.page";
@@ -25,7 +24,8 @@ const withInputs: PageState<Partial<ManageOrgProps>> = {
     },
     errors: [],
 };
-describe("manageOrgs", () => {
+
+describe("ManageOrgs", () => {
     vi.mock("../../data/dynamo", () => ({
         getOrganisationInfoById: vi.fn(),
     }));
@@ -36,16 +36,17 @@ describe("manageOrgs", () => {
 
     afterEach(() => {
         vi.resetAllMocks();
+        cleanup();
     });
 
     it("should render correctly when there are no inputs", () => {
-        const tree = renderer.create(<ManageOrgs {...blankInputs} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<ManageOrgs {...blankInputs} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly with inputs", () => {
-        const tree = renderer.create(<ManageOrgs {...withInputs} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<ManageOrgs {...withInputs} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should add admin area to list when selected", async () => {

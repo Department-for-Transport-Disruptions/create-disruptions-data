@@ -1,10 +1,14 @@
-import renderer from "react-test-renderer";
-import { describe, expect, it } from "vitest";
+import { cleanup, render } from "@testing-library/react";
+import { afterEach, describe, expect, it } from "vitest";
 import Index from "./index.page";
 
-describe("index", () => {
+afterEach(() => {
+    cleanup();
+});
+
+describe("Index", () => {
     it("should render correctly", () => {
-        const tree = renderer.create(<Index />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<Index />);
+        expect(asFragment()).toMatchSnapshot();
     });
 });

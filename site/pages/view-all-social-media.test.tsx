@@ -1,5 +1,5 @@
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { SocialMediaPost } from "../schemas/social-media.schema";
 import ViewAllSocialMedia from "./view-all-social-media.page";
@@ -74,15 +74,15 @@ const mockPosts: SocialMediaPost[] = [
         accountType: "Twitter",
     },
 ];
-describe("pages", () => {
-    describe("viewAllSocialMedia", () => {
-        it("should render correctly when social media posts are present", () => {
-            const tree = renderer.create(<ViewAllSocialMedia socialMediaPosts={mockPosts} />).toJSON();
-            expect(tree).toMatchSnapshot();
-        });
-        it("should render correctly when social media posts are not present", () => {
-            const tree = renderer.create(<ViewAllSocialMedia socialMediaPosts={[]} />).toJSON();
-            expect(tree).toMatchSnapshot();
-        });
+
+describe("ViewAllSocialMedia", () => {
+    it("should render correctly when social media posts are present", () => {
+        const { asFragment } = render(<ViewAllSocialMedia socialMediaPosts={mockPosts} />);
+        expect(asFragment()).toMatchSnapshot();
+    });
+
+    it("should render correctly when social media posts are not present", () => {
+        const { asFragment } = render(<ViewAllSocialMedia socialMediaPosts={[]} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 });

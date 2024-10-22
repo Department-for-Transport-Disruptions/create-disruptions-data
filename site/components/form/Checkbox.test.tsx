@@ -1,4 +1,4 @@
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import Checkbox from "./Checkbox";
 
@@ -11,44 +11,40 @@ interface PageInputs {
 
 describe("Checkbox", () => {
     it("should render correctly when not default checked", () => {
-        const tree = renderer
-            .create(
-                <Checkbox<PageInputs>
-                    inputName="field1"
-                    display="Display Legend"
-                    hideLegend
-                    checkboxDetail={[
-                        {
-                            display: "Radio Label",
-                            value: "radioValue",
-                            checked: false,
-                        },
-                    ]}
-                    stateUpdater={vi.fn()}
-                />,
-            )
-            .toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(
+            <Checkbox<PageInputs>
+                inputName="field1"
+                display="Display Legend"
+                hideLegend
+                checkboxDetail={[
+                    {
+                        display: "Radio Label",
+                        value: "radioValue",
+                        checked: false,
+                    },
+                ]}
+                stateUpdater={vi.fn()}
+            />,
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly when default checked", () => {
-        const tree = renderer
-            .create(
-                <Checkbox<PageInputs>
-                    inputName="field1"
-                    display="Display Legend"
-                    hideLegend
-                    checkboxDetail={[
-                        {
-                            display: "Radio Label",
-                            value: "radioValue",
-                            checked: true,
-                        },
-                    ]}
-                    stateUpdater={vi.fn()}
-                />,
-            )
-            .toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(
+            <Checkbox<PageInputs>
+                inputName="field1"
+                display="Display Legend"
+                hideLegend
+                checkboxDetail={[
+                    {
+                        display: "Radio Label",
+                        value: "radioValue",
+                        checked: true,
+                    },
+                ]}
+                stateUpdater={vi.fn()}
+            />,
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 });

@@ -1,3 +1,5 @@
+import { TreatMissingData } from "aws-cdk-lib/aws-cloudwatch";
+import { SnsAction } from "aws-cdk-lib/aws-cloudwatch-actions";
 import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { EventType, Bucket as S3Bucket } from "aws-cdk-lib/aws-s3";
 import { LambdaDestination } from "aws-cdk-lib/aws-s3-notifications";
@@ -8,7 +10,8 @@ import { createBucket } from "./utils";
 
 export const SiriGeneratorStack = ({ stack }: StackContext) => {
     const { disruptionsTable, organisationsTableV2: organisationsTable } = use(DynamoDBStack);
-    const { siriGeneratorNamespace, siriPublishSuccessMetric, siriValidationFailureMetric } = use(MonitoringStack);
+    const { siriGeneratorNamespace, siriPublishSuccessMetric, siriValidationFailureMetric, alarmTopic } =
+        use(MonitoringStack);
 
     const siriSXBucket = createBucket(stack, "cdd-siri-sx", true);
 
@@ -87,6 +90,16 @@ export const SiriGeneratorStack = ({ stack }: StackContext) => {
         job: siriStatsGenerator,
         schedule: `rate(${stack.stage === "prod" || stack.stage === "preprod" ? "1 minute" : "5 minutes"})`,
     });
+
+    siriGenerator
+        .metric("Errors")
+        .createAlarm(stack, "cdd-siri-generator-failure-alarm", {
+            evaluationPeriods: 1,
+            threshold: 1,
+            treatMissingData: TreatMissingData.NOT_BREACHING,
+            alarmName: `cdd-siri-generator-failure-alarm-${stack.stage}`,
+        })
+        .addAlarmAction(new SnsAction(alarmTopic));
 
     const siriValidator = new Function(stack, "cdd-siri-sx-validator", {
         functionName: `cdd-siri-sx-validator-${stack.stage}`,

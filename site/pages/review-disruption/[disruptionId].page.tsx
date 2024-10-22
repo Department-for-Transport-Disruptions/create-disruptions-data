@@ -6,15 +6,14 @@ import { NextPageContext, Redirect } from "next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
-import { Fragment, ReactElement, ReactNode, useEffect, useRef, useState } from "react";
+import { Fragment, ReactElement, useEffect, useRef, useState } from "react";
+import ReviewConsequenceTable, { createChangeLinkSummaryList } from "../../components/ReviewConsequenceTable";
 import CsrfForm from "../../components/form/CsrfForm";
 import ErrorSummary from "../../components/form/ErrorSummary";
-import Table, { CellProps } from "../../components/form/Table";
+import SummaryList from "../../components/form/SummaryList";
 import { BaseLayout } from "../../components/layout/Layout";
 import NotificationBanner from "../../components/layout/NotificationBanner";
 import DeleteConfirmationPopup from "../../components/popup/DeleteConfirmationPopup";
-
-import ReviewConsequenceTable, { createChangeLink } from "../../components/ReviewConsequenceTable";
 import {
     COOKIES_REVIEW_DISRUPTION_ERRORS,
     COOKIES_REVIEW_DISRUPTION_REFERER,
@@ -76,185 +75,145 @@ const ReviewDisruption = ({
     const getSocialMediaRows = (post: SocialMediaPostTransformed) => {
         const isPendingOrRejected =
             post.status === SocialMediaPostStatus.pending || post.status === SocialMediaPostStatus.rejected;
-        const socialMediaTableRows: { header?: string | ReactNode; cells: CellProps[] }[] = [
+        const socialMediaTableRows = [
             {
                 header: "Message to appear",
-                cells: [
-                    {
-                        value: post.messageContent,
-                    },
-                    {
-                        value:
-                            isPendingOrRejected && isEditingAllowed
-                                ? createChangeLink(
-                                      "message-to-appear",
-                                      CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                      disruption.id,
-                                      post.socialMediaPostIndex,
-                                      true,
-                                      false,
-                                      disruption.template,
-                                  )
-                                : "",
-                        styles: {
-                            width: "w-1/10",
-                        },
-                    },
-                ],
+                value: post.messageContent,
+                ...(isPendingOrRejected && isEditingAllowed
+                    ? {
+                          actions: [
+                              createChangeLinkSummaryList(
+                                  CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                  disruption.id,
+                                  post.socialMediaPostIndex,
+                                  true,
+                                  false,
+                                  disruption.template,
+                              ),
+                          ],
+                      }
+                    : {}),
             },
             {
                 header: "Image",
-                cells: [
-                    {
-                        value: post.image ? (
-                            <Link className="govuk-link text-govBlue" key={post.image.key} href={post.image?.url ?? ""}>
-                                {post.image.originalFilename}
-                            </Link>
-                        ) : (
-                            "No image uploaded"
-                        ),
-                    },
-                    {
-                        value:
-                            isPendingOrRejected && isEditingAllowed
-                                ? createChangeLink(
-                                      "hootsuite-profile",
-                                      CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                      disruption.id,
-                                      post.socialMediaPostIndex,
-                                      true,
-                                      false,
-                                      disruption.template,
-                                  )
-                                : "",
-                    },
-                ],
+                value: post.image ? (
+                    <Link className="govuk-link text-govBlue" key={post.image.key} href={post.image?.url ?? ""}>
+                        {post.image.originalFilename}
+                    </Link>
+                ) : (
+                    "No image uploaded"
+                ),
+                ...(isPendingOrRejected && isEditingAllowed
+                    ? {
+                          actions: [
+                              createChangeLinkSummaryList(
+                                  CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                  disruption.id,
+                                  post.socialMediaPostIndex,
+                                  true,
+                                  false,
+                                  disruption.template,
+                              ),
+                          ],
+                      }
+                    : {}),
             },
             {
                 header: "Publish date",
-                cells: [
-                    {
-                        value: post.accountType === "Hootsuite" && post.publishDate ? post.publishDate : "N/A",
-                    },
-                    {
-                        value:
-                            isPendingOrRejected && isEditingAllowed
-                                ? createChangeLink(
-                                      "publish-date",
-                                      CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                      disruption.id,
-                                      post.socialMediaPostIndex,
-                                      true,
-                                      false,
-                                      disruption.template,
-                                  )
-                                : "",
-                    },
-                ],
+                value: post.accountType === "Hootsuite" && post.publishDate ? post.publishDate : "N/A",
+                ...(isPendingOrRejected && isEditingAllowed
+                    ? {
+                          actions: [
+                              createChangeLinkSummaryList(
+                                  CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                  disruption.id,
+                                  post.socialMediaPostIndex,
+                                  true,
+                                  false,
+                                  disruption.template,
+                              ),
+                          ],
+                      }
+                    : {}),
             },
             {
                 header: "Publish time",
-                cells: [
-                    {
-                        value: post.accountType === "Hootsuite" && post.publishTime ? post.publishTime : "N/A",
-                    },
-                    {
-                        value:
-                            isPendingOrRejected && isEditingAllowed
-                                ? createChangeLink(
-                                      "publish-time",
-                                      CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                      disruption.id,
-                                      post.socialMediaPostIndex,
-                                      true,
-                                      false,
-                                      disruption.template,
-                                  )
-                                : "",
-                    },
-                ],
+                value: post.accountType === "Hootsuite" && post.publishTime ? post.publishTime : "N/A",
+                ...(isPendingOrRejected && isEditingAllowed
+                    ? {
+                          actions: [
+                              createChangeLinkSummaryList(
+                                  CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                  disruption.id,
+                                  post.socialMediaPostIndex,
+                                  true,
+                                  false,
+                                  disruption.template,
+                              ),
+                          ],
+                      }
+                    : {}),
             },
             {
                 header: "Account name",
-                cells: [
-                    {
-                        value:
-                            post.display && post.accountType
-                                ? `${post.display} (${post.accountType})`
-                                : post.socialAccount,
-                    },
-                    {
-                        value:
-                            isPendingOrRejected && isEditingAllowed
-                                ? createChangeLink(
-                                      "account-to-publish",
-                                      CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                      disruption.id,
-                                      post.socialMediaPostIndex,
-                                      true,
-                                      false,
-                                      disruption.template,
-                                  )
-                                : "",
-                    },
-                ],
+                value: post.display && post.accountType ? `${post.display} (${post.accountType})` : post.socialAccount,
+                ...(isPendingOrRejected && isEditingAllowed
+                    ? {
+                          actions: [
+                              createChangeLinkSummaryList(
+                                  CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                  disruption.id,
+                                  post.socialMediaPostIndex,
+                                  true,
+                                  false,
+                                  disruption.template,
+                              ),
+                          ],
+                      }
+                    : {}),
             },
             {
                 header: "HootSuite profile",
-                cells: [
-                    {
-                        value: post.accountType === "Hootsuite" ? post.hootsuiteProfile : "N/A",
-                    },
-                    {
-                        value:
-                            isPendingOrRejected && isEditingAllowed
-                                ? createChangeLink(
-                                      "hootsuite-profile",
-                                      CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                      disruption.id,
-                                      post.socialMediaPostIndex,
-                                      true,
-                                      false,
-                                      disruption.template,
-                                  )
-                                : "",
-                    },
-                ],
+                value: post.accountType === "Hootsuite" ? post.hootsuiteProfile : "N/A",
+                ...(isPendingOrRejected && isEditingAllowed
+                    ? {
+                          actions: [
+                              createChangeLinkSummaryList(
+                                  CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                  disruption.id,
+                                  post.socialMediaPostIndex,
+                                  true,
+                                  false,
+                                  disruption.template,
+                              ),
+                          ],
+                      }
+                    : {}),
             },
             {
                 header: "Nextdoor area boundaries",
-                cells: [
-                    {
-                        value:
-                            post.accountType === "Nextdoor"
-                                ? post.nextdoorAgencyBoundaries?.map((boundary) => boundary.name).join(", ")
-                                : "N/A",
-                    },
-                    {
-                        value:
-                            isPendingOrRejected && isEditingAllowed
-                                ? createChangeLink(
-                                      "nextdoorAgencyBoundaries",
-                                      CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
-                                      disruption.id,
-                                      post.socialMediaPostIndex,
-                                      true,
-                                      false,
-                                  )
-                                : "",
-                    },
-                ],
+                value:
+                    post.accountType === "Nextdoor"
+                        ? post.nextdoorAgencyBoundaries?.map((boundary) => boundary.name).join(", ") || "N/A"
+                        : "N/A",
+                ...(isPendingOrRejected && isEditingAllowed
+                    ? {
+                          actions: [
+                              createChangeLinkSummaryList(
+                                  CREATE_SOCIAL_MEDIA_POST_PAGE_PATH,
+                                  disruption.id,
+                                  post.socialMediaPostIndex,
+                                  true,
+                                  false,
+                                  disruption.template,
+                              ),
+                          ],
+                      }
+                    : {}),
             },
             {
                 header: "Status",
-                cells: [
-                    {
-                        value: disruption.template ? "N/A" : post.status,
-                    },
-                    {
-                        value: "",
-                    },
-                ],
+                value: disruption.template ? "N/A" : post.status,
             },
         ];
 
@@ -337,7 +296,7 @@ const ReviewDisruption = ({
                 );
             return {
                 header: `Validity period ${i + 1}`,
-                cells: [
+                value:
                     validity.disruptionEndDate && validity.disruptionEndTime && !validity.disruptionNoEndDateTime ? (
                         <span key={i}>
                             {validity.disruptionStartDate} {validity.disruptionStartTime} - {validity.disruptionEndDate}{" "}
@@ -346,20 +305,20 @@ const ReviewDisruption = ({
                     ) : (
                         `${validity.disruptionStartDate} ${validity.disruptionStartTime} - No end date/time`
                     ),
-                    isEditingAllowed
-                        ? createChangeLink(
-                              `validity-period-${i + 1}`,
-                              "/create-disruption",
-                              disruption.id,
-                              undefined,
-                              true,
-                              false,
-                              disruption.template,
-                          )
-                        : "",
-                    false,
-                    disruption.template,
-                ],
+                ...(isEditingAllowed
+                    ? {
+                          actions: [
+                              createChangeLinkSummaryList(
+                                  "/create-disruption",
+                                  disruption.id,
+                                  undefined,
+                                  true,
+                                  false,
+                                  disruption.template,
+                              ),
+                          ],
+                      }
+                    : {}),
             };
         });
     };
@@ -416,213 +375,174 @@ const ReviewDisruption = ({
                         <h1 className="govuk-heading-xl">{`Review your answers before submitting the ${
                             disruption.template ? "template" : "disruption"
                         }`}</h1>
-                        <Table
+                        <SummaryList
                             rows={[
                                 {
                                     header: "ID",
-                                    cells: [
-                                        {
-                                            value: disruption.displayId,
-                                        },
-                                        {
-                                            value: "",
-                                        },
-                                    ],
+                                    value: disruption.displayId,
                                 },
                                 {
                                     header: "Type of disruption",
-                                    cells: [
-                                        {
-                                            value: startCase(disruption.disruptionType),
-                                        },
-                                        {
-                                            value: isEditingAllowed
-                                                ? createChangeLink(
-                                                      "type-of-disruption",
+                                    value: startCase(disruption.disruptionType),
+                                    ...(isEditingAllowed
+                                        ? {
+                                              actions: [
+                                                  createChangeLinkSummaryList(
                                                       "/create-disruption",
                                                       disruption.id,
                                                       undefined,
                                                       true,
                                                       false,
                                                       disruption.template,
-                                                  )
-                                                : "",
-                                            styles: {
-                                                width: "w-1/10",
-                                            },
-                                        },
-                                    ],
+                                                  ),
+                                              ],
+                                          }
+                                        : {}),
                                 },
                                 {
                                     header: "Summary",
-                                    cells: [
-                                        {
-                                            value: disruption.summary,
-                                        },
-                                        {
-                                            value: isEditingAllowed
-                                                ? createChangeLink(
-                                                      "summary",
+                                    value: disruption.summary,
+                                    ...(isEditingAllowed
+                                        ? {
+                                              actions: [
+                                                  createChangeLinkSummaryList(
                                                       "/create-disruption",
                                                       disruption.id,
                                                       undefined,
                                                       true,
                                                       false,
                                                       disruption.template,
-                                                  )
-                                                : "",
-                                        },
-                                    ],
+                                                  ),
+                                              ],
+                                          }
+                                        : {}),
                                 },
                                 {
                                     header: "Description",
-                                    cells: [
-                                        {
-                                            value: disruption.description,
-                                        },
-                                        {
-                                            value: isEditingAllowed
-                                                ? createChangeLink(
-                                                      "description",
+                                    value: disruption.description,
+                                    ...(isEditingAllowed
+                                        ? {
+                                              actions: [
+                                                  createChangeLinkSummaryList(
                                                       "/create-disruption",
                                                       disruption.id,
                                                       undefined,
                                                       true,
                                                       false,
                                                       disruption.template,
-                                                  )
-                                                : "",
-                                        },
-                                    ],
+                                                  ),
+                                              ],
+                                          }
+                                        : {}),
                                 },
                                 {
                                     header: "Associated link",
-                                    cells: [
-                                        {
-                                            value: disruption.associatedLink || "N/A",
-                                        },
-                                        {
-                                            value: isEditingAllowed
-                                                ? createChangeLink(
-                                                      "associated-link",
+                                    value: disruption.associatedLink || "N/A",
+                                    ...(isEditingAllowed
+                                        ? {
+                                              actions: [
+                                                  createChangeLinkSummaryList(
                                                       "/create-disruption",
                                                       disruption.id,
                                                       undefined,
                                                       true,
                                                       false,
                                                       disruption.template,
-                                                  )
-                                                : "",
-                                        },
-                                    ],
+                                                  ),
+                                              ],
+                                          }
+                                        : {}),
                                 },
                                 {
                                     header: "Reason for disruption",
-                                    cells: [
-                                        {
-                                            value: splitCamelCaseToString(disruption.disruptionReason),
-                                        },
-                                        {
-                                            value: isEditingAllowed
-                                                ? createChangeLink(
-                                                      "disruption-reason",
+                                    value: splitCamelCaseToString(disruption.disruptionReason),
+                                    ...(isEditingAllowed
+                                        ? {
+                                              actions: [
+                                                  createChangeLinkSummaryList(
                                                       "/create-disruption",
                                                       disruption.id,
                                                       undefined,
                                                       true,
                                                       false,
                                                       disruption.template,
-                                                  )
-                                                : "",
-                                        },
-                                    ],
+                                                  ),
+                                              ],
+                                          }
+                                        : {}),
                                 },
                                 ...getValidityRows(),
                                 {
                                     header: "Publish start date",
-                                    cells: [
-                                        {
-                                            value: disruption.publishStartDate,
-                                        },
-                                        {
-                                            value: isEditingAllowed
-                                                ? createChangeLink(
-                                                      "publish-start-date",
+                                    value: disruption.publishStartDate,
+                                    ...(isEditingAllowed
+                                        ? {
+                                              actions: [
+                                                  createChangeLinkSummaryList(
                                                       "/create-disruption",
                                                       disruption.id,
                                                       undefined,
                                                       true,
                                                       false,
                                                       disruption.template,
-                                                  )
-                                                : "",
-                                        },
-                                    ],
+                                                  ),
+                                              ],
+                                          }
+                                        : {}),
                                 },
                                 {
                                     header: "Publish start time",
-                                    cells: [
-                                        {
-                                            value: formatTime(disruption.publishStartTime),
-                                        },
-                                        {
-                                            value: isEditingAllowed
-                                                ? createChangeLink(
-                                                      "publish-start-time",
+                                    value: formatTime(disruption.publishStartTime),
+                                    ...(isEditingAllowed
+                                        ? {
+                                              actions: [
+                                                  createChangeLinkSummaryList(
                                                       "/create-disruption",
                                                       disruption.id,
                                                       undefined,
                                                       true,
                                                       false,
                                                       disruption.template,
-                                                  )
-                                                : "",
-                                        },
-                                    ],
+                                                  ),
+                                              ],
+                                          }
+                                        : {}),
                                 },
                                 {
                                     header: "Publish end date",
-                                    cells: [
-                                        {
-                                            value: disruption.publishEndDate || "N/A",
-                                        },
-                                        {
-                                            value: isEditingAllowed
-                                                ? createChangeLink(
-                                                      "publish-end-date",
+                                    value: disruption.publishEndDate || "N/A",
+                                    ...(isEditingAllowed
+                                        ? {
+                                              actions: [
+                                                  createChangeLinkSummaryList(
                                                       "/create-disruption",
                                                       disruption.id,
                                                       undefined,
                                                       true,
                                                       false,
                                                       disruption.template,
-                                                  )
-                                                : "",
-                                        },
-                                    ],
+                                                  ),
+                                              ],
+                                          }
+                                        : {}),
                                 },
                                 {
                                     header: "Publish end time",
-                                    cells: [
-                                        {
-                                            value: disruption.publishEndTime
-                                                ? formatTime(disruption.publishEndTime)
-                                                : "N/A",
-                                        },
-                                        {
-                                            value: isEditingAllowed
-                                                ? createChangeLink(
-                                                      "publish-end-time",
+                                    value: disruption.publishEndTime ? formatTime(disruption.publishEndTime) : "N/A",
+                                    ...(isEditingAllowed
+                                        ? {
+                                              actions: [
+                                                  createChangeLinkSummaryList(
                                                       "/create-disruption",
                                                       disruption.id,
                                                       undefined,
                                                       true,
                                                       false,
                                                       disruption.template,
-                                                  )
-                                                : "",
-                                        },
-                                    ],
+                                                  ),
+                                              ],
+                                          }
+                                        : {}),
                                 },
                             ]}
                         />
@@ -714,7 +634,7 @@ const ReviewDisruption = ({
                                         className="govuk-accordion__section-content"
                                         aria-labelledby={`accordion-default-heading-${i + 1}`}
                                     >
-                                        <Table rows={getSocialMediaRows(post)} />
+                                        <SummaryList rows={getSocialMediaRows(post)} />
                                         {(post.status === SocialMediaPostStatus.pending ||
                                             post.status === SocialMediaPostStatus.rejected) &&
                                         isEditingAllowed ? (

@@ -13,8 +13,8 @@
         "diff": "sst diff",
         "cdk": "cdk",
         "typecheck": "tsc --noEmit",
-        "lint": "pnpx biome check .",
-        "lint:fix": "pnpx biome check --fix --unsafe .",
+        "lint": "pnpm biome check .",
+        "lint:fix": "pnpm biome check --fix --unsafe .",
         "test:site": "pnpm --filter @create-disruptions-data/site test",
         "test:siri": "pnpm --filter @create-disruptions-data/siri-sx-generator test",
         "test:stats": "pnpm --filter @create-disruptions-data/siri-sx-stats-generator test",
@@ -26,20 +26,21 @@
     },
     "devDependencies": {
         "@biomejs/biome": "1.8.3",
+        "@playwright/test": "^1.46.1",
         "@tsconfig/node20": "^20.1.2",
         "@types/node": "^20.10.5",
         "@vitest/coverage-c8": "^0.29.2",
-        "aws-cdk": "2.142.1",
-        "aws-cdk-lib": "2.142.1",
+        "aws-cdk": "2.161.1",
+        "aws-cdk-lib": "2.161.1",
         "constructs": "10.3.0",
         "husky": "^8.0.0",
         "prisma": "^5.18.0",
-        "sst": "2.43.3",
+        "sst": "2.44.0",
         "typescript": "^5.3.3"
     },
     "overrides": {
-        "react": "18.2.0",
-        "react-dom": "18.2.0",
+        "react": "18.3.1",
+        "react-dom": "18.3.1",
         "jszip": "3.8.0"
     },
     "dependencies": {
@@ -47,6 +48,7 @@
         "@aws-sdk/lib-dynamodb": "^3.609.0",
         "@aws-sdk/util-dynamodb": "^3.609.0",
         "@create-disruptions-data/shared-ts": "workspace:^",
+        "dotenv": "^16.4.5",
         "zod": "^3.23.3"
     }
 }

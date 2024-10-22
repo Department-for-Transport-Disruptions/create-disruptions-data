@@ -1,7 +1,6 @@
 import { Severity } from "@create-disruptions-data/shared-ts/enums";
-import { render } from "@testing-library/react";
-import renderer from "react-test-renderer";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { cleanup, render } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
 import CreateConsequenceNetwork, { CreateConsequenceNetworkProps } from "./[disruptionId]/[consequenceIndex].page";
 
@@ -22,7 +21,7 @@ const withInputs: CreateConsequenceNetworkProps = {
     disruptionDescription: "A truck broke down on a bridge",
 };
 
-const withInputsAndDisruptionaAreas: CreateConsequenceNetworkProps = {
+const withInputsAndDisruptionAreas: CreateConsequenceNetworkProps = {
     errors: [],
     inputs: {
         description: "A truck broke down on a bridge",
@@ -47,36 +46,36 @@ beforeEach(() => {
     }));
 });
 
+afterEach(cleanup);
+
 describe("pages", () => {
     describe("CreateConsequenceNetwork", () => {
         it("should render correctly with inputs", () => {
-            const tree = renderer.create(<CreateConsequenceNetwork {...withInputs} />).toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(<CreateConsequenceNetwork {...withInputs} />);
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with inputs & disruptionAreas", () => {
-            const tree = renderer.create(<CreateConsequenceNetwork {...withInputsAndDisruptionaAreas} />).toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(<CreateConsequenceNetwork {...withInputsAndDisruptionAreas} />);
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with inputs and showUnderground is true", () => {
-            const tree = renderer
-                .create(<CreateConsequenceNetwork {...{ ...withInputs, showUnderground: true }} />)
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(<CreateConsequenceNetwork {...{ ...withInputs, showUnderground: true }} />);
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with no inputs", () => {
-            const tree = renderer.create(<CreateConsequenceNetwork {...blankInputs} />).toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(<CreateConsequenceNetwork {...blankInputs} />);
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with query params", () => {
             useRouter.mockImplementation(() => ({
                 query: { return: "/review-disruption" },
             }));
-            const tree = renderer.create(<CreateConsequenceNetwork {...withInputs} />).toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(<CreateConsequenceNetwork {...withInputs} />);
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with appropriate buttons", () => {

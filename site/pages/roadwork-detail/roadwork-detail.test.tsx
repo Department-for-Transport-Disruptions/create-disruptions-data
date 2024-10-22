@@ -1,7 +1,7 @@
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { Roadwork } from "@create-disruptions-data/shared-ts/roadwork.zod";
-import renderer from "react-test-renderer";
-import { describe, expect, it } from "vitest";
+import { render } from "@testing-library/react";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import RoadworkDetail from "./[permitReferenceNumber].page";
 
 const mockNewDisruptionId = "d7991c1b-f332-4f6e-a150-faffebcd1ff6";
@@ -29,81 +29,73 @@ const mockRoadwork: Roadwork = {
 };
 
 describe("RoadworkDetail", () => {
+    afterEach(() => {
+        vi.resetAllMocks();
+    });
+
     it("should render correctly when roadworks data is present for LTA user", () => {
-        const tree = renderer
-            .create(
-                <RoadworkDetail roadwork={mockRoadwork} newDisruptionId={mockNewDisruptionId} isOperatorUser={false} />,
-            )
-            .toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(
+            <RoadworkDetail roadwork={mockRoadwork} newDisruptionId={mockNewDisruptionId} isOperatorUser={false} />,
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly when roadwork data is present and a published disruption exists for given roadwork for LTA user", () => {
-        const tree = renderer
-            .create(
-                <RoadworkDetail
-                    roadwork={mockRoadwork}
-                    newDisruptionId={mockNewDisruptionId}
-                    disruptionId={mockNewDisruptionId}
-                    disruptionPublishStatus={PublishStatus.published}
-                    isOperatorUser={false}
-                />,
-            )
-            .toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(
+            <RoadworkDetail
+                roadwork={mockRoadwork}
+                newDisruptionId={mockNewDisruptionId}
+                disruptionId={mockNewDisruptionId}
+                disruptionPublishStatus={PublishStatus.published}
+                isOperatorUser={false}
+            />,
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly when roadwork data is present and a draft disruption exists for given roadwork for LTA user", () => {
-        const tree = renderer
-            .create(
-                <RoadworkDetail
-                    roadwork={mockRoadwork}
-                    newDisruptionId={mockNewDisruptionId}
-                    disruptionId={mockNewDisruptionId}
-                    disruptionPublishStatus={PublishStatus.draft}
-                    isOperatorUser={false}
-                />,
-            )
-            .toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(
+            <RoadworkDetail
+                roadwork={mockRoadwork}
+                newDisruptionId={mockNewDisruptionId}
+                disruptionId={mockNewDisruptionId}
+                disruptionPublishStatus={PublishStatus.draft}
+                isOperatorUser={false}
+            />,
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly (without create disruption button) when roadworks data is present for operator user", () => {
-        const tree = renderer
-            .create(
-                <RoadworkDetail roadwork={mockRoadwork} newDisruptionId={mockNewDisruptionId} isOperatorUser={true} />,
-            )
-            .toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(
+            <RoadworkDetail roadwork={mockRoadwork} newDisruptionId={mockNewDisruptionId} isOperatorUser={true} />,
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly when roadwork data is present and a published disruption exists for given roadwork for operator user", () => {
-        const tree = renderer
-            .create(
-                <RoadworkDetail
-                    roadwork={mockRoadwork}
-                    newDisruptionId={mockNewDisruptionId}
-                    disruptionId={mockNewDisruptionId}
-                    disruptionPublishStatus={PublishStatus.published}
-                    isOperatorUser={true}
-                />,
-            )
-            .toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(
+            <RoadworkDetail
+                roadwork={mockRoadwork}
+                newDisruptionId={mockNewDisruptionId}
+                disruptionId={mockNewDisruptionId}
+                disruptionPublishStatus={PublishStatus.published}
+                isOperatorUser={true}
+            />,
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly when roadwork data is present and a draft disruption exists for given roadwork for an operator user", () => {
-        const tree = renderer
-            .create(
-                <RoadworkDetail
-                    roadwork={mockRoadwork}
-                    newDisruptionId={mockNewDisruptionId}
-                    disruptionId={mockNewDisruptionId}
-                    disruptionPublishStatus={PublishStatus.draft}
-                    isOperatorUser={true}
-                />,
-            )
-            .toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(
+            <RoadworkDetail
+                roadwork={mockRoadwork}
+                newDisruptionId={mockNewDisruptionId}
+                disruptionId={mockNewDisruptionId}
+                disruptionPublishStatus={PublishStatus.draft}
+                isOperatorUser={true}
+            />,
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 });

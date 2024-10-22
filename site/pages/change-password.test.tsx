@@ -1,5 +1,5 @@
-import renderer from "react-test-renderer";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { cleanup, render } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { mockSessionWithOrgDetail } from "../testData/mockData";
 import ChangePassword, { ChangePasswordPageProps } from "./change-password.page";
 
@@ -30,20 +30,22 @@ beforeEach(() => {
     }));
 });
 
+afterEach(cleanup);
+
 describe("changePassword", () => {
     it("should render correctly when there are no inputs", () => {
-        const tree = renderer.create(<ChangePassword {...blankInputs} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<ChangePassword {...blankInputs} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly with inputs and no errors", () => {
-        const tree = renderer.create(<ChangePassword {...withInputsAndNoErrors} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<ChangePassword {...withInputsAndNoErrors} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly with inputs and with errors", () => {
-        const tree = renderer.create(<ChangePassword {...withInputsAndErrors} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<ChangePassword {...withInputsAndErrors} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly when password is changed successfully", () => {
@@ -51,7 +53,7 @@ describe("changePassword", () => {
             query: { success: "true" },
         }));
 
-        const tree = renderer.create(<ChangePassword {...withInputsAndErrors} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<ChangePassword {...withInputsAndErrors} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 });

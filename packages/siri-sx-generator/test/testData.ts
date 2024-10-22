@@ -15,7 +15,7 @@ import { PtSituationElement } from "@create-disruptions-data/shared-ts/siriTypes
 
 export const baseSiriJson: PtSituationElement = {
     CreationTime: "2023-01-01T01:10:00Z",
-    ParticipantRef: "ref",
+    ParticipantRef: "DepartmentForTransport",
     SituationNumber: "aaaaa-bbbbb-ccccc",
     Version: 1,
     Source: {
@@ -95,7 +95,7 @@ export const baseConsequences: Consequence[] = [
 export const testDisruptionsJson: PtSituationElement[] = [
     {
         CreationTime: "2023-01-01T01:10:00Z",
-        ParticipantRef: "ref",
+        ParticipantRef: "DepartmentForTransport",
         SituationNumber: "aaaaa-bbbbb-ccccc",
         Version: 1,
         Source: {
@@ -155,7 +155,7 @@ export const testDisruptionsJson: PtSituationElement[] = [
         ReasonType: "MiscellaneousReason",
         MiscellaneousReason: MiscellaneousReason.vegetation,
         CreationTime: "2023-02-02T05:10:00Z",
-        ParticipantRef: "ref2",
+        ParticipantRef: "DepartmentForTransport",
         SituationNumber: "11111-22222-33333",
         Version: 2,
         Progress: Progress.closing,
@@ -217,7 +217,7 @@ export const testDisruptionsJson: PtSituationElement[] = [
         References: {
             RelatedToRef: [
                 {
-                    ParticipantRef: "ref",
+                    ParticipantRef: "DepartmentForTransport",
                     CreationTime: "2023-01-01T01:10:00Z",
                     SituationNumber: "aaaaa-bbbbb-ccccc",
                 },
@@ -235,7 +235,7 @@ export const testDisruptionsJson: PtSituationElement[] = [
         ReasonType: "EnvironmentReason",
         EnvironmentReason: EnvironmentReason.grassFire,
         CreationTime: "2023-03-05T05:10:00Z",
-        ParticipantRef: "ref3",
+        ParticipantRef: "DepartmentForTransport",
         SituationNumber: "ddddd-eeeee-fffff",
         Version: 1,
         Progress: Progress.published,

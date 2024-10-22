@@ -1,7 +1,7 @@
 import { Datasource, MiscellaneousReason, Progress, Severity } from "@create-disruptions-data/shared-ts/enums";
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
-import renderer from "react-test-renderer";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { cleanup, render } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { TableDisruption } from "../schemas/disruption.schema";
 import { mockSessionWithOrgDetail } from "../testData/mockData";
 import * as session from "../utils/apiUtils/auth";
@@ -16,40 +16,39 @@ vi.mock("../utils/apiUtils/auth", async () => ({
 beforeEach(() => {
     getSessionWithOrgDetailSpy.mockResolvedValue(mockSessionWithOrgDetail);
 });
+
+afterEach(cleanup);
+
 const defaultNewDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
 describe("pages", () => {
     describe("dashboard", () => {
         it("should render correctly", () => {
-            const tree = renderer
-                .create(
-                    <Dashboard
-                        newDisruptionId={defaultNewDisruptionId}
-                        canPublish
-                        orgName="Test Org"
-                        orgId="test-id"
-                        isOperatorUser={false}
-                        enableLoadingSpinnerOnPageLoad={false}
-                    />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(
+                <Dashboard
+                    newDisruptionId={defaultNewDisruptionId}
+                    canPublish
+                    orgName="Test Org"
+                    orgId="test-id"
+                    isOperatorUser={false}
+                    enableLoadingSpinnerOnPageLoad={false}
+                />,
+            );
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly for an operator user", () => {
-            const tree = renderer
-                .create(
-                    <Dashboard
-                        newDisruptionId={defaultNewDisruptionId}
-                        canPublish
-                        orgName="Test Org"
-                        orgId="test-id"
-                        isOperatorUser={true}
-                        enableLoadingSpinnerOnPageLoad={false}
-                    />,
-                )
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(
+                <Dashboard
+                    newDisruptionId={defaultNewDisruptionId}
+                    canPublish
+                    orgName="Test Org"
+                    orgId="test-id"
+                    isOperatorUser={true}
+                    enableLoadingSpinnerOnPageLoad={false}
+                />,
+            );
+            expect(asFragment()).toMatchSnapshot();
         });
 
         describe("format disruptions", () => {

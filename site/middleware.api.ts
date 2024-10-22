@@ -143,6 +143,7 @@ const unauthenticatedRoutes = [
     "/favicon.ico",
     "/500",
     "/404",
+    "/changelog",
 ];
 
 const allowedRoutesForSysadmin = [
@@ -160,6 +161,8 @@ const JWKS = jose.createRemoteJWKSet(new URL(`${process.env.COGNITO_ISSUER ?? ""
 
 export async function middleware(request: NextRequest) {
     const response = NextResponse.next();
+
+    const domain = process.env.DOMAIN_NAME;
 
     // csrf protection
     try {
@@ -187,7 +190,7 @@ export async function middleware(request: NextRequest) {
                 } catch (_e) {}
             }
 
-            const newResponse = NextResponse.redirect(new URL(LOGIN_PAGE_PATH, request.url));
+            const newResponse = NextResponse.redirect(new URL(LOGIN_PAGE_PATH, domain));
 
             const { pathname, search } = request.nextUrl;
 
@@ -197,7 +200,7 @@ export async function middleware(request: NextRequest) {
 
                 const apiRedirect = referer
                     ? `${referer.pathname}${referer.search}`
-                    : new URL(DASHBOARD_PAGE_PATH, request.url).toString();
+                    : new URL(DASHBOARD_PAGE_PATH, domain).toString();
 
                 newResponse.cookies.set(
                     COOKIES_LOGIN_REDIRECT,
@@ -237,22 +240,22 @@ export async function middleware(request: NextRequest) {
                     allowedRoutesForSysadmin.includes(request.nextUrl.pathname)
                 )
             ) {
-                return NextResponse.redirect(new URL(SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH, request.url));
+                return NextResponse.redirect(new URL(SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH, domain));
             }
 
             if (request.nextUrl.pathname === SOCIAL_MEDIA_ACCOUNTS_PAGE_PATH) {
                 if (!groups.includes(UserGroups.orgAdmins) && !groups.includes(UserGroups.operators)) {
-                    return NextResponse.redirect(new URL(DASHBOARD_PAGE_PATH, request.url));
+                    return NextResponse.redirect(new URL(DASHBOARD_PAGE_PATH, domain));
                 }
             }
 
             if (request.nextUrl.pathname.startsWith("/admin/") || request.nextUrl.pathname.startsWith("/api/admin/")) {
                 if (!groups.includes(UserGroups.orgAdmins)) {
                     if (!groups.includes(UserGroups.systemAdmins)) {
-                        return NextResponse.redirect(new URL(DASHBOARD_PAGE_PATH, request.url));
+                        return NextResponse.redirect(new URL(DASHBOARD_PAGE_PATH, domain));
                     }
                     if (allowedRoutesForSysadmin.every((route) => !request.nextUrl.pathname.startsWith(route))) {
-                        return NextResponse.redirect(new URL(SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH, request.url));
+                        return NextResponse.redirect(new URL(SYSADMIN_MANAGE_ORGANISATIONS_PAGE_PATH, domain));
                     }
                 }
             } else if (
@@ -260,7 +263,7 @@ export async function middleware(request: NextRequest) {
                 request.nextUrl.pathname.startsWith("/api/sysadmin/")
             ) {
                 if (!groups.includes(UserGroups.systemAdmins)) {
-                    return NextResponse.redirect(new URL(DASHBOARD_PAGE_PATH, request.url));
+                    return NextResponse.redirect(new URL(DASHBOARD_PAGE_PATH, domain));
                 }
             }
 

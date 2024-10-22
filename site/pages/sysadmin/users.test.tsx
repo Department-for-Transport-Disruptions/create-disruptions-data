@@ -1,5 +1,5 @@
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { mockSessionWithOrgDetail } from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
@@ -68,12 +68,12 @@ describe("addUser", () => {
     });
 
     it("should render correctly when there are no inputs", () => {
-        const tree = renderer.create(<SysAdminUserManagement {...blankInputs} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<SysAdminUserManagement {...blankInputs} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly with inputs", () => {
-        const tree = renderer.create(<SysAdminUserManagement {...withInputs} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<SysAdminUserManagement {...withInputs} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 });

@@ -2,7 +2,8 @@
     "extends": "@tsconfig/node20/tsconfig.json",
     "compilerOptions": {
         "module": "ES2022",
-        "moduleResolution": "Bundler"
+        "moduleResolution": "Bundler",
+        "lib": ["dom", "esnext"]
     },
     "exclude": ["site", "packages/siri-sx-importer"]
 }

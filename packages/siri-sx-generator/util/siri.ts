@@ -68,12 +68,16 @@ export const getPtSituationElementFromSiteDisruption = (
     const { STAGE: stage } = process.env;
     const ENABLE_LINE_REF_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
     const ENABLE_CANCELLATION_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
+    const ENABLE_PARTICIPANT_REF_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
 
     const currentTime = getDate().toISOString();
 
     const reason = disruption.disruptionReason;
 
-    const participantRef = disruption.organisation.name.replace(/[^-._:A-Za-z0-9]/g, "");
+    // Adjust when ENABLE_PARTICIPANT_REF_FEATURE_FLAG is removed
+    const participantRef = ENABLE_PARTICIPANT_REF_FEATURE_FLAG
+        ? "DepartmentForTransport"
+        : disruption.organisation.name.replace(/[^-._:A-Za-z0-9]/g, "");
 
     const validityPeriod = getValidityPeriod({
         disruptionStartDate: disruption.disruptionStartDate,

@@ -1,4 +1,4 @@
-import renderer from "react-test-renderer";
+import { cleanup, render } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { COOKIES_POLICY_COOKIE, COOKIE_PREFERENCES_COOKIE } from "../constants";
 import { CookiePolicy } from "../interfaces";
@@ -7,15 +7,18 @@ import Cookies, { CookiePreferencesProps, getServerSideProps } from "./cookies.p
 
 describe("pages", () => {
     describe("cookies", () => {
+        afterEach(cleanup);
+
         it("should display a confirmation box when the user saves their preferences", () => {
-            const tree = renderer.create(<Cookies settingsSaved trackingDefaultValue="off" csrfToken="" />).toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(<Cookies settingsSaved trackingDefaultValue="off" csrfToken="" />);
+            expect(asFragment()).toMatchSnapshot();
         });
     });
 
     describe("getServerSideProps", () => {
         afterEach(() => {
             vi.resetAllMocks();
+            cleanup();
         });
 
         it("should return default props when a user first visits the page", () => {

@@ -28,11 +28,13 @@ import { BaseLayout } from "../../../components/layout/Layout";
 import NotificationBanner from "../../../components/layout/NotificationBanner";
 import Map from "../../../components/map/JourneysMap";
 import {
+    ALLOWED_COACH_CONSEQUENCES,
     COOKIES_CONSEQUENCE_JOURNEYS_ERRORS,
     CREATE_CONSEQUENCE_JOURNEYS_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
     DISRUPTION_SEVERITIES,
+    ENABLE_COACH_MODE_FEATURE_FLAG,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/db";
@@ -45,6 +47,7 @@ import {
     filterVehicleModes,
     flattenZodErrors,
     getServiceLabel,
+    getStopTypesByVehicleMode,
     getStops,
     isJourneysConsequence,
 } from "../../../utils";
@@ -146,22 +149,15 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
             const serviceDataToShow: RouteWithServiceInfoPreformatted[] = [];
             if (pageState.inputs.services && pageState.inputs.services?.length > 0) {
                 const vehicleMode = pageState?.inputs?.vehicleMode || ("" as Modes | VehicleMode);
+
                 await Promise.all(
                     pageState.inputs.services.map(async (s) => {
+                        const stopTypes = getStopTypesByVehicleMode(vehicleMode);
                         const serviceRoutesData = await fetchServiceRoutes({
                             serviceRef: s.dataSource === Datasource.bods ? s.lineId : s.serviceCode,
                             dataSource: s.dataSource,
                             modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
-                            ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
-                            ...(vehicleMode === VehicleMode.bus
-                                ? { stopTypes: "BCT" }
-                                : vehicleMode === VehicleMode.tram ||
-                                    vehicleMode === Modes.metro ||
-                                    vehicleMode === VehicleMode.underground
-                                  ? { stopTypes: "MET, PLT" }
-                                  : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                                    ? { stopTypes: "FER, FBT" }
-                                    : { stopTypes: "undefined" }),
+                            ...stopTypes,
                         });
 
                         if (serviceRoutesData) {
@@ -485,11 +481,12 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
                             inputName="vehicleMode"
                             display="Mode of transport"
                             defaultDisplay="Select mode of transport"
-                            selectValues={filterVehicleModes(props.showUnderground)}
+                            selectValues={filterVehicleModes(props.showUnderground, props.showCoach)}
                             stateUpdater={stateUpdater}
                             value={pageState?.inputs?.vehicleMode}
                             initialErrors={pageState.errors}
                             displaySize="l"
+                            hint={"Select a mode before continuing"}
                         />
 
                         <SearchSelect<Service>
@@ -808,6 +805,7 @@ export const getServerSideProps = async (
             isOperatorUser: session.isOperatorUser,
             operatorUserNocCodes: operatorUserNocCodes,
             showUnderground: session.showUnderground,
+            showCoach: ENABLE_COACH_MODE_FEATURE_FLAG && ALLOWED_COACH_CONSEQUENCES.includes("journeys"),
         },
     };
 };

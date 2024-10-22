@@ -1,5 +1,5 @@
-import renderer from "react-test-renderer";
-import { describe, expect, it } from "vitest";
+import { cleanup, render } from "@testing-library/react";
+import { afterEach, describe, expect, it } from "vitest";
 import ResetPasswordConfirmation, { ResetPasswordConfirmationProps } from "./reset-password-confirmation.page";
 
 const blankInput: ResetPasswordConfirmationProps = {
@@ -10,14 +10,18 @@ const withInput: ResetPasswordConfirmationProps = {
     email: "dummyUser@gmail.com",
 };
 
-describe("reset-password-confirmation", () => {
+afterEach(() => {
+    cleanup();
+});
+
+describe("ResetPasswordConfirmation", () => {
     it("should render correctly when no input (i.e. email) is provided", () => {
-        const tree = renderer.create(<ResetPasswordConfirmation {...blankInput} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<ResetPasswordConfirmation {...blankInput} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly with input (i.e. email)", () => {
-        const tree = renderer.create(<ResetPasswordConfirmation {...withInput} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<ResetPasswordConfirmation {...withInput} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 });

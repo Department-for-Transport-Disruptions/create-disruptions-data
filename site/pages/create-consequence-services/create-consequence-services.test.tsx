@@ -1,6 +1,5 @@
 import { Datasource, Severity } from "@create-disruptions-data/shared-ts/enums";
 import { render } from "@testing-library/react";
-import renderer from "react-test-renderer";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants";
 import { mockSessionWithOrgDetail } from "../../testData/mockData";
@@ -120,36 +119,39 @@ const withInputsAndErrors: CreateConsequenceServicesProps = {
 describe("pages", () => {
     describe("CreateConsequenceServices", () => {
         it("should render correctly with no inputs", () => {
-            const tree = renderer.create(<CreateConsequenceServices {...blankInputs} />).toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(<CreateConsequenceServices {...blankInputs} />);
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with inputs", () => {
             useRouter.mockImplementation(() => ({
                 query: { disruptionId: withInputs.disruptionId },
             }));
-            const tree = renderer.create(<CreateConsequenceServices {...withInputs} />).toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(<CreateConsequenceServices {...withInputs} />);
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with inputs and showUnderground is true", () => {
-            const tree = renderer
-                .create(<CreateConsequenceServices {...{ ...withInputs, showUnderground: true }} />)
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(<CreateConsequenceServices {...{ ...withInputs, showUnderground: true }} />);
+            expect(asFragment()).toMatchSnapshot();
+        });
+
+        it("should render correctly with inputs and showCoach is true", () => {
+            const { asFragment } = render(<CreateConsequenceServices {...{ ...withInputs, showCoach: true }} />);
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with errors and incorrect inputs", () => {
-            const tree = renderer.create(<CreateConsequenceServices {...withInputsAndErrors} />).toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(<CreateConsequenceServices {...withInputsAndErrors} />);
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with query params", () => {
             useRouter.mockImplementation(() => ({
                 query: { return: "/review-disruption", disruptionId: withInputs.disruptionId },
             }));
-            const tree = renderer.create(<CreateConsequenceServices {...withInputs} />).toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(<CreateConsequenceServices {...withInputs} />);
+            expect(asFragment()).toMatchSnapshot();
         });
 
         it("should render correctly with appropriate buttons", () => {
@@ -175,12 +177,12 @@ describe("pages", () => {
             useRouter.mockImplementation(() => ({
                 query: { disruptionId: withInputs.disruptionId },
             }));
-            const inputs: CreateConsequenceServicesProps = {
+            const inputs = {
                 ...withInputs,
                 consequenceDataSource: Datasource.tnds,
             };
-            const tree = renderer.create(<CreateConsequenceServices {...inputs} />).toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(<CreateConsequenceServices {...inputs} />);
+            expect(asFragment()).toMatchSnapshot();
         });
     });
 });

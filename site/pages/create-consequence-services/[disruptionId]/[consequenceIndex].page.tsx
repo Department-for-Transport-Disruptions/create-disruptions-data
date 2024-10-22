@@ -27,11 +27,13 @@ import { BaseLayout } from "../../../components/layout/Layout";
 import NotificationBanner from "../../../components/layout/NotificationBanner";
 import Map from "../../../components/map/ServicesMap";
 import {
+    ALLOWED_COACH_CONSEQUENCES,
     COOKIES_CONSEQUENCE_SERVICES_ERRORS,
     CREATE_CONSEQUENCE_SERVICES_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
     DISRUPTION_SEVERITIES,
+    ENABLE_COACH_MODE_FEATURE_FLAG,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/db";
@@ -46,6 +48,7 @@ import {
     flattenZodErrors,
     getRoutesForServices,
     getServiceLabel,
+    getStopTypesByVehicleMode,
     getStops,
     getStopsForRoutes,
     isServicesConsequence,
@@ -153,20 +156,12 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                 const vehicleMode = pageState?.inputs?.vehicleMode || ("" as Modes | VehicleMode);
                 await Promise.all(
                     pageState.inputs.services.map(async (s) => {
+                        const stopTypes = getStopTypesByVehicleMode(vehicleMode);
                         const serviceRoutesData = await fetchServiceRoutes({
                             serviceRef: s.dataSource === Datasource.bods ? s.lineId : s.serviceCode,
                             dataSource: s.dataSource,
                             modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
-                            ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
-                            ...(vehicleMode === VehicleMode.bus
-                                ? { stopTypes: "BCT" }
-                                : vehicleMode === VehicleMode.tram ||
-                                    vehicleMode === Modes.metro ||
-                                    vehicleMode === VehicleMode.underground
-                                  ? { stopTypes: "MET, PLT" }
-                                  : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                                    ? { stopTypes: "FER, FBT" }
-                                    : { stopTypes: "undefined" }),
+                            ...stopTypes,
                         });
 
                         if (serviceRoutesData) {
@@ -261,33 +256,36 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
             });
         } else {
             if (stopToAdd) {
-                const servicesForGivenStop: ServiceWithStopsAndRoutesPreformatted[] = await fetchServicesByStops({
-                    atcoCodes: [stopToAdd.atcoCode],
-                    includeRoutes: true,
-                    dataSource: dataSource,
-                    nocCodes: props.isOperatorUser && props.operatorUserNocCodes ? props.operatorUserNocCodes : [],
-                    adminAreaCodes: pageState.sessionWithOrg?.adminAreaCodes,
-                });
+                let servicesForGivenStop: ServiceWithStopsAndRoutesPreformatted[] = [];
+                if (pageState.inputs.vehicleMode !== VehicleMode.coach) {
+                    servicesForGivenStop = await fetchServicesByStops({
+                        atcoCodes: [stopToAdd.atcoCode],
+                        includeRoutes: true,
+                        dataSource: dataSource,
+                        nocCodes: props.isOperatorUser && props.operatorUserNocCodes ? props.operatorUserNocCodes : [],
+                        adminAreaCodes: pageState.sessionWithOrg?.adminAreaCodes,
+                    });
 
-                stopToAdd.serviceIds = servicesForGivenStop.map((service) => service.id);
+                    stopToAdd.serviceIds = servicesForGivenStop.map((service) => service.id);
 
-                const servicesRoutesForGivenStop = getRoutesForServices(servicesForGivenStop);
+                    const servicesRoutesForGivenStop = getRoutesForServices(servicesForGivenStop);
 
-                const servicesRoutesForMap = removeDuplicateRoutes([
-                    ...searchedRoutes,
-                    ...groupByJourneyPattern(servicesRoutesForGivenStop),
-                ]);
+                    const servicesRoutesForMap = removeDuplicateRoutes([
+                        ...searchedRoutes,
+                        ...groupByJourneyPattern(servicesRoutesForGivenStop),
+                    ]);
 
-                const stopsForServicesRoutes = await getStopsForRoutes(
-                    servicesRoutesForMap,
-                    pageState.inputs.vehicleMode,
-                    dataSource,
-                );
+                    const stopsForServicesRoutes = await getStopsForRoutes(
+                        servicesRoutesForMap,
+                        pageState.inputs.vehicleMode,
+                        dataSource,
+                    );
 
-                const stopsForMap = sortAndFilterStops([...stopOptions, ...stopsForServicesRoutes]);
+                    const stopsForMap = sortAndFilterStops([...stopOptions, ...stopsForServicesRoutes]);
 
-                setSearchedRoutes(servicesRoutesForMap);
-                setStopOptions(stopsForMap);
+                    setSearchedRoutes(servicesRoutesForMap);
+                    setStopOptions(stopsForMap);
+                }
 
                 setPageState({
                     ...pageState,
@@ -504,11 +502,12 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             inputName="vehicleMode"
                             display="Mode of transport"
                             defaultDisplay="Select mode of transport"
-                            selectValues={filterVehicleModes(props.showUnderground)}
+                            selectValues={filterVehicleModes(props.showUnderground, props.showCoach)}
                             stateUpdater={stateUpdater}
                             value={pageState?.inputs?.vehicleMode}
                             initialErrors={pageState.errors}
                             displaySize="l"
+                            hint={"Select a mode before continuing"}
                         />
 
                         <SearchSelect<Service>
@@ -580,6 +579,11 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             )}
                             inputValue={stopsSearchInput}
                             setSearchInput={setStopsSearchInput}
+                            disabled={
+                                pageState.inputs.vehicleMode === VehicleMode.coach &&
+                                pageState.inputs.services &&
+                                pageState.inputs.services.length === 0
+                            }
                         />
 
                         {pageState.inputs.stops && pageState.inputs.stops?.length >= 1 && (
@@ -630,6 +634,7 @@ const CreateConsequenceServices = (props: CreateConsequenceServicesProps): React
                             setServiceOptionsForDropdown={setServiceOptionsForDropdown}
                             dataSource={dataSource}
                             showUnderground={props.showUnderground}
+                            showDrawControl={pageState.inputs.vehicleMode !== VehicleMode.coach}
                         />
 
                         <TextInput<ServicesConsequence>
@@ -884,6 +889,7 @@ export const getServerSideProps = async (
             isOperatorUser: session.isOperatorUser,
             operatorUserNocCodes: operatorUserNocCodes,
             showUnderground: session.showUnderground,
+            showCoach: ENABLE_COACH_MODE_FEATURE_FLAG && ALLOWED_COACH_CONSEQUENCES.includes("services"),
         },
     };
 };

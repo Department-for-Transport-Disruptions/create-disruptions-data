@@ -1,5 +1,5 @@
 import { UserGroups } from "@create-disruptions-data/shared-ts/enums";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
 import { AddUserPageProps } from "../../pages/admin/add-user.page";
 import { EditUserPageProps } from "../../pages/admin/edit-user/[username].page";
@@ -38,33 +38,28 @@ describe("UserDetailPageTemplate", () => {
     const setPageState = vi.fn();
 
     it("should render the edit-user page correctly", () => {
-        const tree = renderer
-            .create(
-                <UserDetailPageTemplate
-                    pageType={"editUser"}
-                    title={editPageInputs.title}
-                    description={editPageInputs.description}
-                    pageState={editUserPageState}
-                    setPageState={setPageState}
-                />,
-            )
-            .toJSON();
-
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(
+            <UserDetailPageTemplate
+                pageType="editUser"
+                title={editPageInputs.title}
+                description={editPageInputs.description}
+                pageState={editUserPageState}
+                setPageState={setPageState}
+            />,
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
-    it("should render the add-user page correctly", () => {
-        const tree = renderer
-            .create(
-                <UserDetailPageTemplate
-                    pageType={"addUser"}
-                    title={addUserPageInputs.title}
-                    description={addUserPageInputs.description}
-                    pageState={addUserPageState}
-                    setPageState={setPageState}
-                />,
-            )
-            .toJSON();
 
-        expect(tree).toMatchSnapshot();
+    it("should render the add-user page correctly", () => {
+        const { asFragment } = render(
+            <UserDetailPageTemplate
+                pageType="addUser"
+                title={addUserPageInputs.title}
+                description={addUserPageInputs.description}
+                pageState={addUserPageState}
+                setPageState={setPageState}
+            />,
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 });

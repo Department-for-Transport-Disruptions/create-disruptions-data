@@ -38,3 +38,6 @@ dev-containers-kill:
 
 dev-containers-stop-%:
 	docker compose --project-directory dev stop $*
+
+run-ui-tests:
+	pnpm playwright test --ui

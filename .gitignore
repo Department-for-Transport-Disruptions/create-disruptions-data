@@ -12,9 +12,17 @@ node_modules
 
 # local env files
 .env*.local
+.env
 
 cdk.context.json
 
 .idea
 
-.env
+# Playwright
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+
+.env.playwright
+playwright/.auth

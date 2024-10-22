@@ -1,7 +1,7 @@
 import { History } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
+import { render } from "@testing-library/react";
 import MockDate from "mockdate";
-import renderer from "react-test-renderer";
 import { afterAll, describe, expect, it, vi } from "vitest";
 import * as db from "../../data/db";
 import { DEFAULT_DISRUPTION_ID, disruptionWithConsequences, getMockContext } from "../../testData/mockData";
@@ -58,10 +58,8 @@ describe("pages", () => {
 
     describe("DisruptionHistory", () => {
         it("should render correctly", () => {
-            const tree = renderer
-                .create(<DisruptionHistory disruptionId={DEFAULT_DISRUPTION_ID} history={history} />)
-                .toJSON();
-            expect(tree).toMatchSnapshot();
+            const { asFragment } = render(<DisruptionHistory disruptionId={DEFAULT_DISRUPTION_ID} history={history} />);
+            expect(asFragment()).toMatchSnapshot();
         });
     });
 

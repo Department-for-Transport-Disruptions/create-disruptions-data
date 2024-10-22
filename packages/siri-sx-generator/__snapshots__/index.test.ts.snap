@@ -160,7 +160,7 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML 1`] = `
             <Situations>
                 <PtSituationElement>
                     <CreationTime>2023-05-13T14:45:00Z</CreationTime>
-                    <ParticipantRef>TestOrg</ParticipantRef>
+                    <ParticipantRef>DepartmentForTransport</ParticipantRef>
                     <SituationNumber>acde070d-8c4c-4f0d-9d8a-162843c10333</SituationNumber>
                     <Version>2</Version>
                     <Source>
@@ -331,7 +331,7 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML where creationDate 
             <Situations>
                 <PtSituationElement>
                     <CreationTime>2023-05-13T14:45:00Z</CreationTime>
-                    <ParticipantRef>TestOrg</ParticipantRef>
+                    <ParticipantRef>DepartmentForTransport</ParticipantRef>
                     <SituationNumber>acde070d-8c4c-4f0d-9d8a-162843c10333</SituationNumber>
                     <Version>1</Version>
                     <Source>

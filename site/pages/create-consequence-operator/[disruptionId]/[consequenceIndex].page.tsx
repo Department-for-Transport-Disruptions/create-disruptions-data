@@ -18,11 +18,13 @@ import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
 import OperatorSearch from "../../../components/search/OperatorSearch";
 import {
+    ALLOWED_COACH_CONSEQUENCES,
     COOKIES_CONSEQUENCE_OPERATOR_ERRORS,
     CREATE_CONSEQUENCE_OPERATOR_PATH,
     DISRUPTION_DETAIL_PAGE_PATH,
     DISRUPTION_NOT_FOUND_ERROR_PAGE,
     DISRUPTION_SEVERITIES,
+    ENABLE_COACH_MODE_FEATURE_FLAG,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
 } from "../../../constants";
 import { getDisruptionById } from "../../../data/db";
@@ -31,7 +33,7 @@ import { fetchOperators } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
 import { Operator } from "../../../schemas/consequence.schema";
 import { ModeType } from "../../../schemas/organisation.schema";
-import { filterVehicleModes, isOperatorConsequence, removeDuplicates } from "../../../utils";
+import { filterVehicleModes, isOperatorConsequence, removeDuplicatesBasedOnMode } from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import {
@@ -81,6 +83,9 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
             !pageState.inputs.consequenceOperators?.find((selOp) => selOp.operatorNoc === operator.nocCode) &&
             operator.dataSource === dataSource.toString();
 
+        if (pageState.inputs?.vehicleMode === VehicleMode.coach && operator.mode === VehicleMode.coach.toString()) {
+            return display;
+        }
         if (
             pageState.inputs?.vehicleMode === VehicleMode.bus &&
             (operator.mode === VehicleMode.bus.toString() || operator.mode === "")
@@ -143,12 +148,13 @@ const CreateConsequenceOperator = (props: CreateConsequenceOperatorProps): React
                             inputName="vehicleMode"
                             display="Mode of transport"
                             defaultDisplay="Select mode of transport"
-                            selectValues={filterVehicleModes(props.showUnderground)}
+                            selectValues={filterVehicleModes(props.showUnderground, props.showCoach)}
                             stateUpdater={stateUpdater}
                             value={pageState.inputs.vehicleMode}
                             initialErrors={pageState.errors}
                             schema={operatorConsequenceSchema.shape.vehicleMode}
                             displaySize="l"
+                            hint={"Select a mode before continuing"}
                         />
 
                         <OperatorSearch<OperatorConsequence>
@@ -364,7 +370,8 @@ export const getServerSideProps = async (
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_CONSEQUENCE_OPERATOR_ERRORS, ctx.res);
 
     const operatorsData = await fetchOperators({ adminAreaCodes: session.adminAreaCodes ?? ["undefined"] });
-    const uniqueOperators: Operator[] = removeDuplicates(operatorsData, "id");
+
+    const uniqueOperators: Operator[] = removeDuplicatesBasedOnMode(operatorsData, "id");
 
     const operatorUserNocCodes =
         session.isOperatorUser && session.operatorOrgId
@@ -386,6 +393,7 @@ export const getServerSideProps = async (
             template: disruption.template?.toString() || "",
             isEdit: !!consequence,
             showUnderground: session.showUnderground,
+            showCoach: ENABLE_COACH_MODE_FEATURE_FLAG && ALLOWED_COACH_CONSEQUENCES.includes("operatorWide"),
         },
     };
 };

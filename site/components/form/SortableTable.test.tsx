@@ -1,5 +1,5 @@
+import { render } from "@testing-library/react";
 import Link from "next/link";
-import renderer from "react-test-renderer";
 import { describe, expect, it } from "vitest";
 import { DISRUPTION_DETAIL_PAGE_PATH, VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../../constants";
 import SortableTable, { TableColumn } from "./SortableTable";
@@ -10,6 +10,7 @@ interface RandomTable {
     start: string;
     role: string;
 }
+
 const defaultColumn: TableColumn<RandomTable>[] = [
     {
         displayName: "ID",
@@ -91,7 +92,7 @@ const defaultData: RandomTable[] = [
                     pathname: `${DISRUPTION_DETAIL_PAGE_PATH}/id`,
                     query: { return: VIEW_ALL_DISRUPTIONS_PAGE_PATH },
                 }}
-                key="key-1"
+                key="key-4"
             >
                 aft62h
             </Link>
@@ -107,37 +108,30 @@ const defaultSortFunction = (rows: RandomTable[], sortField: keyof RandomTable) 
 
 describe("SortableTable", () => {
     it("should render correctly", () => {
-        const tree = renderer.create(<SortableTable columns={defaultColumn} rows={defaultData} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<SortableTable columns={defaultColumn} rows={defaultData} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly when empty arrays are passed", () => {
-        const tree = renderer.create(<SortableTable columns={[]} rows={[]} />).toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(<SortableTable columns={[]} rows={[]} />);
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly with pagination", () => {
-        const tree = renderer
-            .create(
-                <SortableTable
-                    columns={defaultColumn}
-                    rows={Array.from({ length: 10 }, () => [...defaultData]).flat()}
-                />,
-            )
-            .toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(
+            <SortableTable columns={defaultColumn} rows={Array.from({ length: 10 }, () => [...defaultData]).flat()} />,
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly with sorting function", () => {
-        const tree = renderer
-            .create(
-                <SortableTable
-                    columns={defaultColumn}
-                    rows={Array.from({ length: 10 }, () => [...defaultData]).flat()}
-                    sortFunction={defaultSortFunction}
-                />,
-            )
-            .toJSON();
-        expect(tree).toMatchSnapshot();
+        const { asFragment } = render(
+            <SortableTable
+                columns={defaultColumn}
+                rows={Array.from({ length: 10 }, () => [...defaultData]).flat()}
+                sortFunction={defaultSortFunction}
+            />,
+        );
+        expect(asFragment()).toMatchSnapshot();
     });
 });
