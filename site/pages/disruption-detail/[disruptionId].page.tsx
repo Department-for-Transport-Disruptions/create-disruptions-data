@@ -375,7 +375,7 @@ const DisruptionDetail = ({
                     hintText="This action is permanent and cannot be undone"
                     csrfToken={csrfToken}
                     hiddenInputs={socialMediaPostPopUpState.hiddenInputs}
-                    isOpen={!!popUpState}
+                    isOpen={!!socialMediaPostPopUpState}
                 />
             ) : null}
             {duplicateDisruptionPopUpState && csrfToken && !disruption.template ? (
