@@ -4,6 +4,5 @@ export default defineConfig({
     test: {
         include: ["**/*.{test,spec}.{js,ts}"],
         environment: "node",
-        threads: false,
     },
 });

@@ -70,3 +70,201 @@ exports[`getAllDisruptions > formatSortedDisruptions > correctly formats disrupt
   ],
 }
 `;
+
+exports[`getAllDisruptions > should be successful when session is set 1`] = `
+[MockFunction spy] {
+  "calls": [
+    [
+      {
+        "disruptions": [
+          {
+            "consequenceLength": 1,
+            "creationTime": undefined,
+            "dataSource": undefined,
+            "description": "testpending81",
+            "displayId": "415351",
+            "disruptionReason": "accident",
+            "disruptionType": "planned",
+            "history": undefined,
+            "id": "00831a54-0ecb-4b0c-8d73-310888968747",
+            "isLive": true,
+            "isNetworkWideCq": true,
+            "isOperatorWideCq": false,
+            "modes": [
+              "Bus",
+            ],
+            "operators": [],
+            "publishEndDate": "",
+            "publishStartDate": "2023-03-07T10:00:00.000Z",
+            "services": [],
+            "servicesAffectedCount": 0,
+            "severity": "unknown",
+            "status": "draft",
+            "stopsAffectedCount": 0,
+            "summary": "testpending81",
+            "validityPeriods": [
+              {
+                "endTime": null,
+                "startTime": "2023-03-07T10:00:00.000Z",
+              },
+            ],
+          },
+          {
+            "consequenceLength": 1,
+            "creationTime": undefined,
+            "dataSource": undefined,
+            "description": "testfilter3",
+            "displayId": "124b84",
+            "disruptionReason": "accident",
+            "disruptionType": "planned",
+            "history": undefined,
+            "id": "01b15519-41b5-4ace-a212-5331a1622771",
+            "isLive": true,
+            "isNetworkWideCq": true,
+            "isOperatorWideCq": false,
+            "modes": [
+              "Bus",
+            ],
+            "operators": [],
+            "publishEndDate": "",
+            "publishStartDate": "2023-03-07T10:00:00.000Z",
+            "services": [],
+            "servicesAffectedCount": 0,
+            "severity": "unknown",
+            "status": "open",
+            "stopsAffectedCount": 0,
+            "summary": "testfilter3",
+            "validityPeriods": [
+              {
+                "endTime": null,
+                "startTime": "2023-03-08T10:00:00.000Z",
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  ],
+  "results": [
+    {
+      "type": "return",
+      "value": undefined,
+    },
+  ],
+}
+`;
+
+exports[`getAllDisruptions > should call filterDisruptionsForOperatorUser for operator users 1`] = `
+[MockFunction spy] {
+  "calls": [
+    [
+      {
+        "disruptions": [
+          {
+            "consequenceLength": 1,
+            "creationTime": undefined,
+            "dataSource": undefined,
+            "description": "testpending81",
+            "displayId": "415351",
+            "disruptionReason": "accident",
+            "disruptionType": "planned",
+            "history": undefined,
+            "id": "00831a54-0ecb-4b0c-8d73-310888968747",
+            "isLive": true,
+            "isNetworkWideCq": true,
+            "isOperatorWideCq": false,
+            "modes": [
+              "Bus",
+            ],
+            "operators": [],
+            "publishEndDate": "",
+            "publishStartDate": "2023-03-07T10:00:00.000Z",
+            "services": [],
+            "servicesAffectedCount": 0,
+            "severity": "unknown",
+            "status": "draft",
+            "stopsAffectedCount": 0,
+            "summary": "testpending81",
+            "validityPeriods": [
+              {
+                "endTime": null,
+                "startTime": "2023-03-07T10:00:00.000Z",
+              },
+            ],
+          },
+          {
+            "consequenceLength": 1,
+            "creationTime": undefined,
+            "dataSource": undefined,
+            "description": "testfilter3",
+            "displayId": "124b84",
+            "disruptionReason": "accident",
+            "disruptionType": "planned",
+            "history": undefined,
+            "id": "01b15519-41b5-4ace-a212-5331a1622771",
+            "isLive": true,
+            "isNetworkWideCq": true,
+            "isOperatorWideCq": false,
+            "modes": [
+              "Bus",
+            ],
+            "operators": [],
+            "publishEndDate": "",
+            "publishStartDate": "2023-03-07T10:00:00.000Z",
+            "services": [],
+            "servicesAffectedCount": 0,
+            "severity": "unknown",
+            "status": "open",
+            "stopsAffectedCount": 0,
+            "summary": "testfilter3",
+            "validityPeriods": [
+              {
+                "endTime": null,
+                "startTime": "2023-03-08T10:00:00.000Z",
+              },
+            ],
+          },
+          {
+            "consequenceLength": 1,
+            "creationTime": undefined,
+            "dataSource": undefined,
+            "description": "testfilter3",
+            "displayId": "124b84",
+            "disruptionReason": "accident",
+            "disruptionType": "planned",
+            "history": undefined,
+            "id": "01b15519-41b5-4ace-a212-5331a1622771",
+            "isLive": true,
+            "isNetworkWideCq": true,
+            "isOperatorWideCq": false,
+            "modes": [
+              "Bus",
+            ],
+            "operators": [],
+            "publishEndDate": "",
+            "publishStartDate": "2023-03-07T10:00:00.000Z",
+            "services": [],
+            "servicesAffectedCount": 0,
+            "severity": "unknown",
+            "status": "open",
+            "stopsAffectedCount": 0,
+            "summary": "testfilter3",
+            "validityPeriods": [
+              {
+                "endTime": null,
+                "startTime": "2023-03-08T10:00:00.000Z",
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  ],
+  "results": [
+    {
+      "type": "return",
+      "value": undefined,
+    },
+  ],
+}
+`;

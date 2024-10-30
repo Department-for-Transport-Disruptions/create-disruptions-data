@@ -1,5 +1,4 @@
 import formidable from "formidable";
-import * as fs from "fs/promises";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
     COOKIES_SOCIAL_MEDIA_ERRORS,
@@ -39,6 +38,10 @@ const previousCreateSocialMediaPostInformation = {
 };
 
 describe("create-social-media-post API", () => {
+    const hoisted = vi.hoisted(() => ({
+        readFileMock: vi.fn(),
+    }));
+
     const env = process.env;
     process.env.IMAGE_BUCKET_NAME = DEFAULT_IMAGE_BUCKET_NAME;
 
@@ -70,8 +73,12 @@ describe("create-social-media-post API", () => {
         destroyCookieOnResponseObject: vi.fn(),
     }));
 
-    vi.mock("../../data/dynamo", () => ({
+    vi.mock("../../data/db", () => ({
         upsertSocialMediaPost: vi.fn(),
+        getOrgSocialAccount: vi.fn(),
+    }));
+
+    vi.mock("../../data/dynamo", () => ({
         getOrgSocialAccount: vi.fn(),
     }));
 
@@ -85,9 +92,10 @@ describe("create-social-media-post API", () => {
         putItem: vi.fn(),
     }));
 
-    const readFileSpy = vi.spyOn(fs, "readFile");
     vi.mock("fs/promises", () => ({
-        readFile: vi.fn(),
+        default: {
+            readFile: hoisted.readFileMock,
+        },
     }));
 
     it("should redirect to /review-disruption when all required inputs are passed", async () => {
@@ -111,7 +119,6 @@ describe("create-social-media-post API", () => {
                 socialMediaPostIndex: 0,
             },
             DEFAULT_ORG_ID,
-            false,
             false,
             false,
         );
@@ -146,7 +153,6 @@ describe("create-social-media-post API", () => {
             DEFAULT_ORG_ID,
             false,
             false,
-            true,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}?template=true`,
@@ -174,7 +180,7 @@ describe("create-social-media-post API", () => {
         });
         const buffer = Buffer.from("testFile", "base64");
         await createSocialMediaPost(req, res);
-        readFileSpy.mockResolvedValue(buffer);
+        hoisted.readFileMock.mockResolvedValue(buffer);
         expect(s3Spy).toHaveBeenCalledTimes(1);
         s3Spy.mockResolvedValue();
         expect(upsertSocialMediaPostSpy).toHaveBeenCalledTimes(1);
@@ -191,7 +197,6 @@ describe("create-social-media-post API", () => {
                 },
             },
             DEFAULT_ORG_ID,
-            false,
             false,
             false,
         );
@@ -229,7 +234,6 @@ describe("create-social-media-post API", () => {
                 socialMediaPostIndex: 0,
             },
             DEFAULT_ORG_ID,
-            false,
             false,
             false,
         );
@@ -466,7 +470,6 @@ describe("create-social-media-post API", () => {
                 socialMediaPostIndex: 0,
             },
             DEFAULT_ORG_ID,
-            false,
             false,
             false,
         );

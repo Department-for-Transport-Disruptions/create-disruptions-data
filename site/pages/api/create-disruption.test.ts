@@ -28,7 +28,7 @@ const defaultPublishStartDate = getFutureDateAsString(1);
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
 const defaultDisruptionData = {
-    disruptionId: defaultDisruptionId,
+    id: defaultDisruptionId,
     disruptionType: "unplanned",
     summary: "Lorem ipsum dolor sit amet",
     description:
@@ -70,7 +70,7 @@ describe("create-disruption API", () => {
     }));
 
     const upsertDisruptionSpy = vi.spyOn(db, "upsertDisruptionInfo");
-    vi.mock("../../data/dynamo", () => ({
+    vi.mock("../../data/db", () => ({
         upsertDisruptionInfo: vi.fn(),
     }));
 
@@ -127,7 +127,7 @@ describe("create-disruption API", () => {
         expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
         expect(upsertDisruptionSpy).toHaveBeenCalledWith(
             {
-                disruptionId: defaultDisruptionId,
+                id: defaultDisruptionId,
                 disruptionType: "unplanned",
                 orgId: DEFAULT_ORG_ID,
                 summary: "Lorem ipsum dolor sit amet",
@@ -206,7 +206,7 @@ describe("create-disruption API", () => {
         expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
         expect(upsertDisruptionSpy).toHaveBeenCalledWith(
             {
-                disruptionId: defaultDisruptionId,
+                id: defaultDisruptionId,
                 disruptionType: "unplanned",
                 orgId: DEFAULT_ORG_ID,
                 summary: "Lorem ipsum dolor sit amet",
@@ -289,7 +289,7 @@ describe("create-disruption API", () => {
         expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
         expect(upsertDisruptionSpy).toHaveBeenCalledWith(
             {
-                disruptionId: defaultDisruptionId,
+                id: defaultDisruptionId,
                 disruptionType: "unplanned",
                 orgId: DEFAULT_ORG_ID,
                 summary: "Lorem ipsum dolor sit amet",
@@ -700,7 +700,7 @@ describe("create-disruption API", () => {
 
     it("should redirect back to /create-disruption when no form inputs are passed to the API", async () => {
         const { req, res } = getMockRequestAndResponse({
-            body: { disruptionId: defaultDisruptionId },
+            body: { id: defaultDisruptionId },
             mockWriteHeadFn: writeHeadMock,
         });
         await createDisruption(req, res);
@@ -1223,7 +1223,7 @@ describe("create-disruption API", () => {
         expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
         expect(upsertDisruptionSpy).toHaveBeenCalledWith(
             {
-                disruptionId: defaultDisruptionId,
+                id: defaultDisruptionId,
                 disruptionType: "unplanned",
                 orgId: DEFAULT_ORG_ID,
                 summary: "Lorem ipsum dolor sit amet",
@@ -1308,7 +1308,7 @@ describe("create-disruption API", () => {
         expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
         expect(upsertDisruptionSpy).toHaveBeenCalledWith(
             {
-                disruptionId: defaultDisruptionId,
+                id: defaultDisruptionId,
                 disruptionType: "unplanned",
                 orgId: DEFAULT_ORG_ID,
                 summary: "Lorem ipsum dolor sit amet",
@@ -1423,7 +1423,7 @@ describe("create-disruption API", () => {
         expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
         expect(upsertDisruptionSpy).toHaveBeenCalledWith(
             {
-                disruptionId: defaultDisruptionId,
+                id: defaultDisruptionId,
                 disruptionType: "unplanned",
                 orgId: DEFAULT_ORG_ID,
                 summary: "Lorem ipsum dolor sit amet",
@@ -1503,7 +1503,7 @@ describe("create-disruption API", () => {
         expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
         expect(upsertDisruptionSpy).toHaveBeenCalledWith(
             {
-                disruptionId: defaultDisruptionId,
+                id: defaultDisruptionId,
                 disruptionType: "unplanned",
                 orgId: DEFAULT_ORG_ID,
                 summary: "Lorem ipsum dolor sit amet",

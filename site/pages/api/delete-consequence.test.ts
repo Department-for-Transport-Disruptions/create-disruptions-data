@@ -17,13 +17,15 @@ describe("deleteConsequence", () => {
         cleardownCookies: vi.fn(),
     }));
 
-    vi.mock("../../data/dynamo", () => ({
+    vi.mock("../../data/db", () => ({
         removeConsequenceFromDisruption: vi.fn(),
         upsertConsequence: vi.fn(),
     }));
 
     vi.mock("crypto", () => ({
-        randomUUID: () => "id",
+        default: {
+            randomUUID: () => "id",
+        },
     }));
 
     MockDate.set("2023-03-03");
@@ -67,7 +69,7 @@ describe("deleteConsequence", () => {
 
         await deleteConsequence(req, res);
 
-        expect(db.upsertConsequence).toBeCalledTimes(1);
+        expect(db.removeConsequenceFromDisruption).toBeCalledTimes(1);
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${DISRUPTION_DETAIL_PAGE_PATH}/${defaultDisruptionId}`,
         });

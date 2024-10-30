@@ -19,6 +19,7 @@ exports[`SIRI-SX Generator > correctly generates Disruptions JSON 1`] = `
         "consequenceType": "operatorWide",
         "description": "Some consequence description",
         "disruptionDelay": "40",
+        "disruptionId": "acde070d-8c4c-4f0d-9d8a-162843c10333",
         "disruptionSeverity": "severe",
         "removeFromJourneyPlanners": "yes",
         "vehicleMode": "bus",
@@ -30,6 +31,7 @@ exports[`SIRI-SX Generator > correctly generates Disruptions JSON 1`] = `
           "082",
           "002",
         ],
+        "disruptionId": "acde070d-8c4c-4f0d-9d8a-162843c10333",
         "disruptionSeverity": "slight",
         "removeFromJourneyPlanners": "no",
         "vehicleMode": "tram",
@@ -38,6 +40,7 @@ exports[`SIRI-SX Generator > correctly generates Disruptions JSON 1`] = `
         "consequenceType": "services",
         "description": "Service test",
         "disruptionDirection": "allDirections",
+        "disruptionId": "acde070d-8c4c-4f0d-9d8a-162843c10333",
         "disruptionSeverity": "severe",
         "removeFromJourneyPlanners": "yes",
         "services": [
@@ -61,6 +64,7 @@ exports[`SIRI-SX Generator > correctly generates Disruptions JSON 1`] = `
         "consequenceType": "journeys",
         "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         "disruptionDelay": "45",
+        "disruptionId": "acde070d-8c4c-4f0d-9d8a-162843c10333",
         "disruptionSeverity": "unknown",
         "journeys": [
           {
@@ -103,7 +107,6 @@ exports[`SIRI-SX Generator > correctly generates Disruptions JSON 1`] = `
     ],
     "description": "Test description",
     "displayId": "8fg3ha",
-    "disruptionId": "acde070d-8c4c-4f0d-9d8a-162843c10333",
     "disruptionReason": "staffInWrongPlace",
     "disruptionType": "planned",
     "history": [
@@ -124,6 +127,7 @@ exports[`SIRI-SX Generator > correctly generates Disruptions JSON 1`] = `
         "user": "user",
       },
     ],
+    "id": "acde070d-8c4c-4f0d-9d8a-162843c10333",
     "lastUpdated": "2023-05-11T14:40:00Z",
     "organisation": {
       "id": "6f6435e3-a485-4c8c-8c29-e121b1e76802",
@@ -149,8 +153,8 @@ exports[`SIRI-SX Generator > correctly generates Disruptions JSON 1`] = `
 `;
 
 exports[`SIRI-SX Generator > correctly generates SIRI-SX XML 1`] = `
-"<?xml version=\\"1.0\\" encoding=\\"UTF-8\\" standalone=\\"yes\\"?>
-<Siri version=\\"2.0\\" xmlns=\\"http://www.siri.org.uk/siri\\" xmlns:xsi=\\"http://www.w3.org/2001/XMLSchema-instance\\" xsi:schemaLocation=\\"http://www.siri.org.uk/siri http://www.siri.org.uk/schema/2.0/xsd/siri.xsd\\">
+"<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Siri version="2.0" xmlns="http://www.siri.org.uk/siri" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.siri.org.uk/siri http://www.siri.org.uk/schema/2.0/xsd/siri.xsd">
     <ServiceDelivery>
         <ResponseTimestamp>2023-08-17T00:00:00Z</ResponseTimestamp>
         <ProducerRef>DepartmentForTransport</ProducerRef>
@@ -320,8 +324,8 @@ exports[`SIRI-SX Generator > correctly generates SIRI-SX XML 1`] = `
 `;
 
 exports[`SIRI-SX Generator > correctly generates SIRI-SX XML where creationDate is present 1`] = `
-"<?xml version=\\"1.0\\" encoding=\\"UTF-8\\" standalone=\\"yes\\"?>
-<Siri version=\\"2.0\\" xmlns=\\"http://www.siri.org.uk/siri\\" xmlns:xsi=\\"http://www.w3.org/2001/XMLSchema-instance\\" xsi:schemaLocation=\\"http://www.siri.org.uk/siri http://www.siri.org.uk/schema/2.0/xsd/siri.xsd\\">
+"<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Siri version="2.0" xmlns="http://www.siri.org.uk/siri" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.siri.org.uk/siri http://www.siri.org.uk/schema/2.0/xsd/siri.xsd">
     <ServiceDelivery>
         <ResponseTimestamp>2023-03-06T12:00:00Z</ResponseTimestamp>
         <ProducerRef>DepartmentForTransport</ProducerRef>

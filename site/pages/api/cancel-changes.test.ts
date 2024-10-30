@@ -12,9 +12,8 @@ const getSessionSpy = vi.spyOn(session, "getSession");
 describe("cancelChanges", () => {
     const writeHeadMock = vi.fn();
 
-    vi.mock("../../data/dynamo", () => ({
-        deleteDisruptionsInEdit: vi.fn(),
-        deleteDisruptionsInPending: vi.fn(),
+    vi.mock("../../data/db", () => ({
+        deleteEditedDisruption: vi.fn(),
         isDisruptionInEdit: vi.fn(),
     }));
 
@@ -87,7 +86,7 @@ describe("cancelChanges", () => {
 
         await cancelChanges(req, res);
 
-        expect(db.deleteEditedDisruption).toBeCalledTimes(1);
+        expect(db.deleteEditedDisruption).not.toBeCalled();
 
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${DISRUPTION_DETAIL_PAGE_PATH}/${defaultDisruptionId}`,

@@ -29,14 +29,15 @@
         "@playwright/test": "^1.46.1",
         "@tsconfig/node20": "^20.1.2",
         "@types/node": "^20.10.5",
-        "@vitest/coverage-c8": "^0.29.2",
+        "@vitest/coverage-v8": "^2.1.4",
         "aws-cdk": "2.161.1",
         "aws-cdk-lib": "2.161.1",
         "constructs": "10.3.0",
         "husky": "^8.0.0",
         "prisma": "^5.18.0",
         "sst": "2.44.0",
-        "typescript": "^5.3.3"
+        "typescript": "^5.3.3",
+        "vitest": "^2.1.4"
     },
     "overrides": {
         "react": "18.3.1",
@@ -44,9 +45,9 @@
         "jszip": "3.8.0"
     },
     "dependencies": {
-        "@aws-sdk/client-dynamodb": "^3.609.0",
-        "@aws-sdk/lib-dynamodb": "^3.609.0",
-        "@aws-sdk/util-dynamodb": "^3.609.0",
+        "@aws-sdk/client-dynamodb": "^3.682.0",
+        "@aws-sdk/lib-dynamodb": "^3.682.0",
+        "@aws-sdk/util-dynamodb": "^3.682.0",
         "@create-disruptions-data/shared-ts": "workspace:^",
         "dotenv": "^16.4.5",
         "zod": "^3.23.3"

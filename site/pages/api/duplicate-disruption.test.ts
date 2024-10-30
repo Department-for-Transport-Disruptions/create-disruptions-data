@@ -1,4 +1,3 @@
-import * as crypto from "crypto";
 import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { disruptionInfoSchemaRefined } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
@@ -67,15 +66,22 @@ const disruption: FullDisruption = {
 };
 
 describe("duplicate-disruption API", () => {
+    const hoisted = vi.hoisted(() => ({
+        randomUUIDMock: vi.fn(),
+    }));
+
     const writeHeadMock = vi.fn();
     vi.mock("../../utils/apiUtils", async () => ({
         ...(await vi.importActual<object>("../../utils/apiUtils")),
         setCookieOnResponseObject: vi.fn(),
         destroyCookieOnResponseObject: vi.fn(),
+        getSession: vi.fn(),
     }));
 
     vi.mock("crypto", () => ({
-        randomUUID: vi.fn(),
+        default: {
+            randomUUID: hoisted.randomUUIDMock,
+        },
     }));
 
     vi.mock("crypto-random-string", () => ({
@@ -99,21 +105,17 @@ describe("duplicate-disruption API", () => {
 
     const getDisruptionByIdSpy = vi.spyOn(db, "getDisruptionById");
 
-    const randomUUIDSpy = vi.spyOn(crypto, "randomUUID");
-
     const returnPath = encodeURIComponent(
         `${DISRUPTION_DETAIL_PAGE_PATH}/${
             defaultDisruptionId as string
         }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
     );
 
-    crypto.randomUUID();
-
     beforeEach(() => {
         getSessionSpy.mockImplementation(() => {
             return mockSession;
         });
-        randomUUIDSpy.mockImplementation(() => {
+        hoisted.randomUUIDMock.mockImplementation(() => {
             return newDefaultDisruptionId;
         });
         cryptoRandomStringSpy.mockImplementation(() => {
@@ -134,7 +136,7 @@ describe("duplicate-disruption API", () => {
         expect(upsertDisruptionInfoSpy).toHaveBeenCalledWith(
             {
                 ...disruptionInfoSchemaRefined.parse(disruption),
-                disruptionId: newDefaultDisruptionId,
+                id: newDefaultDisruptionId,
                 displayId: "9fg4gc",
             },
             DEFAULT_ORG_ID,
@@ -207,7 +209,7 @@ describe("duplicate-disruption API", () => {
         expect(upsertDisruptionInfoSpy).toHaveBeenCalledWith(
             {
                 ...disruptionInfoSchemaRefined.parse(disruption),
-                disruptionId: newDefaultDisruptionId,
+                id: newDefaultDisruptionId,
                 displayId: "9fg4gc",
             },
             DEFAULT_ORG_ID,
@@ -245,7 +247,7 @@ describe("duplicate-disruption API", () => {
         expect(upsertDisruptionInfoSpy).toHaveBeenCalledWith(
             {
                 ...disruptionInfoSchemaRefined.parse(disruption),
-                disruptionId: newDefaultDisruptionId,
+                id: newDefaultDisruptionId,
                 displayId: "9fg4gc",
             },
             DEFAULT_ORG_ID,

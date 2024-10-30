@@ -58,7 +58,7 @@ describe("duplicate-consequence API", () => {
     }));
 
     const upsertConsequenceSpy = vi.spyOn(db, "upsertConsequence");
-    vi.mock("../../data/dynamo", () => ({
+    vi.mock("../../data/db", () => ({
         upsertConsequence: vi.fn(),
         getDisruptionById: vi.fn(),
     }));
