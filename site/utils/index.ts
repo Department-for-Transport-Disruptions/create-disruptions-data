@@ -281,3 +281,27 @@ export const getStopTypesByVehicleMode = (vehicleMode: VehicleMode | Modes) => {
             return { stopTypes: "undefined" };
     }
 };
+
+export const generatePassword = (length: number): string => {
+    const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
+    const numbers = "0123456789";
+    const symbols = "$-_";
+
+    let password = [
+        uppercaseChars[Math.floor(Math.random() * uppercaseChars.length)],
+        lowercaseChars[Math.floor(Math.random() * lowercaseChars.length)],
+        numbers[Math.floor(Math.random() * numbers.length)],
+        symbols[Math.floor(Math.random() * symbols.length)],
+    ];
+
+    const allChars = uppercaseChars + lowercaseChars + numbers + symbols;
+
+    for (let i = password.length; i < length; i++) {
+        password.push(allChars[Math.floor(Math.random() * allChars.length)]);
+    }
+
+    password = password.sort(() => Math.random() - 0.5);
+
+    return password.join("");
+};

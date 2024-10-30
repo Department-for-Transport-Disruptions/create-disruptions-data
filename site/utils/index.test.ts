@@ -6,8 +6,14 @@ import {
 } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { describe, expect, it } from "vitest";
-import { filterDisruptionsForOperatorUser, removeDuplicatesBasedOnMode, splitCamelCaseToString, toTitleCase } from ".";
-import { CD_DATE_FORMAT } from "../constants";
+import {
+    filterDisruptionsForOperatorUser,
+    generatePassword,
+    removeDuplicatesBasedOnMode,
+    splitCamelCaseToString,
+    toTitleCase,
+} from ".";
+import { CD_DATE_FORMAT, MIN_PASSWORD_LENGTH } from "../constants";
 import { Operator } from "../schemas/consequence.schema";
 import { DEFAULT_ORG_ID, disruptionWithNoConsequences } from "../testData/mockData";
 import { getPageState } from "./apiUtils";
@@ -404,5 +410,35 @@ describe("removeDuplicatesBasedOnMode", () => {
         const result = removeDuplicatesBasedOnMode([], "id");
 
         expect(result).toEqual([]);
+    });
+});
+
+describe("generatePassword", () => {
+    const validatePassword = (password: string) => {
+        if (password.length < MIN_PASSWORD_LENGTH) {
+            return false;
+        }
+
+        if (!/[A-Z]/.test(password)) {
+            return false;
+        }
+
+        if (!/[a-z]/.test(password)) {
+            return false;
+        }
+
+        if (!/[0-9]/.test(password)) {
+            return false;
+        }
+
+        return /[$^*.\[\]{}()?"!@#%&\/\\,><':;|_~`=+-]/.test(password);
+    };
+
+    it("should generate a password that conforms to the password policy", () => {
+        const password = generatePassword(20);
+
+        const isPasswordValid = validatePassword(password);
+
+        expect(isPasswordValid).toEqual(true);
     });
 });
