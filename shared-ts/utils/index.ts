@@ -48,7 +48,7 @@ export const getApiDisruptions = (disruptions: (Disruption & { organisation: { i
             associatedLink: disruption.associatedLink || undefined,
             validity: getApiValidityPeriods([...(validity ?? [])]),
             consequences:
-                consequences?.map(({ disruptionId, consequenceIndex, ...consequence }) => ({
+                consequences?.map(({ consequenceIndex, ...consequence }) => ({
                     ...consequence,
                     disruptionDelay: consequence.disruptionDelay || undefined,
                 })) ?? [],

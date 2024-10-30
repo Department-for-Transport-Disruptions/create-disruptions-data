@@ -4,6 +4,7 @@ import {
     ConsequenceOperators,
     Disruption,
     DisruptionInfo,
+    Journey,
     Service,
     Stop,
     Validity,
@@ -18,6 +19,7 @@ import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.sche
 import { SocialMediaPost, SocialMediaPostTransformed } from "../schemas/social-media.schema";
 import {
     flattenZodErrors,
+    isJourneysConsequence,
     isNetworkConsequence,
     isOperatorConsequence,
     isServicesConsequence,
@@ -30,38 +32,28 @@ const dbClient = getDbClient();
 
 declare global {
     namespace PrismaJson {
-        // you can use classes, interfaces, types, etc.
         type PrismaValidity = Validity;
         type PrismaHistory = History;
         type PrismaService = Service;
         type PrismaStop = Stop;
         type PrismaSocalMedia = SocialMediaPost;
         type PrismaOperators = ConsequenceOperators;
+        type PrismaJourney = Journey;
     }
 }
 
-export const getPendingDisruptionsIdsFromDynamo = async (id: string): Promise<string[]> => {
-    logger.info("Getting disruptions in pending status from database...");
+const removeDisruptionIdFromConsequences = (consequences?: Consequence[]): Omit<Consequence, "disruptionId">[] => {
+    const copiedConsequences = structuredClone(consequences);
 
-    const disruptions = await dbClient.disruptions.findMany({
-        where: {
-            orgId: id,
-            publishStatus: PublishStatus.pendingApproval || PublishStatus.editPendingApproval,
-        },
-        select: {
-            id: true,
-        },
-    });
-
-    return disruptions.map((d) => d.id);
+    return copiedConsequences?.map(({ disruptionId, ...rest }) => ({ ...rest })) ?? [];
 };
 
-export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise<FullDisruption[]> => {
+export const getPublishedDisruptionsData = async (orgId: string): Promise<FullDisruption[]> => {
     logger.info("Getting disruptions data from database...");
 
-    const disruptions = await dbClient.disruptions.findMany({
+    const disruptions = await dbClient.disruption.findMany({
         where: {
-            orgId: id,
+            orgId,
             publishStatus: PublishStatus.published,
         },
         include: {
@@ -72,17 +64,17 @@ export const getPublishedDisruptionsDataFromDynamo = async (id: string): Promise
     return makeFilteredArraySchema(fullDisruptionSchema).parse(disruptions);
 };
 
-export const getDisruptionsDataFromDynamo = async (
-    id: string,
+export const getDisruptionsData = async (
+    orgId: string,
     isTemplate = false,
     pageSize?: number,
     offset?: number,
 ): Promise<FullDisruption[]> => {
-    logger.info(`Getting disruptions data from database for org ${id}...`);
+    logger.info(`Getting disruptions data from database for org ${orgId}...`);
 
-    const disruptions = await dbClient.disruptions.findMany({
+    const disruptions = await dbClient.disruption.findMany({
         where: {
-            orgId: id,
+            orgId: orgId,
             template: isTemplate,
         },
         include: {
@@ -92,7 +84,7 @@ export const getDisruptionsDataFromDynamo = async (
         skip: offset ?? 0,
     });
 
-    const editedDisruptions = await dbClient.disruptionsEdited.findMany({
+    const editedDisruptions = await dbClient.disruptionEdited.findMany({
         where: {
             id: {
                 in: disruptions.map((d) => d.id),
@@ -109,9 +101,9 @@ export const getDisruptionsDataFromDynamo = async (
 };
 
 export const getPublishedSocialMediaPosts = async (orgId: string): Promise<SocialMediaPost[]> => {
-    logger.info("Getting published social media data from DynamoDB table...");
+    logger.info("Getting published social media data...");
 
-    const disruptions = await getPublishedDisruptionsDataFromDynamo(orgId);
+    const disruptions = await getPublishedDisruptionsData(orgId);
 
     const currentAndUpcomingDisruptions = disruptions.filter((disruption) =>
         isCurrentOrUpcomingDisruption(disruption.publishEndDate, disruption.publishEndTime),
@@ -120,20 +112,21 @@ export const getPublishedSocialMediaPosts = async (orgId: string): Promise<Socia
     return currentAndUpcomingDisruptions.flatMap((item) => item.socialMediaPosts).filter(notEmpty);
 };
 
-export const deletePublishedDisruption = async (disruptionId: string, id: string) => {
-    logger.info(`Deleting published disruption (${disruptionId})...`);
+export const deletePublishedDisruption = async (disruptionId: string, orgId: string) => {
+    logger.info(`Deleting published disruption (${disruptionId}) in org (${orgId})...`);
 
+    // Using deleteMany here as a workaround to prisma not having a deleteIfExists function
     await Promise.all([
-        dbClient.disruptions.delete({
+        dbClient.disruption.deleteMany({
             where: {
                 id: disruptionId,
-                orgId: id,
+                orgId,
             },
         }),
-        dbClient.disruptionsEdited.delete({
+        dbClient.disruptionEdited.deleteMany({
             where: {
                 id: disruptionId,
-                orgId: id,
+                orgId,
             },
         }),
     ]);
@@ -161,7 +154,7 @@ export const removeConsequenceFromDisruption = async (
     if (isEditing) {
         const consequencesToInsert = editedConsequences?.map(({ disruptionId, ...rest }) => ({ ...rest }));
 
-        await dbClient.disruptionsEdited.upsert({
+        await dbClient.disruptionEdited.upsert({
             where: {
                 id: disruptionId,
                 orgId,
@@ -182,7 +175,7 @@ export const removeConsequenceFromDisruption = async (
                 publishStatus: isPending ? PublishStatus.pendingAndEditing : PublishStatus.editing,
                 consequences: {
                     delete: {
-                        disruptionId_consequenceIndex: {
+                        disruption_id_consequence_index: {
                             disruptionId,
                             consequenceIndex: index,
                         },
@@ -191,9 +184,9 @@ export const removeConsequenceFromDisruption = async (
             },
         });
     } else {
-        await dbClient.consequences.delete({
+        await dbClient.consequence.delete({
             where: {
-                disruptionId_consequenceIndex: {
+                disruption_id_consequence_index: {
                     disruptionId,
                     consequenceIndex: index,
                 },
@@ -202,13 +195,13 @@ export const removeConsequenceFromDisruption = async (
     }
 };
 
-export const getDisruptionById = async (disruptionId: string, id: string): Promise<FullDisruption | null> => {
+export const getDisruptionById = async (disruptionId: string, orgId: string): Promise<FullDisruption | null> => {
     logger.info(`Retrieving (${disruptionId})...`);
 
-    let disruption = await dbClient.disruptionsEdited.findFirst({
+    let disruption = await dbClient.disruptionEdited.findFirst({
         where: {
             id: disruptionId,
-            orgId: id,
+            orgId,
         },
         include: {
             consequences: true,
@@ -216,10 +209,10 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
     });
 
     if (!disruption) {
-        disruption = await dbClient.disruptions.findFirst({
+        disruption = await dbClient.disruption.findFirst({
             where: {
                 id: disruptionId,
-                orgId: id,
+                orgId,
             },
             include: {
                 consequences: true,
@@ -235,16 +228,16 @@ export const getDisruptionById = async (disruptionId: string, id: string): Promi
 
     if (!parsedDisruption.success) {
         logger.warn(inspect(flattenZodErrors(parsedDisruption.error)));
-        logger.warn(`Invalid disruption ${disruptionId} in Dynamo`);
+        logger.warn(`Invalid disruption ${disruptionId}`);
         return null;
     }
 
     return parsedDisruption.data;
 };
 
-export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
+export const publishDisruption = async (
     disruption: FullDisruption,
-    id: string,
+    orgId: string,
     status: PublishStatus,
     user: string,
     history?: string,
@@ -269,10 +262,10 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
         },
     ];
 
-    await dbClient.disruptions.update({
+    await dbClient.disruption.update({
         where: {
             id: disruption.id,
-            orgId: id,
+            orgId,
         },
         data: {
             publishStatus: status,
@@ -281,30 +274,16 @@ export const insertPublishedDisruptionIntoDynamoAndUpdateDraft = async (
     });
 };
 
-export const updatePendingDisruptionStatus = async (disruption: Disruption, id: string) => {
-    logger.info(`Updating status of pending disruption (${disruption.id})...`);
-
-    await dbClient.disruptionsEdited.update({
-        where: {
-            id: disruption.id,
-            orgId: id,
-        },
-        data: {
-            publishStatus: PublishStatus.editPendingApproval,
-        },
-    });
-};
-
 export const upsertDisruptionInfo = async (
     disruptionInfo: DisruptionInfo,
-    id: string,
+    orgId: string,
     isUserStaff?: boolean,
     isTemplate?: boolean,
     operatorOrgId?: string | null,
 ) => {
     logger.info(`Upserting disruption (${disruptionInfo.id})...`);
 
-    const currentDisruption = await getDisruptionById(disruptionInfo.id, id);
+    const currentDisruption = await getDisruptionById(disruptionInfo.id, orgId);
     const isPending =
         isUserStaff &&
         !isTemplate &&
@@ -315,7 +294,7 @@ export const upsertDisruptionInfo = async (
     if (isEditing) {
         const consequences = currentDisruption.consequences?.map(({ disruptionId, ...rest }) => ({ ...rest }));
 
-        await dbClient.disruptionsEdited.upsert({
+        await dbClient.disruptionEdited.upsert({
             where: {
                 id: disruptionInfo.id,
             },
@@ -326,7 +305,7 @@ export const upsertDisruptionInfo = async (
             },
             create: {
                 ...disruptionInfo,
-                orgId: id,
+                orgId,
                 creationTime: currentDisruption.creationTime,
                 consequences: {
                     createMany: {
@@ -337,14 +316,14 @@ export const upsertDisruptionInfo = async (
             },
         });
     } else {
-        await dbClient.disruptions.upsert({
+        await dbClient.disruption.upsert({
             where: {
                 id: disruptionInfo.id,
-                orgId: id,
+                orgId,
             },
             create: {
                 id: disruptionInfo.id,
-                orgId: id,
+                orgId,
                 displayId: disruptionInfo.displayId,
                 associatedLink: disruptionInfo.associatedLink,
                 description: disruptionInfo.description,
@@ -365,6 +344,8 @@ export const upsertDisruptionInfo = async (
                 createdByOperatorOrgId: operatorOrgId,
                 validity: disruptionInfo.validity,
                 publishStatus: PublishStatus.draft,
+                permitReferenceNumber: disruptionInfo.permitReferenceNumber,
+                template: isTemplate ?? false,
             },
             update: {
                 displayId: disruptionInfo.displayId,
@@ -387,6 +368,8 @@ export const upsertDisruptionInfo = async (
                 createdByOperatorOrgId: operatorOrgId,
                 validity: disruptionInfo.validity,
                 publishStatus: PublishStatus.draft,
+                permitReferenceNumber: disruptionInfo.permitReferenceNumber,
+                template: isTemplate ?? false,
             },
         });
     }
@@ -394,7 +377,7 @@ export const upsertDisruptionInfo = async (
 
 export const upsertConsequence = async (
     consequence: Consequence,
-    id: string,
+    orgId: string,
     isUserStaff?: boolean,
     isTemplate?: boolean,
 ): Promise<FullDisruption | null> => {
@@ -403,7 +386,7 @@ export const upsertConsequence = async (
             consequence.disruptionId || ""
         })...`,
     );
-    const currentDisruption = await getDisruptionById(consequence.disruptionId, id);
+    const currentDisruption = await getDisruptionById(consequence.disruptionId, orgId);
 
     if (
         !currentDisruption?.consequences?.find((c) => c.consequenceIndex === consequence.consequenceIndex) &&
@@ -420,7 +403,7 @@ export const upsertConsequence = async (
             currentDisruption?.publishStatus === PublishStatus.pendingAndEditing);
     const isEditing = currentDisruption?.publishStatus && currentDisruption?.publishStatus !== PublishStatus.draft;
 
-    const consequenceToInsert = {
+    const newConsequence = {
         consequenceIndex: consequence.consequenceIndex,
         consequenceType: consequence.consequenceType,
         description: consequence.description,
@@ -429,30 +412,34 @@ export const upsertConsequence = async (
         vehicleMode: consequence.vehicleMode,
         disruptionDelay: consequence.disruptionDelay,
         disruptionDirection: isServicesConsequence(consequence) ? consequence.disruptionDirection : null,
-        services: isServicesConsequence(consequence) ? consequence.services : [],
+        services: isServicesConsequence(consequence) || isJourneysConsequence(consequence) ? consequence.services : [],
         stops: isServicesConsequence(consequence) || isStopsConsequence(consequence) ? consequence.stops : [],
+        journeys: isJourneysConsequence(consequence) ? consequence.journeys : [],
         consequenceOperators: isOperatorConsequence(consequence) ? consequence.consequenceOperators : undefined,
         disruptionArea: isNetworkConsequence(consequence) ? consequence.disruptionArea : undefined,
     };
 
     if (isEditing) {
-        const currentConsequences = currentDisruption.consequences?.map(({ disruptionId, ...rest }) => ({ ...rest }));
-        const consequencesToInsert = currentConsequences?.map((c) => {
-            if (c.consequenceIndex === consequenceToInsert.consequenceIndex) {
-                return consequenceToInsert;
-            }
+        const consequencesToInsert = removeDisruptionIdFromConsequences(currentDisruption.consequences);
 
-            return c;
-        });
+        const existingIndex = consequencesToInsert?.findIndex(
+            (c) => c.consequenceIndex === newConsequence.consequenceIndex,
+        );
 
-        await dbClient.disruptionsEdited.upsert({
+        if (existingIndex > -1) {
+            consequencesToInsert[existingIndex] = newConsequence;
+        } else {
+            consequencesToInsert.push(newConsequence);
+        }
+
+        await dbClient.disruptionEdited.upsert({
             where: {
                 id: consequence.disruptionId,
-                orgId: id,
+                orgId,
             },
             create: {
                 ...currentDisruption,
-                orgId: id,
+                orgId,
                 creationTime: currentDisruption.creationTime,
                 publishStatus: isPending ? PublishStatus.pendingAndEditing : PublishStatus.editing,
                 consequences: {
@@ -466,38 +453,38 @@ export const upsertConsequence = async (
                 consequences: {
                     upsert: {
                         where: {
-                            disruptionId_consequenceIndex: {
+                            disruption_id_consequence_index: {
                                 disruptionId: consequence.disruptionId,
                                 consequenceIndex: consequence.consequenceIndex,
                             },
                         },
                         create: {
-                            ...consequenceToInsert,
+                            ...newConsequence,
                         },
                         update: {
-                            ...consequenceToInsert,
+                            ...newConsequence,
                         },
                     },
                 },
             },
         });
     } else {
-        await dbClient.disruptions.update({
+        await dbClient.disruption.update({
             where: {
                 id: consequence.disruptionId,
-                orgId: id,
+                orgId,
             },
             data: {
                 consequences: {
                     upsert: {
                         where: {
-                            disruptionId_consequenceIndex: {
+                            disruption_id_consequence_index: {
                                 disruptionId: consequence.disruptionId,
                                 consequenceIndex: consequence.consequenceIndex,
                             },
                         },
-                        create: consequenceToInsert,
-                        update: consequenceToInsert,
+                        create: newConsequence,
+                        update: newConsequence,
                     },
                 },
             },
@@ -509,19 +496,21 @@ export const upsertConsequence = async (
 
 export const upsertSocialMediaPost = async (
     socialMediaPost: SocialMediaPostTransformed,
-    id: string,
+    orgId: string,
     isUserStaff?: boolean,
+    isPublishing = false,
 ) => {
-    logger.info(`Updating socialMediaPost index ${socialMediaPost.socialMediaPostIndex} in disruption (${id})...`);
+    logger.info(`Updating socialMediaPost index ${socialMediaPost.socialMediaPostIndex} in disruption (${orgId})...`);
 
-    const currentDisruption = await getDisruptionById(socialMediaPost.disruptionId, id);
-    const currentSocialMediaPosts = currentDisruption?.socialMediaPosts;
+    const currentDisruption = await getDisruptionById(socialMediaPost.disruptionId, orgId);
+    const consequencesToInsert = removeDisruptionIdFromConsequences(currentDisruption?.consequences);
+    const currentSocialMediaPosts = currentDisruption?.socialMediaPosts ?? [];
     const existingSocialMediaPostIndex = currentSocialMediaPosts?.findIndex(
         (post) => post.socialMediaPostIndex === socialMediaPost.socialMediaPostIndex,
     );
     const newSocialMediaPosts = [...(currentSocialMediaPosts ?? [])];
 
-    if (existingSocialMediaPostIndex && newSocialMediaPosts[existingSocialMediaPostIndex]) {
+    if (existingSocialMediaPostIndex > -1 && newSocialMediaPosts[existingSocialMediaPostIndex]) {
         newSocialMediaPosts[existingSocialMediaPostIndex] = socialMediaPost;
     } else {
         newSocialMediaPosts.push(socialMediaPost);
@@ -531,56 +520,68 @@ export const upsertSocialMediaPost = async (
         isUserStaff &&
         (currentDisruption?.publishStatus === PublishStatus.published ||
             currentDisruption?.publishStatus === PublishStatus.pendingAndEditing);
-    const isEditing = currentDisruption?.publishStatus && currentDisruption?.publishStatus !== PublishStatus.draft;
+    const isEditing =
+        !isPublishing && currentDisruption?.publishStatus && currentDisruption?.publishStatus !== PublishStatus.draft;
 
     if (isEditing) {
-        await dbClient.disruptionsEdited.upsert({
+        await dbClient.disruptionEdited.upsert({
             where: {
                 id: socialMediaPost.disruptionId,
-                orgId: id,
+                orgId,
             },
             create: {
                 ...currentDisruption,
-                id: currentDisruption.id,
-                orgId: id,
+                orgId,
                 creationTime: currentDisruption.creationTime,
                 publishStatus: isPending ? PublishStatus.pendingAndEditing : PublishStatus.editing,
                 consequences: {
                     createMany: {
-                        data: [...(currentDisruption.consequences ?? [])],
+                        data: consequencesToInsert,
                     },
                 },
                 socialMediaPosts: newSocialMediaPosts,
             },
-            update: {},
+            update: {
+                socialMediaPosts: newSocialMediaPosts,
+            },
+        });
+    } else {
+        await dbClient.disruption.update({
+            where: {
+                id: socialMediaPost.disruptionId,
+                orgId,
+            },
+            data: {
+                socialMediaPosts: newSocialMediaPosts,
+            },
         });
     }
 };
 
-export const removeSocialMediaPostFromDisruption = async (index: number, disruptionId: string, id: string) => {
+export const removeSocialMediaPostFromDisruption = async (index: number, disruptionId: string, orgId: string) => {
     logger.info(`Removing socialMediaPost ${index} in disruption (${disruptionId})...`);
 
-    const currentDisruption = await getDisruptionById(disruptionId, id);
+    const currentDisruption = await getDisruptionById(disruptionId, orgId);
     const isEditing = currentDisruption?.publishStatus && currentDisruption?.publishStatus !== PublishStatus.draft;
 
     const currentSocialMediaPosts = currentDisruption?.socialMediaPosts;
     const newSocialMediaPosts = currentSocialMediaPosts?.filter((post) => post.socialMediaPostIndex !== index);
 
     if (isEditing) {
-        dbClient.disruptionsEdited.update({
+        dbClient.disruptionEdited.update({
             where: {
                 id: disruptionId,
-                orgId: id,
+                orgId,
             },
             data: {
                 socialMediaPosts: newSocialMediaPosts,
             },
         });
     } else {
-        dbClient.disruptions.update({
+        dbClient.disruption.update({
             where: {
                 id: disruptionId,
-                orgId: id,
+                orgId,
             },
             data: {
                 socialMediaPosts: newSocialMediaPosts,
@@ -589,14 +590,14 @@ export const removeSocialMediaPostFromDisruption = async (index: number, disrupt
     }
 };
 
-export const publishEditedConsequencesAndSocialMediaPosts = async (disruptionId: string, id: string) => {
+export const publishEditedDisruption = async (disruptionId: string, orgId: string) => {
     logger.info(`Publishing edited disruption ${disruptionId}...`);
 
     await dbClient.$transaction(async (tx) => {
-        const editedDisruption = await tx.disruptionsEdited.findFirst({
+        const editedDisruption = await tx.disruptionEdited.findFirst({
             where: {
                 id: disruptionId,
-                orgId: id,
+                orgId,
             },
             include: {
                 consequences: true,
@@ -607,46 +608,42 @@ export const publishEditedConsequencesAndSocialMediaPosts = async (disruptionId:
             throw new Error("Edited disruption not found");
         }
 
-        const disruptionToInsert = {
-            ...editedDisruption,
-            disruptionId: undefined,
-            consequences: undefined,
-        };
+        const parsedDisruption = fullDisruptionSchema.parse(editedDisruption);
 
-        await tx.disruptions.delete({
+        const consequencesToInsert = removeDisruptionIdFromConsequences(parsedDisruption.consequences);
+
+        await tx.disruption.delete({
             where: {
                 id: disruptionId,
-                orgId: id,
+                orgId,
+            },
+            include: {
+                consequences: true,
             },
         });
 
-        await tx.disruptions.create({
+        await tx.disruption.create({
             data: {
-                ...disruptionToInsert,
+                ...parsedDisruption,
+                orgId,
+                publishStatus: PublishStatus.published,
                 consequences: {
                     createMany: {
-                        data: editedDisruption.consequences.map(({ disruptionId, ...rest }) => ({ ...rest })),
+                        data: consequencesToInsert,
                     },
                 },
             },
         });
-
-        // await tx.disruptionsEdited.delete({
-        //     where: {
-        //         id: disruptionId,
-        //         orgId: id,
-        //     },
-        // });
     });
 };
 
-export const publishEditedConsequencesAndSocialMediaPostsIntoPending = async (disruptionId: string, id: string) => {
+export const publishEditedDisruptionIntoPending = async (disruptionId: string, orgId: string) => {
     logger.info(`Publishing edited disruption ${disruptionId} to pending status...`);
 
-    await dbClient.disruptionsEdited.update({
+    await dbClient.disruptionEdited.update({
         where: {
             id: disruptionId,
-            orgId: id,
+            orgId,
         },
         data: {
             publishStatus: PublishStatus.editPendingApproval,
@@ -654,13 +651,13 @@ export const publishEditedConsequencesAndSocialMediaPostsIntoPending = async (di
     });
 };
 
-export const deleteEditedDisruption = async (disruptionId: string, id: string) => {
+export const deleteEditedDisruption = async (disruptionId: string, orgId: string) => {
     logger.info(`Deleting edited disruption (${disruptionId})...`);
 
-    await dbClient.disruptionsEdited.delete({
+    await dbClient.disruptionEdited.delete({
         where: {
             id: disruptionId,
-            orgId: id,
+            orgId,
         },
         include: {
             consequences: true,
@@ -668,13 +665,13 @@ export const deleteEditedDisruption = async (disruptionId: string, id: string) =
     });
 };
 
-export const isDisruptionInEdit = async (disruptionId: string, id: string) => {
+export const isDisruptionInEdit = async (disruptionId: string, orgId: string) => {
     logger.info(`Check if there are any edit records for disruption (${disruptionId})...`);
 
-    const disruption = await dbClient.disruptionsEdited.findFirst({
+    const disruption = await dbClient.disruptionEdited.findFirst({
         where: {
             id: disruptionId,
-            orgId: id,
+            orgId,
         },
     });
 
@@ -687,7 +684,7 @@ export const getDisruptionInfoByPermitReferenceNumber = async (
 ): Promise<Disruption | null> => {
     logger.info(`Retrieving disruption info associated with road permit reference (${permitReferenceNumber})...`);
 
-    const disruptionInfo = await dbClient.disruptions.findFirst({
+    const disruptionInfo = await dbClient.disruption.findFirst({
         where: {
             orgId,
             permitReferenceNumber,

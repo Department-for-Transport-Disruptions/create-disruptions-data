@@ -53,7 +53,7 @@ describe("publish", () => {
 
     MockDate.set("2023-03-03");
 
-    const insertDisruptionSpy = vi.spyOn(db, "insertPublishedDisruptionIntoDynamoAndUpdateDraft");
+    const insertDisruptionSpy = vi.spyOn(db, "insertPublishedDisruptionAndUpdateDraft");
     const getDisruptionSpy = vi.spyOn(db, "getDisruptionById");
     const publishSocialMediaSpy = vi.spyOn(apiUtils, "publishSocialMedia");
     const getOrganisationInfoByIdSpy = vi.spyOn(dynamo, "getOrganisationInfoById");
@@ -83,8 +83,8 @@ describe("publish", () => {
 
         await publish(req, res);
 
-        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
-        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
+        expect(db.publishDisruption).toBeCalledTimes(1);
+        expect(db.publishDisruption).toBeCalledWith(
             disruptionWithConsequences,
             DEFAULT_ORG_ID,
             PublishStatus.published,
@@ -117,8 +117,8 @@ describe("publish", () => {
             false,
             true,
         );
-        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
-        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
+        expect(db.publishDisruption).toBeCalledTimes(1);
+        expect(db.publishDisruption).toBeCalledWith(
             disruptionWithConsequencesAndSocialMediaPosts,
             DEFAULT_ORG_ID,
             PublishStatus.published,
@@ -138,7 +138,7 @@ describe("publish", () => {
 
         await publish(req, res);
 
-        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
+        expect(db.publishDisruption).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 
@@ -153,7 +153,7 @@ describe("publish", () => {
 
         await publish(req, res);
 
-        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
+        expect(db.publishDisruption).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 
@@ -182,7 +182,7 @@ describe("publish", () => {
 
         await publish(req, res);
 
-        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
+        expect(db.publishDisruption).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
         });

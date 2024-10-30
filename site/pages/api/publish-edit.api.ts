@@ -1,4 +1,4 @@
-import { PublishStatus, SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
+import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_DISRUPTION_DETAIL_ERRORS,
@@ -10,10 +10,8 @@ import {
 import {
     deleteEditedDisruption,
     getDisruptionById,
-    insertPublishedDisruptionIntoDynamoAndUpdateDraft,
-    publishEditedConsequencesAndSocialMediaPosts,
-    publishEditedConsequencesAndSocialMediaPostsIntoPending,
-    updatePendingDisruptionStatus,
+    publishEditedDisruption,
+    publishEditedDisruptionIntoPending,
 } from "../../data/db";
 import { getOrganisationInfoById } from "../../data/dynamo";
 import { publishDisruptionSchema, publishSchema } from "../../schemas/publish.schema";
@@ -84,38 +82,12 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
-        const isEditPendingDsp =
-            draftDisruption.publishStatus === PublishStatus.pendingAndEditing ||
-            draftDisruption.publishStatus === PublishStatus.editPendingApproval;
-
-        if (isEditPendingDsp) {
-            await publishEditedConsequencesAndSocialMediaPostsIntoPending(draftDisruption.id, session.orgId);
-        } else {
-            await publishEditedConsequencesAndSocialMediaPosts(draftDisruption.id, session.orgId);
-        }
-
         if (canPublish(session) || draftDisruption.template) {
-            if (isEditPendingDsp) await publishEditedConsequencesAndSocialMediaPosts(draftDisruption.id, session.orgId);
-            await Promise.all([deleteEditedDisruption(draftDisruption.id, session.orgId)]);
-        } else {
+            await publishEditedDisruption(draftDisruption.id, session.orgId);
             await deleteEditedDisruption(draftDisruption.id, session.orgId);
+        } else {
+            await publishEditedDisruptionIntoPending(draftDisruption.id, session.orgId);
         }
-
-        draftDisruption.publishStatus === PublishStatus.pendingAndEditing &&
-        (!canPublish(session) || !draftDisruption.template)
-            ? await updatePendingDisruptionStatus(
-                  { ...draftDisruption, publishStatus: PublishStatus.editPendingApproval },
-                  session.orgId,
-              )
-            : await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
-                  draftDisruption,
-                  session.orgId,
-                  canPublish(session) || draftDisruption.template
-                      ? PublishStatus.published
-                      : PublishStatus.pendingApproval,
-                  session.name,
-                  undefined,
-              );
 
         if (
             validatedDisruptionBody.data.socialMediaPosts &&

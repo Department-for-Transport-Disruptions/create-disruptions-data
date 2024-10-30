@@ -378,6 +378,7 @@ export const publishToHootsuite = async (
             },
             orgId,
             isUserStaff,
+            true,
         );
     } catch (e) {
         logger.error(e);
@@ -389,6 +390,7 @@ export const publishToHootsuite = async (
             },
             orgId,
             isUserStaff,
+            true,
         );
     }
 };

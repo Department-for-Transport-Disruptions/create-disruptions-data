@@ -75,7 +75,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
 
         const { draft } = req.query;
 
-        const body = req.body as DisruptionInfo & { consequenceIndex: number | undefined; disruptionId: string };
+        const body = req.body as DisruptionInfo & { consequenceIndex: number | undefined };
 
         const consequenceIndex = body.consequenceIndex || 0;
 

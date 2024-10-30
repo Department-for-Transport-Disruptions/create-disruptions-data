@@ -49,6 +49,30 @@ const cognito = new CognitoIdentityProviderClient({
     region: "eu-west-2",
 });
 
+const generatePassword = (length: number): string => {
+    const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
+    const numbers = "0123456789";
+    const symbols = "$-_";
+
+    let password = [
+        uppercaseChars[Math.floor(Math.random() * uppercaseChars.length)],
+        lowercaseChars[Math.floor(Math.random() * lowercaseChars.length)],
+        numbers[Math.floor(Math.random() * numbers.length)],
+        symbols[Math.floor(Math.random() * symbols.length)],
+    ];
+
+    const allChars = uppercaseChars + lowercaseChars + numbers + symbols;
+
+    for (let i = password.length; i < length; i++) {
+        password.push(allChars[Math.floor(Math.random() * allChars.length)]);
+    }
+
+    password = password.sort(() => Math.random() - 0.5);
+
+    return password.join("");
+};
+
 export const deleteUser = async (username: string) => {
     try {
         const params: AdminDeleteUserCommandInput = {
@@ -291,7 +315,7 @@ export const createUser = async (userData: AddUserSchema, extraAttributes?: Attr
         new AdminCreateUserCommand({
             Username: userData.email,
             UserPoolId: userPoolId,
-            TemporaryPassword: Array.from(Array(20), () => Math.floor(Math.random() * 36).toString(36)).join(""),
+            TemporaryPassword: generatePassword(20),
             UserAttributes: [
                 {
                     Name: "custom:orgId",

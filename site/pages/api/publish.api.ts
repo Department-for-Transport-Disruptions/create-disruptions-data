@@ -7,7 +7,7 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
-import { getDisruptionById, insertPublishedDisruptionIntoDynamoAndUpdateDraft } from "../../data/db";
+import { getDisruptionById, publishDisruption } from "../../data/db";
 import { getOrganisationInfoById } from "../../data/dynamo";
 import { publishDisruptionSchema, publishSchema } from "../../schemas/publish.schema";
 import { flattenZodErrors } from "../../utils";
@@ -73,7 +73,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
         const status =
             canPublish(session) || draftDisruption.template ? PublishStatus.published : PublishStatus.pendingApproval;
 
-        await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
+        await publishDisruption(
             draftDisruption,
             session.orgId,
             status,

@@ -47,7 +47,7 @@ const deleteDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
             throw new Error(`Insufficient permissions to delete disruption (${id})`);
         }
 
-        await deletePublishedDisruption(disruption.id, id);
+        await deletePublishedDisruption(disruption.id, session.orgId);
 
         redirectTo(res, getRedirectPath(template?.toString(), returnPath?.toString()));
         return;

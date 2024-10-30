@@ -1,12 +1,7 @@
 import { PublishStatus, SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
 import { NextApiRequest, NextApiResponse } from "next";
 import { COOKIES_DISRUPTION_DETAIL_ERRORS, DISRUPTION_DETAIL_PAGE_PATH, ERROR_PATH } from "../../constants";
-import {
-    deleteEditedDisruption,
-    getDisruptionById,
-    insertPublishedDisruptionIntoDynamoAndUpdateDraft,
-    upsertSocialMediaPost,
-} from "../../data/db";
+import { deleteEditedDisruption, getDisruptionById, publishDisruption, upsertSocialMediaPost } from "../../data/db";
 import { getOrganisationInfoById } from "../../data/dynamo";
 import { publishDisruptionSchema, publishSchema } from "../../schemas/publish.schema";
 import { flattenZodErrors } from "../../utils";
@@ -29,7 +24,7 @@ const reject = async (req: NextApiRequest, res: NextApiResponse) => {
         ]);
 
         if (!orgInfo) {
-            logger.error(`Orgnasition info not found for Org Id ${session.orgId}`);
+            logger.error(`Organisation info not found for Org Id ${session.orgId}`);
             redirectTo(res, ERROR_PATH);
             return;
         }
@@ -52,13 +47,14 @@ const reject = async (req: NextApiRequest, res: NextApiResponse) => {
             redirectTo(res, `${DISRUPTION_DETAIL_PAGE_PATH}/${validatedBody.data.disruptionId}`);
             return;
         }
-        await Promise.all([deleteEditedDisruption(draftDisruption.id, session.orgId)]);
 
         const isEditPendingDsp =
             draftDisruption.publishStatus === PublishStatus.pendingAndEditing ||
             draftDisruption.publishStatus === PublishStatus.editPendingApproval;
 
-        if (!isEditPendingDsp) {
+        if (isEditPendingDsp) {
+            await deleteEditedDisruption(draftDisruption.id, session.orgId);
+        } else {
             if (
                 validatedDisruptionBody.data.socialMediaPosts &&
                 validatedDisruptionBody.data.socialMediaPosts.length > 0
@@ -73,16 +69,13 @@ const reject = async (req: NextApiRequest, res: NextApiResponse) => {
                                     status: SocialMediaPostStatus.rejected,
                                 },
                                 session.orgId,
+                                false,
                             );
                         }),
                 );
             }
-            await insertPublishedDisruptionIntoDynamoAndUpdateDraft(
-                draftDisruption,
-                session.orgId,
-                PublishStatus.rejected,
-                session.name,
-            );
+
+            await publishDisruption(draftDisruption, session.orgId, PublishStatus.rejected, session.name);
         }
 
         cleardownCookies(req, res);

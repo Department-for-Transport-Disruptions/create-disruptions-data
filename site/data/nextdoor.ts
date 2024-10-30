@@ -269,6 +269,7 @@ export const publishToNextdoor = async (
             },
             orgId,
             isUserStaff,
+            true,
         );
     } catch (e) {
         logger.error(e);
@@ -280,6 +281,7 @@ export const publishToNextdoor = async (
             },
             orgId,
             isUserStaff,
+            true,
         );
     }
 };

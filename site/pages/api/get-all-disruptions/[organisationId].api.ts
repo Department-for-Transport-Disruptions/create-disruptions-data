@@ -5,7 +5,7 @@ import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/sh
 import { Dayjs } from "dayjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import { VEHICLE_MODES } from "../../../constants";
-import { getDisruptionsDataFromDynamo } from "../../../data/db";
+import { getDisruptionsData } from "../../../data/db";
 import { TableDisruption } from "../../../schemas/disruption.schema";
 import {
     filterDisruptionsForOperatorUser,
@@ -218,7 +218,7 @@ const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResp
         return;
     }
 
-    const disruptions = await getDisruptionsDataFromDynamo(sessionOrgId, template === "true", 10, 0);
+    const disruptions = await getDisruptionsData(sessionOrgId, template === "true", 10, 0);
 
     let disruptionsData = disruptions;
 

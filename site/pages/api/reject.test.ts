@@ -48,7 +48,7 @@ describe("reject", () => {
 
     MockDate.set("2023-03-03");
 
-    const insertDisruptionSpy = vi.spyOn(db, "insertPublishedDisruptionIntoDynamoAndUpdateDraft");
+    const insertDisruptionSpy = vi.spyOn(db, "insertPublishedDisruptionAndUpdateDraft");
     const upsertSocialMediaPostSpy = vi.spyOn(db, "upsertSocialMediaPost");
     const getDisruptionSpy = vi.spyOn(db, "getDisruptionById");
     const getOrganisationInfoByIdSpy = vi.spyOn(dynamo, "getOrganisationInfoById");
@@ -82,9 +82,9 @@ describe("reject", () => {
 
         await reject(req, res);
 
-        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
+        expect(db.publishDisruption).toBeCalledTimes(1);
         expect(db.deleteEditedDisruption).toBeCalledTimes(1);
-        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
+        expect(db.publishDisruption).toBeCalledWith(
             disruptionWithConsequences,
             DEFAULT_ORG_ID,
             PublishStatus.rejected,
@@ -105,9 +105,9 @@ describe("reject", () => {
 
         await reject(req, res);
 
-        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
+        expect(db.publishDisruption).toBeCalledTimes(1);
         expect(db.deleteEditedDisruption).toBeCalledTimes(1);
-        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
+        expect(db.publishDisruption).toBeCalledWith(
             disruptionWithConsequencesAndSocialMediaPosts,
             DEFAULT_ORG_ID,
             PublishStatus.rejected,
@@ -128,9 +128,9 @@ describe("reject", () => {
 
         await reject(req, res);
 
-        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
+        expect(db.publishDisruption).toBeCalledTimes(1);
         expect(db.deleteEditedDisruption).toBeCalledTimes(1);
-        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
+        expect(db.publishDisruption).toBeCalledWith(
             disruptionWithConsequences,
             DEFAULT_ORG_ID,
             PublishStatus.rejected,
@@ -149,7 +149,7 @@ describe("reject", () => {
 
         await reject(req, res);
 
-        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
+        expect(db.publishDisruption).not.toBeCalled();
         expect(db.deleteEditedDisruption).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
@@ -166,7 +166,7 @@ describe("reject", () => {
 
         await reject(req, res);
 
-        expect(db.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
+        expect(db.publishDisruption).not.toBeCalled();
         expect(db.deleteEditedDisruption).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });

@@ -116,6 +116,7 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
                         },
                         session.orgId,
                         session.isOrgStaff,
+                        false,
                     );
                 }),
             );

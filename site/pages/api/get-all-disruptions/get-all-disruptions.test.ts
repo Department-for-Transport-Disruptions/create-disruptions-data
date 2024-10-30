@@ -21,7 +21,7 @@ describe("getAllDisruptions", () => {
         filterDisruptionsForOperatorUser: vi.fn(),
     }));
 
-    const getDisruptionsDataFromDynamoSpy = vi.spyOn(db, "getDisruptionsDataFromDynamo");
+    const getDisruptionsDataFromDynamoSpy = vi.spyOn(db, "getDisruptionsData");
     const sortDisruptionsByStartDateSpy = vi.spyOn(sharedUtils, "sortDisruptionsByStartDate");
     const getSessionSpy = vi.spyOn(session, "getSession");
     const filterDisruptionsForOperatorUserSpy = vi.spyOn(utils, "filterDisruptionsForOperatorUser");

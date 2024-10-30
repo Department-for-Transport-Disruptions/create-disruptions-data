@@ -3,7 +3,7 @@ import { PrismaClient } from "@prisma/client";
 export const getDbClient = () =>
     new PrismaClient().$extends({
         result: {
-            disruptions: {
+            disruption: {
                 disruptionId: {
                     needs: { id: true },
                     compute(disruption) {
@@ -23,7 +23,7 @@ export const getDbClient = () =>
                     },
                 },
             },
-            disruptionsEdited: {
+            disruptionEdited: {
                 disruptionId: {
                     needs: { id: true },
                     compute(disruption) {

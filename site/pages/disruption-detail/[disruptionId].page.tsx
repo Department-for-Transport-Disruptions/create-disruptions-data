@@ -391,7 +391,7 @@ const DisruptionDetail = ({
                 />
             ) : null}
             <CsrfForm
-                action={`/api/publish-edit${disruption.template ? "?template=true" : ""}`}
+                action={`${disruption.publishStatus === PublishStatus.pendingApproval || disruption.publishStatus === PublishStatus.rejected ? "/api/publish" : "/api/publish-edit"}${disruption.template ? "?template=true" : ""}`}
                 method="post"
                 csrfToken={csrfToken}
             >

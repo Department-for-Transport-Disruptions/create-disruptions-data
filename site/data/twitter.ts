@@ -130,6 +130,7 @@ export const sendTweet = async (
                 },
                 orgId,
                 isUserStaff,
+                true,
             ),
         ]);
     } catch (e) {
@@ -141,6 +142,7 @@ export const sendTweet = async (
             },
             orgId,
             isUserStaff,
+            true,
         );
     }
 };

@@ -41,3 +41,8 @@ dev-containers-stop-%:
 
 run-ui-tests:
 	pnpm playwright test --ui
+
+prisma-migrate-dev:
+	pnpm --filter @create-disruptions-data/shared-ts run prisma:migrate
+
+start-dev: dev-containers-up prisma-migrate-dev kill-site start-site
