@@ -1,3 +1,4 @@
+import { randomBytes } from "crypto";
 import { ServerResponse } from "http";
 import {
     Consequence,
@@ -282,6 +283,10 @@ export const getStopTypesByVehicleMode = (vehicleMode: VehicleMode | Modes) => {
     }
 };
 
+const getRandomInt = (max: number): number => {
+    return randomBytes(1)[0] % max;
+};
+
 export const generatePassword = (length: number): string => {
     const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
@@ -289,19 +294,19 @@ export const generatePassword = (length: number): string => {
     const symbols = "$-_";
 
     let password = [
-        uppercaseChars[Math.floor(Math.random() * uppercaseChars.length)],
-        lowercaseChars[Math.floor(Math.random() * lowercaseChars.length)],
-        numbers[Math.floor(Math.random() * numbers.length)],
-        symbols[Math.floor(Math.random() * symbols.length)],
+        uppercaseChars[getRandomInt(uppercaseChars.length)],
+        lowercaseChars[getRandomInt(lowercaseChars.length)],
+        numbers[getRandomInt(numbers.length)],
+        symbols[getRandomInt(symbols.length)],
     ];
 
     const allChars = uppercaseChars + lowercaseChars + numbers + symbols;
 
     for (let i = password.length; i < length; i++) {
-        password.push(allChars[Math.floor(Math.random() * allChars.length)]);
+        password.push(allChars[getRandomInt(allChars.length)]);
     }
 
-    password = password.sort(() => Math.random() - 0.5);
+    password = password.sort(() => getRandomInt(2) - 0.5);
 
     return password.join("");
 };
