@@ -33,22 +33,26 @@ describe("reject", () => {
         cleardownCookies: vi.fn(),
     }));
 
-    vi.mock("../../data/dynamo", () => ({
-        insertPublishedDisruptionIntoDynamoAndUpdateDraft: vi.fn(),
+    vi.mock("../../data/db", () => ({
+        publishDisruption: vi.fn(),
         getDisruptionById: vi.fn(),
-        deleteDisruptionsInEdit: vi.fn(),
-        deleteDisruptionsInPending: vi.fn(),
+        deleteEditedDisruption: vi.fn(),
         upsertSocialMediaPost: vi.fn(),
+    }));
+
+    vi.mock("../../data/dynamo", () => ({
         getOrganisationInfoById: vi.fn(),
     }));
 
     vi.mock("crypto", () => ({
-        randomUUID: () => "id",
+        default: {
+            randomUUID: () => "id",
+        },
     }));
 
     MockDate.set("2023-03-03");
 
-    const insertDisruptionSpy = vi.spyOn(db, "insertPublishedDisruptionAndUpdateDraft");
+    const insertDisruptionSpy = vi.spyOn(db, "publishDisruption");
     const upsertSocialMediaPostSpy = vi.spyOn(db, "upsertSocialMediaPost");
     const getDisruptionSpy = vi.spyOn(db, "getDisruptionById");
     const getOrganisationInfoByIdSpy = vi.spyOn(dynamo, "getOrganisationInfoById");
@@ -83,7 +87,6 @@ describe("reject", () => {
         await reject(req, res);
 
         expect(db.publishDisruption).toBeCalledTimes(1);
-        expect(db.deleteEditedDisruption).toBeCalledTimes(1);
         expect(db.publishDisruption).toBeCalledWith(
             disruptionWithConsequences,
             DEFAULT_ORG_ID,
@@ -106,7 +109,6 @@ describe("reject", () => {
         await reject(req, res);
 
         expect(db.publishDisruption).toBeCalledTimes(1);
-        expect(db.deleteEditedDisruption).toBeCalledTimes(1);
         expect(db.publishDisruption).toBeCalledWith(
             disruptionWithConsequencesAndSocialMediaPosts,
             DEFAULT_ORG_ID,
@@ -117,7 +119,10 @@ describe("reject", () => {
     });
 
     it("should retrieve valid data from cookies, write to dynamo and redirect for records with EDIT_PENDING_APPROVAL status", async () => {
-        getDisruptionSpy.mockResolvedValue(disruptionWithConsequences);
+        getDisruptionSpy.mockResolvedValue({
+            ...disruptionWithConsequences,
+            publishStatus: PublishStatus.editPendingApproval,
+        });
 
         const { req, res } = getMockRequestAndResponse({
             body: {
@@ -128,14 +133,8 @@ describe("reject", () => {
 
         await reject(req, res);
 
-        expect(db.publishDisruption).toBeCalledTimes(1);
         expect(db.deleteEditedDisruption).toBeCalledTimes(1);
-        expect(db.publishDisruption).toBeCalledWith(
-            disruptionWithConsequences,
-            DEFAULT_ORG_ID,
-            PublishStatus.rejected,
-            "Test User",
-        );
+        expect(db.deleteEditedDisruption).toBeCalledWith(disruptionWithConsequences.id, DEFAULT_ORG_ID);
 
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });

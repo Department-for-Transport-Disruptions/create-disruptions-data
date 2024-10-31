@@ -28,7 +28,9 @@ describe("deleteDisruption", () => {
     }));
 
     vi.mock("crypto", () => ({
-        randomUUID: () => "id",
+        default: {
+            randomUUID: () => "id",
+        },
     }));
 
     MockDate.set("2023-03-03");
@@ -57,10 +59,8 @@ describe("deleteDisruption", () => {
 
         expect(db.deletePublishedDisruption).toBeCalledTimes(1);
         expect(db.deletePublishedDisruption).toBeCalledWith(
-            disruptionWithConsequencesAndSocialMediaPosts,
-            defaultDisruptionId,
+            disruptionWithConsequencesAndSocialMediaPosts.id,
             DEFAULT_ORG_ID,
-            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
@@ -81,10 +81,8 @@ describe("deleteDisruption", () => {
 
         expect(db.deletePublishedDisruption).toBeCalledTimes(1);
         expect(db.deletePublishedDisruption).toBeCalledWith(
-            disruptionWithConsequencesAndSocialMediaPosts,
-            defaultDisruptionId,
+            disruptionWithConsequencesAndSocialMediaPosts.id,
             DEFAULT_ORG_ID,
-            true,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: VIEW_ALL_TEMPLATES_PAGE_PATH });
     });
@@ -105,10 +103,8 @@ describe("deleteDisruption", () => {
 
         expect(db.deletePublishedDisruption).toBeCalledTimes(1);
         expect(db.deletePublishedDisruption).toBeCalledWith(
-            disruptionWithConsequencesAndSocialMediaPosts,
-            defaultDisruptionId,
+            disruptionWithConsequencesAndSocialMediaPosts.id,
             DEFAULT_ORG_ID,
-            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `/disruption-detail/${defaultDisruptionId}?template=true&return=/view-all-templates`,

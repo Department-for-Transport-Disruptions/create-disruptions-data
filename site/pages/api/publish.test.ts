@@ -37,9 +37,12 @@ describe("publish", () => {
         publishToHootsuite: vi.fn(),
     }));
 
-    vi.mock("../../data/dynamo", () => ({
-        insertPublishedDisruptionIntoDynamoAndUpdateDraft: vi.fn(),
+    vi.mock("../../data/db", () => ({
+        publishDisruption: vi.fn(),
         getDisruptionById: vi.fn(),
+    }));
+
+    vi.mock("../../data/dynamo", () => ({
         getOrganisationInfoById: vi.fn(),
     }));
 
@@ -48,12 +51,14 @@ describe("publish", () => {
     }));
 
     vi.mock("crypto", () => ({
-        randomUUID: () => "id",
+        default: {
+            randomUUID: () => "id",
+        },
     }));
 
     MockDate.set("2023-03-03");
 
-    const insertDisruptionSpy = vi.spyOn(db, "insertPublishedDisruptionAndUpdateDraft");
+    const insertDisruptionSpy = vi.spyOn(db, "publishDisruption");
     const getDisruptionSpy = vi.spyOn(db, "getDisruptionById");
     const publishSocialMediaSpy = vi.spyOn(apiUtils, "publishSocialMedia");
     const getOrganisationInfoByIdSpy = vi.spyOn(dynamo, "getOrganisationInfoById");
@@ -62,6 +67,7 @@ describe("publish", () => {
 
     beforeEach(() => {
         getOrganisationInfoByIdSpy.mockResolvedValue(orgInfo);
+        getSessionSpy.mockImplementation(() => ({ ...mockSession, isOrgAdmin: true }));
     });
 
     afterEach(() => {
@@ -88,10 +94,8 @@ describe("publish", () => {
             disruptionWithConsequences,
             DEFAULT_ORG_ID,
             PublishStatus.published,
-            "test@example.com",
+            "Test User",
             "Disruption created and published",
-            false,
-            true,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
     });
@@ -115,17 +119,14 @@ describe("publish", () => {
             ),
             DEFAULT_ORG_ID,
             false,
-            true,
         );
         expect(db.publishDisruption).toBeCalledTimes(1);
         expect(db.publishDisruption).toBeCalledWith(
             disruptionWithConsequencesAndSocialMediaPosts,
             DEFAULT_ORG_ID,
             PublishStatus.published,
-            "test@example.com",
+            "Test User",
             "Disruption created and published",
-            false,
-            true,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
     });

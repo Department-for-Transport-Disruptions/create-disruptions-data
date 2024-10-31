@@ -46,6 +46,7 @@ const collectDisruptionsData = (
 
     const parsedDisruption = disruptionSchema.safeParse({
         ...info,
+        id: info.disruptionId,
         consequences,
         history,
         orgId: info.orgId ?? info.PK,
@@ -157,10 +158,13 @@ export const getPublishedDisruptionsDataFromDynamo = async (
     }
 
     const disruptionIds = disruptions
-        .map((item) => (item as Disruption).id)
+        .map((item) => item.disruptionId)
         .filter((value, index, array) => array.indexOf(value) === index);
 
-    return disruptionIds?.map((id) => collectDisruptionsData(disruptions || [], id, logger)).filter(notEmpty) ?? [];
+    return (
+        disruptionIds?.map((id) => collectDisruptionsData(disruptions || [], id as string, logger)).filter(notEmpty) ??
+        []
+    );
 };
 
 export const getCurrentAndFutureDisruptions = async (tableName: string, logger: Logger): Promise<Disruption[]> => {

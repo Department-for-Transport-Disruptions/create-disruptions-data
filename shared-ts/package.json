@@ -7,9 +7,9 @@
         "prisma:migrate": "pnpm prisma migrate dev"
     },
     "dependencies": {
-        "@aws-sdk/client-cognito-identity-provider": "^3.609.0",
-        "@aws-sdk/client-s3": "^3.609.0",
-        "@aws-sdk/client-ssm": "^3.609.0",
+        "@aws-sdk/client-cognito-identity-provider": "^3.682.0",
+        "@aws-sdk/client-s3": "^3.682.0",
+        "@aws-sdk/client-ssm": "^3.682.0",
         "@prisma/client": "5.21.1",
         "dayjs": "^1.11.7",
         "lambda-log": "^3.1.0",
@@ -19,6 +19,6 @@
         "@types/lambda-log": "^2.2.1",
         "prisma": "^5.18.0",
         "prisma-json-types-generator": "^3.0.4",
-        "vitest": "^0.29.1"
+        "vitest": "^2.1.4"
     }
 }

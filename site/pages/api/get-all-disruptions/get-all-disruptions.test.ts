@@ -1,30 +1,21 @@
 import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
-import * as sharedUtils from "@create-disruptions-data/shared-ts/utils";
 import MockDate from "mockdate";
 import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import * as db from "../../../data/db";
 import { FullDisruption } from "../../../schemas/disruption.schema";
 import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession, sortedDisruption } from "../../../testData/mockData";
-import * as utils from "../../../utils";
 import * as session from "../../../utils/apiUtils/auth";
 import getAllDisruptions, { formatSortedDisruption } from "./[organisationId].api";
 
 describe("getAllDisruptions", () => {
     const writeHeadMock = vi.fn();
 
-    vi.mock("../../data/dynamo", () => ({
-        getDisruptionsDataFromDynamo: vi.fn(),
+    vi.mock("../../data/db", () => ({
+        getDisruptionsData: vi.fn(),
     }));
 
-    vi.mock("../../utils", async () => ({
-        ...(await vi.importActual<object>("../../utils")),
-        filterDisruptionsForOperatorUser: vi.fn(),
-    }));
-
-    const getDisruptionsDataFromDynamoSpy = vi.spyOn(db, "getDisruptionsData");
-    const sortDisruptionsByStartDateSpy = vi.spyOn(sharedUtils, "sortDisruptionsByStartDate");
+    const getDisruptionsDataSpy = vi.spyOn(db, "getDisruptionsData");
     const getSessionSpy = vi.spyOn(session, "getSession");
-    const filterDisruptionsForOperatorUserSpy = vi.spyOn(utils, "filterDisruptionsForOperatorUser");
 
     beforeEach(() => {
         getSessionSpy.mockImplementation(() => {
@@ -108,7 +99,7 @@ describe("getAllDisruptions", () => {
     ];
 
     it("should be successful when session is set", async () => {
-        getDisruptionsDataFromDynamoSpy.mockResolvedValue(disruptions);
+        getDisruptionsDataSpy.mockResolvedValue(disruptions);
 
         const { req, res } = getMockRequestAndResponse({
             query: {
@@ -117,16 +108,16 @@ describe("getAllDisruptions", () => {
             mockWriteHeadFn: writeHeadMock,
         });
 
+        const jsonMock = vi.fn();
+
         res.status = vi.fn().mockImplementation(() => ({
-            json: vi.fn(),
+            json: jsonMock,
         }));
 
         await getAllDisruptions(req, res);
 
-        expect(getDisruptionsDataFromDynamoSpy).toHaveBeenCalledOnce();
-        expect(sortDisruptionsByStartDateSpy).toHaveBeenCalledOnce();
-
         expect(res.status).toHaveBeenCalledWith(200);
+        expect(jsonMock).toMatchSnapshot();
     });
 
     it("should redirect to error page when no session set", async () => {
@@ -143,8 +134,7 @@ describe("getAllDisruptions", () => {
 
         await getAllDisruptions(req, res);
 
-        expect(getDisruptionsDataFromDynamoSpy).not.toHaveBeenCalledOnce();
-        expect(sortDisruptionsByStartDateSpy).not.toHaveBeenCalledOnce();
+        expect(getDisruptionsDataSpy).not.toHaveBeenCalledOnce();
 
         expect(res.status).toHaveBeenCalledWith(403);
     });
@@ -160,11 +150,7 @@ describe("getAllDisruptions", () => {
 
         const disruptionsWithOperatorDisruptions = [...operatorDisruptions, ...disruptions];
 
-        filterDisruptionsForOperatorUserSpy.mockImplementation(() => {
-            return operatorDisruptions;
-        });
-
-        getDisruptionsDataFromDynamoSpy.mockResolvedValue(disruptionsWithOperatorDisruptions);
+        getDisruptionsDataSpy.mockResolvedValue(disruptionsWithOperatorDisruptions);
 
         const { req, res } = getMockRequestAndResponse({
             query: {
@@ -173,17 +159,16 @@ describe("getAllDisruptions", () => {
             mockWriteHeadFn: writeHeadMock,
         });
 
+        const jsonMock = vi.fn();
+
         res.status = vi.fn().mockImplementation(() => ({
-            json: vi.fn(),
+            json: jsonMock,
         }));
 
         await getAllDisruptions(req, res);
 
-        expect(getDisruptionsDataFromDynamoSpy).toHaveBeenCalledOnce();
-        expect(sortDisruptionsByStartDateSpy).toHaveBeenCalledOnce();
-
-        expect(filterDisruptionsForOperatorUserSpy).toHaveBeenCalledOnce();
         expect(res.status).toHaveBeenCalledWith(200);
+        expect(jsonMock).toMatchSnapshot();
     });
 
     describe("formatSortedDisruptions", () => {

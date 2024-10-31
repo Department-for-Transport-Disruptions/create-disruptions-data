@@ -662,7 +662,7 @@ exports[`AddOperator > should render correctly with inputs 1`] = `
                 <input
                   name="nocCodes1"
                   type="hidden"
-                  value="{\\"id\\":1,\\"operatorPublicName\\":\\"Test Operator\\",\\"nocCode\\":\\"TEST\\"}"
+                  value="{"id":1,"operatorPublicName":"Test Operator","nocCode":"TEST"}"
                 />
               </div>
             </div>

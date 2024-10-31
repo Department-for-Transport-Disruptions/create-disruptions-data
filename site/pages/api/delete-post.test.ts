@@ -17,13 +17,15 @@ describe("deletePost", () => {
         cleardownCookies: vi.fn(),
     }));
 
-    vi.mock("../../data/dynamo", () => ({
+    vi.mock("../../data/db", () => ({
         removeSocialMediaPostFromDisruption: vi.fn(),
         upsertSocialMediaPost: vi.fn(),
     }));
 
     vi.mock("crypto", () => ({
-        randomUUID: () => "id",
+        default: {
+            randomUUID: () => "id",
+        },
     }));
 
     MockDate.set("2023-03-03");
@@ -67,7 +69,7 @@ describe("deletePost", () => {
 
         await deletePost(req, res);
 
-        expect(db.upsertSocialMediaPost).toBeCalledTimes(1);
+        expect(db.removeSocialMediaPostFromDisruption).toBeCalledTimes(1);
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${DISRUPTION_DETAIL_PAGE_PATH}/${defaultDisruptionId}`,
         });

@@ -122,7 +122,7 @@ export const convertToCsv = async (disruptions: ApiDisruption[], cancelFeatureFl
                 title: "Organisation",
             },
             {
-                field: "disruptionId",
+                field: "id",
                 title: "ID",
             },
             {
