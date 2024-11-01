@@ -291,6 +291,14 @@ const getRandomInt = (max: number): number => {
     return randomNumber % max;
 };
 
+/**
+ * Generates a password that conforms to the site's password policy. Ensures that
+ * password contains at least one type of each character, filling the length and
+ * finally shuffling the characters.
+ *
+ * @param length The length of the password
+ * @returns A password string that conforms to password policy
+ */
 export const generatePassword = (length: number): string => {
     const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
