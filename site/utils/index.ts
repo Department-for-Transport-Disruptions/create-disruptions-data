@@ -284,11 +284,11 @@ export const getStopTypesByVehicleMode = (vehicleMode: VehicleMode | Modes) => {
 };
 
 const getRandomInt = (max: number): number => {
-    let rand;
+    let randomNumber: number;
     do {
-        rand = randomBytes(1)[0];
-    } while (rand >= 256 - (256 % max));
-    return rand % max;
+        randomNumber = randomBytes(1)[0];
+    } while (randomNumber >= 256 - (256 % max));
+    return randomNumber % max;
 };
 
 export const generatePassword = (length: number): string => {
