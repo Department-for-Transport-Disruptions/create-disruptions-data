@@ -33,6 +33,7 @@ import { createHmac } from "crypto";
 import { AddUserSchema } from "../schemas/add-user.schema";
 import { userManagementSchema } from "../schemas/user-management.schema";
 import { notEmpty } from "../utils";
+import { generatePassword } from "../utils";
 import logger from "../utils/logger";
 
 const {
@@ -291,7 +292,7 @@ export const createUser = async (userData: AddUserSchema, extraAttributes?: Attr
         new AdminCreateUserCommand({
             Username: userData.email,
             UserPoolId: userPoolId,
-            TemporaryPassword: Array.from(Array(20), () => Math.floor(Math.random() * 36).toString(36)).join(""),
+            TemporaryPassword: generatePassword(20),
             UserAttributes: [
                 {
                     Name: "custom:orgId",
