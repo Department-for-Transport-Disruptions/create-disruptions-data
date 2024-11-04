@@ -284,6 +284,7 @@ export const upsertDisruptionInfo = async (
     logger.info(`Upserting disruption (${disruptionInfo.id})...`);
 
     const currentDisruption = await getDisruptionById(disruptionInfo.id, orgId);
+
     const isPending =
         isUserStaff &&
         !isTemplate &&
@@ -301,12 +302,14 @@ export const upsertDisruptionInfo = async (
             update: {
                 ...disruptionInfo,
                 creationTime: currentDisruption.creationTime,
+                createdByOperatorOrgId: operatorOrgId,
                 publishStatus: isPending ? PublishStatus.pendingAndEditing : PublishStatus.editing,
             },
             create: {
                 ...disruptionInfo,
                 orgId,
                 creationTime: currentDisruption.creationTime,
+                createdByOperatorOrgId: operatorOrgId,
                 consequences: {
                     createMany: {
                         data: consequences || [],
