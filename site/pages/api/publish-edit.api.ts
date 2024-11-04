@@ -1,4 +1,6 @@
+import { disruptionInfoSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { SocialMediaPostStatus } from "@create-disruptions-data/shared-ts/enums";
+import diff from "microdiff";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
     COOKIES_DISRUPTION_DETAIL_ERRORS,
@@ -10,12 +12,14 @@ import {
 import {
     deleteEditedDisruption,
     getDisruptionById,
+    getPublishedDisruptionById,
     publishEditedDisruption,
     publishEditedDisruptionIntoPending,
 } from "../../data/db";
 import { getOrganisationInfoById } from "../../data/dynamo";
+import { FullDisruption } from "../../schemas/disruption.schema";
 import { publishDisruptionSchema, publishSchema } from "../../schemas/publish.schema";
-import { flattenZodErrors } from "../../utils";
+import { flattenZodErrors, splitCamelCaseToString } from "../../utils";
 import {
     cleardownCookies,
     publishSocialMedia,
@@ -27,6 +31,72 @@ import {
 import { canPublish, getSession } from "../../utils/apiUtils/auth";
 import { sendDisruptionApprovalEmail } from "../../utils/apiUtils/disruptionApprovalEmailer";
 import logger from "../../utils/logger";
+
+const getDisruptionHistory = async (editedDisruption: FullDisruption): Promise<string[]> => {
+    const existingDisruption = await getPublishedDisruptionById(editedDisruption.id, editedDisruption.orgId ?? "");
+
+    if (!existingDisruption) {
+        return [];
+    }
+
+    const differences = diff(existingDisruption, editedDisruption);
+
+    console.log(`diff: ${JSON.stringify(differences, null, 2)}`);
+
+    // console.log(`existing: ${JSON.stringify(existingDisruption, null, 2)}`);
+
+    const historyItems = new Set<string>();
+
+    for (const difference of differences) {
+        if (difference.path.toString() in disruptionInfoSchema.shape) {
+            historyItems.add("Disruption Overview: Edited");
+        }
+
+        if (difference.path[0] === "consequences" && !!existingDisruption.consequences) {
+            const consequenceIndex = difference.path[1];
+
+            if (
+                difference.type === "CHANGE" &&
+                typeof consequenceIndex === "number" &&
+                existingDisruption.consequences[consequenceIndex]
+            ) {
+                const consequenceType = splitCamelCaseToString(
+                    existingDisruption.consequences[consequenceIndex].consequenceType,
+                );
+
+                historyItems.add(`Disruption Consequence - ${consequenceType}: Edited`);
+            }
+
+            if (
+                difference.type === "REMOVE" &&
+                typeof consequenceIndex === "number" &&
+                existingDisruption.consequences[consequenceIndex]
+            ) {
+                const consequenceType = splitCamelCaseToString(
+                    existingDisruption.consequences[consequenceIndex].consequenceType,
+                );
+
+                historyItems.add(`Disruption Consequence - ${consequenceType}: Removed`);
+            }
+
+            if (
+                difference.type === "REMOVE" &&
+                typeof consequenceIndex === "number" &&
+                existingDisruption.consequences[consequenceIndex]
+            ) {
+                const consequenceType = splitCamelCaseToString(
+                    existingDisruption.consequences[consequenceIndex].consequenceType,
+                );
+
+                historyItems.add(`Disruption Consequence - ${consequenceType}: Removed`);
+            }
+        }
+    }
+
+    console.log(Array.from(historyItems));
+
+    return Array.from(historyItems);
+};
 
 const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
@@ -81,6 +151,9 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             redirectTo(res, ERROR_PATH);
             return;
         }
+
+        const disruptionHistory = await getDisruptionHistory(draftDisruption);
+        // console.log("diff", disruptionHistory);
 
         if (canPublish(session) || draftDisruption.template) {
             await publishEditedDisruption(draftDisruption.id, session.orgId);

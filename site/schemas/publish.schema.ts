@@ -29,4 +29,6 @@ export const publishDisruptionSchema = disruptionInfoSchemaRefined.and(
     }),
 );
 
+export type PublishDisruption = z.infer<typeof publishDisruptionSchema>;
+
 export type Publish = z.infer<typeof publishSchema>;

@@ -36,7 +36,7 @@ declare global {
         type PrismaHistory = History;
         type PrismaService = Service;
         type PrismaStop = Stop;
-        type PrismaSocalMedia = SocialMediaPost;
+        type PrismaSocialMedia = SocialMediaPost;
         type PrismaOperators = ConsequenceOperators;
         type PrismaJourney = Journey;
     }
@@ -142,18 +142,24 @@ export const removeConsequenceFromDisruption = async (
     logger.info(`Updating consequence ${index} in disruption (${disruptionId})...`);
 
     const currentDisruption = await getDisruptionById(disruptionId, orgId);
+
     const isPending =
         isUserStaff &&
         !isTemplate &&
         (currentDisruption?.publishStatus === PublishStatus.published ||
             currentDisruption?.publishStatus === PublishStatus.pendingAndEditing);
+
     const isEditing = currentDisruption?.publishStatus && currentDisruption?.publishStatus !== PublishStatus.draft;
 
-    const editedConsequences = currentDisruption?.consequences?.filter((c) => c.consequenceIndex !== index);
+    const editedConsequences = currentDisruption?.consequences?.map((consequence) => ({
+        ...consequence,
+        isDeleted: consequence.consequenceIndex === index ? true : undefined,
+    }));
 
     if (isEditing) {
         const consequencesToInsert = editedConsequences?.map(({ disruptionId, ...rest }) => ({ ...rest }));
 
+        //TODO replace delete with updateMany
         await dbClient.disruptionEdited.upsert({
             where: {
                 id: disruptionId,
@@ -219,6 +225,37 @@ export const getDisruptionById = async (disruptionId: string, orgId: string): Pr
             },
         });
     }
+
+    if (!disruption) {
+        return null;
+    }
+
+    const parsedDisruption = fullDisruptionSchema.safeParse(disruption);
+
+    if (!parsedDisruption.success) {
+        logger.warn(inspect(flattenZodErrors(parsedDisruption.error)));
+        logger.warn(`Invalid disruption ${disruptionId}`);
+        return null;
+    }
+
+    return parsedDisruption.data;
+};
+
+export const getPublishedDisruptionById = async (
+    disruptionId: string,
+    orgId: string,
+): Promise<FullDisruption | null> => {
+    logger.info(`Retrieving published disruption (${disruptionId})...`);
+
+    const disruption = await dbClient.disruption.findFirst({
+        where: {
+            id: disruptionId,
+            orgId,
+        },
+        include: {
+            consequences: true,
+        },
+    });
 
     if (!disruption) {
         return null;
@@ -304,6 +341,7 @@ export const upsertDisruptionInfo = async (
                 creationTime: currentDisruption.creationTime,
                 createdByOperatorOrgId: operatorOrgId,
                 publishStatus: isPending ? PublishStatus.pendingAndEditing : PublishStatus.editing,
+                history: currentDisruption?.history,
             },
             create: {
                 ...disruptionInfo,
@@ -316,6 +354,7 @@ export const upsertDisruptionInfo = async (
                     },
                 },
                 publishStatus: isPending ? PublishStatus.pendingAndEditing : PublishStatus.editing,
+                history: currentDisruption?.history,
             },
         });
     } else {
