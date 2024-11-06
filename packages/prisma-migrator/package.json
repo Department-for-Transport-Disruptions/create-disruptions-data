@@ -1,0 +1,23 @@
+{
+    "name": "@create-disruptions-data/prisma-migrator",
+    "version": "0.1.0",
+    "type": "module",
+    "scripts": {
+        "typecheck": "tsc -noEmit"
+    },
+    "devDependencies": {
+        "@tsconfig/node20": "^20.1.2",
+        "@types/aws-lambda": "^8.10.110",
+        "@types/lambda-log": "^2.2.1",
+        "@types/node": "^20.10.5",
+        "ts-node": "^10.9.1"
+    },
+    "dependencies": {
+        "@prisma/client": "5.22.0",
+        "@prisma/debug": "^5.22.0",
+        "@prisma/engines": "^5.22.0",
+        "@prisma/engines-version": "5.22.0-44.605197351a3c8bdd595af2d2a9bc3025bca48ea2",
+        "lambda-log": "^3.1.0",
+        "prisma": "^5.22.0"
+    }
+}

@@ -13,6 +13,10 @@ export const SiriAPIStack = ({ stack }: StackContext) => {
     const { disruptionsTable, organisationsTableV2: organisationsTable } = use(DynamoDBStack);
     const { orgDisruptionsBucket } = use(OrgDisruptionsGeneratorStack);
 
+    if (!hostedZone) {
+        return;
+    }
+
     const apiUrl = !["preprod", "prod"].includes(stack.stage)
         ? "https://api.test.ref-data.dft-create-data.com/v1"
         : `https://api.${stack.stage}.ref-data.dft-create-data.com/v1`;

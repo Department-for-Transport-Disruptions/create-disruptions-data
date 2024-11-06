@@ -41,10 +41,6 @@ const getDisruptionHistory = async (editedDisruption: FullDisruption): Promise<s
 
     const differences = diff(existingDisruption, editedDisruption);
 
-    console.log(`diff: ${JSON.stringify(differences, null, 2)}`);
-
-    // console.log(`existing: ${JSON.stringify(existingDisruption, null, 2)}`);
-
     const historyItems = new Set<string>();
 
     for (const difference of differences) {
@@ -92,8 +88,6 @@ const getDisruptionHistory = async (editedDisruption: FullDisruption): Promise<s
             }
         }
     }
-
-    console.log(Array.from(historyItems));
 
     return Array.from(historyItems);
 };
@@ -152,7 +146,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
             return;
         }
 
-        const disruptionHistory = await getDisruptionHistory(draftDisruption);
+        await getDisruptionHistory(draftDisruption);
         // console.log("diff", disruptionHistory);
 
         if (canPublish(session) || draftDisruption.template) {

@@ -28,8 +28,6 @@ import {
 } from "../utils";
 import logger from "../utils/logger";
 
-const dbClient = getDbClient();
-
 declare global {
     namespace PrismaJson {
         type PrismaValidity = Validity;
@@ -51,6 +49,8 @@ const removeDisruptionIdFromConsequences = (consequences?: Consequence[]): Omit<
 export const getPublishedDisruptionsData = async (orgId: string): Promise<FullDisruption[]> => {
     logger.info("Getting disruptions data from database...");
 
+    const dbClient = getDbClient();
+
     const disruptions = await dbClient.disruption.findMany({
         where: {
             orgId,
@@ -71,6 +71,8 @@ export const getDisruptionsData = async (
     offset?: number,
 ): Promise<FullDisruption[]> => {
     logger.info(`Getting disruptions data from database for org ${orgId}...`);
+
+    const dbClient = getDbClient();
 
     const disruptions = await dbClient.disruption.findMany({
         where: {
@@ -115,6 +117,8 @@ export const getPublishedSocialMediaPosts = async (orgId: string): Promise<Socia
 export const deletePublishedDisruption = async (disruptionId: string, orgId: string) => {
     logger.info(`Deleting published disruption (${disruptionId}) in org (${orgId})...`);
 
+    const dbClient = getDbClient();
+
     // Using deleteMany here as a workaround to prisma not having a deleteIfExists function
     await Promise.all([
         dbClient.disruption.deleteMany({
@@ -140,6 +144,8 @@ export const removeConsequenceFromDisruption = async (
     isTemplate?: boolean,
 ) => {
     logger.info(`Updating consequence ${index} in disruption (${disruptionId})...`);
+
+    const dbClient = getDbClient();
 
     const currentDisruption = await getDisruptionById(disruptionId, orgId);
 
@@ -204,6 +210,8 @@ export const removeConsequenceFromDisruption = async (
 export const getDisruptionById = async (disruptionId: string, orgId: string): Promise<FullDisruption | null> => {
     logger.info(`Retrieving (${disruptionId})...`);
 
+    const dbClient = getDbClient();
+
     let disruption = await dbClient.disruptionEdited.findFirst({
         where: {
             id: disruptionId,
@@ -247,6 +255,8 @@ export const getPublishedDisruptionById = async (
 ): Promise<FullDisruption | null> => {
     logger.info(`Retrieving published disruption (${disruptionId})...`);
 
+    const dbClient = getDbClient();
+
     const disruption = await dbClient.disruption.findFirst({
         where: {
             id: disruptionId,
@@ -280,6 +290,8 @@ export const publishDisruption = async (
     history?: string,
 ) => {
     logger.info(`Inserting published disruption (${disruption.id})...`);
+
+    const dbClient = getDbClient();
 
     const currentTime = getDate();
 
@@ -319,6 +331,8 @@ export const upsertDisruptionInfo = async (
     operatorOrgId?: string | null,
 ) => {
     logger.info(`Upserting disruption (${disruptionInfo.id})...`);
+
+    const dbClient = getDbClient();
 
     const currentDisruption = await getDisruptionById(disruptionInfo.id, orgId);
 
@@ -428,6 +442,9 @@ export const upsertConsequence = async (
             consequence.disruptionId || ""
         })...`,
     );
+
+    const dbClient = getDbClient();
+
     const currentDisruption = await getDisruptionById(consequence.disruptionId, orgId);
 
     if (
@@ -544,6 +561,8 @@ export const upsertSocialMediaPost = async (
 ) => {
     logger.info(`Updating socialMediaPost index ${socialMediaPost.socialMediaPostIndex} in disruption (${orgId})...`);
 
+    const dbClient = getDbClient();
+
     const currentDisruption = await getDisruptionById(socialMediaPost.disruptionId, orgId);
     const consequencesToInsert = removeDisruptionIdFromConsequences(currentDisruption?.consequences);
     const currentSocialMediaPosts = currentDisruption?.socialMediaPosts ?? [];
@@ -603,6 +622,8 @@ export const upsertSocialMediaPost = async (
 export const removeSocialMediaPostFromDisruption = async (index: number, disruptionId: string, orgId: string) => {
     logger.info(`Removing socialMediaPost ${index} in disruption (${disruptionId})...`);
 
+    const dbClient = getDbClient();
+
     const currentDisruption = await getDisruptionById(disruptionId, orgId);
     const isEditing = currentDisruption?.publishStatus && currentDisruption?.publishStatus !== PublishStatus.draft;
 
@@ -634,6 +655,8 @@ export const removeSocialMediaPostFromDisruption = async (index: number, disrupt
 
 export const publishEditedDisruption = async (disruptionId: string, orgId: string) => {
     logger.info(`Publishing edited disruption ${disruptionId}...`);
+
+    const dbClient = getDbClient();
 
     await dbClient.$transaction(async (tx) => {
         const editedDisruption = await tx.disruptionEdited.findFirst({
@@ -682,6 +705,8 @@ export const publishEditedDisruption = async (disruptionId: string, orgId: strin
 export const publishEditedDisruptionIntoPending = async (disruptionId: string, orgId: string) => {
     logger.info(`Publishing edited disruption ${disruptionId} to pending status...`);
 
+    const dbClient = getDbClient();
+
     await dbClient.disruptionEdited.update({
         where: {
             id: disruptionId,
@@ -696,6 +721,8 @@ export const publishEditedDisruptionIntoPending = async (disruptionId: string, o
 export const deleteEditedDisruption = async (disruptionId: string, orgId: string) => {
     logger.info(`Deleting edited disruption (${disruptionId})...`);
 
+    const dbClient = getDbClient();
+
     await dbClient.disruptionEdited.delete({
         where: {
             id: disruptionId,
@@ -709,6 +736,8 @@ export const deleteEditedDisruption = async (disruptionId: string, orgId: string
 
 export const isDisruptionInEdit = async (disruptionId: string, orgId: string) => {
     logger.info(`Check if there are any edit records for disruption (${disruptionId})...`);
+
+    const dbClient = getDbClient();
 
     const disruption = await dbClient.disruptionEdited.findFirst({
         where: {
@@ -725,6 +754,8 @@ export const getDisruptionInfoByPermitReferenceNumber = async (
     orgId: string,
 ): Promise<Disruption | null> => {
     logger.info(`Retrieving disruption info associated with road permit reference (${permitReferenceNumber})...`);
+
+    const dbClient = getDbClient();
 
     const disruptionInfo = await dbClient.disruption.findFirst({
         where: {

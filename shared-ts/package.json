@@ -4,7 +4,8 @@
     "type": "module",
     "scripts": {
         "generate-zod": "npx ts-to-zod ./siriTypes.ts ./siriTypes.zod.ts",
-        "prisma:migrate": "pnpm prisma migrate dev"
+        "prisma:migrate": "pnpm prisma migrate dev",
+        "prisma:format": "pnpm prisma format"
     },
     "dependencies": {
         "@aws-sdk/client-cognito-identity-provider": "^3.682.0",

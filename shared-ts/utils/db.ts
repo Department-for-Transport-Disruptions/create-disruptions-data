@@ -1,7 +1,11 @@
 import { PrismaClient } from "@prisma/client";
+import { Config } from "sst/node/config";
 
 export const getDbClient = () =>
-    new PrismaClient().$extends({
+    new PrismaClient({
+        // @ts-ignore
+        datasourceUrl: Config.DB_CONNECTION_STRING,
+    }).$extends({
         result: {
             disruption: {
                 disruptionId: {

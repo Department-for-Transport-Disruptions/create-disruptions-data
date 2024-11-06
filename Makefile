@@ -1,5 +1,7 @@
 stage = $(shell cat ./.sst/stage)
 
+export PRISMA_CLI_BINARY_TARGETS := linux-arm64-openssl-3.0.x
+
 start-sst:
 	pnpm run dev
 
@@ -45,4 +47,22 @@ run-ui-tests:
 prisma-migrate-dev:
 	pnpm --filter @create-disruptions-data/shared-ts run prisma:migrate
 
+prisma-format:
+	pnpm --filter @create-disruptions-data/shared-ts run prisma:format
+
 start-dev: dev-containers-up prisma-migrate-dev kill-site start-site
+
+bastion-tunnel:
+	./scripts/bastion-tunnel.sh
+
+get-db-credentials:
+	./scripts/get-db-credentials.sh
+
+update-secrets:
+	./scripts/update-secrets.sh $(STAGE)
+
+sst-deploy:
+	pnpm sst deploy --stage $(STAGE)
+
+migrate-remote-db:
+	aws lambda invoke --function-name cdd-prisma-migrator-$(STAGE) --log-type Tail  response.txt | jq -r .LogResult | base64 --decode
