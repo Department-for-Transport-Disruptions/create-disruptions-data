@@ -131,6 +131,7 @@ const createDisruption = async (req: NextApiRequest, res: NextApiResponse): Prom
         await upsertDisruptionInfo(
             validatedBody.data,
             session.orgId,
+            session.name,
             session.isOrgStaff,
             template === "true",
             session.isOperatorUser ? session.operatorOrgId : null,

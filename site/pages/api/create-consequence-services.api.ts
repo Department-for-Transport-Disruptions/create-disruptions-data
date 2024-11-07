@@ -143,6 +143,7 @@ const createConsequenceServices = async (req: NextApiRequest, res: NextApiRespon
         const disruption = await handleUpsertConsequence(
             validatedBody.data,
             session.orgId,
+            session.name,
             session.isOrgStaff,
             template === "true",
             formattedBody,

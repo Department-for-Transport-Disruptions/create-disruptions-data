@@ -25,6 +25,7 @@ import {
     isServicesConsequence,
     isStopsConsequence,
     notEmpty,
+    splitCamelCaseToString,
 } from "../utils";
 import logger from "../utils/logger";
 
@@ -136,6 +137,7 @@ export const removeConsequenceFromDisruption = async (
     index: number,
     disruptionId: string,
     orgId: string,
+    user: string,
     isUserStaff?: boolean,
     isTemplate?: boolean,
 ) => {
@@ -151,15 +153,22 @@ export const removeConsequenceFromDisruption = async (
 
     const isEditing = currentDisruption?.publishStatus && currentDisruption?.publishStatus !== PublishStatus.draft;
 
-    const editedConsequences = currentDisruption?.consequences?.map((consequence) => ({
-        ...consequence,
-        isDeleted: consequence.consequenceIndex === index ? true : undefined,
-    }));
+    const editedConsequences = currentDisruption?.consequences?.filter((c) => c.consequenceIndex !== index);
 
     if (isEditing) {
         const consequencesToInsert = editedConsequences?.map(({ disruptionId, ...rest }) => ({ ...rest }));
 
-        //TODO replace delete with updateMany
+        const consequenceToBeDeleted = currentDisruption?.consequences?.find((c) => c.consequenceIndex === index);
+
+        const newHistory: History = {
+            historyItems: [
+                `Disruption ${splitCamelCaseToString(consequenceToBeDeleted?.consequenceType ?? "")} Consequence: Deleted`,
+            ],
+            user: user,
+            status: PublishStatus.editing,
+            datetime: getDate().toISOString(),
+        };
+
         await dbClient.disruptionEdited.upsert({
             where: {
                 id: disruptionId,
@@ -171,6 +180,7 @@ export const removeConsequenceFromDisruption = async (
                 orgId,
                 creationTime: currentDisruption.creationTime,
                 publishStatus: isPending ? PublishStatus.pendingAndEditing : PublishStatus.editing,
+                history: [...(currentDisruption.history ?? []), newHistory],
                 consequences: {
                     createMany: {
                         data: consequencesToInsert ?? [],
@@ -179,6 +189,7 @@ export const removeConsequenceFromDisruption = async (
             },
             update: {
                 publishStatus: isPending ? PublishStatus.pendingAndEditing : PublishStatus.editing,
+                history: [...(currentDisruption.history ?? []), newHistory],
                 consequences: {
                     delete: {
                         disruption_id_consequence_index: {
@@ -241,35 +252,17 @@ export const getDisruptionById = async (disruptionId: string, orgId: string): Pr
     return parsedDisruption.data;
 };
 
-export const getPublishedDisruptionById = async (
-    disruptionId: string,
-    orgId: string,
-): Promise<FullDisruption | null> => {
-    logger.info(`Retrieving published disruption (${disruptionId})...`);
-
-    const disruption = await dbClient.disruption.findFirst({
-        where: {
-            id: disruptionId,
-            orgId,
-        },
-        include: {
-            consequences: true,
-        },
-    });
-
-    if (!disruption) {
-        return null;
+const getHistoryText = (isTemplate: boolean, status: PublishStatus): string => {
+    if (isTemplate) {
+        return "Template created";
     }
-
-    const parsedDisruption = fullDisruptionSchema.safeParse(disruption);
-
-    if (!parsedDisruption.success) {
-        logger.warn(inspect(flattenZodErrors(parsedDisruption.error)));
-        logger.warn(`Invalid disruption ${disruptionId}`);
-        return null;
+    if (status === PublishStatus.rejected) {
+        return "Disruption rejected";
     }
-
-    return parsedDisruption.data;
+    if (status === PublishStatus.pendingApproval) {
+        return "Disruption submitted for review";
+    }
+    return "Disruption created and published";
 };
 
 export const publishDisruption = async (
@@ -277,23 +270,14 @@ export const publishDisruption = async (
     orgId: string,
     status: PublishStatus,
     user: string,
-    history?: string,
 ) => {
     logger.info(`Inserting published disruption (${disruption.id})...`);
-
-    const currentTime = getDate();
-
-    const historyItems = disruption.newHistory ?? [];
-
-    if (history) {
-        historyItems.push(history);
-    }
 
     const fullHistory: History[] = [
         ...(disruption.history ?? []),
         {
-            datetime: currentTime.toISOString(),
-            historyItems,
+            historyItems: [getHistoryText(disruption.template, status)],
+            datetime: getDate().toISOString(),
             status,
             user,
         },
@@ -314,6 +298,7 @@ export const publishDisruption = async (
 export const upsertDisruptionInfo = async (
     disruptionInfo: DisruptionInfo,
     orgId: string,
+    user: string,
     isUserStaff?: boolean,
     isTemplate?: boolean,
     operatorOrgId?: string | null,
@@ -327,10 +312,20 @@ export const upsertDisruptionInfo = async (
         !isTemplate &&
         (currentDisruption?.publishStatus === PublishStatus.published ||
             currentDisruption?.publishStatus === PublishStatus.pendingAndEditing);
+
     const isEditing = currentDisruption?.publishStatus && currentDisruption?.publishStatus !== PublishStatus.draft;
 
     if (isEditing) {
         const consequences = currentDisruption.consequences?.map(({ disruptionId, ...rest }) => ({ ...rest }));
+        const history: History[] = [
+            ...(currentDisruption.history ?? []),
+            {
+                historyItems: ["Disruption Info Edited"],
+                user: user,
+                status: PublishStatus.editing,
+                datetime: getDate().toISOString(),
+            },
+        ];
 
         await dbClient.disruptionEdited.upsert({
             where: {
@@ -341,7 +336,7 @@ export const upsertDisruptionInfo = async (
                 creationTime: currentDisruption.creationTime,
                 createdByOperatorOrgId: operatorOrgId,
                 publishStatus: isPending ? PublishStatus.pendingAndEditing : PublishStatus.editing,
-                history: currentDisruption?.history,
+                history: history,
             },
             create: {
                 ...disruptionInfo,
@@ -354,7 +349,7 @@ export const upsertDisruptionInfo = async (
                     },
                 },
                 publishStatus: isPending ? PublishStatus.pendingAndEditing : PublishStatus.editing,
-                history: currentDisruption?.history,
+                history: history,
             },
         });
     } else {
@@ -420,6 +415,7 @@ export const upsertDisruptionInfo = async (
 export const upsertConsequence = async (
     consequence: Consequence,
     orgId: string,
+    user: string,
     isUserStaff?: boolean,
     isTemplate?: boolean,
 ): Promise<FullDisruption | null> => {
@@ -468,10 +464,30 @@ export const upsertConsequence = async (
             (c) => c.consequenceIndex === newConsequence.consequenceIndex,
         );
 
+        const history = [...(currentDisruption.history ?? [])];
+
         if (existingIndex > -1) {
             consequencesToInsert[existingIndex] = newConsequence;
+            history.push({
+                historyItems: [
+                    `Disruption ${splitCamelCaseToString(
+                        newConsequence.consequenceType as string,
+                    )} Consequence: Edited`,
+                ],
+                user: user,
+                status: PublishStatus.editing,
+                datetime: getDate().toISOString(),
+            });
         } else {
             consequencesToInsert.push(newConsequence);
+            history.push({
+                historyItems: [
+                    `Disruption ${splitCamelCaseToString(newConsequence.consequenceType as string)} Consequence: Added`,
+                ],
+                user: user,
+                status: PublishStatus.editing,
+                datetime: getDate().toISOString(),
+            });
         }
 
         await dbClient.disruptionEdited.upsert({
@@ -484,6 +500,7 @@ export const upsertConsequence = async (
                 orgId,
                 creationTime: currentDisruption.creationTime,
                 publishStatus: isPending ? PublishStatus.pendingAndEditing : PublishStatus.editing,
+                history: history,
                 consequences: {
                     createMany: {
                         data: consequencesToInsert || [],
@@ -492,6 +509,7 @@ export const upsertConsequence = async (
             },
             update: {
                 publishStatus: isPending ? PublishStatus.pendingAndEditing : PublishStatus.editing,
+                history: history,
                 consequences: {
                     upsert: {
                         where: {
@@ -632,7 +650,7 @@ export const removeSocialMediaPostFromDisruption = async (index: number, disrupt
     }
 };
 
-export const publishEditedDisruption = async (disruptionId: string, orgId: string) => {
+export const publishEditedDisruption = async (disruptionId: string, orgId: string, user: string) => {
     logger.info(`Publishing edited disruption ${disruptionId}...`);
 
     await dbClient.$transaction(async (tx) => {
@@ -654,6 +672,16 @@ export const publishEditedDisruption = async (disruptionId: string, orgId: strin
 
         const consequencesToInsert = removeDisruptionIdFromConsequences(parsedDisruption.consequences);
 
+        const history: History[] = [
+            ...(editedDisruption.history ?? []),
+            {
+                historyItems: [editedDisruption.template ? "Template edited" : "Edited disruption published"],
+                user: user,
+                status: PublishStatus.published,
+                datetime: getDate().toISOString(),
+            },
+        ];
+
         await tx.disruption.delete({
             where: {
                 id: disruptionId,
@@ -669,6 +697,7 @@ export const publishEditedDisruption = async (disruptionId: string, orgId: strin
                 ...parsedDisruption,
                 orgId,
                 publishStatus: PublishStatus.published,
+                history: history,
                 consequences: {
                     createMany: {
                         data: consequencesToInsert,
@@ -679,8 +708,20 @@ export const publishEditedDisruption = async (disruptionId: string, orgId: strin
     });
 };
 
-export const publishEditedDisruptionIntoPending = async (disruptionId: string, orgId: string) => {
+export const publishEditedDisruptionIntoPending = async (disruptionId: string, orgId: string, user: string) => {
     logger.info(`Publishing edited disruption ${disruptionId} to pending status...`);
+
+    const currentDisruption = await getDisruptionById(disruptionId, orgId);
+
+    const history: History[] = [
+        ...(currentDisruption?.history ?? []),
+        {
+            historyItems: ["Edited disruption submitted for review"],
+            user: user,
+            status: PublishStatus.editPendingApproval,
+            datetime: getDate().toISOString(),
+        },
+    ];
 
     await dbClient.disruptionEdited.update({
         where: {
@@ -689,6 +730,7 @@ export const publishEditedDisruptionIntoPending = async (disruptionId: string, o
         },
         data: {
             publishStatus: PublishStatus.editPendingApproval,
+            history: history,
         },
     });
 };

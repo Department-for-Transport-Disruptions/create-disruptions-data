@@ -88,6 +88,7 @@ const createConsequenceStops = async (req: NextApiRequest, res: NextApiResponse)
         const disruption = await handleUpsertConsequence(
             validatedBody.data,
             session.orgId,
+            session.name,
             session.isOrgStaff,
             template === "true",
             formattedBody,

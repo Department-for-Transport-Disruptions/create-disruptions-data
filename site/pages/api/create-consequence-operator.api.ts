@@ -125,6 +125,7 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
         const disruption = await handleUpsertConsequence(
             validatedBody.data,
             session.orgId,
+            session.name,
             session.isOrgStaff,
             template === "true",
             formattedBody,

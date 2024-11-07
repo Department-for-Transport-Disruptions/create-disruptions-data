@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { DISRUPTION_DETAIL_PAGE_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
 import { removeConsequenceFromDisruption } from "../../data/db";
 import { redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
-import { getSession } from "../../utils/apiUtils/auth";
+import { canPublish, getSession } from "../../utils/apiUtils/auth";
 
 const deleteConsequence = async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     try {
@@ -37,7 +37,14 @@ const deleteConsequence = async (req: NextApiRequest, res: NextApiResponse): Pro
             );
         }
 
-        await removeConsequenceFromDisruption(Number(id), disruptionId, session.orgId, template === "true");
+        await removeConsequenceFromDisruption(
+            Number(id),
+            disruptionId,
+            session.orgId,
+            session.name,
+            canPublish(session),
+            template === "true",
+        );
 
         if (inEdit) {
             redirectToWithQueryParams(

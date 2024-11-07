@@ -213,6 +213,7 @@ export const redirectToWithQueryParams = (
 export const handleUpsertConsequence = async (
     consequence: Consequence,
     orgId: string,
+    user: string,
     isOrgStaff: boolean,
     isTemplate: boolean,
     inputs: unknown,
@@ -220,7 +221,7 @@ export const handleUpsertConsequence = async (
     res: NextApiResponse,
 ) => {
     try {
-        return await upsertConsequence(consequence, orgId, isOrgStaff, isTemplate);
+        return await upsertConsequence(consequence, orgId, user, isOrgStaff, isTemplate);
     } catch (e) {
         if (e instanceof TooManyConsequencesError) {
             setCookieOnResponseObject(
