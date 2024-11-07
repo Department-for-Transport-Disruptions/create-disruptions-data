@@ -137,6 +137,7 @@ describe("create-consequence-stops API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             stopDataToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -234,6 +235,7 @@ describe("create-consequence-stops API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             stopDataToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -258,6 +260,7 @@ describe("create-consequence-stops API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             stopDataToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -311,6 +314,7 @@ describe("create-consequence-stops API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             { ...stopDataToUpsert, consequenceIndex: 1 },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -332,6 +336,7 @@ describe("create-consequence-stops API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             stopDataToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             true,
         );
@@ -355,6 +360,7 @@ describe("create-consequence-stops API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             { ...stopDataToUpsert, consequenceIndex: 2 },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );

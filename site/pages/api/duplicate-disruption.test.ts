@@ -140,6 +140,7 @@ describe("duplicate-disruption API", () => {
                 displayId: "9fg4gc",
             },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
             null,
@@ -149,6 +150,7 @@ describe("duplicate-disruption API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             { ...defaultNetworkData, disruptionId: newDefaultDisruptionId },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
         );
 
@@ -213,6 +215,7 @@ describe("duplicate-disruption API", () => {
                 displayId: "9fg4gc",
             },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             true,
             null,
@@ -222,6 +225,7 @@ describe("duplicate-disruption API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             { ...defaultNetworkData, disruptionId: newDefaultDisruptionId },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
         );
 
@@ -251,6 +255,7 @@ describe("duplicate-disruption API", () => {
                 displayId: "9fg4gc",
             },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
             DEFAULT_OPERATOR_ORG_ID,
@@ -260,6 +265,7 @@ describe("duplicate-disruption API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             { ...defaultNetworkData, disruptionId: newDefaultDisruptionId },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
         );
 

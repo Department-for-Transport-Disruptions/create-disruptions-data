@@ -101,7 +101,11 @@ describe("publishEdit", () => {
 
         expect(db.publishEditedDisruption).toBeCalledTimes(1);
         expect(db.deleteEditedDisruption).toBeCalledTimes(1);
-        expect(db.publishEditedDisruption).toBeCalledWith(disruptionWithConsequences.id, DEFAULT_ORG_ID);
+        expect(db.publishEditedDisruption).toBeCalledWith(
+            disruptionWithConsequences.id,
+            DEFAULT_ORG_ID,
+            mockSession.name,
+        );
         expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
     });
 
@@ -131,6 +135,7 @@ describe("publishEdit", () => {
         expect(db.publishEditedDisruption).toBeCalledWith(
             disruptionWithConsequencesAndSocialMediaPosts.id,
             DEFAULT_ORG_ID,
+            mockSession.name,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
@@ -155,6 +160,7 @@ describe("publishEdit", () => {
         expect(db.publishEditedDisruptionIntoPending).toBeCalledWith(
             disruptionWithConsequencesAndSocialMediaPosts.id,
             DEFAULT_ORG_ID,
+            mockSession.name,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
@@ -180,6 +186,7 @@ describe("publishEdit", () => {
         expect(db.publishEditedDisruption).toBeCalledWith(
             disruptionWithConsequencesAndSocialMediaPosts.id,
             DEFAULT_ORG_ID,
+            mockSession.name,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: VIEW_ALL_TEMPLATES_PAGE_PATH });
     });
@@ -221,6 +228,7 @@ describe("publishEdit", () => {
         expect(db.publishEditedDisruptionIntoPending).toBeCalledWith(
             disruptionWithConsequencesAndSocialMediaPosts.id,
             DEFAULT_ORG_ID,
+            mockSession.name,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
@@ -346,7 +354,11 @@ describe("publishEdit", () => {
 
         expect(db.publishEditedDisruption).toBeCalledTimes(1);
         expect(db.deleteEditedDisruption).toBeCalledTimes(1);
-        expect(db.publishEditedDisruption).toBeCalledWith(disruptionWithConsequences.id, DEFAULT_ORG_ID);
+        expect(db.publishEditedDisruption).toBeCalledWith(
+            disruptionWithConsequences.id,
+            DEFAULT_ORG_ID,
+            mockSession.name,
+        );
         expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
     });
 });

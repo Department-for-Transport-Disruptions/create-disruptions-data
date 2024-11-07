@@ -101,6 +101,7 @@ describe("duplicate-consequence API", () => {
                 disruptionId: defaultDisruptionId,
             },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -134,6 +135,7 @@ describe("duplicate-consequence API", () => {
                 disruptionId: defaultDisruptionId,
             },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );

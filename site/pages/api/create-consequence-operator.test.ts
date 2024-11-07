@@ -116,6 +116,7 @@ describe("create-consequence-operator API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             operatorToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -236,6 +237,7 @@ describe("create-consequence-operator API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             operatorToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -260,6 +262,7 @@ describe("create-consequence-operator API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             operatorToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -319,6 +322,7 @@ describe("create-consequence-operator API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             { ...operatorToUpsert, consequenceIndex: 1 },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -341,6 +345,7 @@ describe("create-consequence-operator API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             operatorToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             true,
         );
@@ -364,6 +369,7 @@ describe("create-consequence-operator API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             { ...operatorToUpsert, consequenceIndex: 2 },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -424,6 +430,7 @@ describe("create-consequence-operator API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             operatorToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOperatorUser,
             false,
         );
