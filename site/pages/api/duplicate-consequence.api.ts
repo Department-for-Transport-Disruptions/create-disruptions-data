@@ -59,6 +59,7 @@ const duplicateConsequence = async (req: NextApiRequest, res: NextApiResponse): 
                 consequenceIndex: getLargestConsequenceIndex(disruption) + 1,
             },
             session.orgId,
+            session.name,
             session.isOrgStaff,
             template === "true",
             req.body as Consequence,

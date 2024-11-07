@@ -106,6 +106,7 @@ describe("create-consequence-network API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             networkToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -128,6 +129,7 @@ describe("create-consequence-network API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             networkToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             true,
         );
@@ -224,6 +226,7 @@ describe("create-consequence-network API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             networkToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -248,6 +251,7 @@ describe("create-consequence-network API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             networkToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -301,6 +305,7 @@ describe("create-consequence-network API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             { ...networkToUpsert, consequenceIndex: 1 },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -322,6 +327,7 @@ describe("create-consequence-network API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             networkToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             true,
         );
@@ -345,6 +351,7 @@ describe("create-consequence-network API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             { ...networkToUpsert, consequenceIndex: 2 },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );

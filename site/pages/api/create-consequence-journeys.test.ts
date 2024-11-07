@@ -222,6 +222,7 @@ describe("create-consequence-journeys API", () => {
                 ],
             },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -360,6 +361,7 @@ describe("create-consequence-journeys API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             servicesDataToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -384,6 +386,7 @@ describe("create-consequence-journeys API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             servicesDataToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -449,6 +452,7 @@ describe("create-consequence-journeys API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             { ...servicesDataToUpsert, consequenceIndex: 1 },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -470,6 +474,7 @@ describe("create-consequence-journeys API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             servicesDataToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             true,
         );
@@ -493,6 +498,7 @@ describe("create-consequence-journeys API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             { ...servicesDataToUpsert, consequenceIndex: 2 },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -593,6 +599,7 @@ describe("create-consequence-journeys API", () => {
                 ],
             },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );

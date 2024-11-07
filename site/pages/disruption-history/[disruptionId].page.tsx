@@ -31,11 +31,31 @@ const statusMap: DisplayValuePair[] = [
         display: "Draft pending approval",
         value: PublishStatus.pendingApproval,
     },
+    {
+        display: "Editing",
+        value: PublishStatus.editing,
+    },
+    {
+        display: "Rejected",
+        value: PublishStatus.rejected,
+    },
+    {
+        display: "Edit pending approval",
+        value: PublishStatus.editPendingApproval,
+    },
+    {
+        display: "Draft",
+        value: PublishStatus.draft,
+    },
+    {
+        display: "Pending and editing",
+        value: PublishStatus.pendingAndEditing,
+    },
 ];
 
 const getStatusToDisplay = (status: PublishStatus, nextStatus: PublishStatus | null) => {
     if (!nextStatus) {
-        return `Status: ${status === PublishStatus.published ? "Open" : "Draft pending approval"}`;
+        return `Status: ${status === PublishStatus.published ? "Open" : getDisplayByValue(statusMap, status)}`;
     }
 
     const currentDisplayStatus = getDisplayByValue(statusMap, status);

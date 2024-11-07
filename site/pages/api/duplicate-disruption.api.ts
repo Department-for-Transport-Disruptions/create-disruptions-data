@@ -88,6 +88,7 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
                 displayId,
             },
             session.orgId,
+            session.name,
             session.isOrgStaff,
             template === "true",
             session.isOperatorUser ? session.operatorOrgId : null,
@@ -96,7 +97,7 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
         if (draftDisruption.consequences) {
             await Promise.all(
                 draftDisruption.consequences.map(async (consequence) => {
-                    await upsertConsequence(consequence, session.orgId, session.isOrgStaff);
+                    await upsertConsequence(consequence, session.orgId, session.name, session.isOrgStaff);
                 }),
             );
         }

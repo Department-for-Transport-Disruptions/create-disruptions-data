@@ -97,6 +97,5 @@ exports[`publish > should write the correct disruptions data to dynamoDB 1`] = `
   "35bae327-4af0-4bbf-8bfa-2c085f214483",
   "PUBLISHED",
   "Test User",
-  "Disruption created and published",
 ]
 `;

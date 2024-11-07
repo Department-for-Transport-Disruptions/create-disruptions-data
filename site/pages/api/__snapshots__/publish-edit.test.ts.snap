@@ -4,6 +4,7 @@ exports[`publishEdit > should write the correct disruptions data to the db 1`] =
 [
   "acde070d-8c4c-4f0d-9d8a-162843c10333",
   "35bae327-4af0-4bbf-8bfa-2c085f214483",
+  "Test User",
 ]
 `;
 

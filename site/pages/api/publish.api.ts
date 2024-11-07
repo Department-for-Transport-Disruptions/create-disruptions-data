@@ -73,17 +73,7 @@ const publish = async (req: NextApiRequest, res: NextApiResponse) => {
         const status =
             canPublish(session) || draftDisruption.template ? PublishStatus.published : PublishStatus.pendingApproval;
 
-        await publishDisruption(
-            draftDisruption,
-            session.orgId,
-            status,
-            session.name,
-            draftDisruption.template
-                ? undefined
-                : canPublish(session)
-                  ? "Disruption created and published"
-                  : "Disruption submitted for review",
-        );
+        await publishDisruption(draftDisruption, session.orgId, status, session.name);
 
         if (
             validatedDisruptionBody.data.socialMediaPosts &&

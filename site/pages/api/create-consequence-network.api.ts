@@ -69,6 +69,7 @@ const createConsequenceNetwork = async (req: NextApiRequest, res: NextApiRespons
         const disruption = await handleUpsertConsequence(
             validatedBody.data,
             session.orgId,
+            session.name,
             session.isOrgStaff,
             template === "true",
             body,
