@@ -11,7 +11,7 @@ import {
 } from "../../constants";
 import { getNocCodesForOperatorOrg } from "../../data/dynamo";
 import { TooManyConsequencesError } from "../../errors";
-import { flattenZodErrors, getLargestConsequenceIndex } from "../../utils";
+import { flattenZodErrors } from "../../utils";
 import {
     getReturnPage,
     handleUpsertConsequence,
@@ -122,7 +122,7 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
             return;
         }
 
-        const disruption = await handleUpsertConsequence(
+        const maxConsequenceIndex = await handleUpsertConsequence(
             validatedBody.data,
             session.orgId,
             session.name,
@@ -141,12 +141,8 @@ const createConsequenceOperator = async (req: OperatorConsequenceRequest, res: N
                 : REVIEW_DISRUPTION_PAGE_PATH;
 
         if (addAnotherConsequence) {
-            if (!disruption) {
-                throw new Error("No disruption found to add another consequence");
-            }
             const currentIndex = validatedBody.data.consequenceIndex;
-            const largestIndex = getLargestConsequenceIndex(disruption);
-            const nextIndex = currentIndex >= largestIndex ? currentIndex + 1 : largestIndex + 1;
+            const nextIndex = currentIndex >= maxConsequenceIndex ? currentIndex + 1 : maxConsequenceIndex + 1;
 
             redirectToWithQueryParams(
                 req,

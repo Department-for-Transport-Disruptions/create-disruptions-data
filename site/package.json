@@ -48,6 +48,7 @@
         "govuk-frontend": "^5.4.1",
         "jose": "^4.15.5",
         "jsonwebtoken": "^9.0.0",
+        "kysely": "^0.27.4",
         "lodash": "^4.17.21",
         "mapbox-gl": "^2.13.0",
         "microdiff": "^1.4.0",
