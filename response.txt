@@ -1,1 +1,0 @@
-{"errorType":"Error","errorMessage":"command deploy failed with exit code 1","trace":["Error: command deploy failed with exit code 1","    at Runtime.main [as handler] (file:///var/task/packages/prisma-migrator/index.mjs:21208:13)","    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"]}

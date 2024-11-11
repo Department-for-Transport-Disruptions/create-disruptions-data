@@ -35,7 +35,13 @@ import {
 } from "../utils";
 import logger from "../utils/logger";
 
-const mapDisruptionToDb = (disruption: DisruptionDB) => ({
+const mapDisruptionToDb = ({
+    consequences,
+    editedDisruption,
+    editExistsInDb,
+    ...disruption
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+}: DisruptionDB & { consequences?: any; editedDisruption?: any; editExistsInDb?: any }) => ({
     ...disruption,
     history: json(disruption.history),
     validity: disruption.validity && json(disruption.validity),
@@ -48,6 +54,7 @@ const mapConsequenceToDb = (consequence: ConsequenceDB) => ({
     stops: consequence.stops && json(consequence.stops),
     consequenceOperators: consequence.consequenceOperators && json(consequence.consequenceOperators),
     journeys: consequence.journeys && json(consequence.journeys),
+    disruptionArea: consequence.disruptionArea && json(consequence.disruptionArea),
 });
 
 const createDisruptionConflictMapping = (
@@ -58,7 +65,7 @@ const createDisruptionConflictMapping = (
     disruption: NewDisruptionDB,
 ) => {
     const keys = Object.keys(disruption) as (keyof NewDisruptionDB)[];
-    return Object.fromEntries(keys.map((key) => [key, eb.ref(key)]));
+    return Object.fromEntries(keys.map((key) => [key, eb.ref(`excluded.${key}`)]));
 };
 
 const createConsequenceConflictMapping = (
@@ -69,13 +76,13 @@ const createConsequenceConflictMapping = (
     consequence: NewConsequenceDB,
 ) => {
     const keys = Object.keys(consequence) as (keyof NewConsequenceDB)[];
-    return Object.fromEntries(keys.map((key) => [key, eb.ref(key)]));
+    return Object.fromEntries(keys.map((key) => [key, eb.ref(`excluded.${key}`)]));
 };
 
 export const getPublishedDisruptionsData = async (orgId: string): Promise<FullDisruption[]> => {
     logger.info("Getting disruptions data from database...");
 
-    const dbClient = getDbClient();
+    const dbClient = getDbClient(true);
 
     const disruptions = await dbClient
         .selectFrom("disruptions")
@@ -96,21 +103,19 @@ export const getDisruptionsData = async (
 ): Promise<FullDisruption[]> => {
     logger.info(`Getting disruptions data from database for org ${orgId}...`);
 
-    const dbClient = getDbClient();
+    const dbClient = getDbClient(true);
 
     const disruptions = await dbClient
         .selectFrom("disruptions")
         .selectAll()
-        .select((eb) => [withConsequences(eb), withEditedDisruption(eb)])
+        .select((eb) => [withConsequences(eb)])
         .where("disruptions.orgId", "=", orgId)
         .where("disruptions.template", "=", isTemplate)
         .limit(pageSize ?? 10)
         .offset(offset ?? 0)
         .execute();
 
-    const disruptionsToUse = disruptions.map((d) => d.editedDisruption ?? d);
-
-    return makeFilteredArraySchema(fullDisruptionSchema).parse(disruptionsToUse);
+    return fullDisruptionSchema.array().parse(disruptions);
 };
 
 export const getPublishedSocialMediaPosts = async (orgId: string): Promise<SocialMediaPost[]> => {
@@ -128,7 +133,7 @@ export const getPublishedSocialMediaPosts = async (orgId: string): Promise<Socia
 export const deletePublishedDisruption = async (disruptionId: string, orgId: string) => {
     logger.info(`Deleting published disruption (${disruptionId}) in org (${orgId})...`);
 
-    const dbClient = getDbClient();
+    const dbClient = getDbClient(true);
 
     await dbClient
         .deleteFrom("disruptions")
@@ -147,9 +152,10 @@ export const removeConsequenceFromDisruption = async (
 ) => {
     logger.info(`Updating consequence ${index} in disruption (${disruptionId})...`);
 
-    const dbClient = getDbClient();
+    const dbClient = getDbClient(true);
 
-    const currentDisruption = await getDbDisruption(disruptionId, orgId);
+    const disruption = await getDbDisruption(disruptionId, orgId);
+    const currentDisruption = disruption?.editedDisruption ?? disruption;
 
     const isPending =
         isUserStaff &&
@@ -183,7 +189,7 @@ export const removeConsequenceFromDisruption = async (
     };
 
     await dbClient.transaction().execute(async (trx) => {
-        if (currentDisruption.editExistsInDb) {
+        if (disruption?.editExistsInDb) {
             await trx
                 .updateTable("disruptionsEdited")
                 .set({
@@ -211,17 +217,20 @@ export const removeConsequenceFromDisruption = async (
             })
             .execute();
 
-        return await trx
-            .insertInto("consequencesEdited")
-            .values(editedConsequences?.map(mapConsequenceToDb) ?? [])
-            .execute();
+        const newConsequences = editedConsequences?.map(mapConsequenceToDb);
+
+        if (newConsequences?.length) {
+            return await trx.insertInto("consequencesEdited").values(newConsequences).execute();
+        }
+
+        return;
     });
 };
 
 const getDbDisruption = async (disruptionId: string, orgId: string) => {
     logger.info(`Retrieving (${disruptionId})...`);
 
-    const dbClient = getDbClient();
+    const dbClient = getDbClient(true);
 
     const disruption = await dbClient
         .selectFrom("disruptions")
@@ -278,7 +287,7 @@ export const publishDisruption = async (
 ) => {
     logger.info(`Inserting published disruption (${disruption.id})...`);
 
-    const dbClient = getDbClient();
+    const dbClient = getDbClient(true);
 
     const fullHistory: History[] = [
         ...(disruption.history ?? []),
@@ -308,9 +317,10 @@ export const upsertDisruptionInfo = async (
 ) => {
     logger.info(`Upserting disruption (${disruptionInfo.id})...`);
 
-    const dbClient = getDbClient();
+    const dbClient = getDbClient(true);
 
-    const currentDisruption = await getDbDisruption(disruptionInfo.id, orgId);
+    const disruption = await getDbDisruption(disruptionInfo.id, orgId);
+    const currentDisruption = disruption?.editedDisruption ?? disruption;
 
     const isPending =
         isUserStaff &&
@@ -327,6 +337,7 @@ export const upsertDisruptionInfo = async (
             publishStatus: PublishStatus.draft,
             orgId,
             validity: json(disruptionInfo.validity),
+            history: json([]),
         };
 
         await dbClient
@@ -368,7 +379,7 @@ export const upsertDisruptionInfo = async (
             )
             .execute();
 
-        if (!currentDisruption.editExistsInDb) {
+        if (!disruption?.editExistsInDb) {
             await trx
                 .insertInto("consequencesEdited")
                 .values(currentDisruption.consequences.map(mapConsequenceToDb))
@@ -392,12 +403,15 @@ export const upsertConsequence = async (
         })...`,
     );
 
-    const dbClient = getDbClient();
+    const dbClient = getDbClient(true);
 
-    const currentDisruption = await getDbDisruption(consequence.disruptionId, orgId);
+    const disruption = await getDbDisruption(consequence.disruptionId, orgId);
+    const currentDisruption = disruption?.editedDisruption ?? disruption;
     const maxConsequenceIndex = Math.max(
-        currentDisruption?.consequences?.reduce((p, c) => (p.consequenceIndex > c.consequenceIndex ? p : c))
-            .consequenceIndex ?? 0,
+        currentDisruption?.consequences && currentDisruption.consequences.length > 0
+            ? currentDisruption?.consequences.reduce((p, c) => (p.consequenceIndex > c.consequenceIndex ? p : c))
+                  .consequenceIndex
+            : 0,
         consequence.consequenceIndex,
     );
 
@@ -488,16 +502,25 @@ export const upsertConsequence = async (
         });
     }
 
-    if (currentDisruption.editExistsInDb) {
-        await dbClient
-            .insertInto("consequencesEdited")
-            .values(newConsequence)
-            .onConflict((oc) =>
-                oc
-                    .columns(["disruptionId", "consequenceIndex"])
-                    .doUpdateSet((eb) => createConsequenceConflictMapping(eb, newConsequence)),
-            )
-            .executeTakeFirstOrThrow();
+    if (disruption?.editExistsInDb) {
+        await dbClient.transaction().execute(async (trx) => {
+            await trx
+                .insertInto("consequencesEdited")
+                .values(newConsequence)
+                .onConflict((oc) =>
+                    oc
+                        .columns(["disruptionId", "consequenceIndex"])
+                        .doUpdateSet((eb) => createConsequenceConflictMapping(eb, newConsequence)),
+                )
+                .execute();
+
+            await trx
+                .updateTable("disruptionsEdited")
+                .set({
+                    history: json(history),
+                })
+                .execute();
+        });
 
         return maxConsequenceIndex;
     }
@@ -509,6 +532,7 @@ export const upsertConsequence = async (
                 mapDisruptionToDb({
                     ...currentDisruption,
                     publishStatus: isPending ? PublishStatus.pendingAndEditing : PublishStatus.editing,
+                    history,
                 }),
             )
             .onConflict((oc) =>
@@ -540,9 +564,10 @@ export const upsertSocialMediaPost = async (
 ) => {
     logger.info(`Updating socialMediaPost index ${socialMediaPost.socialMediaPostIndex} in disruption (${orgId})...`);
 
-    const dbClient = getDbClient();
+    const dbClient = getDbClient(true);
 
-    const currentDisruption = await getDbDisruption(socialMediaPost.disruptionId, orgId);
+    const disruption = await getDbDisruption(socialMediaPost.disruptionId, orgId);
+    const currentDisruption = disruption?.editedDisruption ?? disruption;
 
     if (!currentDisruption) {
         throw new Error("Disruption not found");
@@ -567,7 +592,7 @@ export const upsertSocialMediaPost = async (
     const isEditing =
         !isPublishing && currentDisruption?.publishStatus && currentDisruption?.publishStatus !== PublishStatus.draft;
 
-    if (isEditing && !currentDisruption?.editExistsInDb) {
+    if (isEditing && !disruption?.editExistsInDb) {
         await dbClient.transaction().execute(async (trx) => {
             await trx
                 .insertInto("disruptionsEdited")
@@ -606,9 +631,10 @@ export const removeSocialMediaPostFromDisruption = async (
 ) => {
     logger.info(`Removing socialMediaPost ${index} in disruption (${disruptionId})...`);
 
-    const dbClient = getDbClient();
+    const dbClient = getDbClient(true);
 
-    const currentDisruption = await getDbDisruption(disruptionId, orgId);
+    const disruption = await getDbDisruption(disruptionId, orgId);
+    const currentDisruption = disruption?.editedDisruption ?? disruption;
 
     const currentSocialMediaPosts = socialMediaPostSchema.array().parse(currentDisruption?.socialMediaPosts);
     const newSocialMediaPosts = currentSocialMediaPosts?.filter((post) => post.socialMediaPostIndex !== index);
@@ -620,7 +646,7 @@ export const removeSocialMediaPostFromDisruption = async (
     const isEditing =
         !isPublishing && currentDisruption?.publishStatus && currentDisruption?.publishStatus !== PublishStatus.draft;
 
-    if (isEditing && !currentDisruption?.editExistsInDb) {
+    if (isEditing && !disruption?.editExistsInDb) {
         await dbClient.transaction().execute(async (trx) => {
             await trx
                 .insertInto("disruptionsEdited")
@@ -653,7 +679,7 @@ export const removeSocialMediaPostFromDisruption = async (
 export const publishEditedDisruption = async (disruptionId: string, orgId: string, user: string) => {
     logger.info(`Publishing edited disruption ${disruptionId}...`);
 
-    const dbClient = getDbClient();
+    const dbClient = getDbClient(true);
 
     await dbClient.transaction().execute(async (trx) => {
         const editedDisruption = await trx
@@ -688,6 +714,8 @@ export const publishEditedDisruption = async (disruptionId: string, orgId: strin
             .insertInto("disruptions")
             .values({
                 ...mapDisruptionToDb(editedDisruption),
+                publishStatus: PublishStatus.published,
+                lastUpdated: getDate().toISOString(),
                 history: json(history),
             })
             .execute();
@@ -702,7 +730,7 @@ export const publishEditedDisruption = async (disruptionId: string, orgId: strin
 export const publishEditedDisruptionIntoPending = async (disruptionId: string, orgId: string, user: string) => {
     logger.info(`Publishing edited disruption ${disruptionId} to pending status...`);
 
-    const dbClient = getDbClient();
+    const dbClient = getDbClient(true);
 
     const currentDisruption = await getDisruptionById(disruptionId, orgId);
 
@@ -730,7 +758,7 @@ export const publishEditedDisruptionIntoPending = async (disruptionId: string, o
 export const deleteEditedDisruption = async (disruptionId: string, orgId: string) => {
     logger.info(`Deleting edited disruption (${disruptionId})...`);
 
-    const dbClient = getDbClient();
+    const dbClient = getDbClient(true);
 
     await dbClient
         .deleteFrom("disruptionsEdited")
@@ -742,7 +770,7 @@ export const deleteEditedDisruption = async (disruptionId: string, orgId: string
 export const isDisruptionInEdit = async (disruptionId: string, orgId: string) => {
     logger.info(`Check if there are any edit records for disruption (${disruptionId})...`);
 
-    const dbClient = getDbClient();
+    const dbClient = getDbClient(true);
 
     const disruption = await dbClient
         .selectFrom("disruptionsEdited")
@@ -760,7 +788,7 @@ export const getDisruptionInfoByPermitReferenceNumber = async (
 ): Promise<Disruption | null> => {
     logger.info(`Retrieving disruption info associated with road permit reference (${permitReferenceNumber})...`);
 
-    const dbClient = getDbClient();
+    const dbClient = getDbClient(true);
 
     const disruptionInfo = await dbClient
         .selectFrom("disruptions")

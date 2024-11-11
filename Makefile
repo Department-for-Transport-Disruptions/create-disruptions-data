@@ -1,11 +1,9 @@
 stage = $(shell cat ./.sst/stage)
 
-export PRISMA_CLI_BINARY_TARGETS := linux-arm64-openssl-3.0.x
-
 start-sst:
 	pnpm run dev
 
-start-site:
+start-site: kill-site
 	pnpm --filter @create-disruptions-data/site run dev
 
 install-deps:
@@ -44,14 +42,6 @@ dev-containers-stop-%:
 run-ui-tests:
 	pnpm playwright test --ui
 
-prisma-migrate-dev:
-	pnpm --filter @create-disruptions-data/shared-ts run prisma:migrate
-
-prisma-format:
-	pnpm --filter @create-disruptions-data/shared-ts run prisma:format
-
-start-dev: dev-containers-up prisma-migrate-dev kill-site start-site
-
 bastion-tunnel:
 	./scripts/bastion-tunnel.sh
 
@@ -59,10 +49,18 @@ get-db-credentials:
 	./scripts/get-db-credentials.sh
 
 update-secrets:
-	./scripts/update-secrets.sh $(STAGE)
+	./scripts/update-secrets.sh $(stage)
 
 sst-deploy:
-	pnpm sst deploy --stage $(STAGE)
+	pnpm sst deploy --stage $(TARGET_STAGE)
 
-migrate-remote-db:
-	aws lambda invoke --function-name cdd-prisma-migrator-$(STAGE) --log-type Tail  response.txt | jq -r .LogResult | base64 --decode
+create-local-database:
+	aws lambda invoke --function-name cdd-local-database-creator-$(stage) --log-type Tail /tmp/response.txt > /dev/null
+
+migrate-local-database:
+	aws lambda invoke --function-name cdd-kysely-db-migrator-migrate-$(stage) --log-type Tail /tmp/response.txt > /dev/null
+
+rolback-local-database:
+	aws lambda invoke --function-name cdd-kysely-db-migrator-rollback-$(stage) --log-type Tail /tmp/response.txt > /dev/null
+
+setup-dev: update-secrets create-local-database migrate-local-database

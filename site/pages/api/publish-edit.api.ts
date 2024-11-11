@@ -61,7 +61,7 @@ const publishEdit = async (req: NextApiRequest, res: NextApiResponse) => {
         if (!validatedDisruptionBody.success) {
             setCookieOnResponseObject(
                 COOKIES_DISRUPTION_DETAIL_ERRORS,
-                JSON.stringify(flattenZodErrors(validatedDisruptionBody.error)),
+                JSON.stringify({ errors: flattenZodErrors(validatedDisruptionBody.error) }),
                 res,
             );
 

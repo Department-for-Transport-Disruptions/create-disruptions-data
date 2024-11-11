@@ -1,30 +1,22 @@
 import { CamelCasePlugin, Expression, ExpressionBuilder, Kysely, OperationNode, PostgresDialect, sql } from "kysely";
 import { jsonArrayFrom, jsonObjectFrom } from "kysely/helpers/postgres";
-import { Pool } from "pg";
+import pg from "pg";
 import { Config } from "sst/node/config";
 import { Database } from "../db/types";
 
-export let dbClient: Kysely<Database> | null = null;
+const { Pool } = pg;
 
-export const getDbClient = () => {
-    if (dbClient) {
-        return dbClient;
-    }
-
+export const getDbClient = (isSite = false, databaseName?: string) => {
     const dialect = new PostgresDialect({
         pool: new Pool({
-            database: "disruptions",
-            connectionString: Config.DB_CONNECTION_STRING,
-            max: 1,
+            connectionString: `postgresql://${encodeURIComponent(Config.DB_USERNAME)}:${encodeURIComponent(Config.DB_PASSWORD)}@${isSite ? Config.DB_SITE_HOST : Config.DB_HOST}:${isSite ? Config.DB_SITE_PORT : Config.DB_PORT}/${databaseName ?? Config.DB_NAME}`,
         }),
     });
 
-    dbClient = new Kysely<Database>({
+    return new Kysely<Database>({
         dialect,
         plugins: [new CamelCasePlugin()],
     });
-
-    return dbClient;
 };
 
 export default class JsonValue<T> implements Expression<T> {

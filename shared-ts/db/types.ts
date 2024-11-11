@@ -58,7 +58,7 @@ export interface ConsequencesTable {
     services: JSONColumnType<Service[]>;
     stops: JSONColumnType<Stop[]>;
     consequenceOperators: JSONColumnType<ConsequenceOperators[]>;
-    disruptionArea: string[];
+    disruptionArea: JSONColumnType<string[]>;
     journeys: JSONColumnType<Journey[]>;
 }
 
