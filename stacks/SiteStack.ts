@@ -4,7 +4,7 @@ import { SnsAction } from "aws-cdk-lib/aws-cloudwatch-actions";
 import { SubnetType } from "aws-cdk-lib/aws-ec2";
 import { AccessKey, ManagedPolicy, PolicyStatement, User } from "aws-cdk-lib/aws-iam";
 import { Secret } from "aws-cdk-lib/aws-secretsmanager";
-import { Cron, Function, NextjsSite, StackContext, use } from "sst/constructs";
+import { Config, Cron, Function, NextjsSite, StackContext, use } from "sst/constructs";
 import { getDomain } from "../shared-ts/utils/domain";
 import { CognitoStack } from "./CognitoStack";
 import { DynamoDBStack } from "./DynamoDBStack";
@@ -19,7 +19,7 @@ export const SiteStack = ({ stack }: StackContext) => {
     const { clientId, clientSecret, cognitoIssuer, userPoolId, userPoolArn } = use(CognitoStack);
     const { orgDisruptionsBucket } = use(OrgDisruptionsGeneratorStack);
     const { alarmTopic } = use(MonitoringStack);
-    const { dbConnectionStringSecret } = use(RdsStack);
+    const { dbUsernameSecret, dbPasswordSecret, dbNameSecret } = use(RdsStack);
     const { vpc, siteSg } = use(VpcStack);
 
     const siteImageBucket = createBucket(stack, "cdd-image-bucket", true);
@@ -62,6 +62,9 @@ export const SiteStack = ({ stack }: StackContext) => {
         secretStringValue: middlewareCognitoUserAccessKey.secretAccessKey,
     });
 
+    const dbSiteHostSecret = new Config.Secret(stack, "DB_SITE_HOST");
+    const dbSitePortSecret = new Config.Secret(stack, "DB_SITE_PORT");
+
     const site = new NextjsSite(stack, "Site", {
         path: "site/",
         runtime: "nodejs20.x",
@@ -73,18 +76,12 @@ export const SiteStack = ({ stack }: StackContext) => {
                     subnetType: SubnetType.PRIVATE_WITH_EGRESS,
                 },
                 securityGroups: [siteSg],
-                copyFiles: [
-                    {
-                        from: "./site/node_modules/@prisma",
-                        to: "./node_modules/@prisma",
-                    },
-                ],
             },
         },
         dev: {
             deploy: false,
         },
-        bind: [dbConnectionStringSecret],
+        bind: [dbUsernameSecret, dbPasswordSecret, dbSiteHostSecret, dbSitePortSecret, dbNameSecret],
         environment: {
             DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
             TEMPLATE_DISRUPTIONS_TABLE_NAME: templateDisruptionsTable.tableName,

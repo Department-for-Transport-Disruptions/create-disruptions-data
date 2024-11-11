@@ -1,7 +1,10 @@
 import { Kysely, sql } from "kysely";
-import { Database } from "../types";
 
-export async function up(db: Kysely<Database>): Promise<void> {
+/**
+ *
+ * @param {Kysely} db
+ */
+export async function up(db) {
     await db.schema
         .createTable("disruptions")
         .addColumn("id", "text", (col) => col.primaryKey())
@@ -26,12 +29,16 @@ export async function up(db: Kysely<Database>): Promise<void> {
         .addColumn("validity", "json")
         .addColumn("created_by_operator_org_id", "text")
         .addColumn("social_media_posts", "json")
-        .addColumn("history", "json", (col) => col.notNull())
+        .addColumn("history", "json")
         .addColumn("permit_reference_number", "text")
         .addColumn("associated_link", "text")
         .addColumn("template", "boolean", (col) => col.notNull().defaultTo(false))
-        .addColumn("creation_time", "timestamp", (col) => col.defaultTo(sql`now()`))
-        .addColumn("last_updated", "timestamp", (col) => col.defaultTo(sql`now()`))
+        .addColumn("creation_time", "text", (col) =>
+            col.defaultTo(sql`to_char (now()::timestamp at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"')`),
+        )
+        .addColumn("last_updated", "text", (col) =>
+            col.defaultTo(sql`to_char (now()::timestamp at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"')`),
+        )
         .execute();
 
     await db.schema
@@ -50,7 +57,10 @@ export async function up(db: Kysely<Database>): Promise<void> {
         .addColumn("consequence_operators", "json")
         .addColumn("disruption_area", "json")
         .addColumn("journeys", "json")
-        .addPrimaryKeyConstraint("pk_disruption_id_consequence_index", ["disruption_id", "consequence_index"])
+        .addPrimaryKeyConstraint("pk_consequences_disruption_id_consequence_index", [
+            "disruption_id",
+            "consequence_index",
+        ])
         .execute();
 
     await db.schema
@@ -77,12 +87,16 @@ export async function up(db: Kysely<Database>): Promise<void> {
         .addColumn("validity", "json")
         .addColumn("created_by_operator_org_id", "text")
         .addColumn("social_media_posts", "json")
-        .addColumn("history", "json", (col) => col.notNull())
+        .addColumn("history", "json")
         .addColumn("permit_reference_number", "text")
         .addColumn("associated_link", "text")
         .addColumn("template", "boolean", (col) => col.notNull().defaultTo(false))
-        .addColumn("creation_time", "timestamp", (col) => col.defaultTo(sql`now()`))
-        .addColumn("last_updated", "timestamp", (col) => col.defaultTo(sql`now()`))
+        .addColumn("creation_time", "text", (col) =>
+            col.defaultTo(sql`to_char (now()::timestamp at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"')`),
+        )
+        .addColumn("last_updated", "text", (col) =>
+            col.defaultTo(sql`to_char (now()::timestamp at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS"Z"')`),
+        )
         .execute();
 
     await db.schema
@@ -103,7 +117,10 @@ export async function up(db: Kysely<Database>): Promise<void> {
         .addColumn("consequence_operators", "json")
         .addColumn("disruption_area", "json")
         .addColumn("journeys", "json")
-        .addPrimaryKeyConstraint("pk_disruption_id_consequence_index", ["disruption_id", "consequence_index"])
+        .addPrimaryKeyConstraint("pk_consequences_edited_disruption_id_consequence_index", [
+            "disruption_id",
+            "consequence_index",
+        ])
         .execute();
 
     await db.schema.createIndex("idx_disruptions_org_id").on("disruptions").column("org_id").execute();
@@ -127,7 +144,11 @@ export async function up(db: Kysely<Database>): Promise<void> {
         .execute();
 }
 
-export async function down(db: Kysely<Database>): Promise<void> {
+/**
+ *
+ * @param {Kysely} db
+ */
+export async function down(db) {
     await db.schema.dropTable("consequences_edited").execute();
     await db.schema.dropTable("disruptions_edited").execute();
     await db.schema.dropTable("consequences").execute();

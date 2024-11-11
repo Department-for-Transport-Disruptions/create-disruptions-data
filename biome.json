@@ -67,6 +67,16 @@
                     }
                 }
             }
+        },
+        {
+            "include": ["./shared-ts/db/migrations/*"],
+            "linter": {
+                "rules": {
+                    "correctness": {
+                        "noUnusedImports": "off"
+                    }
+                }
+            }
         }
     ]
 }
