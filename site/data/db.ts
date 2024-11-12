@@ -95,12 +95,7 @@ export const getPublishedDisruptionsData = async (orgId: string): Promise<FullDi
     return makeFilteredArraySchema(fullDisruptionSchema).parse(disruptions);
 };
 
-export const getDisruptionsData = async (
-    orgId: string,
-    isTemplate = false,
-    pageSize?: number,
-    offset?: number,
-): Promise<FullDisruption[]> => {
+export const getDisruptionsData = async (orgId: string, isTemplate = false): Promise<FullDisruption[]> => {
     logger.info(`Getting disruptions data from database for org ${orgId}...`);
 
     const dbClient = getDbClient(true);
@@ -111,8 +106,6 @@ export const getDisruptionsData = async (
         .select((eb) => [withConsequences(eb)])
         .where("disruptions.orgId", "=", orgId)
         .where("disruptions.template", "=", isTemplate)
-        .limit(pageSize ?? 10)
-        .offset(offset ?? 0)
         .execute();
 
     return fullDisruptionSchema.array().parse(disruptions);
@@ -338,6 +331,7 @@ export const upsertDisruptionInfo = async (
             orgId,
             validity: json(disruptionInfo.validity),
             history: json([]),
+            template: isTemplate ?? false,
         };
 
         await dbClient
@@ -368,6 +362,7 @@ export const upsertDisruptionInfo = async (
         history: json(history),
         orgId,
         validity: json(disruptionInfo.validity),
+        template: currentDisruption.template,
     };
 
     await dbClient.transaction().execute(async (trx) => {
