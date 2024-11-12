@@ -218,7 +218,7 @@ const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResp
         return;
     }
 
-    const disruptions = await getDisruptionsData(sessionOrgId, template === "true", 10, 0);
+    const disruptions = await getDisruptionsData(sessionOrgId, template === "true");
 
     let disruptionsData = disruptions;
 
