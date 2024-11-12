@@ -11,10 +11,10 @@ import { makeFilteredArraySchema } from "./zod";
 
 const { Pool } = pg;
 
-export const getDbClient = (isSite = false) => {
+export const getDbClient = (isSite = false, databaseName?: string) => {
     const dialect = new PostgresDialect({
         pool: new Pool({
-            connectionString: `postgresql://${encodeURIComponent(Config.DB_USERNAME)}:${encodeURIComponent(Config.DB_PASSWORD)}@${isSite ? Config.DB_SITE_HOST : Config.DB_HOST}:${isSite ? Config.DB_SITE_PORT : Config.DB_PORT}/${Config.DB_NAME}`,
+            connectionString: `postgresql://${encodeURIComponent(Config.DB_USERNAME)}:${encodeURIComponent(Config.DB_PASSWORD)}@${isSite ? Config.DB_SITE_HOST : Config.DB_HOST}:${isSite ? Config.DB_SITE_PORT : Config.DB_PORT}/${databaseName ?? Config.DB_NAME}`,
         }),
     });
 

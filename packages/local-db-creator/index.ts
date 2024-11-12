@@ -5,7 +5,7 @@ import * as logger from "lambda-log";
 import { Config } from "sst/node/config";
 
 export const main: Handler = async () => {
-    const db = await getDbClient();
+    const db = await getDbClient(false, "disruptions");
 
     try {
         const dbName = Config.DB_NAME;

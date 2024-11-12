@@ -31,9 +31,13 @@ secret=$(aws secretsmanager get-secret-value --secret-id $SECRET_ARN | jq -r '.S
 username=$(echo $secret | jq -r '.username')
 password=$(echo $secret | jq -r '.password')
 
+encoded_password=$(printf %s "$password" | jq -rR @uri)
+
 if [ "$is_user_env" = true ]; then
     pnpm sst secrets set DB_SITE_HOST localhost --stage $stage
     pnpm sst secrets set DB_SITE_PORT 35432 --stage $stage
+
+    echo "DATABASE_URL=postgresql://${username}:${encoded_password}@localhost:35432/$db_name" > "$(dirname "$0")/../shared-ts/.env"
 else
     pnpm sst secrets set DB_SITE_HOST db.cdd.internal --stage $stage
     pnpm sst secrets set DB_SITE_PORT 5432 --stage $stage

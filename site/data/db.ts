@@ -78,12 +78,7 @@ const createConsequenceConflictMapping = (
     return Object.fromEntries(keys.map((key) => [key, eb.ref(`excluded.${key}`)]));
 };
 
-export const getDisruptionsData = async (
-    orgId: string,
-    isTemplate = false,
-    pageSize?: number,
-    offset?: number,
-): Promise<FullDisruption[]> => {
+export const getDisruptionsData = async (orgId: string, isTemplate = false): Promise<FullDisruption[]> => {
     logger.info(`Getting disruptions data from database for org ${orgId}...`);
 
     const dbClient = getDbClient(true);
@@ -94,8 +89,6 @@ export const getDisruptionsData = async (
         .select((eb) => [withConsequences(eb)])
         .where("disruptions.orgId", "=", orgId)
         .where("disruptions.template", "=", isTemplate)
-        .limit(pageSize ?? 10)
-        .offset(offset ?? 0)
         .execute();
 
     return fullDisruptionSchema.array().parse(disruptions);
@@ -331,6 +324,7 @@ export const upsertDisruptionInfo = async (
             validity: json(disruptionInfo.validity),
             history: json([]),
             version: currentDisruption?.version,
+            template: isTemplate ?? false,
         };
 
         await dbClient
@@ -362,6 +356,7 @@ export const upsertDisruptionInfo = async (
         orgId,
         validity: json(disruptionInfo.validity),
         version: currentDisruption.version,
+        template: currentDisruption.template,
     };
 
     await dbClient.transaction().execute(async (trx) => {
