@@ -33,10 +33,7 @@ export const checkOverlap = (
     );
 };
 
-export const isCurrentOrUpcomingDisruption = (
-    publishEndDate: string | undefined,
-    publishEndTime: string | undefined,
-) => {
+export const isCurrentOrUpcomingDisruption = (publishEndDate?: string | null, publishEndTime?: string | null) => {
     const currentDatetime = getDate();
 
     if (publishEndDate && publishEndTime) {

@@ -113,18 +113,27 @@ exports[`SIRI-SX Generator > correctly generates Disruptions JSON 1`] = `
       {
         "datetime": "2023-05-19T14:40:00Z",
         "historyItems": [
-          "some text",
+          "Some Text",
         ],
         "status": "PENDING_APPROVAL",
-        "user": "user",
+        "user": "Test User 1",
       },
       {
         "datetime": "2023-05-13T14:45:00Z",
         "historyItems": [
           "Disruption created and published",
+          "Some More Text",
         ],
         "status": "PUBLISHED",
-        "user": "user",
+        "user": "Test User 3",
+      },
+      {
+        "datetime": "2023-05-11T14:40:00Z",
+        "historyItems": [
+          "Some Text",
+        ],
+        "status": "PENDING_APPROVAL",
+        "user": "Test User 1",
       },
     ],
     "id": "acde070d-8c4c-4f0d-9d8a-162843c10333",
@@ -148,6 +157,7 @@ exports[`SIRI-SX Generator > correctly generates Disruptions JSON 1`] = `
         "disruptionStartTime": "1200",
       },
     ],
+    "version": 2,
   },
 ]
 `;

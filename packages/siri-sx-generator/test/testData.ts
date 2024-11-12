@@ -1,4 +1,4 @@
-import { Consequence, DisruptionInfo } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Consequence, Disruption, DisruptionInfo } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import {
     Datasource,
     DayType,
@@ -270,9 +270,7 @@ export const emptySiri = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?
 
 export const orgId = "6f6435e3-a485-4c8c-8c29-e121b1e76802";
 
-export const consequenceInfoOperatorTest = {
-    PK: orgId,
-    SK: "acde070d-8c4c-4f0d-9d8a-162843c10333#CONSEQUENCE#0",
+export const consequenceInfoOperatorTest: Consequence = {
     consequenceIndex: 0,
     disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
     consequenceType: "operatorWide",
@@ -284,9 +282,7 @@ export const consequenceInfoOperatorTest = {
     disruptionDelay: "40",
 };
 
-export const consequenceInfoNetworkTest = {
-    PK: orgId,
-    SK: "acde070d-8c4c-4f0d-9d8a-162843c10333#CONSEQUENCE#1",
+export const consequenceInfoNetworkTest: Consequence = {
     consequenceIndex: 1,
     disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
     consequenceType: "networkWide",
@@ -297,10 +293,8 @@ export const consequenceInfoNetworkTest = {
     disruptionArea: ["082", "002"],
 };
 
-export const consequenceInfoServiceTest = {
+export const consequenceInfoServiceTest: Consequence = {
     consequenceIndex: 2,
-    PK: orgId,
-    SK: "acde070d-8c4c-4f0d-9d8a-162843c10333#CONSEQUENCE#2",
     consequenceType: "services",
     disruptionDirection: "allDirections",
     services: [
@@ -325,9 +319,7 @@ export const consequenceInfoServiceTest = {
     vehicleMode: VehicleMode.rail,
 };
 
-export const consequenceInfoJourneysTest = {
-    PK: orgId,
-    SK: "acde070d-8c4c-4f0d-9d8a-162843c10333#CONSEQUENCE#3",
+export const consequenceInfoJourneysTest: Consequence = {
     disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
     description:
         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
@@ -392,11 +384,62 @@ export const disruptionHistoryInfoPendingApproval = {
     PK: orgId,
 };
 
-export const disruption = {
-    PK: orgId,
-    SK: "acde070d-8c4c-4f0d-9d8a-162843c10333#INFO",
+export const disruption: Disruption = {
     publishStatus: PublishStatus.published,
-    disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+    id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+    description: "Test description",
+    disruptionType: "planned",
+    summary: "Some summary",
+    disruptionReason: PersonnelReason.staffInWrongPlace,
+    validity: [
+        {
+            disruptionStartDate: "10/03/2023",
+            disruptionStartTime: "1200",
+            disruptionEndDate: "17/03/2023",
+            disruptionEndTime: "1700",
+        },
+    ],
+    publishStartDate: "10/03/2023",
+    publishStartTime: "1200",
+    disruptionStartDate: "18/03/2023",
+    disruptionStartTime: "1200",
+    disruptionNoEndDateTime: "true",
+    consequences: [
+        consequenceInfoOperatorTest,
+        consequenceInfoNetworkTest,
+        consequenceInfoServiceTest,
+        consequenceInfoJourneysTest,
+    ],
+    displayId: "8fg3ha",
+    orgId: orgId,
+    template: false,
+    version: 2,
+    history: [
+        {
+            datetime: "2023-05-19T14:40:00Z",
+            status: PublishStatus.pendingApproval,
+            user: "Test User 1",
+            historyItems: ["Some Text"],
+        },
+        {
+            datetime: "2023-05-13T14:45:00Z",
+            status: PublishStatus.published,
+            user: "Test User 3",
+            historyItems: ["Disruption created and published", "Some More Text"],
+        },
+        {
+            datetime: "2023-05-11T14:40:00Z",
+            status: PublishStatus.pendingApproval,
+            user: "Test User 1",
+            historyItems: ["Some Text"],
+        },
+    ],
+    lastUpdated: "2023-05-11T14:40:00Z",
+};
+
+export const invalidDisruption1 = {
+    publishStatus: "INVALID",
+    id: "fcbf40b2-8a13-4f96-9306-0a89036146bf",
     description: "Test description",
     disruptionType: "planned",
     summary: "Some summary",
@@ -417,70 +460,23 @@ export const disruption = {
     consequences: [],
     displayId: "8fg3ha",
     orgId: orgId,
+    template: false,
     history: [
         {
             datetime: "2023-05-19T14:40:00Z",
-            status: "PENDING_APPROVAL",
+            status: PublishStatus.pendingApproval,
             user: "Test User 1",
             historyItems: ["Some Text"],
         },
         {
             datetime: "2023-05-13T14:45:00Z",
-            status: "PUBLISHED",
+            status: PublishStatus.published,
             user: "Test User 3",
             historyItems: ["Disruption created and published", "Some More Text"],
         },
         {
             datetime: "2023-05-11T14:40:00Z",
-            status: "PENDING_APPROVAL",
-            user: "Test User 1",
-            historyItems: ["Some Text"],
-        },
-    ],
-    lastUpdated: "2023-05-11T14:40:00Z",
-};
-
-export const invalidDisruption1 = {
-    PK: orgId,
-    SK: "fcbf40b2-8a13-4f96-9306-0a89036146bf#INFO",
-    publishStatus: PublishStatus.published,
-    disruptionId: "fcbf40b2-8a13-4f96-9306-0a89036146bf",
-    description: "Test description",
-    disruptionType: "planned",
-    summary: "Some summary",
-    disruptionReason: PersonnelReason.staffInWrongPlace,
-    validity: [
-        {
-            disruptionStartDate: "10/03/2023",
-            disruptionStartTime: "1200",
-            disruptionEndDate: "17/03/2023",
-            disruptionEndTime: "1700",
-        },
-    ],
-    publishStartDate: "10/03/2023",
-    publishStartTime: "1200",
-    disruptionStartDate: "18/03/2023",
-    disruptionStartTime: "1200",
-    disruptionNoEndDateTime: "",
-    consequences: [],
-    displayId: "8fg3ha",
-    orgId: orgId,
-    history: [
-        {
-            datetime: "2023-05-19T14:40:00Z",
-            status: "PENDING_APPROVAL",
-            user: "Test User 1",
-            historyItems: ["Some Text"],
-        },
-        {
-            datetime: "2023-05-13T14:45:00Z",
-            status: "PUBLISHED",
-            user: "Test User 3",
-            historyItems: ["Disruption created and published", "Some More Text"],
-        },
-        {
-            datetime: "2023-05-11T14:40:00Z",
-            status: "PENDING_APPROVAL",
+            status: PublishStatus.pendingApproval,
             user: "Test User 1",
             historyItems: ["Some Text"],
         },
@@ -489,10 +485,8 @@ export const invalidDisruption1 = {
 };
 
 export const invalidDisruption2 = {
-    PK: orgId,
-    SK: "952ad8f9-c6f6-4ca2-a4e9-4554cbf69fb6#INFO",
     publishStatus: PublishStatus.published,
-    disruptionId: "952ad8f9-c6f6-4ca2-a4e9-4554cbf69fb6",
+    id: "952ad8f9-c6f6-4ca2-a4e9-4554cbf69fb6",
     description: "Test description",
     disruptionType: "planned",
     summary: "Some summary",
@@ -512,23 +506,24 @@ export const invalidDisruption2 = {
     disruptionNoEndDateTime: "true",
     consequences: [],
     displayId: "8fg3ha",
+    template: false,
     orgId: orgId,
     history: [
         {
             datetime: "2023-05-19T14:40:00Z",
-            status: "PENDING_APPROVAL",
+            status: PublishStatus.pendingApproval,
             user: "Test User 1",
             historyItems: ["Some Text"],
         },
         {
             datetime: "2023-05-13T14:45:00Z",
-            status: "PUBLISHED",
+            status: PublishStatus.published,
             user: "Test User 3",
             historyItems: ["Disruption created and published", "Some More Text"],
         },
         {
             datetime: "2023-05-11T14:40:00Z",
-            status: "PENDING_APPROVAL",
+            status: PublishStatus.pendingApproval,
             user: "Test User 1",
             historyItems: ["Some Text"],
         },
@@ -536,11 +531,9 @@ export const invalidDisruption2 = {
     lastUpdated: "2023-05-11T14:40:00Z",
 };
 
-export const draftDisruption = {
-    PK: orgId,
-    SK: "bd679c69-5a16-431f-8801-e6b9b526525a#INFO",
+export const draftDisruption: Disruption = {
     publishStatus: PublishStatus.draft,
-    disruptionId: "bd679c69-5a16-431f-8801-e6b9b526525a",
+    id: "bd679c69-5a16-431f-8801-e6b9b526525a",
     description: "Test description",
     disruptionType: "planned",
     summary: "Some summary",
@@ -561,14 +554,13 @@ export const draftDisruption = {
     consequences: [],
     displayId: "8fg3ha",
     orgId: orgId,
+    template: false,
     lastUpdated: "2023-05-11T14:40:00Z",
 };
 
-export const expiredDisruption = {
-    PK: orgId,
-    SK: "e6ea3e32-8fe5-4e18-869a-435752084ecd#INFO",
+export const expiredDisruption: Disruption = {
     publishStatus: PublishStatus.published,
-    disruptionId: "e6ea3e32-8fe5-4e18-869a-435752084ecd",
+    id: "e6ea3e32-8fe5-4e18-869a-435752084ecd",
     description: "Test description",
     disruptionType: "planned",
     summary: "Some summary",
@@ -585,22 +577,23 @@ export const expiredDisruption = {
     consequences: [],
     displayId: "8fg3ha",
     orgId: orgId,
+    template: false,
     history: [
         {
             datetime: "2023-05-19T14:40:00Z",
-            status: "PENDING_APPROVAL",
+            status: PublishStatus.pendingApproval,
             user: "Test User 1",
             historyItems: ["Some Text"],
         },
         {
             datetime: "2023-05-13T14:45:00Z",
-            status: "PUBLISHED",
+            status: PublishStatus.published,
             user: "Test User 3",
             historyItems: ["Disruption created and published", "Some More Text"],
         },
         {
             datetime: "2023-05-11T14:40:00Z",
-            status: "PENDING_APPROVAL",
+            status: PublishStatus.pendingApproval,
             user: "Test User 1",
             historyItems: ["Some Text"],
         },
@@ -608,26 +601,13 @@ export const expiredDisruption = {
     lastUpdated: "2023-05-11T14:40:00Z",
 };
 
-export const dbResponse = [
-    disruption,
-    consequenceInfoOperatorTest,
-    consequenceInfoNetworkTest,
-    consequenceInfoServiceTest,
-    consequenceInfoJourneysTest,
-    invalidDisruption1,
-    invalidDisruption2,
-    draftDisruption,
-    expiredDisruption,
-    disruptionHistoryInfoPendingApproval,
-    disruptionHistoryInfoCreated,
-];
-
-export const dbResponseWithCreationTime = [
-    { ...disruption, creationTime: "2023-05-13T14:45:00Z" },
-    consequenceInfoOperatorTest,
-    consequenceInfoNetworkTest,
-    invalidDisruption1,
-    invalidDisruption2,
-    draftDisruption,
+export const disruptions = [disruption, expiredDisruption];
+export const disruptionsWithCreationTime = [
+    {
+        ...disruption,
+        consequences: [consequenceInfoOperatorTest, consequenceInfoNetworkTest],
+        creationTime: "2023-05-13T14:45:00Z",
+        version: 1,
+    },
     expiredDisruption,
 ];

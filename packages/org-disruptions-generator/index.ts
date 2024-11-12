@@ -1,15 +1,15 @@
 import { randomUUID } from "crypto";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { filterActiveDisruptions, notEmpty } from "@create-disruptions-data/shared-ts/utils";
-import { getAllDisruptionsForOrg } from "@create-disruptions-data/shared-ts/utils/dynamo";
+import { getAllDisruptionsForOrg } from "@create-disruptions-data/shared-ts/utils/db";
 import { getServiceCentrePoint } from "@create-disruptions-data/shared-ts/utils/refDataApi";
 import { DynamoDBStreamEvent } from "aws-lambda";
 import * as logger from "lambda-log";
 
 const s3Client = new S3Client({ region: "eu-west-2" });
 
-const generateDisruptionsAndWriteToS3 = async (orgId: string, tableName: string, disruptionsBucketName: string) => {
-    const disruptions = await getAllDisruptionsForOrg(orgId, tableName, logger);
+const generateDisruptionsAndWriteToS3 = async (orgId: string, disruptionsBucketName: string) => {
+    const disruptions = await getAllDisruptionsForOrg(orgId);
 
     await s3Client.send(
         new PutObjectCommand({
@@ -112,9 +112,7 @@ export const main = async (event: DynamoDBStreamEvent) => {
 
         const orgIds = [...new Set(event.Records.map((record) => record.dynamodb?.Keys?.PK?.S).filter(notEmpty))];
 
-        await Promise.all(
-            orgIds.map((id) => generateDisruptionsAndWriteToS3(id, disruptionsTableName, orgDisruptionsBucketName)),
-        );
+        await Promise.all(orgIds.map((id) => generateDisruptionsAndWriteToS3(id, orgDisruptionsBucketName)));
     } catch (e) {
         if (e instanceof Error) {
             logger.error(e);

@@ -39,6 +39,7 @@ export interface DisruptionsTable {
     template: boolean | null;
     creationTime: string | null;
     lastUpdated: string | null;
+    version: number | null;
 }
 
 export type DisruptionDB = Selectable<DisruptionsTable>;

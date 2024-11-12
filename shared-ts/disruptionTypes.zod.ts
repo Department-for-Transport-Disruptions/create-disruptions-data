@@ -918,5 +918,6 @@ export const disruptionSchema = disruptionInfoSchemaRefined.and(
         lastUpdated: z.string().datetime().optional(),
         creationTime: z.string().datetime().optional(),
         history: z.array(historySchema).optional(),
+        version: z.number().nullish(),
     }),
 );

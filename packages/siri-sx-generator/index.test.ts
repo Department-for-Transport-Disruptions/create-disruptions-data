@@ -1,12 +1,12 @@
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
-import { DynamoDBDocumentClient, GetCommand, ScanCommand } from "@aws-sdk/lib-dynamodb";
+import { DynamoDBDocumentClient, GetCommand } from "@aws-sdk/lib-dynamodb";
 import * as util from "@create-disruptions-data/shared-ts/utils/refDataApi";
 import { mockClient } from "aws-sdk-client-mock";
 import Mockdate from "mockdate";
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import formatXml from "xml-formatter";
 import { generateSiriSxAndUploadToS3 } from ".";
-import { dbResponse, dbResponseWithCreationTime, orgId } from "./test/testData";
+import { disruptions, disruptionsWithCreationTime, orgId } from "./test/testData";
 
 const ddbMock = mockClient(DynamoDBDocumentClient);
 const s3Mock = mockClient(S3Client);
@@ -14,8 +14,16 @@ const s3Mock = mockClient(S3Client);
 describe("SIRI-SX Generator", () => {
     Mockdate.set("2023-08-17");
 
+    const hoisted = vi.hoisted(() => ({
+        getPublishedDisruptionsDataMock: vi.fn(),
+    }));
+
+    vi.mock("@create-disruptions-data/shared-ts/utils/db", async (importOriginal) => ({
+        ...(await importOriginal<typeof import("@create-disruptions-data/shared-ts/utils/db")>()),
+        getPublishedDisruptionsData: hoisted.getPublishedDisruptionsDataMock,
+    }));
+
     beforeAll(() => {
-        process.env.DISRUPTIONS_TABLE_NAME = "test-table";
         process.env.ORGANISATIONS_TABLE_NAME = "org-table";
         process.env.SIRI_SX_UNVALIDATED_BUCKET_NAME = "test-bucket";
         process.env.STAGE = "dev";
@@ -36,12 +44,11 @@ describe("SIRI-SX Generator", () => {
     });
 
     it("correctly generates SIRI-SX XML", async () => {
-        ddbMock.on(ScanCommand).resolves({ Items: dbResponse });
+        hoisted.getPublishedDisruptionsDataMock.mockResolvedValue(disruptions);
         ddbMock.on(GetCommand).resolves({ Item: { PK: orgId, name: "Test Org" } });
 
         await generateSiriSxAndUploadToS3(
             s3Mock as unknown as S3Client,
-            "test-table",
             "org-table",
             "test-bucket",
             "disruptions-json-bucket",
@@ -63,12 +70,11 @@ describe("SIRI-SX Generator", () => {
     });
 
     it("correctly generates SIRI-SX XML where creationDate is present", async () => {
-        ddbMock.on(ScanCommand).resolves({ Items: dbResponseWithCreationTime });
+        hoisted.getPublishedDisruptionsDataMock.mockResolvedValue(disruptionsWithCreationTime);
         ddbMock.on(GetCommand).resolves({ Item: { PK: orgId, name: "Test Org" } });
 
         await generateSiriSxAndUploadToS3(
             s3Mock as unknown as S3Client,
-            "test-table",
             "org-table",
             "test-bucket",
             "disruptions-json-bucket",
@@ -90,12 +96,11 @@ describe("SIRI-SX Generator", () => {
     });
 
     it("correctly generates Disruptions JSON", async () => {
-        ddbMock.on(ScanCommand).resolves({ Items: dbResponse });
+        hoisted.getPublishedDisruptionsDataMock.mockResolvedValue(disruptions);
         ddbMock.on(GetCommand).resolves({ Item: { PK: orgId, name: "Test Org" } });
 
         await generateSiriSxAndUploadToS3(
             s3Mock as unknown as S3Client,
-            "test-table",
             "org-table",
             "test-bucket",
             "disruptions-json-bucket",
@@ -113,12 +118,11 @@ describe("SIRI-SX Generator", () => {
     });
 
     it("correctly generates Disruptions CSV", async () => {
-        ddbMock.on(ScanCommand).resolves({ Items: dbResponse });
+        hoisted.getPublishedDisruptionsDataMock.mockResolvedValue(disruptions);
         ddbMock.on(GetCommand).resolves({ Item: { PK: orgId, name: "Test Org" } });
 
         await generateSiriSxAndUploadToS3(
             s3Mock as unknown as S3Client,
-            "test-table",
             "org-table",
             "test-bucket",
             "disruptions-json-bucket",

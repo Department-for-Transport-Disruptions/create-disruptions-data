@@ -17,7 +17,6 @@ import {
     withEditedConsequences,
     withEditedDisruption,
 } from "@create-disruptions-data/shared-ts/utils/db";
-import { makeFilteredArraySchema } from "@create-disruptions-data/shared-ts/utils/zod";
 import { ExpressionBuilder, OnConflictDatabase, OnConflictTables } from "kysely";
 
 import { TooManyConsequencesError } from "../errors";
@@ -79,22 +78,6 @@ const createConsequenceConflictMapping = (
     return Object.fromEntries(keys.map((key) => [key, eb.ref(`excluded.${key}`)]));
 };
 
-export const getPublishedDisruptionsData = async (orgId: string): Promise<FullDisruption[]> => {
-    logger.info("Getting disruptions data from database...");
-
-    const dbClient = getDbClient(true);
-
-    const disruptions = await dbClient
-        .selectFrom("disruptions")
-        .selectAll()
-        .select((eb) => [withConsequences(eb)])
-        .where("disruptions.orgId", "=", orgId)
-        .where("disruptions.publishStatus", "=", PublishStatus.published)
-        .execute();
-
-    return makeFilteredArraySchema(fullDisruptionSchema).parse(disruptions);
-};
-
 export const getDisruptionsData = async (
     orgId: string,
     isTemplate = false,
@@ -121,13 +104,22 @@ export const getDisruptionsData = async (
 export const getPublishedSocialMediaPosts = async (orgId: string): Promise<SocialMediaPost[]> => {
     logger.info("Getting published social media data...");
 
-    const disruptions = await getPublishedDisruptionsData(orgId);
+    const dbClient = getDbClient(true);
+
+    const disruptions = await dbClient
+        .selectFrom("disruptions")
+        .select(["socialMediaPosts", "publishEndDate", "publishEndTime"])
+        .where("disruptions.orgId", "=", orgId)
+        .where("disruptions.publishStatus", "=", PublishStatus.published)
+        .execute();
 
     const currentAndUpcomingDisruptions = disruptions.filter((disruption) =>
         isCurrentOrUpcomingDisruption(disruption.publishEndDate, disruption.publishEndTime),
     );
 
-    return currentAndUpcomingDisruptions.flatMap((item) => item.socialMediaPosts).filter(notEmpty);
+    return socialMediaPostSchema
+        .array()
+        .parse(currentAndUpcomingDisruptions.flatMap((item) => item.socialMediaPosts).filter(notEmpty));
 };
 
 export const deletePublishedDisruption = async (disruptionId: string, orgId: string) => {
@@ -301,7 +293,7 @@ export const publishDisruption = async (
 
     await dbClient
         .updateTable("disruptions")
-        .set({ publishStatus: status, history: json(fullHistory) })
+        .set({ publishStatus: status, history: json(fullHistory), version: 1 })
         .where("disruptions.id", "=", disruption.id)
         .where("disruptions.orgId", "=", orgId)
         .execute();
@@ -338,6 +330,7 @@ export const upsertDisruptionInfo = async (
             orgId,
             validity: json(disruptionInfo.validity),
             history: json([]),
+            version: currentDisruption?.version,
         };
 
         await dbClient
@@ -368,6 +361,7 @@ export const upsertDisruptionInfo = async (
         history: json(history),
         orgId,
         validity: json(disruptionInfo.validity),
+        version: currentDisruption.version,
     };
 
     await dbClient.transaction().execute(async (trx) => {
@@ -717,6 +711,7 @@ export const publishEditedDisruption = async (disruptionId: string, orgId: strin
                 publishStatus: PublishStatus.published,
                 lastUpdated: getDate().toISOString(),
                 history: json(history),
+                version: editedDisruption.version ? editedDisruption.version + 1 : 1,
             })
             .execute();
 
