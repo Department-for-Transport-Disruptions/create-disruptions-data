@@ -90,7 +90,7 @@ describe("duplicate-disruption API", () => {
 
     const upsertConsequenceSpy = vi.spyOn(db, "upsertConsequence");
     const upsertDisruptionInfoSpy = vi.spyOn(db, "upsertDisruptionInfo");
-    vi.mock("../../data/dynamo", () => ({
+    vi.mock("../../data/db", () => ({
         upsertConsequence: vi.fn(),
         upsertDisruptionInfo: vi.fn(),
         getDisruptionById: vi.fn(),

@@ -1,0 +1,18 @@
+{
+    "extends": "@tsconfig/node20/tsconfig.json",
+    "compilerOptions": {
+        "rootDir": ".",
+        "moduleResolution": "node",
+        "module": "CommonJS",
+        "isolatedModules": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "esModuleInterop": true,
+        "strict": true,
+        "target": "ES2020",
+        "preserveConstEnums": true,
+        "noEmit": true,
+        "resolveJsonModule": true
+    },
+    "include": ["@create-disruptions-data/shared-ts", "."]
+}

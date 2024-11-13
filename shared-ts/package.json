@@ -3,22 +3,23 @@
     "version": "0.1.0",
     "type": "module",
     "scripts": {
-        "generate-zod": "npx ts-to-zod ./siriTypes.ts ./siriTypes.zod.ts",
-        "prisma:migrate": "pnpm prisma migrate dev"
+        "generate-zod": "npx ts-to-zod ./siriTypes.ts ./siriTypes.zod.ts"
     },
     "dependencies": {
         "@aws-sdk/client-cognito-identity-provider": "^3.682.0",
         "@aws-sdk/client-s3": "^3.682.0",
         "@aws-sdk/client-ssm": "^3.682.0",
-        "@prisma/client": "5.21.1",
         "dayjs": "^1.11.7",
+        "kysely": "^0.27.4",
         "lambda-log": "^3.1.0",
-        "node-fetch": "^3.3.2"
+        "node-fetch": "^3.3.2",
+        "pg": "^8.13.1"
     },
     "devDependencies": {
         "@types/lambda-log": "^2.2.1",
-        "prisma": "^5.18.0",
-        "prisma-json-types-generator": "^3.0.4",
+        "@types/pg": "^8.11.10",
+        "dotenv": "^16.4.5",
+        "kysely-ctl": "^0.9.0",
         "vitest": "^2.1.4"
     }
 }

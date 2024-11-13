@@ -1,21 +1,26 @@
 import { Certificate } from "aws-cdk-lib/aws-certificatemanager";
 import { TreatMissingData } from "aws-cdk-lib/aws-cloudwatch";
 import { SnsAction } from "aws-cdk-lib/aws-cloudwatch-actions";
+import { SubnetType } from "aws-cdk-lib/aws-ec2";
 import { AccessKey, ManagedPolicy, PolicyStatement, User } from "aws-cdk-lib/aws-iam";
 import { Secret } from "aws-cdk-lib/aws-secretsmanager";
-import { Cron, Function, NextjsSite, StackContext, use } from "sst/constructs";
-import { getDomain, isSandbox } from "../shared-ts/utils/domain";
+import { Config, Cron, Function, NextjsSite, StackContext, use } from "sst/constructs";
+import { getDomain } from "../shared-ts/utils/domain";
 import { CognitoStack } from "./CognitoStack";
 import { DynamoDBStack } from "./DynamoDBStack";
 import { MonitoringStack } from "./MonitoringStack";
 import { OrgDisruptionsGeneratorStack } from "./OrgDisruptionsGenerator";
-import { createBucket } from "./utils";
+import { RdsStack } from "./RdsStack";
+import { VpcStack } from "./VpcStack";
+import { createBucket, isUserEnv } from "./utils";
 
 export const SiteStack = ({ stack }: StackContext) => {
     const { disruptionsTable, organisationsTableV2: organisationsTable, templateDisruptionsTable } = use(DynamoDBStack);
     const { clientId, clientSecret, cognitoIssuer, userPoolId, userPoolArn } = use(CognitoStack);
     const { orgDisruptionsBucket } = use(OrgDisruptionsGeneratorStack);
     const { alarmTopic } = use(MonitoringStack);
+    const { dbUsernameSecret, dbPasswordSecret, dbNameSecret } = use(RdsStack);
+    const { vpc, siteSg } = use(VpcStack);
 
     const siteImageBucket = createBucket(stack, "cdd-image-bucket", true);
 
@@ -57,13 +62,26 @@ export const SiteStack = ({ stack }: StackContext) => {
         secretStringValue: middlewareCognitoUserAccessKey.secretAccessKey,
     });
 
+    const dbSiteHostSecret = new Config.Secret(stack, "DB_SITE_HOST");
+    const dbSitePortSecret = new Config.Secret(stack, "DB_SITE_PORT");
+
     const site = new NextjsSite(stack, "Site", {
         path: "site/",
         runtime: "nodejs20.x",
         warm: stack.stage === "prod" || stack.stage === "preprod" ? 50 : 10,
+        cdk: {
+            server: {
+                vpc,
+                vpcSubnets: {
+                    subnetType: SubnetType.PRIVATE_WITH_EGRESS,
+                },
+                securityGroups: [siteSg],
+            },
+        },
         dev: {
             deploy: false,
         },
+        bind: [dbUsernameSecret, dbPasswordSecret, dbSiteHostSecret, dbSitePortSecret, dbNameSecret],
         environment: {
             DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
             TEMPLATE_DISRUPTIONS_TABLE_NAME: templateDisruptionsTable.tableName,
@@ -80,8 +98,8 @@ export const SiteStack = ({ stack }: StackContext) => {
             MIDDLEWARE_AWS_ACCESS_KEY_ID: middlewareCognitoUserAccessKey.accessKeyId,
             MIDDLEWARE_AWS_SECRET_ACCESS_KEY: middlewareCognitoUserSecret.secretValue.toString(),
             IMAGE_BUCKET_NAME: siteImageBucket.bucketName,
-            DOMAIN_NAME: `${isSandbox(stack.stage) ? "http://" : "https://"}${
-                isSandbox(stack.stage) ? "localhost:3000" : getDomain(stack.stage)
+            DOMAIN_NAME: `${isUserEnv(stack.stage) ? "http://" : "https://"}${
+                isUserEnv(stack.stage) ? "localhost:3000" : getDomain(stack.stage)
             }`,
             ORG_DISRUPTIONS_BUCKET_NAME: orgDisruptionsBucket.bucketName,
         },
@@ -89,7 +107,7 @@ export const SiteStack = ({ stack }: StackContext) => {
             domainName:
                 stack.stage === "prod"
                     ? prodDomain
-                    : isSandbox(stack.stage)
+                    : isUserEnv(stack.stage)
                       ? `${stack.stage}.${getDomain(stack.stage)}`
                       : getDomain(stack.stage),
             hostedZone: stack.stage !== "prod" ? getDomain(stack.stage) : undefined,

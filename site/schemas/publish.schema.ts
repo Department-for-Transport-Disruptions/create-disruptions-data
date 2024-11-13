@@ -25,7 +25,7 @@ export const publishDisruptionSchema = disruptionInfoSchemaRefined.and(
             .max(5, {
                 message: "Only up to 5 social media posts can be added",
             })
-            .optional(),
+            .nullish(),
     }),
 );
 

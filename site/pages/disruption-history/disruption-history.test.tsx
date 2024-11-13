@@ -46,7 +46,7 @@ const historyToSort: History[] = [
 describe("pages", () => {
     const getDisruptionSpy = vi.spyOn(db, "getDisruptionById");
 
-    vi.mock("../../data/dynamo", () => ({
+    vi.mock("../../data/db", () => ({
         getDisruptionById: vi.fn(),
     }));
 

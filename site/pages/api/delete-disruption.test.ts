@@ -22,7 +22,7 @@ describe("deleteDisruption", () => {
         cleardownCookies: vi.fn(),
     }));
 
-    vi.mock("../../data/dynamo", () => ({
+    vi.mock("../../data/db", () => ({
         deletePublishedDisruption: vi.fn(),
         getDisruptionById: vi.fn(),
     }));
