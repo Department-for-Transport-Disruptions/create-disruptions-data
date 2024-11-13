@@ -18,7 +18,6 @@ The site is deployed using [SST](https://sst.dev/), this allows the creation of 
 - Docker
 - awscli
 
-
 ### Process
 
 -   Authenticate against the target AWS account
