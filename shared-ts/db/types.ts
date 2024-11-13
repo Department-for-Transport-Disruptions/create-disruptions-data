@@ -27,10 +27,14 @@ export interface DisruptionsTable {
     disruptionStartTime: string;
     disruptionEndDate: string | null;
     disruptionEndTime: string | null;
-    disruptionNoEndDateTime: string | null;
-    disruptionRepeats: string | null;
+    disruptionNoEndDateTime: "true" | "" | null;
+    disruptionRepeats: "doesntRepeat" | "daily" | "weekly" | null;
     disruptionRepeatsEndDate: string | null;
     validity: JSONColumnType<Validity[]> | null;
+    validityStartTimestamp: Date;
+    validityEndTimestamp: Date | null;
+    publishStartTimestamp: Date;
+    publishEndTimestamp: Date | null;
     createdByOperatorOrgId: string | null;
     socialMediaPosts: JSONColumnType<object[]> | null;
     history: JSONColumnType<History[]> | null;

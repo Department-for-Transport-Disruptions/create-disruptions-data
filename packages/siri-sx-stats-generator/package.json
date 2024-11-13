@@ -17,6 +17,8 @@
     },
     "dependencies": {
         "@create-disruptions-data/shared-ts": "workspace:^",
-        "lambda-log": "^3.1.0"
+        "kysely": "^0.27.4",
+        "lambda-log": "^3.1.0",
+        "pg": "^8.13.1"
     }
 }

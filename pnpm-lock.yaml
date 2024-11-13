@@ -210,9 +210,15 @@ importers:
       '@create-disruptions-data/shared-ts':
         specifier: workspace:^
         version: link:../../shared-ts
+      kysely:
+        specifier: ^0.27.4
+        version: 0.27.4
       lambda-log:
         specifier: ^3.1.0
         version: 3.1.0
+      pg:
+        specifier: ^8.13.1
+        version: 8.13.1
     devDependencies:
       '@tsconfig/node20':
         specifier: ^20.1.2
@@ -238,9 +244,15 @@ importers:
       '@create-disruptions-data/shared-ts':
         specifier: workspace:^
         version: link:../../shared-ts
+      kysely:
+        specifier: ^0.27.4
+        version: 0.27.4
       lambda-log:
         specifier: ^3.1.0
         version: 3.1.0
+      pg:
+        specifier: ^8.13.1
+        version: 8.13.1
     devDependencies:
       '@tsconfig/node20':
         specifier: ^20.1.2
@@ -269,9 +281,15 @@ importers:
       '@create-disruptions-data/shared-ts':
         specifier: workspace:^
         version: link:../../shared-ts
+      kysely:
+        specifier: ^0.27.4
+        version: 0.27.4
       lambda-log:
         specifier: ^3.1.0
         version: 3.1.0
+      pg:
+        specifier: ^8.13.1
+        version: 8.13.1
     devDependencies:
       '@tsconfig/node20':
         specifier: ^20.1.2
@@ -306,9 +324,15 @@ importers:
       json-2-csv:
         specifier: ^4.1.0
         version: 4.1.1
+      kysely:
+        specifier: ^0.27.4
+        version: 0.27.4
       lambda-log:
         specifier: ^3.1.0
         version: 3.1.0
+      pg:
+        specifier: ^8.13.1
+        version: 8.13.1
       xml-formatter:
         specifier: ^3.3.0
         version: 3.6.3
@@ -410,9 +434,15 @@ importers:
       '@create-disruptions-data/shared-ts':
         specifier: workspace:^
         version: link:../../shared-ts
+      kysely:
+        specifier: ^0.27.4
+        version: 0.27.4
       lambda-log:
         specifier: ^3.1.0
         version: 3.1.0
+      pg:
+        specifier: ^8.13.1
+        version: 8.13.1
     devDependencies:
       '@tsconfig/node20':
         specifier: ^20.1.2
@@ -13522,6 +13552,14 @@ snapshots:
       chai: 5.1.2
       tinyrainbow: 1.2.0
 
+  '@vitest/mocker@2.1.4(vite@5.4.10(@types/node@18.19.39)(sass@1.77.6))':
+    dependencies:
+      '@vitest/spy': 2.1.4
+      estree-walker: 3.0.3
+      magic-string: 0.30.12
+    optionalDependencies:
+      vite: 5.4.10(@types/node@18.19.39)(sass@1.77.6)
+
   '@vitest/mocker@2.1.4(vite@5.4.10(@types/node@20.14.10)(sass@1.77.6))':
     dependencies:
       '@vitest/spy': 2.1.4
@@ -18090,7 +18128,7 @@ snapshots:
   vitest@2.1.4(@types/node@18.19.39)(jsdom@21.1.2)(sass@1.77.6):
     dependencies:
       '@vitest/expect': 2.1.4
-      '@vitest/mocker': 2.1.4(vite@5.4.10(@types/node@20.14.10)(sass@1.77.6))
+      '@vitest/mocker': 2.1.4(vite@5.4.10(@types/node@18.19.39)(sass@1.77.6))
       '@vitest/pretty-format': 2.1.4
       '@vitest/runner': 2.1.4
       '@vitest/snapshot': 2.1.4

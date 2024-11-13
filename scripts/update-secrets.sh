@@ -44,6 +44,7 @@ else
 fi
 
 pnpm sst secrets set DB_HOST db.cdd.internal --stage $stage
+pnpm sst secrets set DB_RO_HOST db-ro.cdd.internal --stage $stage
 pnpm sst secrets set DB_PORT 5432 --stage $stage
 pnpm sst secrets set DB_USERNAME $username --stage $stage
 pnpm sst secrets set DB_PASSWORD $password --stage $stage

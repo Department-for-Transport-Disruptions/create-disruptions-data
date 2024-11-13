@@ -15,11 +15,11 @@ import { isValidTime, setZodDefaultError, zodDate, zodTime, zodTimeInMinutes } f
 export const validitySchema = z.object({
     disruptionStartDate: zodDate("Invalid start date"),
     disruptionStartTime: zodTime("Invalid start time"),
-    disruptionEndDate: zodDate("Invalid disruption end date").optional().or(z.literal("")),
-    disruptionEndTime: zodTime("Invalid disruption end time").optional().or(z.literal("")),
-    disruptionNoEndDateTime: z.union([z.literal("true"), z.literal("")]).optional(),
-    disruptionRepeats: z.union([z.literal("doesntRepeat"), z.literal("daily"), z.literal("weekly")]).optional(),
-    disruptionRepeatsEndDate: zodDate("Invalid disruption end date").optional().or(z.literal("")),
+    disruptionEndDate: zodDate("Invalid disruption end date").nullish().or(z.literal("")),
+    disruptionEndTime: zodTime("Invalid disruption end time").nullish().or(z.literal("")),
+    disruptionNoEndDateTime: z.union([z.literal("true"), z.literal("")]).nullish(),
+    disruptionRepeats: z.union([z.literal("doesntRepeat"), z.literal("daily"), z.literal("weekly")]).nullish(),
+    disruptionRepeatsEndDate: zodDate("Invalid disruption end date").nullish().or(z.literal("")),
 });
 
 export const validitySchemaRefined = validitySchema

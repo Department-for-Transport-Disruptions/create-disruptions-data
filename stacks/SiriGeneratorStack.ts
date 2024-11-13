@@ -1,17 +1,22 @@
 import { TreatMissingData } from "aws-cdk-lib/aws-cloudwatch";
 import { SnsAction } from "aws-cdk-lib/aws-cloudwatch-actions";
+import { SubnetType } from "aws-cdk-lib/aws-ec2";
 import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { EventType, Bucket as S3Bucket } from "aws-cdk-lib/aws-s3";
 import { LambdaDestination } from "aws-cdk-lib/aws-s3-notifications";
 import { Cron, Function, StackContext, use } from "sst/constructs";
 import { DynamoDBStack } from "./DynamoDBStack";
 import { MonitoringStack } from "./MonitoringStack";
+import { RdsStack } from "./RdsStack";
+import { VpcStack } from "./VpcStack";
 import { createBucket } from "./utils";
 
 export const SiriGeneratorStack = ({ stack }: StackContext) => {
     const { disruptionsTable, organisationsTableV2: organisationsTable } = use(DynamoDBStack);
     const { siriGeneratorNamespace, siriPublishSuccessMetric, siriValidationFailureMetric, alarmTopic } =
         use(MonitoringStack);
+    const { dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret } = use(RdsStack);
+    const { vpc, lambdaSg } = use(VpcStack);
 
     const siriSXBucket = createBucket(stack, "cdd-siri-sx", true);
 
@@ -25,6 +30,7 @@ export const SiriGeneratorStack = ({ stack }: StackContext) => {
 
     const siriGenerator = new Function(stack, "cdd-siri-sx-generator", {
         functionName: `cdd-siri-sx-generator-${stack.stage}`,
+        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret],
         environment: {
             DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
             ORGANISATIONS_TABLE_NAME: organisationsTable.tableName,
@@ -52,6 +58,14 @@ export const SiriGeneratorStack = ({ stack }: StackContext) => {
                 actions: ["dynamodb:GetItem"],
             }),
         ],
+        vpc,
+        vpcSubnets: {
+            subnetType: SubnetType.PRIVATE_WITH_EGRESS,
+        },
+        securityGroups: [lambdaSg],
+        nodejs: {
+            install: ["pg", "kysely"],
+        },
         handler: "packages/siri-sx-generator/index.main",
         timeout: 60,
         memorySize: 1536,
@@ -65,6 +79,7 @@ export const SiriGeneratorStack = ({ stack }: StackContext) => {
 
     const siriStatsGenerator = new Function(stack, "cdd-siri-stats-generator", {
         functionName: `cdd-siri-stats-generator-${stack.stage}`,
+        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret],
         environment: {
             DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
             ORGANISATIONS_TABLE_NAME: organisationsTable.tableName,
@@ -80,6 +95,14 @@ export const SiriGeneratorStack = ({ stack }: StackContext) => {
                 actions: ["dynamodb:Scan", "dynamodb:TransactWriteItem", "dynamodb:PutItem"],
             }),
         ],
+        vpc,
+        vpcSubnets: {
+            subnetType: SubnetType.PRIVATE_WITH_EGRESS,
+        },
+        securityGroups: [lambdaSg],
+        nodejs: {
+            install: ["pg", "kysely"],
+        },
         handler: "packages/siri-sx-stats-generator/index.main",
         timeout: 60,
         memorySize: 1536,

@@ -1,11 +1,75 @@
 import { Tags } from "aws-cdk-lib";
-import { BastionHostLinux, BlockDeviceVolume, SubnetType } from "aws-cdk-lib/aws-ec2";
+import { BastionHostLinux, BlockDeviceVolume, ISecurityGroup, IVpc, SubnetType } from "aws-cdk-lib/aws-ec2";
+import { PolicyDocument, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
 import * as rds from "aws-cdk-lib/aws-rds";
 import { CnameRecord } from "aws-cdk-lib/aws-route53";
-import { Config, Function, StackContext, use } from "sst/constructs";
+import { Config, Function, Stack, StackContext, use } from "sst/constructs";
 import { DnsStack } from "./DnsStack";
 import { VpcStack } from "./VpcStack";
 import { isUserEnv } from "./utils";
+
+const createRdsProxy = (stack: Stack, cluster: rds.CfnDBCluster, vpc: IVpc, dbSg: ISecurityGroup) => {
+    let proxy: rds.CfnDBProxy | null = null;
+    let proxyReadEndpoint: rds.CfnDBProxyEndpoint | null = null;
+
+    if (stack.stage !== "prod" || !cluster.attrMasterUserSecretSecretArn || !cluster.dbClusterIdentifier) {
+        return {
+            proxy: null,
+            proxyReadEndpoint: null,
+        };
+    }
+
+    const rdsProxyRole = new Role(stack, "cdd-rds-proxy-role", {
+        assumedBy: new ServicePrincipal("rds.amazonaws.com"),
+        inlinePolicies: {
+            secretManagerAccess: new PolicyDocument({
+                statements: [
+                    new PolicyStatement({
+                        actions: ["secretsmanager:GetSecretValue"],
+                        resources: [cluster.attrMasterUserSecretSecretArn],
+                    }),
+                ],
+            }),
+        },
+    });
+
+    proxy = new rds.CfnDBProxy(stack, "cdd-rds-db-proxy", {
+        dbProxyName: `cdd-rds-db-proxy-${stack.stage}`,
+        engineFamily: "POSTGRESQL",
+        auth: [
+            {
+                authScheme: "SECRETS",
+                clientPasswordAuthType: "POSTGRES_SCRAM_SHA_256",
+                secretArn: cluster.attrMasterUserSecretSecretArn,
+            },
+        ],
+        vpcSubnetIds: vpc.isolatedSubnets.map((s) => s.subnetId),
+        roleArn: rdsProxyRole.roleArn,
+        vpcSecurityGroupIds: [dbSg.securityGroupId],
+    });
+
+    proxy.node.addDependency(rdsProxyRole);
+
+    const tg = new rds.CfnDBProxyTargetGroup(stack, "cdd-rds-proxy-target-group", {
+        dbProxyName: proxy?.dbProxyName ?? "",
+        targetGroupName: "default",
+        dbClusterIdentifiers: [cluster.dbClusterIdentifier],
+    });
+
+    tg.node.addDependency(proxy);
+
+    proxyReadEndpoint = new rds.CfnDBProxyEndpoint(stack, "cdd-rds-db-proxy-read-endpoint", {
+        dbProxyEndpointName: `cddrdsproxyreadendpoint${stack.stage}`,
+        dbProxyName: proxy.dbProxyName,
+        vpcSubnetIds: vpc.isolatedSubnets.map((s) => s.subnetId),
+        vpcSecurityGroupIds: [dbSg.securityGroupId],
+        targetRole: "READ_ONLY",
+    });
+
+    proxyReadEndpoint.node.addDependency(proxy);
+
+    return { proxy, proxyReadEndpoint };
+};
 
 export const RdsStack = ({ stack }: StackContext) => {
     const { vpc, dbSg, bastionSg, lambdaSg } = use(VpcStack);
@@ -14,61 +78,9 @@ export const RdsStack = ({ stack }: StackContext) => {
     const dbUsernameSecret = new Config.Secret(stack, "DB_USERNAME");
     const dbPasswordSecret = new Config.Secret(stack, "DB_PASSWORD");
     const dbHostSecret = new Config.Secret(stack, "DB_HOST");
+    const dbHostROSecret = new Config.Secret(stack, "DB_RO_HOST");
     const dbPortSecret = new Config.Secret(stack, "DB_PORT");
     const dbNameSecret = new Config.Secret(stack, "DB_NAME");
-
-    new Function(stack, "cdd-kysely-db-migrator-migrate-function", {
-        bind: [dbUsernameSecret, dbPasswordSecret, dbHostSecret, dbPortSecret, dbNameSecret],
-        functionName: `cdd-kysely-db-migrator-migrate-${stack.stage}`,
-        vpc,
-        vpcSubnets: {
-            subnetType: SubnetType.PRIVATE_WITH_EGRESS,
-        },
-        securityGroups: [lambdaSg],
-        handler: "packages/db-migrator/index.main",
-        timeout: 300,
-        memorySize: 512,
-        runtime: "nodejs20.x",
-        architecture: "arm_64",
-        enableLiveDev: false,
-        nodejs: {
-            install: ["pg", "kysely"],
-        },
-        copyFiles: [
-            {
-                from: "./shared-ts/db/migrations",
-                to: "./packages/db-migrator/migrations",
-            },
-        ],
-    });
-
-    new Function(stack, "cdd-kysely-db-migrator-rollback-function", {
-        bind: [dbUsernameSecret, dbPasswordSecret, dbHostSecret, dbPortSecret, dbNameSecret],
-        functionName: `cdd-kysely-db-migrator-rollback-${stack.stage}`,
-        vpc,
-        vpcSubnets: {
-            subnetType: SubnetType.PRIVATE_WITH_EGRESS,
-        },
-        securityGroups: [lambdaSg],
-        handler: "packages/db-migrator/index.main",
-        timeout: 300,
-        memorySize: 512,
-        runtime: "nodejs20.x",
-        architecture: "arm_64",
-        enableLiveDev: false,
-        nodejs: {
-            install: ["pg", "kysely"],
-        },
-        environment: {
-            ROLLBACK: "true",
-        },
-        copyFiles: [
-            {
-                from: "./shared-ts/db/migrations",
-                to: "./packages/db-migrator/migrations",
-            },
-        ],
-    });
 
     if (isUserEnv(stack.stage)) {
         new Function(stack, "cdd-local-database-creator-function", {
@@ -90,13 +102,73 @@ export const RdsStack = ({ stack }: StackContext) => {
             },
         });
     } else {
+        new Function(stack, "cdd-kysely-db-migrator-migrate-function", {
+            bind: [dbUsernameSecret, dbPasswordSecret, dbHostSecret, dbPortSecret, dbNameSecret],
+            functionName: `cdd-kysely-db-migrator-migrate-${stack.stage}`,
+            vpc,
+            vpcSubnets: {
+                subnetType: SubnetType.PRIVATE_WITH_EGRESS,
+            },
+            securityGroups: [lambdaSg],
+            handler: "packages/db-migrator/index.main",
+            timeout: 300,
+            memorySize: 512,
+            runtime: "nodejs20.x",
+            architecture: "arm_64",
+            enableLiveDev: false,
+            nodejs: {
+                install: ["pg", "kysely"],
+            },
+            copyFiles: [
+                {
+                    from: "./shared-ts/db/migrations",
+                    to: "./packages/db-migrator/migrations",
+                },
+            ],
+        });
+
+        new Function(stack, "cdd-kysely-db-migrator-rollback-function", {
+            bind: [dbUsernameSecret, dbPasswordSecret, dbHostSecret, dbPortSecret, dbNameSecret],
+            functionName: `cdd-kysely-db-migrator-rollback-${stack.stage}`,
+            vpc,
+            vpcSubnets: {
+                subnetType: SubnetType.PRIVATE_WITH_EGRESS,
+            },
+            securityGroups: [lambdaSg],
+            handler: "packages/db-migrator/index.main",
+            timeout: 300,
+            memorySize: 512,
+            runtime: "nodejs20.x",
+            architecture: "arm_64",
+            enableLiveDev: false,
+            nodejs: {
+                install: ["pg", "kysely"],
+            },
+            environment: {
+                ROLLBACK: "true",
+            },
+            copyFiles: [
+                {
+                    from: "./shared-ts/db/migrations",
+                    to: "./packages/db-migrator/migrations",
+                },
+            ],
+        });
+
         const cluster = new rds.DatabaseCluster(stack, "cdd-rds-db-cluster", {
             clusterIdentifier: `cdd-rds-db-cluster-${stack.stage}`,
             engine: rds.DatabaseClusterEngine.auroraPostgres({ version: rds.AuroraPostgresEngineVersion.VER_16_4 }),
             writer: rds.ClusterInstance.serverlessV2("cdd-rds-instance-1", {
-                publiclyAccessible: false,
+                enablePerformanceInsights: true,
             }),
-            readers: stack.stage === "prod" ? [rds.ClusterInstance.serverlessV2("cdd-rds-instance-2")] : [],
+            readers:
+                stack.stage === "prod"
+                    ? [
+                          rds.ClusterInstance.serverlessV2("cdd-rds-instance-2", {
+                              enablePerformanceInsights: true,
+                          }),
+                      ]
+                    : [],
             serverlessV2MinCapacity: stack.stage === "prod" ? 1 : 0.5,
             serverlessV2MaxCapacity: stack.stage === "prod" ? 2 : 1,
             vpcSubnets: {
@@ -112,16 +184,20 @@ export const RdsStack = ({ stack }: StackContext) => {
         cfnCluster.masterUserPassword = undefined;
         cfnCluster.manageMasterUserPassword = true;
 
+        const proxyDetails = createRdsProxy(stack, cfnCluster, vpc, dbSg);
+
         new CnameRecord(stack, "cdd-rds-internal-domain", {
             recordName: `db.${privateHostedZone.zoneName}`,
             zone: privateHostedZone,
-            domainName: cluster.clusterEndpoint.hostname,
+            domainName: proxyDetails.proxy ? proxyDetails.proxy.attrEndpoint : cluster.clusterEndpoint.hostname,
         });
 
         new CnameRecord(stack, "cdd-rds-read-internal-domain", {
             recordName: `db-ro.${privateHostedZone.zoneName}`,
             zone: privateHostedZone,
-            domainName: cluster.clusterReadEndpoint.hostname,
+            domainName: proxyDetails.proxyReadEndpoint
+                ? proxyDetails.proxyReadEndpoint.attrEndpoint
+                : cluster.clusterReadEndpoint.hostname,
         });
 
         const bastionHost = new BastionHostLinux(stack, "cdd-rds-bastion-host", {
@@ -144,5 +220,5 @@ export const RdsStack = ({ stack }: StackContext) => {
         Tags.of(bastionHost.instance).add("Bastion", "true");
     }
 
-    return { dbUsernameSecret, dbPasswordSecret, dbHostSecret, dbPortSecret, dbNameSecret };
+    return { dbUsernameSecret, dbPasswordSecret, dbHostSecret, dbPortSecret, dbNameSecret, dbHostROSecret };
 };

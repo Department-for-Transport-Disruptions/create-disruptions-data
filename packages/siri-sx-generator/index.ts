@@ -3,8 +3,8 @@ import { S3Client } from "@aws-sdk/client-s3";
 import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { ptSituationElementSchema, siriSchema } from "@create-disruptions-data/shared-ts/siriTypes.zod";
 import { getApiDisruptions, notEmpty } from "@create-disruptions-data/shared-ts/utils";
-import { getDate, isCurrentOrUpcomingDisruption } from "@create-disruptions-data/shared-ts/utils/dates";
-import { getPublishedDisruptionsData } from "@create-disruptions-data/shared-ts/utils/db";
+import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
+import { getCurrentAndFutureDisruptions } from "@create-disruptions-data/shared-ts/utils/db";
 import { fetchAdminAreas } from "@create-disruptions-data/shared-ts/utils/refDataApi";
 import { parse } from "js2xmlparser";
 import * as logger from "lambda-log";
@@ -15,14 +15,6 @@ import { getS3Client, uploadToS3 } from "./util/awsClient";
 import { getPtSituationElementFromSiteDisruption } from "./util/siri";
 
 const s3Client = getS3Client();
-
-const getCurrentAndFutureDisruptions = async (): Promise<Disruption[]> => {
-    const disruptions = await getPublishedDisruptionsData();
-
-    return disruptions.filter((disruption) =>
-        isCurrentOrUpcomingDisruption(disruption.publishEndDate, disruption.publishEndTime),
-    );
-};
 
 const enrichDisruptionsWithOrgInfo = async (disruptions: Disruption[], orgTableName: string) => {
     const orgIds = disruptions

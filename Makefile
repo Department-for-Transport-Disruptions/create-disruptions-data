@@ -58,9 +58,9 @@ create-local-database:
 	aws lambda invoke --function-name cdd-local-database-creator-$(stage) --log-type Tail /tmp/response.txt > /dev/null
 
 migrate-local-database:
-	aws lambda invoke --function-name cdd-kysely-db-migrator-migrate-$(stage) --log-type Tail /tmp/response.txt > /dev/null
+	pnpm --filter @create-disruptions-data/shared-ts kysely migrate latest
 
-rolback-local-database:
-	aws lambda invoke --function-name cdd-kysely-db-migrator-rollback-$(stage) --log-type Tail /tmp/response.txt > /dev/null
+rollback-local-database:
+	pnpm --filter @create-disruptions-data/shared-ts kysely migrate down
 
 setup-dev: update-secrets create-local-database migrate-local-database

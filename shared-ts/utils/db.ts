@@ -11,10 +11,10 @@ import { makeFilteredArraySchema } from "./zod";
 
 const { Pool } = pg;
 
-export const getDbClient = (isSite = false, databaseName?: string) => {
+export const getDbClient = (isSite = false, readOnly = false, databaseName?: string) => {
     const dialect = new PostgresDialect({
         pool: new Pool({
-            connectionString: `postgresql://${encodeURIComponent(Config.DB_USERNAME)}:${encodeURIComponent(Config.DB_PASSWORD)}@${isSite ? Config.DB_SITE_HOST : Config.DB_HOST}:${isSite ? Config.DB_SITE_PORT : Config.DB_PORT}/${databaseName ?? Config.DB_NAME}`,
+            connectionString: `postgresql://${encodeURIComponent(Config.DB_USERNAME)}:${encodeURIComponent(Config.DB_PASSWORD)}@${isSite ? Config.DB_SITE_HOST : readOnly ? Config.DB_RO_HOST : Config.DB_HOST}:${isSite ? Config.DB_SITE_PORT : Config.DB_PORT}/${databaseName ?? Config.DB_NAME}`,
         }),
     });
 
@@ -70,25 +70,10 @@ export const withEditedDisruption = (eb: ExpressionBuilder<Database, "disruption
             .whereRef("disruptionsEdited.id", "=", "disruptions.id"),
     ).as("editedDisruption");
 
-export const getPublishedDisruptionsData = async (): Promise<Disruption[]> => {
-    logger.info("Getting disruptions data from database...");
-
-    const dbClient = getDbClient(true);
-
-    const disruptions = await dbClient
-        .selectFrom("disruptions")
-        .selectAll()
-        .select((eb) => [withConsequences(eb)])
-        .where("disruptions.publishStatus", "=", PublishStatus.published)
-        .execute();
-
-    return makeFilteredArraySchema(disruptionSchema).parse(disruptions);
-};
-
 export const getPublishedDisruptionById = async (orgId: string, disruptionId: string): Promise<Disruption | null> => {
     logger.info(`Retrieving disruption ${disruptionId} from database...`);
 
-    const dbClient = getDbClient(true);
+    const dbClient = getDbClient(false, true);
 
     const disruption = await dbClient
         .selectFrom("disruptions")
@@ -110,28 +95,13 @@ export const getPublishedDisruptionById = async (orgId: string, disruptionId: st
     return parsedDisruption.data;
 };
 
-export const getAllDisruptionsForOrg = async (orgId: string): Promise<Disruption[]> => {
-    logger.info(`Retrieving all disruptions for org ${orgId}...`);
-
-    const dbClient = getDbClient(true);
-
-    const disruptions = await dbClient
-        .selectFrom("disruptions")
-        .selectAll()
-        .select((eb) => [withConsequences(eb)])
-        .where("disruptions.orgId", "=", orgId)
-        .execute();
-
-    return makeFilteredArraySchema(disruptionSchema).parse(disruptions);
-};
-
 export const getDisruptionsWithRoadworks = async (
     permitReferenceNumbers: string[],
     publishStatus: PublishStatus,
 ): Promise<Disruption[]> => {
     logger.info("Retrieving all disruptions for given permit reference numbers...");
 
-    const dbClient = getDbClient(true);
+    const dbClient = getDbClient(false, true);
 
     const disruptions = await dbClient
         .selectFrom("disruptions")
@@ -140,6 +110,52 @@ export const getDisruptionsWithRoadworks = async (
         .where("disruptions.permitReferenceNumber", "in", permitReferenceNumbers)
         .where("disruptions.publishStatus", "=", publishStatus)
         .execute();
+
+    return makeFilteredArraySchema(disruptionSchema).parse(disruptions);
+};
+
+export const getCurrentAndFutureDisruptions = async (orgId?: string) => {
+    logger.info("Getting current and future disruptions data from database...");
+
+    const dbClient = getDbClient(false, true);
+
+    let disruptionsQuery = dbClient
+        .selectFrom("disruptions")
+        .selectAll()
+        .select((eb) => [withConsequences(eb)])
+        .where("disruptions.publishStatus", "=", PublishStatus.published)
+        .where("disruptions.publishStartTimestamp", "<=", sql<Date>`now()`)
+        .where("disruptions.publishEndTimestamp", ">=", sql<Date>`now()`)
+        .orderBy("disruptions.validityStartTimestamp asc");
+
+    if (orgId) {
+        disruptionsQuery = disruptionsQuery.where("disruptions.orgId", "=", orgId);
+    }
+
+    const disruptions = await disruptionsQuery.execute();
+
+    return makeFilteredArraySchema(disruptionSchema).parse(disruptions);
+};
+
+export const getActiveDisruptions = async (orgId?: string) => {
+    logger.info("Getting active disruptions data from database...");
+
+    const dbClient = getDbClient(false, true);
+
+    let disruptionsQuery = dbClient
+        .selectFrom("disruptions")
+        .selectAll()
+        .select((eb) => [withConsequences(eb)])
+        .where("disruptions.publishStatus", "=", PublishStatus.published)
+        .where("disruptions.validityStartTimestamp", "<=", sql<Date>`now()`)
+        .where("disruptions.validityEndTimestamp", ">=", sql<Date>`now()`)
+        .orderBy("disruptions.validityStartTimestamp asc");
+
+    if (orgId) {
+        disruptionsQuery = disruptionsQuery.where("disruptions.orgId", "=", orgId);
+    }
+
+    const disruptions = await disruptionsQuery.execute();
 
     return makeFilteredArraySchema(disruptionSchema).parse(disruptions);
 };

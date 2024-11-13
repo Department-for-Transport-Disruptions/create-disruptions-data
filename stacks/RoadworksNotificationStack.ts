@@ -1,15 +1,20 @@
 import { TreatMissingData } from "aws-cdk-lib/aws-cloudwatch";
 import { SnsAction } from "aws-cdk-lib/aws-cloudwatch-actions";
+import { SubnetType } from "aws-cdk-lib/aws-ec2";
 import { PolicyStatement } from "aws-cdk-lib/aws-iam";
 import { Cron, Function, StackContext, use } from "sst/constructs";
 import { CognitoStack } from "./CognitoStack";
 import { DynamoDBStack } from "./DynamoDBStack";
 import { MonitoringStack } from "./MonitoringStack";
+import { RdsStack } from "./RdsStack";
+import { VpcStack } from "./VpcStack";
 
 export const RoadworksNotificationStack = ({ stack }: StackContext) => {
     const { disruptionsTable, organisationsTableV2: organisationsTable } = use(DynamoDBStack);
     const { clientId, clientSecret, userPoolId, userPoolArn } = use(CognitoStack);
     const { alarmTopic } = use(MonitoringStack);
+    const { dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret } = use(RdsStack);
+    const { vpc, lambdaSg } = use(VpcStack);
 
     const apiUrl = !["preprod", "prod"].includes(stack.stage)
         ? "https://api.test.ref-data.dft-create-data.com/v1"
@@ -24,6 +29,7 @@ export const RoadworksNotificationStack = ({ stack }: StackContext) => {
 
     const cancelledRoadworkNotification = new Function(stack, "cdd-roadworks-cancelled-notification", {
         functionName: `cdd-roadworks-cancelled-notification-${stack.stage}`,
+        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret],
         environment: {
             DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
             ORGANISATIONS_TABLE_NAME: organisationsTable.tableName,
@@ -34,7 +40,15 @@ export const RoadworksNotificationStack = ({ stack }: StackContext) => {
             DOMAIN_NAME: url,
             STAGE: stack.stage,
         },
+        vpc,
+        vpcSubnets: {
+            subnetType: SubnetType.PRIVATE_WITH_EGRESS,
+        },
+        securityGroups: [lambdaSg],
         handler: "packages/roadworks-notifier/cancelledNotifier.main",
+        nodejs: {
+            install: ["pg", "kysely"],
+        },
         permissions: [
             new PolicyStatement({
                 resources: ["*"],

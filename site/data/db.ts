@@ -32,6 +32,7 @@ import {
     notEmpty,
     splitCamelCaseToString,
 } from "../utils";
+import { getValidityAndPublishStartAndEndDates } from "../utils/dates";
 import logger from "../utils/logger";
 
 const mapDisruptionToDb = ({
@@ -89,6 +90,7 @@ export const getDisruptionsData = async (orgId: string, isTemplate = false): Pro
         .select((eb) => [withConsequences(eb)])
         .where("disruptions.orgId", "=", orgId)
         .where("disruptions.template", "=", isTemplate)
+        .orderBy("disruptions.validityStartTimestamp asc")
         .execute();
 
     return fullDisruptionSchema.array().parse(disruptions);
@@ -314,6 +316,7 @@ export const upsertDisruptionInfo = async (
             currentDisruption?.publishStatus === PublishStatus.pendingAndEditing);
 
     const isEditing = currentDisruption?.publishStatus && currentDisruption?.publishStatus !== PublishStatus.draft;
+    const validityAndPublishStartAndEndDates = getValidityAndPublishStartAndEndDates(disruptionInfo);
 
     if (!isEditing) {
         const disruptionInfoToInsert: NewDisruptionDB = {
@@ -325,6 +328,10 @@ export const upsertDisruptionInfo = async (
             history: json([]),
             version: currentDisruption?.version,
             template: isTemplate ?? false,
+            validityStartTimestamp: validityAndPublishStartAndEndDates.validityStartTimestamp.toDate(),
+            validityEndTimestamp: validityAndPublishStartAndEndDates.validityEndTimestamp?.toDate() ?? null,
+            publishStartTimestamp: validityAndPublishStartAndEndDates.publishStartTimestamp.toDate(),
+            publishEndTimestamp: validityAndPublishStartAndEndDates.publishEndTimestamp?.toDate() ?? null,
         };
 
         await dbClient
@@ -357,6 +364,11 @@ export const upsertDisruptionInfo = async (
         validity: json(disruptionInfo.validity),
         version: currentDisruption.version,
         template: currentDisruption.template,
+        creationTime: currentDisruption.creationTime,
+        validityStartTimestamp: validityAndPublishStartAndEndDates.validityStartTimestamp.toDate(),
+        validityEndTimestamp: validityAndPublishStartAndEndDates.validityEndTimestamp?.toDate() ?? null,
+        publishStartTimestamp: validityAndPublishStartAndEndDates.publishStartTimestamp.toDate(),
+        publishEndTimestamp: validityAndPublishStartAndEndDates.publishEndTimestamp?.toDate() ?? null,
     };
 
     await dbClient.transaction().execute(async (trx) => {
