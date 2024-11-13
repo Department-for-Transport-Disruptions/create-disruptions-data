@@ -11,10 +11,18 @@ import { makeFilteredArraySchema } from "./zod";
 
 const { Pool } = pg;
 
-export const getDbClient = (isSite = false, readOnly = false, databaseName?: string) => {
+const getDbHost = (readOnly: boolean) => {
+    if (process.env.IS_LOCAL === "true" || process.env.NODE_ENV === "development") {
+        return "localhost:35432";
+    }
+
+    return `${readOnly ? Config.DB_RO_HOST : Config.DB_HOST}:${Config.DB_PORT}`;
+};
+
+export const getDbClient = (readOnly = false, databaseName?: string) => {
     const dialect = new PostgresDialect({
         pool: new Pool({
-            connectionString: `postgresql://${encodeURIComponent(Config.DB_USERNAME)}:${encodeURIComponent(Config.DB_PASSWORD)}@${isSite ? Config.DB_SITE_HOST : readOnly ? Config.DB_RO_HOST : Config.DB_HOST}:${isSite ? Config.DB_SITE_PORT : Config.DB_PORT}/${databaseName ?? Config.DB_NAME}`,
+            connectionString: `postgresql://${encodeURIComponent(Config.DB_USERNAME)}:${encodeURIComponent(Config.DB_PASSWORD)}@${getDbHost(readOnly)}/${databaseName ?? Config.DB_NAME}`,
         }),
     });
 
@@ -73,7 +81,7 @@ export const withEditedDisruption = (eb: ExpressionBuilder<Database, "disruption
 export const getPublishedDisruptionById = async (orgId: string, disruptionId: string): Promise<Disruption | null> => {
     logger.info(`Retrieving disruption ${disruptionId} from database...`);
 
-    const dbClient = getDbClient(false, true);
+    const dbClient = getDbClient(true);
 
     const disruption = await dbClient
         .selectFrom("disruptions")
@@ -101,7 +109,7 @@ export const getDisruptionsWithRoadworks = async (
 ): Promise<Disruption[]> => {
     logger.info("Retrieving all disruptions for given permit reference numbers...");
 
-    const dbClient = getDbClient(false, true);
+    const dbClient = getDbClient(true);
 
     const disruptions = await dbClient
         .selectFrom("disruptions")
@@ -117,7 +125,7 @@ export const getDisruptionsWithRoadworks = async (
 export const getCurrentAndFutureDisruptions = async (orgId?: string) => {
     logger.info("Getting current and future disruptions data from database...");
 
-    const dbClient = getDbClient(false, true);
+    const dbClient = getDbClient(true);
 
     let disruptionsQuery = dbClient
         .selectFrom("disruptions")
@@ -140,7 +148,7 @@ export const getCurrentAndFutureDisruptions = async (orgId?: string) => {
 export const getActiveDisruptions = async (orgId?: string) => {
     logger.info("Getting active disruptions data from database...");
 
-    const dbClient = getDbClient(false, true);
+    const dbClient = getDbClient(true);
 
     let disruptionsQuery = dbClient
         .selectFrom("disruptions")

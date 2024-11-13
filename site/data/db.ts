@@ -120,7 +120,7 @@ export const getPublishedSocialMediaPosts = async (orgId: string): Promise<Socia
 export const deletePublishedDisruption = async (disruptionId: string, orgId: string) => {
     logger.info(`Deleting published disruption (${disruptionId}) in org (${orgId})...`);
 
-    const dbClient = getDbClient(true);
+    const dbClient = getDbClient();
 
     await dbClient
         .deleteFrom("disruptions")
@@ -139,7 +139,7 @@ export const removeConsequenceFromDisruption = async (
 ) => {
     logger.info(`Updating consequence ${index} in disruption (${disruptionId})...`);
 
-    const dbClient = getDbClient(true);
+    const dbClient = getDbClient();
 
     const disruption = await getDbDisruption(disruptionId, orgId);
     const currentDisruption = disruption?.editedDisruption ?? disruption;
@@ -274,7 +274,7 @@ export const publishDisruption = async (
 ) => {
     logger.info(`Inserting published disruption (${disruption.id})...`);
 
-    const dbClient = getDbClient(true);
+    const dbClient = getDbClient();
 
     const fullHistory: History[] = [
         ...(disruption.history ?? []),
@@ -304,7 +304,7 @@ export const upsertDisruptionInfo = async (
 ) => {
     logger.info(`Upserting disruption (${disruptionInfo.id})...`);
 
-    const dbClient = getDbClient(true);
+    const dbClient = getDbClient();
 
     const disruption = await getDbDisruption(disruptionInfo.id, orgId);
     const currentDisruption = disruption?.editedDisruption ?? disruption;
@@ -404,7 +404,7 @@ export const upsertConsequence = async (
         })...`,
     );
 
-    const dbClient = getDbClient(true);
+    const dbClient = getDbClient();
 
     const disruption = await getDbDisruption(consequence.disruptionId, orgId);
     const currentDisruption = disruption?.editedDisruption ?? disruption;
@@ -565,7 +565,7 @@ export const upsertSocialMediaPost = async (
 ) => {
     logger.info(`Updating socialMediaPost index ${socialMediaPost.socialMediaPostIndex} in disruption (${orgId})...`);
 
-    const dbClient = getDbClient(true);
+    const dbClient = getDbClient();
 
     const disruption = await getDbDisruption(socialMediaPost.disruptionId, orgId);
     const currentDisruption = disruption?.editedDisruption ?? disruption;
@@ -632,7 +632,7 @@ export const removeSocialMediaPostFromDisruption = async (
 ) => {
     logger.info(`Removing socialMediaPost ${index} in disruption (${disruptionId})...`);
 
-    const dbClient = getDbClient(true);
+    const dbClient = getDbClient();
 
     const disruption = await getDbDisruption(disruptionId, orgId);
     const currentDisruption = disruption?.editedDisruption ?? disruption;
@@ -680,7 +680,7 @@ export const removeSocialMediaPostFromDisruption = async (
 export const publishEditedDisruption = async (disruptionId: string, orgId: string, user: string) => {
     logger.info(`Publishing edited disruption ${disruptionId}...`);
 
-    const dbClient = getDbClient(true);
+    const dbClient = getDbClient();
 
     await dbClient.transaction().execute(async (trx) => {
         const editedDisruption = await trx
@@ -732,7 +732,7 @@ export const publishEditedDisruption = async (disruptionId: string, orgId: strin
 export const publishEditedDisruptionIntoPending = async (disruptionId: string, orgId: string, user: string) => {
     logger.info(`Publishing edited disruption ${disruptionId} to pending status...`);
 
-    const dbClient = getDbClient(true);
+    const dbClient = getDbClient();
 
     const currentDisruption = await getDisruptionById(disruptionId, orgId);
 
@@ -760,7 +760,7 @@ export const publishEditedDisruptionIntoPending = async (disruptionId: string, o
 export const deleteEditedDisruption = async (disruptionId: string, orgId: string) => {
     logger.info(`Deleting edited disruption (${disruptionId})...`);
 
-    const dbClient = getDbClient(true);
+    const dbClient = getDbClient();
 
     await dbClient
         .deleteFrom("disruptionsEdited")
