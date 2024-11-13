@@ -13,14 +13,41 @@ The site is deployed using [SST](https://sst.dev/), this allows the creation of 
 
 ### Requirements
 
--   Node.js 20+
+- Node.js 20+
+- pnpm 9+
+- Docker
+- awscli
+
 
 ### Process
 
 -   Authenticate against the target AWS account
--   Run `make install-deps` in the root of the project
--   Run `make start-sst`, this will start the sst infrastructure. If it is the first time running this, sst will ask for a stage name for your dev stage and will deploy the required infrastructure into the target AWS account
--   Run `make start-site` in another terminal, this will start the site at `http://localhost:3000`
+-   In the root of the project, run the following make command to install all dependencies:
+```bash
+make install-deps
+```
+
+-   Start the sst infrastructure:
+
+    Note - When you first run this command sst will ask for a stage name for your dev stage and will deploy the required infrastructure into the target AWS account.
+```bash
+make start-sst
+```
+
+- This project uses RDS for its database - for local development a shared RDS instance will be created in the target AWS environment with each developer having their own tables within the single instance. In order to create your database for local development run the following command in a separate terminal window:
+```bash
+make setup-dev
+```
+
+-  Run the following command to create a bastion tunnel to establish a connection to your local database:
+```bash
+make bastion-tunnel
+```
+
+-   Finally, in another terminal start the site using the below make command, which will start the site at `http://localhost:3000`:
+```bash
+make start-site
+```
 
 ### Issues
 
