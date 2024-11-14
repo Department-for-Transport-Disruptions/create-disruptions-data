@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto";
 import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { notEmpty } from "@create-disruptions-data/shared-ts/utils";
-import { getActiveDisruptions } from "@create-disruptions-data/shared-ts/utils/db";
+import { getLiveDisruptions } from "@create-disruptions-data/shared-ts/utils/db";
 import { getServiceCentrePoint } from "@create-disruptions-data/shared-ts/utils/refDataApi";
 import { DynamoDBStreamEvent } from "aws-lambda";
 import * as logger from "lambda-log";
@@ -9,10 +9,10 @@ import * as logger from "lambda-log";
 const s3Client = new S3Client({ region: "eu-west-2" });
 
 const generateDisruptionsAndWriteToS3 = async (orgId: string, disruptionsBucketName: string) => {
-    const activeDisruptions = await getActiveDisruptions(orgId);
+    const liveDisruptions = await getLiveDisruptions(orgId);
 
     const disruptionsFormattedForMap = await Promise.all(
-        activeDisruptions.flatMap(async (disruption) => {
+        liveDisruptions.flatMap(async (disruption) => {
             if (!disruption.consequences || disruption.consequences.length === 0) {
                 return null;
             }

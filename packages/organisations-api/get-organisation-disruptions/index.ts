@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto";
 import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { notEmpty } from "@create-disruptions-data/shared-ts/utils";
-import { getActiveDisruptions } from "@create-disruptions-data/shared-ts/utils/db";
+import { getLiveDisruptions } from "@create-disruptions-data/shared-ts/utils/db";
 import { getServiceCentrePoint } from "@create-disruptions-data/shared-ts/utils/refDataApi";
 import { APIGatewayEvent } from "aws-lambda";
 import * as logger from "lambda-log";
@@ -69,7 +69,7 @@ export const formatMapDisruptions = async (disruptions: Disruption[]) =>
 
 const getOrganisationDisruptions = async (orgId: string) => {
     try {
-        const disruptions = await getActiveDisruptions(orgId);
+        const disruptions = await getLiveDisruptions(orgId);
         const mapDisruptions = (await formatMapDisruptions(disruptions)).filter(notEmpty);
 
         if (!disruptions) {

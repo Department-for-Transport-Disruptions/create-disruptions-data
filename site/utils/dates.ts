@@ -1,4 +1,4 @@
-import { DisruptionInfo, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { Disruption, DisruptionInfo, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import {
     getDate,
     getDatetimeFromDateAndTime,
@@ -79,8 +79,8 @@ export const calculateEndingDateForWeeklyRepeatingDisruption = (
 };
 
 export const getEndingOnDateText = (
-    disruptionRepeats: string | undefined,
-    disruptionRepeatsEndDate: string | undefined,
+    disruptionRepeats?: string,
+    disruptionRepeatsEndDate?: string,
     disruptionStartDate?: string,
     disruptionEndDate?: string,
 ) => {
@@ -118,15 +118,15 @@ export const dateIsSameOrBeforeSecondDate = (firstDate: dayjs.Dayjs, secondDate:
 
 export const getDaysInPast = (date: Dayjs | string) => getDate().diff(date, "days");
 
-export const isLiveDisruption = (validityPeriods: Validity[], endDatetime: Dayjs | null) => {
+export const isLiveDisruption = (disruption: Disruption) => {
     const today = getDate();
 
-    const startTime = getDatetimeFromDateAndTime(
-        validityPeriods[0].disruptionStartDate,
-        validityPeriods[0].disruptionStartTime,
+    return (
+        (getDate(disruption.validityStartTimestamp)?.isSameOrBefore(today) &&
+            ((disruption.validityEndTimestamp && getDate(disruption.validityEndTimestamp)?.isSameOrAfter(today)) ||
+                !disruption.validityEndTimestamp)) ||
+        false
     );
-
-    return startTime.isSameOrBefore(today) && (endDatetime?.isSameOrAfter(today) || !endDatetime);
 };
 
 export const isUpcomingDisruption = (validityPeriods: Validity[], today: Dayjs) => {

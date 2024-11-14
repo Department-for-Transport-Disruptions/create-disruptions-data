@@ -145,8 +145,8 @@ export const getCurrentAndFutureDisruptions = async (orgId?: string) => {
     return makeFilteredArraySchema(disruptionSchema).parse(disruptions);
 };
 
-export const getActiveDisruptions = async (orgId?: string) => {
-    logger.info("Getting active disruptions data from database...");
+export const getLiveDisruptions = async (orgId?: string) => {
+    logger.info("Getting live disruptions data from database...");
 
     const dbClient = getDbClient(true);
 
@@ -157,6 +157,50 @@ export const getActiveDisruptions = async (orgId?: string) => {
         .where("disruptions.publishStatus", "=", PublishStatus.published)
         .where("disruptions.validityStartTimestamp", "<=", sql<Date>`now()`)
         .where("disruptions.validityEndTimestamp", ">=", sql<Date>`now()`)
+        .orderBy("disruptions.validityStartTimestamp asc");
+
+    if (orgId) {
+        disruptionsQuery = disruptionsQuery.where("disruptions.orgId", "=", orgId);
+    }
+
+    const disruptions = await disruptionsQuery.execute();
+
+    return disruptionSchema.array().parse(disruptions);
+};
+
+export const getFutureDisruptions = async (orgId?: string) => {
+    logger.info("Getting future disruptions data from database...");
+
+    const dbClient = getDbClient(true);
+
+    let disruptionsQuery = dbClient
+        .selectFrom("disruptions")
+        .selectAll()
+        .select((eb) => [withConsequences(eb)])
+        .where("disruptions.publishStatus", "=", PublishStatus.published)
+        .where("disruptions.validityStartTimestamp", ">", sql<Date>`now()`)
+        .orderBy("disruptions.validityStartTimestamp asc");
+
+    if (orgId) {
+        disruptionsQuery = disruptionsQuery.where("disruptions.orgId", "=", orgId);
+    }
+
+    const disruptions = await disruptionsQuery.execute();
+
+    return makeFilteredArraySchema(disruptionSchema).parse(disruptions);
+};
+
+export const getPastDisruptions = async (orgId?: string) => {
+    logger.info("Getting past disruptions data from database...");
+
+    const dbClient = getDbClient(true);
+
+    let disruptionsQuery = dbClient
+        .selectFrom("disruptions")
+        .selectAll()
+        .select((eb) => [withConsequences(eb)])
+        .where("disruptions.publishStatus", "=", PublishStatus.published)
+        .where("disruptions.validityEndTimestamp", "<", sql<Date>`now()`)
         .orderBy("disruptions.validityStartTimestamp asc");
 
     if (orgId) {

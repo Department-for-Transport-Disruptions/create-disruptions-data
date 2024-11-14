@@ -43,11 +43,6 @@ export const exportFileSchema = z.object({
 
 export type ExportFileType = z.infer<typeof exportFileSchema>;
 
-const displayValidityPeriod = z.object({
-    startTime: z.string(),
-    endTime: z.string().optional().nullish(),
-});
-
 const disruptionsTableServiceSchema = z.object({
     nocCode: z.string(),
     lineName: z.string(),
@@ -65,7 +60,8 @@ export const exportDisruptionsSchema = z.array(
             isNetworkWideCq: z.boolean(),
             stopsAffectedCount: z.number(),
             servicesAffectedCount: z.number(),
-            validityPeriods: z.array(displayValidityPeriod),
+            validityStartTimestamp: z.string(),
+            validityEndTimestamp: z.string().nullish(),
             publishStartDate: z.string(),
             publishEndDate: z.string().optional(),
             severity: z.string(),
@@ -92,8 +88,8 @@ export const exportDisruptionsSchema = z.array(
                 networkWide: item.isNetworkWideCq ? "yes" : "no",
                 servicesAffectedCount: item.servicesAffectedCount,
                 stopsAffectedCount: item.stopsAffectedCount,
-                startDate: getDateForExporter(item.validityPeriods[0].startTime),
-                endDate: item.validityPeriods[0].endTime ? getDateForExporter(item.validityPeriods[0].endTime) : "N/A",
+                startDate: getDateForExporter(item.validityStartTimestamp),
+                endDate: item.validityEndTimestamp ? getDateForExporter(item.validityEndTimestamp) : "N/A",
                 publishStartDate: getDateForExporter(item.publishStartDate),
                 publishEndDate: item.publishEndDate ? getDateForExporter(item.publishEndDate) : "N/A",
                 severity: splitCamelCaseToString(item.severity),
@@ -118,12 +114,8 @@ export const disruptionsTableSchema = z.object({
     id: z.string(),
     summary: z.string(),
     modes: z.array(z.string()),
-    validityPeriods: z.array(
-        z.object({
-            startTime: z.string(),
-            endTime: z.string().nullable(),
-        }),
-    ),
+    validityStartTimestamp: z.string().datetime(),
+    validityEndTimestamp: z.string().datetime().nullish(),
     publishStartDate: z.string(),
     publishEndDate: z.string().optional(),
     severity: z.string(),

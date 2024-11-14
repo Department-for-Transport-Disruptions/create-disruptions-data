@@ -1,6 +1,5 @@
 import { History } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
-import { getSortedDisruptionFinalEndDate, sortDisruptionsByStartDate } from "@create-disruptions-data/shared-ts/utils";
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import { NextPageContext } from "next";
 import Link from "next/link";
@@ -8,7 +7,7 @@ import { Fragment, ReactElement } from "react";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
 import { DISRUPTION_DETAIL_PAGE_PATH } from "../../constants/index";
-import { getDisruptionById } from "../../data/db";
+import { getDbDisruption } from "../../data/db";
 import { DisplayValuePair } from "../../interfaces";
 import { getDisplayByValue } from "../../utils";
 import { getSession } from "../../utils/apiUtils/auth";
@@ -126,7 +125,7 @@ export const getServerSideProps = async (
         throw new Error("No session found");
     }
 
-    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "", session.orgId);
+    const disruption = await getDbDisruption(ctx.query.disruptionId?.toString() ?? "", session.orgId);
 
     if (!disruption) {
         throw new Error("Disruption not found for disruption history page");
@@ -134,7 +133,7 @@ export const getServerSideProps = async (
 
     const history = disruption.history ? disruption.history.sort((a, b) => -a.datetime.localeCompare(b.datetime)) : [];
 
-    const finalEndDate = getSortedDisruptionFinalEndDate(sortDisruptionsByStartDate([disruption])[0]);
+    const finalEndDate = disruption.validityEndTimestamp ? getDate(disruption.validityEndTimestamp) : null;
 
     if (finalEndDate?.isBefore(getDate())) {
         history.unshift({

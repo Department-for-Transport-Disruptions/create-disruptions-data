@@ -41,7 +41,7 @@ const mapDisruptionToDb = ({
     editExistsInDb,
     ...disruption
     // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-}: DisruptionDB & { consequences?: any; editedDisruption?: any; editExistsInDb?: any }) => ({
+}: DisruptionDB & { consequences?: any; editedDisruption?: any; editExistsInDb?: any }): NewDisruptionDB => ({
     ...disruption,
     history: json(disruption.history),
     validity: disruption.validity && json(disruption.validity),
@@ -90,7 +90,7 @@ export const getDisruptionsData = async (orgId: string, isTemplate = false): Pro
         .select((eb) => [withConsequences(eb)])
         .where("disruptions.orgId", "=", orgId)
         .where("disruptions.template", "=", isTemplate)
-        .orderBy("disruptions.validityStartTimestamp asc")
+        .orderBy(["disruptions.validityStartTimestamp asc", "disruptions.validityEndTimestamp asc"])
         .execute();
 
     return fullDisruptionSchema.array().parse(disruptions);
@@ -214,7 +214,7 @@ export const removeConsequenceFromDisruption = async (
     });
 };
 
-const getDbDisruption = async (disruptionId: string, orgId: string) => {
+export const getDbDisruption = async (disruptionId: string, orgId: string) => {
     logger.info(`Retrieving (${disruptionId})...`);
 
     const dbClient = getDbClient(true);
@@ -814,4 +814,19 @@ export const getDisruptionInfoByPermitReferenceNumber = async (
     }
 
     return parsedDisruptionInfo.data;
+};
+
+export const getPendingApprovalCount = async (orgId: string): Promise<number> => {
+    logger.info("Retrieving number of pending approval disruptions...");
+
+    const dbClient = getDbClient(true);
+
+    const pendingCount = await dbClient
+        .selectFrom("disruptions")
+        .select(({ fn }) => [fn.count<string>("disruptions.id").as("pending")])
+        .where("disruptions.orgId", "=", orgId)
+        .where("disruptions.publishStatus", "in", [PublishStatus.editPendingApproval, PublishStatus.pendingApproval])
+        .executeTakeFirst();
+
+    return pendingCount?.pending ? Number(pendingCount.pending) : 0;
 };
