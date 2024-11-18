@@ -1,6 +1,7 @@
 import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { disruptionInfoSchemaRefined } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import * as cryptoRandomString from "crypto-random-string";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
@@ -57,6 +58,10 @@ const disruption: FullDisruption = {
     disruptionNoEndDateTime: "true",
     disruptionRepeats: "doesntRepeat",
     disruptionRepeatsEndDate: "",
+    publishStartTimestamp: getDatetimeFromDateAndTime(defaultPublishStartDate, "1900").toISOString(),
+    publishEndTimestamp: null,
+    validityStartTimestamp: getDatetimeFromDateAndTime(defaultDisruptionStartDate, "1800").toISOString(),
+    validityEndTimestamp: null,
     validity: [],
     publishStatus: PublishStatus.editing,
     consequences: [defaultNetworkData],

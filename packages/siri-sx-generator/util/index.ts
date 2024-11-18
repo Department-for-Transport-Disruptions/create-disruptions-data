@@ -7,12 +7,7 @@ import {
     StopsConsequence,
 } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
-import {
-    ApiConsequence,
-    ApiDisruption,
-    getSortedDisruptionFinalEndDate,
-    notEmpty,
-} from "@create-disruptions-data/shared-ts/utils";
+import { ApiConsequence, ApiDisruption, notEmpty } from "@create-disruptions-data/shared-ts/utils";
 import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { Dayjs } from "dayjs";
 import { json2csv } from "json-2-csv";
@@ -93,19 +88,10 @@ export const convertToCsv = async (disruptions: ApiDisruption[], cancelFeatureFl
     const csvDisruptions = disruptions.map((disruption) => {
         return {
             ...disruption,
-            validityStart: getDatetimeFromDateAndTime(
-                disruption.validity[0].disruptionStartDate,
-                disruption.validity[0].disruptionStartTime,
-            ).toISOString(),
-            validityEnd: getSortedDisruptionFinalEndDate(disruption)?.toISOString() ?? "",
-            publicationStart: getDatetimeFromDateAndTime(
-                disruption.publishStartDate,
-                disruption.publishStartTime,
-            ).toISOString(),
-            publicationEnd:
-                disruption.publishEndDate && disruption.publishEndTime
-                    ? getDatetimeFromDateAndTime(disruption.publishEndDate, disruption.publishEndTime).toISOString()
-                    : "",
+            validityStart: disruption.validityStartTimestamp,
+            validityEnd: disruption.validityEndTimestamp ?? "",
+            publicationStart: disruption.publishStartTimestamp,
+            publicationEnd: disruption.publishEndTimestamp ?? "",
             planned: disruption.disruptionType === "planned" ? "true" : "false",
             modesAffected: getAffectedModesList(disruption.consequences),
             operatorsAffected: getAffectedOperatorsList(disruption.consequences),

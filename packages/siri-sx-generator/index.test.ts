@@ -15,12 +15,12 @@ describe("SIRI-SX Generator", () => {
     Mockdate.set("2023-08-17");
 
     const hoisted = vi.hoisted(() => ({
-        getPublishedDisruptionsDataMock: vi.fn(),
+        getCurrentAndFutureDisruptionsMock: vi.fn(),
     }));
 
     vi.mock("@create-disruptions-data/shared-ts/utils/db", async (importOriginal) => ({
         ...(await importOriginal<typeof import("@create-disruptions-data/shared-ts/utils/db")>()),
-        getPublishedDisruptionsData: hoisted.getPublishedDisruptionsDataMock,
+        getCurrentAndFutureDisruptions: hoisted.getCurrentAndFutureDisruptionsMock,
     }));
 
     beforeAll(() => {
@@ -44,7 +44,7 @@ describe("SIRI-SX Generator", () => {
     });
 
     it("correctly generates SIRI-SX XML", async () => {
-        hoisted.getPublishedDisruptionsDataMock.mockResolvedValue(disruptions);
+        hoisted.getCurrentAndFutureDisruptionsMock.mockResolvedValue(disruptions);
         ddbMock.on(GetCommand).resolves({ Item: { PK: orgId, name: "Test Org" } });
 
         await generateSiriSxAndUploadToS3(
@@ -70,7 +70,7 @@ describe("SIRI-SX Generator", () => {
     });
 
     it("correctly generates SIRI-SX XML where creationDate is present", async () => {
-        hoisted.getPublishedDisruptionsDataMock.mockResolvedValue(disruptionsWithCreationTime);
+        hoisted.getCurrentAndFutureDisruptionsMock.mockResolvedValue(disruptionsWithCreationTime);
         ddbMock.on(GetCommand).resolves({ Item: { PK: orgId, name: "Test Org" } });
 
         await generateSiriSxAndUploadToS3(
@@ -96,7 +96,7 @@ describe("SIRI-SX Generator", () => {
     });
 
     it("correctly generates Disruptions JSON", async () => {
-        hoisted.getPublishedDisruptionsDataMock.mockResolvedValue(disruptions);
+        hoisted.getCurrentAndFutureDisruptionsMock.mockResolvedValue(disruptions);
         ddbMock.on(GetCommand).resolves({ Item: { PK: orgId, name: "Test Org" } });
 
         await generateSiriSxAndUploadToS3(
@@ -118,7 +118,7 @@ describe("SIRI-SX Generator", () => {
     });
 
     it("correctly generates Disruptions CSV", async () => {
-        hoisted.getPublishedDisruptionsDataMock.mockResolvedValue(disruptions);
+        hoisted.getCurrentAndFutureDisruptionsMock.mockResolvedValue(disruptions);
         ddbMock.on(GetCommand).resolves({ Item: { PK: orgId, name: "Test Org" } });
 
         await generateSiriSxAndUploadToS3(

@@ -2,7 +2,7 @@
 
 exports[`SIRI-SX Generator > correctly generates Disruptions CSV 1`] = `
 "Organisation,ID,Validity start,Validity end,Publication start,Publication end,Reason,Planned,Modes affected,Operators affected,Services affected,Stops affected,Journeys affected
-Test Org,acde070d-8c4c-4f0d-9d8a-162843c10333,2023-03-10T12:00:00.000Z,,2023-03-10T12:00:00.000Z,,staffInWrongPlace,true,bus;tram;rail,FSYO,1,,2"
+Test Org,acde070d-8c4c-4f0d-9d8a-162843c10333,2023-03-18T12:00:00Z,,2023-03-10T12:00:00Z,,staffInWrongPlace,true,bus;tram;rail,FSYO,1,,2"
 `;
 
 exports[`SIRI-SX Generator > correctly generates Disruptions JSON 1`] = `
@@ -142,8 +142,10 @@ exports[`SIRI-SX Generator > correctly generates Disruptions JSON 1`] = `
       "id": "6f6435e3-a485-4c8c-8c29-e121b1e76802",
       "name": "Test Org",
     },
+    "publishEndTimestamp": null,
     "publishStartDate": "10/03/2023",
     "publishStartTime": "1200",
+    "publishStartTimestamp": "2023-03-10T12:00:00Z",
     "summary": "Some summary",
     "validity": [
       {
@@ -157,6 +159,8 @@ exports[`SIRI-SX Generator > correctly generates Disruptions JSON 1`] = `
         "disruptionStartTime": "1200",
       },
     ],
+    "validityEndTimestamp": null,
+    "validityStartTimestamp": "2023-03-18T12:00:00Z",
     "version": 2,
   },
 ]

@@ -133,7 +133,12 @@ export const getCurrentAndFutureDisruptions = async (orgId?: string) => {
         .select((eb) => [withConsequences(eb)])
         .where("disruptions.publishStatus", "=", PublishStatus.published)
         .where("disruptions.publishStartTimestamp", "<=", sql<Date>`now()`)
-        .where("disruptions.publishEndTimestamp", ">=", sql<Date>`now()`)
+        .where((eb) =>
+            eb.or([
+                eb("disruptions.publishEndTimestamp", ">=", sql<Date>`now()`),
+                eb("disruptions.publishEndTimestamp", "is", null),
+            ]),
+        )
         .orderBy("disruptions.validityStartTimestamp asc");
 
     if (orgId) {
@@ -156,7 +161,12 @@ export const getLiveDisruptions = async (orgId?: string) => {
         .select((eb) => [withConsequences(eb)])
         .where("disruptions.publishStatus", "=", PublishStatus.published)
         .where("disruptions.validityStartTimestamp", "<=", sql<Date>`now()`)
-        .where("disruptions.validityEndTimestamp", ">=", sql<Date>`now()`)
+        .where((eb) =>
+            eb.or([
+                eb("disruptions.validityEndTimestamp", ">=", sql<Date>`now()`),
+                eb("disruptions.validityEndTimestamp", "is", null),
+            ]),
+        )
         .orderBy("disruptions.validityStartTimestamp asc");
 
     if (orgId) {

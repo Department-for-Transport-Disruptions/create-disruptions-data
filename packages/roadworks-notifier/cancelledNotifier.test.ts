@@ -73,6 +73,10 @@ describe("roadWorksCancelledNotification", () => {
                 template: false,
                 lastUpdated: "2024-02-07T16:12:17.370Z",
                 history: [],
+                publishStartTimestamp: "2023-12-01T09:30:00Z",
+                publishEndTimestamp: null,
+                validityStartTimestamp: "2023-12-01T09:30:00Z",
+                validityEndTimestamp: null,
             },
         ]);
 
@@ -144,6 +148,10 @@ describe("roadWorksCancelledNotification", () => {
                 template: false,
                 lastUpdated: "2024-02-07T16:12:17.370Z",
                 history: [],
+                publishStartTimestamp: "2023-12-01T09:30:00Z",
+                publishEndTimestamp: null,
+                validityStartTimestamp: "2023-12-01T09:30:00Z",
+                validityEndTimestamp: null,
             },
         ]);
 
@@ -223,6 +231,10 @@ describe("roadWorksCancelledNotification", () => {
                 template: false,
                 lastUpdated: "2024-02-07T16:12:17.370Z",
                 history: [],
+                publishStartTimestamp: "2023-12-01T09:30:00Z",
+                publishEndTimestamp: null,
+                validityStartTimestamp: "2023-12-01T09:30:00Z",
+                validityEndTimestamp: null,
             },
         ]);
 

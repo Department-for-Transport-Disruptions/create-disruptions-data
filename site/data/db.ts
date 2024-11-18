@@ -35,7 +35,7 @@ import {
 import { getValidityAndPublishStartAndEndDates } from "../utils/dates";
 import logger from "../utils/logger";
 
-const mapDisruptionToDb = ({
+export const mapDisruptionToDb = ({
     consequences,
     editedDisruption,
     editExistsInDb,
@@ -48,7 +48,7 @@ const mapDisruptionToDb = ({
     socialMediaPosts: disruption.socialMediaPosts && json(disruption.socialMediaPosts),
 });
 
-const mapConsequenceToDb = (consequence: ConsequenceDB) => ({
+export const mapConsequenceToDb = (consequence: ConsequenceDB) => ({
     ...consequence,
     services: consequence.services && json(consequence.services),
     stops: consequence.stops && json(consequence.stops),

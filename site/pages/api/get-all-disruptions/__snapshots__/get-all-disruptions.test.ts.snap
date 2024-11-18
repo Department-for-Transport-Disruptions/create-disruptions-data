@@ -54,20 +54,8 @@ exports[`getAllDisruptions > formatSortedDisruptions > correctly formats disrupt
   "status": "draft",
   "stopsAffectedCount": 0,
   "summary": "Some summary",
-  "validityPeriods": [
-    {
-      "endTime": "2021-03-30T10:23:00.000Z",
-      "startTime": "2021-03-25T11:23:00.000Z",
-    },
-    {
-      "endTime": "2025-12-30T11:23:00.000Z",
-      "startTime": "2025-12-25T11:23:00.000Z",
-    },
-    {
-      "endTime": "2030-03-30T11:23:00.000Z",
-      "startTime": "2030-03-25T11:23:00.000Z",
-    },
-  ],
+  "validityEndTimestamp": null,
+  "validityStartTimestamp": "2021-03-25T11:23:00Z",
 }
 `;
 
@@ -102,12 +90,8 @@ exports[`getAllDisruptions > should be successful when session is set 1`] = `
             "status": "draft",
             "stopsAffectedCount": 0,
             "summary": "testpending81",
-            "validityPeriods": [
-              {
-                "endTime": null,
-                "startTime": "2023-03-07T10:00:00.000Z",
-              },
-            ],
+            "validityEndTimestamp": null,
+            "validityStartTimestamp": "2023-03-07T10:00:00Z",
           },
           {
             "consequenceLength": 1,
@@ -134,12 +118,8 @@ exports[`getAllDisruptions > should be successful when session is set 1`] = `
             "status": "open",
             "stopsAffectedCount": 0,
             "summary": "testfilter3",
-            "validityPeriods": [
-              {
-                "endTime": null,
-                "startTime": "2023-03-08T10:00:00.000Z",
-              },
-            ],
+            "validityEndTimestamp": null,
+            "validityStartTimestamp": "2023-03-08T10:00:00Z",
           },
         ],
       },
@@ -185,12 +165,8 @@ exports[`getAllDisruptions > should call filterDisruptionsForOperatorUser for op
             "status": "draft",
             "stopsAffectedCount": 0,
             "summary": "testpending81",
-            "validityPeriods": [
-              {
-                "endTime": null,
-                "startTime": "2023-03-07T10:00:00.000Z",
-              },
-            ],
+            "validityEndTimestamp": null,
+            "validityStartTimestamp": "2023-03-07T10:00:00Z",
           },
           {
             "consequenceLength": 1,
@@ -217,12 +193,8 @@ exports[`getAllDisruptions > should call filterDisruptionsForOperatorUser for op
             "status": "open",
             "stopsAffectedCount": 0,
             "summary": "testfilter3",
-            "validityPeriods": [
-              {
-                "endTime": null,
-                "startTime": "2023-03-08T10:00:00.000Z",
-              },
-            ],
+            "validityEndTimestamp": null,
+            "validityStartTimestamp": "2023-03-08T10:00:00Z",
           },
           {
             "consequenceLength": 1,
@@ -249,12 +221,8 @@ exports[`getAllDisruptions > should call filterDisruptionsForOperatorUser for op
             "status": "open",
             "stopsAffectedCount": 0,
             "summary": "testfilter3",
-            "validityPeriods": [
-              {
-                "endTime": null,
-                "startTime": "2023-03-08T10:00:00.000Z",
-              },
-            ],
+            "validityEndTimestamp": null,
+            "validityStartTimestamp": "2023-03-08T10:00:00Z",
           },
         ],
       },

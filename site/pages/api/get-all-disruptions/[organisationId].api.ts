@@ -102,7 +102,7 @@ export const formatSortedDisruption = (disruption: Disruption): TableDisruption 
     let stopsAffectedCount = 0;
     let servicesAffectedCount = 0;
 
-    const isLive = disruption.validity ? isLiveDisruption(disruption) : false;
+    const isLive = isLiveDisruption(disruption);
 
     let dataSource: Datasource | undefined = undefined;
 

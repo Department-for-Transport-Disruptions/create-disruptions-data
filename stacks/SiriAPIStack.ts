@@ -9,6 +9,7 @@ import { OrgDisruptionsGeneratorStack } from "./OrgDisruptionsGenerator";
 import { RdsStack } from "./RdsStack";
 import { SiriGeneratorStack } from "./SiriGeneratorStack";
 import { VpcStack } from "./VpcStack";
+import { isUserEnv } from "./utils";
 
 export const SiriAPIStack = ({ stack }: StackContext) => {
     const { siriSXBucket, disruptionsJsonBucket, disruptionsCsvBucket } = use(SiriGeneratorStack);
@@ -45,7 +46,7 @@ export const SiriAPIStack = ({ stack }: StackContext) => {
                 restApiName: `cdd-siri-sx-api-${stack.stage}`,
                 description: "API to retrieve Siri SX XML data and includes statistics about this data",
                 deployOptions: {
-                    cachingEnabled: true,
+                    cachingEnabled: !isUserEnv(stack.stage),
                     cacheTtl: Duration.seconds(60),
                 },
             },

@@ -1,5 +1,5 @@
 import { randomUUID } from "crypto";
-import { disruptionInfoSchemaRefined } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { disruptionInfoSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import cryptoRandomString from "crypto-random-string";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -10,7 +10,6 @@ import {
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
 import { getDisruptionById, upsertConsequence, upsertDisruptionInfo, upsertSocialMediaPost } from "../../data/db";
-import { FullDisruption } from "../../schemas/disruption.schema";
 import { redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 import { defaultDateTime } from "../../utils/dates";
@@ -40,20 +39,11 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             throw new Error("No disruption to duplicate");
         }
 
-        const validatedDisruptionBody = disruptionInfoSchemaRefined.safeParse({
-            ...disruptionToDuplicate,
-            orgId: session.orgId,
-        });
-
-        if (!validatedDisruptionBody.success) {
-            throw new Error("Invalid disruption information");
-        }
-
         const newDisruptionId = randomUUID();
 
         const displayId = cryptoRandomString({ length: 6 });
-        const draftDisruption: FullDisruption = {
-            ...validatedDisruptionBody.data,
+        const draftDisruption = {
+            ...disruptionToDuplicate,
             publishStatus: PublishStatus.draft,
             id: newDisruptionId,
             displayId,
@@ -74,19 +64,16 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
                   }
                 : {}),
             template: false,
-            creationTime: undefined,
         };
 
         if (!draftDisruption.disruptionNoEndDateTime) {
             draftDisruption.disruptionNoEndDateTime = "";
         }
 
+        const disruptionInfo = disruptionInfoSchema.parse(draftDisruption);
+
         await upsertDisruptionInfo(
-            {
-                ...validatedDisruptionBody.data,
-                id: newDisruptionId,
-                displayId,
-            },
+            disruptionInfo,
             session.orgId,
             session.name,
             session.isOrgStaff,

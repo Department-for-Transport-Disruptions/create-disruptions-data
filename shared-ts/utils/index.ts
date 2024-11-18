@@ -1,9 +1,8 @@
 import { History } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
-import { Dayjs } from "dayjs";
 import * as logger from "lambda-log";
 import { Disruption, Validity } from "../disruptionTypes";
 import { Roadwork } from "../roadwork.zod";
-import { getDate, getDatetimeFromDateAndTime, getFormattedDate, sortEarliestDate } from "./dates";
+import { getDate, getDatetimeFromDateAndTime, sortEarliestDate } from "./dates";
 import { getParameter } from "./ssm";
 
 export const notEmpty = <T>(value: T | null | undefined): value is T => {
@@ -89,37 +88,6 @@ export const sortDisruptionsByStartDate = (disruptions: Disruption[]): Disruptio
 
         return sortEarliestDate(aTime, bTime);
     });
-};
-
-export const getSortedDisruptionFinalEndDate = (disruption: Disruption | ApiDisruption): Dayjs | null => {
-    let disruptionEndDate: Dayjs | null = null;
-
-    if (!disruption.validity) {
-        throw new Error("Validity missing");
-    }
-
-    let noEndDatesFound = false;
-
-    disruption.validity.forEach((validity) => {
-        if (!noEndDatesFound) {
-            const repeatsEndDate =
-                (validity.disruptionRepeats === "daily" || validity.disruptionRepeats === "weekly") &&
-                validity.disruptionRepeatsEndDate
-                    ? getFormattedDate(validity.disruptionRepeatsEndDate)
-                    : validity.disruptionEndDate && validity.disruptionEndTime
-                      ? getDatetimeFromDateAndTime(validity.disruptionEndDate, validity.disruptionEndTime)
-                      : null;
-
-            if (repeatsEndDate && (repeatsEndDate.isAfter(disruptionEndDate) || disruptionEndDate === null)) {
-                disruptionEndDate = repeatsEndDate;
-            } else if (!repeatsEndDate) {
-                disruptionEndDate = null;
-                noEndDatesFound = true;
-            }
-        }
-    });
-
-    return disruptionEndDate;
 };
 
 export type Logger = {

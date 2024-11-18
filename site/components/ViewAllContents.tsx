@@ -212,11 +212,11 @@ export const applyDateFilters = (
     },
 ): TableDisruption[] => {
     return contents.filter((content) => {
-        return (
-            getDate(content.validityStartTimestamp).isAfter(getFormattedDate(period.startTime)) &&
-            (!content.validityEndTimestamp ||
-                getDate(content.validityEndTimestamp).isBefore(getFormattedDate(period.endTime)))
-        );
+        const startValidity = getDate(content.validityStartTimestamp);
+        const filterStart = getFormattedDate(period.startTime);
+        const filterEnd = getFormattedDate(period.endTime);
+
+        return startValidity.isSameOrAfter(filterStart) && startValidity.isSameOrBefore(filterEnd);
     });
 };
 

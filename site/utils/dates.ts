@@ -118,14 +118,13 @@ export const dateIsSameOrBeforeSecondDate = (firstDate: dayjs.Dayjs, secondDate:
 
 export const getDaysInPast = (date: Dayjs | string) => getDate().diff(date, "days");
 
-export const isLiveDisruption = (disruption: Disruption) => {
+export const isLiveDisruption = (disruption: Disruption): boolean => {
     const today = getDate();
 
     return (
-        (getDate(disruption.validityStartTimestamp)?.isSameOrBefore(today) &&
-            ((disruption.validityEndTimestamp && getDate(disruption.validityEndTimestamp)?.isSameOrAfter(today)) ||
-                !disruption.validityEndTimestamp)) ||
-        false
+        getDate(disruption.validityStartTimestamp).isSameOrBefore(today) &&
+        ((disruption.validityEndTimestamp && getDate(disruption.validityEndTimestamp)?.isSameOrAfter(today)) ||
+            !disruption.validityEndTimestamp)
     );
 };
 
