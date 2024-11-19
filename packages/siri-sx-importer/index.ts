@@ -121,7 +121,7 @@ const disruptionsInfo = await Promise.all(
             const { disruptionDatesAndTimes, validityDatesAndTimes } = getDisruptionAndValidityDates(item);
             const orgId = await getOrgIdFromDynamo(item.ParticipantRef, orgTableName);
             return {
-                disruptionId: item.SituationNumber,
+                id: item.SituationNumber,
                 disruptionReason: getDisruptionReason(item),
                 disruptionType: item.Planned ? "planned" : "unplanned",
                 associatedLink: item.InfoLinks?.InfoLink[0].Uri ?? "",

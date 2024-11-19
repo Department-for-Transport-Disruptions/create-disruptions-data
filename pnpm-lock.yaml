@@ -96,6 +96,9 @@ importers:
       '@types/inquirer':
         specifier: ^9.0.3
         version: 9.0.7
+      '@types/lambda-log':
+        specifier: ^2.2.1
+        version: 2.2.1
       '@types/mocha':
         specifier: ^9.0.0
         version: 9.1.1
@@ -105,9 +108,15 @@ importers:
       chai:
         specifier: ^4
         version: 4.4.1
+      dayjs:
+        specifier: ^1.11.7
+        version: 1.11.11
       inquirer:
         specifier: ^8.2.6
         version: 8.2.6
+      lambda-log:
+        specifier: ^3.1.0
+        version: 3.1.0
       mocha:
         specifier: ^9
         version: 9.2.2
@@ -13522,14 +13531,6 @@ snapshots:
       chai: 5.1.2
       tinyrainbow: 1.2.0
 
-  '@vitest/mocker@2.1.4(vite@5.4.10(@types/node@18.19.39)(sass@1.77.6))':
-    dependencies:
-      '@vitest/spy': 2.1.4
-      estree-walker: 3.0.3
-      magic-string: 0.30.12
-    optionalDependencies:
-      vite: 5.4.10(@types/node@18.19.39)(sass@1.77.6)
-
   '@vitest/mocker@2.1.4(vite@5.4.10(@types/node@20.14.10)(sass@1.77.6))':
     dependencies:
       '@vitest/spy': 2.1.4
@@ -18098,7 +18099,7 @@ snapshots:
   vitest@2.1.4(@types/node@18.19.39)(jsdom@21.1.2)(sass@1.77.6):
     dependencies:
       '@vitest/expect': 2.1.4
-      '@vitest/mocker': 2.1.4(vite@5.4.10(@types/node@18.19.39)(sass@1.77.6))
+      '@vitest/mocker': 2.1.4(vite@5.4.10(@types/node@20.14.10)(sass@1.77.6))
       '@vitest/pretty-format': 2.1.4
       '@vitest/runner': 2.1.4
       '@vitest/snapshot': 2.1.4
