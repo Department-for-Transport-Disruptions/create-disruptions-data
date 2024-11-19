@@ -9,15 +9,13 @@ import { getDomain } from "../shared-ts/utils/domain";
 import { CognitoStack } from "./CognitoStack";
 import { DynamoDBStack } from "./DynamoDBStack";
 import { MonitoringStack } from "./MonitoringStack";
-import { OrgDisruptionsGeneratorStack } from "./OrgDisruptionsGenerator";
 import { RdsStack } from "./RdsStack";
 import { VpcStack } from "./VpcStack";
 import { createBucket, isUserEnv } from "./utils";
 
 export const SiteStack = ({ stack }: StackContext) => {
-    const { disruptionsTable, organisationsTableV2: organisationsTable, templateDisruptionsTable } = use(DynamoDBStack);
+    const { organisationsTableV2: organisationsTable } = use(DynamoDBStack);
     const { clientId, clientSecret, cognitoIssuer, userPoolId, userPoolArn } = use(CognitoStack);
-    const { orgDisruptionsBucket } = use(OrgDisruptionsGeneratorStack);
     const { alarmTopic } = use(MonitoringStack);
     const { dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbHostSecret, dbPortSecret } =
         use(RdsStack);
@@ -81,8 +79,6 @@ export const SiteStack = ({ stack }: StackContext) => {
         },
         bind: [dbUsernameSecret, dbPasswordSecret, dbHostSecret, dbHostROSecret, dbPortSecret, dbNameSecret],
         environment: {
-            DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
-            TEMPLATE_DISRUPTIONS_TABLE_NAME: templateDisruptionsTable.tableName,
             ORGANISATIONS_TABLE_NAME: organisationsTable.tableName,
             STAGE: stack.stage,
             API_BASE_URL: apiUrl,
@@ -99,7 +95,6 @@ export const SiteStack = ({ stack }: StackContext) => {
             DOMAIN_NAME: `${isUserEnv(stack.stage) ? "http://" : "https://"}${
                 isUserEnv(stack.stage) ? "localhost:3000" : getDomain(stack.stage)
             }`,
-            ORG_DISRUPTIONS_BUCKET_NAME: orgDisruptionsBucket.bucketName,
         },
         customDomain: {
             domainName:
@@ -123,11 +118,7 @@ export const SiteStack = ({ stack }: StackContext) => {
                 actions: ["s3:GetObject", "s3:PutObject"],
             }),
             new PolicyStatement({
-                resources: [`${orgDisruptionsBucket.bucketArn}/*`],
-                actions: ["s3:GetObject"],
-            }),
-            new PolicyStatement({
-                resources: [disruptionsTable.tableArn, organisationsTable.tableArn, templateDisruptionsTable.tableArn],
+                resources: [organisationsTable.tableArn],
                 actions: [
                     "dynamodb:PutItem",
                     "dynamodb:UpdateItem",

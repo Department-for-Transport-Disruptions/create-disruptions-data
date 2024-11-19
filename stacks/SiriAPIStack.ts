@@ -5,7 +5,6 @@ import { PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
 import { ApiGatewayV1Api, StackContext, use } from "sst/constructs";
 import { DnsStack } from "./DnsStack";
 import { DynamoDBStack } from "./DynamoDBStack";
-import { OrgDisruptionsGeneratorStack } from "./OrgDisruptionsGenerator";
 import { RdsStack } from "./RdsStack";
 import { SiriGeneratorStack } from "./SiriGeneratorStack";
 import { VpcStack } from "./VpcStack";
@@ -14,8 +13,7 @@ import { isUserEnv } from "./utils";
 export const SiriAPIStack = ({ stack }: StackContext) => {
     const { siriSXBucket, disruptionsJsonBucket, disruptionsCsvBucket } = use(SiriGeneratorStack);
     const { hostedZone } = use(DnsStack);
-    const { disruptionsTable, organisationsTableV2: organisationsTable } = use(DynamoDBStack);
-    const { orgDisruptionsBucket } = use(OrgDisruptionsGeneratorStack);
+    const { organisationsTableV2: organisationsTable } = use(DynamoDBStack);
     const { dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret } = use(RdsStack);
     const { vpc, lambdaSg } = use(VpcStack);
 
@@ -110,16 +108,8 @@ export const SiriAPIStack = ({ stack }: StackContext) => {
             "GET    /organisations/{id}/disruptions": {
                 function: {
                     handler: "packages/organisations-api/get-organisation-disruptions/index.main",
-                    permissions: [
-                        new PolicyStatement({
-                            resources: [`${orgDisruptionsBucket.bucketArn}/*`],
-                            actions: ["s3:GetObject"],
-                        }),
-                    ],
                     environment: {
-                        DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
                         API_BASE_URL: apiUrl,
-                        ORG_DISRUPTIONS_BUCKET_NAME: orgDisruptionsBucket.bucketName,
                     },
                 },
                 cdk: {
@@ -138,7 +128,6 @@ export const SiriAPIStack = ({ stack }: StackContext) => {
                 function: {
                     handler: "packages/organisations-api/get-organisation-disruption/index.main",
                     environment: {
-                        DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
                         API_BASE_URL: apiUrl,
                     },
                 },

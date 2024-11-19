@@ -12,7 +12,7 @@ import { VpcStack } from "./VpcStack";
 import { createBucket } from "./utils";
 
 export const SiriGeneratorStack = ({ stack }: StackContext) => {
-    const { disruptionsTable, organisationsTableV2: organisationsTable } = use(DynamoDBStack);
+    const { organisationsTableV2: organisationsTable } = use(DynamoDBStack);
     const { siriGeneratorNamespace, siriPublishSuccessMetric, siriValidationFailureMetric, alarmTopic } =
         use(MonitoringStack);
     const { dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret } = use(RdsStack);
@@ -32,7 +32,6 @@ export const SiriGeneratorStack = ({ stack }: StackContext) => {
         functionName: `cdd-siri-sx-generator-${stack.stage}`,
         bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret],
         environment: {
-            DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
             ORGANISATIONS_TABLE_NAME: organisationsTable.tableName,
             SIRI_SX_UNVALIDATED_BUCKET_NAME: siriSXUnvalidatedBucket.bucketName,
             DISRUPTIONS_JSON_BUCKET_NAME: disruptionsJsonBucket.bucketName,
@@ -48,10 +47,6 @@ export const SiriGeneratorStack = ({ stack }: StackContext) => {
                     `${disruptionsCsvBucket.bucketArn}/*`,
                 ],
                 actions: ["s3:PutObject"],
-            }),
-            new PolicyStatement({
-                resources: [disruptionsTable.tableArn],
-                actions: ["dynamodb:Scan"],
             }),
             new PolicyStatement({
                 resources: [organisationsTable.tableArn],
@@ -81,15 +76,10 @@ export const SiriGeneratorStack = ({ stack }: StackContext) => {
         functionName: `cdd-siri-stats-generator-${stack.stage}`,
         bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret],
         environment: {
-            DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
             ORGANISATIONS_TABLE_NAME: organisationsTable.tableName,
             STAGE: stack.stage,
         },
         permissions: [
-            new PolicyStatement({
-                resources: [disruptionsTable.tableArn],
-                actions: ["dynamodb:Scan"],
-            }),
             new PolicyStatement({
                 resources: [organisationsTable.tableArn],
                 actions: ["dynamodb:Scan", "dynamodb:TransactWriteItem", "dynamodb:PutItem"],

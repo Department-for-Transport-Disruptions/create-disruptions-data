@@ -94,14 +94,10 @@ export const main = async (): Promise<void> => {
         };
         logger.info("Starting SIRI-SX stats generator...");
 
-        const {
-            DISRUPTIONS_TABLE_NAME: disruptionsTableName,
-            ORGANISATIONS_TABLE_NAME: orgTableName,
-            STAGE: stage,
-        } = process.env;
+        const { ORGANISATIONS_TABLE_NAME: orgTableName, STAGE: stage } = process.env;
         const ENABLE_CANCELLATION_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
 
-        if (!disruptionsTableName || !orgTableName) {
+        if (!orgTableName) {
             throw new Error("Dynamo table names not set");
         }
 

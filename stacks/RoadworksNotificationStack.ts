@@ -10,7 +10,7 @@ import { RdsStack } from "./RdsStack";
 import { VpcStack } from "./VpcStack";
 
 export const RoadworksNotificationStack = ({ stack }: StackContext) => {
-    const { disruptionsTable, organisationsTableV2: organisationsTable } = use(DynamoDBStack);
+    const { organisationsTableV2: organisationsTable } = use(DynamoDBStack);
     const { clientId, clientSecret, userPoolId, userPoolArn } = use(CognitoStack);
     const { alarmTopic } = use(MonitoringStack);
     const { dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret } = use(RdsStack);
@@ -31,7 +31,6 @@ export const RoadworksNotificationStack = ({ stack }: StackContext) => {
         functionName: `cdd-roadworks-cancelled-notification-${stack.stage}`,
         bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret],
         environment: {
-            DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
             ORGANISATIONS_TABLE_NAME: organisationsTable.tableName,
             API_BASE_URL: apiUrl,
             COGNITO_CLIENT_ID: clientId,
@@ -53,10 +52,6 @@ export const RoadworksNotificationStack = ({ stack }: StackContext) => {
             new PolicyStatement({
                 resources: ["*"],
                 actions: ["ses:SendEmail", "ses:SendRawEmail"],
-            }),
-            new PolicyStatement({
-                resources: [disruptionsTable.tableArn],
-                actions: ["dynamodb:Scan"],
             }),
             new PolicyStatement({
                 resources: [userPoolArn],

@@ -95,14 +95,6 @@ export const main = async (event: APIGatewayEvent): Promise<{ statusCode: number
             id: randomUUID(),
         };
 
-        const orgDisruptionsBucketName = process.env.ORG_DISRUPTIONS_BUCKET_NAME;
-
-        if (!orgDisruptionsBucketName) {
-            logger.error("ORG_DISRUPTIONS_BUCKET_NAME must be set");
-
-            throw new Error("ORG_DISRUPTIONS_BUCKET_NAME must be set");
-        }
-
         const orgId = event?.pathParameters?.id;
 
         if (!orgId) {
