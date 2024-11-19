@@ -3,7 +3,6 @@ import { CognitoStack } from "./stacks/CognitoStack";
 import { DnsStack } from "./stacks/DnsStack";
 import { DynamoDBStack } from "./stacks/DynamoDBStack";
 import { MonitoringStack } from "./stacks/MonitoringStack";
-import { OrgDisruptionsGeneratorStack } from "./stacks/OrgDisruptionsGenerator";
 import { RdsStack } from "./stacks/RdsStack";
 import { RoadworksNotificationStack } from "./stacks/RoadworksNotificationStack";
 import { SiriAPIStack } from "./stacks/SiriAPIStack";
@@ -25,7 +24,6 @@ export default {
         app.stack(MonitoringStack);
         app.stack(CognitoStack);
         app.stack(DynamoDBStack);
-        app.stack(OrgDisruptionsGeneratorStack);
         app.stack(SiteStack);
         app.stack(SiriGeneratorStack);
         app.stack(SiriAPIStack);

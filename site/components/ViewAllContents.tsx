@@ -37,11 +37,7 @@ import {
     sortServices,
     splitCamelCaseToString,
 } from "../utils";
-import {
-    convertDateTimeToFormat,
-    dateIsSameOrBeforeSecondDate,
-    filterDatePeriodMatchesDisruptionDatePeriod,
-} from "../utils/dates";
+import { convertDateTimeToFormat, dateIsSameOrBeforeSecondDate } from "../utils/dates";
 import { getExportSchema } from "../utils/exportUtils";
 import { filterServices } from "../utils/formUtils";
 import DateSelector from "./form/DateSelector";
@@ -110,25 +106,20 @@ const sortFunction = (contents: ContentTable[], sortField: keyof ContentTable, s
 
 export const getDisruptionData = async (
     orgId: string,
+    request: "all" | "live" | "upcoming" | "recentlyClosed",
     isTemplate?: boolean,
-    nextKey?: string,
 ): Promise<TableDisruption[]> => {
     const options: RequestInit = {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            NextKey: nextKey || "",
         },
     };
 
-    const queryParams = [];
+    const queryParams = [`request=${request}`];
 
     if (isTemplate) {
         queryParams.push("template=true");
-    }
-
-    if (nextKey) {
-        queryParams.push(`nextKey=${encodeURIComponent(nextKey)}`);
     }
 
     const res = await fetch(
@@ -136,16 +127,12 @@ export const getDisruptionData = async (
         options,
     );
 
-    const { disruptions, nextKey: newNextKey } = await res.json();
+    const { disruptions } = await res.json();
 
     const parsedDisruptions = makeFilteredArraySchema(disruptionsTableSchema).safeParse(disruptions);
 
     if (!parsedDisruptions.success) {
         return [];
-    }
-
-    if (newNextKey) {
-        return [...parsedDisruptions.data, ...(await getDisruptionData(orgId, isTemplate, newNextKey as string))];
     }
 
     return parsedDisruptions.data;
@@ -224,21 +211,14 @@ export const applyDateFilters = (
         endTime: string;
     },
 ): TableDisruption[] => {
-    return contents.filter((content) =>
-        content.validityPeriods.some((valPeriod) => {
-            const { startTime, endTime } = valPeriod;
+    return contents.filter((content) => {
+        const startValidity = getDate(content.validityStartTimestamp);
+        const endValidity = content.validityEndTimestamp ? getDate(content.validityEndTimestamp) : null;
+        const filterStart = getFormattedDate(period.startTime);
+        const filterEnd = getFormattedDate(period.endTime);
 
-            const periodStartDate = getDate(startTime);
-            const periodEndDate = endTime ? getDate(endTime) : undefined;
-
-            return filterDatePeriodMatchesDisruptionDatePeriod(
-                getFormattedDate(period.startTime),
-                getFormattedDate(period.endTime),
-                periodStartDate,
-                periodEndDate,
-            );
-        }),
-    );
+        return startValidity.isSameOrBefore(filterEnd) && (!endValidity || endValidity.isSameOrAfter(filterStart));
+    });
 };
 
 export const applyFiltersToContents = (
@@ -373,12 +353,6 @@ export const getContentPage = (pageNumber: number, contents: TableDisruption[]):
 
 const formatContentsIntoRows = (contents: TableDisruption[], isTemplate: boolean): ContentTable[] => {
     return contents.map((content) => {
-        const earliestPeriod: {
-            startTime: string;
-            endTime: string | null;
-        } = content.validityPeriods[0];
-        const latestPeriod: string | null = content.validityPeriods[content.validityPeriods.length - 1].endTime;
-
         return {
             id: (
                 <Link
@@ -417,8 +391,8 @@ const formatContentsIntoRows = (contents: TableDisruption[], isTemplate: boolean
             ),
             summary: content.summary,
             modes: content.modes.map((mode) => splitCamelCaseToString(mode)).join(", ") || "N/A",
-            start: convertDateTimeToFormat(earliestPeriod.startTime),
-            end: latestPeriod ? convertDateTimeToFormat(latestPeriod) : "No end time",
+            start: convertDateTimeToFormat(content.validityStartTimestamp),
+            end: content.validityEndTimestamp ? convertDateTimeToFormat(content.validityEndTimestamp) : "No end time",
             severity: splitCamelCaseToString(content.severity),
             status: splitCamelCaseToString(content.status),
         };
@@ -524,7 +498,7 @@ const ViewAllContents = ({
         const fetchData = async () => {
             setLoadPage(true);
 
-            const data = await getDisruptionData(orgId, isTemplate);
+            const data = await getDisruptionData(orgId, "all", isTemplate);
 
             setInitialFilters(filter, setContentsToDisplay, data);
             setContents(data);

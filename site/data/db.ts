@@ -17,7 +17,6 @@ import {
     withEditedConsequences,
     withEditedDisruption,
 } from "@create-disruptions-data/shared-ts/utils/db";
-import { makeFilteredArraySchema } from "@create-disruptions-data/shared-ts/utils/zod";
 import { ExpressionBuilder, OnConflictDatabase, OnConflictTables } from "kysely";
 
 import { TooManyConsequencesError } from "../errors";
@@ -33,22 +32,23 @@ import {
     notEmpty,
     splitCamelCaseToString,
 } from "../utils";
+import { getValidityAndPublishStartAndEndDates } from "../utils/dates";
 import logger from "../utils/logger";
 
-const mapDisruptionToDb = ({
+export const mapDisruptionToDb = ({
     consequences,
     editedDisruption,
     editExistsInDb,
     ...disruption
     // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-}: DisruptionDB & { consequences?: any; editedDisruption?: any; editExistsInDb?: any }) => ({
+}: DisruptionDB & { consequences?: any; editedDisruption?: any; editExistsInDb?: any }): NewDisruptionDB => ({
     ...disruption,
     history: json(disruption.history),
     validity: disruption.validity && json(disruption.validity),
     socialMediaPosts: disruption.socialMediaPosts && json(disruption.socialMediaPosts),
 });
 
-const mapConsequenceToDb = (consequence: ConsequenceDB) => ({
+export const mapConsequenceToDb = (consequence: ConsequenceDB) => ({
     ...consequence,
     services: consequence.services && json(consequence.services),
     stops: consequence.stops && json(consequence.stops),
@@ -79,22 +79,6 @@ const createConsequenceConflictMapping = (
     return Object.fromEntries(keys.map((key) => [key, eb.ref(`excluded.${key}`)]));
 };
 
-export const getPublishedDisruptionsData = async (orgId: string): Promise<FullDisruption[]> => {
-    logger.info("Getting disruptions data from database...");
-
-    const dbClient = getDbClient(true);
-
-    const disruptions = await dbClient
-        .selectFrom("disruptions")
-        .selectAll()
-        .select((eb) => [withConsequences(eb)])
-        .where("disruptions.orgId", "=", orgId)
-        .where("disruptions.publishStatus", "=", PublishStatus.published)
-        .execute();
-
-    return makeFilteredArraySchema(fullDisruptionSchema).parse(disruptions);
-};
-
 export const getDisruptionsData = async (orgId: string, isTemplate = false): Promise<FullDisruption[]> => {
     logger.info(`Getting disruptions data from database for org ${orgId}...`);
 
@@ -106,6 +90,7 @@ export const getDisruptionsData = async (orgId: string, isTemplate = false): Pro
         .select((eb) => [withConsequences(eb)])
         .where("disruptions.orgId", "=", orgId)
         .where("disruptions.template", "=", isTemplate)
+        .orderBy(["disruptions.validityStartTimestamp asc", "disruptions.validityEndTimestamp asc"])
         .execute();
 
     return fullDisruptionSchema.array().parse(disruptions);
@@ -114,19 +99,28 @@ export const getDisruptionsData = async (orgId: string, isTemplate = false): Pro
 export const getPublishedSocialMediaPosts = async (orgId: string): Promise<SocialMediaPost[]> => {
     logger.info("Getting published social media data...");
 
-    const disruptions = await getPublishedDisruptionsData(orgId);
+    const dbClient = getDbClient(true);
+
+    const disruptions = await dbClient
+        .selectFrom("disruptions")
+        .select(["socialMediaPosts", "publishEndDate", "publishEndTime"])
+        .where("disruptions.orgId", "=", orgId)
+        .where("disruptions.publishStatus", "=", PublishStatus.published)
+        .execute();
 
     const currentAndUpcomingDisruptions = disruptions.filter((disruption) =>
         isCurrentOrUpcomingDisruption(disruption.publishEndDate, disruption.publishEndTime),
     );
 
-    return currentAndUpcomingDisruptions.flatMap((item) => item.socialMediaPosts).filter(notEmpty);
+    return socialMediaPostSchema
+        .array()
+        .parse(currentAndUpcomingDisruptions.flatMap((item) => item.socialMediaPosts).filter(notEmpty));
 };
 
 export const deletePublishedDisruption = async (disruptionId: string, orgId: string) => {
     logger.info(`Deleting published disruption (${disruptionId}) in org (${orgId})...`);
 
-    const dbClient = getDbClient(true);
+    const dbClient = getDbClient();
 
     await dbClient
         .deleteFrom("disruptions")
@@ -145,7 +139,7 @@ export const removeConsequenceFromDisruption = async (
 ) => {
     logger.info(`Updating consequence ${index} in disruption (${disruptionId})...`);
 
-    const dbClient = getDbClient(true);
+    const dbClient = getDbClient();
 
     const disruption = await getDbDisruption(disruptionId, orgId);
     const currentDisruption = disruption?.editedDisruption ?? disruption;
@@ -220,7 +214,7 @@ export const removeConsequenceFromDisruption = async (
     });
 };
 
-const getDbDisruption = async (disruptionId: string, orgId: string) => {
+export const getDbDisruption = async (disruptionId: string, orgId: string) => {
     logger.info(`Retrieving (${disruptionId})...`);
 
     const dbClient = getDbClient(true);
@@ -280,7 +274,7 @@ export const publishDisruption = async (
 ) => {
     logger.info(`Inserting published disruption (${disruption.id})...`);
 
-    const dbClient = getDbClient(true);
+    const dbClient = getDbClient();
 
     const fullHistory: History[] = [
         ...(disruption.history ?? []),
@@ -294,7 +288,7 @@ export const publishDisruption = async (
 
     await dbClient
         .updateTable("disruptions")
-        .set({ publishStatus: status, history: json(fullHistory) })
+        .set({ publishStatus: status, history: json(fullHistory), version: 1 })
         .where("disruptions.id", "=", disruption.id)
         .where("disruptions.orgId", "=", orgId)
         .execute();
@@ -310,7 +304,7 @@ export const upsertDisruptionInfo = async (
 ) => {
     logger.info(`Upserting disruption (${disruptionInfo.id})...`);
 
-    const dbClient = getDbClient(true);
+    const dbClient = getDbClient();
 
     const disruption = await getDbDisruption(disruptionInfo.id, orgId);
     const currentDisruption = disruption?.editedDisruption ?? disruption;
@@ -322,6 +316,7 @@ export const upsertDisruptionInfo = async (
             currentDisruption?.publishStatus === PublishStatus.pendingAndEditing);
 
     const isEditing = currentDisruption?.publishStatus && currentDisruption?.publishStatus !== PublishStatus.draft;
+    const validityAndPublishStartAndEndDates = getValidityAndPublishStartAndEndDates(disruptionInfo);
 
     if (!isEditing) {
         const disruptionInfoToInsert: NewDisruptionDB = {
@@ -331,7 +326,12 @@ export const upsertDisruptionInfo = async (
             orgId,
             validity: json(disruptionInfo.validity),
             history: json([]),
+            version: currentDisruption?.version,
             template: isTemplate ?? false,
+            validityStartTimestamp: validityAndPublishStartAndEndDates.validityStartTimestamp.toDate(),
+            validityEndTimestamp: validityAndPublishStartAndEndDates.validityEndTimestamp?.toDate() ?? null,
+            publishStartTimestamp: validityAndPublishStartAndEndDates.publishStartTimestamp.toDate(),
+            publishEndTimestamp: validityAndPublishStartAndEndDates.publishEndTimestamp?.toDate() ?? null,
         };
 
         await dbClient
@@ -362,7 +362,13 @@ export const upsertDisruptionInfo = async (
         history: json(history),
         orgId,
         validity: json(disruptionInfo.validity),
+        version: currentDisruption.version,
         template: currentDisruption.template,
+        creationTime: currentDisruption.creationTime,
+        validityStartTimestamp: validityAndPublishStartAndEndDates.validityStartTimestamp.toDate(),
+        validityEndTimestamp: validityAndPublishStartAndEndDates.validityEndTimestamp?.toDate() ?? null,
+        publishStartTimestamp: validityAndPublishStartAndEndDates.publishStartTimestamp.toDate(),
+        publishEndTimestamp: validityAndPublishStartAndEndDates.publishEndTimestamp?.toDate() ?? null,
     };
 
     await dbClient.transaction().execute(async (trx) => {
@@ -398,7 +404,7 @@ export const upsertConsequence = async (
         })...`,
     );
 
-    const dbClient = getDbClient(true);
+    const dbClient = getDbClient();
 
     const disruption = await getDbDisruption(consequence.disruptionId, orgId);
     const currentDisruption = disruption?.editedDisruption ?? disruption;
@@ -559,7 +565,7 @@ export const upsertSocialMediaPost = async (
 ) => {
     logger.info(`Updating socialMediaPost index ${socialMediaPost.socialMediaPostIndex} in disruption (${orgId})...`);
 
-    const dbClient = getDbClient(true);
+    const dbClient = getDbClient();
 
     const disruption = await getDbDisruption(socialMediaPost.disruptionId, orgId);
     const currentDisruption = disruption?.editedDisruption ?? disruption;
@@ -626,7 +632,7 @@ export const removeSocialMediaPostFromDisruption = async (
 ) => {
     logger.info(`Removing socialMediaPost ${index} in disruption (${disruptionId})...`);
 
-    const dbClient = getDbClient(true);
+    const dbClient = getDbClient();
 
     const disruption = await getDbDisruption(disruptionId, orgId);
     const currentDisruption = disruption?.editedDisruption ?? disruption;
@@ -674,7 +680,7 @@ export const removeSocialMediaPostFromDisruption = async (
 export const publishEditedDisruption = async (disruptionId: string, orgId: string, user: string) => {
     logger.info(`Publishing edited disruption ${disruptionId}...`);
 
-    const dbClient = getDbClient(true);
+    const dbClient = getDbClient();
 
     await dbClient.transaction().execute(async (trx) => {
         const editedDisruption = await trx
@@ -712,6 +718,7 @@ export const publishEditedDisruption = async (disruptionId: string, orgId: strin
                 publishStatus: PublishStatus.published,
                 lastUpdated: getDate().toISOString(),
                 history: json(history),
+                version: editedDisruption.version ? editedDisruption.version + 1 : 1,
             })
             .execute();
 
@@ -725,7 +732,7 @@ export const publishEditedDisruption = async (disruptionId: string, orgId: strin
 export const publishEditedDisruptionIntoPending = async (disruptionId: string, orgId: string, user: string) => {
     logger.info(`Publishing edited disruption ${disruptionId} to pending status...`);
 
-    const dbClient = getDbClient(true);
+    const dbClient = getDbClient();
 
     const currentDisruption = await getDisruptionById(disruptionId, orgId);
 
@@ -753,7 +760,7 @@ export const publishEditedDisruptionIntoPending = async (disruptionId: string, o
 export const deleteEditedDisruption = async (disruptionId: string, orgId: string) => {
     logger.info(`Deleting edited disruption (${disruptionId})...`);
 
-    const dbClient = getDbClient(true);
+    const dbClient = getDbClient();
 
     await dbClient
         .deleteFrom("disruptionsEdited")
@@ -807,4 +814,19 @@ export const getDisruptionInfoByPermitReferenceNumber = async (
     }
 
     return parsedDisruptionInfo.data;
+};
+
+export const getPendingApprovalCount = async (orgId: string): Promise<number> => {
+    logger.info("Retrieving number of pending approval disruptions...");
+
+    const dbClient = getDbClient(true);
+
+    const pendingCount = await dbClient
+        .selectFrom("disruptions")
+        .select(({ fn }) => [fn.count<string>("disruptions.id").as("pending")])
+        .where("disruptions.orgId", "=", orgId)
+        .where("disruptions.publishStatus", "in", [PublishStatus.editPendingApproval, PublishStatus.pendingApproval])
+        .executeTakeFirst();
+
+    return pendingCount?.pending ? Number(pendingCount.pending) : 0;
 };

@@ -5,7 +5,7 @@ import * as db from "../../../data/db";
 import { FullDisruption } from "../../../schemas/disruption.schema";
 import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession, sortedDisruption } from "../../../testData/mockData";
 import * as session from "../../../utils/apiUtils/auth";
-import getAllDisruptions, { formatSortedDisruption } from "./[organisationId].api";
+import getAllDisruptions, { formatSortedDisruption, GetDisruptionsApiRequest } from "./[organisationId].api";
 
 describe("getAllDisruptions", () => {
     const writeHeadMock = vi.fn();
@@ -63,6 +63,10 @@ describe("getAllDisruptions", () => {
             summary: "testpending81",
             validity: [],
             template: false,
+            publishStartTimestamp: "2023-03-07T10:00:00Z",
+            publishEndTimestamp: null,
+            validityStartTimestamp: "2023-03-07T10:00:00Z",
+            validityEndTimestamp: null,
         },
         {
             associatedLink: "",
@@ -95,6 +99,10 @@ describe("getAllDisruptions", () => {
             summary: "testfilter3",
             validity: [],
             template: false,
+            publishStartTimestamp: "2023-03-07T10:00:00Z",
+            publishEndTimestamp: null,
+            validityStartTimestamp: "2023-03-08T10:00:00Z",
+            validityEndTimestamp: null,
         },
     ];
 
@@ -104,6 +112,7 @@ describe("getAllDisruptions", () => {
         const { req, res } = getMockRequestAndResponse({
             query: {
                 organisationId: DEFAULT_ORG_ID,
+                request: "all",
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -114,7 +123,7 @@ describe("getAllDisruptions", () => {
             json: jsonMock,
         }));
 
-        await getAllDisruptions(req, res);
+        await getAllDisruptions(req as GetDisruptionsApiRequest, res);
 
         expect(res.status).toHaveBeenCalledWith(200);
         expect(jsonMock).toMatchSnapshot();
@@ -124,7 +133,10 @@ describe("getAllDisruptions", () => {
         getSessionSpy.mockReturnValue(null);
 
         const { req, res } = getMockRequestAndResponse({
-            body: {},
+            query: {
+                organisationId: DEFAULT_ORG_ID,
+                request: "all",
+            },
             mockWriteHeadFn: writeHeadMock,
         });
 
@@ -132,7 +144,7 @@ describe("getAllDisruptions", () => {
             json: vi.fn(),
         }));
 
-        await getAllDisruptions(req, res);
+        await getAllDisruptions(req as GetDisruptionsApiRequest, res);
 
         expect(getDisruptionsDataSpy).not.toHaveBeenCalledOnce();
 
@@ -155,6 +167,7 @@ describe("getAllDisruptions", () => {
         const { req, res } = getMockRequestAndResponse({
             query: {
                 organisationId: DEFAULT_ORG_ID,
+                request: "all",
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -165,7 +178,7 @@ describe("getAllDisruptions", () => {
             json: jsonMock,
         }));
 
-        await getAllDisruptions(req, res);
+        await getAllDisruptions(req as GetDisruptionsApiRequest, res);
 
         expect(res.status).toHaveBeenCalledWith(200);
         expect(jsonMock).toMatchSnapshot();
@@ -209,40 +222,20 @@ describe("getAllDisruptions", () => {
         it("correctly formats disruptions to upcoming", () => {
             const formatted = formatSortedDisruption({
                 ...sortedDisruption,
-                validity: [
-                    {
-                        disruptionStartDate: "25/03/2090",
-                        disruptionStartTime: "1123",
-                        disruptionEndDate: "30/03/2090",
-                        disruptionEndTime: "1123",
-                    },
-                    {
-                        disruptionStartDate: "25/12/2090",
-                        disruptionStartTime: "1123",
-                        disruptionEndDate: "30/12/2090",
-                        disruptionEndTime: "1123",
-                    },
-                ],
+                validityStartTimestamp: "2023-10-19T11:23:00Z",
+                validityEndTimestamp: null,
+                publishStartTimestamp: "2023-10-19T11:23:00Z",
+                publishEndTimestamp: null,
             });
             expect(formatted.isLive).toEqual(false);
         });
         it("correctly formats disruptions to recently closed", () => {
             const formatted = formatSortedDisruption({
                 ...sortedDisruption,
-                validity: [
-                    {
-                        disruptionStartDate: "25/03/2021",
-                        disruptionStartTime: "1123",
-                        disruptionEndDate: "30/03/2021",
-                        disruptionEndTime: "1123",
-                    },
-                    {
-                        disruptionStartDate: "10/10/2023",
-                        disruptionStartTime: "1123",
-                        disruptionEndDate: "11/10/2023",
-                        disruptionEndTime: "1123",
-                    },
-                ],
+                validityStartTimestamp: "2021-03-25T11:23:00Z",
+                validityEndTimestamp: "2023-10-17T12:00:00Z",
+                publishStartTimestamp: "2020-10-10T12:00:00Z",
+                publishEndTimestamp: "2023-10-17T12:00:00Z",
             });
 
             expect(formatted.isLive).toEqual(false);

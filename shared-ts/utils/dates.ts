@@ -13,7 +13,8 @@ dayjs.extend(isBetween);
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-export const getDate = (input?: string) => (input ? dayjs.tz(input, "Europe/London") : dayjs().tz("Europe/London"));
+export const getDate = (input?: string | Date) =>
+    input ? dayjs.tz(input, "Europe/London") : dayjs().tz("Europe/London");
 
 export const getDatetimeFromDateAndTime = (date: string, time: string) =>
     dayjs.tz(`${date} ${time}`, `DD/MM/YYYY ${time ? "HHmm" : ""}`, "Europe/London");
@@ -33,10 +34,7 @@ export const checkOverlap = (
     );
 };
 
-export const isCurrentOrUpcomingDisruption = (
-    publishEndDate: string | undefined,
-    publishEndTime: string | undefined,
-) => {
+export const isCurrentOrUpcomingDisruption = (publishEndDate?: string | null, publishEndTime?: string | null) => {
     const currentDatetime = getDate();
 
     if (publishEndDate && publishEndTime) {

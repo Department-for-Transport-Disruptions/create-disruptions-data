@@ -9,17 +9,17 @@ import {
     personnelReasonSchema,
 } from "./siriTypes.zod";
 import { transformToArray } from "./utils";
-import { checkOverlap, getDatetimeFromDateAndTime, getFormattedDate } from "./utils/dates";
+import { checkOverlap, getDate, getDatetimeFromDateAndTime, getFormattedDate } from "./utils/dates";
 import { isValidTime, setZodDefaultError, zodDate, zodTime, zodTimeInMinutes } from "./utils/zod";
 
 export const validitySchema = z.object({
     disruptionStartDate: zodDate("Invalid start date"),
     disruptionStartTime: zodTime("Invalid start time"),
-    disruptionEndDate: zodDate("Invalid disruption end date").optional().or(z.literal("")),
-    disruptionEndTime: zodTime("Invalid disruption end time").optional().or(z.literal("")),
-    disruptionNoEndDateTime: z.union([z.literal("true"), z.literal("")]).optional(),
-    disruptionRepeats: z.union([z.literal("doesntRepeat"), z.literal("daily"), z.literal("weekly")]).optional(),
-    disruptionRepeatsEndDate: zodDate("Invalid disruption end date").optional().or(z.literal("")),
+    disruptionEndDate: zodDate("Invalid disruption end date").nullish().or(z.literal("")),
+    disruptionEndTime: zodTime("Invalid disruption end time").nullish().or(z.literal("")),
+    disruptionNoEndDateTime: z.union([z.literal("true"), z.literal("")]).nullish(),
+    disruptionRepeats: z.union([z.literal("doesntRepeat"), z.literal("daily"), z.literal("weekly")]).nullish(),
+    disruptionRepeatsEndDate: zodDate("Invalid disruption end date").nullish().or(z.literal("")),
 });
 
 export const validitySchemaRefined = validitySchema
@@ -918,5 +918,16 @@ export const disruptionSchema = disruptionInfoSchemaRefined.and(
         lastUpdated: z.string().datetime().optional(),
         creationTime: z.string().datetime().optional(),
         history: z.array(historySchema).optional(),
+        version: z.number().nullish(),
+        validityStartTimestamp: z.union([z.date(), z.string()]).transform((t) => getDate(t).toISOString()),
+        validityEndTimestamp: z
+            .union([z.date(), z.string()])
+            .nullish()
+            .transform((t) => (t ? getDate(t).toISOString() : null)),
+        publishStartTimestamp: z.union([z.date(), z.string()]).transform((t) => getDate(t).toISOString()),
+        publishEndTimestamp: z
+            .union([z.date(), z.string()])
+            .nullish()
+            .transform((t) => (t ? getDate(t).toISOString() : null)),
     }),
 );

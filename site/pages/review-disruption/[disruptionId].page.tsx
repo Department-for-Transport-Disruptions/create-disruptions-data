@@ -285,9 +285,9 @@ const ReviewDisruption = ({
                         Repeats every week until{" "}
                         {getEndingOnDateText(
                             validity.disruptionRepeats,
-                            validity.disruptionRepeatsEndDate,
+                            validity.disruptionRepeatsEndDate ?? undefined,
                             validity.disruptionStartDate,
-                            validity.disruptionEndDate,
+                            validity.disruptionEndDate ?? undefined,
                         )}{" "}
                         at {validity.disruptionEndTime}
                     </Fragment>

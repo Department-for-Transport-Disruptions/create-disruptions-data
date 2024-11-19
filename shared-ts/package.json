@@ -3,7 +3,8 @@
     "version": "0.1.0",
     "type": "module",
     "scripts": {
-        "generate-zod": "npx ts-to-zod ./siriTypes.ts ./siriTypes.zod.ts"
+        "generate-zod": "npx ts-to-zod ./siriTypes.ts ./siriTypes.zod.ts",
+        "kysely": "kysely"
     },
     "dependencies": {
         "@aws-sdk/client-cognito-identity-provider": "^3.682.0",

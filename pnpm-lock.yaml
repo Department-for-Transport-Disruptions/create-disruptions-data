@@ -210,9 +210,15 @@ importers:
       '@create-disruptions-data/shared-ts':
         specifier: workspace:^
         version: link:../../shared-ts
+      kysely:
+        specifier: ^0.27.4
+        version: 0.27.4
       lambda-log:
         specifier: ^3.1.0
         version: 3.1.0
+      pg:
+        specifier: ^8.13.1
+        version: 8.13.1
     devDependencies:
       '@tsconfig/node20':
         specifier: ^20.1.2
@@ -238,9 +244,15 @@ importers:
       '@create-disruptions-data/shared-ts':
         specifier: workspace:^
         version: link:../../shared-ts
+      kysely:
+        specifier: ^0.27.4
+        version: 0.27.4
       lambda-log:
         specifier: ^3.1.0
         version: 3.1.0
+      pg:
+        specifier: ^8.13.1
+        version: 8.13.1
     devDependencies:
       '@tsconfig/node20':
         specifier: ^20.1.2
@@ -269,9 +281,15 @@ importers:
       '@create-disruptions-data/shared-ts':
         specifier: workspace:^
         version: link:../../shared-ts
+      kysely:
+        specifier: ^0.27.4
+        version: 0.27.4
       lambda-log:
         specifier: ^3.1.0
         version: 3.1.0
+      pg:
+        specifier: ^8.13.1
+        version: 8.13.1
     devDependencies:
       '@tsconfig/node20':
         specifier: ^20.1.2
@@ -306,9 +324,15 @@ importers:
       json-2-csv:
         specifier: ^4.1.0
         version: 4.1.1
+      kysely:
+        specifier: ^0.27.4
+        version: 0.27.4
       lambda-log:
         specifier: ^3.1.0
         version: 3.1.0
+      pg:
+        specifier: ^8.13.1
+        version: 8.13.1
       xml-formatter:
         specifier: ^3.3.0
         version: 3.6.3
@@ -344,75 +368,20 @@ importers:
         specifier: ^2.1.4
         version: 2.1.4(@types/node@20.14.10)(jsdom@21.1.2)(sass@1.77.6)
 
-  packages/siri-sx-importer:
-    dependencies:
-      '@aws-sdk/client-s3':
-        specifier: ^3.682.0
-        version: 3.682.0(aws-crt@1.21.3)
-      '@create-disruptions-data/shared-ts':
-        specifier: workspace:^
-        version: link:../../shared-ts
-      crypto-random-string:
-        specifier: ^5.0.0
-        version: 5.0.0
-      js2xmlparser:
-        specifier: ^5.0.0
-        version: 5.0.0
-      lambda-log:
-        specifier: ^3.1.0
-        version: 3.1.0
-      node-fetch:
-        specifier: ^3.3.2
-        version: 3.3.2
-      uuid:
-        specifier: ^9.0.0
-        version: 9.0.1
-      xml-formatter:
-        specifier: ^3.3.0
-        version: 3.6.3
-    devDependencies:
-      '@tsconfig/node20':
-        specifier: ^20.1.2
-        version: 20.1.4
-      '@types/aws-lambda':
-        specifier: ^8.10.110
-        version: 8.10.140
-      '@types/jstoxml':
-        specifier: ^2.0.2
-        version: 2.0.4
-      '@types/lambda-log':
-        specifier: ^2.2.1
-        version: 2.2.1
-      '@types/node':
-        specifier: ^20.10.5
-        version: 20.14.10
-      '@types/uuid':
-        specifier: ^9.0.0
-        version: 9.0.8
-      '@types/xml2js':
-        specifier: ^0.4.11
-        version: 0.4.14
-      aws-sdk-client-mock:
-        specifier: ^2.1.0
-        version: 2.2.0
-      dayjs:
-        specifier: ^1.11.7
-        version: 1.11.11
-      ts-node:
-        specifier: ^10.9.1
-        version: 10.9.2(@types/node@20.14.10)(typescript@5.6.3)
-      vitest:
-        specifier: ^2.1.4
-        version: 2.1.4(@types/node@20.14.10)(jsdom@21.1.2)(sass@1.77.6)
-
   packages/siri-sx-stats-generator:
     dependencies:
       '@create-disruptions-data/shared-ts':
         specifier: workspace:^
         version: link:../../shared-ts
+      kysely:
+        specifier: ^0.27.4
+        version: 0.27.4
       lambda-log:
         specifier: ^3.1.0
         version: 3.1.0
+      pg:
+        specifier: ^8.13.1
+        version: 8.13.1
     devDependencies:
       '@tsconfig/node20':
         specifier: ^20.1.2
@@ -3192,9 +3161,6 @@ packages:
     resolution: {integrity: sha512-TV7t8GKYaJWsn00tFDqBw8+Uqmr8A0fRU1tvTQhyZzGv0sJCGRQL3JGMI3ucuKo3XIZdUP+Lx7/gh2t3lewy7g==}
     engines: {node: '>=14.16'}
 
-  '@sinonjs/commons@1.8.6':
-    resolution: {integrity: sha512-Ky+XkAkqPZSm3NLBeUng77EBQl3cmeJhITaGHdYH8kjVB+aun3S4XBRti2zt17mtt0mIUDiNxYeoJm6drVvBJQ==}
-
   '@sinonjs/commons@2.0.0':
     resolution: {integrity: sha512-uLa0j859mMrg2slwQYdO/AkrOfmH+X6LTVmNTS9CqexuE2IvVORIkSpJLqePAbEnKJ77aMmCwr1NUZ57120Xcg==}
 
@@ -3209,12 +3175,6 @@ packages:
 
   '@sinonjs/fake-timers@13.0.5':
     resolution: {integrity: sha512-36/hTbH2uaWuGVERyC6da9YwGWnzUZXuPro/F2LfsdOsLnCojz/iSH8MxUt/FD2S5XBSVPhmArFUXcpCQ2Hkiw==}
-
-  '@sinonjs/fake-timers@9.1.2':
-    resolution: {integrity: sha512-BPS4ynJW/o92PUR4wgriz2Ud5gpST5vz6GQfMixEDK0Z8ZCUv2M7SkBLykH56T++Xs+8ln9zTGbOvNGIe02/jw==}
-
-  '@sinonjs/samsam@7.0.1':
-    resolution: {integrity: sha512-zsAk2Jkiq89mhZovB2LLOdTCxJF4hqqTToGP0ASWlhp4I1hqOjcfmZGafXntCN7MDC6yySH0mFHrYtHceOeLmw==}
 
   '@sinonjs/samsam@8.0.0':
     resolution: {integrity: sha512-Bp8KUVlLp8ibJZrnvq2foVhP0IVX2CIprMJPK0vqGqgrDa0OHVKeZyBykqskkrdxV6yKBPmGasO8LVjAKR3Gew==}
@@ -3961,9 +3921,6 @@ packages:
   '@types/ws@8.5.10':
     resolution: {integrity: sha512-vmQSUcfalpIq0R9q7uTo2lXs6eGIpt9wtnLdMv9LVpIjCA/+ufZRozlVoVelIYixx1ugCBKDhn89vnsEGOCx9A==}
 
-  '@types/xml2js@0.4.14':
-    resolution: {integrity: sha512-4YnrRemBShWRO2QjvUin8ESA41rH+9nQGLUGZV/1IDhi3SL9OhdpNC/MrulTWuptXKwhx/aDxE7toV0f/ypIXQ==}
-
   '@ungap/promise-all-settled@1.1.2':
     resolution: {integrity: sha512-sL/cEvJWAnClXw0wHk85/2L0G6Sj8UB0Ctc1TEMbKSsmpRosqhwj9gWgFRZSrBr2f9tiXISwNhCPmlfqUqyb9Q==}
 
@@ -4253,9 +4210,6 @@ packages:
   aws-iot-device-sdk@2.2.15:
     resolution: {integrity: sha512-JEnLUx288ttfuwy+ZJA/g9vFG+M3Mucyo1LXypWC8cNV1D8hGvAxeqHygs9TiinvjUazM7gcXwSA+s3E+tbx/g==}
     engines: {node: '>=8.17.0'}
-
-  aws-sdk-client-mock@2.2.0:
-    resolution: {integrity: sha512-Kq2N+6gHRDedbrgTA0NMMfyN1XDWEA5Kbpm9/M/cenSxoNjfvQBOtBawI1lQe5h4UziLl///E7u17K9PBoHEKA==}
 
   aws-sdk-client-mock@3.1.0:
     resolution: {integrity: sha512-3Mx5R8DDka2TB8qtr5jDbSVJsUM6uoX5tZSReBsJS8HunVtL9PHhb+RU7b+I3/53B2fJAyoEp7dJNXndBI+6MA==}
@@ -7441,10 +7395,6 @@ packages:
 
   simple-swizzle@0.2.2:
     resolution: {integrity: sha512-JA//kQgZtbuY83m+xT+tXJkmJncGMTFT+C+g2h2R9uxkYIrE2yy9sgmcLhCnw57/WSD+Eh3J97FPEDFnbXnDUg==}
-
-  sinon@14.0.2:
-    resolution: {integrity: sha512-PDpV0ZI3ZCS3pEqx0vpNp6kzPhHrLx72wA0G+ZLaaJjLIYeE0n8INlgaohKuGy7hP0as5tbUd23QWu5U233t+w==}
-    deprecated: 16.1.1
 
   sinon@16.1.3:
     resolution: {integrity: sha512-mjnWWeyxcAf9nC0bXcPmiDut+oE8HYridTNzBbF98AYVLmWwGRp2ISEpyhYflG1ifILT+eNn3BmKUJPxjXUPlA==}
@@ -12353,10 +12303,6 @@ snapshots:
 
   '@sindresorhus/is@5.6.0': {}
 
-  '@sinonjs/commons@1.8.6':
-    dependencies:
-      type-detect: 4.0.8
-
   '@sinonjs/commons@2.0.0':
     dependencies:
       type-detect: 4.0.8
@@ -12376,16 +12322,6 @@ snapshots:
   '@sinonjs/fake-timers@13.0.5':
     dependencies:
       '@sinonjs/commons': 3.0.1
-
-  '@sinonjs/fake-timers@9.1.2':
-    dependencies:
-      '@sinonjs/commons': 1.8.6
-
-  '@sinonjs/samsam@7.0.1':
-    dependencies:
-      '@sinonjs/commons': 2.0.0
-      lodash.get: 4.4.2
-      type-detect: 4.0.8
 
   '@sinonjs/samsam@8.0.0':
     dependencies:
@@ -13462,10 +13398,6 @@ snapshots:
     dependencies:
       '@types/node': 20.14.10
 
-  '@types/xml2js@0.4.14':
-    dependencies:
-      '@types/node': 20.14.10
-
   '@ungap/promise-all-settled@1.1.2': {}
 
   '@vitejs/plugin-react@4.3.3(vite@5.4.10(@types/node@18.19.39)(sass@1.77.6))':
@@ -13521,14 +13453,6 @@ snapshots:
       '@vitest/utils': 2.1.4
       chai: 5.1.2
       tinyrainbow: 1.2.0
-
-  '@vitest/mocker@2.1.4(vite@5.4.10(@types/node@18.19.39)(sass@1.77.6))':
-    dependencies:
-      '@vitest/spy': 2.1.4
-      estree-walker: 3.0.3
-      magic-string: 0.30.12
-    optionalDependencies:
-      vite: 5.4.10(@types/node@18.19.39)(sass@1.77.6)
 
   '@vitest/mocker@2.1.4(vite@5.4.10(@types/node@20.14.10)(sass@1.77.6))':
     dependencies:
@@ -13820,12 +13744,6 @@ snapshots:
       - bufferutil
       - supports-color
       - utf-8-validate
-
-  aws-sdk-client-mock@2.2.0:
-    dependencies:
-      '@types/sinon': 10.0.20
-      sinon: 14.0.2
-      tslib: 2.6.3
 
   aws-sdk-client-mock@3.1.0:
     dependencies:
@@ -17287,15 +17205,6 @@ snapshots:
     dependencies:
       is-arrayish: 0.3.2
 
-  sinon@14.0.2:
-    dependencies:
-      '@sinonjs/commons': 2.0.0
-      '@sinonjs/fake-timers': 9.1.2
-      '@sinonjs/samsam': 7.0.1
-      diff: 5.2.0
-      nise: 5.1.9
-      supports-color: 7.2.0
-
   sinon@16.1.3:
     dependencies:
       '@sinonjs/commons': 3.0.1
@@ -18098,7 +18007,7 @@ snapshots:
   vitest@2.1.4(@types/node@18.19.39)(jsdom@21.1.2)(sass@1.77.6):
     dependencies:
       '@vitest/expect': 2.1.4
-      '@vitest/mocker': 2.1.4(vite@5.4.10(@types/node@18.19.39)(sass@1.77.6))
+      '@vitest/mocker': 2.1.4(vite@5.4.10(@types/node@20.14.10)(sass@1.77.6))
       '@vitest/pretty-format': 2.1.4
       '@vitest/runner': 2.1.4
       '@vitest/snapshot': 2.1.4

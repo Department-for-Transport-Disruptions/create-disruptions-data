@@ -1,5 +1,6 @@
 import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { DISRUPTION_DETAIL_PAGE_PATH, ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
 import * as db from "../../data/db";
@@ -38,6 +39,10 @@ const disruption: FullDisruption = {
     publishStartTime: "1900",
     disruptionStartDate: defaultDisruptionStartDate,
     disruptionStartTime: "1800",
+    publishStartTimestamp: getDatetimeFromDateAndTime(defaultPublishStartDate, "1900").toISOString(),
+    publishEndTimestamp: null,
+    validityStartTimestamp: getDatetimeFromDateAndTime(defaultDisruptionStartDate, "1800").toISOString(),
+    validityEndTimestamp: null,
     disruptionNoEndDateTime: "true",
     disruptionRepeats: "doesntRepeat",
     disruptionRepeatsEndDate: "",

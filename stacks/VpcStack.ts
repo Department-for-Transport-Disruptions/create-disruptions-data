@@ -1,4 +1,4 @@
-import { Peer, Port, SecurityGroup, SubnetType, Vpc } from "aws-cdk-lib/aws-ec2";
+import { CfnSecurityGroupIngress, Peer, Port, SecurityGroup, SubnetType, Vpc } from "aws-cdk-lib/aws-ec2";
 import { StackContext } from "sst/constructs";
 import { isUserEnv } from "./utils";
 
@@ -57,6 +57,16 @@ export const VpcStack = ({ stack }: StackContext) => {
     dbSg.addIngressRule(Peer.securityGroupId(siteSg.securityGroupId), Port.POSTGRES);
     dbSg.addIngressRule(Peer.securityGroupId(bastionSg.securityGroupId), Port.POSTGRES);
     dbSg.addIngressRule(Peer.securityGroupId(lambdaSg.securityGroupId), Port.POSTGRES);
+
+    const dbSgSelfIngress = new CfnSecurityGroupIngress(stack, "rds-self-ingress", {
+        ipProtocol: "tcp",
+        sourceSecurityGroupId: dbSg.securityGroupId,
+        fromPort: 5432,
+        toPort: 5432,
+        groupId: dbSg.securityGroupId,
+    });
+
+    dbSgSelfIngress.node.addDependency(dbSg);
 
     return {
         vpc,

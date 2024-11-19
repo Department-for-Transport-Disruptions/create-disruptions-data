@@ -401,7 +401,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
               <dd
                 class="govuk-summary-list__value"
               >
-                13:00
+                11:00
               </dd>
               <dd
                 class="govuk-summary-list__actions"
@@ -438,7 +438,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
               <dd
                 class="govuk-summary-list__value"
               >
-                13/01/2022
+                18/01/2022
               </dd>
               <dd
                 class="govuk-summary-list__actions"
@@ -2586,7 +2586,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
               <dd
                 class="govuk-summary-list__value"
               >
-                13:00
+                11:00
               </dd>
               <dd
                 class="govuk-summary-list__actions"
@@ -2623,7 +2623,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
               <dd
                 class="govuk-summary-list__value"
               >
-                13/01/2022
+                18/01/2022
               </dd>
               <dd
                 class="govuk-summary-list__actions"
@@ -4643,7 +4643,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
               <dd
                 class="govuk-summary-list__value"
               >
-                13:00
+                11:00
               </dd>
               <dd
                 class="govuk-summary-list__actions"
@@ -4664,7 +4664,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
               <dd
                 class="govuk-summary-list__value"
               >
-                13/01/2022
+                18/01/2022
               </dd>
               <dd
                 class="govuk-summary-list__actions"
@@ -6049,7 +6049,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
               <dd
                 class="govuk-summary-list__value"
               >
-                13:00
+                11:00
               </dd>
               <dd
                 class="govuk-summary-list__actions"
@@ -6070,7 +6070,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
               <dd
                 class="govuk-summary-list__value"
               >
-                13/01/2022
+                18/01/2022
               </dd>
               <dd
                 class="govuk-summary-list__actions"
@@ -7455,7 +7455,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
               <dd
                 class="govuk-summary-list__value"
               >
-                13:00
+                11:00
               </dd>
               <dd
                 class="govuk-summary-list__actions"
@@ -7476,7 +7476,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
               <dd
                 class="govuk-summary-list__value"
               >
-                13/01/2022
+                18/01/2022
               </dd>
               <dd
                 class="govuk-summary-list__actions"
@@ -8996,7 +8996,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
               <dd
                 class="govuk-summary-list__value"
               >
-                13:00
+                11:00
               </dd>
               <dd
                 class="govuk-summary-list__actions"
@@ -9033,7 +9033,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
               <dd
                 class="govuk-summary-list__value"
               >
-                13/01/2022
+                18/01/2022
               </dd>
               <dd
                 class="govuk-summary-list__actions"
@@ -11488,7 +11488,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
               <dd
                 class="govuk-summary-list__value"
               >
-                13:00
+                11:00
               </dd>
               <dd
                 class="govuk-summary-list__actions"
@@ -11525,7 +11525,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and no e
               <dd
                 class="govuk-summary-list__value"
               >
-                13/01/2022
+                18/01/2022
               </dd>
               <dd
                 class="govuk-summary-list__actions"
@@ -13674,7 +13674,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
               <dd
                 class="govuk-summary-list__value"
               >
-                13:00
+                11:00
               </dd>
               <dd
                 class="govuk-summary-list__actions"
@@ -13711,7 +13711,7 @@ exports[`pages > DisruptionDetail > should render correctly with inputs and stat
               <dd
                 class="govuk-summary-list__value"
               >
-                13/01/2022
+                18/01/2022
               </dd>
               <dd
                 class="govuk-summary-list__actions"

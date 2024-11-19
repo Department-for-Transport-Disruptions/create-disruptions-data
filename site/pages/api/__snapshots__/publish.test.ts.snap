@@ -42,8 +42,10 @@ exports[`publish > should write the correct disruptions data to dynamoDB 1`] = `
     "disruptionType": "planned",
     "id": "acde070d-8c4c-4f0d-9d8a-162843c10333",
     "orgId": "35bae327-4af0-4bbf-8bfa-2c085f214483",
+    "publishEndTimestamp": null,
     "publishStartDate": "10/03/2023",
     "publishStartTime": "1200",
+    "publishStartTimestamp": "2023-03-10T12:00:00Z",
     "publishStatus": "DRAFT",
     "socialMediaPosts": [
       {
@@ -93,6 +95,8 @@ exports[`publish > should write the correct disruptions data to dynamoDB 1`] = `
         "disruptionStartTime": "1200",
       },
     ],
+    "validityEndTimestamp": null,
+    "validityStartTimestamp": "2023-03-18T17:00:00Z",
   },
   "35bae327-4af0-4bbf-8bfa-2c085f214483",
   "PUBLISHED",

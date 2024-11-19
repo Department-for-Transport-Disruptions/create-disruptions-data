@@ -1,7 +1,7 @@
 import { SESClient, SendEmailCommand } from "@aws-sdk/client-ses";
 import { MiscellaneousReason, PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import * as cognito from "@create-disruptions-data/shared-ts/utils/cognito";
-import * as dynamo from "@create-disruptions-data/shared-ts/utils/dynamo";
+import * as db from "@create-disruptions-data/shared-ts/utils/db";
 import * as refDataApi from "@create-disruptions-data/shared-ts/utils/refDataApi";
 import { mockClient } from "aws-sdk-client-mock";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
@@ -11,7 +11,6 @@ const sesMock = mockClient(SESClient);
 
 describe("roadWorksCancelledNotification", () => {
     beforeAll(() => {
-        process.env.DISRUPTIONS_TABLE_NAME = "test-table";
         process.env.ORGANISATIONS_TABLE_NAME = "org-test-table";
         process.env.DOMAIN_NAME = "http://localhost:3000";
         process.env.STAGE = "sandbox";
@@ -45,7 +44,7 @@ describe("roadWorksCancelledNotification", () => {
             },
         ]);
 
-        vi.spyOn(dynamo, "getDisruptionsWithRoadworks").mockResolvedValue([
+        vi.spyOn(db, "getDisruptionsWithRoadworks").mockResolvedValue([
             {
                 id: "d29b9753-d804-4912-9b90-07100ff35cfd",
                 disruptionType: "unplanned",
@@ -74,6 +73,10 @@ describe("roadWorksCancelledNotification", () => {
                 template: false,
                 lastUpdated: "2024-02-07T16:12:17.370Z",
                 history: [],
+                publishStartTimestamp: "2023-12-01T09:30:00Z",
+                publishEndTimestamp: null,
+                validityStartTimestamp: "2023-12-01T09:30:00Z",
+                validityEndTimestamp: null,
             },
         ]);
 
@@ -116,7 +119,7 @@ describe("roadWorksCancelledNotification", () => {
             },
         ]);
 
-        vi.spyOn(dynamo, "getDisruptionsWithRoadworks").mockResolvedValue([
+        vi.spyOn(db, "getDisruptionsWithRoadworks").mockResolvedValue([
             {
                 id: "d29b9753-d804-4912-9b90-07100ff35cfd",
                 disruptionType: "unplanned",
@@ -145,6 +148,10 @@ describe("roadWorksCancelledNotification", () => {
                 template: false,
                 lastUpdated: "2024-02-07T16:12:17.370Z",
                 history: [],
+                publishStartTimestamp: "2023-12-01T09:30:00Z",
+                publishEndTimestamp: null,
+                validityStartTimestamp: "2023-12-01T09:30:00Z",
+                validityEndTimestamp: null,
             },
         ]);
 
@@ -166,7 +173,7 @@ describe("roadWorksCancelledNotification", () => {
     it("should not send an email when there is no cancelled roadwork", async () => {
         vi.spyOn(refDataApi, "getRecentlyCancelledRoadworks").mockResolvedValue([]);
 
-        vi.spyOn(dynamo, "getDisruptionsWithRoadworks").mockResolvedValue([]);
+        vi.spyOn(db, "getDisruptionsWithRoadworks").mockResolvedValue([]);
 
         vi.spyOn(cognito, "getAllUsersEmailsInGroups").mockResolvedValue([]);
 
@@ -195,7 +202,7 @@ describe("roadWorksCancelledNotification", () => {
             },
         ]);
 
-        vi.spyOn(dynamo, "getDisruptionsWithRoadworks").mockResolvedValue([
+        vi.spyOn(db, "getDisruptionsWithRoadworks").mockResolvedValue([
             {
                 id: "d29b9753-d804-4912-9b90-07100ff35cfd",
                 disruptionType: "unplanned",
@@ -224,6 +231,10 @@ describe("roadWorksCancelledNotification", () => {
                 template: false,
                 lastUpdated: "2024-02-07T16:12:17.370Z",
                 history: [],
+                publishStartTimestamp: "2023-12-01T09:30:00Z",
+                publishEndTimestamp: null,
+                validityStartTimestamp: "2023-12-01T09:30:00Z",
+                validityEndTimestamp: null,
             },
         ]);
 
