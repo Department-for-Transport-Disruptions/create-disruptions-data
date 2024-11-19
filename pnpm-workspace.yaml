@@ -1,6 +1,7 @@
 packages:
 - packages/**
 - cli-helpers
+- cli-helpers-commander
 - site
 - .
 - scripts

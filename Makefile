@@ -64,3 +64,9 @@ rolback-local-database:
 	aws lambda invoke --function-name cdd-kysely-db-migrator-rollback-$(stage) --log-type Tail /tmp/response.txt > /dev/null
 
 setup-dev: update-secrets create-local-database migrate-local-database
+
+# CLI helpers
+
+command-%:
+	npx tsx cli-helpers-commander/src/commands/$* ${FLAGS};
+
