@@ -21,10 +21,6 @@ export const SiriAPIStack = ({ stack }: StackContext) => {
         return;
     }
 
-    if (!hostedZone) {
-        return;
-    }
-
     const apiUrl = !["preprod", "prod"].includes(stack.stage)
         ? "https://api.test.ref-data.dft-create-data.com/v1"
         : `https://api.${stack.stage}.ref-data.dft-create-data.com/v1`;

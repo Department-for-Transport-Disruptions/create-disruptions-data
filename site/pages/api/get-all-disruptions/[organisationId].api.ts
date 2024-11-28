@@ -2,9 +2,9 @@ import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Datasource, Progress, PublishStatus, Severity } from "@create-disruptions-data/shared-ts/enums";
 import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import {
+    getClosedDisruptionsFromPastDays,
     getFutureDisruptions,
     getLiveDisruptions,
-    getPastDisruptions,
 } from "@create-disruptions-data/shared-ts/utils/db";
 import { Dayjs } from "dayjs";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -19,7 +19,7 @@ export interface GetDisruptionsApiRequest extends NextApiRequest {
     query: {
         organisationId: string;
         template: "true" | "false";
-        request: "all" | "live" | "upcoming" | "recentlyClosed";
+        type: "all" | "live" | "upcoming" | "recentlyClosed";
     };
 }
 
@@ -200,7 +200,7 @@ export const formatSortedDisruption = (disruption: Disruption): TableDisruption 
 const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResponse) => {
     const session = getSession(req);
 
-    const { template, organisationId: reqOrgId, request } = req.query;
+    const { template, organisationId: reqOrgId, type } = req.query;
 
     if (!session || (session.isOperatorUser && template)) {
         res.status(403);
@@ -216,18 +216,18 @@ const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResp
 
     let disruptions: Disruption[] = [];
 
-    switch (request) {
+    switch (type) {
         case "all":
             disruptions = await getDisruptionsData(sessionOrgId, template === "true");
             break;
         case "live":
-            disruptions = await getLiveDisruptions(sessionOrgId);
+            disruptions = await getLiveDisruptions(sessionOrgId, false);
             break;
         case "upcoming":
-            disruptions = await getFutureDisruptions(sessionOrgId);
+            disruptions = await getFutureDisruptions(sessionOrgId, false);
             break;
         case "recentlyClosed":
-            disruptions = await getPastDisruptions(sessionOrgId);
+            disruptions = await getClosedDisruptionsFromPastDays(7, sessionOrgId, false);
             break;
         default:
             disruptions = [];

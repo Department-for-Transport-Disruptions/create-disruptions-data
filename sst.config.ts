@@ -2,6 +2,7 @@ import { SSTConfig } from "sst";
 import { CognitoStack } from "./stacks/CognitoStack";
 import { DnsStack } from "./stacks/DnsStack";
 import { DynamoDBStack } from "./stacks/DynamoDBStack";
+import { DynamoMigratorStack } from "./stacks/DynamoMigratorStack";
 import { MonitoringStack } from "./stacks/MonitoringStack";
 import { RdsStack } from "./stacks/RdsStack";
 import { RoadworksNotificationStack } from "./stacks/RoadworksNotificationStack";
@@ -28,5 +29,6 @@ export default {
         app.stack(SiriGeneratorStack);
         app.stack(SiriAPIStack);
         app.stack(RoadworksNotificationStack);
+        app.stack(DynamoMigratorStack);
     },
 } satisfies SSTConfig;

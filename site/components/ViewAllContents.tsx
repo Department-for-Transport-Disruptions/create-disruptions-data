@@ -106,7 +106,7 @@ const sortFunction = (contents: ContentTable[], sortField: keyof ContentTable, s
 
 export const getDisruptionData = async (
     orgId: string,
-    request: "all" | "live" | "upcoming" | "recentlyClosed",
+    type: "all" | "live" | "upcoming" | "recentlyClosed",
     isTemplate?: boolean,
 ): Promise<TableDisruption[]> => {
     const options: RequestInit = {
@@ -116,7 +116,7 @@ export const getDisruptionData = async (
         },
     };
 
-    const queryParams = [`request=${request}`];
+    const queryParams = [`type=${type}`];
 
     if (isTemplate) {
         queryParams.push("template=true");
@@ -173,6 +173,12 @@ export const filterContents = (contents: TableDisruption[], filter: Filter): Tab
                 disruption.status !== Progress.draftPendingApproval
             ) {
                 return false;
+            }
+            if (
+                filter.status === Progress.published &&
+                [Progress.open, Progress.published, Progress.closing].includes(disruption.status)
+            ) {
+                return true;
             }
             if (filter.status !== Progress.pendingApproval) {
                 return false;
@@ -471,7 +477,7 @@ const ViewAllContents = ({
     const [filter, setFilter] = useState<Filter>({
         services: [],
         operators: [],
-        status: filterStatus ? filterStatus : undefined,
+        status: filterStatus ? filterStatus : Progress.published,
     });
 
     const [showFilters, setShowFilters] = useState(false);

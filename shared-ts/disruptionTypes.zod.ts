@@ -916,7 +916,7 @@ export const disruptionSchema = disruptionInfoSchemaRefined.and(
         template: z.boolean().optional().default(false),
         createdByOperatorOrgId: z.string().uuid().nullish(),
         lastUpdated: z.string().datetime().optional(),
-        creationTime: z.string().datetime().optional(),
+        creationTime: z.string().datetime().optional().nullish(),
         history: z.array(historySchema).optional(),
         version: z.number().nullish(),
         validityStartTimestamp: z.union([z.date(), z.string()]).transform((t) => getDate(t).toISOString()),
