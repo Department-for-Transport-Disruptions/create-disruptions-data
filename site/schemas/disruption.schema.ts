@@ -1,5 +1,5 @@
 import { History, disruptionSchema, historySchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
-import { Datasource, Progress } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, Progress, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import {
     environmentReasonSchema,
     equipmentReasonSchema,
@@ -142,3 +142,26 @@ export const disruptionsTableSchema = z.object({
 });
 
 export type TableDisruption = z.infer<typeof disruptionsTableSchema>;
+
+export const filtersSchema = z.object({
+    organisationId: z.string().uuid(),
+    template: z.literal("true").or(z.literal("false")).default("false"),
+    textSearch: z.string().max(100).nullish(),
+    operators: z
+        .string()
+        .transform((s) => s.split(","))
+        .pipe(z.string().trim().max(8).array().max(100))
+        .nullish(),
+    services: z
+        .string()
+        .transform((s) => s.split(","))
+        .pipe(z.string().trim().max(30).array().max(50))
+        .nullish(),
+    startDate: z.string().datetime().nullish(),
+    endDate: z.string().datetime().nullish(),
+    severity: z.nativeEnum(Severity).nullish(),
+    status: z.nativeEnum(Progress).nullish(),
+    mode: z.nativeEnum(VehicleMode).nullish(),
+});
+
+export type Filters = z.infer<typeof filtersSchema>;

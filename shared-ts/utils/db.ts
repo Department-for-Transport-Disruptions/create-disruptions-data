@@ -150,7 +150,7 @@ export const getCurrentAndFutureDisruptions = async (orgId?: string) => {
     return makeFilteredArraySchema(disruptionSchema).parse(disruptions);
 };
 
-export const getLiveDisruptions = async (orgId?: string) => {
+export const getLiveDisruptions = async (orgId?: string, includeConsequences = true) => {
     logger.info("Getting live disruptions data from database...");
 
     const dbClient = getDbClient(true);
@@ -158,7 +158,7 @@ export const getLiveDisruptions = async (orgId?: string) => {
     let disruptionsQuery = dbClient
         .selectFrom("disruptions")
         .selectAll()
-        .select((eb) => [withConsequences(eb)])
+        .$if(includeConsequences, (qb) => qb.select((eb) => [withConsequences(eb)]))
         .where("disruptions.publishStatus", "=", PublishStatus.published)
         .where("disruptions.validityStartTimestamp", "<=", sql<Date>`now()`)
         .where((eb) =>
@@ -178,7 +178,7 @@ export const getLiveDisruptions = async (orgId?: string) => {
     return disruptionSchema.array().parse(disruptions);
 };
 
-export const getFutureDisruptions = async (orgId?: string) => {
+export const getFutureDisruptions = async (orgId?: string, includeConsequences = true) => {
     logger.info("Getting future disruptions data from database...");
 
     const dbClient = getDbClient(true);
@@ -186,7 +186,7 @@ export const getFutureDisruptions = async (orgId?: string) => {
     let disruptionsQuery = dbClient
         .selectFrom("disruptions")
         .selectAll()
-        .select((eb) => [withConsequences(eb)])
+        .$if(includeConsequences, (qb) => qb.select((eb) => [withConsequences(eb)]))
         .where("disruptions.publishStatus", "=", PublishStatus.published)
         .where("disruptions.validityStartTimestamp", ">", sql<Date>`now()`)
         .orderBy("disruptions.validityStartTimestamp asc");
@@ -200,7 +200,11 @@ export const getFutureDisruptions = async (orgId?: string) => {
     return makeFilteredArraySchema(disruptionSchema).parse(disruptions);
 };
 
-export const getPastDisruptions = async (orgId?: string) => {
+export const getClosedDisruptionsFromPastDays = async (
+    lookbackDays: number,
+    orgId?: string,
+    includeConsequences = true,
+) => {
     logger.info("Getting past disruptions data from database...");
 
     const dbClient = getDbClient(true);
@@ -208,9 +212,10 @@ export const getPastDisruptions = async (orgId?: string) => {
     let disruptionsQuery = dbClient
         .selectFrom("disruptions")
         .selectAll()
-        .select((eb) => [withConsequences(eb)])
+        .$if(includeConsequences, (qb) => qb.select((eb) => [withConsequences(eb)]))
         .where("disruptions.publishStatus", "=", PublishStatus.published)
         .where("disruptions.validityEndTimestamp", "<", sql<Date>`now()`)
+        .where("disruptions.validityEndTimestamp", ">=", sql<Date>`now() - (${lookbackDays} || ' days')::INTERVAL`)
         .orderBy("disruptions.validityStartTimestamp asc");
 
     if (orgId) {
