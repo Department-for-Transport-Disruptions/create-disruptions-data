@@ -68,5 +68,5 @@ setup-dev: update-secrets create-local-database migrate-local-database
 # CLI helpers
 
 command-%:
-	npx tsx cli-helpers-commander/src/commands/$* ${FLAGS};
+	npx tsx cli-helpers/src/commands/$* ${FLAGS};
 
