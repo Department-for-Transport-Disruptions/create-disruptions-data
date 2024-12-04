@@ -1,3 +1,4 @@
+import { randomBytes } from "crypto";
 import { Logger } from "@create-disruptions-data/shared-ts/utils";
 import { recursiveQuery } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import inquirer, { QuestionMap } from "inquirer";
@@ -88,6 +89,22 @@ export const listOperatorsForOrg = async (orgId: string, stage: string, logger: 
     return parsedOperators.data;
 };
 
+const getRandomInt = (max: number): number => {
+    let randomNumber: number;
+    do {
+        randomNumber = randomBytes(1)[0];
+    } while (randomNumber >= 256 - (256 % max));
+    return randomNumber % max;
+};
+
+/**
+ * Generates a password that conforms to the site's password policy. Ensures that
+ * password contains at least one type of each character, filling the length and
+ * finally shuffling the characters.
+ *
+ * @param length The length of the password
+ * @returns A password string that conforms to password policy
+ */
 export const generatePassword = (length: number): string => {
     const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
@@ -95,19 +112,19 @@ export const generatePassword = (length: number): string => {
     const symbols = "$-_";
 
     let password = [
-        uppercaseChars[Math.floor(Math.random() * uppercaseChars.length)],
-        lowercaseChars[Math.floor(Math.random() * lowercaseChars.length)],
-        numbers[Math.floor(Math.random() * numbers.length)],
-        symbols[Math.floor(Math.random() * symbols.length)],
+        uppercaseChars[getRandomInt(uppercaseChars.length)],
+        lowercaseChars[getRandomInt(lowercaseChars.length)],
+        numbers[getRandomInt(numbers.length)],
+        symbols[getRandomInt(symbols.length)],
     ];
 
     const allChars = uppercaseChars + lowercaseChars + numbers + symbols;
 
     for (let i = password.length; i < length; i++) {
-        password.push(allChars[Math.floor(Math.random() * allChars.length)]);
+        password.push(allChars[getRandomInt(allChars.length)]);
     }
 
-    password = password.sort(() => Math.random() - 0.5);
+    password = password.sort(() => getRandomInt(2) - 0.5);
 
     return password.join("");
 };
