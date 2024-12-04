@@ -9,7 +9,7 @@ import { createDynamoDbDocClient } from "../utils/awsClients";
 program
     .option("--stage <stage>", "SST stage to use")
     .option("--orgId <orgId>", "ID for organisation that this operator org will be linked to")
-    .option("--name <name>", "Name of organisation")
+    .option("--name <name>", "Name of operator")
     .option("--nocCodes <nocCodes>", "Comma-separated list of NOC codes")
     .action(async (options) => {
         const { stage, orgId, name, nocCodes } = await withUserPrompts(options, {

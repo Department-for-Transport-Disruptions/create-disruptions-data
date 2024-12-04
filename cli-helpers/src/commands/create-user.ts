@@ -21,14 +21,17 @@ program
     .option("--lastName <lastName>", "Last name of user")
     .option("--poolId <poolId>", "ID of user pool to add user to")
     .action(async (options) => {
-        let { stage, orgId, group, operatorOrgId, poolId } = program.opts();
+        let { orgId, group, operatorOrgId, poolId } = program.opts();
 
         const cognitoClient = createCognitoClient();
         const dynamoClient = createDynamoDbDocClient();
 
-        if (!stage) {
-            stage = await withUserPrompt("stage", { type: "input" });
-        }
+        const { stage, email, firstName, lastName } = await withUserPrompts(options, {
+            stage: { type: "input" },
+            email: { type: "input" },
+            firstName: { type: "input" },
+            lastName: { type: "input" },
+        });
 
         if (!poolId) {
             const userPoolsResult = await cognitoClient.send(
@@ -82,12 +85,6 @@ program
 
             operatorOrgId = operators.find((operator) => operator.name === chosenOperator)?.operatorOrgId;
         }
-
-        const { email, firstName, lastName } = await withUserPrompts(options, {
-            email: { type: "input" },
-            firstName: { type: "input" },
-            lastName: { type: "input" },
-        });
 
         const key = generatePassword(20);
 
