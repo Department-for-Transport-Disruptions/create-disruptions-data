@@ -29,3 +29,8 @@ lint-with-fix:
 
 run-ui-tests:
 	pnpm playwright test --ui
+
+# CLI helpers
+
+command-%:
+	npx tsx cli-helpers/src/commands/$* ${FLAGS};
