@@ -15,7 +15,6 @@ interface FetchStopsInput {
     polygon?: Position[];
     searchString?: string;
     stopTypes?: string[];
-    busStopTypes?: string;
 }
 
 export const fetchStops = async (input: FetchStopsInput) => {
@@ -33,9 +32,6 @@ export const fetchStops = async (input: FetchStopsInput) => {
 
     if (input.stopTypes) {
         queryStringItems.push(`stopTypes=${input.stopTypes.join(",")}`);
-    }
-    if (input.busStopTypes) {
-        queryStringItems.push(`busStopTypes=${input.busStopTypes}`);
     }
 
     const res = await fetch(`${searchApiUrl}${queryStringItems.length > 0 ? `?${queryStringItems.join("&")}` : ""}`, {
@@ -181,9 +177,7 @@ export const fetchJourneys = async (input: FetchJourneysInput) => {
 interface FetchServiceRoutes {
     serviceRef: string;
     dataSource: Datasource;
-    busStopTypes?: string;
     modes?: string;
-    stopTypes?: string;
 }
 
 export const fetchServiceRoutes = async (input: FetchServiceRoutes) => {
@@ -193,14 +187,6 @@ export const fetchServiceRoutes = async (input: FetchServiceRoutes) => {
 
     if (input.modes) {
         queryStringItems.push(`modes=${input.modes}`);
-    }
-
-    if (input.busStopTypes) {
-        queryStringItems.push(`busStopTypes=${input.busStopTypes}`);
-    }
-
-    if (input.stopTypes) {
-        queryStringItems.push(`stopTypes=${input.stopTypes}`);
     }
 
     const res = await fetch(`${searchApiUrl}${queryStringItems.length > 0 ? `?${queryStringItems.join("&")}` : ""}`, {
@@ -219,9 +205,7 @@ export const fetchServiceRoutes = async (input: FetchServiceRoutes) => {
 interface FetchServiceStops {
     serviceRef: string;
     dataSource: Datasource;
-    busStopTypes?: string;
     modes?: string;
-    stopTypes?: string;
 }
 
 export const fetchServiceStops = async (input: FetchServiceStops) => {
@@ -230,14 +214,6 @@ export const fetchServiceStops = async (input: FetchServiceStops) => {
 
     if (input.modes) {
         queryStringItems.push(`modes=${input.modes}`);
-    }
-
-    if (input.busStopTypes) {
-        queryStringItems.push(`busStopTypes=${input.busStopTypes}`);
-    }
-
-    if (input.stopTypes) {
-        queryStringItems.push(`stopTypes=${input.stopTypes}`);
     }
 
     const res = await fetch(`${searchApiUrl}${queryStringItems.length > 0 ? `?${queryStringItems.join("&")}` : ""}`, {

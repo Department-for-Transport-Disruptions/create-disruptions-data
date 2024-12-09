@@ -4,11 +4,18 @@ import {
     disruptionInfoSchema,
     operatorConsequenceSchema,
 } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
-import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import {
+    MiscellaneousReason,
+    Modes,
+    PublishStatus,
+    Severity,
+    VehicleMode,
+} from "@create-disruptions-data/shared-ts/enums";
 import { describe, expect, it } from "vitest";
 import {
     filterDisruptionsForOperatorUser,
     generatePassword,
+    getStopTypesByVehicleMode,
     removeDuplicatesBasedOnMode,
     splitCamelCaseToString,
     toTitleCase,
@@ -440,5 +447,18 @@ describe("generatePassword", () => {
         const isPasswordValid = validatePassword(password);
 
         expect(isPasswordValid).toEqual(true);
+    });
+});
+describe("getStopTypesByVehicleMode", () => {
+    it.each([
+        [VehicleMode.bus, ["BCT", "BCS", "BCQ"]],
+        [VehicleMode.coach, ["BCT", "BCS", "BCQ"]],
+        [VehicleMode.tram, ["MET", "PLT"]],
+        [Modes.metro, ["MET", "PLT"]],
+        [VehicleMode.underground, ["MET", "PLT"]],
+        [Modes.ferry, ["FER", "FBT"]],
+        [VehicleMode.ferryService, ["FER", "FBT"]],
+    ])("should return the correct stop types for a given mode", (mode, stopType) => {
+        expect(getStopTypesByVehicleMode(mode)).toEqual(stopType);
     });
 });

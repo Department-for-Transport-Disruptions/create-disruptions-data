@@ -277,12 +277,10 @@ const ServicesMap = ({
                 setLoading(true);
                 const vehicleMode = state.inputs.vehicleMode as Modes | VehicleMode;
                 try {
-                    const stopTypes = getStopTypesByVehicleMode(vehicleMode);
                     const stopsData = await fetchStops({
                         adminAreaCodes: state.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
                         polygon,
-                        busStopTypes: stopTypes.busStopTypes,
-                        stopTypes: stopTypes.stopTypes.split(", "),
+                        stopTypes: getStopTypesByVehicleMode(vehicleMode),
                     });
 
                     const filteredStopList = filterStopList(stopsData, vehicleMode, showUnderground);
