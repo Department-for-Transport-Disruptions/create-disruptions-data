@@ -158,12 +158,10 @@ export const getStops = async (
     if (serviceRef) {
         let stopsData: Stop[] = [];
         if (vehicleMode) {
-            const stopTypes = getStopTypesByVehicleMode(vehicleMode);
             stopsData = await fetchServiceStops({
                 serviceRef,
                 dataSource,
                 modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
-                ...stopTypes,
             });
         }
         if (stopsData) {
@@ -265,21 +263,17 @@ export const filterStopList = (stops: Stop[], vehicleMode: VehicleMode | Modes, 
 export const getStopTypesByVehicleMode = (vehicleMode: VehicleMode | Modes) => {
     switch (vehicleMode) {
         case VehicleMode.bus:
-            return {
-                busStopTypes: "MKD,CUS",
-                stopTypes: "BCT",
-            };
+        case Modes.coach:
+            return ["BCT", "BCS", "BCQ"];
         case VehicleMode.tram:
         case Modes.metro:
         case VehicleMode.underground:
-            return { stopTypes: "MET, PLT" };
+            return ["MET", "PLT"];
         case Modes.ferry:
         case VehicleMode.ferryService:
-            return { stopTypes: "FER, FBT" };
-        case Modes.coach:
-            return { stopTypes: "BCT, BCS" };
+            return ["FER", "FBT"];
         default:
-            return { stopTypes: "undefined" };
+            return [];
     }
 };
 

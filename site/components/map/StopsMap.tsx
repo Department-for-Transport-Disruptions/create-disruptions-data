@@ -17,7 +17,7 @@ import { z } from "zod";
 import { fetchStops } from "../../data/refDataApi";
 import { LargePolygonError, NoStopsError } from "../../errors";
 import { PageState } from "../../interfaces";
-import { filterStopList, flattenZodErrors } from "../../utils";
+import { filterStopList, flattenZodErrors, getStopTypesByVehicleMode } from "../../utils";
 import { getStopType, sortAndFilterStops } from "../../utils/formUtils";
 import { warningMessageText } from "../../utils/mapUtils";
 import Warning from "../form/Warning";
@@ -137,22 +137,12 @@ const Map = ({
             const loadOptions = async () => {
                 setLoading(true);
                 const vehicleMode = state.inputs.vehicleMode as Modes | VehicleMode;
+
                 try {
                     const stopsData = await fetchStops({
                         adminAreaCodes: state.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
                         polygon,
-                        ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
-                        ...(vehicleMode === VehicleMode.bus
-                            ? { stopTypes: ["BCT"] }
-                            : vehicleMode === VehicleMode.tram ||
-                                vehicleMode === Modes.metro ||
-                                vehicleMode === VehicleMode.underground
-                              ? { stopTypes: ["MET", "PLT"] }
-                              : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                                ? { stopTypes: ["FER", "FBT"] }
-                                : vehicleMode === Modes.rail
-                                  ? { stopTypes: ["RLY"] }
-                                  : { stopTypes: ["undefined"] }),
+                        stopTypes: getStopTypesByVehicleMode(vehicleMode),
                     });
 
                     const filteredStopList = filterStopList(stopsData, vehicleMode, showUnderground);

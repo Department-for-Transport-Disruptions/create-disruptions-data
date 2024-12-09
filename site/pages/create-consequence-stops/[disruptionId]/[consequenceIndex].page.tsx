@@ -36,7 +36,13 @@ import {
 import { getDisruptionById } from "../../../data/dynamo";
 import { fetchStops } from "../../../data/refDataApi";
 import { CreateConsequenceProps, PageState } from "../../../interfaces";
-import { filterStopList, filterVehicleModes, flattenZodErrors, isStopsConsequence } from "../../../utils";
+import {
+    filterStopList,
+    filterVehicleModes,
+    flattenZodErrors,
+    getStopTypesByVehicleMode,
+    isStopsConsequence,
+} from "../../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
 import { getSessionWithOrgDetail } from "../../../utils/apiUtils/auth";
 import {
@@ -85,22 +91,12 @@ const CreateConsequenceStops = (props: CreateConsequenceStopsProps): ReactElemen
         const loadOptions = async () => {
             if (searchInput.length >= 3) {
                 const vehicleMode = pageState.inputs.vehicleMode as Modes | VehicleMode;
+
                 try {
                     const stopsData = await fetchStops({
                         adminAreaCodes: props.sessionWithOrg?.adminAreaCodes ?? ["undefined"],
                         searchString: searchInput,
-                        ...(vehicleMode === VehicleMode.bus ? { busStopTypes: "MKD,CUS" } : {}),
-                        ...(vehicleMode === VehicleMode.bus
-                            ? { stopTypes: ["BCT"] }
-                            : vehicleMode === VehicleMode.tram ||
-                                vehicleMode === Modes.metro ||
-                                vehicleMode === VehicleMode.underground
-                              ? { stopTypes: ["MET", "PLT"] }
-                              : vehicleMode === Modes.ferry || vehicleMode === VehicleMode.ferryService
-                                ? { stopTypes: ["FER", "FBT"] }
-                                : vehicleMode === Modes.rail
-                                  ? { stopTypes: ["RLY"] }
-                                  : { stopTypes: ["undefined"] }),
+                        stopTypes: getStopTypesByVehicleMode(vehicleMode),
                     });
 
                     const filteredStopList = filterStopList(stopsData, vehicleMode, props.showUnderground);
