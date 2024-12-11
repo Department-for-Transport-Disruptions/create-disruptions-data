@@ -112,7 +112,7 @@ describe("getAllDisruptions", () => {
         const { req, res } = getMockRequestAndResponse({
             query: {
                 organisationId: DEFAULT_ORG_ID,
-                request: "all",
+                type: "all",
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -135,7 +135,7 @@ describe("getAllDisruptions", () => {
         const { req, res } = getMockRequestAndResponse({
             query: {
                 organisationId: DEFAULT_ORG_ID,
-                request: "all",
+                type: "all",
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -167,7 +167,7 @@ describe("getAllDisruptions", () => {
         const { req, res } = getMockRequestAndResponse({
             query: {
                 organisationId: DEFAULT_ORG_ID,
-                request: "all",
+                type: "all",
             },
             mockWriteHeadFn: writeHeadMock,
         });

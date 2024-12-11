@@ -19,6 +19,7 @@ import {
 } from "@create-disruptions-data/shared-ts/utils/db";
 import { ExpressionBuilder, OnConflictDatabase, OnConflictTables } from "kysely";
 
+import { makeFilteredArraySchema } from "@create-disruptions-data/shared-ts/utils/zod";
 import { TooManyConsequencesError } from "../errors";
 import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.schema";
 import { SocialMediaPost, SocialMediaPostTransformed, socialMediaPostSchema } from "../schemas/social-media.schema";
@@ -57,7 +58,7 @@ export const mapConsequenceToDb = (consequence: ConsequenceDB) => ({
     disruptionArea: consequence.disruptionArea && json(consequence.disruptionArea),
 });
 
-const createDisruptionConflictMapping = (
+export const createDisruptionConflictMapping = (
     eb: ExpressionBuilder<
         OnConflictDatabase<Database, "disruptions" | "disruptionsEdited">,
         OnConflictTables<"disruptions" | "disruptionsEdited">
@@ -68,7 +69,7 @@ const createDisruptionConflictMapping = (
     return Object.fromEntries(keys.map((key) => [key, eb.ref(`excluded.${key}`)]));
 };
 
-const createConsequenceConflictMapping = (
+export const createConsequenceConflictMapping = (
     eb: ExpressionBuilder<
         OnConflictDatabase<Database, "consequences" | "consequencesEdited">,
         OnConflictTables<"consequences" | "consequencesEdited">
@@ -90,10 +91,10 @@ export const getDisruptionsData = async (orgId: string, isTemplate = false): Pro
         .select((eb) => [withConsequences(eb)])
         .where("disruptions.orgId", "=", orgId)
         .where("disruptions.template", "=", isTemplate)
-        .orderBy(["disruptions.validityStartTimestamp asc", "disruptions.validityEndTimestamp asc"])
+        .orderBy(["disruptions.validityStartTimestamp desc", "disruptions.validityEndTimestamp desc"])
         .execute();
 
-    return fullDisruptionSchema.array().parse(disruptions);
+    return makeFilteredArraySchema(fullDisruptionSchema).parse(disruptions);
 };
 
 export const getPublishedSocialMediaPosts = async (orgId: string): Promise<SocialMediaPost[]> => {
@@ -821,12 +822,22 @@ export const getPendingApprovalCount = async (orgId: string): Promise<number> =>
 
     const dbClient = getDbClient(true);
 
-    const pendingCount = await dbClient
+    const publishPendingCount = await dbClient
         .selectFrom("disruptions")
         .select(({ fn }) => [fn.count<string>("disruptions.id").as("pending")])
         .where("disruptions.orgId", "=", orgId)
-        .where("disruptions.publishStatus", "in", [PublishStatus.editPendingApproval, PublishStatus.pendingApproval])
+        .where("disruptions.publishStatus", "=", PublishStatus.pendingApproval)
         .executeTakeFirst();
 
-    return pendingCount?.pending ? Number(pendingCount.pending) : 0;
+    const editPendingCount = await dbClient
+        .selectFrom("disruptionsEdited")
+        .select(({ fn }) => [fn.count<string>("disruptionsEdited.id").as("pending")])
+        .where("disruptionsEdited.orgId", "=", orgId)
+        .where("disruptionsEdited.publishStatus", "=", PublishStatus.editPendingApproval)
+        .executeTakeFirst();
+
+    return (
+        (publishPendingCount?.pending ? Number(publishPendingCount?.pending) : 0) +
+        (editPendingCount?.pending ? Number(editPendingCount?.pending) : 0)
+    );
 };
