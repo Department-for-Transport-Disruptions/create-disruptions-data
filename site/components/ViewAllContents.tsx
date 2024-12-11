@@ -612,12 +612,12 @@ const ViewAllContents = ({
                 const blob = await pdf(
                     <PDFDoc disruptions={parseDisruptions.success ? parseDisruptions.data : []} />,
                 ).toBlob();
-                saveAs(blob, "Disruptions_list.pdf", { autoBom: false });
+                saveAs(blob, "Disruptions_list.pdf");
                 setDownloadPdf(false);
             }
         };
         generatePdf().catch(() => {
-            saveAs(new Blob(["There was an error. Contact your admin team"]), "Disruptions.pdf", { autoBom: false });
+            saveAs(new Blob(["There was an error. Contact your admin team"]), "Disruptions.pdf");
         });
     }, [downloadPdf]);
 
