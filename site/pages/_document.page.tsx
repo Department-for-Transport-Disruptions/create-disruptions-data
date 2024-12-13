@@ -15,7 +15,7 @@ const generateCsp = (): { csp: string; nonce: string } => {
     const csp = `
         default-src 'self';
         script-src 'self' 'nonce-${nonce}' 'strict-dynamic' ${production ? "" : "'unsafe-eval' 'unsafe-inline'"};
-        connect-src 'self' ${API_BASE_URL}/ https://*.tiles.mapbox.com https://api.mapbox.com https://events.mapbox.com;
+        connect-src 'self' ${API_BASE_URL}/ https://*.tiles.mapbox.com https://api.mapbox.com https://events.mapbox.com data:;
         frame-src 'self';
         base-uri 'self';
         block-all-mixed-content;
