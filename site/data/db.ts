@@ -94,7 +94,14 @@ export const getDisruptionsData = async (orgId: string, isTemplate = false): Pro
         .orderBy(["disruptions.validityStartTimestamp desc", "disruptions.validityEndTimestamp desc"])
         .execute();
 
-    return makeFilteredArraySchema(fullDisruptionSchema).parse(disruptions);
+    const editPendingApprovalDisruptions = await dbClient
+        .selectFrom("disruptionsEdited")
+        .selectAll()
+        .where("disruptionsEdited.orgId", "=", orgId)
+        .where("disruptionsEdited.publishStatus", "=", PublishStatus.editPendingApproval)
+        .execute();
+
+    return makeFilteredArraySchema(fullDisruptionSchema).parse([...disruptions, ...editPendingApprovalDisruptions]);
 };
 
 export const getPublishedSocialMediaPosts = async (orgId: string): Promise<SocialMediaPost[]> => {
