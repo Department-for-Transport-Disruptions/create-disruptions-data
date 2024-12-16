@@ -139,8 +139,10 @@ export const getDisruptionData = async (
 };
 
 export const filterContents = (contents: TableDisruption[], filter: Filter): TableDisruption[] => {
-    let disruptionsToDisplay = contents.filter((disruption) => {
-        if (filter.services.length > 0) {
+    let disruptionsToDisplay = contents;
+
+    if (filter.services.length > 0) {
+        disruptionsToDisplay = disruptionsToDisplay.filter((disruption) => {
             const disruptionServices = disruption.services;
 
             return disruptionServices.some((service) =>
@@ -152,56 +154,52 @@ export const filterContents = (contents: TableDisruption[], filter: Filter): Tab
                             : filterService.serviceCode === service.ref),
                 ),
             );
-        }
+        });
+    }
 
-        if (filter.mode && filter.mode !== "any") {
-            const swappedMode = getDisplayByValue(VEHICLE_MODES, filter.mode);
+    if (filter.mode && filter.mode !== "any") {
+        const swappedMode = getDisplayByValue(VEHICLE_MODES, filter.mode);
 
-            if (!swappedMode || !disruption.modes.includes(swappedMode)) {
-                return false;
+        disruptionsToDisplay = disruptionsToDisplay.filter((disruption) => {
+            return !swappedMode || disruption.modes.includes(swappedMode);
+        });
+    }
+
+    if (filter.severity && filter.severity !== "any") {
+        disruptionsToDisplay = disruptionsToDisplay.filter((disruption) => {
+            return disruption.severity === filter.severity;
+        });
+    }
+
+    if (filter.status && filter.status !== "any") {
+        disruptionsToDisplay = disruptionsToDisplay.filter((disruption) => {
+            if (filter.status === Progress.pendingApproval) {
+                return (
+                    disruption.status === Progress.editPendingApproval ||
+                    disruption.status === Progress.draftPendingApproval
+                );
             }
-        }
-
-        if (filter.severity && filter.severity !== "any" && disruption.severity !== filter.severity) {
-            return false;
-        }
-
-        if (filter.status && filter.status !== "any" && disruption.status !== filter.status) {
-            if (
-                filter.status === Progress.pendingApproval &&
-                disruption.status !== Progress.editPendingApproval &&
-                disruption.status !== Progress.draftPendingApproval
-            ) {
-                return false;
+            if (filter.status === Progress.published) {
+                return [Progress.open, Progress.published, Progress.closing].includes(disruption.status);
             }
-            if (
-                filter.status === Progress.published &&
-                [Progress.open, Progress.published, Progress.closing].includes(disruption.status)
-            ) {
-                return true;
-            }
-            if (filter.status !== Progress.pendingApproval) {
-                return false;
-            }
-        }
-
-        if (filter.operators.length > 0) {
+            return disruption.status === filter.status;
+        });
+    }
+    if (filter.operators.length > 0) {
+        disruptionsToDisplay = disruptionsToDisplay.filter((disruption) => {
             const filterOperatorsRefs = filter.operators.map((op) => op.operatorRef);
 
-            if (!disruption.operators.some((operator) => filterOperatorsRefs.includes(operator))) {
-                return false;
-            }
-        }
-
-        if (filter.searchText && filter.searchText.length > 2) {
+            return disruption.operators.some((operator) => filterOperatorsRefs.includes(operator));
+        });
+    }
+    if (filter.searchText && filter.searchText.length > 2) {
+        disruptionsToDisplay = disruptionsToDisplay.filter((disruption) => {
             return (
-                disruption.summary.toLowerCase().includes(filter.searchText.toLowerCase()) ||
-                disruption.displayId.toLowerCase().includes(filter.searchText.toLowerCase())
+                disruption.summary.toLowerCase().includes(filter.searchText?.toLowerCase() ?? "") ||
+                disruption.displayId.toLowerCase().includes(filter.searchText?.toLowerCase() ?? "")
             );
-        }
-
-        return true;
-    });
+        });
+    }
 
     if (filter.period) {
         disruptionsToDisplay = applyDateFilters(disruptionsToDisplay, filter.period);
