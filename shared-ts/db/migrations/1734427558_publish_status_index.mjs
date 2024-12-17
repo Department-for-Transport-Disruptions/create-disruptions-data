@@ -13,3 +13,12 @@ export async function up(db) {
         .column("publish_status")
         .execute();
 }
+
+/**
+ *
+ * @param {Kysely} db
+ */
+export async function down(db) {
+    await db.schema.dropIndex("idx_disruptions_publish_status").on("disruptions").execute();
+    await db.schema.dropIndex("idx_disruptions_edited_publish_status").on("disruptions_edited").execute();
+}
