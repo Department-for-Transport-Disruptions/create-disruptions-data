@@ -8,12 +8,27 @@ const Changelog = (): ReactElement => {
     return (
         <TwoThirdsLayout title={title} description={description}>
             <h1 className="govuk-heading-xl">Service Changelog</h1>
-            <p className="govuk-body">Last updated: 04 October 2024</p>
+            <p className="govuk-body">Last updated: 17 December 2024</p>
+            <hr className="govuk-section-break govuk-section-break--xl govuk-section-break--visible" />
+            <h2 className="govuk-heading-l">December 2024 (1.63.0)</h2>{" "}
+            <p className="govuk-body">This release will deploy the following changes:</p>
+            <ul className="govuk-list govuk-list--bullet">
+                <li>Addition of BCS and BCQ stop types when creating stop consequences</li>
+                <li>A fix for exporting disruptions data to PDF</li>{" "}
+            </ul>
+            <hr className="govuk-section-break govuk-section-break--xl govuk-section-break--visible" />
+            <h2 className="govuk-heading-l">November 2024 (1.62.0)</h2>{" "}
+            <p className="govuk-body">This release will deploy the following changes:</p>
+            <ul className="govuk-list govuk-list--bullet">
+                <li>Update to site password policy</li>
+                <li>A fix on the disruption detail page to allow the delete social media pop up to show</li>{" "}
+            </ul>
             <hr className="govuk-section-break govuk-section-break--xl govuk-section-break--visible" />
             <h2 className="govuk-heading-l">October 2024 (1.61.0)</h2>{" "}
             <p className="govuk-body">This release will deploy the following changes:</p>
             <ul className="govuk-list govuk-list--bullet">
-                <li>Service changelog page.</li> <li>Further updates to bring site up to WCAG 2.2AA standard.</li>{" "}
+                <li>Service changelog page.</li>
+                <li>Further updates to bring site up to WCAG 2.2AA standard.</li>{" "}
                 <li>Additional guidance text within consequence pages.</li>{" "}
             </ul>
             <hr className="govuk-section-break govuk-section-break--xl govuk-section-break--visible" />
@@ -70,7 +85,8 @@ const Changelog = (): ReactElement => {
             <p className="govuk-body">This release will deploy the following changes:</p>
             <ul className="govuk-list govuk-list--bullet">
                 {" "}
-                <li>Street Manager map visual.</li> <li>Improvement to dashboard page performance.</li>{" "}
+                <li>Street Manager map visual.</li>
+                <li>Improvement to dashboard page performance.</li>{" "}
             </ul>{" "}
             <hr className="govuk-section-break govuk-section-break--xl govuk-section-break--visible" />{" "}
             <h2 className="govuk-heading-l">January 2024 (1.52.0)</h2>{" "}
