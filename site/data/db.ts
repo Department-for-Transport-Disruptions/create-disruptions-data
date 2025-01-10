@@ -114,6 +114,7 @@ export const getPublishedSocialMediaPosts = async (orgId: string): Promise<Socia
         .select(["socialMediaPosts", "publishEndDate", "publishEndTime"])
         .where("disruptions.orgId", "=", orgId)
         .where("disruptions.publishStatus", "=", PublishStatus.published)
+        .where("disruptions.template", "=", false)
         .execute();
 
     const currentAndUpcomingDisruptions = disruptions.filter((disruption) =>
@@ -805,6 +806,7 @@ export const getDisruptionInfoByPermitReferenceNumber = async (
         .selectAll()
         .where("disruptions.orgId", "=", orgId)
         .where("permitReferenceNumber", "=", permitReferenceNumber)
+        .where("disruptions.template", "=", false)
         .executeTakeFirst();
 
     if (!disruptionInfo) {
@@ -834,6 +836,7 @@ export const getPendingApprovalCount = async (orgId: string): Promise<number> =>
         .select(({ fn }) => [fn.count<string>("disruptions.id").as("pending")])
         .where("disruptions.orgId", "=", orgId)
         .where("disruptions.publishStatus", "=", PublishStatus.pendingApproval)
+        .where("disruptions.template", "=", false)
         .executeTakeFirst();
 
     const editPendingCount = await dbClient
@@ -841,6 +844,7 @@ export const getPendingApprovalCount = async (orgId: string): Promise<number> =>
         .select(({ fn }) => [fn.count<string>("disruptionsEdited.id").as("pending")])
         .where("disruptionsEdited.orgId", "=", orgId)
         .where("disruptionsEdited.publishStatus", "=", PublishStatus.editPendingApproval)
+        .where("disruptionsEdited.template", "=", false)
         .executeTakeFirst();
 
     return (

@@ -117,6 +117,7 @@ export const getDisruptionsWithRoadworks = async (
         .select((eb) => [withConsequences(eb)])
         .where("disruptions.permitReferenceNumber", "in", permitReferenceNumbers)
         .where("disruptions.publishStatus", "=", publishStatus)
+        .where("disruptions.template", "=", false)
         .execute();
 
     return makeFilteredArraySchema(disruptionSchema).parse(disruptions);
@@ -133,6 +134,7 @@ export const getCurrentAndFutureDisruptions = async (orgId?: string) => {
         .select((eb) => [withConsequences(eb)])
         .where("disruptions.publishStatus", "=", PublishStatus.published)
         .where("disruptions.publishStartTimestamp", "<=", sql<Date>`now()`)
+        .where("disruptions.template", "=", false)
         .where((eb) =>
             eb.or([
                 eb("disruptions.publishEndTimestamp", ">=", sql<Date>`now()`),
@@ -161,6 +163,7 @@ export const getLiveDisruptions = async (orgId?: string, includeConsequences = t
         .$if(includeConsequences, (qb) => qb.select((eb) => [withConsequences(eb)]))
         .where("disruptions.publishStatus", "=", PublishStatus.published)
         .where("disruptions.validityStartTimestamp", "<=", sql<Date>`now()`)
+        .where("disruptions.template", "=", false)
         .where((eb) =>
             eb.or([
                 eb("disruptions.validityEndTimestamp", ">=", sql<Date>`now()`),
@@ -189,6 +192,7 @@ export const getFutureDisruptions = async (orgId?: string, includeConsequences =
         .$if(includeConsequences, (qb) => qb.select((eb) => [withConsequences(eb)]))
         .where("disruptions.publishStatus", "=", PublishStatus.published)
         .where("disruptions.validityStartTimestamp", ">", sql<Date>`now()`)
+        .where("disruptions.template", "=", false)
         .orderBy("disruptions.validityStartTimestamp asc");
 
     if (orgId) {
@@ -216,6 +220,7 @@ export const getClosedDisruptionsFromPastDays = async (
         .where("disruptions.publishStatus", "=", PublishStatus.published)
         .where("disruptions.validityEndTimestamp", "<", sql<Date>`now()`)
         .where("disruptions.validityEndTimestamp", ">=", sql<Date>`now() - (${lookbackDays} || ' days')::INTERVAL`)
+        .where("disruptions.template", "=", false)
         .orderBy("disruptions.validityStartTimestamp asc");
 
     if (orgId) {

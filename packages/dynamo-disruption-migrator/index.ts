@@ -7,7 +7,7 @@ import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { notEmpty } from "@create-disruptions-data/shared-ts/utils";
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import { getDbClient, json } from "@create-disruptions-data/shared-ts/utils/db";
-import { recursiveScan } from "@create-disruptions-data/shared-ts/utils/dynamo";
+import { recursiveQuery, recursiveScan } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import {
     createConsequenceConflictMapping,
     createDisruptionConflictMapping,
@@ -21,7 +21,11 @@ import {
     isStopsConsequence,
 } from "@create-disruptions-data/site/utils";
 import { getValidityAndPublishStartAndEndDates } from "@create-disruptions-data/site/utils/dates";
+import { DynamoDBStreamHandler } from "aws-lambda";
+import { sql } from "kysely";
 import * as logger from "lambda-log";
+
+const dbClient = getDbClient();
 
 export const getDisruptionCreationTime = (disruptionHistory: History[] | null, creationTime: string | null): string => {
     if (creationTime) {
@@ -47,43 +51,57 @@ export const getDisruptionCreationTime = (disruptionHistory: History[] | null, c
 
 let invalidDisruptionCount = 0;
 let invalidEditedDisruptionCount = 0;
+const disruptionIdsWithNoInfo = new Set();
+const editedDisruptionIdsWithNoInfo = new Set();
 
 const collectDisruptionsData = (
     disruptionItems: Record<string, unknown>[],
     disruptionId: string,
-    edited: boolean,
+    onlyIncludeEdited: boolean,
     isTemplate?: boolean,
 ): FullDisruption | null => {
-    let info = disruptionItems.find((item) => item.SK === `${disruptionId}#INFO`);
+    const currentDisruptionItems = disruptionItems.filter((item) => (item.SK as string).startsWith(disruptionId));
+    let info = currentDisruptionItems.find((item) => item.SK === `${disruptionId}#INFO`);
+
+    const isEdited = currentDisruptionItems.some((item) => (item.SK as string).includes("#EDIT"));
 
     if (!info || !info.orgId) {
+        if (onlyIncludeEdited && isEdited) {
+            editedDisruptionIdsWithNoInfo.add(disruptionId);
+        } else {
+            disruptionIdsWithNoInfo.add(disruptionId);
+        }
+
         return null;
     }
 
-    let consequences = disruptionItems.filter(
+    if (onlyIncludeEdited && !isEdited) {
+        return null;
+    }
+
+    const isPending = currentDisruptionItems.some((item) => (item.SK as string).includes("#PENDING"));
+
+    let consequences = currentDisruptionItems.filter(
         (item) =>
             ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
                 !((item.SK as string).includes("#EDIT") || (item.SK as string).includes("#PENDING"))) ??
             false,
     );
 
-    let socialMediaPosts = disruptionItems.filter(
+    let socialMediaPosts = currentDisruptionItems.filter(
         (item) =>
             ((item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
                 !((item.SK as string).includes("#EDIT") || (item.SK as string).includes("#PENDING"))) ??
             false,
     );
 
-    const isEdited = disruptionItems.some((item) => (item.SK as string).includes("#EDIT"));
-    const isPending = disruptionItems.some((item) => (item.SK as string).includes("#PENDING"));
-
-    const history = disruptionItems.filter(
+    const history = currentDisruptionItems.filter(
         (item) => (item.SK as string).startsWith(`${disruptionId}#HISTORY`) ?? false,
     );
 
     if (isPending) {
-        info = disruptionItems.find((item) => item.SK === `${disruptionId}#INFO#PENDING`) ?? info;
-        const pendingConsequences = disruptionItems.filter(
+        info = currentDisruptionItems.find((item) => item.SK === `${disruptionId}#INFO#PENDING`) ?? info;
+        const pendingConsequences = currentDisruptionItems.filter(
             (item) =>
                 ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
                     (item.SK as string).includes("#PENDING")) ??
@@ -100,7 +118,7 @@ const collectDisruptionsData = (
             }
         });
 
-        const pendingSocialMediaPosts = disruptionItems.filter(
+        const pendingSocialMediaPosts = currentDisruptionItems.filter(
             (item) =>
                 ((item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
                     (item.SK as string).endsWith("#PENDING")) ??
@@ -119,8 +137,8 @@ const collectDisruptionsData = (
     }
 
     if (isEdited) {
-        info = disruptionItems.find((item) => item.SK === `${disruptionId}#INFO#EDIT`) ?? info;
-        const editedConsequences = disruptionItems.filter(
+        info = currentDisruptionItems.find((item) => item.SK === `${disruptionId}#INFO#EDIT`) ?? info;
+        const editedConsequences = currentDisruptionItems.filter(
             (item) =>
                 ((item.SK as string).startsWith(`${disruptionId}#CONSEQUENCE`) &&
                     (item.SK as string).endsWith("#EDIT")) ??
@@ -137,7 +155,7 @@ const collectDisruptionsData = (
             }
         });
 
-        const editedSocialMediaPosts = disruptionItems.filter(
+        const editedSocialMediaPosts = currentDisruptionItems.filter(
             (item) =>
                 ((item.SK as string).startsWith(`${disruptionId}#SOCIALMEDIAPOST`) &&
                     (item.SK as string).endsWith("#EDIT")) ??
@@ -182,7 +200,7 @@ const collectDisruptionsData = (
         logger.warn(`Invalid disruption ${disruptionId} in Dynamo`);
         logger.warn(inspect(parsedDisruption.error, false, null));
 
-        if (edited) {
+        if (onlyIncludeEdited) {
             invalidEditedDisruptionCount++;
         } else {
             invalidDisruptionCount++;
@@ -194,40 +212,73 @@ const collectDisruptionsData = (
     return parsedDisruption.data;
 };
 
-const getAllDisruptionsDataFromDynamo = async (tableName: string, getEdits = false): Promise<FullDisruption[]> => {
-    logger.info("Getting disruptions data from DynamoDB table...");
-
-    const disruptions = await recursiveScan(
-        {
-            TableName: tableName,
-            FilterExpression: getEdits ? "contains(#SK, :edit)" : "not contains(#SK, :edit)",
-            ExpressionAttributeNames: {
-                "#SK": "SK",
-            },
-            ExpressionAttributeValues: {
-                ":edit": "#EDIT",
-            },
-        },
-        logger,
-    );
-
-    const disruptionIds = (disruptions
+const formatDisruptions = (
+    disruptionsData: Record<string, unknown>[],
+    getEdits: boolean,
+    isTemplate: boolean,
+): FullDisruption[] => {
+    const disruptionIds = (disruptionsData
         .map((item) => item.disruptionId)
         .filter((value, index, array) => array.indexOf(value) === index)
         .filter(notEmpty) ?? []) as string[];
 
     logger.info("Collecting disruptions data...");
 
-    return disruptionIds?.map((id) => collectDisruptionsData(disruptions || [], id, getEdits)).filter(notEmpty) ?? [];
+    logger.info(
+        `${disruptionIds.length} unique ${!getEdits ? "non-edited" : ""} ${isTemplate ? "templates" : "disruptions"}`,
+    );
+
+    return (
+        disruptionIds
+            ?.map((id) => collectDisruptionsData(disruptionsData || [], id, getEdits, isTemplate))
+            .filter(notEmpty) ?? []
+    );
 };
 
-const mapDynamoDisruptionToDb = ({
-    consequences,
-    deletedConsequences,
-    newHistory,
-    ...disruption
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-}: FullDisruption & { consequences?: any; editedDisruption?: any; editExistsInDb?: any }): NewDisruptionDB => ({
+const getDisruptionFromDynamo = async (
+    tableName: string,
+    orgId: string,
+    disruptionId: string,
+    isEdit = false,
+    isTemplate = false,
+): Promise<FullDisruption | null> => {
+    logger.info(`Getting disruption ${disruptionId} from DynamoDB table...`);
+
+    let disruptionItems = await recursiveQuery(
+        {
+            TableName: tableName,
+            KeyConditionExpression: "#PK = :org_id and begins_with(#SK, :disruption_id)",
+            ExpressionAttributeNames: {
+                "#PK": "PK",
+                "#SK": "SK",
+            },
+            ExpressionAttributeValues: {
+                ":org_id": orgId,
+                ":disruption_id": disruptionId,
+            },
+        },
+        logger,
+    );
+
+    logger.info("Collecting disruptions data...");
+
+    if (!isEdit) {
+        disruptionItems = disruptionItems.filter((d) => !(d.SK as string).includes("#EDIT"));
+    }
+
+    return collectDisruptionsData(disruptionItems || [], disruptionId, isEdit, isTemplate);
+};
+
+const mapDynamoDisruptionToDb = (
+    {
+        consequences,
+        deletedConsequences,
+        newHistory,
+        ...disruption
+        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    }: FullDisruption & { consequences?: any; editedDisruption?: any; editExistsInDb?: any },
+    isTemplate = false,
+): NewDisruptionDB => ({
     ...disruption,
     orgId: disruption.orgId ?? "",
     disruptionEndDate: disruption.disruptionEndDate ?? "",
@@ -242,6 +293,7 @@ const mapDynamoDisruptionToDb = ({
     validity: disruption.validity && json(disruption.validity),
     socialMediaPosts: disruption.socialMediaPosts && json(disruption.socialMediaPosts),
     version: 1,
+    template: isTemplate,
 });
 
 const mapDynamoConsequenceToDb = ({ ...consequence }: Consequence & {}): NewConsequenceDB => ({
@@ -267,33 +319,19 @@ const batchArray = <T>(data: T[]): T[][] => {
     return batches;
 };
 
-const batchInsertDisruptions = async (disruptions: FullDisruption[]) => {
-    logger.info("Inserting disruptions into RDS...");
+const batchInsertDisruptions = async (disruptions: FullDisruption[], db = dbClient, isTemplate = false) => {
+    logger.info(`Inserting ${disruptions.length} ${isTemplate ? "templates" : "disruptions"}...`);
 
-    const dbClient = getDbClient();
-
-    const publishedDraftAndPendingDisruptions = disruptions
-        .filter(
-            (d) =>
-                d.publishStatus === PublishStatus.published ||
-                d.publishStatus === PublishStatus.draft ||
-                d.publishStatus === PublishStatus.rejected ||
-                d.publishStatus === PublishStatus.pendingApproval,
-        )
-        .filter(notEmpty);
-
-    const publishedDraftAndPendingConsequences = publishedDraftAndPendingDisruptions
+    const publishedDraftAndPendingConsequences = disruptions
         .flatMap((d) => d.consequences)
         .filter(notEmpty)
         .map(mapDynamoConsequenceToDb);
 
-    if (publishedDraftAndPendingDisruptions.length > 0) {
-        const publishedDisruptionsToInsert = batchArray(
-            publishedDraftAndPendingDisruptions.map(mapDynamoDisruptionToDb),
-        );
+    if (disruptions.length > 0) {
+        const publishedDisruptionsToInsert = batchArray(disruptions.map((d) => mapDynamoDisruptionToDb(d, isTemplate)));
 
         for (const batch of publishedDisruptionsToInsert) {
-            await dbClient
+            await db
                 .insertInto("disruptions")
                 .values(batch)
                 .onConflict((oc) => oc.column("id").doUpdateSet((eb) => createDisruptionConflictMapping(eb, batch[0])))
@@ -305,7 +343,7 @@ const batchInsertDisruptions = async (disruptions: FullDisruption[]) => {
         const publishedConsequencesToInsert = batchArray(publishedDraftAndPendingConsequences);
 
         for (const batch of publishedConsequencesToInsert) {
-            await dbClient
+            await db
                 .insertInto("consequences")
                 .values(batch)
                 .onConflict((oc) =>
@@ -318,28 +356,19 @@ const batchInsertDisruptions = async (disruptions: FullDisruption[]) => {
     }
 };
 
-const batchInsertEditedDisruptions = async (disruptions: FullDisruption[]) => {
-    const dbClient = getDbClient();
+const batchInsertEditedDisruptions = async (disruptions: FullDisruption[], db = dbClient, isTemplate = false) => {
+    logger.info(`Inserting ${disruptions.length} edited ${isTemplate ? "templates" : "disruptions"}...`);
 
-    const editedDisruptions = disruptions
-        .filter(
-            (d) =>
-                d.publishStatus === PublishStatus.editPendingApproval ||
-                d.publishStatus === PublishStatus.editing ||
-                d.publishStatus === PublishStatus.pendingAndEditing,
-        )
-        .filter(notEmpty);
-
-    const editedConsequences = editedDisruptions
+    const editedConsequences = disruptions
         .flatMap((d) => d.consequences)
         .filter(notEmpty)
         .map(mapDynamoConsequenceToDb);
 
-    if (editedDisruptions.length > 0) {
-        const editedDisruptionsToInsert = batchArray(editedDisruptions.map(mapDynamoDisruptionToDb));
+    if (disruptions.length > 0) {
+        const editedDisruptionsToInsert = batchArray(disruptions.map((d) => mapDynamoDisruptionToDb(d, isTemplate)));
 
         for (const batch of editedDisruptionsToInsert) {
-            await dbClient
+            await db
                 .insertInto("disruptionsEdited")
                 .values(batch)
                 .onConflict((oc) => oc.column("id").doUpdateSet((eb) => createDisruptionConflictMapping(eb, batch[0])))
@@ -351,7 +380,7 @@ const batchInsertEditedDisruptions = async (disruptions: FullDisruption[]) => {
         const editedConsequencesToInsert = batchArray(editedConsequences);
 
         for (const batch of editedConsequencesToInsert) {
-            await dbClient
+            await db
                 .insertInto("consequencesEdited")
                 .values(batch)
                 .onConflict((oc) =>
@@ -364,7 +393,7 @@ const batchInsertEditedDisruptions = async (disruptions: FullDisruption[]) => {
     }
 };
 
-export const main = async (): Promise<void> => {
+export const bulkMigrator = async (): Promise<void> => {
     try {
         logger.options.dev = process.env.NODE_ENV !== "production";
         logger.options.debug = process.env.ENABLE_DEBUG_LOGS === "true" || process.env.NODE_ENV !== "production";
@@ -372,23 +401,136 @@ export const main = async (): Promise<void> => {
         logger.options.meta = {
             id: randomUUID(),
         };
-        logger.info("Starting Dynamo migrator...");
+        logger.info("Starting Dynamo bulk migrator...");
+
+        const { DISRUPTIONS_TABLE, DISRUPTION_TEMPLATES_TABLE } = process.env;
+
+        if (!DISRUPTIONS_TABLE || !DISRUPTION_TEMPLATES_TABLE) {
+            throw new Error("DISRUPTIONS_TABLE not set");
+        }
 
         invalidDisruptionCount = 0;
         invalidEditedDisruptionCount = 0;
+        disruptionIdsWithNoInfo.clear();
+        editedDisruptionIdsWithNoInfo.clear();
 
-        const disruptions = await getAllDisruptionsDataFromDynamo("disruptions-prod-copy", false);
+        const [allDisruptionsData, allTemplatesData] = await Promise.all([
+            recursiveScan(
+                {
+                    TableName: DISRUPTIONS_TABLE,
+                },
+                logger,
+            ),
+            recursiveScan(
+                {
+                    TableName: DISRUPTION_TEMPLATES_TABLE,
+                },
+                logger,
+            ),
+        ]);
 
-        await batchInsertDisruptions(disruptions);
+        const allDisruptionsDataWithoutEdits = allDisruptionsData.filter((d) => !(d.SK as string).includes("#EDIT"));
+        const allTemplatesDataWithoutEdits = allTemplatesData.filter((d) => !(d.SK as string).includes("#EDIT"));
 
-        const editedDisruptions = await getAllDisruptionsDataFromDynamo("disruptions-prod-copy", true);
+        const disruptions = formatDisruptions(allDisruptionsDataWithoutEdits, false, false);
+        const templates = formatDisruptions(allTemplatesDataWithoutEdits, false, true);
 
-        await batchInsertEditedDisruptions(editedDisruptions);
+        await Promise.all([batchInsertDisruptions(disruptions), batchInsertDisruptions(templates, dbClient, true)]);
+
+        const editedDisruptions = formatDisruptions(allDisruptionsData, true, false);
+        const editedTemplates = formatDisruptions(allTemplatesData, true, true);
+
+        await Promise.all([
+            batchInsertEditedDisruptions(editedDisruptions),
+            batchInsertEditedDisruptions(editedTemplates, dbClient, true),
+        ]);
 
         logger.info(`${invalidDisruptionCount} invalid disruptions not migrated`);
         logger.info(`${invalidEditedDisruptionCount} invalid edited disruptions not migrated`);
+        logger.info(`${disruptionIdsWithNoInfo.size} disruptions with no info`);
+        logger.info(`${editedDisruptionIdsWithNoInfo.size} edited disruptions with no info`);
 
         logger.info("Successfully migrated dynamo disruptions to RDS...");
+    } catch (e) {
+        if (e instanceof Error) {
+            logger.error(e);
+
+            throw e;
+        }
+
+        throw e;
+    }
+};
+
+export const incrementalMigrator: DynamoDBStreamHandler = async (event): Promise<void> => {
+    try {
+        logger.options.dev = process.env.NODE_ENV !== "production";
+        logger.options.debug = process.env.ENABLE_DEBUG_LOGS === "true" || process.env.NODE_ENV !== "production";
+
+        logger.options.meta = {
+            id: randomUUID(),
+        };
+        logger.info("Starting Dynamo incremental migrator...");
+
+        await Promise.all(
+            event.Records.map(async (e) => {
+                const keys = e.dynamodb?.Keys;
+                const pk = keys?.PK;
+                const sk = keys?.SK;
+
+                const eventSourceArn = e.eventSourceARN;
+                const dynamoTable = eventSourceArn?.split(":")[5].split("/")[1];
+
+                if (!dynamoTable) {
+                    return null;
+                }
+
+                const isTemplate = dynamoTable?.includes("template");
+
+                if (!pk?.S || !sk?.S) {
+                    return null;
+                }
+
+                const orgId = pk.S;
+                const disruptionId = sk.S.split("#")[0];
+
+                logger.info(`Migrating disruption ${disruptionId} to RDS`);
+
+                const disruption = await getDisruptionFromDynamo(dynamoTable, orgId, disruptionId, false, isTemplate);
+                const editedDisruption = await getDisruptionFromDynamo(
+                    dynamoTable,
+                    orgId,
+                    disruptionId,
+                    true,
+                    isTemplate,
+                );
+
+                await dbClient.transaction().execute(async (trx) => {
+                    await sql`SET CONSTRAINTS "disruptions_edited_id_fkey" DEFERRED`.execute(trx);
+
+                    await trx
+                        .deleteFrom("disruptions")
+                        .where("orgId", "=", orgId)
+                        .where("id", "=", disruptionId)
+                        .execute();
+
+                    if (!disruption) {
+                        return;
+                    }
+
+                    await batchInsertDisruptions([disruption], trx, isTemplate);
+
+                    if (!editedDisruption) {
+                        return;
+                    }
+
+                    await batchInsertEditedDisruptions([editedDisruption], trx, isTemplate);
+                    logger.info(`Successfully migrated disruption ${disruptionId} to RDS`);
+
+                    return await sql`SET CONSTRAINTS "disruptions_edited_id_fkey" IMMEDIATE`.execute(trx);
+                });
+            }),
+        );
     } catch (e) {
         if (e instanceof Error) {
             logger.error(e);
