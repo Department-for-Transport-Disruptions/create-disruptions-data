@@ -91,7 +91,7 @@ export const getDataInPages = <T>(pageNumber: number, data: T[]): T[] => {
 };
 
 export const getStopType = (stopType: string | undefined) => {
-    if (stopType === "BCT") {
+    if (stopType === "BCT" || stopType === "BCS" || stopType === "BCQ") {
         return "Bus stop";
     }
     if (stopType === "MET" || stopType === "PLT") {

@@ -115,7 +115,8 @@ const Dashboard = ({
             <h1 className="govuk-heading-xl">{orgName} disruptions data</h1>
             {pendingApprovalCount && pendingApprovalCount > 0 && canPublish && !isOperatorUser ? (
                 <Warning
-                    text={`You have ${pendingApprovalCount} new disruption${pendingApprovalCount > 1 ? "s" : ""} that require${pendingApprovalCount === 1 ? "s" : ""} approval.`}
+                    text={`You have ${pendingApprovalCount} new disruption${pendingApprovalCount > 1 ? "s" : ""} that 
+                    require${pendingApprovalCount === 1 ? "s" : ""} approval.`}
                 >
                     <br />
                     <Link

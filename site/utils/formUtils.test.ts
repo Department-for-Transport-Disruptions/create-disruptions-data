@@ -7,7 +7,7 @@ import {
     mockTndsServicesNoDuplicates,
     mockTndsServicesWithDuplicates,
 } from "../testData/mockData";
-import { filterServices, removeDuplicateServicesByKey, sortAndFilterStops } from "./formUtils";
+import { filterServices, getStopType, removeDuplicateServicesByKey, sortAndFilterStops } from "./formUtils";
 
 describe("formUtils", () => {
     afterEach(() => {
@@ -132,6 +132,21 @@ describe("formUtils", () => {
         });
         it("should an empty array when there are no stops passed in", () => {
             expect(sortAndFilterStops([])).toEqual([]);
+        });
+    });
+
+    describe("getStopType", () => {
+        it.each([
+            ["BCT", "Bus stop"],
+            ["BCS", "Bus stop"],
+            ["BCQ", "Bus stop"],
+            ["MET", "Tram stop"],
+            ["PLT", "Tram stop"],
+            ["FER", "Ferry terminal"],
+            ["FBT", "Ferry terminal"],
+            [undefined, "Stop"],
+        ])("should return the correct name for a given stop type", (stopType, stopName) => {
+            expect(getStopType(stopType)).toEqual(stopName);
         });
     });
 });

@@ -47,7 +47,6 @@ import {
     filterVehicleModes,
     flattenZodErrors,
     getServiceLabel,
-    getStopTypesByVehicleMode,
     getStops,
     isJourneysConsequence,
 } from "../../../utils";
@@ -152,12 +151,10 @@ const CreateConsequenceJourneys = (props: CreateConsequenceJourneysProps): React
 
                 await Promise.all(
                     pageState.inputs.services.map(async (s) => {
-                        const stopTypes = getStopTypesByVehicleMode(vehicleMode);
                         const serviceRoutesData = await fetchServiceRoutes({
                             serviceRef: s.dataSource === Datasource.bods ? s.lineId : s.serviceCode,
                             dataSource: s.dataSource,
                             modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
-                            ...stopTypes,
                         });
 
                         if (serviceRoutesData) {
