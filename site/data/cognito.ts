@@ -33,6 +33,7 @@ import { createHmac } from "crypto";
 import { AddUserSchema } from "../schemas/add-user.schema";
 import { userManagementSchema } from "../schemas/user-management.schema";
 import { notEmpty } from "../utils";
+import { generatePassword } from "../utils";
 import logger from "../utils/logger";
 
 const {
@@ -48,30 +49,6 @@ if (!cognitoClientSecret || !cognitoClientId || !userPoolId) {
 const cognito = new CognitoIdentityProviderClient({
     region: "eu-west-2",
 });
-
-const generatePassword = (length: number): string => {
-    const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
-    const numbers = "0123456789";
-    const symbols = "$-_";
-
-    let password = [
-        uppercaseChars[Math.floor(Math.random() * uppercaseChars.length)],
-        lowercaseChars[Math.floor(Math.random() * lowercaseChars.length)],
-        numbers[Math.floor(Math.random() * numbers.length)],
-        symbols[Math.floor(Math.random() * symbols.length)],
-    ];
-
-    const allChars = uppercaseChars + lowercaseChars + numbers + symbols;
-
-    for (let i = password.length; i < length; i++) {
-        password.push(allChars[Math.floor(Math.random() * allChars.length)]);
-    }
-
-    password = password.sort(() => Math.random() - 0.5);
-
-    return password.join("");
-};
 
 export const deleteUser = async (username: string) => {
     try {

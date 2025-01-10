@@ -55,8 +55,58 @@ exports[`Changelog > should render correctly 1`] = `
           <p
             class="govuk-body"
           >
-            Last updated: 04 October 2024
+            Last updated: 17 December 2024
           </p>
+          <hr
+            class="govuk-section-break govuk-section-break--xl govuk-section-break--visible"
+          />
+          <h2
+            class="govuk-heading-l"
+          >
+            December 2024 (1.63.0)
+          </h2>
+           
+          <p
+            class="govuk-body"
+          >
+            This release will deploy the following changes:
+          </p>
+          <ul
+            class="govuk-list govuk-list--bullet"
+          >
+            <li>
+              Addition of BCS and BCQ stop types when creating stop consequences
+            </li>
+            <li>
+              A fix for exporting disruptions data to PDF
+            </li>
+             
+          </ul>
+          <hr
+            class="govuk-section-break govuk-section-break--xl govuk-section-break--visible"
+          />
+          <h2
+            class="govuk-heading-l"
+          >
+            November 2024 (1.62.0)
+          </h2>
+           
+          <p
+            class="govuk-body"
+          >
+            This release will deploy the following changes:
+          </p>
+          <ul
+            class="govuk-list govuk-list--bullet"
+          >
+            <li>
+              Update to site password policy
+            </li>
+            <li>
+              A fix on the disruption detail page to allow the delete social media pop up to show
+            </li>
+             
+          </ul>
           <hr
             class="govuk-section-break govuk-section-break--xl govuk-section-break--visible"
           />
@@ -77,7 +127,6 @@ exports[`Changelog > should render correctly 1`] = `
             <li>
               Service changelog page.
             </li>
-             
             <li>
               Further updates to bring site up to WCAG 2.2AA standard.
             </li>
@@ -276,7 +325,6 @@ exports[`Changelog > should render correctly 1`] = `
             <li>
               Street Manager map visual.
             </li>
-             
             <li>
               Improvement to dashboard page performance.
             </li>

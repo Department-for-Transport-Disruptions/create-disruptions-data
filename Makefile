@@ -64,3 +64,7 @@ rollback-local-database:
 	pnpm --filter @create-disruptions-data/shared-ts kysely migrate down
 
 setup-dev: update-secrets create-local-database migrate-local-database
+# CLI helpers
+
+command-%:
+	npx tsx cli-helpers/src/commands/$* ${FLAGS};

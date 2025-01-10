@@ -1,3 +1,4 @@
+import { randomBytes } from "crypto";
 import { ServerResponse } from "http";
 import {
     Consequence,
@@ -157,12 +158,10 @@ export const getStops = async (
     if (serviceRef) {
         let stopsData: Stop[] = [];
         if (vehicleMode) {
-            const stopTypes = getStopTypesByVehicleMode(vehicleMode);
             stopsData = await fetchServiceStops({
                 serviceRef,
                 dataSource,
                 modes: vehicleMode === VehicleMode.tram ? "tram, metro" : vehicleMode,
-                ...stopTypes,
             });
         }
         if (stopsData) {
@@ -264,20 +263,56 @@ export const filterStopList = (stops: Stop[], vehicleMode: VehicleMode | Modes, 
 export const getStopTypesByVehicleMode = (vehicleMode: VehicleMode | Modes) => {
     switch (vehicleMode) {
         case VehicleMode.bus:
-            return {
-                busStopTypes: "MKD,CUS",
-                stopTypes: "BCT",
-            };
+        case Modes.coach:
+            return ["BCT", "BCS", "BCQ"];
         case VehicleMode.tram:
         case Modes.metro:
         case VehicleMode.underground:
-            return { stopTypes: "MET, PLT" };
+            return ["MET", "PLT"];
         case Modes.ferry:
         case VehicleMode.ferryService:
-            return { stopTypes: "FER, FBT" };
-        case Modes.coach:
-            return { stopTypes: "BCT, BCS" };
+            return ["FER", "FBT"];
         default:
-            return { stopTypes: "undefined" };
+            return [];
     }
+};
+
+const getRandomInt = (max: number): number => {
+    let randomNumber: number;
+    do {
+        randomNumber = randomBytes(1)[0];
+    } while (randomNumber >= 256 - (256 % max));
+    return randomNumber % max;
+};
+
+/**
+ * Generates a password that conforms to the site's password policy. Ensures that
+ * password contains at least one type of each character, filling the length and
+ * finally shuffling the characters.
+ *
+ * @param length The length of the password
+ * @returns A password string that conforms to password policy
+ */
+export const generatePassword = (length: number): string => {
+    const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
+    const numbers = "0123456789";
+    const symbols = "$-_";
+
+    let password = [
+        uppercaseChars[getRandomInt(uppercaseChars.length)],
+        lowercaseChars[getRandomInt(lowercaseChars.length)],
+        numbers[getRandomInt(numbers.length)],
+        symbols[getRandomInt(symbols.length)],
+    ];
+
+    const allChars = uppercaseChars + lowercaseChars + numbers + symbols;
+
+    for (let i = password.length; i < length; i++) {
+        password.push(allChars[getRandomInt(allChars.length)]);
+    }
+
+    password = password.sort(() => getRandomInt(2) - 0.5);
+
+    return password.join("");
 };

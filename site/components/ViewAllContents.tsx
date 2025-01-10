@@ -4,8 +4,8 @@ import { Datasource, Progress } from "@create-disruptions-data/shared-ts/enums";
 import { getDate, getFormattedDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import { makeFilteredArraySchema } from "@create-disruptions-data/shared-ts/utils/zod";
 import { LoadingBox } from "@govuk-react/loading-box";
-import { pdf } from "@react-pdf/renderer";
 import saveAs from "file-saver";
+import autoTable from "jspdf-autotable";
 import Link from "next/link";
 import Papa from "papaparse";
 import { Dispatch, ReactElement, SetStateAction, memo, useEffect, useState } from "react";
@@ -40,11 +40,11 @@ import {
 import { convertDateTimeToFormat, dateIsSameOrBeforeSecondDate } from "../utils/dates";
 import { getExportSchema } from "../utils/exportUtils";
 import { filterServices } from "../utils/formUtils";
+import { createNewPdfDoc, disruptionPdfHeaders, formatDisruptionsForPdf } from "../utils/pdf";
 import DateSelector from "./form/DateSelector";
 import Select from "./form/Select";
 import SortableTable, { SortOrder, TableColumn } from "./form/SortableTable";
 import Table from "./form/Table";
-import PDFDoc from "./pdf/DownloadPDF";
 import ExportPopUp from "./popup/ExportPopup";
 import OperatorSearch from "./search/OperatorSearch";
 import ServiceSearch from "./search/ServiceSearch";
@@ -587,15 +587,23 @@ const ViewAllContents = ({
         const generatePdf = async () => {
             if (downloadPdf) {
                 const parseDisruptions = exportDisruptionsSchema.safeParse(contentsToDisplay);
-                const blob = await pdf(
-                    <PDFDoc disruptions={parseDisruptions.success ? parseDisruptions.data : []} />,
-                ).toBlob();
-                saveAs(blob, "Disruptions_list.pdf");
+
+                const pdf = createNewPdfDoc({ orientation: "landscape", format: "a1" });
+                autoTable(pdf, {
+                    head: [disruptionPdfHeaders],
+                    body: parseDisruptions.success ? formatDisruptionsForPdf(parseDisruptions.data) : [],
+                });
+                pdf.save("Disruptions_list.pdf");
                 setDownloadPdf(false);
             }
         };
         generatePdf().catch(() => {
-            saveAs(new Blob(["There was an error. Contact your admin team"]), "Disruptions.pdf");
+            const pdf = createNewPdfDoc({ orientation: "landscape", format: "a1" });
+            autoTable(pdf, {
+                head: [disruptionPdfHeaders],
+                body: [],
+            });
+            pdf.save("Disruptions_list.pdf");
         });
     }, [downloadPdf]);
 
