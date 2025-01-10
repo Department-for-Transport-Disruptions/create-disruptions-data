@@ -1,5 +1,6 @@
 import { SubnetType } from "aws-cdk-lib/aws-ec2";
 import { PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { StartingPosition } from "aws-cdk-lib/aws-lambda";
 import { Function, StackContext, use } from "sst/constructs";
 import { DynamoDBStack } from "./DynamoDBStack";
 import { RdsStack } from "./RdsStack";
@@ -23,7 +24,12 @@ export const DynamoMigratorStack = ({ stack }: StackContext) => {
         ],
         permissions: [
             new PolicyStatement({
-                resources: [disruptionsTable.tableArn, templateDisruptionsTable.tableArn],
+                resources: [
+                    disruptionsTable.tableArn,
+                    templateDisruptionsTable.tableArn,
+                    "arn:aws:dynamodb:eu-west-2:899289342948:table/disruptions-prod-copy",
+                    "arn:aws:dynamodb:eu-west-2:899289342948:table/disruption-templates-prod-copy",
+                ],
                 actions: ["dynamodb:Scan"],
             }),
         ],
@@ -36,12 +42,12 @@ export const DynamoMigratorStack = ({ stack }: StackContext) => {
             install: ["pg", "kysely"],
         },
         handler: "packages/dynamo-disruption-migrator/index.bulkMigrator",
-        timeout: 900,
-        memorySize: 5120,
+        timeout: 600,
+        memorySize: 3072,
         runtime: "nodejs20.x",
         environment: {
-            DISRUPTIONS_TABLE: disruptionsTable.tableName,
-            DISRUPTION_TEMPLATES_TABLE: templateDisruptionsTable.tableName,
+            DISRUPTIONS_TABLE: "disruptions-prod-copy",
+            DISRUPTION_TEMPLATES_TABLE: "disruption-templates-prod-copy",
         },
     });
 
@@ -58,7 +64,12 @@ export const DynamoMigratorStack = ({ stack }: StackContext) => {
         ],
         permissions: [
             new PolicyStatement({
-                resources: [disruptionsTable.tableArn, templateDisruptionsTable.tableArn],
+                resources: [
+                    disruptionsTable.tableArn,
+                    templateDisruptionsTable.tableArn,
+                    "arn:aws:dynamodb:eu-west-2:899289342948:table/disruptions-prod-copy",
+                    "arn:aws:dynamodb:eu-west-2:899289342948:table/disruption-templates-prod-copy",
+                ],
                 actions: ["dynamodb:Query"],
             }),
         ],
@@ -71,10 +82,31 @@ export const DynamoMigratorStack = ({ stack }: StackContext) => {
             install: ["pg", "kysely"],
         },
         handler: "packages/dynamo-disruption-migrator/index.incrementalMigrator",
-        timeout: 120,
-        memorySize: 1024,
+        timeout: 600,
+        memorySize: 3072,
         runtime: "nodejs20.x",
     });
+
+    incrementalMigrator.addEventSourceMapping("prod-copy-stream-event", {
+        eventSourceArn: `arn:aws:dynamodb:eu-west-2:${stack.account}:table/disruptions-prod-copy/stream/2025-01-10T14:50:37.984`,
+        batchSize: 1,
+        startingPosition: StartingPosition.LATEST,
+        retryAttempts: 3,
+    });
+
+    incrementalMigrator.addToRolePolicy(
+        new PolicyStatement({
+            actions: [
+                "dynamodb:DescribeStream",
+                "dynamodb:GetRecords",
+                "dynamodb:GetShardIterator",
+                "dynamodb:ListStreams",
+            ],
+            resources: [
+                `arn:aws:dynamodb:eu-west-2:${stack.account}:table/disruptions-prod-copy/stream/2025-01-10T14:50:37.984`,
+            ],
+        }),
+    );
 
     disruptionsTable.addConsumers(stack, {
         migrator: incrementalMigrator,
