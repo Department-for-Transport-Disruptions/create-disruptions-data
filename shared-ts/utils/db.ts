@@ -133,12 +133,16 @@ export const getCurrentAndFutureDisruptions = async (orgId?: string) => {
         .selectAll()
         .select((eb) => [withConsequences(eb)])
         .where("disruptions.publishStatus", "=", PublishStatus.published)
-        .where("disruptions.publishStartTimestamp", "<=", sql<Date>`now()`)
         .where("disruptions.template", "=", false)
         .where((eb) =>
             eb.or([
-                eb("disruptions.publishEndTimestamp", ">=", sql<Date>`now()`),
-                eb("disruptions.publishEndTimestamp", "is", null),
+                eb("disruptions.publishStartTimestamp", ">", sql<Date>`now()`),
+                eb("disruptions.publishStartTimestamp", "<=", sql<Date>`now()`).and(
+                    eb.or([
+                        eb("disruptions.publishEndTimestamp", ">=", sql<Date>`now()`),
+                        eb("disruptions.publishEndTimestamp", "is", null),
+                    ]),
+                ),
             ]),
         )
         .orderBy("disruptions.validityStartTimestamp asc");

@@ -1,3 +1,4 @@
+import { SortOrder } from "@create-disruptions-data/shared-ts/enums";
 import { render } from "@testing-library/react";
 import Link from "next/link";
 import { describe, expect, it } from "vitest";
@@ -103,33 +104,70 @@ const defaultData: RandomTable[] = [
     },
 ];
 
-const defaultSortFunction = (rows: RandomTable[], sortField: keyof RandomTable) =>
-    rows.sort((a, b) => a[sortField].toString().localeCompare(b[sortField].toString()));
-
 describe("SortableTable", () => {
     it("should render correctly", () => {
-        const { asFragment } = render(<SortableTable columns={defaultColumn} rows={defaultData} />);
+        const { asFragment } = render(
+            <SortableTable
+                columns={defaultColumn}
+                rows={defaultData}
+                currentPage={1}
+                setCurrentPage={() => {}}
+                pageCount={1}
+                sortOrder={SortOrder.asc}
+                setSortOrder={() => {}}
+                sortedField={null}
+                setSortedField={() => {}}
+            />,
+        );
         expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly when empty arrays are passed", () => {
-        const { asFragment } = render(<SortableTable columns={[]} rows={[]} />);
+        const { asFragment } = render(
+            <SortableTable
+                columns={[]}
+                rows={[]}
+                currentPage={1}
+                setCurrentPage={() => {}}
+                pageCount={1}
+                sortOrder={SortOrder.asc}
+                setSortOrder={() => {}}
+                sortedField="start"
+                setSortedField={() => {}}
+            />,
+        );
         expect(asFragment()).toMatchSnapshot();
     });
 
     it("should render correctly with pagination", () => {
         const { asFragment } = render(
-            <SortableTable columns={defaultColumn} rows={Array.from({ length: 10 }, () => [...defaultData]).flat()} />,
+            <SortableTable
+                columns={defaultColumn}
+                rows={defaultData}
+                currentPage={1}
+                setCurrentPage={() => {}}
+                pageCount={4}
+                sortOrder={SortOrder.asc}
+                setSortOrder={() => {}}
+                sortedField={null}
+                setSortedField={() => {}}
+            />,
         );
         expect(asFragment()).toMatchSnapshot();
     });
 
-    it("should render correctly with sorting function", () => {
+    it("should render correctly with sorted field", () => {
         const { asFragment } = render(
             <SortableTable
                 columns={defaultColumn}
-                rows={Array.from({ length: 10 }, () => [...defaultData]).flat()}
-                sortFunction={defaultSortFunction}
+                rows={defaultData}
+                currentPage={1}
+                setCurrentPage={() => {}}
+                pageCount={4}
+                sortOrder={SortOrder.asc}
+                setSortOrder={() => {}}
+                sortedField="start"
+                setSortedField={() => {}}
             />,
         );
         expect(asFragment()).toMatchSnapshot();

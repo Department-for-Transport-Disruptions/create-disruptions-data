@@ -1,27 +1,14 @@
 import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Datasource, Progress, PublishStatus, Severity } from "@create-disruptions-data/shared-ts/enums";
 import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
-import {
-    getClosedDisruptionsFromPastDays,
-    getFutureDisruptions,
-    getLiveDisruptions,
-} from "@create-disruptions-data/shared-ts/utils/db";
 import { Dayjs } from "dayjs";
 import { NextApiRequest, NextApiResponse } from "next";
 import { VEHICLE_MODES } from "../../../constants";
 import { getDisruptionsData } from "../../../data/db";
-import { TableDisruption } from "../../../schemas/disruption.schema";
-import { filterDisruptionsForOperatorUser, getDisplayByValue, reduceStringWithEllipsis } from "../../../utils";
+import { TableDisruption, filtersSchema } from "../../../schemas/disruption.schema";
+import { getDisplayByValue, reduceStringWithEllipsis } from "../../../utils";
 import { getSession } from "../../../utils/apiUtils/auth";
 import { isLiveDisruption } from "../../../utils/dates";
-
-export interface GetDisruptionsApiRequest extends NextApiRequest {
-    query: {
-        organisationId: string;
-        template: "true" | "false";
-        type: "all" | "live" | "upcoming" | "recentlyClosed";
-    };
-}
 
 export const getDisruptionStatus = (disruption: Disruption): Progress => {
     if (disruption.publishStatus === PublishStatus.draft) {
@@ -197,10 +184,10 @@ export const formatSortedDisruption = (disruption: Disruption): TableDisruption 
     };
 };
 
-const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResponse) => {
+const getAllDisruptions = async (req: NextApiRequest, res: NextApiResponse) => {
     const session = getSession(req);
 
-    const { template, organisationId: reqOrgId, type } = req.query;
+    const { template, organisationId: reqOrgId } = req.query;
 
     if (!session || (session.isOperatorUser && template)) {
         res.status(403);
@@ -214,47 +201,16 @@ const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResp
         return;
     }
 
-    let disruptions: Disruption[] = [];
+    const parsedFilters = filtersSchema.parse(req.query);
 
-    switch (type) {
-        case "all":
-            disruptions = await getDisruptionsData(sessionOrgId, template === "true");
-            break;
-        case "live":
-            disruptions = await getLiveDisruptions(sessionOrgId, false);
-            break;
-        case "upcoming":
-            disruptions = await getFutureDisruptions(sessionOrgId, false);
-            break;
-        case "recentlyClosed":
-            disruptions = await getClosedDisruptionsFromPastDays(7, sessionOrgId, false);
-            break;
-        default:
-            disruptions = [];
-    }
+    const { disruptions, count } = await getDisruptionsData(parsedFilters, session.operatorOrgId);
 
-    let disruptionsData = disruptions;
+    if (disruptions.length) {
+        const shortenedData = disruptions.map(formatSortedDisruption);
 
-    if (session.isOperatorUser) {
-        disruptionsData = filterDisruptionsForOperatorUser(disruptionsData, session.operatorOrgId);
-    }
-
-    if (disruptionsData) {
-        const filteredDisruptions = disruptionsData.filter(
-            (item) =>
-                item.publishStatus === PublishStatus.published ||
-                item.publishStatus === PublishStatus.draft ||
-                item.publishStatus === PublishStatus.pendingApproval ||
-                item.publishStatus === PublishStatus.editPendingApproval ||
-                item.publishStatus === PublishStatus.rejected ||
-                !item.template,
-        );
-
-        const shortenedData = filteredDisruptions.map(formatSortedDisruption);
-
-        res.status(200).json({ disruptions: shortenedData });
+        res.status(200).json({ disruptions: shortenedData, count });
     } else {
-        res.status(200).json({});
+        res.status(200).json({ disruptions: [], count });
     }
 };
 

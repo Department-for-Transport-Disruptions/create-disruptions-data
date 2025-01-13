@@ -1,5 +1,5 @@
 import { History, disruptionSchema, historySchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
-import { Datasource, Progress, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, Progress, Severity, SortOrder, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import {
     environmentReasonSchema,
     equipmentReasonSchema,
@@ -7,6 +7,7 @@ import {
     personnelReasonSchema,
 } from "@create-disruptions-data/shared-ts/siriTypes.zod";
 import { getDisruptionCreationTime } from "@create-disruptions-data/shared-ts/utils";
+import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { z } from "zod";
 import { setZodDefaultError, splitCamelCaseToString, toTitleCase } from "../utils";
 import { getDateForExporter } from "../utils/dates";
@@ -146,7 +147,7 @@ export type TableDisruption = z.infer<typeof disruptionsTableSchema>;
 export const filtersSchema = z.object({
     organisationId: z.string().uuid(),
     template: z.literal("true").or(z.literal("false")).default("false"),
-    textSearch: z.string().max(100).nullish(),
+    textSearch: z.string().min(3).max(100).nullish(),
     operators: z
         .string()
         .transform((s) => s.split(","))
@@ -154,14 +155,45 @@ export const filtersSchema = z.object({
         .nullish(),
     services: z
         .string()
-        .transform((s) => s.split(","))
-        .pipe(z.string().trim().max(30).array().max(50))
+        .transform((s) =>
+            s.split(",").map((s) => {
+                const splitService = s.split(/:(.*)/s);
+
+                return {
+                    dataSource: splitService[0],
+                    serviceId: splitService[1],
+                };
+            }),
+        )
+        .pipe(
+            z
+                .object({ dataSource: z.literal("bods").or(z.literal("tnds")), serviceId: z.string().trim().max(30) })
+                .array()
+                .max(50),
+        )
         .nullish(),
-    startDate: z.string().datetime().nullish(),
-    endDate: z.string().datetime().nullish(),
+    startDate: z
+        .string()
+        .nullish()
+        .transform((d) => (d ? getDatetimeFromDateAndTime(d, "0000").toDate() : d))
+        .pipe(z.date().nullish()),
+    endDate: z
+        .string()
+        .nullish()
+        .transform((d) => (d ? getDatetimeFromDateAndTime(d, "0000").toDate() : d))
+        .pipe(z.date().nullish()),
     severity: z.nativeEnum(Severity).nullish(),
     status: z.nativeEnum(Progress).nullish(),
     mode: z.nativeEnum(VehicleMode).nullish(),
+    upcoming: z
+        .literal("true")
+        .or(z.literal("false"))
+        .nullish()
+        .transform((u) => (u ? u === "true" : u)),
+    sortBy: z.literal("start").or(z.literal("end")).nullish(),
+    sortOrder: z.nativeEnum(SortOrder).nullish(),
+    offset: z.coerce.number().default(0),
+    pageSize: z.coerce.number().max(1000).default(10),
 });
 
 export type Filters = z.infer<typeof filtersSchema>;

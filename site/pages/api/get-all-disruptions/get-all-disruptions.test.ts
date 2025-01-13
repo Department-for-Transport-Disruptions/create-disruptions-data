@@ -5,7 +5,7 @@ import * as db from "../../../data/db";
 import { FullDisruption } from "../../../schemas/disruption.schema";
 import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession, sortedDisruption } from "../../../testData/mockData";
 import * as session from "../../../utils/apiUtils/auth";
-import getAllDisruptions, { formatSortedDisruption, GetDisruptionsApiRequest } from "./[organisationId].api";
+import getAllDisruptions, { formatSortedDisruption } from "./[organisationId].api";
 
 describe("getAllDisruptions", () => {
     const writeHeadMock = vi.fn();
@@ -107,7 +107,7 @@ describe("getAllDisruptions", () => {
     ];
 
     it("should be successful when session is set", async () => {
-        getDisruptionsDataSpy.mockResolvedValue(disruptions);
+        getDisruptionsDataSpy.mockResolvedValue({ disruptions, count: 100 });
 
         const { req, res } = getMockRequestAndResponse({
             query: {
@@ -123,7 +123,7 @@ describe("getAllDisruptions", () => {
             json: jsonMock,
         }));
 
-        await getAllDisruptions(req as GetDisruptionsApiRequest, res);
+        await getAllDisruptions(req, res);
 
         expect(res.status).toHaveBeenCalledWith(200);
         expect(jsonMock).toMatchSnapshot();
@@ -144,7 +144,7 @@ describe("getAllDisruptions", () => {
             json: vi.fn(),
         }));
 
-        await getAllDisruptions(req as GetDisruptionsApiRequest, res);
+        await getAllDisruptions(req, res);
 
         expect(getDisruptionsDataSpy).not.toHaveBeenCalledOnce();
 
@@ -162,7 +162,7 @@ describe("getAllDisruptions", () => {
 
         const disruptionsWithOperatorDisruptions = [...operatorDisruptions, ...disruptions];
 
-        getDisruptionsDataSpy.mockResolvedValue(disruptionsWithOperatorDisruptions);
+        getDisruptionsDataSpy.mockResolvedValue({ disruptions: disruptionsWithOperatorDisruptions, count: 100 });
 
         const { req, res } = getMockRequestAndResponse({
             query: {
@@ -178,7 +178,7 @@ describe("getAllDisruptions", () => {
             json: jsonMock,
         }));
 
-        await getAllDisruptions(req as GetDisruptionsApiRequest, res);
+        await getAllDisruptions(req, res);
 
         expect(res.status).toHaveBeenCalledWith(200);
         expect(jsonMock).toMatchSnapshot();

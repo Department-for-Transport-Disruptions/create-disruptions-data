@@ -194,3 +194,8 @@ export enum Modes {
     underground = "underground",
     metro = "metro",
 }
+
+export enum SortOrder {
+    asc = "asc",
+    desc = "desc",
+}
