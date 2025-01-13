@@ -36,15 +36,15 @@ const enrichDisruptionsWithOrgInfo = async (disruptions: Disruption[], orgTableN
 
             const org = orgInfo.find((org) => org.id === disruption.orgId);
 
-            if (!includeDisruption(disruption, date)) {
+            if (!org || !includeDisruption(disruption, date)) {
                 return null;
             }
 
             return {
                 ...disruption,
                 organisation: {
-                    id: org?.id ?? disruption.id,
-                    name: org?.name ?? "DepartmentForTransport",
+                    id: org.id,
+                    name: org.name,
                 },
             };
         })
