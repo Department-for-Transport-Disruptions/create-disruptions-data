@@ -28,65 +28,69 @@ exports[`ExportPopup > should render correctly 1`] = `
               </span>
             </legend>
             <div
-              class=""
+              class="src__StyledContainer-sc-gm1edz-0 dgTHGF"
             >
               <div
-                class="govuk-radios"
-                data-module="govuk-radios"
+                class=""
               >
                 <div
-                  class="govuk-radios__item govuk-!-margin-bottom-1"
+                  class="govuk-radios"
+                  data-module="govuk-radios"
                 >
-                  <input
-                    class="govuk-radios__input"
-                    data-aria-controls="export-type-csv-conditional"
-                    id="export-type-csv"
-                    name="exportType"
-                    type="radio"
-                    value="csv"
-                  />
-                  <label
-                    class="govuk-label govuk-radios__label"
-                    for="export-type-csv"
+                  <div
+                    class="govuk-radios__item govuk-!-margin-bottom-1"
                   >
-                    CSV
-                  </label>
-                </div>
-                <div
-                  class="govuk-radios__item govuk-!-margin-bottom-1"
-                >
-                  <input
-                    class="govuk-radios__input"
-                    data-aria-controls="export-type-excel-conditional"
-                    id="export-type-excel"
-                    name="exportType"
-                    type="radio"
-                    value="excel"
-                  />
-                  <label
-                    class="govuk-label govuk-radios__label"
-                    for="export-type-excel"
+                    <input
+                      class="govuk-radios__input"
+                      data-aria-controls="export-type-csv-conditional"
+                      id="export-type-csv"
+                      name="exportType"
+                      type="radio"
+                      value="csv"
+                    />
+                    <label
+                      class="govuk-label govuk-radios__label"
+                      for="export-type-csv"
+                    >
+                      CSV
+                    </label>
+                  </div>
+                  <div
+                    class="govuk-radios__item govuk-!-margin-bottom-1"
                   >
-                    Excel
-                  </label>
-                </div>
-                <div
-                  class="govuk-radios__item"
-                >
-                  <input
-                    class="govuk-radios__input"
-                    data-aria-controls="export-type-pdf-conditional"
-                    id="export-type-pdf"
-                    name="exportType"
-                    type="radio"
-                    value="pdf"
-                  />
-                  <label
-                    class="govuk-label govuk-radios__label"
-                    for="export-type-pdf"
+                    <input
+                      class="govuk-radios__input"
+                      data-aria-controls="export-type-excel-conditional"
+                      id="export-type-excel"
+                      name="exportType"
+                      type="radio"
+                      value="excel"
+                    />
+                    <label
+                      class="govuk-label govuk-radios__label"
+                      for="export-type-excel"
+                    >
+                      Excel
+                    </label>
+                  </div>
+                  <div
+                    class="govuk-radios__item"
                   >
-                    PDF
-                  </label>
+                    <input
+                      class="govuk-radios__input"
+                      data-aria-controls="export-type-pdf-conditional"
+                      id="export-type-pdf"
+                      name="exportType"
+                      type="radio"
+                      value="pdf"
+                    />
+                    <label
+                      class="govuk-label govuk-radios__label"
+                      for="export-type-pdf"
+                    >
+                      PDF
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>

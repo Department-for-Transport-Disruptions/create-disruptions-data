@@ -321,7 +321,7 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
               <input
                 name="service1"
                 type="hidden"
-                value="{\\"id\\":23127,\\"lineName\\":\\"1\\",\\"operatorShortName\\":\\"First South Yorkshire\\",\\"origin\\":\\"Jordanthorpe\\",\\"destination\\":\\"HigH Green\\",\\"nocCode\\":\\"TEST\\",\\"startDate\\":\\"2023-07-23\\",\\"serviceCode\\":\\"NW_04_SCMN_149_1\\",\\"dataSource\\":\\"bods\\",\\"lineId\\":\\"SL1\\",\\"endDate\\":\\"2023-08-10\\"}"
+                value="{"id":23127,"lineName":"1","operatorShortName":"First South Yorkshire","origin":"Jordanthorpe","destination":"HigH Green","nocCode":"TEST","startDate":"2023-07-23","serviceCode":"NW_04_SCMN_149_1","dataSource":"bods","lineId":"SL1","endDate":"2023-08-10"}"
               />
             </div>
           </div>
@@ -495,12 +495,12 @@ exports[`pages > CreateConsequenceServices > should render correctly when global
               <input
                 name="stop1"
                 type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90310\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T3\\",\\"latitude\\":51.44901,\\"longitude\\":-2.58569}"
+                value="{"atcoCode":"0100BRP90310","commonName":"Temple Meads Stn","indicator":"T3","latitude":51.44901,"longitude":-2.58569}"
               />
               <input
                 name="stop2"
                 type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90311\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T7\\",\\"latitude\\":51.45014,\\"longitude\\":-2.5856}"
+                value="{"atcoCode":"0100BRP90311","commonName":"Temple Meads Stn","indicator":"T7","latitude":51.45014,"longitude":-2.5856}"
               />
             </div>
           </div>
@@ -1344,7 +1344,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
               <input
                 name="service1"
                 type="hidden"
-                value="{\\"id\\":23127,\\"lineName\\":\\"1\\",\\"operatorShortName\\":\\"First South Yorkshire\\",\\"origin\\":\\"Jordanthorpe\\",\\"destination\\":\\"HigH Green\\",\\"nocCode\\":\\"TEST\\",\\"startDate\\":\\"2023-07-23\\",\\"serviceCode\\":\\"NW_04_SCMN_149_1\\",\\"dataSource\\":\\"bods\\",\\"lineId\\":\\"SL1\\",\\"endDate\\":\\"2023-08-10\\"}"
+                value="{"id":23127,"lineName":"1","operatorShortName":"First South Yorkshire","origin":"Jordanthorpe","destination":"HigH Green","nocCode":"TEST","startDate":"2023-07-23","serviceCode":"NW_04_SCMN_149_1","dataSource":"bods","lineId":"SL1","endDate":"2023-08-10"}"
               />
             </div>
           </div>
@@ -1518,12 +1518,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with errors
               <input
                 name="stop1"
                 type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90310\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T3\\",\\"latitude\\":51.44901,\\"longitude\\":-2.58569}"
+                value="{"atcoCode":"0100BRP90310","commonName":"Temple Meads Stn","indicator":"T3","latitude":51.44901,"longitude":-2.58569}"
               />
               <input
                 name="stop2"
                 type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90311\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T7\\",\\"latitude\\":51.45014,\\"longitude\\":-2.5856}"
+                value="{"atcoCode":"0100BRP90311","commonName":"Temple Meads Stn","indicator":"T7","latitude":51.45014,"longitude":-2.5856}"
               />
             </div>
           </div>
@@ -2360,7 +2360,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
               <input
                 name="service1"
                 type="hidden"
-                value="{\\"id\\":23127,\\"lineName\\":\\"1\\",\\"operatorShortName\\":\\"First South Yorkshire\\",\\"origin\\":\\"Jordanthorpe\\",\\"destination\\":\\"HigH Green\\",\\"nocCode\\":\\"TEST\\",\\"startDate\\":\\"2023-07-23\\",\\"serviceCode\\":\\"NW_04_SCMN_149_1\\",\\"dataSource\\":\\"bods\\",\\"lineId\\":\\"SL1\\",\\"endDate\\":\\"2023-08-10\\"}"
+                value="{"id":23127,"lineName":"1","operatorShortName":"First South Yorkshire","origin":"Jordanthorpe","destination":"HigH Green","nocCode":"TEST","startDate":"2023-07-23","serviceCode":"NW_04_SCMN_149_1","dataSource":"bods","lineId":"SL1","endDate":"2023-08-10"}"
               />
             </div>
           </div>
@@ -2534,12 +2534,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
               <input
                 name="stop1"
                 type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90310\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T3\\",\\"latitude\\":51.44901,\\"longitude\\":-2.58569}"
+                value="{"atcoCode":"0100BRP90310","commonName":"Temple Meads Stn","indicator":"T3","latitude":51.44901,"longitude":-2.58569}"
               />
               <input
                 name="stop2"
                 type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90311\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T7\\",\\"latitude\\":51.45014,\\"longitude\\":-2.5856}"
+                value="{"atcoCode":"0100BRP90311","commonName":"Temple Meads Stn","indicator":"T7","latitude":51.45014,"longitude":-2.5856}"
               />
             </div>
           </div>
@@ -3352,7 +3352,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
               <input
                 name="service1"
                 type="hidden"
-                value="{\\"id\\":23127,\\"lineName\\":\\"1\\",\\"operatorShortName\\":\\"First South Yorkshire\\",\\"origin\\":\\"Jordanthorpe\\",\\"destination\\":\\"HigH Green\\",\\"nocCode\\":\\"TEST\\",\\"startDate\\":\\"2023-07-23\\",\\"serviceCode\\":\\"NW_04_SCMN_149_1\\",\\"dataSource\\":\\"bods\\",\\"lineId\\":\\"SL1\\",\\"endDate\\":\\"2023-08-10\\"}"
+                value="{"id":23127,"lineName":"1","operatorShortName":"First South Yorkshire","origin":"Jordanthorpe","destination":"HigH Green","nocCode":"TEST","startDate":"2023-07-23","serviceCode":"NW_04_SCMN_149_1","dataSource":"bods","lineId":"SL1","endDate":"2023-08-10"}"
               />
             </div>
           </div>
@@ -3526,12 +3526,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
               <input
                 name="stop1"
                 type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90310\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T3\\",\\"latitude\\":51.44901,\\"longitude\\":-2.58569}"
+                value="{"atcoCode":"0100BRP90310","commonName":"Temple Meads Stn","indicator":"T3","latitude":51.44901,"longitude":-2.58569}"
               />
               <input
                 name="stop2"
                 type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90311\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T7\\",\\"latitude\\":51.45014,\\"longitude\\":-2.5856}"
+                value="{"atcoCode":"0100BRP90311","commonName":"Temple Meads Stn","indicator":"T7","latitude":51.45014,"longitude":-2.5856}"
               />
             </div>
           </div>
@@ -4344,7 +4344,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
               <input
                 name="service1"
                 type="hidden"
-                value="{\\"id\\":23127,\\"lineName\\":\\"1\\",\\"operatorShortName\\":\\"First South Yorkshire\\",\\"origin\\":\\"Jordanthorpe\\",\\"destination\\":\\"HigH Green\\",\\"nocCode\\":\\"TEST\\",\\"startDate\\":\\"2023-07-23\\",\\"serviceCode\\":\\"NW_04_SCMN_149_1\\",\\"dataSource\\":\\"bods\\",\\"lineId\\":\\"SL1\\",\\"endDate\\":\\"2023-08-10\\"}"
+                value="{"id":23127,"lineName":"1","operatorShortName":"First South Yorkshire","origin":"Jordanthorpe","destination":"HigH Green","nocCode":"TEST","startDate":"2023-07-23","serviceCode":"NW_04_SCMN_149_1","dataSource":"bods","lineId":"SL1","endDate":"2023-08-10"}"
               />
             </div>
           </div>
@@ -4518,12 +4518,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with inputs
               <input
                 name="stop1"
                 type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90310\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T3\\",\\"latitude\\":51.44901,\\"longitude\\":-2.58569}"
+                value="{"atcoCode":"0100BRP90310","commonName":"Temple Meads Stn","indicator":"T3","latitude":51.44901,"longitude":-2.58569}"
               />
               <input
                 name="stop2"
                 type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90311\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T7\\",\\"latitude\\":51.45014,\\"longitude\\":-2.5856}"
+                value="{"atcoCode":"0100BRP90311","commonName":"Temple Meads Stn","indicator":"T7","latitude":51.45014,"longitude":-2.5856}"
               />
             </div>
           </div>
@@ -6194,7 +6194,7 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
               <input
                 name="service1"
                 type="hidden"
-                value="{\\"id\\":23127,\\"lineName\\":\\"1\\",\\"operatorShortName\\":\\"First South Yorkshire\\",\\"origin\\":\\"Jordanthorpe\\",\\"destination\\":\\"HigH Green\\",\\"nocCode\\":\\"TEST\\",\\"startDate\\":\\"2023-07-23\\",\\"serviceCode\\":\\"NW_04_SCMN_149_1\\",\\"dataSource\\":\\"bods\\",\\"lineId\\":\\"SL1\\",\\"endDate\\":\\"2023-08-10\\"}"
+                value="{"id":23127,"lineName":"1","operatorShortName":"First South Yorkshire","origin":"Jordanthorpe","destination":"HigH Green","nocCode":"TEST","startDate":"2023-07-23","serviceCode":"NW_04_SCMN_149_1","dataSource":"bods","lineId":"SL1","endDate":"2023-08-10"}"
               />
             </div>
           </div>
@@ -6368,12 +6368,12 @@ exports[`pages > CreateConsequenceServices > should render correctly with query 
               <input
                 name="stop1"
                 type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90310\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T3\\",\\"latitude\\":51.44901,\\"longitude\\":-2.58569}"
+                value="{"atcoCode":"0100BRP90310","commonName":"Temple Meads Stn","indicator":"T3","latitude":51.44901,"longitude":-2.58569}"
               />
               <input
                 name="stop2"
                 type="hidden"
-                value="{\\"atcoCode\\":\\"0100BRP90311\\",\\"commonName\\":\\"Temple Meads Stn\\",\\"indicator\\":\\"T7\\",\\"latitude\\":51.45014,\\"longitude\\":-2.5856}"
+                value="{"atcoCode":"0100BRP90311","commonName":"Temple Meads Stn","indicator":"T7","latitude":51.45014,"longitude":-2.5856}"
               />
             </div>
           </div>

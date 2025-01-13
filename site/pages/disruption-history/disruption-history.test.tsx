@@ -3,7 +3,6 @@ import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { render } from "@testing-library/react";
 import MockDate from "mockdate";
 import { afterAll, describe, expect, it, vi } from "vitest";
-import * as dynamo from "../../data/dynamo";
 import { DEFAULT_DISRUPTION_ID, disruptionWithConsequences, getMockContext } from "../../testData/mockData";
 import DisruptionHistory, { getServerSideProps } from "./[disruptionId].page";
 
@@ -44,10 +43,12 @@ const historyToSort: History[] = [
 ];
 
 describe("pages", () => {
-    const getDisruptionSpy = vi.spyOn(dynamo, "getDisruptionById");
+    const hoisted = vi.hoisted(() => ({
+        getDbDisruptionMock: vi.fn(),
+    }));
 
-    vi.mock("../../data/dynamo", () => ({
-        getDisruptionById: vi.fn(),
+    vi.mock("../../data/db", () => ({
+        getDbDisruption: hoisted.getDbDisruptionMock,
     }));
 
     MockDate.set("2023-05-22");
@@ -65,7 +66,7 @@ describe("pages", () => {
 
     describe("getServerSideProps", () => {
         it("should return correctly sorted history items", async () => {
-            getDisruptionSpy.mockResolvedValue({
+            hoisted.getDbDisruptionMock.mockResolvedValue({
                 ...disruptionWithConsequences,
                 history: historyToSort,
             });
@@ -73,7 +74,7 @@ describe("pages", () => {
 
             expect(props).toEqual({
                 props: {
-                    disruptionId: disruptionWithConsequences.disruptionId,
+                    disruptionId: disruptionWithConsequences.id,
                     history: [
                         {
                             datetime: "2023-05-19T14:40:00Z",
@@ -99,20 +100,21 @@ describe("pages", () => {
         });
 
         it("should add history item if disruption has closed", async () => {
-            getDisruptionSpy.mockResolvedValue({
+            hoisted.getDbDisruptionMock.mockResolvedValue({
                 ...disruptionWithConsequences,
                 disruptionNoEndDateTime: "",
                 disruptionEndDate: "20/05/2023",
                 disruptionEndTime: "1200",
                 publishEndDate: "20/05/2023",
                 publishEndTime: "1200",
+                validityEndTimestamp: "2023-05-20T12:00:00Z",
                 history: historyToSort,
             });
             const props = await getServerSideProps(getMockContext());
 
             expect(props).toEqual({
                 props: {
-                    disruptionId: disruptionWithConsequences.disruptionId,
+                    disruptionId: disruptionWithConsequences.id,
                     history: [
                         {
                             datetime: "2023-05-20T11:00:00.000Z",

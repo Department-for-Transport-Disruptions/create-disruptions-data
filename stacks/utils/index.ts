@@ -22,3 +22,7 @@ export const createBucket = (stack: Stack, name: string, versioned: boolean, exp
 
     return siriSXBucket;
 };
+
+export const isUserEnv = (stage: string) => !["sandbox", "test", "preprod", "prod"].includes(stage);
+
+export const isSharedSandboxEnv = (stage: string) => stage === "sandbox";

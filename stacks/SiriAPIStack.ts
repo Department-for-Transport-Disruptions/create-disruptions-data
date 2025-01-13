@@ -1,23 +1,31 @@
 import { Duration } from "aws-cdk-lib";
 import { AuthorizationType, AwsIntegration, MethodOptions, PassthroughBehavior } from "aws-cdk-lib/aws-apigateway";
+import { SubnetType } from "aws-cdk-lib/aws-ec2";
 import { PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
 import { ApiGatewayV1Api, StackContext, use } from "sst/constructs";
 import { DnsStack } from "./DnsStack";
 import { DynamoDBStack } from "./DynamoDBStack";
-import { OrgDisruptionsGeneratorStack } from "./OrgDisruptionsGenerator";
+import { RdsStack } from "./RdsStack";
 import { SiriGeneratorStack } from "./SiriGeneratorStack";
+import { VpcStack } from "./VpcStack";
+import { isUserEnv } from "./utils";
 
 export const SiriAPIStack = ({ stack }: StackContext) => {
     const { siriSXBucket, disruptionsJsonBucket, disruptionsCsvBucket } = use(SiriGeneratorStack);
     const { hostedZone } = use(DnsStack);
-    const { disruptionsTable, organisationsTableV2: organisationsTable } = use(DynamoDBStack);
-    const { orgDisruptionsBucket } = use(OrgDisruptionsGeneratorStack);
+    const { organisationsTableV2: organisationsTable } = use(DynamoDBStack);
+    const { dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret } = use(RdsStack);
+    const { vpc, lambdaSg } = use(VpcStack);
+
+    if (!hostedZone) {
+        return;
+    }
 
     const apiUrl = !["preprod", "prod"].includes(stack.stage)
         ? "https://api.test.ref-data.dft-create-data.com/v1"
         : `https://api.${stack.stage}.ref-data.dft-create-data.com/v1`;
 
-    const subDomain = ["test", "preprod", "prod"].includes(stack.stage) ? "api" : `api.${stack.stage}`;
+    const subDomain = ["sandbox", "test", "preprod", "prod"].includes(stack.stage) ? "api" : `api.${stack.stage}`;
 
     const apiGateway = new ApiGatewayV1Api(stack, "cdd-siri-sx-api", {
         customDomain: {
@@ -32,7 +40,7 @@ export const SiriAPIStack = ({ stack }: StackContext) => {
                 restApiName: `cdd-siri-sx-api-${stack.stage}`,
                 description: "API to retrieve Siri SX XML data and includes statistics about this data",
                 deployOptions: {
-                    cachingEnabled: true,
+                    cachingEnabled: !isUserEnv(stack.stage),
                     cacheTtl: Duration.seconds(60),
                 },
             },
@@ -41,6 +49,15 @@ export const SiriAPIStack = ({ stack }: StackContext) => {
             function: {
                 timeout: 20,
                 runtime: "nodejs20.x",
+                bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret],
+                vpc,
+                vpcSubnets: {
+                    subnetType: SubnetType.PRIVATE_WITH_EGRESS,
+                },
+                securityGroups: [lambdaSg],
+                nodejs: {
+                    install: ["pg", "kysely"],
+                },
             },
         },
         routes: {
@@ -87,20 +104,8 @@ export const SiriAPIStack = ({ stack }: StackContext) => {
             "GET    /organisations/{id}/disruptions": {
                 function: {
                     handler: "packages/organisations-api/get-organisation-disruptions/index.main",
-                    permissions: [
-                        new PolicyStatement({
-                            resources: [disruptionsTable.tableArn],
-                            actions: ["dynamodb:Query"],
-                        }),
-                        new PolicyStatement({
-                            resources: [`${orgDisruptionsBucket.bucketArn}/*`],
-                            actions: ["s3:GetObject"],
-                        }),
-                    ],
                     environment: {
-                        DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
                         API_BASE_URL: apiUrl,
-                        ORG_DISRUPTIONS_BUCKET_NAME: orgDisruptionsBucket.bucketName,
                     },
                 },
                 cdk: {
@@ -118,14 +123,7 @@ export const SiriAPIStack = ({ stack }: StackContext) => {
             "GET    /organisations/{id}/disruptions/{disruptionId}": {
                 function: {
                     handler: "packages/organisations-api/get-organisation-disruption/index.main",
-                    permissions: [
-                        new PolicyStatement({
-                            resources: [disruptionsTable.tableArn],
-                            actions: ["dynamodb:Query"],
-                        }),
-                    ],
                     environment: {
-                        DISRUPTIONS_TABLE_NAME: disruptionsTable.tableName,
                         API_BASE_URL: apiUrl,
                     },
                 },

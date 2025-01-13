@@ -1,28 +1,14 @@
 import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Datasource, Progress, PublishStatus, Severity } from "@create-disruptions-data/shared-ts/enums";
-import { getSortedDisruptionFinalEndDate, sortDisruptionsByStartDate } from "@create-disruptions-data/shared-ts/utils";
 import { getDate, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { Dayjs } from "dayjs";
 import { NextApiRequest, NextApiResponse } from "next";
-import { z } from "zod";
 import { VEHICLE_MODES } from "../../../constants";
-import { getDisruptionsDataFromDynamo } from "../../../data/dynamo";
-import { TableDisruption } from "../../../schemas/disruption.schema";
-import {
-    filterDisruptionsForOperatorUser,
-    getDisplayByValue,
-    mapValidityPeriods,
-    reduceStringWithEllipsis,
-} from "../../../utils";
+import { getDisruptionsData } from "../../../data/db";
+import { TableDisruption, filtersSchema } from "../../../schemas/disruption.schema";
+import { getDisplayByValue, reduceStringWithEllipsis } from "../../../utils";
 import { getSession } from "../../../utils/apiUtils/auth";
 import { isLiveDisruption } from "../../../utils/dates";
-
-export interface GetDisruptionsApiRequest extends NextApiRequest {
-    body: {
-        orgId: string;
-        start: number;
-    };
-}
 
 export const getDisruptionStatus = (disruption: Disruption): Progress => {
     if (disruption.publishStatus === PublishStatus.draft) {
@@ -49,10 +35,9 @@ export const getDisruptionStatus = (disruption: Disruption): Progress => {
     }
 
     const today = getDate();
-    const disruptionEndDate = getSortedDisruptionFinalEndDate(disruption);
 
-    if (!!disruptionEndDate && !disruption.template) {
-        return isClosingOrClosed(disruptionEndDate, today);
+    if (disruption.validityEndTimestamp && !disruption.template) {
+        return isClosingOrClosed(getDate(disruption.validityEndTimestamp), today);
     }
 
     return Progress.open;
@@ -104,9 +89,7 @@ export const formatSortedDisruption = (disruption: Disruption): TableDisruption 
     let stopsAffectedCount = 0;
     let servicesAffectedCount = 0;
 
-    const getEndDateTime = getSortedDisruptionFinalEndDate(disruption);
-
-    const isLive = disruption.validity ? isLiveDisruption(disruption.validity, getEndDateTime) : false;
+    const isLive = isLiveDisruption(disruption);
 
     let dataSource: Datasource | undefined = undefined;
 
@@ -176,9 +159,10 @@ export const formatSortedDisruption = (disruption: Disruption): TableDisruption 
         services,
         dataSource,
         operators: disruptionOperators,
-        id: disruption.disruptionId,
+        id: disruption.id,
         summary: reduceStringWithEllipsis(disruption.summary, 95),
-        validityPeriods: mapValidityPeriods(disruption),
+        validityStartTimestamp: disruption.validityStartTimestamp,
+        validityEndTimestamp: disruption.validityEndTimestamp ?? null,
         publishStartDate: getDatetimeFromDateAndTime(
             disruption.publishStartDate,
             disruption.publishStartTime,
@@ -200,10 +184,10 @@ export const formatSortedDisruption = (disruption: Disruption): TableDisruption 
     };
 };
 
-const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResponse) => {
+const getAllDisruptions = async (req: NextApiRequest, res: NextApiResponse) => {
     const session = getSession(req);
 
-    const { template } = req.query;
+    const { template, organisationId: reqOrgId } = req.query;
 
     if (!session || (session.isOperatorUser && template)) {
         res.status(403);
@@ -212,52 +196,21 @@ const getAllDisruptions = async (req: GetDisruptionsApiRequest, res: NextApiResp
 
     const { orgId: sessionOrgId } = session;
 
-    const reqOrgId = req.query.organisationId;
-
     if (reqOrgId !== sessionOrgId) {
         res.status(403).json({});
         return;
     }
 
-    const nextKeyParsed = z
-        .object({ PK: z.string(), SK: z.string() })
-        .safeParse(req.query.nextKey ? JSON.parse(decodeURIComponent(req.query.nextKey.toString())) : undefined);
+    const parsedFilters = filtersSchema.parse(req.query);
 
-    let nextKey: Record<string, unknown> | undefined = undefined;
+    const { disruptions, count } = await getDisruptionsData(parsedFilters, session.operatorOrgId);
 
-    if (nextKeyParsed.success) {
-        nextKey = nextKeyParsed.data;
-    }
+    if (disruptions.length) {
+        const shortenedData = disruptions.map(formatSortedDisruption);
 
-    const { disruptions, nextKey: newNextKey } = await getDisruptionsDataFromDynamo(
-        sessionOrgId,
-        template === "true",
-        nextKey,
-    );
-
-    let disruptionsData = disruptions;
-
-    if (session.isOperatorUser) {
-        disruptionsData = filterDisruptionsForOperatorUser(disruptionsData, session.operatorOrgId);
-    }
-
-    if (disruptionsData) {
-        const filteredDisruptions = disruptionsData.filter(
-            (item) =>
-                item.publishStatus === PublishStatus.published ||
-                item.publishStatus === PublishStatus.draft ||
-                item.publishStatus === PublishStatus.pendingApproval ||
-                item.publishStatus === PublishStatus.editPendingApproval ||
-                item.publishStatus === PublishStatus.rejected ||
-                !item.template,
-        );
-        const sortedDisruptions = sortDisruptionsByStartDate(filteredDisruptions);
-
-        const shortenedData = sortedDisruptions.map(formatSortedDisruption);
-
-        res.status(200).json({ disruptions: shortenedData, nextKey: newNextKey });
+        res.status(200).json({ disruptions: shortenedData, count });
     } else {
-        res.status(200).json({});
+        res.status(200).json({ disruptions: [], count });
     }
 };
 

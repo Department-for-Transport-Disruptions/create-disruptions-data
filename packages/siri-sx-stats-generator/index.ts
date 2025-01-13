@@ -1,11 +1,8 @@
 import { randomUUID } from "crypto";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, TransactWriteCommand } from "@aws-sdk/lib-dynamodb";
-import { filterActiveDisruptions } from "@create-disruptions-data/shared-ts/utils";
-import {
-    getOrganisationsInfo,
-    getPublishedDisruptionsDataFromDynamo,
-} from "@create-disruptions-data/shared-ts/utils/dynamo";
+import { getLiveDisruptions } from "@create-disruptions-data/shared-ts/utils/db";
+import { getOrganisationsInfo } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import * as logger from "lambda-log";
 import { SiriStats, generateSiriStats } from "./utils/statGenerators";
 
@@ -97,22 +94,16 @@ export const main = async (): Promise<void> => {
         };
         logger.info("Starting SIRI-SX stats generator...");
 
-        const {
-            DISRUPTIONS_TABLE_NAME: disruptionsTableName,
-            ORGANISATIONS_TABLE_NAME: orgTableName,
-            STAGE: stage,
-        } = process.env;
+        const { ORGANISATIONS_TABLE_NAME: orgTableName, STAGE: stage } = process.env;
         const ENABLE_CANCELLATION_FEATURE_FLAG = !["preprod", "prod"].includes(stage || "development");
 
-        if (!disruptionsTableName || !orgTableName) {
+        if (!orgTableName) {
             throw new Error("Dynamo table names not set");
         }
 
-        const disruptions = await getPublishedDisruptionsDataFromDynamo(disruptionsTableName, logger);
+        const disruptions = await getLiveDisruptions();
 
-        const activeDisruptions = filterActiveDisruptions(disruptions);
-
-        const siriStats = generateSiriStats(activeDisruptions, ENABLE_CANCELLATION_FEATURE_FLAG);
+        const siriStats = generateSiriStats(disruptions, ENABLE_CANCELLATION_FEATURE_FLAG);
 
         await publishStatsToDynamo(orgTableName, siriStats, ENABLE_CANCELLATION_FEATURE_FLAG);
 

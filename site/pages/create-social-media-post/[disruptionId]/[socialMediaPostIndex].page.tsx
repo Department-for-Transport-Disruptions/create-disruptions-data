@@ -13,7 +13,7 @@ import TextInput from "../../../components/form/TextInput";
 import TimeSelector from "../../../components/form/TimeSelector";
 import { BaseLayout } from "../../../components/layout/Layout";
 import { COOKIES_SOCIAL_MEDIA_ERRORS } from "../../../constants";
-import { getDisruptionById } from "../../../data/dynamo";
+import { getDisruptionById } from "../../../data/db";
 import { getHootsuiteAccountList } from "../../../data/hootsuite";
 import { getNextdoorAccountList, getNextdoorAgencyBoundaries } from "../../../data/nextdoor";
 import { getTwitterAccountList } from "../../../data/twitter";
@@ -371,7 +371,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const index = ctx.query.socialMediaPostIndex ? Number(ctx.query.socialMediaPostIndex) : 0;
 
     const disruptionId = ctx.query.disruptionId?.toString() ?? "";
-    const disruption = await getDisruptionById(disruptionId, session.orgId, !!ctx.query?.template);
+    const disruption = await getDisruptionById(disruptionId, session.orgId);
     const socialMediaPost = disruption?.socialMediaPosts?.find((s) => s.socialMediaPostIndex === index);
 
     if (ctx.res) destroyCookieOnResponseObject(COOKIES_SOCIAL_MEDIA_ERRORS, ctx.res);

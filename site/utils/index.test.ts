@@ -44,7 +44,7 @@ describe("page state test", () => {
         const defaultPublishStartDate = getFutureDateAsString(2, CD_DATE_FORMAT);
 
         const disruptionData: DisruptionInfo = {
-            disruptionId: randomUUID(),
+            id: randomUUID(),
             disruptionType: "unplanned",
             summary: "Lorem ipsum dolor sit amet",
             description:
@@ -64,7 +64,7 @@ describe("page state test", () => {
             orgId: DEFAULT_ORG_ID,
         };
 
-        const parsedInput = getPageState("", disruptionInfoSchema, disruptionData.disruptionId, disruptionData);
+        const parsedInput = getPageState("", disruptionInfoSchema, disruptionData.id, disruptionData);
 
         expect(parsedInput).not.toBeNull();
         expect(parsedInput.inputs).toEqual(disruptionData);

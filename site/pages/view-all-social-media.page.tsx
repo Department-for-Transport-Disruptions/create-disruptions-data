@@ -4,7 +4,7 @@ import { ReactElement, ReactNode, useEffect, useRef } from "react";
 import Table from "../components/form/Table";
 import { BaseLayout } from "../components/layout/Layout";
 import NotificationBanner from "../components/layout/NotificationBanner";
-import { getPublishedSocialMediaPosts } from "../data/dynamo";
+import { getPublishedSocialMediaPosts } from "../data/db";
 import { getItem } from "../data/s3";
 import { SocialMediaPost, SocialMediaPostTransformed } from "../schemas/social-media.schema";
 import { getSession } from "../utils/apiUtils/auth";

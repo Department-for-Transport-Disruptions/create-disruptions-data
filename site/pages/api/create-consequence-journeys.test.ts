@@ -1,4 +1,4 @@
-import { Consequence, JourneysConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { JourneysConsequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Datasource, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
@@ -11,16 +11,10 @@ import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
+import * as db from "../../data/db";
 import * as dynamo from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
-import { FullDisruption } from "../../schemas/disruption.schema";
-import {
-    DEFAULT_ORG_ID,
-    createDisruptionWithConsquences,
-    disruptionWithConsequences,
-    getMockRequestAndResponse,
-    mockSession,
-} from "../../testData/mockData";
+import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import * as session from "../../utils/apiUtils/auth";
 import createConsequenceJourneys, {
@@ -74,10 +68,6 @@ const defaultServicesData = {
     }),
     service1: JSON.stringify(service),
 };
-
-const disruption: FullDisruption = createDisruptionWithConsquences([
-    { ...defaultServicesData, consequenceIndex: Number(defaultConsequenceIndex) } as Consequence,
-]);
 
 const servicesDataToUpsert = {
     disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
@@ -134,12 +124,15 @@ describe("create-consequence-journeys API", () => {
         destroyCookieOnResponseObject: vi.fn(),
     }));
 
-    const upsertConsequenceSpy = vi.spyOn(dynamo, "upsertConsequence");
+    const upsertConsequenceSpy = vi.spyOn(db, "upsertConsequence");
     const getNocCodesForOperatorOrgSpy = vi.spyOn(dynamo, "getNocCodesForOperatorOrg");
 
     vi.mock("../../data/dynamo", () => ({
-        upsertConsequence: vi.fn(),
         getNocCodesForOperatorOrg: vi.fn(),
+    }));
+
+    vi.mock("../../data/db", () => ({
+        upsertConsequence: vi.fn(),
     }));
 
     afterEach(() => {
@@ -164,7 +157,7 @@ describe("create-consequence-journeys API", () => {
         getSessionSpy.mockImplementation(() => {
             return mockSession;
         });
-        upsertConsequenceSpy.mockResolvedValue(disruption);
+        upsertConsequenceSpy.mockResolvedValue(1);
     });
 
     it("should redirect to /review-disruption when all required inputs are passed", async () => {
@@ -221,6 +214,7 @@ describe("create-consequence-journeys API", () => {
                 ],
             },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -359,6 +353,7 @@ describe("create-consequence-journeys API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             servicesDataToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -383,6 +378,7 @@ describe("create-consequence-journeys API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             servicesDataToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -448,6 +444,7 @@ describe("create-consequence-journeys API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             { ...servicesDataToUpsert, consequenceIndex: 1 },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -469,17 +466,18 @@ describe("create-consequence-journeys API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             servicesDataToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             true,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/1?template=true`,
+            Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/2?template=true`,
         });
     });
 
     it("should redirect to /type-of-consequence when all required inputs are passed, when another consequence is added and when the consequence index is not 0", async () => {
-        upsertConsequenceSpy.mockResolvedValue(disruptionWithConsequences);
+        upsertConsequenceSpy.mockResolvedValue(1);
         const { req, res } = getMockRequestAndResponse({
             body: { ...defaultServicesData, consequenceIndex: "2" },
             query: { addAnotherConsequence: "true" },
@@ -492,6 +490,7 @@ describe("create-consequence-journeys API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             { ...servicesDataToUpsert, consequenceIndex: 2 },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -505,7 +504,7 @@ describe("create-consequence-journeys API", () => {
         getSessionSpy.mockImplementation(() => {
             return { ...mockSession, isSystemAdmin: false, isOperatorUser: true, operatorOrgId: "test-org-id" };
         });
-        upsertConsequenceSpy.mockResolvedValue(disruptionWithConsequences);
+        upsertConsequenceSpy.mockResolvedValue(1);
         getNocCodesForOperatorOrgSpy.mockResolvedValue(["TESTING, TESTING"]);
 
         const { req, res } = getMockRequestAndResponse({
@@ -592,6 +591,7 @@ describe("create-consequence-journeys API", () => {
                 ],
             },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );

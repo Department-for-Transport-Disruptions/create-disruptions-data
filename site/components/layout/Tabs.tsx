@@ -9,6 +9,7 @@ interface TabsProps {
 interface Tab {
     tabHeader: string;
     content: ReactElement;
+    handleTabClick?: () => void;
 }
 
 const Tabs = ({ tabsTitle, tabs }: TabsProps): ReactElement => (
@@ -20,7 +21,7 @@ const Tabs = ({ tabsTitle, tabs }: TabsProps): ReactElement => (
                     key={`tab-${index + 1}`}
                     className={`govuk-tabs__list-item${index === 0 ? " govuk-tabs__list-item--selected" : ""}`}
                 >
-                    <a className="govuk-tabs__tab" href={`#${kebabCase(tab.tabHeader)}`}>
+                    <a className="govuk-tabs__tab" href={`#${kebabCase(tab.tabHeader)}`} onClick={tab.handleTabClick}>
                         {tab.tabHeader}
                     </a>
                 </li>
