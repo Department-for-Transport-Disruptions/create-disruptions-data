@@ -8,7 +8,7 @@ import {
 } from "@create-disruptions-data/shared-ts/db/types";
 import { Consequence, Disruption, DisruptionInfo } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { History, MAX_CONSEQUENCES, disruptionSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
-import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
+import { Progress, PublishStatus, SortOrder } from "@create-disruptions-data/shared-ts/enums";
 import { getDate, isCurrentOrUpcomingDisruption } from "@create-disruptions-data/shared-ts/utils/dates";
 import {
     getDbClient,
@@ -17,11 +17,19 @@ import {
     withEditedConsequences,
     withEditedDisruption,
 } from "@create-disruptions-data/shared-ts/utils/db";
-import { ExpressionBuilder, OnConflictDatabase, OnConflictTables } from "kysely";
+import {
+    DeduplicateJoinsPlugin,
+    ExpressionBuilder,
+    Kysely,
+    OnConflictDatabase,
+    OnConflictTables,
+    RawBuilder,
+    sql,
+} from "kysely";
 
 import { makeFilteredArraySchema } from "@create-disruptions-data/shared-ts/utils/zod";
 import { TooManyConsequencesError } from "../errors";
-import { FullDisruption, fullDisruptionSchema } from "../schemas/disruption.schema";
+import { Filters, FullDisruption, fullDisruptionSchema } from "../schemas/disruption.schema";
 import { SocialMediaPost, SocialMediaPostTransformed, socialMediaPostSchema } from "../schemas/social-media.schema";
 import {
     flattenZodErrors,
@@ -80,28 +88,283 @@ export const createConsequenceConflictMapping = (
     return Object.fromEntries(keys.map((key) => [key, eb.ref(`excluded.${key}`)]));
 };
 
-export const getDisruptionsData = async (orgId: string, isTemplate = false): Promise<FullDisruption[]> => {
-    logger.info(`Getting disruptions data from database for org ${orgId}...`);
+const buildFilterDisruptionsQuery = (
+    dbClient: Kysely<Database>,
+    table: "disruptions" | "disruptionsEdited",
+    filters: Filters,
+    operatorOrgId: string | null = null,
+    disruptionIdsForFilteredConsequences: string[] = [],
+) => {
+    const isEditTable = table === "disruptionsEdited";
+
+    let query = dbClient
+        .withPlugin(new DeduplicateJoinsPlugin())
+        .selectFrom(table)
+        .select(sql<number>`count(*) OVER()`.as("fullCount"))
+        .selectAll()
+        .select((eb) => [isEditTable ? withEditedConsequences(eb) : withConsequences(eb)])
+        .where("orgId", "=", filters.organisationId)
+        .where("template", "=", filters.template === "true");
+
+    if (operatorOrgId) {
+        query = query.where((eb) =>
+            eb.or([
+                eb("createdByOperatorOrgId", "=", operatorOrgId),
+                eb.and([eb("createdByOperatorOrgId", "is", null), eb("publishStatus", "=", PublishStatus.published)]),
+            ]),
+        );
+    }
+
+    if (filters.textSearch) {
+        query = query.where((eb) =>
+            eb.or([
+                eb(sql`lower(${sql.ref("displayId")})`, "like", `%${filters.textSearch}%`),
+                eb(sql`lower(${sql.ref("summary")})`, "like", `%${filters.textSearch}%`),
+            ]),
+        );
+    }
+
+    if (filters.startDate && filters.endDate) {
+        query = query
+            .where("validityStartTimestamp", "<=", filters.endDate)
+            .where((eb) =>
+                eb.or([
+                    eb("validityEndTimestamp", ">=", filters.startDate as Date),
+                    eb("validityEndTimestamp", "is", null),
+                ]),
+            );
+    }
+
+    if (filters.upcoming) {
+        query = query.where("validityStartTimestamp", ">", sql<Date>`now()`);
+    }
+
+    if (filters.mode || filters.severity || filters.operators?.length || filters.services?.length) {
+        query = query.where("id", "in", disruptionIdsForFilteredConsequences);
+    }
+
+    if (filters.status) {
+        switch (filters.status) {
+            case Progress.closed:
+                query = query
+                    .where("publishStatus", "=", PublishStatus.published)
+                    .where("validityEndTimestamp", "<=", sql<Date>`now()`);
+                break;
+            case Progress.closing:
+                query = query
+                    .where("publishStatus", "=", PublishStatus.published)
+                    .where("validityEndTimestamp", ">=", sql<Date>`now()`)
+                    .where("validityEndTimestamp", "<=", sql<Date>`now() + ('24 hours')::INTERVAL`);
+                break;
+            case Progress.draft:
+                query = query.where("publishStatus", "=", PublishStatus.draft);
+                break;
+            case Progress.draftPendingApproval:
+                query = query.where("publishStatus", "=", PublishStatus.pendingApproval);
+                break;
+            case Progress.editPendingApproval:
+                query = query.where("publishStatus", "=", PublishStatus.editPendingApproval);
+                break;
+            case Progress.published:
+                query = query.where("publishStatus", "=", PublishStatus.published);
+                break;
+            case Progress.rejected:
+                query = query.where("publishStatus", "=", PublishStatus.rejected);
+                break;
+            case Progress.open:
+                query = query
+                    .where("publishStatus", "=", PublishStatus.published)
+                    .where((eb) =>
+                        eb.or([
+                            eb("validityEndTimestamp", "is", null),
+                            eb("validityEndTimestamp", ">=", sql<Date>`now()`),
+                        ]),
+                    );
+                break;
+            default:
+                break;
+        }
+    }
+
+    query = query.orderBy([
+        sql<string>`${sql.ref(filters.sortBy === "end" ? "validity_end_timestamp" : "validity_start_timestamp")} ${sql.raw(filters.sortOrder === SortOrder.asc ? "asc" : "desc")}`,
+        "creationTime desc",
+    ]);
+
+    return query;
+};
+
+const getDisruptionIdsForFilteredConsequences = async (
+    dbClient: Kysely<Database>,
+    table: "consequencesEdited" | "consequences",
+    filters: Filters,
+) => {
+    let consequenceFilterDisruptionIdsQuery = dbClient.selectFrom(table).select("disruptionId").distinct();
+
+    if (filters.mode) {
+        consequenceFilterDisruptionIdsQuery = consequenceFilterDisruptionIdsQuery.where(
+            "vehicleMode",
+            "=",
+            filters.mode,
+        );
+    }
+
+    if (filters.severity) {
+        consequenceFilterDisruptionIdsQuery = consequenceFilterDisruptionIdsQuery.where(
+            "disruptionSeverity",
+            "=",
+            filters.severity,
+        );
+    }
+
+    if (filters.operators) {
+        consequenceFilterDisruptionIdsQuery = consequenceFilterDisruptionIdsQuery.where(
+            sql<boolean>`EXISTS (
+                        SELECT 1
+                        FROM json_array_elements(consequence_operators) AS elem
+                        WHERE elem ->> 'operatorNoc' in (${sql.join(filters.operators)})
+                    )`,
+        );
+    }
+
+    if (filters.services) {
+        const bodsServices = filters.services.filter((s) => s.dataSource === "bods").map((s) => s.serviceId);
+        const tndsServices = filters.services.filter((s) => s.dataSource === "tnds").map((s) => s.serviceId);
+
+        const serviceQueries: RawBuilder<boolean>[] = [];
+
+        if (bodsServices.length) {
+            serviceQueries.push(
+                sql<boolean>`
+                            EXISTS (
+                                SELECT 1
+                                FROM json_array_elements(services) AS elem
+                                WHERE elem ->> 'lineId' in (${sql.join(bodsServices)})
+                            )
+                        `,
+            );
+        }
+
+        if (tndsServices.length) {
+            serviceQueries.push(
+                sql<boolean>`
+                            EXISTS (
+                                SELECT 1
+                                FROM json_array_elements(services) AS elem
+                                WHERE elem ->> 'serviceCode' in (${sql.join(tndsServices)})
+                            )
+                        `,
+            );
+        }
+
+        consequenceFilterDisruptionIdsQuery = consequenceFilterDisruptionIdsQuery.where((eb) => eb.or(serviceQueries));
+    }
+
+    return (await consequenceFilterDisruptionIdsQuery.execute()).map((d) => d.disruptionId);
+};
+
+export const getDisruptionsData = async (filters: Filters, operatorOrgId: string | null = null) => {
+    logger.info(`Getting disruptions data from database for org ${filters.organisationId}...`);
 
     const dbClient = getDbClient(true);
 
-    const disruptions = await dbClient
-        .selectFrom("disruptions")
-        .selectAll()
-        .select((eb) => [withConsequences(eb)])
-        .where("disruptions.orgId", "=", orgId)
-        .where("disruptions.template", "=", isTemplate)
-        .orderBy(["disruptions.validityStartTimestamp desc", "disruptions.validityEndTimestamp desc"])
-        .execute();
+    let disruptionIdsForFilteredConsequences: string[] = [];
 
-    const editPendingApprovalDisruptions = await dbClient
-        .selectFrom("disruptionsEdited")
-        .selectAll()
-        .where("disruptionsEdited.orgId", "=", orgId)
-        .where("disruptionsEdited.publishStatus", "=", PublishStatus.editPendingApproval)
-        .execute();
+    if (filters.mode || filters.severity || filters.operators?.length || filters.services?.length) {
+        disruptionIdsForFilteredConsequences = await getDisruptionIdsForFilteredConsequences(
+            dbClient,
+            "consequences",
+            filters,
+        );
 
-    return makeFilteredArraySchema(fullDisruptionSchema).parse([...disruptions, ...editPendingApprovalDisruptions]);
+        if (!disruptionIdsForFilteredConsequences.length) {
+            return {
+                disruptions: [],
+                count: 0,
+            };
+        }
+    }
+
+    if (
+        filters.status === Progress.pendingApproval ||
+        filters.status === Progress.editPendingApproval ||
+        filters.status === Progress.draftPendingApproval
+    ) {
+        let disruptionsToShow: (DisruptionDB & { fullCount: number })[] = [];
+        let editedDisruptionsToShow: (DisruptionDB & { fullCount: number })[] = [];
+
+        if (filters.status === Progress.pendingApproval || filters.status === Progress.draftPendingApproval) {
+            const disruptionsQuery = buildFilterDisruptionsQuery(
+                dbClient,
+                "disruptions",
+                {
+                    ...filters,
+                    status: Progress.draftPendingApproval,
+                },
+                operatorOrgId,
+                disruptionIdsForFilteredConsequences,
+            );
+
+            disruptionsToShow = await disruptionsQuery.execute();
+        }
+
+        if (filters.status === Progress.pendingApproval || filters.status === Progress.editPendingApproval) {
+            let editedDisruptionIdsForFilteredConsequences: string[] = [];
+
+            if (filters.mode || filters.severity || filters.operators?.length || filters.services?.length) {
+                editedDisruptionIdsForFilteredConsequences = await getDisruptionIdsForFilteredConsequences(
+                    dbClient,
+                    "consequencesEdited",
+                    filters,
+                );
+
+                if (!editedDisruptionIdsForFilteredConsequences.length) {
+                    return {
+                        disruptions: [],
+                        count: 0,
+                    };
+                }
+            }
+
+            const editedDisruptionsQuery = buildFilterDisruptionsQuery(
+                dbClient,
+                "disruptionsEdited",
+                {
+                    ...filters,
+                    status: Progress.editPendingApproval,
+                },
+                operatorOrgId,
+                editedDisruptionIdsForFilteredConsequences,
+            );
+
+            editedDisruptionsToShow = await editedDisruptionsQuery.execute();
+        }
+
+        const disruptions = [...disruptionsToShow, ...editedDisruptionsToShow].slice(
+            filters.offset,
+            filters.offset + filters.pageSize,
+        );
+
+        return {
+            disruptions: makeFilteredArraySchema(fullDisruptionSchema).parse(disruptions),
+            count: Number(disruptions?.[0]?.fullCount ?? 0),
+        };
+    }
+
+    const disruptionsQuery = buildFilterDisruptionsQuery(
+        dbClient,
+        "disruptions",
+        filters,
+        operatorOrgId,
+        disruptionIdsForFilteredConsequences,
+    );
+
+    const disruptions = await disruptionsQuery.limit(filters.pageSize).offset(filters.offset).execute();
+
+    return {
+        disruptions: makeFilteredArraySchema(fullDisruptionSchema).parse(disruptions),
+        count: Number(disruptions?.[0]?.fullCount ?? 0),
+    };
 };
 
 export const getPublishedSocialMediaPosts = async (orgId: string): Promise<SocialMediaPost[]> => {

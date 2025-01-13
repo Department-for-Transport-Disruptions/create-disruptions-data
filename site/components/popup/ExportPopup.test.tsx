@@ -8,7 +8,7 @@ const closePopUp = vi.fn();
 describe("ExportPopup", () => {
     it("should render correctly", () => {
         const { asFragment } = render(
-            <ExportPopup confirmHandler={confirmHandler} closePopUp={closePopUp} isOpen={true} />,
+            <ExportPopup confirmHandler={confirmHandler} closePopUp={closePopUp} isOpen={true} isExporting={false} />,
         );
         expect(asFragment()).toMatchSnapshot();
     });

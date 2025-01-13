@@ -5,7 +5,7 @@ import { Dayjs } from "dayjs";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { getWorstSeverity, isClosingOrClosed } from "../pages/api/get-all-disruptions/[organisationId].api";
 import { DEFAULT_ORG_ID, mockServices, mockViewAllDisruptionsData } from "../testData/mockData";
-import ViewAllContents, { Filter, filterContents } from "./ViewAllContents";
+import ViewAllContents, { Filter, getApiUrlFromFilters } from "./ViewAllContents";
 
 const disruptions = mockViewAllDisruptionsData;
 
@@ -151,27 +151,21 @@ describe("getWorstSeverity", () => {
     });
 });
 
-describe("filterContents", () => {
-    it("correctly applies service filters to the disruptions", () => {
+describe("getApiUrlFromFilters", () => {
+    it("correctly applies service filters to the query", () => {
         const filter: Filter = {
-            services: [mockServices[0]],
+            services: [mockServices[0], mockServices[1]],
             operators: [],
         };
-        const result = filterContents(disruptions, filter);
-        expect(result).toStrictEqual([disruptions[0]]);
+
+        const url = getApiUrlFromFilters("123", filter, 1, 10, false);
+
+        expect(url).toBe(
+            "/api/get-all-disruptions/123?services=bods:SL1,tnds:NW_04_SCMN_149_1&offset=0&pageSize=10&template=false",
+        );
     });
 
-    it("correctly applies different service filters to the disruptions", () => {
-        const filterTwo: Filter = {
-            services: [mockServices[1], mockServices[2]],
-            operators: [],
-        };
-        const resultTwo = filterContents(disruptions, filterTwo);
-
-        expect(resultTwo).toStrictEqual([disruptions[1], disruptions[2]]);
-    });
-
-    it("correctly applies operator filters to the disruptions", () => {
+    it("correctly applies operator filters to the query", () => {
         const filter: Filter = {
             services: [],
             operators: [
@@ -179,60 +173,61 @@ describe("filterContents", () => {
                     operatorName: "Bobs Buses",
                     operatorRef: "BB",
                 },
+                {
+                    operatorName: "Ben's Buses",
+                    operatorRef: "BENS",
+                },
             ],
         };
-        const result = filterContents(disruptions, filter);
-        expect(result).toStrictEqual([disruptions[0], disruptions[2]]);
+        const url = getApiUrlFromFilters("123", filter, 1, 10, false);
+
+        expect(url).toBe("/api/get-all-disruptions/123?operators=BB,BENS&offset=0&pageSize=10&template=false");
     });
 
-    it("correctly applies mode filters to the disruptions", () => {
+    it("correctly applies mode filters to the query", () => {
         const filter: Filter = {
             services: [],
             operators: [],
             mode: VehicleMode.rail,
         };
-        const result = filterContents(disruptions, filter);
-        expect(result).toStrictEqual([disruptions[2]]);
+        const url = getApiUrlFromFilters("123", filter, 1, 10, false);
+
+        expect(url).toBe("/api/get-all-disruptions/123?mode=rail&offset=0&pageSize=10&template=false");
     });
 
-    it("correctly applies severity filters to the disruptions", () => {
+    it("correctly applies severity filters to the query", () => {
         const filter: Filter = {
             services: [],
             operators: [],
             severity: Severity.severe,
         };
-        const result = filterContents(disruptions, filter);
-        expect(result).toStrictEqual([disruptions[2]]);
+        const url = getApiUrlFromFilters("123", filter, 1, 10, false);
+
+        expect(url).toBe("/api/get-all-disruptions/123?severity=severe&offset=0&pageSize=10&template=false");
     });
 
-    it("correctly applies status filters to the disruptions", () => {
+    it("correctly applies status filters to the query", () => {
         const filter: Filter = {
             services: [],
             operators: [],
             status: Progress.draft,
         };
-        const result = filterContents(disruptions, filter);
-        expect(result).toStrictEqual([disruptions[2]]);
+        const url = getApiUrlFromFilters("123", filter, 1, 10, false);
+
+        expect(url).toBe("/api/get-all-disruptions/123?status=draft&offset=0&pageSize=10&template=false");
     });
 
-    it("correctly applies time period filters to the disruptions, returning no disruptions if the period is before every disruption", () => {
+    it("correctly applies time period filters to the query", () => {
         const filter: Filter = {
             services: [],
             operators: [],
             period: { startTime: "19-02-2021", endTime: "24-02-2021" },
         };
-        const result = filterContents(disruptions, filter);
-        expect(result).toStrictEqual([]);
-    });
+        const url = getApiUrlFromFilters("123", filter, 1, 10, false);
 
-    it("correctly applies time period filters to the disruptions, returning disruptions if the period is during a disruption", () => {
-        const filter: Filter = {
-            services: [],
-            operators: [],
-            period: { startTime: "04-01-2022", endTime: "14-01-2022" },
-        };
-        const result = filterContents(disruptions, filter);
-        expect(result).toStrictEqual([disruptions[0]]);
+        expect(url).toBe(
+            "/api/get-all-disruptions/123?startDate=19-02-2021&endDate=24-02-2021&offset=0&pageSize=10&template=false",
+        );
     });
 });
 
