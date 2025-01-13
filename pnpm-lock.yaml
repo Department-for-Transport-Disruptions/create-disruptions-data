@@ -63,6 +63,9 @@ importers:
       typescript:
         specifier: ^5.3.3
         version: 5.5.3
+      vitest:
+        specifier: ^2.1.4
+        version: 2.1.4(@types/node@20.14.10)(jsdom@21.1.2)(sass@1.77.6)
 
   cli-helpers:
     dependencies:

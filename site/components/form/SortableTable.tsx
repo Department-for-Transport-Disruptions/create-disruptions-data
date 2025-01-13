@@ -1,4 +1,5 @@
-import { ReactElement, ReactNode, useEffect, useState } from "react";
+import { SortOrder } from "@create-disruptions-data/shared-ts/enums";
+import { Dispatch, ReactElement, ReactNode, SetStateAction, useEffect, useState } from "react";
 import PageNumbers from "../layout/PageNumbers";
 
 export interface TableColumn<T> {
@@ -11,48 +12,36 @@ export interface TableColumn<T> {
 interface SortableTableProps<T> {
     columns: TableColumn<T>[];
     rows: T[];
-    sortFunction?: (rows: T[], sortField: keyof T, sortOrder: SortOrder) => T[];
+    pageCount: number;
+    setCurrentPage: Dispatch<SetStateAction<number>>;
+    currentPage: number;
     caption?: { text: string; size: "s" | "m" | "l" };
+    sortOrder: SortOrder;
+    setSortOrder: Dispatch<SetStateAction<SortOrder>>;
+    sortedField: keyof T | null;
+    setSortedField: Dispatch<SetStateAction<keyof T | null>>;
 }
-
-export enum SortOrder {
-    asc = "asc",
-    desc = "desc",
-}
-
-const getPages = <T extends object>(pageNumber: number, rows: T[]): T[] => {
-    const startPoint = (pageNumber - 1) * 10;
-    const endPoint = pageNumber * 10;
-    return rows.slice(startPoint, endPoint);
-};
-
-const formatRows = <T extends object>(rows: T[], currentPage: number) => {
-    const pages = getPages(currentPage, rows);
-
-    return pages;
-};
 
 const SortableTable = <T extends object>({
     columns,
     rows,
-    sortFunction,
     caption,
+    pageCount,
+    setCurrentPage,
+    currentPage,
+    sortedField,
+    setSortedField,
+    sortOrder,
+    setSortOrder,
 }: SortableTableProps<T>): ReactElement => {
-    const [sortedField, setSortedField] = useState<keyof T | null>(null);
-    const [sortOrder, setSortOrder] = useState(SortOrder.asc);
-    const [sortFlag, setSortFlag] = useState(false);
-    const [currentPage, setCurrentPage] = useState(1);
     const [displayRows, setDisplayRows] = useState<T[]>(rows);
-    const numberOfPages = Math.ceil(rows.length / 10);
 
     const sortData = (field: keyof T) => {
         if (sortedField === field) {
             setSortOrder(sortOrder === SortOrder.asc ? SortOrder.desc : SortOrder.asc);
-            setSortFlag(!sortFlag);
         } else {
             setSortedField(field);
             setSortOrder(SortOrder.asc);
-            setSortFlag(!sortFlag);
         }
     };
 
@@ -75,13 +64,6 @@ const SortableTable = <T extends object>({
             <span className="pl-1 govuk-!-font-size-14">&#x25BC;</span>
         );
     };
-
-    useEffect(() => {
-        if (sortedField && sortFunction) {
-            const sortedData = sortFunction(displayRows, sortedField, sortOrder);
-            setDisplayRows([...sortedData]);
-        }
-    }, [sortFlag]);
 
     return (
         <>
@@ -125,7 +107,7 @@ const SortableTable = <T extends object>({
                     </tr>
                 </thead>
                 <tbody className="govuk-table__body">
-                    {formatRows(displayRows, currentPage).map((row, index) => (
+                    {displayRows.map((row, index) => (
                         <tr className="govuk-table__row" key={`row-${index}`}>
                             {columns.map((column, i) => (
                                 <td className={"govuk-table__cell align-middle px-2"} key={`row-${index}${i}`}>
@@ -136,7 +118,7 @@ const SortableTable = <T extends object>({
                     ))}
                 </tbody>
             </table>
-            <PageNumbers numberOfPages={numberOfPages} currentPage={currentPage} setCurrentPage={setCurrentPage} />
+            <PageNumbers numberOfPages={pageCount} currentPage={currentPage} setCurrentPage={setCurrentPage} />
         </>
     );
 };

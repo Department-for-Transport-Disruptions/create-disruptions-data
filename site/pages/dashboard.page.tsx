@@ -1,4 +1,6 @@
 import { randomUUID } from "crypto";
+import { Progress } from "@create-disruptions-data/shared-ts/enums";
+import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import { LoadingBox } from "@govuk-react/loading-box";
 import { NextPageContext } from "next";
 import Link from "next/link";
@@ -58,14 +60,6 @@ const formatContentsIntoRows = (disruptions: TableDisruption[]) => {
     });
 };
 
-const getPageOfDisruptions = (pageNumber: number, disruptions: TableDisruption[]): TableDisruption[] => {
-    const startPoint = (pageNumber - 1) * 10;
-    const endPoint = pageNumber * 10;
-    return disruptions.slice(startPoint, endPoint);
-};
-
-const getNumberOfPages = (disruptions: TableDisruption[]) => Math.ceil(disruptions.length / 10);
-
 const Dashboard = ({
     newDisruptionId,
     canPublish,
@@ -79,20 +73,86 @@ const Dashboard = ({
     const [currentLivePage, setCurrentLivePage] = useState(1);
     const [currentUpcomingPage, setCurrentUpcomingPage] = useState(1);
     const [currentRecentlyClosedPage, setCurrentRecentlyClosedPage] = useState(1);
+    const [totalLivePages, setTotalLivePages] = useState(1);
+    const [totalUpcomingPages, setTotalUpcomingPages] = useState(1);
+    const [totalRecentlyClosedPages, setTotalRecentlyClosedPages] = useState(1);
     const [liveDisruptions, setLiveDisruptions] = useState<TableDisruption[]>([]);
     const [upcomingDisruptions, setUpcomingDisruptions] = useState<TableDisruption[]>([]);
     const [recentlyClosedDisruptions, setRecentlyClosedDisruptions] = useState<TableDisruption[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [activeTab, setActiveTab] = useState<"live" | "upcoming" | "recentlyClosed">("live");
+
+    useEffect(() => {
+        const hash = window.location.hash;
+
+        if (hash.includes("#live")) {
+            setActiveTab("live");
+        } else if (hash.includes("#upcoming")) {
+            setActiveTab("upcoming");
+        } else if (hash.includes("#recently-closed")) {
+            setActiveTab("recentlyClosed");
+        }
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
 
-            await Promise.all([
-                setLiveDisruptions(await getDisruptionData(orgId, "live")),
-                setUpcomingDisruptions(await getDisruptionData(orgId, "upcoming")),
-                setRecentlyClosedDisruptions(await getDisruptionData(orgId, "recentlyClosed")),
-            ]);
+            const currentDate = getDate().format("DD/MM/YYYY");
+
+            if (activeTab === "live") {
+                const { disruptions, pageCount } = await getDisruptionData(
+                    orgId,
+                    {
+                        period: {
+                            startTime: currentDate,
+                            endTime: currentDate,
+                        },
+                        status: Progress.published,
+                        operators: [],
+                        services: [],
+                    },
+                    currentLivePage,
+                    false,
+                );
+                setLiveDisruptions(disruptions);
+                setTotalLivePages(pageCount);
+            }
+
+            if (activeTab === "upcoming") {
+                const { disruptions, pageCount } = await getDisruptionData(
+                    orgId,
+                    {
+                        upcoming: true,
+                        status: Progress.published,
+                        operators: [],
+                        services: [],
+                    },
+                    currentUpcomingPage,
+                    false,
+                );
+                setUpcomingDisruptions(disruptions);
+                setTotalUpcomingPages(pageCount);
+            }
+
+            if (activeTab === "recentlyClosed") {
+                const { disruptions, pageCount } = await getDisruptionData(
+                    orgId,
+                    {
+                        period: {
+                            startTime: getDate().subtract(7, "days").format("DD/MM/YYYY"),
+                            endTime: currentDate,
+                        },
+                        status: Progress.closed,
+                        operators: [],
+                        services: [],
+                    },
+                    currentRecentlyClosedPage,
+                    false,
+                );
+                setRecentlyClosedDisruptions(disruptions);
+                setTotalRecentlyClosedPages(pageCount);
+            }
         };
 
         fetchData()
@@ -100,7 +160,7 @@ const Dashboard = ({
             .catch(() => {
                 setIsLoading(false);
             });
-    }, []);
+    }, [activeTab, currentLivePage, currentUpcomingPage, currentRecentlyClosedPage]);
 
     useEffect(() => {
         if (window.GOVUKFrontend && !hasInitialised.current) {
@@ -158,17 +218,16 @@ const Dashboard = ({
                 tabs={[
                     {
                         tabHeader: "Live",
+                        handleTabClick: () => setActiveTab("live"),
                         content: enableLoadingSpinnerOnPageLoad ? (
                             <LoadingBox loading={isLoading}>
                                 <Table
                                     caption={{ text: "Live disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
-                                    rows={formatContentsIntoRows(
-                                        getPageOfDisruptions(currentLivePage, liveDisruptions),
-                                    )}
+                                    rows={formatContentsIntoRows(liveDisruptions)}
                                 />
                                 <PageNumbers
-                                    numberOfPages={getNumberOfPages(liveDisruptions)}
+                                    numberOfPages={totalLivePages}
                                     currentPage={currentLivePage}
                                     setCurrentPage={setCurrentLivePage}
                                 />
@@ -178,12 +237,10 @@ const Dashboard = ({
                                 <Table
                                     caption={{ text: "Live disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
-                                    rows={formatContentsIntoRows(
-                                        getPageOfDisruptions(currentLivePage, liveDisruptions),
-                                    )}
+                                    rows={formatContentsIntoRows(liveDisruptions)}
                                 />
                                 <PageNumbers
-                                    numberOfPages={getNumberOfPages(liveDisruptions)}
+                                    numberOfPages={totalLivePages}
                                     currentPage={currentLivePage}
                                     setCurrentPage={setCurrentLivePage}
                                 />
@@ -192,17 +249,16 @@ const Dashboard = ({
                     },
                     {
                         tabHeader: "Upcoming",
+                        handleTabClick: () => setActiveTab("upcoming"),
                         content: enableLoadingSpinnerOnPageLoad ? (
                             <LoadingBox loading={isLoading}>
                                 <Table
                                     caption={{ text: "Upcoming disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
-                                    rows={formatContentsIntoRows(
-                                        getPageOfDisruptions(currentUpcomingPage, upcomingDisruptions),
-                                    )}
+                                    rows={formatContentsIntoRows(upcomingDisruptions)}
                                 />
                                 <PageNumbers
-                                    numberOfPages={getNumberOfPages(upcomingDisruptions)}
+                                    numberOfPages={totalUpcomingPages}
                                     currentPage={currentUpcomingPage}
                                     setCurrentPage={setCurrentUpcomingPage}
                                 />
@@ -212,12 +268,10 @@ const Dashboard = ({
                                 <Table
                                     caption={{ text: "Upcoming disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
-                                    rows={formatContentsIntoRows(
-                                        getPageOfDisruptions(currentUpcomingPage, upcomingDisruptions),
-                                    )}
+                                    rows={formatContentsIntoRows(upcomingDisruptions)}
                                 />
                                 <PageNumbers
-                                    numberOfPages={getNumberOfPages(upcomingDisruptions)}
+                                    numberOfPages={totalUpcomingPages}
                                     currentPage={currentUpcomingPage}
                                     setCurrentPage={setCurrentUpcomingPage}
                                 />
@@ -226,17 +280,16 @@ const Dashboard = ({
                     },
                     {
                         tabHeader: "Recently closed",
+                        handleTabClick: () => setActiveTab("recentlyClosed"),
                         content: enableLoadingSpinnerOnPageLoad ? (
                             <LoadingBox loading={isLoading}>
                                 <Table
                                     caption={{ text: "Closed disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
-                                    rows={formatContentsIntoRows(
-                                        getPageOfDisruptions(currentRecentlyClosedPage, recentlyClosedDisruptions),
-                                    )}
+                                    rows={formatContentsIntoRows(recentlyClosedDisruptions)}
                                 />
                                 <PageNumbers
-                                    numberOfPages={getNumberOfPages(recentlyClosedDisruptions)}
+                                    numberOfPages={totalRecentlyClosedPages}
                                     currentPage={currentRecentlyClosedPage}
                                     setCurrentPage={setCurrentRecentlyClosedPage}
                                 />
@@ -246,12 +299,10 @@ const Dashboard = ({
                                 <Table
                                     caption={{ text: "Closed disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
-                                    rows={formatContentsIntoRows(
-                                        getPageOfDisruptions(currentRecentlyClosedPage, recentlyClosedDisruptions),
-                                    )}
+                                    rows={formatContentsIntoRows(recentlyClosedDisruptions)}
                                 />
                                 <PageNumbers
-                                    numberOfPages={getNumberOfPages(recentlyClosedDisruptions)}
+                                    numberOfPages={totalRecentlyClosedPages}
                                     currentPage={currentRecentlyClosedPage}
                                     setCurrentPage={setCurrentRecentlyClosedPage}
                                 />

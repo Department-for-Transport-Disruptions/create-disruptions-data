@@ -36,7 +36,8 @@
         "husky": "^8.0.0",
         "sst": "2.45.2",
         "tsx": "4.15.4",
-        "typescript": "^5.3.3"
+        "typescript": "^5.3.3",
+        "vitest": "^2.1.4"
     },
     "overrides": {
         "react": "18.3.1",

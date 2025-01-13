@@ -1,3 +1,4 @@
+import LoadingBox from "@govuk-react/loading-box";
 import { kebabCase } from "lodash";
 import { Fragment, ReactElement, useState } from "react";
 import { ErrorInfo } from "../../interfaces";
@@ -9,9 +10,10 @@ interface ExportPopUpProps {
     closePopUp: () => void;
     confirmHandler: (fileType: string) => void;
     isOpen: boolean;
+    isExporting: boolean;
 }
 
-const ExportPopUp = ({ confirmHandler, closePopUp, isOpen }: ExportPopUpProps): ReactElement => {
+const ExportPopUp = ({ confirmHandler, closePopUp, isOpen, isExporting }: ExportPopUpProps): ReactElement => {
     const [fileType, setFileType] = useState("");
     const [errors, setErrors] = useState<ErrorInfo[]>([]);
 
@@ -48,7 +50,6 @@ const ExportPopUp = ({ confirmHandler, closePopUp, isOpen }: ExportPopUpProps): 
             ]);
         } else {
             confirmHandler(fileType);
-            closePopUp();
         }
     };
 
@@ -67,35 +68,41 @@ const ExportPopUp = ({ confirmHandler, closePopUp, isOpen }: ExportPopUpProps): 
                                     What format would you like to export this as?
                                 </span>
                             </legend>
-                            <FormElementWrapper errors={errors} errorId={inputName} errorClass="govuk-radios--error">
-                                <div className="govuk-radios" data-module="govuk-radios">
-                                    {radioDetail.map((input, index) => (
-                                        <Fragment key={`radio-${input.value}`}>
-                                            <div
-                                                className={`govuk-radios__item${
-                                                    index < radioDetail.length - 1 ? " govuk-!-margin-bottom-1" : ""
-                                                }`}
-                                            >
-                                                <input
-                                                    className="govuk-radios__input"
-                                                    id={`${inputId}-${input.value}`}
-                                                    name={inputName}
-                                                    type="radio"
-                                                    value={input.value}
-                                                    onChange={(e) => setExportType(e.currentTarget.value)}
-                                                    data-aria-controls={`${inputId}-${input.value}-conditional`}
-                                                />
-                                                <label
-                                                    className="govuk-label govuk-radios__label"
-                                                    htmlFor={`${inputId}-${input.value}`}
+                            <LoadingBox loading={isExporting}>
+                                <FormElementWrapper
+                                    errors={errors}
+                                    errorId={inputName}
+                                    errorClass="govuk-radios--error"
+                                >
+                                    <div className="govuk-radios" data-module="govuk-radios">
+                                        {radioDetail.map((input, index) => (
+                                            <Fragment key={`radio-${input.value}`}>
+                                                <div
+                                                    className={`govuk-radios__item${
+                                                        index < radioDetail.length - 1 ? " govuk-!-margin-bottom-1" : ""
+                                                    }`}
                                                 >
-                                                    {input.display}
-                                                </label>
-                                            </div>
-                                        </Fragment>
-                                    ))}
-                                </div>
-                            </FormElementWrapper>
+                                                    <input
+                                                        className="govuk-radios__input"
+                                                        id={`${inputId}-${input.value}`}
+                                                        name={inputName}
+                                                        type="radio"
+                                                        value={input.value}
+                                                        onChange={(e) => setExportType(e.currentTarget.value)}
+                                                        data-aria-controls={`${inputId}-${input.value}-conditional`}
+                                                    />
+                                                    <label
+                                                        className="govuk-label govuk-radios__label"
+                                                        htmlFor={`${inputId}-${input.value}`}
+                                                    >
+                                                        {input.display}
+                                                    </label>
+                                                </div>
+                                            </Fragment>
+                                        ))}
+                                    </div>
+                                </FormElementWrapper>
+                            </LoadingBox>
                         </fieldset>
                     </FormGroupWrapper>
                     <button className="govuk-button" data-module="govuk-button" onClick={onConfirm}>

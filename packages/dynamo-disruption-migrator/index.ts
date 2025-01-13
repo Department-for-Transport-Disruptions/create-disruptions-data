@@ -433,7 +433,29 @@ export const bulkMigrator = async (): Promise<void> => {
         const allTemplatesDataWithoutEdits = allTemplatesData.filter((d) => !(d.SK as string).includes("#EDIT"));
 
         const disruptions = formatDisruptions(allDisruptionsDataWithoutEdits, false, false);
-        const templates = formatDisruptions(allTemplatesDataWithoutEdits, false, true);
+        let templates = formatDisruptions(allTemplatesDataWithoutEdits, false, true);
+
+        const disruptionIds = (disruptions
+            .map((item) => item.id)
+            .filter((value, index, array) => array.indexOf(value) === index)
+            .filter(notEmpty) ?? []) as string[];
+
+        templates = templates.map((t) => {
+            if (!disruptionIds.includes(t.id)) {
+                return t;
+            }
+
+            const newUuid = randomUUID();
+
+            return {
+                ...t,
+                id: newUuid,
+                consequences: t.consequences?.map((c) => ({
+                    ...c,
+                    disruptionId: newUuid,
+                })),
+            };
+        });
 
         await Promise.all([batchInsertDisruptions(disruptions), batchInsertDisruptions(templates, dbClient, true)]);
 
