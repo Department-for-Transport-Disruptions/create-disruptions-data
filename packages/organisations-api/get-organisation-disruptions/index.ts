@@ -54,7 +54,7 @@ export const formatMapDisruptions = async (disruptions: Disruption[]) =>
             }
 
             return {
-                id: disruption.id,
+                disruptionId: disruption.id,
                 disruptionReason: disruption.disruptionReason,
                 disruptionStartDate: disruption.disruptionStartDate,
                 disruptionStartTime: disruption.disruptionStartTime,

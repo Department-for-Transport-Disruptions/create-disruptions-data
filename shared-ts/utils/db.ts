@@ -90,6 +90,7 @@ export const getPublishedDisruptionById = async (orgId: string, disruptionId: st
         .where("disruptions.id", "=", disruptionId)
         .where("disruptions.orgId", "=", orgId)
         .where("disruptions.publishStatus", "=", PublishStatus.published)
+        .where("disruptions.template", "=", false)
         .executeTakeFirst();
 
     const parsedDisruption = disruptionSchema.safeParse(disruption);

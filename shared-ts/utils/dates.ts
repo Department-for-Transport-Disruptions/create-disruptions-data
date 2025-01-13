@@ -16,6 +16,8 @@ dayjs.extend(timezone);
 export const getDate = (input?: string | Date) =>
     input ? dayjs.tz(input, "Europe/London") : dayjs().tz("Europe/London");
 
+export const getUtcDate = (input: string) => dayjs.utc(input);
+
 export const getDatetimeFromDateAndTime = (date: string, time: string) =>
     dayjs.tz(`${date} ${time}`, `DD/MM/YYYY ${time ? "HHmm" : ""}`, "Europe/London");
 
