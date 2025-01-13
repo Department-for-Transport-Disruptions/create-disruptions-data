@@ -180,7 +180,7 @@ export const filtersSchema = z.object({
     endDate: z
         .string()
         .nullish()
-        .transform((d) => (d ? getDatetimeFromDateAndTime(d, "0000").toDate() : d))
+        .transform((d) => (d ? getDatetimeFromDateAndTime(d, "2359").toDate() : d))
         .pipe(z.date().nullish()),
     severity: z.nativeEnum(Severity).nullish(),
     status: z.nativeEnum(Progress).nullish(),
