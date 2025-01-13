@@ -2,8 +2,9 @@
 node_modules
 
 # sst
-.sst
-.sst*
+.sst/*
+!.sst/types
+.sst.config*
 .build
 
 # misc
