@@ -8,7 +8,7 @@ import Link from "next/link";
 import proj4 from "proj4";
 import { useState } from "react";
 import { GeoJSONFeature, GeoJSONGeometry, GeoJSONLineString, GeoJSONPolygon, parse } from "wellknown";
-import Table from "../components/form/Table";
+import Table, { CellProps } from "../components/form/Table";
 import Warning from "../components/form/Warning";
 import { BaseLayout } from "../components/layout/Layout";
 import PageNumbers from "../components/layout/PageNumbers";
@@ -83,20 +83,26 @@ export interface RoadworksTable {
     description: JSX.Element;
 }
 
-const formatRows = (roadworks: Roadwork[]) => {
+const formatRows = (roadworks: Roadwork[]): { cells: CellProps[] }[] => {
     return roadworks.map((roadwork) => {
         return {
             cells: [
-                `${convertDateTimeToFormat(roadwork.actualStartDateTime ?? "")} - ${convertDateTimeToFormat(
-                    roadwork.proposedEndDateTime ?? "",
-                )}`,
-                <Link
-                    className="govuk-link"
-                    href={`roadwork-detail/${encodeURIComponent(roadwork.permitReferenceNumber)}`}
-                    key={roadwork.permitReferenceNumber}
-                >
-                    {roadwork.streetName?.toUpperCase()} - {roadwork.activityType}
-                </Link>,
+                {
+                    value: `${convertDateTimeToFormat(roadwork.actualStartDateTime ?? "")} - ${convertDateTimeToFormat(
+                        roadwork.proposedEndDateTime ?? "",
+                    )}`,
+                },
+                {
+                    value: (
+                        <Link
+                            className="govuk-link"
+                            href={`roadwork-detail/${encodeURIComponent(roadwork.permitReferenceNumber)}`}
+                            key={roadwork.permitReferenceNumber}
+                        >
+                            {roadwork.streetName?.toUpperCase()} - {roadwork.activityType}
+                        </Link>
+                    ),
+                },
             ],
         };
     });

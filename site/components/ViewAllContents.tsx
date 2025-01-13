@@ -423,6 +423,7 @@ const ViewAllContents = ({
     const [isExporting, setIsExporting] = useState(false);
     const [sortOrder, setSortOrder] = useState(SortOrder.desc);
     const [sortedField, setSortedField] = useState<keyof ContentTable | null>(null);
+    const [toggleFetchData, setToggleFetchData] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -435,10 +436,29 @@ const ViewAllContents = ({
             setLoadPage(false);
         };
 
-        fetchData().catch(() => {
-            setLoadPage(false);
-        });
-    }, [pageNumber, filter, sortedField, sortOrder]);
+        if (toggleFetchData) {
+            fetchData()
+                .then(() => {
+                    setToggleFetchData(false);
+                })
+                .catch(() => {
+                    setToggleFetchData(false);
+                    setLoadPage(false);
+                });
+        }
+    }, [toggleFetchData]);
+
+    useEffect(() => {
+        setToggleFetchData(true);
+    }, [pageNumber]);
+
+    useEffect(() => {
+        if (pageNumber !== 1) {
+            setPageNumber(1);
+        } else {
+            setToggleFetchData(true);
+        }
+    }, [filter, sortedField, sortOrder]);
 
     useEffect(() => {
         if (clearButtonClicked) {
