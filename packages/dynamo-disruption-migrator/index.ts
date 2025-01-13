@@ -279,7 +279,25 @@ const mapDynamoDisruptionToDb = (
     }: FullDisruption & { consequences?: any; editedDisruption?: any; editExistsInDb?: any },
     isTemplate = false,
 ): NewDisruptionDB => ({
-    ...disruption,
+    summary: disruption.summary,
+    associatedLink: disruption.associatedLink,
+    createdByOperatorOrgId: disruption.createdByOperatorOrgId,
+    creationTime: disruption.creationTime,
+    description: disruption.description,
+    displayId: disruption.displayId,
+    id: disruption.id,
+    disruptionNoEndDateTime: disruption.disruptionNoEndDateTime,
+    disruptionReason: disruption.disruptionReason,
+    disruptionRepeats: disruption.disruptionRepeats,
+    disruptionRepeatsEndDate: disruption.disruptionRepeatsEndDate,
+    disruptionStartDate: disruption.disruptionStartDate,
+    disruptionStartTime: disruption.disruptionStartTime,
+    disruptionType: disruption.disruptionType,
+    lastUpdated: disruption.lastUpdated,
+    permitReferenceNumber: disruption.permitReferenceNumber,
+    publishStartDate: disruption.publishStartDate,
+    publishStartTime: disruption.publishStartTime,
+    publishStatus: disruption.publishStatus,
     orgId: disruption.orgId ?? "",
     disruptionEndDate: disruption.disruptionEndDate ?? "",
     disruptionEndTime: disruption.disruptionEndTime ?? "",
@@ -297,7 +315,15 @@ const mapDynamoDisruptionToDb = (
 });
 
 const mapDynamoConsequenceToDb = ({ ...consequence }: Consequence & {}): NewConsequenceDB => ({
-    ...consequence,
+    consequenceIndex: consequence.consequenceIndex,
+    consequenceType: consequence.consequenceType,
+    description: consequence.description,
+    disruptionId: consequence.disruptionId,
+    disruptionSeverity: consequence.disruptionSeverity,
+    removeFromJourneyPlanners: consequence.removeFromJourneyPlanners,
+    vehicleMode: consequence.vehicleMode,
+    disruptionDelay: consequence.disruptionDelay,
+    disruptionDirection: isServicesConsequence(consequence) ? consequence.disruptionDirection : null,
     services:
         isServicesConsequence(consequence) || isJourneysConsequence(consequence)
             ? json(consequence.services)
