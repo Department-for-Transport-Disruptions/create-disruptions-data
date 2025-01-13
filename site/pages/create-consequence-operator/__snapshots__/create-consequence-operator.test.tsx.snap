@@ -292,7 +292,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
           <input
             name="consequenceOperators"
             type="hidden"
-            value="[{\\"operatorNoc\\":\\"FMAN\\",\\"operatorPublicName\\":\\"Another operator\\"}]"
+            value="[{"operatorNoc":"FMAN","operatorPublicName":"Another operator"}]"
           />
           <div
             class="govuk-form-group"
@@ -1002,7 +1002,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
           <input
             name="consequenceOperators"
             type="hidden"
-            value="[{\\"operatorNoc\\":\\"FMAN\\",\\"operatorPublicName\\":\\"Another operator\\"}]"
+            value="[{"operatorNoc":"FMAN","operatorPublicName":"Another operator"}]"
           />
           <div
             class="govuk-form-group"
@@ -1712,7 +1712,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with inputs
           <input
             name="consequenceOperators"
             type="hidden"
-            value="[{\\"operatorNoc\\":\\"FMAN\\",\\"operatorPublicName\\":\\"Another operator\\"}]"
+            value="[{"operatorNoc":"FMAN","operatorPublicName":"Another operator"}]"
           />
           <div
             class="govuk-form-group"
@@ -3093,7 +3093,7 @@ exports[`pages > CreateConsequenceOperator > should render correctly with query 
           <input
             name="consequenceOperators"
             type="hidden"
-            value="[{\\"operatorNoc\\":\\"FMAN\\",\\"operatorPublicName\\":\\"Another operator\\"}]"
+            value="[{"operatorNoc":"FMAN","operatorPublicName":"Another operator"}]"
           />
           <div
             class="govuk-form-group"

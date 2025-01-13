@@ -1,5 +1,5 @@
 import { History, disruptionSchema, historySchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
-import { Datasource, Progress } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, Progress, Severity, SortOrder, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import {
     environmentReasonSchema,
     equipmentReasonSchema,
@@ -7,6 +7,7 @@ import {
     personnelReasonSchema,
 } from "@create-disruptions-data/shared-ts/siriTypes.zod";
 import { getDisruptionCreationTime } from "@create-disruptions-data/shared-ts/utils";
+import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { z } from "zod";
 import { setZodDefaultError, splitCamelCaseToString, toTitleCase } from "../utils";
 import { getDateForExporter } from "../utils/dates";
@@ -28,7 +29,7 @@ export const fullDisruptionSchema = disruptionSchema.and(
             .max(5, {
                 message: "Only up to 5 social media posts can be added",
             })
-            .optional(),
+            .nullish(),
     }),
 );
 
@@ -42,11 +43,6 @@ export const exportFileSchema = z.object({
 });
 
 export type ExportFileType = z.infer<typeof exportFileSchema>;
-
-const displayValidityPeriod = z.object({
-    startTime: z.string(),
-    endTime: z.string().optional().nullish(),
-});
 
 const disruptionsTableServiceSchema = z.object({
     nocCode: z.string(),
@@ -65,7 +61,8 @@ export const exportDisruptionsSchema = z.array(
             isNetworkWideCq: z.boolean(),
             stopsAffectedCount: z.number(),
             servicesAffectedCount: z.number(),
-            validityPeriods: z.array(displayValidityPeriod),
+            validityStartTimestamp: z.string(),
+            validityEndTimestamp: z.string().nullish(),
             publishStartDate: z.string(),
             publishEndDate: z.string().optional(),
             severity: z.string(),
@@ -92,8 +89,8 @@ export const exportDisruptionsSchema = z.array(
                 networkWide: item.isNetworkWideCq ? "yes" : "no",
                 servicesAffectedCount: item.servicesAffectedCount,
                 stopsAffectedCount: item.stopsAffectedCount,
-                startDate: getDateForExporter(item.validityPeriods[0].startTime),
-                endDate: item.validityPeriods[0].endTime ? getDateForExporter(item.validityPeriods[0].endTime) : "N/A",
+                startDate: getDateForExporter(item.validityStartTimestamp),
+                endDate: item.validityEndTimestamp ? getDateForExporter(item.validityEndTimestamp) : "N/A",
                 publishStartDate: getDateForExporter(item.publishStartDate),
                 publishEndDate: item.publishEndDate ? getDateForExporter(item.publishEndDate) : "N/A",
                 severity: splitCamelCaseToString(item.severity),
@@ -118,12 +115,8 @@ export const disruptionsTableSchema = z.object({
     id: z.string(),
     summary: z.string(),
     modes: z.array(z.string()),
-    validityPeriods: z.array(
-        z.object({
-            startTime: z.string(),
-            endTime: z.string().nullable(),
-        }),
-    ),
+    validityStartTimestamp: z.string().datetime(),
+    validityEndTimestamp: z.string().datetime().nullish(),
     publishStartDate: z.string(),
     publishEndDate: z.string().optional(),
     severity: z.string(),
@@ -150,3 +143,57 @@ export const disruptionsTableSchema = z.object({
 });
 
 export type TableDisruption = z.infer<typeof disruptionsTableSchema>;
+
+export const filtersSchema = z.object({
+    organisationId: z.string().uuid(),
+    template: z.literal("true").or(z.literal("false")).default("false"),
+    textSearch: z.string().min(3).max(100).nullish(),
+    operators: z
+        .string()
+        .transform((s) => s.split(","))
+        .pipe(z.string().trim().max(8).array().max(100))
+        .nullish(),
+    services: z
+        .string()
+        .transform((s) =>
+            s.split(",").map((s) => {
+                const splitService = s.split(/:(.*)/s);
+
+                return {
+                    dataSource: splitService[0],
+                    serviceId: splitService[1],
+                };
+            }),
+        )
+        .pipe(
+            z
+                .object({ dataSource: z.literal("bods").or(z.literal("tnds")), serviceId: z.string().trim().max(30) })
+                .array()
+                .max(50),
+        )
+        .nullish(),
+    startDate: z
+        .string()
+        .nullish()
+        .transform((d) => (d ? getDatetimeFromDateAndTime(d, "0000").toDate() : d))
+        .pipe(z.date().nullish()),
+    endDate: z
+        .string()
+        .nullish()
+        .transform((d) => (d ? getDatetimeFromDateAndTime(d, "2359").toDate() : d))
+        .pipe(z.date().nullish()),
+    severity: z.nativeEnum(Severity).nullish(),
+    status: z.nativeEnum(Progress).nullish(),
+    mode: z.nativeEnum(VehicleMode).nullish(),
+    upcoming: z
+        .literal("true")
+        .or(z.literal("false"))
+        .nullish()
+        .transform((u) => (u ? u === "true" : u)),
+    sortBy: z.literal("start").or(z.literal("end")).nullish(),
+    sortOrder: z.nativeEnum(SortOrder).nullish(),
+    offset: z.coerce.number().default(0),
+    pageSize: z.coerce.number().max(1000).default(10),
+});
+
+export type Filters = z.infer<typeof filtersSchema>;

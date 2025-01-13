@@ -1,4 +1,3 @@
-import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
@@ -12,16 +11,9 @@ import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
-import * as dynamo from "../../data/dynamo";
+import * as db from "../../data/db";
 import { ErrorInfo } from "../../interfaces";
-import { FullDisruption } from "../../schemas/disruption.schema";
-import {
-    DEFAULT_ORG_ID,
-    createDisruptionWithConsquences,
-    disruptionWithConsequences,
-    getMockRequestAndResponse,
-    mockSession,
-} from "../../testData/mockData";
+import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import * as session from "../../utils/apiUtils/auth";
 import createConsequenceStops, { formatCreateConsequenceStopsBody } from "./create-consequence-stops.api";
@@ -57,10 +49,6 @@ const defaultStopsData = {
     consequenceIndex: defaultConsequenceIndex,
     disruptionId: defaultDisruptionId,
 };
-
-const disruption: FullDisruption = createDisruptionWithConsquences([
-    { ...defaultStopsData, consequenceIndex: Number(defaultConsequenceIndex) } as Consequence,
-]);
 
 const stopDataToUpsert = {
     disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
@@ -98,8 +86,8 @@ describe("create-consequence-stops API", () => {
         destroyCookieOnResponseObject: vi.fn(),
     }));
 
-    const upsertConsequenceSpy = vi.spyOn(dynamo, "upsertConsequence");
-    vi.mock("../../data/dynamo", () => ({
+    const upsertConsequenceSpy = vi.spyOn(db, "upsertConsequence");
+    vi.mock("../../data/db", () => ({
         upsertConsequence: vi.fn(),
     }));
 
@@ -125,7 +113,7 @@ describe("create-consequence-stops API", () => {
         getSessionSpy.mockImplementation(() => {
             return mockSession;
         });
-        upsertConsequenceSpy.mockResolvedValue(disruption);
+        upsertConsequenceSpy.mockResolvedValue(1);
     });
 
     it("should redirect to /review-disruption when all required inputs are passed", async () => {
@@ -137,6 +125,7 @@ describe("create-consequence-stops API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             stopDataToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -234,6 +223,7 @@ describe("create-consequence-stops API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             stopDataToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -258,6 +248,7 @@ describe("create-consequence-stops API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             stopDataToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -311,6 +302,7 @@ describe("create-consequence-stops API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             { ...stopDataToUpsert, consequenceIndex: 1 },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -332,17 +324,18 @@ describe("create-consequence-stops API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             stopDataToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             true,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/1?template=true`,
+            Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/2?template=true`,
         });
     });
 
     it("should redirect to /type-of-consequence when all required inputs are passed, when another consequence is added and when the consequence index is not 0", async () => {
-        upsertConsequenceSpy.mockResolvedValue(disruptionWithConsequences);
+        upsertConsequenceSpy.mockResolvedValue(1);
         const { req, res } = getMockRequestAndResponse({
             body: { ...defaultStopsData, consequenceIndex: "2" },
             query: { addAnotherConsequence: "true" },
@@ -355,6 +348,7 @@ describe("create-consequence-stops API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             { ...stopDataToUpsert, consequenceIndex: 2 },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );

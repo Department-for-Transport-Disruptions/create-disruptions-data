@@ -1,4 +1,4 @@
-import { Consequence, ConsequenceOperators } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { ConsequenceOperators } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
@@ -11,16 +11,10 @@ import {
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
+import * as db from "../../data/db";
 import * as dynamo from "../../data/dynamo";
 import { ErrorInfo } from "../../interfaces";
-import { FullDisruption } from "../../schemas/disruption.schema";
-import {
-    DEFAULT_ORG_ID,
-    createDisruptionWithConsquences,
-    disruptionWithConsequences,
-    getMockRequestAndResponse,
-    mockSession,
-} from "../../testData/mockData";
+import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession } from "../../testData/mockData";
 import { setCookieOnResponseObject } from "../../utils/apiUtils";
 import * as session from "../../utils/apiUtils/auth";
 import createConsequenceOperator from "./create-consequence-operator.api";
@@ -48,10 +42,6 @@ const bodyData = {
     disruptionId: defaultDisruptionId,
 };
 
-const disruption: FullDisruption = createDisruptionWithConsquences([
-    { ...bodyData, consequenceIndex: Number(defaultConsequenceIndex) } as Consequence,
-]);
-
 const operatorToUpsert = {
     disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
     description:
@@ -73,11 +63,14 @@ describe("create-consequence-operator API", () => {
         destroyCookieOnResponseObject: vi.fn(),
     }));
 
-    const upsertConsequenceSpy = vi.spyOn(dynamo, "upsertConsequence");
+    const upsertConsequenceSpy = vi.spyOn(db, "upsertConsequence");
     const getNocCodesForOperatorOrgSpy = vi.spyOn(dynamo, "getNocCodesForOperatorOrg");
 
-    vi.mock("../../data/dynamo", () => ({
+    vi.mock("../../data/db", () => ({
         upsertConsequence: vi.fn(),
+    }));
+
+    vi.mock("../../data/dynamo", () => ({
         getNocCodesForOperatorOrg: vi.fn(),
     }));
 
@@ -103,7 +96,7 @@ describe("create-consequence-operator API", () => {
         getSessionSpy.mockImplementation(() => {
             return mockSession;
         });
-        upsertConsequenceSpy.mockResolvedValue(disruption);
+        upsertConsequenceSpy.mockResolvedValue(1);
     });
 
     it("should redirect to /review-disruption when all required inputs are passed", async () => {
@@ -115,6 +108,7 @@ describe("create-consequence-operator API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             operatorToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -235,6 +229,7 @@ describe("create-consequence-operator API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             operatorToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -259,6 +254,7 @@ describe("create-consequence-operator API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             operatorToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -318,6 +314,7 @@ describe("create-consequence-operator API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             { ...operatorToUpsert, consequenceIndex: 1 },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -340,17 +337,18 @@ describe("create-consequence-operator API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             operatorToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             true,
         );
 
         expect(writeHeadMock).toBeCalledWith(302, {
-            Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/1?template=true`,
+            Location: `${TYPE_OF_CONSEQUENCE_PAGE_PATH}/${defaultDisruptionId}/2?template=true`,
         });
     });
 
     it("should redirect to /type-of-consequence when all required inputs are passed, when another consequence is added and when the consequence index is not 0", async () => {
-        upsertConsequenceSpy.mockResolvedValue(disruptionWithConsequences);
+        upsertConsequenceSpy.mockResolvedValue(1);
         const { req, res } = getMockRequestAndResponse({
             body: { ...bodyData, consequenceIndex: "2" },
             query: { addAnotherConsequence: "true" },
@@ -363,6 +361,7 @@ describe("create-consequence-operator API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             { ...operatorToUpsert, consequenceIndex: 2 },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -376,7 +375,7 @@ describe("create-consequence-operator API", () => {
         getSessionSpy.mockImplementation(() => {
             return { ...mockSession, isOperatorUser: true, operatorOrgId: "test-org-id" };
         });
-        upsertConsequenceSpy.mockResolvedValue(disruptionWithConsequences);
+        upsertConsequenceSpy.mockResolvedValue(1);
         getNocCodesForOperatorOrgSpy.mockResolvedValue(["TESTING", "TEST"]);
 
         const { req, res } = getMockRequestAndResponse({
@@ -423,6 +422,7 @@ describe("create-consequence-operator API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             operatorToUpsert,
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOperatorUser,
             false,
         );

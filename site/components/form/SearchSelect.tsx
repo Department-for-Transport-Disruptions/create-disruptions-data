@@ -19,7 +19,7 @@ interface SearchSelectProps<T> {
     initialErrors?: ErrorInfo[];
     getOptionLabel?: (value: T) => string;
     handleChange: (value: SingleValue<T>, actionMeta: ActionMeta<T>) => void;
-    tableData: T[] | undefined;
+    tableData: T[] | undefined | null;
     getRows: () =>
         | {
               header?: string;

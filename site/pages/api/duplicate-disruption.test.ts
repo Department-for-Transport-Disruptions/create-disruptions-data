@@ -1,7 +1,7 @@
-import * as crypto from "crypto";
 import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { disruptionInfoSchemaRefined } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import * as cryptoRandomString from "crypto-random-string";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
@@ -11,7 +11,7 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
-import * as dynamo from "../../data/dynamo";
+import * as db from "../../data/db";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import {
     DEFAULT_OPERATOR_ORG_ID,
@@ -45,7 +45,7 @@ const defaultDisruptionStartDate = getFutureDateAsString(2);
 const defaultPublishStartDate = getFutureDateAsString(1);
 
 const disruption: FullDisruption = {
-    disruptionId: defaultDisruptionId,
+    id: defaultDisruptionId,
     disruptionType: "planned",
     summary: "A test disruption",
     description: "oh no",
@@ -58,6 +58,10 @@ const disruption: FullDisruption = {
     disruptionNoEndDateTime: "true",
     disruptionRepeats: "doesntRepeat",
     disruptionRepeatsEndDate: "",
+    publishStartTimestamp: getDatetimeFromDateAndTime(defaultPublishStartDate, "1900").toISOString(),
+    publishEndTimestamp: null,
+    validityStartTimestamp: getDatetimeFromDateAndTime(defaultDisruptionStartDate, "1800").toISOString(),
+    validityEndTimestamp: null,
     validity: [],
     publishStatus: PublishStatus.editing,
     consequences: [defaultNetworkData],
@@ -67,24 +71,31 @@ const disruption: FullDisruption = {
 };
 
 describe("duplicate-disruption API", () => {
+    const hoisted = vi.hoisted(() => ({
+        randomUUIDMock: vi.fn(),
+    }));
+
     const writeHeadMock = vi.fn();
     vi.mock("../../utils/apiUtils", async () => ({
         ...(await vi.importActual<object>("../../utils/apiUtils")),
         setCookieOnResponseObject: vi.fn(),
         destroyCookieOnResponseObject: vi.fn(),
+        getSession: vi.fn(),
     }));
 
     vi.mock("crypto", () => ({
-        randomUUID: vi.fn(),
+        default: {
+            randomUUID: hoisted.randomUUIDMock,
+        },
     }));
 
     vi.mock("crypto-random-string", () => ({
         default: vi.fn(),
     }));
 
-    const upsertConsequenceSpy = vi.spyOn(dynamo, "upsertConsequence");
-    const upsertDisruptionInfoSpy = vi.spyOn(dynamo, "upsertDisruptionInfo");
-    vi.mock("../../data/dynamo", () => ({
+    const upsertConsequenceSpy = vi.spyOn(db, "upsertConsequence");
+    const upsertDisruptionInfoSpy = vi.spyOn(db, "upsertDisruptionInfo");
+    vi.mock("../../data/db", () => ({
         upsertConsequence: vi.fn(),
         upsertDisruptionInfo: vi.fn(),
         getDisruptionById: vi.fn(),
@@ -97,9 +108,7 @@ describe("duplicate-disruption API", () => {
     const cryptoRandomStringSpy = vi.spyOn(cryptoRandomString, "default");
     const getSessionSpy = vi.spyOn(session, "getSession");
 
-    const getDisruptionByIdSpy = vi.spyOn(dynamo, "getDisruptionById");
-
-    const randomUUIDSpy = vi.spyOn(crypto, "randomUUID");
+    const getDisruptionByIdSpy = vi.spyOn(db, "getDisruptionById");
 
     const returnPath = encodeURIComponent(
         `${DISRUPTION_DETAIL_PAGE_PATH}/${
@@ -107,13 +116,11 @@ describe("duplicate-disruption API", () => {
         }?template=true&return=${VIEW_ALL_TEMPLATES_PAGE_PATH}`,
     );
 
-    crypto.randomUUID();
-
     beforeEach(() => {
         getSessionSpy.mockImplementation(() => {
             return mockSession;
         });
-        randomUUIDSpy.mockImplementation(() => {
+        hoisted.randomUUIDMock.mockImplementation(() => {
             return newDefaultDisruptionId;
         });
         cryptoRandomStringSpy.mockImplementation(() => {
@@ -134,10 +141,11 @@ describe("duplicate-disruption API", () => {
         expect(upsertDisruptionInfoSpy).toHaveBeenCalledWith(
             {
                 ...disruptionInfoSchemaRefined.parse(disruption),
-                disruptionId: newDefaultDisruptionId,
+                id: newDefaultDisruptionId,
                 displayId: "9fg4gc",
             },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
             null,
@@ -147,6 +155,7 @@ describe("duplicate-disruption API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             { ...defaultNetworkData, disruptionId: newDefaultDisruptionId },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
         );
 
@@ -207,10 +216,11 @@ describe("duplicate-disruption API", () => {
         expect(upsertDisruptionInfoSpy).toHaveBeenCalledWith(
             {
                 ...disruptionInfoSchemaRefined.parse(disruption),
-                disruptionId: newDefaultDisruptionId,
+                id: newDefaultDisruptionId,
                 displayId: "9fg4gc",
             },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             true,
             null,
@@ -220,6 +230,7 @@ describe("duplicate-disruption API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             { ...defaultNetworkData, disruptionId: newDefaultDisruptionId },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
         );
 
@@ -245,10 +256,11 @@ describe("duplicate-disruption API", () => {
         expect(upsertDisruptionInfoSpy).toHaveBeenCalledWith(
             {
                 ...disruptionInfoSchemaRefined.parse(disruption),
-                disruptionId: newDefaultDisruptionId,
+                id: newDefaultDisruptionId,
                 displayId: "9fg4gc",
             },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
             DEFAULT_OPERATOR_ORG_ID,
@@ -258,6 +270,7 @@ describe("duplicate-disruption API", () => {
         expect(upsertConsequenceSpy).toHaveBeenCalledWith(
             { ...defaultNetworkData, disruptionId: newDefaultDisruptionId },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
         );
 

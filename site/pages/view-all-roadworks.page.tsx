@@ -6,10 +6,12 @@ import { Point } from "geojson";
 import { NextPageContext } from "next";
 import Link from "next/link";
 import proj4 from "proj4";
+import { useState } from "react";
 import { GeoJSONFeature, GeoJSONGeometry, GeoJSONLineString, GeoJSONPolygon, parse } from "wellknown";
-import SortableTable, { TableColumn } from "../components/form/SortableTable";
+import Table, { CellProps } from "../components/form/Table";
 import Warning from "../components/form/Warning";
 import { BaseLayout } from "../components/layout/Layout";
+import PageNumbers from "../components/layout/PageNumbers";
 import Tabs from "../components/layout/Tabs";
 import Map from "../components/map/RoadWorksMap";
 import { fetchRoadworks } from "../data/refDataApi";
@@ -80,38 +82,37 @@ export interface RoadworksTable {
     datesAffected: string;
     description: JSX.Element;
 }
-const columns: TableColumn<RoadworksTable>[] = [
-    {
-        displayName: "Dates affected",
-        key: "datesAffected",
-        widthClass: "w-[1=30%]",
-    },
-    {
-        displayName: "Description",
-        key: "description",
-        widthClass: "w-[1=70%]",
-    },
-];
 
-const formatRows = (roadworks: Roadwork[]) => {
+const formatRows = (roadworks: Roadwork[]): { cells: CellProps[] }[] => {
     return roadworks.map((roadwork) => {
         return {
-            datesAffected: `${convertDateTimeToFormat(roadwork.actualStartDateTime ?? "")} - ${convertDateTimeToFormat(
-                roadwork.proposedEndDateTime ?? "",
-            )}`,
-            description: (
-                <Link
-                    className="govuk-link"
-                    href={`roadwork-detail/${encodeURIComponent(roadwork.permitReferenceNumber)}`}
-                >
-                    {roadwork.streetName?.toUpperCase()} - {roadwork.activityType}
-                </Link>
-            ),
+            cells: [
+                {
+                    value: `${convertDateTimeToFormat(roadwork.actualStartDateTime ?? "")} - ${convertDateTimeToFormat(
+                        roadwork.proposedEndDateTime ?? "",
+                    )}`,
+                },
+                {
+                    value: (
+                        <Link
+                            className="govuk-link"
+                            href={`roadwork-detail/${encodeURIComponent(roadwork.permitReferenceNumber)}`}
+                            key={roadwork.permitReferenceNumber}
+                        >
+                            {roadwork.streetName?.toUpperCase()} - {roadwork.activityType}
+                        </Link>
+                    ),
+                },
+            ],
         };
     });
 };
 
 const ViewAllRoadworks = ({ liveRoadworks }: ViewAllRoadworksProps) => {
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const rowsForCurrentPage = formatRows(liveRoadworks).slice((currentPage - 1) * 10, currentPage * 10);
+
     return (
         <BaseLayout title={title} description={description}>
             <h1 className="govuk-heading-xl">Roadworks in your area</h1>
@@ -134,10 +135,18 @@ const ViewAllRoadworks = ({ liveRoadworks }: ViewAllRoadworksProps) => {
                         tabHeader: "Live",
                         content: (
                             <>
-                                <SortableTable
-                                    columns={columns}
-                                    rows={formatRows(liveRoadworks)}
-                                    caption={{ text: "Recent live roadworks", size: "m" }}
+                                <Table
+                                    rows={rowsForCurrentPage}
+                                    columns={["Dates affected", "Description"]}
+                                    caption={{
+                                        text: "Recent live roadworks",
+                                        size: "m",
+                                    }}
+                                />
+                                <PageNumbers
+                                    numberOfPages={Math.ceil(liveRoadworks.length / 10)}
+                                    currentPage={currentPage}
+                                    setCurrentPage={setCurrentPage}
                                 />
                             </>
                         ),
@@ -169,9 +178,10 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     const roadworks = await fetchRoadworks({ adminAreaCodes: session.adminAreaCodes });
 
     const liveRoadworks = getLiveRoadworks(roadworks);
+
     return {
         props: {
-            liveRoadworks: liveRoadworks,
+            liveRoadworks,
         },
     };
 };

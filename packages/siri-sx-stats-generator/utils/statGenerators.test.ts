@@ -22,7 +22,7 @@ const mockDisruptionReasonCountStat = {
 };
 
 const mockDisruption: Disruption = {
-    disruptionId: "0ecde498-cbee-59ee-a604-2b0ceea971e3",
+    id: "0ecde498-cbee-59ee-a604-2b0ceea971e3",
     disruptionType: "planned" as const,
     summary: "Pilley Village (Barnsley)",
     description:
@@ -37,6 +37,10 @@ const mockDisruption: Disruption = {
     disruptionStartTime: "1237",
     disruptionEndDate: "" as const,
     disruptionEndTime: "" as const,
+    publishStartTimestamp: "2023-03-10T12:00:00Z",
+    publishEndTimestamp: null,
+    validityStartTimestamp: "2023-03-18T12:00:00Z",
+    validityEndTimestamp: null,
     disruptionNoEndDateTime: "true" as const,
     disruptionRepeats: "doesntRepeat" as const,
     disruptionRepeatsEndDate: "",
@@ -121,7 +125,7 @@ const mockDisruption: Disruption = {
             ],
         },
     ],
-    lastUpdated: "2023-10-11T12:00:00Z",
+    lastUpdated: "2023-10-11T12:00:00.000Z",
     publishStatus: PublishStatus.published,
     template: false,
 };
@@ -161,7 +165,7 @@ describe("generateSiriStats", () => {
                 totalConsequencesCount: 6,
                 operatorWideConsequencesCount: 2,
                 networkWideConsequencesCount: 2,
-                lastUpdated: "2023-10-11T12:00:00Z",
+                lastUpdated: "2023-10-11T12:00:00.000Z",
                 totalDisruptionsCount: 2,
                 journeysAffected: 2,
                 journeysConsequencesCount: 1,
@@ -187,7 +191,7 @@ describe("generateSiriStats", () => {
                 totalConsequencesCount: 6,
                 operatorWideConsequencesCount: 2,
                 networkWideConsequencesCount: 2,
-                lastUpdated: "2023-11-11T14:00:00Z",
+                lastUpdated: "2023-11-11T14:00:00.000Z",
                 totalDisruptionsCount: 2,
                 journeysAffected: 2,
                 journeysConsequencesCount: 1,

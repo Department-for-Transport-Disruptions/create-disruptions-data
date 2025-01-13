@@ -336,7 +336,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly when global
               <input
                 name="service1"
                 type="hidden"
-                value="{\\"id\\":23127,\\"lineName\\":\\"1\\",\\"operatorShortName\\":\\"First South Yorkshire\\",\\"origin\\":\\"Jordanthorpe\\",\\"destination\\":\\"HigH Green\\",\\"nocCode\\":\\"TEST\\",\\"startDate\\":\\"2023-07-23\\",\\"serviceCode\\":\\"NW_04_SCMN_149_1\\",\\"dataSource\\":\\"bods\\",\\"lineId\\":\\"SL1\\",\\"endDate\\":\\"2023-08-10\\"}"
+                value="{"id":23127,"lineName":"1","operatorShortName":"First South Yorkshire","origin":"Jordanthorpe","destination":"HigH Green","nocCode":"TEST","startDate":"2023-07-23","serviceCode":"NW_04_SCMN_149_1","dataSource":"bods","lineId":"SL1","endDate":"2023-08-10"}"
               />
             </div>
           </div>
@@ -496,12 +496,12 @@ exports[`pages > CreateConsequenceJourneys > should render correctly when global
               <input
                 name="journey1"
                 type="hidden"
-                value="{\\"dataSource\\":\\"bods\\",\\"journeyCode\\":null,\\"vehicleJourneyCode\\":\\"VJ24\\",\\"departureTime\\":\\"17:30:00\\",\\"destination\\":\\"Liverpool Sir Thomas Street\\",\\"origin\\":\\"Chester Bus Interchange\\",\\"direction\\":\\"outbound\\"}"
+                value="{"dataSource":"bods","journeyCode":null,"vehicleJourneyCode":"VJ24","departureTime":"17:30:00","destination":"Liverpool Sir Thomas Street","origin":"Chester Bus Interchange","direction":"outbound"}"
               />
               <input
                 name="journey2"
                 type="hidden"
-                value="{\\"dataSource\\":\\"bods\\",\\"journeyCode\\":null,\\"vehicleJourneyCode\\":\\"VJ25\\",\\"departureTime\\":\\"18:00:00\\",\\"destination\\":\\"Liverpool Sir Thomas Street\\",\\"origin\\":\\"Chester Bus Interchange\\",\\"direction\\":\\"outbound\\"}"
+                value="{"dataSource":"bods","journeyCode":null,"vehicleJourneyCode":"VJ25","departureTime":"18:00:00","destination":"Liverpool Sir Thomas Street","origin":"Chester Bus Interchange","direction":"outbound"}"
               />
             </div>
           </div>
@@ -1283,7 +1283,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with errors
               <input
                 name="service1"
                 type="hidden"
-                value="{\\"id\\":23127,\\"lineName\\":\\"1\\",\\"operatorShortName\\":\\"First South Yorkshire\\",\\"origin\\":\\"Jordanthorpe\\",\\"destination\\":\\"HigH Green\\",\\"nocCode\\":\\"TEST\\",\\"startDate\\":\\"2023-07-23\\",\\"serviceCode\\":\\"NW_04_SCMN_149_1\\",\\"dataSource\\":\\"bods\\",\\"lineId\\":\\"SL1\\",\\"endDate\\":\\"2023-08-10\\"}"
+                value="{"id":23127,"lineName":"1","operatorShortName":"First South Yorkshire","origin":"Jordanthorpe","destination":"HigH Green","nocCode":"TEST","startDate":"2023-07-23","serviceCode":"NW_04_SCMN_149_1","dataSource":"bods","lineId":"SL1","endDate":"2023-08-10"}"
               />
             </div>
           </div>
@@ -1443,12 +1443,12 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with errors
               <input
                 name="journey1"
                 type="hidden"
-                value="{\\"dataSource\\":\\"bods\\",\\"journeyCode\\":null,\\"vehicleJourneyCode\\":\\"VJ24\\",\\"departureTime\\":\\"17:30:00\\",\\"destination\\":\\"Liverpool Sir Thomas Street\\",\\"origin\\":\\"Chester Bus Interchange\\",\\"direction\\":\\"outbound\\"}"
+                value="{"dataSource":"bods","journeyCode":null,"vehicleJourneyCode":"VJ24","departureTime":"17:30:00","destination":"Liverpool Sir Thomas Street","origin":"Chester Bus Interchange","direction":"outbound"}"
               />
               <input
                 name="journey2"
                 type="hidden"
-                value="{\\"dataSource\\":\\"bods\\",\\"journeyCode\\":null,\\"vehicleJourneyCode\\":\\"VJ25\\",\\"departureTime\\":\\"18:00:00\\",\\"destination\\":\\"Liverpool Sir Thomas Street\\",\\"origin\\":\\"Chester Bus Interchange\\",\\"direction\\":\\"outbound\\"}"
+                value="{"dataSource":"bods","journeyCode":null,"vehicleJourneyCode":"VJ25","departureTime":"18:00:00","destination":"Liverpool Sir Thomas Street","origin":"Chester Bus Interchange","direction":"outbound"}"
               />
             </div>
           </div>
@@ -2224,7 +2224,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
               <input
                 name="service1"
                 type="hidden"
-                value="{\\"id\\":23127,\\"lineName\\":\\"1\\",\\"operatorShortName\\":\\"First South Yorkshire\\",\\"origin\\":\\"Jordanthorpe\\",\\"destination\\":\\"HigH Green\\",\\"nocCode\\":\\"TEST\\",\\"startDate\\":\\"2023-07-23\\",\\"serviceCode\\":\\"NW_04_SCMN_149_1\\",\\"dataSource\\":\\"bods\\",\\"lineId\\":\\"SL1\\",\\"endDate\\":\\"2023-08-10\\"}"
+                value="{"id":23127,"lineName":"1","operatorShortName":"First South Yorkshire","origin":"Jordanthorpe","destination":"HigH Green","nocCode":"TEST","startDate":"2023-07-23","serviceCode":"NW_04_SCMN_149_1","dataSource":"bods","lineId":"SL1","endDate":"2023-08-10"}"
               />
             </div>
           </div>
@@ -2384,12 +2384,12 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
               <input
                 name="journey1"
                 type="hidden"
-                value="{\\"dataSource\\":\\"bods\\",\\"journeyCode\\":null,\\"vehicleJourneyCode\\":\\"VJ24\\",\\"departureTime\\":\\"17:30:00\\",\\"destination\\":\\"Liverpool Sir Thomas Street\\",\\"origin\\":\\"Chester Bus Interchange\\",\\"direction\\":\\"outbound\\"}"
+                value="{"dataSource":"bods","journeyCode":null,"vehicleJourneyCode":"VJ24","departureTime":"17:30:00","destination":"Liverpool Sir Thomas Street","origin":"Chester Bus Interchange","direction":"outbound"}"
               />
               <input
                 name="journey2"
                 type="hidden"
-                value="{\\"dataSource\\":\\"bods\\",\\"journeyCode\\":null,\\"vehicleJourneyCode\\":\\"VJ25\\",\\"departureTime\\":\\"18:00:00\\",\\"destination\\":\\"Liverpool Sir Thomas Street\\",\\"origin\\":\\"Chester Bus Interchange\\",\\"direction\\":\\"outbound\\"}"
+                value="{"dataSource":"bods","journeyCode":null,"vehicleJourneyCode":"VJ25","departureTime":"18:00:00","destination":"Liverpool Sir Thomas Street","origin":"Chester Bus Interchange","direction":"outbound"}"
               />
             </div>
           </div>
@@ -3140,7 +3140,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
               <input
                 name="service1"
                 type="hidden"
-                value="{\\"id\\":23127,\\"lineName\\":\\"1\\",\\"operatorShortName\\":\\"First South Yorkshire\\",\\"origin\\":\\"Jordanthorpe\\",\\"destination\\":\\"HigH Green\\",\\"nocCode\\":\\"TEST\\",\\"startDate\\":\\"2023-07-23\\",\\"serviceCode\\":\\"NW_04_SCMN_149_1\\",\\"dataSource\\":\\"bods\\",\\"lineId\\":\\"SL1\\",\\"endDate\\":\\"2023-08-10\\"}"
+                value="{"id":23127,"lineName":"1","operatorShortName":"First South Yorkshire","origin":"Jordanthorpe","destination":"HigH Green","nocCode":"TEST","startDate":"2023-07-23","serviceCode":"NW_04_SCMN_149_1","dataSource":"bods","lineId":"SL1","endDate":"2023-08-10"}"
               />
             </div>
           </div>
@@ -3300,12 +3300,12 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
               <input
                 name="journey1"
                 type="hidden"
-                value="{\\"dataSource\\":\\"bods\\",\\"journeyCode\\":null,\\"vehicleJourneyCode\\":\\"VJ24\\",\\"departureTime\\":\\"17:30:00\\",\\"destination\\":\\"Liverpool Sir Thomas Street\\",\\"origin\\":\\"Chester Bus Interchange\\",\\"direction\\":\\"outbound\\"}"
+                value="{"dataSource":"bods","journeyCode":null,"vehicleJourneyCode":"VJ24","departureTime":"17:30:00","destination":"Liverpool Sir Thomas Street","origin":"Chester Bus Interchange","direction":"outbound"}"
               />
               <input
                 name="journey2"
                 type="hidden"
-                value="{\\"dataSource\\":\\"bods\\",\\"journeyCode\\":null,\\"vehicleJourneyCode\\":\\"VJ25\\",\\"departureTime\\":\\"18:00:00\\",\\"destination\\":\\"Liverpool Sir Thomas Street\\",\\"origin\\":\\"Chester Bus Interchange\\",\\"direction\\":\\"outbound\\"}"
+                value="{"dataSource":"bods","journeyCode":null,"vehicleJourneyCode":"VJ25","departureTime":"18:00:00","destination":"Liverpool Sir Thomas Street","origin":"Chester Bus Interchange","direction":"outbound"}"
               />
             </div>
           </div>
@@ -4056,7 +4056,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
               <input
                 name="service1"
                 type="hidden"
-                value="{\\"id\\":23127,\\"lineName\\":\\"1\\",\\"operatorShortName\\":\\"First South Yorkshire\\",\\"origin\\":\\"Jordanthorpe\\",\\"destination\\":\\"HigH Green\\",\\"nocCode\\":\\"TEST\\",\\"startDate\\":\\"2023-07-23\\",\\"serviceCode\\":\\"NW_04_SCMN_149_1\\",\\"dataSource\\":\\"bods\\",\\"lineId\\":\\"SL1\\",\\"endDate\\":\\"2023-08-10\\"}"
+                value="{"id":23127,"lineName":"1","operatorShortName":"First South Yorkshire","origin":"Jordanthorpe","destination":"HigH Green","nocCode":"TEST","startDate":"2023-07-23","serviceCode":"NW_04_SCMN_149_1","dataSource":"bods","lineId":"SL1","endDate":"2023-08-10"}"
               />
             </div>
           </div>
@@ -4216,12 +4216,12 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
               <input
                 name="journey1"
                 type="hidden"
-                value="{\\"dataSource\\":\\"bods\\",\\"journeyCode\\":null,\\"vehicleJourneyCode\\":\\"VJ24\\",\\"departureTime\\":\\"17:30:00\\",\\"destination\\":\\"Liverpool Sir Thomas Street\\",\\"origin\\":\\"Chester Bus Interchange\\",\\"direction\\":\\"outbound\\"}"
+                value="{"dataSource":"bods","journeyCode":null,"vehicleJourneyCode":"VJ24","departureTime":"17:30:00","destination":"Liverpool Sir Thomas Street","origin":"Chester Bus Interchange","direction":"outbound"}"
               />
               <input
                 name="journey2"
                 type="hidden"
-                value="{\\"dataSource\\":\\"bods\\",\\"journeyCode\\":null,\\"vehicleJourneyCode\\":\\"VJ25\\",\\"departureTime\\":\\"18:00:00\\",\\"destination\\":\\"Liverpool Sir Thomas Street\\",\\"origin\\":\\"Chester Bus Interchange\\",\\"direction\\":\\"outbound\\"}"
+                value="{"dataSource":"bods","journeyCode":null,"vehicleJourneyCode":"VJ25","departureTime":"18:00:00","destination":"Liverpool Sir Thomas Street","origin":"Chester Bus Interchange","direction":"outbound"}"
               />
             </div>
           </div>
@@ -5754,7 +5754,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with query 
               <input
                 name="service1"
                 type="hidden"
-                value="{\\"id\\":23127,\\"lineName\\":\\"1\\",\\"operatorShortName\\":\\"First South Yorkshire\\",\\"origin\\":\\"Jordanthorpe\\",\\"destination\\":\\"HigH Green\\",\\"nocCode\\":\\"TEST\\",\\"startDate\\":\\"2023-07-23\\",\\"serviceCode\\":\\"NW_04_SCMN_149_1\\",\\"dataSource\\":\\"bods\\",\\"lineId\\":\\"SL1\\",\\"endDate\\":\\"2023-08-10\\"}"
+                value="{"id":23127,"lineName":"1","operatorShortName":"First South Yorkshire","origin":"Jordanthorpe","destination":"HigH Green","nocCode":"TEST","startDate":"2023-07-23","serviceCode":"NW_04_SCMN_149_1","dataSource":"bods","lineId":"SL1","endDate":"2023-08-10"}"
               />
             </div>
           </div>
@@ -5914,12 +5914,12 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with query 
               <input
                 name="journey1"
                 type="hidden"
-                value="{\\"dataSource\\":\\"bods\\",\\"journeyCode\\":null,\\"vehicleJourneyCode\\":\\"VJ24\\",\\"departureTime\\":\\"17:30:00\\",\\"destination\\":\\"Liverpool Sir Thomas Street\\",\\"origin\\":\\"Chester Bus Interchange\\",\\"direction\\":\\"outbound\\"}"
+                value="{"dataSource":"bods","journeyCode":null,"vehicleJourneyCode":"VJ24","departureTime":"17:30:00","destination":"Liverpool Sir Thomas Street","origin":"Chester Bus Interchange","direction":"outbound"}"
               />
               <input
                 name="journey2"
                 type="hidden"
-                value="{\\"dataSource\\":\\"bods\\",\\"journeyCode\\":null,\\"vehicleJourneyCode\\":\\"VJ25\\",\\"departureTime\\":\\"18:00:00\\",\\"destination\\":\\"Liverpool Sir Thomas Street\\",\\"origin\\":\\"Chester Bus Interchange\\",\\"direction\\":\\"outbound\\"}"
+                value="{"dataSource":"bods","journeyCode":null,"vehicleJourneyCode":"VJ25","departureTime":"18:00:00","destination":"Liverpool Sir Thomas Street","origin":"Chester Bus Interchange","direction":"outbound"}"
               />
             </div>
           </div>

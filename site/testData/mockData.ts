@@ -13,6 +13,7 @@ import {
     VehicleMode,
 } from "@create-disruptions-data/shared-ts/enums";
 import { Roadwork } from "@create-disruptions-data/shared-ts/roadwork.zod";
+import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { mockRequest, mockResponse } from "mock-req-res";
 import { NextApiRequest, NextApiResponse, NextPageContext } from "next";
 import React from "react";
@@ -147,7 +148,7 @@ export interface GetMockRequestAndResponse {
 
 export const disruptionWithNoConsequences: FullDisruption = {
     publishStatus: PublishStatus.draft,
-    disruptionId: "acde070d-8c4c-4f0d-9d8a-162843c10333",
+    id: "acde070d-8c4c-4f0d-9d8a-162843c10333",
     description: "Test description",
     disruptionType: "planned",
     summary: "Some summary",
@@ -169,6 +170,10 @@ export const disruptionWithNoConsequences: FullDisruption = {
     displayId: "8fg3ha",
     orgId: DEFAULT_ORG_ID,
     template: false,
+    publishStartTimestamp: "2023-03-10T12:00:00Z",
+    publishEndTimestamp: null,
+    validityStartTimestamp: "2023-03-18T17:00:00Z",
+    validityEndTimestamp: null,
 };
 
 export const consequenceInfoOperatorTest: Consequence = {
@@ -529,7 +534,7 @@ export const exportDisruption: ExportDisruptions = [
 
 export const sortedDisruption: Disruption = {
     publishStatus: PublishStatus.draft,
-    disruptionId: "test",
+    id: "test",
     description: "Test description",
     disruptionType: "planned",
     summary: "Some summary",
@@ -541,6 +546,10 @@ export const sortedDisruption: Disruption = {
     orgId: DEFAULT_ORG_ID,
     disruptionStartDate: "25/03/2021",
     disruptionStartTime: "1123",
+    validityStartTimestamp: "2021-03-25T11:23:00Z",
+    validityEndTimestamp: null,
+    publishStartTimestamp: "2023-03-10T12:00:00Z",
+    publishEndTimestamp: null,
     consequences: [
         {
             consequenceIndex: 0,
@@ -932,11 +941,12 @@ export const mockViewAllDisruptionsData: TableDisruption[] = [
     {
         id: "c58ba826-ac18-41c5-8476-8172dfa6ea24",
         summary: "Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...",
-        validityPeriods: [{ startTime: "2022-01-05T04:42:17.239Z", endTime: null }],
         publishStartDate: "2022-01-05T04:42:17.239Z",
         modes: ["Tram"],
         status: Progress.open,
         severity: Severity.verySevere,
+        validityStartTimestamp: "2022-01-05T04:42:17.239Z",
+        validityEndTimestamp: null,
         services: [
             {
                 ref: "SL1",
@@ -968,7 +978,8 @@ export const mockViewAllDisruptionsData: TableDisruption[] = [
     {
         id: "e234615d-8301-49c2-8143-1fca9dc187db",
         summary: "Alien attack - counter attack needed immediately to conserve human life. Aliens are known to be...",
-        validityPeriods: [{ startTime: "2022-01-18T09:36:12.327Z", endTime: null }],
+        validityStartTimestamp: "2022-01-18T09:36:12.327Z",
+        validityEndTimestamp: null,
         publishStartDate: "2022-01-18T09:36:12.327Z",
         modes: ["Tram"],
         status: Progress.open,
@@ -998,11 +1009,8 @@ export const mockViewAllDisruptionsData: TableDisruption[] = [
     {
         id: "dfd19560-99c1-4da6-8a73-de1220f37056",
         summary: "Busted reunion traffic",
-        validityPeriods: [
-            { startTime: "2022-01-19T11:41:12.445Z", endTime: "2022-01-26T11:41:12.445Z" },
-            { startTime: "2023-04-14T04:21:29.085Z", endTime: null },
-            { startTime: "2024-05-04T08:18:40.131Z", endTime: "2024-05-11T08:18:40.131Z" },
-        ],
+        validityStartTimestamp: "2022-01-19T11:41:12.445Z",
+        validityEndTimestamp: null,
         publishStartDate: "2022-01-19T11:41:12.445Z",
         modes: ["Tram", "Ferry", "Train"],
         status: Progress.draft,
@@ -1035,8 +1043,9 @@ export const createDisruptionWithConsquences = (consequences: Consequence[]): Fu
     const defaultDisruptionStartDate = getFutureDateAsString(2);
     const defaultPublishStartDate = getFutureDateAsString(1);
     const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
+
     return {
-        disruptionId: defaultDisruptionId,
+        id: defaultDisruptionId,
         disruptionType: "planned",
         summary: "A test disruption",
         description: "oh no",
@@ -1055,6 +1064,10 @@ export const createDisruptionWithConsquences = (consequences: Consequence[]): Fu
         displayId: "8fg3ha",
         orgId: DEFAULT_ORG_ID,
         template: false,
+        publishStartTimestamp: getDatetimeFromDateAndTime(defaultPublishStartDate, "1900").toISOString(),
+        publishEndTimestamp: null,
+        validityStartTimestamp: getDatetimeFromDateAndTime(defaultDisruptionStartDate, "1800").toISOString(),
+        validityEndTimestamp: null,
     };
 };
 

@@ -8,7 +8,13 @@ const Changelog = (): ReactElement => {
     return (
         <TwoThirdsLayout title={title} description={description}>
             <h1 className="govuk-heading-xl">Service Changelog</h1>
-            <p className="govuk-body">Last updated: 17 December 2024</p>
+            <p className="govuk-body">Last updated: 14 January 2025</p>
+            <hr className="govuk-section-break govuk-section-break--xl govuk-section-break--visible" />
+            <h2 className="govuk-heading-l">January 2025 (2.0.0)</h2>{" "}
+            <p className="govuk-body">This release will deploy the following changes:</p>
+            <ul className="govuk-list govuk-list--bullet">
+                <li>Migration of database to enable performance improvements</li>
+            </ul>
             <hr className="govuk-section-break govuk-section-break--xl govuk-section-break--visible" />
             <h2 className="govuk-heading-l">December 2024 (1.63.0)</h2>{" "}
             <p className="govuk-body">This release will deploy the following changes:</p>

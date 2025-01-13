@@ -1,9 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { DISRUPTION_DETAIL_PAGE_PATH, ERROR_PATH } from "../../constants";
-import { deleteDisruptionsInEdit, deleteDisruptionsInPending, isDisruptionInEdit } from "../../data/dynamo";
+import { deleteEditedDisruption, isDisruptionInEdit } from "../../data/db";
 import { publishSchema } from "../../schemas/publish.schema";
 import { redirectTo, redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
-import { canPublish, getSession } from "../../utils/apiUtils/auth";
+import { getSession } from "../../utils/apiUtils/auth";
 
 const cancelChanges = async (req: NextApiRequest, res: NextApiResponse) => {
     try {
@@ -17,15 +17,10 @@ const cancelChanges = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
         const disruptionId = validatedBody.data.disruptionId;
-        const isEdited = await isDisruptionInEdit(disruptionId, session.orgId, template === "true");
+        const isEdited = await isDisruptionInEdit(disruptionId, session.orgId);
 
-        if (!canPublish(session) && !isEdited) {
-            await Promise.all([
-                deleteDisruptionsInEdit(disruptionId, session.orgId, template === "true"),
-                deleteDisruptionsInPending(disruptionId, session.orgId, template === "true"),
-            ]);
-        } else {
-            await deleteDisruptionsInEdit(disruptionId, session.orgId, template === "true");
+        if (isEdited) {
+            await deleteEditedDisruption(disruptionId, session.orgId);
         }
 
         redirectToWithQueryParams(

@@ -32,6 +32,7 @@ export const DynamoDBStack = ({ stack }: StackContext) => {
             partitionKey: "PK",
             sortKey: "SK",
         },
+        stream: "keys_only",
         cdk: {
             table: {
                 tableName: `cdd-template-disruptions-table-${stack.stage}`,

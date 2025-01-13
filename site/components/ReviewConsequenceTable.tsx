@@ -125,7 +125,7 @@ const getRows = (
                       actions: [
                           createChangeLinkSummaryList(
                               TYPE_OF_CONSEQUENCE_PAGE_PATH,
-                              disruption.disruptionId,
+                              disruption.id,
                               consequence.consequenceIndex,
                               true,
                               isDisruptionDetail,
@@ -143,7 +143,7 @@ const getRows = (
                       actions: [
                           createChangeLinkSummaryList(
                               getConsequenceUrl(consequence.consequenceType),
-                              disruption.disruptionId,
+                              disruption.id,
                               consequence.consequenceIndex,
                               true,
                               isDisruptionDetail,
@@ -172,7 +172,7 @@ const getRows = (
                       actions: [
                           createChangeLinkSummaryList(
                               getConsequenceUrl(consequence.consequenceType),
-                              disruption.disruptionId,
+                              disruption.id,
                               consequence.consequenceIndex,
                               true,
                               isDisruptionDetail,
@@ -201,7 +201,7 @@ const getRows = (
                       actions: [
                           createChangeLinkSummaryList(
                               getConsequenceUrl(consequence.consequenceType),
-                              disruption.disruptionId,
+                              disruption.id,
                               consequence.consequenceIndex,
                               true,
                               isDisruptionDetail,
@@ -224,7 +224,7 @@ const getRows = (
                       actions: [
                           createChangeLinkSummaryList(
                               getConsequenceUrl(consequence.consequenceType),
-                              disruption.disruptionId,
+                              disruption.id,
                               consequence.consequenceIndex,
                               true,
                               isDisruptionDetail,
@@ -247,7 +247,7 @@ const getRows = (
                       actions: [
                           createChangeLinkSummaryList(
                               getConsequenceUrl(consequence.consequenceType),
-                              disruption.disruptionId,
+                              disruption.id,
                               consequence.consequenceIndex,
                               true,
                               isDisruptionDetail,
@@ -267,7 +267,7 @@ const getRows = (
                       actions: [
                           createChangeLinkSummaryList(
                               getConsequenceUrl(consequence.consequenceType),
-                              disruption.disruptionId,
+                              disruption.id,
                               consequence.consequenceIndex,
                               true,
                               isDisruptionDetail,
@@ -288,7 +288,7 @@ const getRows = (
                       actions: [
                           createChangeLinkSummaryList(
                               getConsequenceUrl(consequence.consequenceType),
-                              disruption.disruptionId,
+                              disruption.id,
                               consequence.consequenceIndex,
                               true,
                               isDisruptionDetail,
@@ -309,7 +309,7 @@ const getRows = (
                       actions: [
                           createChangeLinkSummaryList(
                               getConsequenceUrl(consequence.consequenceType),
-                              disruption.disruptionId,
+                              disruption.id,
                               consequence.consequenceIndex,
                               true,
                               isDisruptionDetail,
@@ -327,7 +327,7 @@ const getRows = (
                       actions: [
                           createChangeLinkSummaryList(
                               getConsequenceUrl(consequence.consequenceType),
-                              disruption.disruptionId,
+                              disruption.id,
                               consequence.consequenceIndex,
                               true,
                               isDisruptionDetail,
@@ -373,7 +373,7 @@ const ReviewConsequenceTable = ({
         },
         {
             name: "disruptionId",
-            value: disruption.disruptionId,
+            value: disruption.id,
         },
     ];
 

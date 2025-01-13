@@ -8,7 +8,7 @@ import {
     DISRUPTION_DETAIL_PAGE_PATH,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
-import * as dynamo from "../../data/dynamo";
+import * as db from "../../data/db";
 import { ErrorInfo } from "../../interfaces";
 import {
     DEFAULT_OPERATOR_ORG_ID,
@@ -28,7 +28,7 @@ const defaultPublishStartDate = getFutureDateAsString(1);
 const defaultDisruptionId = "acde070d-8c4c-4f0d-9d8a-162843c10333";
 
 const defaultDisruptionData = {
-    disruptionId: defaultDisruptionId,
+    id: defaultDisruptionId,
     disruptionType: "unplanned",
     summary: "Lorem ipsum dolor sit amet",
     description:
@@ -69,8 +69,8 @@ describe("create-disruption API", () => {
         destroyCookieOnResponseObject: vi.fn(),
     }));
 
-    const upsertDisruptionSpy = vi.spyOn(dynamo, "upsertDisruptionInfo");
-    vi.mock("../../data/dynamo", () => ({
+    const upsertDisruptionSpy = vi.spyOn(db, "upsertDisruptionInfo");
+    vi.mock("../../data/db", () => ({
         upsertDisruptionInfo: vi.fn(),
     }));
 
@@ -127,7 +127,7 @@ describe("create-disruption API", () => {
         expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
         expect(upsertDisruptionSpy).toHaveBeenCalledWith(
             {
-                disruptionId: defaultDisruptionId,
+                id: defaultDisruptionId,
                 disruptionType: "unplanned",
                 orgId: DEFAULT_ORG_ID,
                 summary: "Lorem ipsum dolor sit amet",
@@ -167,6 +167,7 @@ describe("create-disruption API", () => {
                 ],
             },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
             null,
@@ -206,7 +207,7 @@ describe("create-disruption API", () => {
         expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
         expect(upsertDisruptionSpy).toHaveBeenCalledWith(
             {
-                disruptionId: defaultDisruptionId,
+                id: defaultDisruptionId,
                 disruptionType: "unplanned",
                 orgId: DEFAULT_ORG_ID,
                 summary: "Lorem ipsum dolor sit amet",
@@ -246,6 +247,7 @@ describe("create-disruption API", () => {
                 ],
             },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
             null,
@@ -289,7 +291,7 @@ describe("create-disruption API", () => {
         expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
         expect(upsertDisruptionSpy).toHaveBeenCalledWith(
             {
-                disruptionId: defaultDisruptionId,
+                id: defaultDisruptionId,
                 disruptionType: "unplanned",
                 orgId: DEFAULT_ORG_ID,
                 summary: "Lorem ipsum dolor sit amet",
@@ -329,6 +331,7 @@ describe("create-disruption API", () => {
                 ],
             },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             true,
             null,
@@ -700,7 +703,7 @@ describe("create-disruption API", () => {
 
     it("should redirect back to /create-disruption when no form inputs are passed to the API", async () => {
         const { req, res } = getMockRequestAndResponse({
-            body: { disruptionId: defaultDisruptionId },
+            body: { id: defaultDisruptionId },
             mockWriteHeadFn: writeHeadMock,
         });
         await createDisruption(req, res);
@@ -1223,7 +1226,7 @@ describe("create-disruption API", () => {
         expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
         expect(upsertDisruptionSpy).toHaveBeenCalledWith(
             {
-                disruptionId: defaultDisruptionId,
+                id: defaultDisruptionId,
                 disruptionType: "unplanned",
                 orgId: DEFAULT_ORG_ID,
                 summary: "Lorem ipsum dolor sit amet",
@@ -1263,6 +1266,7 @@ describe("create-disruption API", () => {
                 ],
             },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
             null,
@@ -1308,7 +1312,7 @@ describe("create-disruption API", () => {
         expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
         expect(upsertDisruptionSpy).toHaveBeenCalledWith(
             {
-                disruptionId: defaultDisruptionId,
+                id: defaultDisruptionId,
                 disruptionType: "unplanned",
                 orgId: DEFAULT_ORG_ID,
                 summary: "Lorem ipsum dolor sit amet",
@@ -1348,6 +1352,7 @@ describe("create-disruption API", () => {
                 ],
             },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
             null,
@@ -1423,7 +1428,7 @@ describe("create-disruption API", () => {
         expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
         expect(upsertDisruptionSpy).toHaveBeenCalledWith(
             {
-                disruptionId: defaultDisruptionId,
+                id: defaultDisruptionId,
                 disruptionType: "unplanned",
                 orgId: DEFAULT_ORG_ID,
                 summary: "Lorem ipsum dolor sit amet",
@@ -1463,6 +1468,7 @@ describe("create-disruption API", () => {
                 ],
             },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
             DEFAULT_OPERATOR_ORG_ID,
@@ -1503,7 +1509,7 @@ describe("create-disruption API", () => {
         expect(upsertDisruptionSpy).toHaveBeenCalledTimes(1);
         expect(upsertDisruptionSpy).toHaveBeenCalledWith(
             {
-                disruptionId: defaultDisruptionId,
+                id: defaultDisruptionId,
                 disruptionType: "unplanned",
                 orgId: DEFAULT_ORG_ID,
                 summary: "Lorem ipsum dolor sit amet",
@@ -1544,6 +1550,7 @@ describe("create-disruption API", () => {
                 permitReferenceNumber: "testPermitRef-123",
             },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
             null,
