@@ -18,7 +18,7 @@ const previousConsequencesInformation: Consequence = {
 
 const previousDisruptionInformation: Disruption = {
     disruptionType: "planned",
-    disruptionId: "2",
+    id: "2",
     summary: "Road closure due to flooding and cattle on road and no sign of movement example example example etc etc",
     description:
         "Road closure due to flooding and cattle on road and no sign of movement example example example etc etc",
@@ -47,6 +47,10 @@ const previousDisruptionInformation: Disruption = {
     displayId: "8fg3ha",
     orgId: DEFAULT_ORG_ID,
     template: false,
+    publishStartTimestamp: "2022-01-13T13:00:00Z",
+    publishEndTimestamp: "2022-01-13T14:00:00Z",
+    validityStartTimestamp: "2022-01-15T12:00:00Z",
+    validityEndTimestamp: "2022-01-17T14:00:00Z",
 };
 
 afterEach(cleanup);

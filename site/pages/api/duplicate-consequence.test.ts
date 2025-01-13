@@ -1,8 +1,9 @@
 import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { MiscellaneousReason, PublishStatus, Severity, VehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { DISRUPTION_DETAIL_PAGE_PATH, ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
-import * as dynamo from "../../data/dynamo";
+import * as db from "../../data/db";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { DEFAULT_ORG_ID, getMockRequestAndResponse, mockSession } from "../../testData/mockData";
 import * as session from "../../utils/apiUtils/auth";
@@ -28,7 +29,7 @@ const defaultDisruptionStartDate = getFutureDateAsString(2);
 const defaultPublishStartDate = getFutureDateAsString(1);
 
 const disruption: FullDisruption = {
-    disruptionId: defaultDisruptionId,
+    id: defaultDisruptionId,
     disruptionType: "planned",
     summary: "A test disruption",
     description: "oh no",
@@ -38,6 +39,10 @@ const disruption: FullDisruption = {
     publishStartTime: "1900",
     disruptionStartDate: defaultDisruptionStartDate,
     disruptionStartTime: "1800",
+    publishStartTimestamp: getDatetimeFromDateAndTime(defaultPublishStartDate, "1900").toISOString(),
+    publishEndTimestamp: null,
+    validityStartTimestamp: getDatetimeFromDateAndTime(defaultDisruptionStartDate, "1800").toISOString(),
+    validityEndTimestamp: null,
     disruptionNoEndDateTime: "true",
     disruptionRepeats: "doesntRepeat",
     disruptionRepeatsEndDate: "",
@@ -57,8 +62,8 @@ describe("duplicate-consequence API", () => {
         destroyCookieOnResponseObject: vi.fn(),
     }));
 
-    const upsertConsequenceSpy = vi.spyOn(dynamo, "upsertConsequence");
-    vi.mock("../../data/dynamo", () => ({
+    const upsertConsequenceSpy = vi.spyOn(db, "upsertConsequence");
+    vi.mock("../../data/db", () => ({
         upsertConsequence: vi.fn(),
         getDisruptionById: vi.fn(),
     }));
@@ -69,7 +74,7 @@ describe("duplicate-consequence API", () => {
 
     const getSessionSpy = vi.spyOn(session, "getSession");
 
-    const getDisruptionByIdSpy = vi.spyOn(dynamo, "getDisruptionById");
+    const getDisruptionByIdSpy = vi.spyOn(db, "getDisruptionById");
 
     beforeEach(() => {
         getSessionSpy.mockImplementation(() => {
@@ -101,6 +106,7 @@ describe("duplicate-consequence API", () => {
                 disruptionId: defaultDisruptionId,
             },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );
@@ -134,6 +140,7 @@ describe("duplicate-consequence API", () => {
                 disruptionId: defaultDisruptionId,
             },
             DEFAULT_ORG_ID,
+            mockSession.name,
             mockSession.isOrgStaff,
             false,
         );

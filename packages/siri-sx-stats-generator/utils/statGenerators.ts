@@ -1,5 +1,5 @@
 import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
+import { getDate, getUtcDate } from "@create-disruptions-data/shared-ts/utils/dates";
 
 // Make journey stats compulsory after cancelFeatureFlag is removed
 export interface SiriStats {
@@ -144,7 +144,7 @@ export const generateSiriStats = (disruptions: Disruption[], cancelFeatureFlag: 
                 operatorWideConsequencesCount:
                     acc[key].operatorWideConsequencesCount + consequenceStats[key].operatorWideConsequencesCount,
                 totalConsequencesCount: acc[key].totalConsequencesCount + consequenceStats[key].totalConsequencesCount,
-                lastUpdated,
+                lastUpdated: lastUpdated ? getUtcDate(lastUpdated).toISOString() : "",
             };
         }
         return acc;

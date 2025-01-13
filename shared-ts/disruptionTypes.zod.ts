@@ -9,17 +9,17 @@ import {
     personnelReasonSchema,
 } from "./siriTypes.zod";
 import { transformToArray } from "./utils";
-import { checkOverlap, getDatetimeFromDateAndTime, getFormattedDate } from "./utils/dates";
+import { checkOverlap, getDate, getDatetimeFromDateAndTime, getFormattedDate } from "./utils/dates";
 import { isValidTime, setZodDefaultError, zodDate, zodTime, zodTimeInMinutes } from "./utils/zod";
 
 export const validitySchema = z.object({
     disruptionStartDate: zodDate("Invalid start date"),
     disruptionStartTime: zodTime("Invalid start time"),
-    disruptionEndDate: zodDate("Invalid disruption end date").optional().or(z.literal("")),
-    disruptionEndTime: zodTime("Invalid disruption end time").optional().or(z.literal("")),
-    disruptionNoEndDateTime: z.union([z.literal("true"), z.literal("")]).optional(),
-    disruptionRepeats: z.union([z.literal("doesntRepeat"), z.literal("daily"), z.literal("weekly")]).optional(),
-    disruptionRepeatsEndDate: zodDate("Invalid disruption end date").optional().or(z.literal("")),
+    disruptionEndDate: zodDate("Invalid disruption end date").nullish().or(z.literal("")),
+    disruptionEndTime: zodTime("Invalid disruption end time").nullish().or(z.literal("")),
+    disruptionNoEndDateTime: z.union([z.literal("true"), z.literal("")]).nullish(),
+    disruptionRepeats: z.union([z.literal("doesntRepeat"), z.literal("daily"), z.literal("weekly")]).nullish(),
+    disruptionRepeatsEndDate: zodDate("Invalid disruption end date").nullish().or(z.literal("")),
 });
 
 export const validitySchemaRefined = validitySchema
@@ -213,7 +213,7 @@ export const validitySchemaRefined = validitySchema
     );
 
 export const disruptionInfoSchema = z.object({
-    disruptionId: z.string().uuid(),
+    id: z.string().uuid(),
     disruptionType: z.union(
         [z.literal("planned"), z.literal("unplanned")],
         setZodDefaultError("Select a disruption type"),
@@ -258,7 +258,7 @@ export const disruptionInfoSchema = z.object({
         .optional(),
     displayId: z.string(),
     orgId: z.string().uuid().optional(),
-    createdByOperatorOrgId: z.string().uuid().optional(),
+    createdByOperatorOrgId: z.string().uuid().optional().nullable(),
     creationTime: z.string().datetime().nullish(),
     permitReferenceNumber: z.string().nullish(),
 });
@@ -914,9 +914,20 @@ export const disruptionSchema = disruptionInfoSchemaRefined.and(
             .optional(),
         publishStatus: z.nativeEnum(PublishStatus).default(PublishStatus.draft),
         template: z.boolean().optional().default(false),
-        createdByOperatorOrgId: z.string().uuid().optional(),
-        lastUpdated: z.string().optional(),
-        creationTime: z.string().optional().nullable(),
+        createdByOperatorOrgId: z.string().uuid().nullish(),
+        lastUpdated: z.string().datetime().optional(),
+        creationTime: z.string().datetime().optional().nullish(),
         history: z.array(historySchema).optional(),
+        version: z.number().nullish(),
+        validityStartTimestamp: z.union([z.date(), z.string()]).transform((t) => getDate(t).toISOString()),
+        validityEndTimestamp: z
+            .union([z.date(), z.string()])
+            .nullish()
+            .transform((t) => (t ? getDate(t).toISOString() : null)),
+        publishStartTimestamp: z.union([z.date(), z.string()]).transform((t) => getDate(t).toISOString()),
+        publishEndTimestamp: z
+            .union([z.date(), z.string()])
+            .nullish()
+            .transform((t) => (t ? getDate(t).toISOString() : null)),
     }),
 );

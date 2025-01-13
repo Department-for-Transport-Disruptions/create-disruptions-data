@@ -1,7 +1,7 @@
 import MockDate from "mockdate";
 import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
 import { ERROR_PATH, VIEW_ALL_TEMPLATES_PAGE_PATH } from "../../constants/index";
-import * as dynamo from "../../data/dynamo";
+import * as db from "../../data/db";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import {
     DEFAULT_ORG_ID,
@@ -22,19 +22,21 @@ describe("deleteDisruption", () => {
         cleardownCookies: vi.fn(),
     }));
 
-    vi.mock("../../data/dynamo", () => ({
+    vi.mock("../../data/db", () => ({
         deletePublishedDisruption: vi.fn(),
         getDisruptionById: vi.fn(),
     }));
 
     vi.mock("crypto", () => ({
-        randomUUID: () => "id",
+        default: {
+            randomUUID: () => "id",
+        },
     }));
 
     MockDate.set("2023-03-03");
 
-    const deleteDisruptionSpy = vi.spyOn(dynamo, "deletePublishedDisruption");
-    const getDisruptionSpy = vi.spyOn(dynamo, "getDisruptionById");
+    const deleteDisruptionSpy = vi.spyOn(db, "deletePublishedDisruption");
+    const getDisruptionSpy = vi.spyOn(db, "getDisruptionById");
 
     afterEach(() => {
         vi.resetAllMocks();
@@ -55,12 +57,10 @@ describe("deleteDisruption", () => {
 
         await deleteDisruption(req, res);
 
-        expect(dynamo.deletePublishedDisruption).toBeCalledTimes(1);
-        expect(dynamo.deletePublishedDisruption).toBeCalledWith(
-            disruptionWithConsequencesAndSocialMediaPosts,
-            defaultDisruptionId,
+        expect(db.deletePublishedDisruption).toBeCalledTimes(1);
+        expect(db.deletePublishedDisruption).toBeCalledWith(
+            disruptionWithConsequencesAndSocialMediaPosts.id,
             DEFAULT_ORG_ID,
-            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: "/dashboard" });
     });
@@ -79,12 +79,10 @@ describe("deleteDisruption", () => {
 
         await deleteDisruption(req, res);
 
-        expect(dynamo.deletePublishedDisruption).toBeCalledTimes(1);
-        expect(dynamo.deletePublishedDisruption).toBeCalledWith(
-            disruptionWithConsequencesAndSocialMediaPosts,
-            defaultDisruptionId,
+        expect(db.deletePublishedDisruption).toBeCalledTimes(1);
+        expect(db.deletePublishedDisruption).toBeCalledWith(
+            disruptionWithConsequencesAndSocialMediaPosts.id,
             DEFAULT_ORG_ID,
-            true,
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: VIEW_ALL_TEMPLATES_PAGE_PATH });
     });
@@ -103,12 +101,10 @@ describe("deleteDisruption", () => {
 
         await deleteDisruption(req, res);
 
-        expect(dynamo.deletePublishedDisruption).toBeCalledTimes(1);
-        expect(dynamo.deletePublishedDisruption).toBeCalledWith(
-            disruptionWithConsequencesAndSocialMediaPosts,
-            defaultDisruptionId,
+        expect(db.deletePublishedDisruption).toBeCalledTimes(1);
+        expect(db.deletePublishedDisruption).toBeCalledWith(
+            disruptionWithConsequencesAndSocialMediaPosts.id,
             DEFAULT_ORG_ID,
-            false,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `/disruption-detail/${defaultDisruptionId}?template=true&return=/view-all-templates`,
@@ -123,7 +119,7 @@ describe("deleteDisruption", () => {
 
         await deleteDisruption(req, res);
 
-        expect(dynamo.deletePublishedDisruption).not.toBeCalled();
+        expect(db.deletePublishedDisruption).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 
@@ -138,7 +134,7 @@ describe("deleteDisruption", () => {
 
         await deleteDisruption(req, res);
 
-        expect(dynamo.deletePublishedDisruption).not.toBeCalled();
+        expect(db.deletePublishedDisruption).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 
@@ -148,7 +144,7 @@ describe("deleteDisruption", () => {
             getDisruptionSpy.mockResolvedValue(disruption);
             const { req, res } = getMockRequestAndResponse({
                 body: {
-                    id: disruption.disruptionId,
+                    id: disruption.id,
                 },
                 mockWriteHeadFn: writeHeadMock,
             });

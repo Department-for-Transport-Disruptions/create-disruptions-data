@@ -12,6 +12,7 @@ import { BaseLayout } from "../components/layout/Layout";
 import PageNumbers from "../components/layout/PageNumbers";
 import Tabs from "../components/layout/Tabs";
 import { DASHBOARD_PAGE_PATH, VIEW_ALL_DISRUPTIONS_PAGE_PATH } from "../constants";
+import { getPendingApprovalCount } from "../data/db";
 import { TableDisruption } from "../schemas/disruption.schema";
 import { reduceStringWithEllipsis } from "../utils";
 import { canPublish, getSessionWithOrgDetail } from "../utils/apiUtils/auth";
@@ -20,34 +21,24 @@ import { convertDateTimeToFormat } from "../utils/dates";
 const title = "Create Disruptions Dashboard";
 const description = "Create Disruptions Dashboard page for the Create Transport Disruptions Service";
 
-export interface DashboardDisruption {
-    id: string;
-    summary: string;
-    validityPeriods: {
-        startTime: string;
-        endTime: string | null;
-    }[];
-    displayId: string;
-}
-
 export interface DashboardProps {
     newDisruptionId: string;
     canPublish: boolean;
     orgName: string;
     orgId: string;
+    pendingApprovalCount: number;
     isOperatorUser: boolean;
     enableLoadingSpinnerOnPageLoad?: boolean;
 }
 
-const formatContentsIntoRows = (disruptions: DashboardDisruption[]) => {
+const formatContentsIntoRows = (disruptions: TableDisruption[]) => {
     return disruptions.map((disruption) => {
-        const earliestPeriod = disruption.validityPeriods[0];
-        const latestPeriod = disruption.validityPeriods[disruption.validityPeriods.length - 1].endTime;
-
         const dateStrings = (
-            <div key={earliestPeriod.startTime} className="pb-2 last:pb-0">
-                {convertDateTimeToFormat(earliestPeriod.startTime)}{" "}
-                {latestPeriod ? `- ${convertDateTimeToFormat(latestPeriod)}` : " onwards"}
+            <div key={disruption.id} className="pb-2 last:pb-0">
+                {convertDateTimeToFormat(disruption.validityStartTimestamp)}{" "}
+                {disruption.validityEndTimestamp
+                    ? `- ${convertDateTimeToFormat(disruption.validityEndTimestamp)}`
+                    : " onwards"}
             </div>
         );
 
@@ -69,76 +60,12 @@ const formatContentsIntoRows = (disruptions: DashboardDisruption[]) => {
     });
 };
 
-const getPageOfDisruptions = (pageNumber: number, disruptions: DashboardDisruption[]): DashboardDisruption[] => {
-    const startPoint = (pageNumber - 1) * 10;
-    const endPoint = pageNumber * 10;
-    return disruptions.slice(startPoint, endPoint);
-};
-
-const sortDisruptions = (disruptions: TableDisruption[]) =>
-    disruptions.sort((a, b) => {
-        const aStartDateTime = getDate(a.validityPeriods[0].startTime);
-        const bStartDateTime = getDate(b.validityPeriods[0].startTime);
-
-        return aStartDateTime.isBefore(bStartDateTime) ? -1 : 1;
-    });
-
-export const formatDisruptions = (disruptions: TableDisruption[]) => {
-    const liveDisruptions: TableDisruption[] = [];
-    const upcomingDisruptions: TableDisruption[] = [];
-    const recentlyClosedDisruptions: TableDisruption[] = [];
-    const today = getDate();
-    const disruptionsPending = disruptions
-        .filter(
-            (disruption) =>
-                disruption.status === Progress.editPendingApproval ||
-                disruption.status === Progress.draftPendingApproval,
-        )
-        .map((disruption) => disruption.id);
-
-    disruptions
-        .filter(
-            (disruption) =>
-                disruption.validityPeriods.length > 0 &&
-                (disruption.status === Progress.open ||
-                    disruption.status === Progress.closing ||
-                    disruption.status === Progress.closed),
-        )
-        .forEach((disruption) => {
-            const disruptionClosed = disruption.status === Progress.closed;
-            const lastTime = disruption.validityPeriods.at(-1)?.endTime;
-            const endDateTime = lastTime ? getDate(lastTime) : null;
-
-            if (!disruptionClosed) {
-                if (disruption.isLive) {
-                    liveDisruptions.push(disruption);
-                } else {
-                    upcomingDisruptions.push(disruption);
-                }
-            } else {
-                const isRecentlyClosed = !!endDateTime && endDateTime.isAfter(today.subtract(7, "day"));
-
-                if (isRecentlyClosed) {
-                    recentlyClosedDisruptions.push(disruption);
-                }
-            }
-        });
-
-    return {
-        liveDisruptions,
-        upcomingDisruptions,
-        recentlyClosedDisruptions,
-        pendingApprovalCount: disruptionsPending.length,
-    };
-};
-
-const getNumberOfPages = (disruptions: TableDisruption[]) => Math.ceil(disruptions.length / 10);
-
 const Dashboard = ({
     newDisruptionId,
     canPublish,
     orgName,
     orgId,
+    pendingApprovalCount,
     isOperatorUser = false,
     enableLoadingSpinnerOnPageLoad = true,
 }: DashboardProps): ReactElement => {
@@ -146,24 +73,86 @@ const Dashboard = ({
     const [currentLivePage, setCurrentLivePage] = useState(1);
     const [currentUpcomingPage, setCurrentUpcomingPage] = useState(1);
     const [currentRecentlyClosedPage, setCurrentRecentlyClosedPage] = useState(1);
+    const [totalLivePages, setTotalLivePages] = useState(1);
+    const [totalUpcomingPages, setTotalUpcomingPages] = useState(1);
+    const [totalRecentlyClosedPages, setTotalRecentlyClosedPages] = useState(1);
     const [liveDisruptions, setLiveDisruptions] = useState<TableDisruption[]>([]);
     const [upcomingDisruptions, setUpcomingDisruptions] = useState<TableDisruption[]>([]);
     const [recentlyClosedDisruptions, setRecentlyClosedDisruptions] = useState<TableDisruption[]>([]);
-    const [pendingApprovalCount, setPendingApprovalCount] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
+    const [activeTab, setActiveTab] = useState<"live" | "upcoming" | "recentlyClosed">("live");
+
+    useEffect(() => {
+        const hash = window.location.hash;
+
+        if (hash.includes("#live")) {
+            setActiveTab("live");
+        } else if (hash.includes("#upcoming")) {
+            setActiveTab("upcoming");
+        } else if (hash.includes("#recently-closed")) {
+            setActiveTab("recentlyClosed");
+        }
+    }, []);
 
     useEffect(() => {
         const fetchData = async () => {
             setIsLoading(true);
 
-            const data = await getDisruptionData(orgId);
+            const currentDate = getDate().format("DD/MM/YYYY");
 
-            const disruptions = formatDisruptions(sortDisruptions(data));
+            if (activeTab === "live") {
+                const { disruptions, pageCount } = await getDisruptionData(
+                    orgId,
+                    {
+                        period: {
+                            startTime: currentDate,
+                            endTime: currentDate,
+                        },
+                        status: Progress.published,
+                        operators: [],
+                        services: [],
+                    },
+                    currentLivePage,
+                    false,
+                );
+                setLiveDisruptions(disruptions);
+                setTotalLivePages(pageCount);
+            }
 
-            setLiveDisruptions(disruptions.liveDisruptions);
-            setUpcomingDisruptions(disruptions.upcomingDisruptions);
-            setRecentlyClosedDisruptions(disruptions.recentlyClosedDisruptions);
-            setPendingApprovalCount(disruptions.pendingApprovalCount);
+            if (activeTab === "upcoming") {
+                const { disruptions, pageCount } = await getDisruptionData(
+                    orgId,
+                    {
+                        upcoming: true,
+                        status: Progress.published,
+                        operators: [],
+                        services: [],
+                    },
+                    currentUpcomingPage,
+                    false,
+                );
+                setUpcomingDisruptions(disruptions);
+                setTotalUpcomingPages(pageCount);
+            }
+
+            if (activeTab === "recentlyClosed") {
+                const { disruptions, pageCount } = await getDisruptionData(
+                    orgId,
+                    {
+                        period: {
+                            startTime: getDate().subtract(7, "days").format("DD/MM/YYYY"),
+                            endTime: currentDate,
+                        },
+                        status: Progress.closed,
+                        operators: [],
+                        services: [],
+                    },
+                    currentRecentlyClosedPage,
+                    false,
+                );
+                setRecentlyClosedDisruptions(disruptions);
+                setTotalRecentlyClosedPages(pageCount);
+            }
         };
 
         fetchData()
@@ -171,7 +160,7 @@ const Dashboard = ({
             .catch(() => {
                 setIsLoading(false);
             });
-    }, []);
+    }, [activeTab, currentLivePage, currentUpcomingPage, currentRecentlyClosedPage]);
 
     useEffect(() => {
         if (window.GOVUKFrontend && !hasInitialised.current) {
@@ -229,17 +218,16 @@ const Dashboard = ({
                 tabs={[
                     {
                         tabHeader: "Live",
+                        handleTabClick: () => setActiveTab("live"),
                         content: enableLoadingSpinnerOnPageLoad ? (
                             <LoadingBox loading={isLoading}>
                                 <Table
                                     caption={{ text: "Live disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
-                                    rows={formatContentsIntoRows(
-                                        getPageOfDisruptions(currentLivePage, liveDisruptions),
-                                    )}
+                                    rows={formatContentsIntoRows(liveDisruptions)}
                                 />
                                 <PageNumbers
-                                    numberOfPages={getNumberOfPages(liveDisruptions)}
+                                    numberOfPages={totalLivePages}
                                     currentPage={currentLivePage}
                                     setCurrentPage={setCurrentLivePage}
                                 />
@@ -249,12 +237,10 @@ const Dashboard = ({
                                 <Table
                                     caption={{ text: "Live disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
-                                    rows={formatContentsIntoRows(
-                                        getPageOfDisruptions(currentLivePage, liveDisruptions),
-                                    )}
+                                    rows={formatContentsIntoRows(liveDisruptions)}
                                 />
                                 <PageNumbers
-                                    numberOfPages={getNumberOfPages(liveDisruptions)}
+                                    numberOfPages={totalLivePages}
                                     currentPage={currentLivePage}
                                     setCurrentPage={setCurrentLivePage}
                                 />
@@ -263,17 +249,16 @@ const Dashboard = ({
                     },
                     {
                         tabHeader: "Upcoming",
+                        handleTabClick: () => setActiveTab("upcoming"),
                         content: enableLoadingSpinnerOnPageLoad ? (
                             <LoadingBox loading={isLoading}>
                                 <Table
                                     caption={{ text: "Upcoming disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
-                                    rows={formatContentsIntoRows(
-                                        getPageOfDisruptions(currentUpcomingPage, upcomingDisruptions),
-                                    )}
+                                    rows={formatContentsIntoRows(upcomingDisruptions)}
                                 />
                                 <PageNumbers
-                                    numberOfPages={getNumberOfPages(upcomingDisruptions)}
+                                    numberOfPages={totalUpcomingPages}
                                     currentPage={currentUpcomingPage}
                                     setCurrentPage={setCurrentUpcomingPage}
                                 />
@@ -283,12 +268,10 @@ const Dashboard = ({
                                 <Table
                                     caption={{ text: "Upcoming disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
-                                    rows={formatContentsIntoRows(
-                                        getPageOfDisruptions(currentUpcomingPage, upcomingDisruptions),
-                                    )}
+                                    rows={formatContentsIntoRows(upcomingDisruptions)}
                                 />
                                 <PageNumbers
-                                    numberOfPages={getNumberOfPages(upcomingDisruptions)}
+                                    numberOfPages={totalUpcomingPages}
                                     currentPage={currentUpcomingPage}
                                     setCurrentPage={setCurrentUpcomingPage}
                                 />
@@ -297,17 +280,16 @@ const Dashboard = ({
                     },
                     {
                         tabHeader: "Recently closed",
+                        handleTabClick: () => setActiveTab("recentlyClosed"),
                         content: enableLoadingSpinnerOnPageLoad ? (
                             <LoadingBox loading={isLoading}>
                                 <Table
                                     caption={{ text: "Closed disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
-                                    rows={formatContentsIntoRows(
-                                        getPageOfDisruptions(currentRecentlyClosedPage, recentlyClosedDisruptions),
-                                    )}
+                                    rows={formatContentsIntoRows(recentlyClosedDisruptions)}
                                 />
                                 <PageNumbers
-                                    numberOfPages={getNumberOfPages(recentlyClosedDisruptions)}
+                                    numberOfPages={totalRecentlyClosedPages}
                                     currentPage={currentRecentlyClosedPage}
                                     setCurrentPage={setCurrentRecentlyClosedPage}
                                 />
@@ -317,12 +299,10 @@ const Dashboard = ({
                                 <Table
                                     caption={{ text: "Closed disruptions", size: "l" }}
                                     columns={["ID", "Summary", "Affected dates"]}
-                                    rows={formatContentsIntoRows(
-                                        getPageOfDisruptions(currentRecentlyClosedPage, recentlyClosedDisruptions),
-                                    )}
+                                    rows={formatContentsIntoRows(recentlyClosedDisruptions)}
                                 />
                                 <PageNumbers
-                                    numberOfPages={getNumberOfPages(recentlyClosedDisruptions)}
+                                    numberOfPages={totalRecentlyClosedPages}
                                     currentPage={currentRecentlyClosedPage}
                                     setCurrentPage={setCurrentRecentlyClosedPage}
                                 />
@@ -372,6 +352,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
         orgName: "",
         orgId: "",
         isOperatorUser: false,
+        pendingApprovalCount: 0,
     };
 
     if (!ctx.req) {
@@ -394,6 +375,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
             canPublish: canPublish(sessionWithOrg),
             orgName: sessionWithOrg.orgName,
             isOperatorUser: sessionWithOrg.isOperatorUser,
+            pendingApprovalCount: await getPendingApprovalCount(sessionWithOrg.orgId),
         },
     };
 };

@@ -16,7 +16,7 @@ import {
     DISRUPTION_DETAIL_PAGE_PATH,
     REVIEW_DISRUPTION_PAGE_PATH,
 } from "../../constants";
-import { upsertConsequence } from "../../data/dynamo";
+import { upsertConsequence } from "../../data/db";
 import { getHootsuiteAccessToken, publishToHootsuite } from "../../data/hootsuite";
 import { getNextdoorAccessToken, publishToNextdoor } from "../../data/nextdoor";
 import { getTwitterClient, sendTweet } from "../../data/twitter";
@@ -131,12 +131,7 @@ export const isDisruptionFromTemplate = (req: NextApiRequest) => {
 
 export const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
-export const publishSocialMedia = async (
-    socialMediaPosts: SocialMediaPost[],
-    orgId: string,
-    isUserStaff: boolean,
-    canPublish: boolean,
-) => {
+export const publishSocialMedia = async (socialMediaPosts: SocialMediaPost[], orgId: string, isUserStaff: boolean) => {
     const authedTwitterClients: Record<string, TwitterApi> = {};
     const hootsuiteAccessTokens: Record<string, string> = {};
     const nextdoorAccessTokens: Record<string, string> = {};
@@ -174,25 +169,13 @@ export const publishSocialMedia = async (
     const socialMediaPromises = socialMediaPosts.map((post) => {
         if (post.status === SocialMediaPostStatus.pending) {
             if (post.accountType === "Twitter") {
-                return sendTweet(orgId, post, isUserStaff, canPublish, authedTwitterClients[post.socialAccount]);
+                return sendTweet(orgId, post, isUserStaff, authedTwitterClients[post.socialAccount]);
             }
             if (post.accountType === "Hootsuite") {
-                return publishToHootsuite(
-                    post,
-                    orgId,
-                    isUserStaff,
-                    canPublish,
-                    hootsuiteAccessTokens[post.socialAccount],
-                );
+                return publishToHootsuite(post, orgId, isUserStaff, hootsuiteAccessTokens[post.socialAccount]);
             }
             if (post.accountType === "Nextdoor") {
-                return publishToNextdoor(
-                    post,
-                    orgId,
-                    isUserStaff,
-                    canPublish,
-                    nextdoorAccessTokens[post.socialAccount],
-                );
+                return publishToNextdoor(post, orgId, isUserStaff, nextdoorAccessTokens[post.socialAccount]);
             }
         }
 
@@ -228,8 +211,9 @@ export const redirectToWithQueryParams = (
 };
 
 export const handleUpsertConsequence = async (
-    consequence: Consequence | Pick<Consequence, "disruptionId" | "consequenceIndex">,
+    consequence: Consequence,
     orgId: string,
+    user: string,
     isOrgStaff: boolean,
     isTemplate: boolean,
     inputs: unknown,
@@ -237,7 +221,7 @@ export const handleUpsertConsequence = async (
     res: NextApiResponse,
 ) => {
     try {
-        return await upsertConsequence(consequence, orgId, isOrgStaff, isTemplate);
+        return await upsertConsequence(consequence, orgId, user, isOrgStaff, isTemplate);
     } catch (e) {
         if (e instanceof TooManyConsequencesError) {
             setCookieOnResponseObject(

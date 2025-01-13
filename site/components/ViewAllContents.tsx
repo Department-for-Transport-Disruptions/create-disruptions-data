@@ -1,7 +1,7 @@
 import { ConsequenceOperators, Service } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { validitySchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
-import { Datasource, Progress } from "@create-disruptions-data/shared-ts/enums";
-import { getDate, getFormattedDate } from "@create-disruptions-data/shared-ts/utils/dates";
+import { Datasource, Progress, SortOrder } from "@create-disruptions-data/shared-ts/enums";
+import { getFormattedDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import { makeFilteredArraySchema } from "@create-disruptions-data/shared-ts/utils/zod";
 import { LoadingBox } from "@govuk-react/loading-box";
 import saveAs from "file-saver";
@@ -17,7 +17,6 @@ import {
     DISRUPTION_STATUSES,
     REVIEW_DISRUPTION_PAGE_PATH,
     TYPE_OF_CONSEQUENCE_PAGE_PATH,
-    VEHICLE_MODES,
     VIEW_ALL_DISRUPTIONS_PAGE_PATH,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../constants";
@@ -31,23 +30,19 @@ import {
 } from "../schemas/disruption.schema";
 import {
     filterVehicleModes,
-    getDisplayByValue,
     getServiceLabel,
+    notEmpty,
     removeDuplicates,
     sortServices,
     splitCamelCaseToString,
 } from "../utils";
-import {
-    convertDateTimeToFormat,
-    dateIsSameOrBeforeSecondDate,
-    filterDatePeriodMatchesDisruptionDatePeriod,
-} from "../utils/dates";
+import { convertDateTimeToFormat, dateIsSameOrBeforeSecondDate } from "../utils/dates";
 import { getExportSchema } from "../utils/exportUtils";
 import { filterServices } from "../utils/formUtils";
 import { createNewPdfDoc, disruptionPdfHeaders, formatDisruptionsForPdf } from "../utils/pdf";
 import DateSelector from "./form/DateSelector";
 import Select from "./form/Select";
-import SortableTable, { SortOrder, TableColumn } from "./form/SortableTable";
+import SortableTable, { TableColumn } from "./form/SortableTable";
 import Table from "./form/Table";
 import ExportPopUp from "./popup/ExportPopup";
 import OperatorSearch from "./search/OperatorSearch";
@@ -76,6 +71,7 @@ export interface Filter {
     operators: FilterOperator[];
     mode?: string;
     searchText?: string;
+    upcoming?: boolean;
 }
 
 export interface FilterOperator {
@@ -93,166 +89,94 @@ export interface ContentTable {
     status: string;
 }
 
-const sortFunction = (contents: ContentTable[], sortField: keyof ContentTable, sortOrder: SortOrder) => {
-    return contents.sort((a, b) => {
-        const aValue = getFormattedDate(a[sortField] === "No end time" ? "01/01/1900" : (a[sortField] as string));
-        const bValue = getFormattedDate(b[sortField] === "No end time" ? "01/01/1900" : (b[sortField] as string));
+const retrieveAllDataForExport = async (orgId: string, filters: Filter) => {
+    let getData = true;
+    let pageNumber = 1;
+    const disruptions: TableDisruption[] = [];
 
-        if (aValue.isBefore(bValue)) {
-            return sortOrder === SortOrder.asc ? -1 : 1;
+    do {
+        const newDisruptions = await getDisruptionData(orgId, filters, pageNumber, false, 1000);
+
+        if (newDisruptions.disruptions.length) {
+            disruptions.push(...newDisruptions.disruptions);
+            pageNumber++;
+        } else {
+            getData = false;
         }
-        if (aValue.isAfter(bValue)) {
-            return sortOrder === SortOrder.asc ? 1 : -1;
-        }
-        return 0;
-    });
+    } while (getData);
+
+    return disruptions;
+};
+
+export const getApiUrlFromFilters = (
+    orgId: string,
+    filters: Filter,
+    pageNumber: number,
+    pageSize: number,
+    isTemplate?: boolean,
+    sortedField: keyof ContentTable | null = null,
+    sortOrder = SortOrder.desc,
+) => {
+    const queryParams = [
+        filters.searchText ? `textSearch=${filters.searchText}` : null,
+        filters.operators.length ? `operators=${filters.operators.map((o) => o.operatorRef).join(",")}` : null,
+        filters.services.length
+            ? `services=${filters.services.map((s) => (s.dataSource === Datasource.bods ? `bods:${s.lineId}` : `tnds:${s.serviceCode}`))}`
+            : null,
+        filters.period?.startTime && filters.period.endTime ? `startDate=${filters.period?.startTime}` : null,
+        filters.period?.startTime && filters.period.endTime ? `endDate=${filters.period?.endTime}` : null,
+        filters.severity && filters.severity !== "any" ? `severity=${filters.severity}` : null,
+        filters.status && filters.status !== "any" ? `status=${filters.status}` : null,
+        filters.mode && filters.mode !== "any" ? `mode=${filters.mode}` : null,
+        filters.upcoming ? "upcoming=true" : null,
+        sortedField === "start" || sortedField === "end" ? `sortBy=${sortedField}` : null,
+        sortedField === "start" || sortedField === "end" ? `sortOrder=${sortOrder}` : null,
+        `offset=${(pageNumber - 1) * pageSize}`,
+        `pageSize=${pageSize}`,
+        `template=${isTemplate ? "true" : "false"}`,
+    ].filter(notEmpty);
+
+    const url = `/api/get-all-disruptions/${orgId}${queryParams.length > 0 ? `?${queryParams.join("&")}` : ""}`;
+
+    return url;
 };
 
 export const getDisruptionData = async (
     orgId: string,
+    filters: Filter,
+    pageNumber: number,
     isTemplate?: boolean,
-    nextKey?: string,
-): Promise<TableDisruption[]> => {
+    pageSize = 10,
+    sortedField: keyof ContentTable | null = null,
+    sortOrder = SortOrder.desc,
+): Promise<{ disruptions: TableDisruption[]; pageCount: number }> => {
     const options: RequestInit = {
         method: "GET",
         headers: {
             "Content-Type": "application/json",
-            NextKey: nextKey || "",
         },
     };
 
-    const queryParams = [];
-
-    if (isTemplate) {
-        queryParams.push("template=true");
-    }
-
-    if (nextKey) {
-        queryParams.push(`nextKey=${encodeURIComponent(nextKey)}`);
-    }
-
     const res = await fetch(
-        `/api/get-all-disruptions/${orgId}${queryParams.length > 0 ? `?${queryParams.join("&")}` : ""}`,
+        getApiUrlFromFilters(orgId, filters, pageNumber, pageSize, isTemplate, sortedField, sortOrder),
         options,
     );
 
-    const { disruptions, nextKey: newNextKey } = await res.json();
+    const { disruptions, count } = await res.json();
 
     const parsedDisruptions = makeFilteredArraySchema(disruptionsTableSchema).safeParse(disruptions);
 
     if (!parsedDisruptions.success) {
-        return [];
+        return {
+            disruptions: [],
+            pageCount: 0,
+        };
     }
 
-    if (newNextKey) {
-        return [...parsedDisruptions.data, ...(await getDisruptionData(orgId, isTemplate, newNextKey as string))];
-    }
-
-    return parsedDisruptions.data;
-};
-
-export const filterContents = (contents: TableDisruption[], filter: Filter): TableDisruption[] => {
-    let disruptionsToDisplay = contents.filter((disruption) => {
-        if (filter.services.length > 0) {
-            const disruptionServices = disruption.services;
-
-            return disruptionServices.some((service) =>
-                filter.services.some(
-                    (filterService) =>
-                        filterService.dataSource === service.dataSource &&
-                        (filterService.dataSource === Datasource.bods
-                            ? filterService.lineId === service.ref
-                            : filterService.serviceCode === service.ref),
-                ),
-            );
-        }
-
-        if (filter.mode && filter.mode !== "any") {
-            const swappedMode = getDisplayByValue(VEHICLE_MODES, filter.mode);
-
-            if (!swappedMode || !disruption.modes.includes(swappedMode)) {
-                return false;
-            }
-        }
-
-        if (filter.severity && filter.severity !== "any" && disruption.severity !== filter.severity) {
-            return false;
-        }
-
-        if (filter.status && filter.status !== "any" && disruption.status !== filter.status) {
-            if (
-                filter.status === Progress.pendingApproval &&
-                disruption.status !== Progress.editPendingApproval &&
-                disruption.status !== Progress.draftPendingApproval
-            ) {
-                return false;
-            }
-            if (filter.status !== Progress.pendingApproval) {
-                return false;
-            }
-        }
-
-        if (filter.operators.length > 0) {
-            const filterOperatorsRefs = filter.operators.map((op) => op.operatorRef);
-
-            if (!disruption.operators.some((operator) => filterOperatorsRefs.includes(operator))) {
-                return false;
-            }
-        }
-
-        if (filter.searchText && filter.searchText.length > 2) {
-            return (
-                disruption.summary.toLowerCase().includes(filter.searchText.toLowerCase()) ||
-                disruption.displayId.toLowerCase().includes(filter.searchText.toLowerCase())
-            );
-        }
-
-        return true;
-    });
-
-    if (filter.period) {
-        disruptionsToDisplay = applyDateFilters(disruptionsToDisplay, filter.period);
-    }
-
-    return disruptionsToDisplay;
-};
-
-export const applyDateFilters = (
-    contents: TableDisruption[],
-    period: {
-        startTime: string;
-        endTime: string;
-    },
-): TableDisruption[] => {
-    return contents.filter((content) =>
-        content.validityPeriods.some((valPeriod) => {
-            const { startTime, endTime } = valPeriod;
-
-            const periodStartDate = getDate(startTime);
-            const periodEndDate = endTime ? getDate(endTime) : undefined;
-
-            return filterDatePeriodMatchesDisruptionDatePeriod(
-                getFormattedDate(period.startTime),
-                getFormattedDate(period.endTime),
-                periodStartDate,
-                periodEndDate,
-            );
-        }),
-    );
-};
-
-export const applyFiltersToContents = (
-    disruptions: TableDisruption[],
-    setContentsToDisplay: Dispatch<SetStateAction<TableDisruption[]>>,
-    filter: Filter,
-): void => {
-    const disruptionsToDisplay = filterContents(disruptions, filter);
-
-    setContentsToDisplay(
-        disruptionsToDisplay.filter(
-            (disruption, index, self) => index === self.findIndex((val) => val.id === disruption.id),
-        ),
-    );
+    return {
+        disruptions: parsedDisruptions.data,
+        pageCount: Math.ceil(count / pageSize),
+    };
 };
 
 export const filterIsEmpty = (filter: Filter): boolean =>
@@ -365,20 +289,8 @@ export const handleDateFilterUpdate = (dateFilterProps: HandleDateFilterProps) =
     }
 };
 
-export const getContentPage = (pageNumber: number, contents: TableDisruption[]): TableDisruption[] => {
-    const startPoint = (pageNumber - 1) * 10;
-    const endPoint = pageNumber * 10;
-    return contents.slice(startPoint, endPoint);
-};
-
 const formatContentsIntoRows = (contents: TableDisruption[], isTemplate: boolean): ContentTable[] => {
     return contents.map((content) => {
-        const earliestPeriod: {
-            startTime: string;
-            endTime: string | null;
-        } = content.validityPeriods[0];
-        const latestPeriod: string | null = content.validityPeriods[content.validityPeriods.length - 1].endTime;
-
         return {
             id: (
                 <Link
@@ -417,8 +329,8 @@ const formatContentsIntoRows = (contents: TableDisruption[], isTemplate: boolean
             ),
             summary: content.summary,
             modes: content.modes.map((mode) => splitCamelCaseToString(mode)).join(", ") || "N/A",
-            start: convertDateTimeToFormat(earliestPeriod.startTime),
-            end: latestPeriod ? convertDateTimeToFormat(latestPeriod) : "No end time",
+            start: convertDateTimeToFormat(content.validityStartTimestamp),
+            end: content.validityEndTimestamp ? convertDateTimeToFormat(content.validityEndTimestamp) : "No end time",
             severity: splitCamelCaseToString(content.severity),
             status: splitCamelCaseToString(content.status),
         };
@@ -465,18 +377,6 @@ const columns: TableColumn<ContentTable>[] = [
     },
 ];
 
-const setInitialFilters = (
-    filter: Filter,
-    setContentsToDisplay: Dispatch<SetStateAction<TableDisruption[]>>,
-    contents: TableDisruption[],
-) => {
-    if (filterIsEmpty(filter)) {
-        setContentsToDisplay(contents);
-    } else {
-        applyFiltersToContents(contents, setContentsToDisplay, filter);
-    }
-};
-
 const ViewAllContents = ({
     newContentId,
     adminAreaCodes,
@@ -497,14 +397,13 @@ const ViewAllContents = ({
     const [filter, setFilter] = useState<Filter>({
         services: [],
         operators: [],
-        status: filterStatus ? filterStatus : undefined,
+        status: filterStatus ?? undefined,
     });
 
     const [showFilters, setShowFilters] = useState(false);
     const [filtersLoading, setFiltersLoading] = useState(false);
     const [clearButtonClicked, setClearButtonClicked] = useState(false);
     const [contentsToDisplay, setContentsToDisplay] = useState<TableDisruption[]>([]);
-    const [contents, setContents] = useState<TableDisruption[]>([]);
     const [startDateFilter, setStartDateFilter] = useState("");
     const [endDateFilter, setEndDateFilter] = useState("");
     const [startDateFilterError, setStartDateFilterError] = useState(false);
@@ -519,23 +418,47 @@ const ViewAllContents = ({
     const [downloadExcel, setDownloadExcel] = useState(false);
     const [downloadCsv, setDownloadCsv] = useState(false);
     const [loadPage, setLoadPage] = useState(false);
+    const [pageNumber, setPageNumber] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [isExporting, setIsExporting] = useState(false);
+    const [sortOrder, setSortOrder] = useState(SortOrder.desc);
+    const [sortedField, setSortedField] = useState<keyof ContentTable | null>(null);
+    const [toggleFetchData, setToggleFetchData] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
             setLoadPage(true);
 
-            const data = await getDisruptionData(orgId, isTemplate);
+            const data = await getDisruptionData(orgId, filter, pageNumber, isTemplate, 10, sortedField, sortOrder);
 
-            setInitialFilters(filter, setContentsToDisplay, data);
-            setContents(data);
+            setContentsToDisplay(data.disruptions);
+            setTotalPages(data.pageCount);
             setLoadPage(false);
         };
 
-        fetchData().catch(() => {
-            setInitialFilters(filter, setContentsToDisplay, []);
-            setLoadPage(false);
-        });
-    }, []);
+        if (toggleFetchData) {
+            fetchData()
+                .then(() => {
+                    setToggleFetchData(false);
+                })
+                .catch(() => {
+                    setToggleFetchData(false);
+                    setLoadPage(false);
+                });
+        }
+    }, [toggleFetchData]);
+
+    useEffect(() => {
+        setToggleFetchData(true);
+    }, [pageNumber]);
+
+    useEffect(() => {
+        if (pageNumber !== 1) {
+            setPageNumber(1);
+        } else {
+            setToggleFetchData(true);
+        }
+    }, [filter, sortedField, sortOrder]);
 
     useEffect(() => {
         if (clearButtonClicked) {
@@ -573,12 +496,10 @@ const ViewAllContents = ({
 
     useEffect(() => {
         setFilter({ ...filter, services: selectedServices });
-        applyFiltersToContents(contents, setContentsToDisplay, { ...filter, services: selectedServices });
     }, [selectedServices]);
 
     useEffect(() => {
         setFilter({ ...filter, searchText });
-        applyFiltersToContents(contents, setContentsToDisplay, { ...filter, searchText });
     }, [searchText]);
 
     useEffect(() => {
@@ -597,18 +518,14 @@ const ViewAllContents = ({
             ...filter,
             operators: filterOperatorsToSet,
         });
-
-        applyFiltersToContents(contents, setContentsToDisplay, { ...filter, operators: filterOperatorsToSet });
     }, [selectedOperators]);
-
-    useEffect(() => {
-        setInitialFilters(filter, setContentsToDisplay, contents);
-    }, [filter]);
 
     useEffect(() => {
         const generatePdf = async () => {
             if (downloadPdf) {
-                const parseDisruptions = exportDisruptionsSchema.safeParse(contentsToDisplay);
+                setIsExporting(true);
+                const data = await retrieveAllDataForExport(orgId, filter);
+                const parseDisruptions = exportDisruptionsSchema.safeParse(data);
 
                 const pdf = createNewPdfDoc({ orientation: "landscape", format: "a1" });
                 autoTable(pdf, {
@@ -617,6 +534,8 @@ const ViewAllContents = ({
                 });
                 pdf.save("Disruptions_list.pdf");
                 setDownloadPdf(false);
+                setIsExporting(false);
+                setPopUpState(false);
             }
         };
         generatePdf().catch(() => {
@@ -626,6 +545,8 @@ const ViewAllContents = ({
                 body: [],
             });
             pdf.save("Disruptions_list.pdf");
+            setIsExporting(false);
+            setPopUpState(false);
         });
     }, [downloadPdf]);
 
@@ -636,6 +557,8 @@ const ViewAllContents = ({
                     schema: [{ column: "error", type: String, value: (objectData: string) => objectData }],
                     fileName: "Disruptions_list.xlsx",
                 });
+                setIsExporting(false);
+                setPopUpState(false);
             });
             setDownloadExcel(false);
         }
@@ -643,7 +566,10 @@ const ViewAllContents = ({
 
     useEffect(() => {
         if (downloadCsv) {
-            generateCsv();
+            generateCsv().catch(() => {
+                setIsExporting(false);
+                setPopUpState(false);
+            });
             setDownloadCsv(false);
         }
     }, [downloadCsv]);
@@ -658,8 +584,10 @@ const ViewAllContents = ({
         }
     };
 
-    const generateCsv = () => {
-        const parseDisruptions = exportDisruptionsSchema.safeParse(contentsToDisplay);
+    const generateCsv = async () => {
+        setIsExporting(true);
+        const disruptions = await retrieveAllDataForExport(orgId, filter);
+        const parseDisruptions = exportDisruptionsSchema.safeParse(disruptions);
 
         const csvData = Papa.unparse({
             fields: [
@@ -689,10 +617,15 @@ const ViewAllContents = ({
         const blob = new Blob([csvData], { type: "text/csv;charset=utf-8" });
 
         saveAs(blob, "Disruptions_list.csv");
+
+        setIsExporting(false);
+        setPopUpState(false);
     };
 
     const generateExcel = async () => {
-        const parseDisruptions = exportDisruptionsSchema.safeParse(contentsToDisplay);
+        setIsExporting(true);
+        const disruptions = await retrieveAllDataForExport(orgId, filter);
+        const parseDisruptions = exportDisruptionsSchema.safeParse(disruptions);
 
         const data = parseDisruptions.success ? parseDisruptions.data : [];
 
@@ -702,6 +635,9 @@ const ViewAllContents = ({
             schema: exportSchema,
             fileName: "Disruptions_list.xlsx",
         });
+
+        setIsExporting(false);
+        setPopUpState(false);
     };
 
     const setServicesAndOperators = async (adminAreaCodes: string[]) => {
@@ -739,7 +675,12 @@ const ViewAllContents = ({
     return (
         <>
             {popUpState ? (
-                <ExportPopUp confirmHandler={exportHandler} closePopUp={cancelActionHandler} isOpen={popUpState} />
+                <ExportPopUp
+                    confirmHandler={exportHandler}
+                    closePopUp={cancelActionHandler}
+                    isOpen={popUpState}
+                    isExporting={isExporting}
+                />
             ) : null}
             {isTemplate ? (
                 <h1 className="govuk-heading-xl">Templates</h1>
@@ -775,7 +716,6 @@ const ViewAllContents = ({
                         onClick={async () => {
                             if (showFilters) {
                                 setFilter({ services: [], operators: [] });
-                                setContentsToDisplay(contents);
                                 setClearButtonClicked(true);
                                 setShowFilters(false);
                             } else {
@@ -797,7 +737,6 @@ const ViewAllContents = ({
                             data-module="govuk-button"
                             onClick={() => {
                                 setFilter({ services: [], operators: [] });
-                                setContentsToDisplay(contents);
                                 setClearButtonClicked(true);
                             }}
                         >
@@ -1010,17 +949,29 @@ const ViewAllContents = ({
 
             {enableLoadingSpinnerOnPageLoad ? (
                 <LoadingBox loading={loadPage}>
-                    <SortableTable
+                    <SortableTable<ContentTable>
                         columns={columns}
                         rows={formatContentsIntoRows(contentsToDisplay, isTemplate)}
-                        sortFunction={sortFunction}
+                        currentPage={pageNumber}
+                        setCurrentPage={setPageNumber}
+                        pageCount={totalPages}
+                        sortOrder={sortOrder}
+                        setSortOrder={setSortOrder}
+                        sortedField={sortedField}
+                        setSortedField={setSortedField}
                     />
                 </LoadingBox>
             ) : (
-                <SortableTable
+                <SortableTable<ContentTable>
                     columns={columns}
                     rows={formatContentsIntoRows(contentsToDisplay, isTemplate)}
-                    sortFunction={sortFunction}
+                    currentPage={pageNumber}
+                    setCurrentPage={setPageNumber}
+                    pageCount={totalPages}
+                    sortOrder={sortOrder}
+                    setSortOrder={setSortOrder}
+                    sortedField={sortedField}
+                    setSortedField={setSortedField}
                 />
             )}
         </>

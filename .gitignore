@@ -2,8 +2,9 @@
 node_modules
 
 # sst
-.sst
-.sst*
+.sst/*
+!.sst/types
+.sst.config*
 .build
 
 # misc
@@ -17,6 +18,8 @@ node_modules
 cdk.context.json
 
 .idea
+
+# Playwright
 /test-results/
 /playwright-report/
 /blob-report/
@@ -24,3 +27,5 @@ cdk.context.json
 
 .env.playwright
 playwright/.auth
+
+cli-helpers/dist

@@ -2,6 +2,7 @@ import { PublishStatus, SocialMediaPostStatus } from "@create-disruptions-data/s
 import MockDate from "mockdate";
 import { afterAll, afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { DASHBOARD_PAGE_PATH, ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
+import * as db from "../../data/db";
 import * as dynamo from "../../data/dynamo";
 import { FullDisruption } from "../../schemas/disruption.schema";
 import { Organisation, defaultModes } from "../../schemas/organisation.schema";
@@ -36,9 +37,12 @@ describe("publish", () => {
         publishToHootsuite: vi.fn(),
     }));
 
-    vi.mock("../../data/dynamo", () => ({
-        insertPublishedDisruptionIntoDynamoAndUpdateDraft: vi.fn(),
+    vi.mock("../../data/db", () => ({
+        publishDisruption: vi.fn(),
         getDisruptionById: vi.fn(),
+    }));
+
+    vi.mock("../../data/dynamo", () => ({
         getOrganisationInfoById: vi.fn(),
     }));
 
@@ -47,13 +51,15 @@ describe("publish", () => {
     }));
 
     vi.mock("crypto", () => ({
-        randomUUID: () => "id",
+        default: {
+            randomUUID: () => "id",
+        },
     }));
 
     MockDate.set("2023-03-03");
 
-    const insertDisruptionSpy = vi.spyOn(dynamo, "insertPublishedDisruptionIntoDynamoAndUpdateDraft");
-    const getDisruptionSpy = vi.spyOn(dynamo, "getDisruptionById");
+    const insertDisruptionSpy = vi.spyOn(db, "publishDisruption");
+    const getDisruptionSpy = vi.spyOn(db, "getDisruptionById");
     const publishSocialMediaSpy = vi.spyOn(apiUtils, "publishSocialMedia");
     const getOrganisationInfoByIdSpy = vi.spyOn(dynamo, "getOrganisationInfoById");
     const getSessionSpy = vi.spyOn(session, "getSession");
@@ -61,6 +67,7 @@ describe("publish", () => {
 
     beforeEach(() => {
         getOrganisationInfoByIdSpy.mockResolvedValue(orgInfo);
+        getSessionSpy.mockImplementation(() => ({ ...mockSession, isOrgAdmin: true }));
     });
 
     afterEach(() => {
@@ -82,15 +89,12 @@ describe("publish", () => {
 
         await publish(req, res);
 
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
+        expect(db.publishDisruption).toBeCalledTimes(1);
+        expect(db.publishDisruption).toBeCalledWith(
             disruptionWithConsequences,
             DEFAULT_ORG_ID,
             PublishStatus.published,
-            "test@example.com",
-            "Disruption created and published",
-            false,
-            true,
+            "Test User",
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
     });
@@ -114,17 +118,13 @@ describe("publish", () => {
             ),
             DEFAULT_ORG_ID,
             false,
-            true,
         );
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledTimes(1);
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).toBeCalledWith(
+        expect(db.publishDisruption).toBeCalledTimes(1);
+        expect(db.publishDisruption).toBeCalledWith(
             disruptionWithConsequencesAndSocialMediaPosts,
             DEFAULT_ORG_ID,
             PublishStatus.published,
-            "test@example.com",
-            "Disruption created and published",
-            false,
-            true,
+            "Test User",
         );
         expect(writeHeadMock).toBeCalledWith(302, { Location: DASHBOARD_PAGE_PATH });
     });
@@ -137,7 +137,7 @@ describe("publish", () => {
 
         await publish(req, res);
 
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
+        expect(db.publishDisruption).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 
@@ -152,7 +152,7 @@ describe("publish", () => {
 
         await publish(req, res);
 
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
+        expect(db.publishDisruption).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 
@@ -160,7 +160,7 @@ describe("publish", () => {
         getDisruptionSpy.mockResolvedValue(disruptionWithConsequencesAndSocialMediaPosts);
         const { req, res } = getMockRequestAndResponse({
             body: {
-                disruptionId: disruptionWithConsequencesAndSocialMediaPosts.disruptionId,
+                disruptionId: disruptionWithConsequencesAndSocialMediaPosts.id,
             },
             mockWriteHeadFn: writeHeadMock,
         });
@@ -181,7 +181,7 @@ describe("publish", () => {
 
         await publish(req, res);
 
-        expect(dynamo.insertPublishedDisruptionIntoDynamoAndUpdateDraft).not.toBeCalled();
+        expect(db.publishDisruption).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
         });
@@ -204,7 +204,7 @@ describe("publish", () => {
             disruptionWithConsequences.summary,
             disruptionWithConsequences.description,
             mockSession.name,
-            disruptionWithConsequences.disruptionId,
+            disruptionWithConsequences.id,
         );
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: DASHBOARD_PAGE_PATH,

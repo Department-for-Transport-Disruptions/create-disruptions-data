@@ -4,7 +4,7 @@ import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { ptSituationElementSchema, siriSchema } from "@create-disruptions-data/shared-ts/siriTypes.zod";
 import { getApiDisruptions, notEmpty } from "@create-disruptions-data/shared-ts/utils";
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
-import { getPublishedDisruptionsDataFromDynamo } from "@create-disruptions-data/shared-ts/utils/dynamo";
+import { getCurrentAndFutureDisruptions } from "@create-disruptions-data/shared-ts/utils/db";
 import { fetchAdminAreas } from "@create-disruptions-data/shared-ts/utils/refDataApi";
 import { parse } from "js2xmlparser";
 import * as logger from "lambda-log";
@@ -116,7 +116,6 @@ const convertJsonToSiri = async (
 
 export const generateSiriSxAndUploadToS3 = async (
     s3Client: S3Client,
-    disruptionsTableName: string,
     orgTableName: string,
     unvalidatedSiriBucketName: string,
     disruptionsJsonBucketName: string,
@@ -125,9 +124,9 @@ export const generateSiriSxAndUploadToS3 = async (
     currentTime: string,
     cancelFeatureFlag: boolean,
 ) => {
-    logger.info("Scanning DynamoDB table...");
+    logger.info("Retrieving disruptions...");
 
-    const disruptions = await getPublishedDisruptionsDataFromDynamo(disruptionsTableName, logger);
+    const disruptions = await getCurrentAndFutureDisruptions();
 
     const disruptionsWithOrgInfo = await enrichDisruptionsWithOrgInfo(disruptions, orgTableName);
 
@@ -168,7 +167,6 @@ export const main = async (): Promise<void> => {
         logger.info("Starting SIRI-SX generator...");
 
         const {
-            DISRUPTIONS_TABLE_NAME: disruptionsTableName,
             ORGANISATIONS_TABLE_NAME: orgTableName,
             SIRI_SX_UNVALIDATED_BUCKET_NAME: unvalidatedBucketName,
             DISRUPTIONS_JSON_BUCKET_NAME: disruptionsJsonBucketName,
@@ -182,7 +180,7 @@ export const main = async (): Promise<void> => {
             throw new Error("Stage must be set");
         }
 
-        if (!disruptionsTableName || !orgTableName) {
+        if (!orgTableName) {
             throw new Error("Dynamo table names not set");
         }
 
@@ -195,7 +193,6 @@ export const main = async (): Promise<void> => {
 
         await generateSiriSxAndUploadToS3(
             s3Client,
-            disruptionsTableName,
             orgTableName,
             unvalidatedBucketName,
             disruptionsJsonBucketName,

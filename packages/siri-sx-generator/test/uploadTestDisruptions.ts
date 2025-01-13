@@ -173,7 +173,7 @@ for (let i = 0; i < Number(itemsToCreate); i++) {
         publishStartTime: "0200",
         validity: validityPeriods,
         summary,
-        disruptionId,
+        id: disruptionId,
         ...(validityPeriods.length > 0
             ? { publishEndDate: convertDateTimeToFormat(getDateXWeeksLater(randomDateOne, 8)), publishEndTime: "23:30" }
             : {}),

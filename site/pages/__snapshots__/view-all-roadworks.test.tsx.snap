@@ -108,13 +108,13 @@ exports[`ViewAllRoadworks > should render correctly when no roadworks data is pr
                 class="govuk-table__row"
               >
                 <th
-                  class="govuk-table__header align-middle px-2 w-[1=30%]"
+                  class="govuk-table__header align-middle px-2"
                   scope="col"
                 >
                   Dates affected
                 </th>
                 <th
-                  class="govuk-table__header align-middle px-2 w-[1=70%]"
+                  class="govuk-table__header align-middle px-2"
                   scope="col"
                 >
                   Description
@@ -384,13 +384,13 @@ exports[`ViewAllRoadworks > should render correctly when roadworks data is prese
                 class="govuk-table__row"
               >
                 <th
-                  class="govuk-table__header align-middle px-2 w-[1=30%]"
+                  class="govuk-table__header align-middle px-2"
                   scope="col"
                 >
                   Dates affected
                 </th>
                 <th
-                  class="govuk-table__header align-middle px-2 w-[1=70%]"
+                  class="govuk-table__header align-middle px-2"
                   scope="col"
                 >
                   Description
@@ -404,12 +404,12 @@ exports[`ViewAllRoadworks > should render correctly when roadworks data is prese
                 class="govuk-table__row"
               >
                 <td
-                  class="govuk-table__cell align-middle px-2"
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   07/11/2023 - 11/12/2023
                 </td>
                 <td
-                  class="govuk-table__cell align-middle px-2"
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     class="govuk-link"
@@ -423,12 +423,12 @@ exports[`ViewAllRoadworks > should render correctly when roadworks data is prese
                 class="govuk-table__row"
               >
                 <td
-                  class="govuk-table__cell align-middle px-2"
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   16/11/2023 - 08/12/2023
                 </td>
                 <td
-                  class="govuk-table__cell align-middle px-2"
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     class="govuk-link"
@@ -442,12 +442,12 @@ exports[`ViewAllRoadworks > should render correctly when roadworks data is prese
                 class="govuk-table__row"
               >
                 <td
-                  class="govuk-table__cell align-middle px-2"
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   22/11/2023 - 30/11/2023
                 </td>
                 <td
-                  class="govuk-table__cell align-middle px-2"
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     class="govuk-link"
@@ -461,12 +461,12 @@ exports[`ViewAllRoadworks > should render correctly when roadworks data is prese
                 class="govuk-table__row"
               >
                 <td
-                  class="govuk-table__cell align-middle px-2"
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   24/11/2023 - 23/11/2025
                 </td>
                 <td
-                  class="govuk-table__cell align-middle px-2"
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     class="govuk-link"
@@ -480,12 +480,12 @@ exports[`ViewAllRoadworks > should render correctly when roadworks data is prese
                 class="govuk-table__row"
               >
                 <td
-                  class="govuk-table__cell align-middle px-2"
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   25/11/2023 - 08/12/2023
                 </td>
                 <td
-                  class="govuk-table__cell align-middle px-2"
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     class="govuk-link"
@@ -499,12 +499,12 @@ exports[`ViewAllRoadworks > should render correctly when roadworks data is prese
                 class="govuk-table__row"
               >
                 <td
-                  class="govuk-table__cell align-middle px-2"
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   26/11/2023 - 08/12/2023
                 </td>
                 <td
-                  class="govuk-table__cell align-middle px-2"
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     class="govuk-link"
@@ -518,12 +518,12 @@ exports[`ViewAllRoadworks > should render correctly when roadworks data is prese
                 class="govuk-table__row"
               >
                 <td
-                  class="govuk-table__cell align-middle px-2"
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   29/11/2023 - 24/11/2023
                 </td>
                 <td
-                  class="govuk-table__cell align-middle px-2"
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     class="govuk-link"
@@ -537,12 +537,12 @@ exports[`ViewAllRoadworks > should render correctly when roadworks data is prese
                 class="govuk-table__row"
               >
                 <td
-                  class="govuk-table__cell align-middle px-2"
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   30/11/2023 - 06/12/2023
                 </td>
                 <td
-                  class="govuk-table__cell align-middle px-2"
+                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
                 >
                   <a
                     class="govuk-link"

@@ -89,7 +89,7 @@ export const getPtSituationElementFromSiteDisruption = (
     });
 
     const ptSituationElement: Omit<PtSituationElement, Reason | "ReasonType"> = {
-        Version: disruption.history?.length || 1,
+        Version: disruption.version || 1,
         VersionedAtTime:
             disruption.lastUpdated ??
             getDisruptionCreationTime(disruption.history ?? null, disruption.creationTime ?? null),
@@ -98,7 +98,7 @@ export const getPtSituationElementFromSiteDisruption = (
         Summary: disruption.summary,
         Description: disruption.description,
         ParticipantRef: participantRef,
-        SituationNumber: disruption.disruptionId,
+        SituationNumber: disruption.id,
         PublicationWindow: {
             StartTime: getDatetimeFromDateAndTime(
                 disruption.publishStartDate,

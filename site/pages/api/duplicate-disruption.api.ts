@@ -1,5 +1,5 @@
 import { randomUUID } from "crypto";
-import { disruptionInfoSchemaRefined } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
+import { disruptionInfoSchema } from "@create-disruptions-data/shared-ts/disruptionTypes.zod";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import cryptoRandomString from "crypto-random-string";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -9,8 +9,7 @@ import {
     REVIEW_DISRUPTION_PAGE_PATH,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
-import { getDisruptionById, upsertConsequence, upsertDisruptionInfo, upsertSocialMediaPost } from "../../data/dynamo";
-import { FullDisruption } from "../../schemas/disruption.schema";
+import { getDisruptionById, upsertConsequence, upsertDisruptionInfo, upsertSocialMediaPost } from "../../data/db";
 import { redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 import { defaultDateTime } from "../../utils/dates";
@@ -34,29 +33,19 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
         const disruptionToDuplicate = await getDisruptionById(
             createDisruptionFromTemplate && templateId ? (templateId as string) : disruptionId,
             session.orgId,
-            createDisruptionFromTemplate,
         );
 
         if (!disruptionToDuplicate) {
             throw new Error("No disruption to duplicate");
         }
 
-        const validatedDisruptionBody = disruptionInfoSchemaRefined.safeParse({
-            ...disruptionToDuplicate,
-            orgId: session.orgId,
-        });
-
-        if (!validatedDisruptionBody.success) {
-            throw new Error("Invalid disruption information");
-        }
-
         const newDisruptionId = randomUUID();
 
         const displayId = cryptoRandomString({ length: 6 });
-        const draftDisruption: FullDisruption = {
-            ...validatedDisruptionBody.data,
+        const draftDisruption = {
+            ...disruptionToDuplicate,
             publishStatus: PublishStatus.draft,
-            disruptionId: newDisruptionId,
+            id: newDisruptionId,
             displayId,
             ...(disruptionToDuplicate.consequences
                 ? {
@@ -81,13 +70,12 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
             draftDisruption.disruptionNoEndDateTime = "";
         }
 
+        const disruptionInfo = disruptionInfoSchema.parse(draftDisruption);
+
         await upsertDisruptionInfo(
-            {
-                ...validatedDisruptionBody.data,
-                disruptionId: newDisruptionId,
-                displayId,
-            },
+            disruptionInfo,
             session.orgId,
+            session.name,
             session.isOrgStaff,
             template === "true",
             session.isOperatorUser ? session.operatorOrgId : null,
@@ -96,7 +84,7 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
         if (draftDisruption.consequences) {
             await Promise.all(
                 draftDisruption.consequences.map(async (consequence) => {
-                    await upsertConsequence(consequence, session.orgId, session.isOrgStaff);
+                    await upsertConsequence(consequence, session.orgId, session.name, session.isOrgStaff);
                 }),
             );
         }
@@ -116,6 +104,7 @@ const duplicateDisruption = async (req: NextApiRequest, res: NextApiResponse): P
                         },
                         session.orgId,
                         session.isOrgStaff,
+                        false,
                     );
                 }),
             );

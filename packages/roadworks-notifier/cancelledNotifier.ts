@@ -4,8 +4,8 @@ import { Disruption } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { PublishStatus } from "@create-disruptions-data/shared-ts/enums";
 import { chunkArray } from "@create-disruptions-data/shared-ts/utils";
 import { getAllUsersEmailsInGroups } from "@create-disruptions-data/shared-ts/utils/cognito";
+import { getDisruptionsWithRoadworks } from "@create-disruptions-data/shared-ts/utils/db";
 import { isSandbox } from "@create-disruptions-data/shared-ts/utils/domain";
-import { getDisruptionsWithRoadworks } from "@create-disruptions-data/shared-ts/utils/dynamo";
 import { getRecentlyCancelledRoadworks } from "@create-disruptions-data/shared-ts/utils/refDataApi";
 import * as logger from "lambda-log";
 
@@ -102,18 +102,13 @@ export const main = async (): Promise<void> => {
 
         logger.info("Checking for cancelled roadworks...");
 
-        const {
-            DISRUPTIONS_TABLE_NAME: disruptionsTableName,
-            ORGANISATIONS_TABLE_NAME: orgTableName,
-            DOMAIN_NAME: domainName,
-            STAGE: stage,
-        } = process.env;
+        const { ORGANISATIONS_TABLE_NAME: orgTableName, DOMAIN_NAME: domainName, STAGE: stage } = process.env;
 
-        if (!disruptionsTableName || !orgTableName || !domainName || !stage) {
+        if (!orgTableName || !domainName || !stage) {
             throw new Error("Environment variables not correctly set.");
         }
 
-        if (!disruptionsTableName || !orgTableName) {
+        if (!orgTableName) {
             throw new Error("Dynamo table names not set");
         }
 
@@ -128,9 +123,7 @@ export const main = async (): Promise<void> => {
 
         const disruptionsWithRoadworks = await getDisruptionsWithRoadworks(
             cancelledRoadworkIds,
-            disruptionsTableName,
             PublishStatus.published,
-            logger,
         );
 
         if (!disruptionsWithRoadworks || disruptionsWithRoadworks.length === 0) {
@@ -157,7 +150,7 @@ export const main = async (): Promise<void> => {
 
         const contentsForEmail = usersInOrgs.map((user) => ({
             ...user,
-            disruptionIds: groupByOrgId[user.orgId].map((disruption) => disruption.disruptionId),
+            disruptionIds: groupByOrgId[user.orgId].map((disruption) => disruption.id),
         }));
 
         const emailChunks = chunkArray(contentsForEmail, 50);

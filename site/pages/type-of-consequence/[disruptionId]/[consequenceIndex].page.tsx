@@ -15,7 +15,7 @@ import {
     ENABLE_CANCELLATIONS_FEATURE_FLAG,
     OPERATOR_USER_CONSEQUENCE_TYPES,
 } from "../../../constants/index";
-import { getDisruptionById } from "../../../data/dynamo";
+import { getDisruptionById } from "../../../data/db";
 import { PageState } from "../../../interfaces/index";
 import { ConsequenceType, typeOfConsequenceSchema } from "../../../schemas/type-of-consequence.schema";
 import { destroyCookieOnResponseObject, getPageState } from "../../../utils/apiUtils";
@@ -124,11 +124,7 @@ export const getServerSideProps = async (
         throw new Error("No session found");
     }
 
-    const disruption = await getDisruptionById(
-        ctx.query.disruptionId?.toString() ?? "",
-        session.orgId,
-        !!ctx.query.template,
-    );
+    const disruption = await getDisruptionById(ctx.query.disruptionId?.toString() ?? "", session.orgId);
 
     if (!disruption) {
         return {
