@@ -12,6 +12,7 @@ import {
 
 const testConsequences: ApiConsequence[] = [
     {
+        disruptionId: "123",
         consequenceType: "operatorWide",
         description: "Test operator consequence 1",
         vehicleMode: VehicleMode.bus,
@@ -30,6 +31,7 @@ const testConsequences: ApiConsequence[] = [
         removeFromJourneyPlanners: "no",
     },
     {
+        disruptionId: "123",
         consequenceType: "networkWide",
         description: "Test network consequence 1",
         vehicleMode: VehicleMode.tram,
@@ -38,6 +40,7 @@ const testConsequences: ApiConsequence[] = [
         removeFromJourneyPlanners: "no",
     },
     {
+        disruptionId: "123",
         consequenceType: "operatorWide",
         description: "Test operator consequence 2",
         vehicleMode: VehicleMode.rail,
@@ -56,6 +59,7 @@ const testConsequences: ApiConsequence[] = [
         removeFromJourneyPlanners: "yes",
     },
     {
+        disruptionId: "123",
         consequenceType: "services",
         description: "Test services consequence 1",
         vehicleMode: VehicleMode.ferryService,
@@ -114,6 +118,7 @@ const testConsequences: ApiConsequence[] = [
         ],
     },
     {
+        disruptionId: "123",
         consequenceType: "stops",
         description: "Test stops consequence 1",
         vehicleMode: VehicleMode.bus,

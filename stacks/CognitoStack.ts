@@ -11,11 +11,12 @@ import {
 } from "aws-cdk-lib/aws-cognito";
 import { Function, StackContext } from "sst/constructs";
 import { UserGroups } from "../shared-ts/enums";
-import { getDomain, isSandbox } from "../shared-ts/utils/domain";
+import { getDomain } from "../shared-ts/utils/domain";
+import { isUserEnv } from "./utils";
 
 export const CognitoStack = ({ stack }: StackContext) => {
-    const domain = isSandbox(stack.stage) ? "localhost:3000" : getDomain(stack.stage);
-    const scheme = isSandbox(stack.stage) ? "http://" : "https://";
+    const domain = isUserEnv(stack.stage) ? "localhost:3000" : getDomain(stack.stage);
+    const scheme = isUserEnv(stack.stage) ? "http://" : "https://";
 
     const customEmailLambda = new Function(stack, "cdd-custom-email-cognito-trigger", {
         functionName: `cdd-custom-email-cognito-trigger-${stack.stage}`,

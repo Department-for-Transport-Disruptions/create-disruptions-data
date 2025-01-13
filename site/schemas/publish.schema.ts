@@ -25,8 +25,10 @@ export const publishDisruptionSchema = disruptionInfoSchemaRefined.and(
             .max(5, {
                 message: "Only up to 5 social media posts can be added",
             })
-            .optional(),
+            .nullish(),
     }),
 );
+
+export type PublishDisruption = z.infer<typeof publishDisruptionSchema>;
 
 export type Publish = z.infer<typeof publishSchema>;

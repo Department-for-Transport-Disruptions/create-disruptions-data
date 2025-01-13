@@ -5,5 +5,5 @@
         "moduleResolution": "Bundler",
         "lib": ["dom", "esnext"]
     },
-    "exclude": ["site", "packages/siri-sx-importer"]
+    "exclude": ["site"]
 }

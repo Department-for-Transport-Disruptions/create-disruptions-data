@@ -30,6 +30,7 @@ describe("resend-invite", () => {
     }));
 
     afterEach(() => {
+        getSession.mockReset();
         vi.resetAllMocks();
     });
 
@@ -54,6 +55,7 @@ describe("resend-invite", () => {
     it("should redirect to /sysadmin/users if resend was a success and request received from add admin users page", async () => {
         deleteAdminUserSpy.mockImplementation(() => mockDeleteAdminUser);
         getUserDetailsSpy.mockImplementation(() => mockGetUserDetails);
+        getSession.mockImplementation(() => mockSession);
 
         const randomId = randomUUID();
         const { req, res } = getMockRequestAndResponse({

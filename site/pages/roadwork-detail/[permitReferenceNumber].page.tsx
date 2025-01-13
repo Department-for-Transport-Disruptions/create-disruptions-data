@@ -5,7 +5,7 @@ import { NextPageContext } from "next";
 import Link from "next/link";
 import Table from "../../components/form/Table";
 import { BaseLayout } from "../../components/layout/Layout";
-import { getDisruptionInfoByPermitReferenceNumber } from "../../data/dynamo";
+import { getDisruptionInfoByPermitReferenceNumber } from "../../data/db";
 import { fetchRoadworkById } from "../../data/refDataApi";
 import { toTitleCase } from "../../utils";
 import { getSession } from "../../utils/apiUtils/auth";
@@ -166,7 +166,7 @@ export const getServerSideProps = async (
         props: {
             roadwork: roadwork,
             newDisruptionId,
-            disruptionId: disruptionInfoForRoadwork.disruptionId,
+            disruptionId: disruptionInfoForRoadwork.id,
             disruptionPublishStatus: disruptionInfoForRoadwork.publishStatus,
             isOperatorUser: session.isOperatorUser,
         },

@@ -1,6 +1,6 @@
 import { randomUUID } from "crypto";
 import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { getPublishedDisruptionById } from "@create-disruptions-data/shared-ts/utils/dynamo";
+import { getPublishedDisruptionById } from "@create-disruptions-data/shared-ts/utils/db";
 import { getServiceCentrePoint } from "@create-disruptions-data/shared-ts/utils/refDataApi";
 import { APIGatewayEvent } from "aws-lambda";
 import * as logger from "lambda-log";
@@ -34,9 +34,7 @@ const formatServiceConsequences = (consequences: Consequence[]) => {
 
 const getOrganisationDisruptionById = async (orgId: string, disruptionId: string) => {
     try {
-        const disruptionsTableName = process.env.DISRUPTIONS_TABLE_NAME as string;
-
-        const disruption = await getPublishedDisruptionById(orgId, disruptionId, disruptionsTableName, logger);
+        const disruption = await getPublishedDisruptionById(orgId, disruptionId);
 
         if (!disruption) {
             logger.warn(`Disruption not found for disruption id: ${disruptionId} for organisation id: ${orgId}`);

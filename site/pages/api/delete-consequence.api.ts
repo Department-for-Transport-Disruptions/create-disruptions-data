@@ -1,7 +1,6 @@
-import { Consequence } from "@create-disruptions-data/shared-ts/disruptionTypes";
 import { NextApiRequest, NextApiResponse } from "next";
 import { DISRUPTION_DETAIL_PAGE_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants";
-import { removeConsequenceFromDisruption, upsertConsequence } from "../../data/dynamo";
+import { removeConsequenceFromDisruption } from "../../data/db";
 import { redirectToError, redirectToWithQueryParams } from "../../utils/apiUtils";
 import { getSession } from "../../utils/apiUtils/auth";
 
@@ -38,22 +37,25 @@ const deleteConsequence = async (req: NextApiRequest, res: NextApiResponse): Pro
             );
         }
 
+        await removeConsequenceFromDisruption(
+            Number(id),
+            disruptionId,
+            session.orgId,
+            session.name,
+            session.isOrgStaff,
+            template === "true",
+        );
+
         if (inEdit) {
-            const consequence: Pick<Consequence, "disruptionId" | "consequenceIndex"> & { isDeleted: boolean } = {
-                disruptionId: disruptionId,
-                consequenceIndex: Number(id),
-                isDeleted: true,
-            };
-            await upsertConsequence(consequence, session.orgId, session.isOrgStaff, template === "true");
             redirectToWithQueryParams(
                 req,
                 res,
                 template === "true" ? ["template"] : [],
                 `${DISRUPTION_DETAIL_PAGE_PATH}/${disruptionId}`,
             );
+
             return;
         }
-        await removeConsequenceFromDisruption(Number(id), disruptionId, session.orgId, template === "true");
 
         redirectToWithQueryParams(
             req,

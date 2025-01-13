@@ -1,7 +1,7 @@
 import MockDate from "mockdate";
 import { afterAll, afterEach, describe, expect, it, vi } from "vitest";
 import { DISRUPTION_DETAIL_PAGE_PATH, ERROR_PATH, REVIEW_DISRUPTION_PAGE_PATH } from "../../constants/index";
-import * as dynamo from "../../data/dynamo";
+import * as db from "../../data/db";
 import { getMockRequestAndResponse } from "../../testData/mockData";
 import deleteConsequence from "./delete-consequence.api";
 
@@ -17,18 +17,20 @@ describe("deleteConsequence", () => {
         cleardownCookies: vi.fn(),
     }));
 
-    vi.mock("../../data/dynamo", () => ({
+    vi.mock("../../data/db", () => ({
         removeConsequenceFromDisruption: vi.fn(),
         upsertConsequence: vi.fn(),
     }));
 
     vi.mock("crypto", () => ({
-        randomUUID: () => "id",
+        default: {
+            randomUUID: () => "id",
+        },
     }));
 
     MockDate.set("2023-03-03");
 
-    const deleteConsequenceSpy = vi.spyOn(dynamo, "removeConsequenceFromDisruption");
+    const deleteConsequenceSpy = vi.spyOn(db, "removeConsequenceFromDisruption");
 
     afterEach(() => {
         vi.resetAllMocks();
@@ -49,7 +51,7 @@ describe("deleteConsequence", () => {
 
         await deleteConsequence(req, res);
 
-        expect(dynamo.removeConsequenceFromDisruption).toBeCalledTimes(1);
+        expect(db.removeConsequenceFromDisruption).toBeCalledTimes(1);
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${REVIEW_DISRUPTION_PAGE_PATH}/${defaultDisruptionId}`,
         });
@@ -67,7 +69,7 @@ describe("deleteConsequence", () => {
 
         await deleteConsequence(req, res);
 
-        expect(dynamo.upsertConsequence).toBeCalledTimes(1);
+        expect(db.removeConsequenceFromDisruption).toBeCalledTimes(1);
         expect(writeHeadMock).toBeCalledWith(302, {
             Location: `${DISRUPTION_DETAIL_PAGE_PATH}/${defaultDisruptionId}`,
         });
@@ -80,7 +82,7 @@ describe("deleteConsequence", () => {
 
         await deleteConsequence(req, res);
 
-        expect(dynamo.removeConsequenceFromDisruption).not.toBeCalled();
+        expect(db.removeConsequenceFromDisruption).not.toBeCalled();
         expect(writeHeadMock).toBeCalledWith(302, { Location: ERROR_PATH });
     });
 

@@ -27,7 +27,7 @@ import {
     DISRUPTION_REASONS,
     VIEW_ALL_TEMPLATES_PAGE_PATH,
 } from "../../constants";
-import { getDisruptionById } from "../../data/dynamo";
+import { getDisruptionById } from "../../data/db";
 import { PageState } from "../../interfaces";
 import { flattenZodErrors } from "../../utils";
 import { destroyCookieOnResponseObject, getPageState } from "../../utils/apiUtils";
@@ -246,10 +246,10 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
     const getEndingDateDisplay = () => {
         return validity.disruptionRepeats !== "doesntRepeat" && validity.disruptionRepeatsEndDate
             ? `The validity period ends on ${getEndingOnDateText(
-                  validity.disruptionRepeats,
+                  validity.disruptionRepeats ?? undefined,
                   validity.disruptionRepeatsEndDate,
                   validity.disruptionStartDate,
-                  validity.disruptionEndDate,
+                  validity.disruptionEndDate ?? undefined,
               )}${validity.disruptionEndTime ? ` at ${validity.disruptionEndTime}` : ""}`
             : null;
     };
@@ -338,18 +338,30 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             <Fragment key={`validity-${item.disruptionStartDate}`}>
                                 <input type="hidden" name={`validity${index + 1}`} value={item.disruptionStartDate} />
                                 <input type="hidden" name={`validity${index + 1}`} value={item.disruptionStartTime} />
-                                <input type="hidden" name={`validity${index + 1}`} value={item.disruptionEndDate} />
-                                <input type="hidden" name={`validity${index + 1}`} value={item.disruptionEndTime} />
                                 <input
                                     type="hidden"
                                     name={`validity${index + 1}`}
-                                    value={item.disruptionNoEndDateTime}
+                                    value={item.disruptionEndDate ?? undefined}
                                 />
-                                <input type="hidden" name={`validity${index + 1}`} value={item.disruptionRepeats} />
                                 <input
                                     type="hidden"
                                     name={`validity${index + 1}`}
-                                    value={item.disruptionRepeatsEndDate}
+                                    value={item.disruptionEndTime ?? undefined}
+                                />
+                                <input
+                                    type="hidden"
+                                    name={`validity${index + 1}`}
+                                    value={item.disruptionNoEndDateTime ?? undefined}
+                                />
+                                <input
+                                    type="hidden"
+                                    name={`validity${index + 1}`}
+                                    value={item.disruptionRepeats ?? undefined}
+                                />
+                                <input
+                                    type="hidden"
+                                    name={`validity${index + 1}`}
+                                    value={item.disruptionRepeatsEndDate ?? undefined}
                                 />
                             </Fragment>
                         ))}
@@ -415,7 +427,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                 <DateSelector<Validity>
                                     display="End date"
                                     hint={{ hidden: true, text: "Enter in format DD/MM/YYYY" }}
-                                    value={validity.disruptionEndDate}
+                                    value={validity.disruptionEndDate ?? undefined}
                                     disabled={validity.disruptionNoEndDateTime === "true"}
                                     disablePast={false}
                                     inputName="disruptionEndDate"
@@ -434,7 +446,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             <div className="pl-4.5 flex flex-col justify-end lg:w-[70%] sm:w-[50%] @screen xs:w-[50%]">
                                 <TimeSelector<Validity>
                                     display="End time"
-                                    value={validity.disruptionEndTime}
+                                    value={validity.disruptionEndTime ?? undefined}
                                     disabled={validity.disruptionNoEndDateTime === "true"}
                                     inputName="disruptionEndTime"
                                     stateUpdater={validityStateUpdater}
@@ -539,7 +551,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                         validity.disruptionRepeats !== "doesntRepeat" ||
                                         !!pageState.errors.find((error) => error.id === "publishEndDate")
                                             ? pageState.inputs.publishEndDate
-                                            : validity.disruptionEndDate
+                                            : validity.disruptionEndDate ?? undefined
                                     }
                                     disabled={validity.disruptionNoEndDateTime === "true"}
                                     disablePast={false}
@@ -563,7 +575,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                         validity.disruptionRepeats !== "doesntRepeat" ||
                                         !!pageState.errors.find((error) => error.id === "publishEndTime")
                                             ? pageState.inputs.publishEndTime
-                                            : validity.disruptionEndTime
+                                            : validity.disruptionEndTime ?? undefined
                                     }
                                     disabled={validity.disruptionNoEndDateTime === "true"}
                                     inputName="publishEndTime"
@@ -592,7 +604,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                         <DateSelector<Validity>
                                             display="Ending on"
                                             hint={{ hidden: false, text: "Enter in format DD/MM/YYYY" }}
-                                            value={validity.disruptionRepeatsEndDate}
+                                            value={validity.disruptionRepeatsEndDate ?? undefined}
                                             disablePast={false}
                                             inputName="disruptionRepeatsEndDate"
                                             stateUpdater={validityStateUpdater}
@@ -611,7 +623,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                                         <DateSelector<Validity>
                                             display="Ending on"
                                             hint={{ hidden: false, text: "Enter in format DD/MM/YYYY" }}
-                                            value={validity.disruptionRepeatsEndDate}
+                                            value={validity.disruptionRepeatsEndDate ?? undefined}
                                             disablePast={false}
                                             inputName="disruptionRepeatsEndDate"
                                             stateUpdater={validityStateUpdater}
@@ -626,7 +638,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                             value={
                                 validity.disruptionNoEndDateTime === "true"
                                     ? "doesntRepeat"
-                                    : validity.disruptionRepeats
+                                    : validity.disruptionRepeats ?? undefined
                             }
                             initialErrors={pageState.errors}
                         />
@@ -642,7 +654,7 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                         </button>
                     </div>
 
-                    <input type="hidden" name="disruptionId" value={props.disruptionId} />
+                    <input type="hidden" name="id" value={props.disruptionId} />
                     <input type="hidden" name="displayId" value={pageState.inputs.displayId} />
                     <input type="hidden" name="consequenceIndex" value={props.consequenceIndex} />
 
@@ -711,7 +723,7 @@ export const getServerSideProps = async (ctx: NextPageContext): Promise<{ props:
     }
 
     const disruptionId = ctx.query.disruptionId?.toString() ?? "";
-    const disruption = await getDisruptionById(disruptionId, session.orgId, !!ctx.query.template);
+    const disruption = await getDisruptionById(disruptionId, session.orgId);
 
     const pageState = getPageState(errorCookie, disruptionInfoSchema, disruptionId, disruption ?? undefined);
 

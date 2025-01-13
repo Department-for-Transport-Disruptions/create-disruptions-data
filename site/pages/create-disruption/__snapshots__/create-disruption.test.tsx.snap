@@ -1341,7 +1341,7 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
           </button>
         </div>
         <input
-          name="disruptionId"
+          name="id"
           type="hidden"
           value="aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
         />
@@ -2813,7 +2813,7 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
           </button>
         </div>
         <input
-          name="disruptionId"
+          name="id"
           type="hidden"
           value=""
         />
@@ -4351,7 +4351,7 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
           </button>
         </div>
         <input
-          name="disruptionId"
+          name="id"
           type="hidden"
           value="aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee"
         />
