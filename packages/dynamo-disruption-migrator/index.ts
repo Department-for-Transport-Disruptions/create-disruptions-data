@@ -65,7 +65,7 @@ const collectDisruptionsData = (
 
     const isEdited = currentDisruptionItems.some((item) => (item.SK as string).includes("#EDIT"));
 
-    if (!info || !info.orgId) {
+    if (!info) {
         if (onlyIncludeEdited && isEdited) {
             editedDisruptionIdsWithNoInfo.add(disruptionId);
         } else {
@@ -182,6 +182,7 @@ const collectDisruptionsData = (
     const parsedDisruption = fullDisruptionSchema.safeParse({
         ...info,
         id: info.disruptionId,
+        orgId: info.orgId || info.PK || "",
         consequences,
         socialMediaPosts,
         history: isTemplate ? [] : history,
@@ -455,8 +456,12 @@ export const bulkMigrator = async (): Promise<void> => {
             ),
         ]);
 
-        const allDisruptionsDataWithoutEdits = allDisruptionsData.filter((d) => !(d.SK as string).includes("#EDIT"));
-        const allTemplatesDataWithoutEdits = allTemplatesData.filter((d) => !(d.SK as string).includes("#EDIT"));
+        const allDisruptionsDataWithoutEdits = allDisruptionsData.filter(
+            (d) => !(d.SK as string).includes("#EDIT") && !((d.publishStatus as string) || "").includes("EDIT"),
+        );
+        const allTemplatesDataWithoutEdits = allTemplatesData.filter(
+            (d) => !(d.SK as string).includes("#EDIT") && !((d.publishStatus as string) || "").includes("EDIT"),
+        );
 
         const disruptions = formatDisruptions(allDisruptionsDataWithoutEdits, false, false);
         let templates = formatDisruptions(allTemplatesDataWithoutEdits, false, true);
