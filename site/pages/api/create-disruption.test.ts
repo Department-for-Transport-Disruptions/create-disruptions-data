@@ -1579,4 +1579,32 @@ describe("create-disruption API", () => {
             res,
         );
     });
+
+    it("should redirect back to /create-disruption with error in the cookie if validity period end date is before start date", async () => {
+        const disruptionData = {
+            ...defaultDisruptionData,
+            validity1: [defaultDisruptionStartDate, "1000", defaultDisruptionStartDate, "0800"],
+            validity2: [defaultDisruptionStartDate, "1300", defaultDisruptionStartDate, "1400"],
+        };
+
+        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
+
+        await createDisruption(req, res);
+
+        const errors: ErrorInfo[] = [
+            {
+                errorMessage:
+                    "The validity period end date/time must be after the same validity period start date/time",
+                id: "validity",
+            },
+        ];
+        const inputs = formatCreateDisruptionBody(req.body);
+
+        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+            COOKIES_DISRUPTION_ERRORS,
+            JSON.stringify({ inputs, errors }),
+            res,
+        );
+    });
 });

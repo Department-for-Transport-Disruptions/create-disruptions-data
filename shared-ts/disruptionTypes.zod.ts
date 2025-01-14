@@ -701,6 +701,22 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
                 : 1;
         });
 
+        for (const validity of sortedValidity) {
+            if (
+                validity.disruptionEndDate &&
+                validity.disruptionEndTime &&
+                getDatetimeFromDateAndTime(validity.disruptionStartDate, validity.disruptionStartTime).isAfter(
+                    getDatetimeFromDateAndTime(validity.disruptionEndDate || "", validity.disruptionEndTime || ""),
+                )
+            ) {
+                ctx.addIssue({
+                    code: z.ZodIssueCode.custom,
+                    message: "The validity period end date/time must be after the same validity period start date/time",
+                    path: ["validity"],
+                });
+            }
+        }
+
         if (
             getDatetimeFromDateAndTime(publishStartDate, publishStartTime).isAfter(
                 getDatetimeFromDateAndTime(
