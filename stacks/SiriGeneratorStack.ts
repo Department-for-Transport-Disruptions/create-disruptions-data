@@ -70,7 +70,7 @@ export const SiriGeneratorStack = ({ stack }: StackContext) => {
     new Cron(stack, "cdd-siri-sx-generator-cron", {
         job: siriGenerator,
         schedule:
-            stack.stage === "prod" || stack.stage === "preprod" ? `rate("1 minute"})` : "cron(0/5 8-18 ? * MON-FRI *)",
+            stack.stage === "prod" || stack.stage === "preprod" ? "rate(1 minute)" : "cron(0/5 8-18 ? * MON-FRI *)",
     });
 
     const siriStatsGenerator = new Function(stack, "cdd-siri-stats-generator", {
@@ -103,7 +103,7 @@ export const SiriGeneratorStack = ({ stack }: StackContext) => {
     new Cron(stack, "cdd-siri-stats-generator-cron", {
         job: siriStatsGenerator,
         schedule:
-            stack.stage === "prod" || stack.stage === "preprod" ? `rate("1 minute"})` : "cron(0/5 8-18 ? * MON-FRI *)",
+            stack.stage === "prod" || stack.stage === "preprod" ? "rate(1 minute)" : "cron(0/5 8-18 ? * MON-FRI *)",
     });
 
     siriGenerator

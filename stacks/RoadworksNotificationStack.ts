@@ -66,9 +66,7 @@ export const RoadworksNotificationStack = ({ stack }: StackContext) => {
     new Cron(stack, "cdd-roadworks-cancelled-notification-cron", {
         job: cancelledRoadworkNotification,
         schedule:
-            stack.stage === "prod" || stack.stage === "preprod"
-                ? `rate("5 minutes"})`
-                : "cron(0/10 8-18 ? * MON-FRI *)",
+            stack.stage === "prod" || stack.stage === "preprod" ? "rate(5 minutes)" : "cron(0/10 8-18 ? * MON-FRI *)",
     });
 
     cancelledRoadworkNotification
