@@ -1945,20 +1945,28 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
           >
             When is the disruption?
           </h2>
-          <table
-            class="govuk-table"
+          <div
+            class="govuk-form-group"
           >
-            <thead
-              class="govuk-table__head"
+            <div
+              class=""
             >
-              <tr
-                class="govuk-table__row"
-              />
-            </thead>
-            <tbody
-              class="govuk-table__body"
-            />
-          </table>
+              <table
+                class="govuk-table"
+              >
+                <thead
+                  class="govuk-table__head"
+                >
+                  <tr
+                    class="govuk-table__row"
+                  />
+                </thead>
+                <tbody
+                  class="govuk-table__body"
+                />
+              </table>
+            </div>
+          </div>
           <div
             class="flex pb-8 items-end"
           >
