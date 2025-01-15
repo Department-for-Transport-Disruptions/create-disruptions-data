@@ -1593,8 +1593,7 @@ describe("create-disruption API", () => {
 
         const errors: ErrorInfo[] = [
             {
-                errorMessage:
-                    "The validity period end date/time must be after the same validity period start date/time",
+                errorMessage: "A validity period's end date/time must be after its start date/time",
                 id: "validity",
             },
         ];
