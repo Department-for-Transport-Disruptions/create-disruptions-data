@@ -1,5 +1,7 @@
-import { Tags } from "aws-cdk-lib";
+import { Duration, Tags } from "aws-cdk-lib";
+import { BackupPlan, BackupPlanRule, BackupResource, BackupVault } from "aws-cdk-lib/aws-backup";
 import { BastionHostLinux, BlockDeviceVolume, ISecurityGroup, IVpc, SubnetType } from "aws-cdk-lib/aws-ec2";
+import { Schedule } from "aws-cdk-lib/aws-events";
 import { PolicyDocument, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
 import * as rds from "aws-cdk-lib/aws-rds";
 import { CnameRecord } from "aws-cdk-lib/aws-route53";
@@ -218,6 +220,33 @@ export const RdsStack = ({ stack }: StackContext) => {
         });
 
         Tags.of(bastionHost.instance).add("Bastion", "true");
+
+        if (stack.stage === "prod") {
+            const backupVault = new BackupVault(stack, "cdd-rds-backup-vault", {
+                backupVaultName: `cdd-rds-backup-vault-${stack.stage}`,
+            });
+
+            const backupPlan = new BackupPlan(stack, "cdd-rds-backup-plan", {
+                backupPlanName: `cdd-rds-backup-plan-${stack.stage}`,
+                backupPlanRules: [
+                    BackupPlanRule.daily(backupVault),
+                    BackupPlanRule.monthly5Year(backupVault),
+                    new BackupPlanRule({
+                        backupVault,
+                        ruleName: "Continuous",
+                        scheduleExpression: Schedule.cron({
+                            minute: "0",
+                        }),
+                        enableContinuousBackup: true,
+                        deleteAfter: Duration.days(35),
+                    }),
+                ],
+            });
+
+            backupPlan.addSelection("cdd-rds-backup-selection", {
+                resources: [BackupResource.fromArn(cluster.clusterArn)],
+            });
+        }
     }
 
     return { dbUsernameSecret, dbPasswordSecret, dbHostSecret, dbPortSecret, dbNameSecret, dbHostROSecret };
