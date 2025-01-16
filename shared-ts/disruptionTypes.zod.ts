@@ -712,7 +712,7 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
                 ) {
                     ctx.addIssue({
                         code: z.ZodIssueCode.custom,
-                        message: "A validity period's end date/time must be after its start date/time",
+                        message: "Disruption end date/time must be after start date/time",
                         path: ["validity"],
                     });
                 }
