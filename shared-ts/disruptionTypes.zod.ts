@@ -701,19 +701,21 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
                 : 1;
         });
 
-        for (const validity of sortedValidity) {
-            if (
-                validity.disruptionEndDate &&
-                validity.disruptionEndTime &&
-                getDatetimeFromDateAndTime(validity.disruptionStartDate, validity.disruptionStartTime).isAfter(
-                    getDatetimeFromDateAndTime(validity.disruptionEndDate || "", validity.disruptionEndTime || ""),
-                )
-            ) {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.custom,
-                    message: "A validity period's end date/time must be after its start date/time",
-                    path: ["validity"],
-                });
+        if (sortedValidity.length > 1) {
+            for (const validity of sortedValidity.slice(0, -1)) {
+                if (
+                    validity.disruptionEndDate &&
+                    validity.disruptionEndTime &&
+                    getDatetimeFromDateAndTime(validity.disruptionStartDate, validity.disruptionStartTime).isAfter(
+                        getDatetimeFromDateAndTime(validity.disruptionEndDate || "", validity.disruptionEndTime || ""),
+                    )
+                ) {
+                    ctx.addIssue({
+                        code: z.ZodIssueCode.custom,
+                        message: "A validity period's end date/time must be after its start date/time",
+                        path: ["validity"],
+                    });
+                }
             }
         }
 
