@@ -15,6 +15,7 @@ import Checkbox from "../../components/form/Checkbox";
 import CsrfForm from "../../components/form/CsrfForm";
 import DateSelector from "../../components/form/DateSelector";
 import ErrorSummary from "../../components/form/ErrorSummary";
+import FormElementWrapper, { FormGroupWrapper } from "../../components/form/FormElementWrapper";
 import Radios from "../../components/form/Radios";
 import Select from "../../components/form/Select";
 import Table from "../../components/form/Table";
@@ -333,7 +334,15 @@ const CreateDisruption = (props: DisruptionPageProps): ReactElement => {
                     </div>
                     <div className="govuk-form-group govuk-!-padding-top-3">
                         <h2 className="govuk-heading-l">When is the disruption?</h2>
-                        <Table rows={pageState.inputs.validity ? getValidityRows() : []} />
+                        <FormGroupWrapper errors={pageState.errors} errorIds={["validity"]}>
+                            <FormElementWrapper
+                                errors={pageState.errors}
+                                errorId={"validity"}
+                                errorClass={"govuk-input--error"}
+                            >
+                                <Table rows={pageState.inputs.validity ? getValidityRows() : []} />
+                            </FormElementWrapper>
+                        </FormGroupWrapper>
                         {(pageState.inputs.validity || []).map((item, index) => (
                             <Fragment key={`validity-${item.disruptionStartDate}`}>
                                 <input type="hidden" name={`validity${index + 1}`} value={item.disruptionStartDate} />
