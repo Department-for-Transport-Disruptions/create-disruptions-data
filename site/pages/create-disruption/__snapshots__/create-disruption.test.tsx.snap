@@ -410,46 +410,54 @@ exports[`pages > CreateDisruption > should render correctly with inputs 1`] = `
           >
             When is the disruption?
           </h2>
-          <table
-            class="govuk-table"
+          <div
+            class="govuk-form-group"
           >
-            <thead
-              class="govuk-table__head"
+            <div
+              class=""
             >
-              <tr
-                class="govuk-table__row"
-              />
-            </thead>
-            <tbody
-              class="govuk-table__body"
-            >
-              <tr
-                class="govuk-table__row"
+              <table
+                class="govuk-table"
               >
-                <th
-                  class="govuk-table__header align-middle"
-                  scope="row"
+                <thead
+                  class="govuk-table__head"
                 >
-                  Validity period 1
-                </th>
-                <td
-                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  <tr
+                    class="govuk-table__row"
+                  />
+                </thead>
+                <tbody
+                  class="govuk-table__body"
                 >
-                  01/04/2023 0100 - 03/04/2023 0200
-                </td>
-                <td
-                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                >
-                  <button
-                    class="govuk-link"
-                    id="remove-validity-period-1"
+                  <tr
+                    class="govuk-table__row"
                   >
-                    Remove
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                    <th
+                      class="govuk-table__header align-middle"
+                      scope="row"
+                    >
+                      Validity period 1
+                    </th>
+                    <td
+                      class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    >
+                      01/04/2023 0100 - 03/04/2023 0200
+                    </td>
+                    <td
+                      class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    >
+                      <button
+                        class="govuk-link"
+                        id="remove-validity-period-1"
+                      >
+                        Remove
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
           <input
             name="validity1"
             type="hidden"
@@ -1945,20 +1953,28 @@ exports[`pages > CreateDisruption > should render correctly with no inputs 1`] =
           >
             When is the disruption?
           </h2>
-          <table
-            class="govuk-table"
+          <div
+            class="govuk-form-group"
           >
-            <thead
-              class="govuk-table__head"
+            <div
+              class=""
             >
-              <tr
-                class="govuk-table__row"
-              />
-            </thead>
-            <tbody
-              class="govuk-table__body"
-            />
-          </table>
+              <table
+                class="govuk-table"
+              >
+                <thead
+                  class="govuk-table__head"
+                >
+                  <tr
+                    class="govuk-table__row"
+                  />
+                </thead>
+                <tbody
+                  class="govuk-table__body"
+                />
+              </table>
+            </div>
+          </div>
           <div
             class="flex pb-8 items-end"
           >
@@ -3420,46 +3436,54 @@ exports[`pages > CreateDisruption > should render correctly with query params 1`
           >
             When is the disruption?
           </h2>
-          <table
-            class="govuk-table"
+          <div
+            class="govuk-form-group"
           >
-            <thead
-              class="govuk-table__head"
+            <div
+              class=""
             >
-              <tr
-                class="govuk-table__row"
-              />
-            </thead>
-            <tbody
-              class="govuk-table__body"
-            >
-              <tr
-                class="govuk-table__row"
+              <table
+                class="govuk-table"
               >
-                <th
-                  class="govuk-table__header align-middle"
-                  scope="row"
+                <thead
+                  class="govuk-table__head"
                 >
-                  Validity period 1
-                </th>
-                <td
-                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                  <tr
+                    class="govuk-table__row"
+                  />
+                </thead>
+                <tbody
+                  class="govuk-table__body"
                 >
-                  01/04/2023 0100 - 03/04/2023 0200
-                </td>
-                <td
-                  class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
-                >
-                  <button
-                    class="govuk-link"
-                    id="remove-validity-period-1"
+                  <tr
+                    class="govuk-table__row"
                   >
-                    Remove
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                    <th
+                      class="govuk-table__header align-middle"
+                      scope="row"
+                    >
+                      Validity period 1
+                    </th>
+                    <td
+                      class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    >
+                      01/04/2023 0100 - 03/04/2023 0200
+                    </td>
+                    <td
+                      class="govuk-table__cell align-middle overflow-hidden px-2 max-w-2xl "
+                    >
+                      <button
+                        class="govuk-link"
+                        id="remove-validity-period-1"
+                      >
+                        Remove
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
           <input
             name="validity1"
             type="hidden"

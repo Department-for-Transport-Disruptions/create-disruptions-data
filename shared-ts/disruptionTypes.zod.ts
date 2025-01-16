@@ -701,6 +701,24 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
                 : 1;
         });
 
+        if (sortedValidity.length > 1) {
+            for (const validity of sortedValidity.slice(0, -1)) {
+                if (
+                    validity.disruptionEndDate &&
+                    validity.disruptionEndTime &&
+                    getDatetimeFromDateAndTime(validity.disruptionStartDate, validity.disruptionStartTime).isAfter(
+                        getDatetimeFromDateAndTime(validity.disruptionEndDate || "", validity.disruptionEndTime || ""),
+                    )
+                ) {
+                    ctx.addIssue({
+                        code: z.ZodIssueCode.custom,
+                        message: "Disruption end date/time must be after start date/time",
+                        path: ["validity"],
+                    });
+                }
+            }
+        }
+
         if (
             getDatetimeFromDateAndTime(publishStartDate, publishStartTime).isAfter(
                 getDatetimeFromDateAndTime(
