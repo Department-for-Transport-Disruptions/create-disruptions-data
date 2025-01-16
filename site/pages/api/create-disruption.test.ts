@@ -1580,30 +1580,77 @@ describe("create-disruption API", () => {
         );
     });
 
-    it("should redirect back to /create-disruption with error in the cookie if validity period end date is before start date", async () => {
-        const disruptionData = {
-            ...defaultDisruptionData,
-            validity1: [defaultDisruptionStartDate, "1000", defaultDisruptionStartDate, "0800"],
-            validity2: [defaultDisruptionStartDate, "1300", defaultDisruptionStartDate, "1400"],
-        };
-
-        const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
-
-        await createDisruption(req, res);
-
-        const errors: ErrorInfo[] = [
+    it.each([
+        [
             {
-                errorMessage: "A validity period's end date/time must be after its start date/time",
-                id: "validity",
+                ...defaultDisruptionData,
+                validity1: [defaultDisruptionStartDate, "1000", defaultDisruptionStartDate, "0800"],
+                validity2: [defaultDisruptionStartDate, "1300", defaultDisruptionStartDate, "1400"],
             },
-        ];
-        const inputs = formatCreateDisruptionBody(req.body);
+            [
+                {
+                    errorMessage: "Disruption end date/time must be after start date/time",
+                    id: "validity",
+                },
+            ],
+        ],
+        [
+            {
+                ...defaultDisruptionData,
+                validity1: [defaultDisruptionStartDate, "1000", defaultDisruptionStartDate, "0800"],
+                disruptionStartDate: defaultDisruptionStartDate,
+                disruptionStartTime: "1500",
+                disruptionEndDate: defaultDisruptionStartDate,
+                disruptionEndTime: "1400",
+                disruptionNoEndDateTime: "",
+                publishEndDate: defaultDisruptionStartDate,
+                publishEndTime: "1400",
+            },
+            [
+                {
+                    errorMessage: "Disruption end date/time must be after start date/time",
+                    id: "disruptionEndDate",
+                },
+                {
+                    errorMessage: "Disruption end date/time must be after start date/time",
+                    id: "validity",
+                },
+            ],
+        ],
+        [
+            {
+                ...defaultDisruptionData,
+                validity1: [defaultDisruptionStartDate, "0700", defaultDisruptionStartDate, "0800"],
+                disruptionStartDate: defaultDisruptionStartDate,
+                disruptionStartTime: "1500",
+                disruptionEndDate: defaultDisruptionStartDate,
+                disruptionEndTime: "1400",
+                disruptionNoEndDateTime: "",
+                publishEndDate: defaultDisruptionStartDate,
+                publishEndTime: "1400",
+            },
+            [
+                {
+                    errorMessage: "Disruption end date/time must be after start date/time",
+                    id: "disruptionEndDate",
+                },
+            ],
+        ],
+    ])(
+        "should redirect back to /create-disruption with errors in the cookie if validity period end date is before start date",
+        async (disruptionData, errors) => {
+            const { req, res } = getMockRequestAndResponse({ body: disruptionData, mockWriteHeadFn: writeHeadMock });
 
-        expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
-        expect(setCookieOnResponseObject).toHaveBeenCalledWith(
-            COOKIES_DISRUPTION_ERRORS,
-            JSON.stringify({ inputs, errors }),
-            res,
-        );
-    });
+            await createDisruption(req, res);
+
+            const inputs = formatCreateDisruptionBody(req.body);
+
+            expect(setCookieOnResponseObject).toHaveBeenCalledTimes(1);
+            expect(setCookieOnResponseObject).toHaveBeenCalledWith(
+                COOKIES_DISRUPTION_ERRORS,
+                JSON.stringify({ inputs, errors }),
+                res,
+            );
+        },
+    );
 });
