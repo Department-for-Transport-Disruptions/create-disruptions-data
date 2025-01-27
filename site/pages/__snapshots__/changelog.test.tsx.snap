@@ -77,6 +77,9 @@ exports[`Changelog > should render correctly 1`] = `
             <li>
               Fix to allow operator users to view disruptions on the dashboard
             </li>
+            <li>
+              Update to prevent secondary validity periods from having an end date earlier than the start date.
+            </li>
           </ul>
           <hr
             class="govuk-section-break govuk-section-break--xl govuk-section-break--visible"
