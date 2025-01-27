@@ -14,6 +14,9 @@ const Changelog = (): ReactElement => {
             <p className="govuk-body">This release will deploy the following changes:</p>
             <ul className="govuk-list govuk-list--bullet">
                 <li>Fix to allow operator users to view disruptions on the dashboard</li>
+                <li>
+                    Update to prevent secondary validity periods from having an end date earlier than the start date.
+                </li>
             </ul>
             <hr className="govuk-section-break govuk-section-break--xl govuk-section-break--visible" />
             <h2 className="govuk-heading-l">January 2025 (2.0.0)</h2>{" "}
