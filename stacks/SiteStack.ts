@@ -65,6 +65,7 @@ export const SiteStack = ({ stack }: StackContext) => {
         path: "site/",
         runtime: "nodejs20.x",
         warm: stack.stage === "prod" || stack.stage === "preprod" ? 50 : 10,
+        memorySize: stack.stage === "prod" ? "3072 MB" : "1024 MB",
         cdk: {
             server: {
                 vpc,
