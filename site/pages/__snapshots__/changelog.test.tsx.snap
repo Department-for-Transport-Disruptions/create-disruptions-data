@@ -55,8 +55,29 @@ exports[`Changelog > should render correctly 1`] = `
           <p
             class="govuk-body"
           >
-            Last updated: 14 January 2025
+            Last updated: 27 January 2025
           </p>
+          <hr
+            class="govuk-section-break govuk-section-break--xl govuk-section-break--visible"
+          />
+          <h2
+            class="govuk-heading-l"
+          >
+            January 2025 (2.0.1)
+          </h2>
+           
+          <p
+            class="govuk-body"
+          >
+            This release will deploy the following changes:
+          </p>
+          <ul
+            class="govuk-list govuk-list--bullet"
+          >
+            <li>
+              Fix to allow operator users to view disruptions on the dashboard
+            </li>
+          </ul>
           <hr
             class="govuk-section-break govuk-section-break--xl govuk-section-break--visible"
           />
