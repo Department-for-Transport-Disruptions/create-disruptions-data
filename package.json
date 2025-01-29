@@ -31,7 +31,7 @@
         "@types/node": "^20.10.5",
         "@vitest/coverage-v8": "^2.1.8",
         "aws-cdk": "2.171.1",
-        "aws-cdk-lib": "2.171.1",
+        "aws-cdk-lib": "2.177.0",
         "constructs": "10.3.0",
         "husky": "^8.0.0",
         "sst": "2.45.2",
