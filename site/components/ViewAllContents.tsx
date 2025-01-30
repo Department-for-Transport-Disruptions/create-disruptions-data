@@ -71,7 +71,7 @@ export interface Filter {
     operators: FilterOperator[];
     mode?: string;
     searchText?: string;
-    upcoming?: boolean;
+    upcoming?: "true" | "false";
 }
 
 export interface FilterOperator {
@@ -128,7 +128,7 @@ export const getApiUrlFromFilters = (
         filters.severity && filters.severity !== "any" ? `severity=${filters.severity}` : null,
         filters.status && filters.status !== "any" ? `status=${filters.status}` : null,
         filters.mode && filters.mode !== "any" ? `mode=${filters.mode}` : null,
-        filters.upcoming ? "upcoming=true" : null,
+        filters.upcoming ? `upcoming=${filters.upcoming}` : null,
         sortedField === "start" || sortedField === "end" ? `sortBy=${sortedField}` : null,
         sortedField === "start" || sortedField === "end" ? `sortOrder=${sortOrder}` : null,
         `offset=${(pageNumber - 1) * pageSize}`,

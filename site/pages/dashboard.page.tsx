@@ -104,11 +104,8 @@ const Dashboard = ({
                 const { disruptions, pageCount } = await getDisruptionData(
                     orgId,
                     {
-                        period: {
-                            startTime: currentDate,
-                            endTime: currentDate,
-                        },
-                        status: Progress.published,
+                        upcoming: "false",
+                        status: Progress.open,
                         operators: [],
                         services: [],
                     },
@@ -123,7 +120,7 @@ const Dashboard = ({
                 const { disruptions, pageCount } = await getDisruptionData(
                     orgId,
                     {
-                        upcoming: true,
+                        upcoming: "true",
                         status: Progress.published,
                         operators: [],
                         services: [],

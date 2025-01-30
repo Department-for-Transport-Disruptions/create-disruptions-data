@@ -135,8 +135,10 @@ const buildFilterDisruptionsQuery = (
             );
     }
 
-    if (filters.upcoming) {
+    if (filters.upcoming === true) {
         query = query.where("validityStartTimestamp", ">", sql<Date>`now()`);
+    } else if (filters.upcoming === false) {
+        query = query.where("validityStartTimestamp", "<=", sql<Date>`now()`);
     }
 
     if (filters.mode || filters.severity || filters.operators?.length || filters.services?.length) {
