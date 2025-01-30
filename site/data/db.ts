@@ -118,8 +118,8 @@ const buildFilterDisruptionsQuery = (
     if (filters.textSearch) {
         query = query.where((eb) =>
             eb.or([
-                eb(sql`lower(${sql.ref("displayId")})`, "like", `%${filters.textSearch}%`),
-                eb(sql`lower(${sql.ref("summary")})`, "like", `%${filters.textSearch}%`),
+                eb(sql`lower(${sql.ref("displayId")})`, "like", `%${filters.textSearch?.toLowerCase()}%`),
+                eb(sql`lower(${sql.ref("summary")})`, "like", `%${filters.textSearch?.toLowerCase()}%`),
             ]),
         );
     }

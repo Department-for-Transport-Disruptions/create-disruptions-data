@@ -14,6 +14,7 @@ const Changelog = (): ReactElement => {
             <p className="govuk-body">This release will deploy the following changes:</p>
             <ul className="govuk-list govuk-list--bullet">
                 <li>Fix to not show recently closed disruptions in the dashboard live tab</li>
+                <li>Fix for searching by summary on the view all page</li>
             </ul>
             <hr className="govuk-section-break govuk-section-break--xl govuk-section-break--visible" />
             <h2 className="govuk-heading-l">January 2025 (2.0.1)</h2>{" "}
