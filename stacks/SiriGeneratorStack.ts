@@ -1,8 +1,9 @@
+import { Duration } from "aws-cdk-lib";
 import { TreatMissingData } from "aws-cdk-lib/aws-cloudwatch";
 import { SnsAction } from "aws-cdk-lib/aws-cloudwatch-actions";
 import { SubnetType } from "aws-cdk-lib/aws-ec2";
 import { PolicyStatement } from "aws-cdk-lib/aws-iam";
-import { EventType, Bucket as S3Bucket } from "aws-cdk-lib/aws-s3";
+import { EventType, Bucket as S3Bucket, StorageClass } from "aws-cdk-lib/aws-s3";
 import { LambdaDestination } from "aws-cdk-lib/aws-s3-notifications";
 import { Cron, Function, StackContext, use } from "sst/constructs";
 import { DynamoDBStack } from "./DynamoDBStack";
@@ -18,11 +19,32 @@ export const SiriGeneratorStack = ({ stack }: StackContext) => {
     const { dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret } = use(RdsStack);
     const { vpc, lambdaSg } = use(VpcStack);
 
-    const siriSXBucket = createBucket(stack, "cdd-siri-sx", true);
+    const siriSXBucket = createBucket(stack, "cdd-siri-sx", true, [
+        {
+            noncurrentVersionTransitions: [
+                {
+                    storageClass: StorageClass.INTELLIGENT_TIERING,
+                    transitionAfter: Duration.days(30),
+                },
+            ],
+        },
+    ]);
 
-    const siriSXUnvalidatedBucket = createBucket(stack, "cdd-siri-sx-unvalidated", false, 30);
-    const disruptionsJsonBucket = createBucket(stack, "cdd-disruptions-json", true);
-    const disruptionsCsvBucket = createBucket(stack, "cdd-disruptions-csv", true);
+    const siriSXUnvalidatedBucket = createBucket(stack, "cdd-siri-sx-unvalidated", false, [
+        {
+            expiration: Duration.days(30),
+        },
+    ]);
+    const disruptionsJsonBucket = createBucket(stack, "cdd-disruptions-json", true, [
+        {
+            noncurrentVersionExpiration: Duration.days(30),
+        },
+    ]);
+    const disruptionsCsvBucket = createBucket(stack, "cdd-disruptions-csv", true, [
+        {
+            noncurrentVersionExpiration: Duration.days(30),
+        },
+    ]);
 
     const apiUrl = !["preprod", "prod"].includes(stack.stage)
         ? "https://api.test.ref-data.dft-create-data.com/v1"

@@ -1,9 +1,10 @@
-import boto3
+import logging
 import os
 import uuid
-import logging
-from urllib.parse import unquote_plus
 from urllib.error import URLError
+from urllib.parse import unquote_plus
+
+import boto3
 import xmlschema
 
 logger = logging.getLogger()
@@ -13,10 +14,7 @@ stage = os.getenv("STAGE") or "development"
 
 siri_path = "/xsd/www.siri.org.uk/schema/2.0/xsd/siri.xsd"
 
-xsd_path = (
-    os.path.dirname(os.path.realpath(__file__))
-    + siri_path
-)
+xsd_path = os.path.dirname(os.path.realpath(__file__)) + siri_path
 
 
 s3_client = boto3.client("s3")
@@ -107,7 +105,10 @@ def main(event, context):
                 download_path,
                 os.getenv("SIRI_SX_BUCKET_NAME"),
                 "SIRI-SX.xml",
-                ExtraArgs={"ContentType": "application/xml"},
+                ExtraArgs={
+                    "ContentType": "application/xml",
+                    "StorageClass": "INTELLIGENT_TIERING",
+                },
             )
 
             put_cloudwatch_metric(os.getenv("SIRI_PUBLISH_METRIC"), 1)

@@ -1,8 +1,12 @@
-import { Duration } from "aws-cdk-lib";
-import { BucketEncryption } from "aws-cdk-lib/aws-s3";
+import { BucketEncryption, LifecycleRule } from "aws-cdk-lib/aws-s3";
 import { Bucket, Stack } from "sst/constructs";
 
-export const createBucket = (stack: Stack, name: string, versioned: boolean, expirationInDays?: number): Bucket => {
+export const createBucket = (
+    stack: Stack,
+    name: string,
+    versioned: boolean,
+    lifecycleRules?: LifecycleRule[],
+): Bucket => {
     const siriSXBucket = new Bucket(stack, name, {
         name: `${name}-${stack.stage}`,
         cdk: {
@@ -15,7 +19,7 @@ export const createBucket = (stack: Stack, name: string, versioned: boolean, exp
                     ignorePublicAcls: true,
                     restrictPublicBuckets: true,
                 },
-                ...(expirationInDays ? { lifecycleRules: [{ expiration: Duration.days(expirationInDays) }] } : {}),
+                lifecycleRules,
             },
         },
     });
