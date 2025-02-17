@@ -1,4 +1,4 @@
-import { Generated, Insertable, JSONColumnType, Selectable, Updateable } from "kysely";
+import { Generated, Insertable, JSONColumnType, Kysely, Selectable, Updateable } from "kysely";
 import { ConsequenceOperators, Journey, Service, Stop, Validity } from "../disruptionTypes";
 import { History } from "../disruptionTypes.zod";
 import { PublishStatus, Severity, VehicleMode } from "../enums";
@@ -48,6 +48,8 @@ export interface Database {
     roadworks: RoadworksTable;
     highwayAuthorityAdminAreas: HighwayAuthorityAdminAreasTable;
 }
+
+export type KyselyDb = Kysely<Database>;
 
 export interface DisruptionsTable {
     id: string;

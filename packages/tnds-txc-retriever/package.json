@@ -1,0 +1,21 @@
+{
+    "name": "@create-disruptions-data/tnds-txc-retriever",
+    "version": "0.1.0",
+    "description": "This function retrieves TNDS TXC data and stores it in an S3 bucket",
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "module",
+    "dependencies": {
+        "@aws-sdk/client-s3": "^3.744.0",
+        "@aws-sdk/lib-storage": "^3.744.0",
+        "@create-disruptions-data/shared-ts": "workspace:^",
+        "basic-ftp": "^5.0.5",
+        "dayjs": "^1.11.7",
+        "zod": "^3.23.8"
+    },
+    "devDependencies": {
+        "@types/aws-lambda": "^8.10.110",
+        "@types/node": "^20.11.19"
+    }
+}

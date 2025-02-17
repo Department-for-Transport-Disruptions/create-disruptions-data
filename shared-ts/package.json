@@ -7,11 +7,12 @@
         "kysely": "kysely"
     },
     "dependencies": {
-        "@aws-sdk/client-cognito-identity-provider": "^3.682.0",
-        "@aws-sdk/client-s3": "^3.682.0",
-        "@aws-sdk/client-ssm": "^3.682.0",
+        "@aws-sdk/client-cognito-identity-provider": "^3.744.0",
+        "@aws-sdk/client-s3": "^3.744.0",
+        "@aws-sdk/client-ssm": "^3.744.0",
+        "@aws-sdk/lib-storage": "^3.744.0",
         "dayjs": "^1.11.7",
-        "kysely": "^0.27.4",
+        "kysely": "^0.27.5",
         "lambda-log": "^3.1.0",
         "node-fetch": "^3.3.2",
         "pg": "^8.13.1"

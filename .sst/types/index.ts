@@ -240,3 +240,174 @@ declare module "sst/node/function" {
   }
 }
 
+import "sst/node/config";
+declare module "sst/node/config" {
+  export interface SecretResources {
+    "TNDS_FTP_HOST": {
+      value: string;
+    }
+  }
+}
+
+import "sst/node/config";
+declare module "sst/node/config" {
+  export interface SecretResources {
+    "TNDS_FTP_USERNAME": {
+      value: string;
+    }
+  }
+}
+
+import "sst/node/config";
+declare module "sst/node/config" {
+  export interface SecretResources {
+    "TNDS_FTP_PASSWORD": {
+      value: string;
+    }
+  }
+}
+
+import "sst/node/bucket";
+declare module "sst/node/bucket" {
+  export interface BucketResources {
+    "cdd-ref-csv-data": {
+      bucketName: string;
+    }
+  }
+}
+
+import "sst/node/bucket";
+declare module "sst/node/bucket" {
+  export interface BucketResources {
+    "cdd-ref-txc-data": {
+      bucketName: string;
+    }
+  }
+}
+
+import "sst/node/bucket";
+declare module "sst/node/bucket" {
+  export interface BucketResources {
+    "cdd-ref-txc-zipped-data": {
+      bucketName: string;
+    }
+  }
+}
+
+import "sst/node/bucket";
+declare module "sst/node/bucket" {
+  export interface BucketResources {
+    "cdd-ref-nptg-data": {
+      bucketName: string;
+    }
+  }
+}
+
+import "sst/node/bucket";
+declare module "sst/node/bucket" {
+  export interface BucketResources {
+    "cdd-ref-bank-holidays-data": {
+      bucketName: string;
+    }
+  }
+}
+
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
+    "cdd-ref-data-cleardown-db-function": {
+      functionName: string;
+    }
+  }
+}
+
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
+    "cdd-noc-retriever-function": {
+      functionName: string;
+    }
+  }
+}
+
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
+    "cdd-naptan-retriever-function": {
+      functionName: string;
+    }
+  }
+}
+
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
+    "cdd-nptg-retriever-function": {
+      functionName: string;
+    }
+  }
+}
+
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
+    "cdd-bods-txc-retriever-function": {
+      functionName: string;
+    }
+  }
+}
+
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
+    "cdd-tnds-txc-retriever-function": {
+      functionName: string;
+    }
+  }
+}
+
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
+    "cdd-bank-holidays-retriever-function": {
+      functionName: string;
+    }
+  }
+}
+
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
+    "cdd-ref-data-unzipper-function": {
+      functionName: string;
+    }
+  }
+}
+
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
+    "cdd-csv-ref-data-uploader-function": {
+      functionName: string;
+    }
+  }
+}
+
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
+    "cdd-nptg-uploader-function": {
+      functionName: string;
+    }
+  }
+}
+
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
+    "cdd-txc-uploader-function": {
+      functionName: string;
+    }
+  }
+}
+

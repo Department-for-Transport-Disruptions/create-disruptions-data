@@ -1,0 +1,19 @@
+{
+    "name": "@create-disruptions-data/unzipper",
+    "version": "0.1.0",
+    "description": "Clears down existing data and triggers the BODS and TNDS retrievers.",
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "type": "module",
+    "dependencies": {
+        "@create-disruptions-data/shared-ts": "workspace:^",
+        "unzipper": "^0.12.3",
+        "zod": "^3.23.8"
+    },
+    "devDependencies": {
+        "@types/aws-lambda": "^8.10.110",
+        "@types/node": "^20.11.19",
+        "@types/unzipper": "^0.10.10"
+    }
+}
