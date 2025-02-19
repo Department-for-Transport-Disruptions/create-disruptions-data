@@ -12,5 +12,6 @@
         "compilerOptions": {
             "moduleResolution": "node"
         }
-    }
+    },
+    "exclude": ["testdata", "testdata/*", "**/*.test.ts", "tests/", "coverage/", ".vitest/"]
 }
