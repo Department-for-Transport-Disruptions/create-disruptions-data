@@ -421,3 +421,17 @@ export interface HighwayAuthorityAdminAreasTable {
 export type HighwayAuthorityAdminAreaDB = Selectable<HighwayAuthorityAdminAreasTable>;
 export type NewHighwayAuthorityAdminAreaDB = Insertable<HighwayAuthorityAdminAreasTable>;
 export type HighwayAuthorityAdminAreaUpdateDB = Updateable<HighwayAuthorityAdminAreasTable>;
+
+export type Tables =
+    | "stops"
+    | "operator_lines"
+    | "operators"
+    | "operator_public_data"
+    | "services"
+    | "service_journey_patterns"
+    | "service_journey_pattern_links"
+    | "service_admin_area_codes"
+    | "localities"
+    | "vehicle_journeys"
+    | "tracks"
+    | "nptg_admin_areas";

@@ -10,6 +10,7 @@ import { RoadworksNotificationStack } from "./stacks/RoadworksNotificationStack"
 import { SiriAPIStack } from "./stacks/SiriAPIStack";
 import { SiriGeneratorStack } from "./stacks/SiriGeneratorStack";
 import { SiteStack } from "./stacks/SiteStack";
+import { TableRenamerStack } from "./stacks/TableRenamerStack";
 import { VpcStack } from "./stacks/VpcStack";
 
 export default {
@@ -32,5 +33,6 @@ export default {
         app.stack(RoadworksNotificationStack);
         app.stack(DynamoMigratorStack);
         app.stack(RefDataStepFunctionStack);
+        app.stack(TableRenamerStack);
     },
 } satisfies SSTConfig;
