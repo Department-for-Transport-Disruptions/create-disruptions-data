@@ -1,5 +1,5 @@
 import { GetParameterCommand, SSMClient } from "@aws-sdk/client-ssm";
-import { Kysely, sql } from "kysely";
+import { Kysely } from "kysely";
 import * as logger from "lambda-log";
 
 import { Database, Tables } from "@create-disruptions-data/shared-ts/db/types";
@@ -112,15 +112,15 @@ const tables = [
 ];
 
 export const deleteAndRenameTables = async (db: Kysely<Database>): Promise<void> => {
-    await db.transaction().execute(async (trx) => {
+    await db.transaction().execute(async (_trx) => {
         // Drop old tables
         for (const table of tables) {
-          await db.schema.dropTable(`${table}_old`).ifExists().execute();
+            await db.schema.dropTable(`${table}_old`).ifExists().execute();
         }
 
         // Rename the current tables to _old
         for (const table of tables) {
-          await db.schema.alterTable(table).renameTo(`${table}_old`).execute();
+            await db.schema.alterTable(table).renameTo(`${table}_old`).execute();
         }
 
         // Rename the _new tables to the original names

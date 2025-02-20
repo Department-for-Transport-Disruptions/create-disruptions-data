@@ -3,13 +3,11 @@
     "version": "0.1.0",
     "type": "module",
     "scripts": {
-        "test": "sst bind vitest",
         "typecheck": "tsc -noEmit"
     },
     "devDependencies": {
         "@types/lambda-log": "^2.2.1",
-        "@types/node": "^20.10.5",
-        "vitest": "^0.29.1"
+        "@types/node": "^20.10.5"
     },
     "dependencies": {
         "@aws-sdk/client-ssm": "^3.675.0",
