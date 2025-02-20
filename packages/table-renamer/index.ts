@@ -1,5 +1,5 @@
 import { GetParameterCommand, SSMClient } from "@aws-sdk/client-ssm";
-import { Kysely } from "kysely";
+import { Kysely, TableExpression } from "kysely";
 import * as logger from "lambda-log";
 
 import { Database, Tables } from "@create-disruptions-data/shared-ts/db/types";
