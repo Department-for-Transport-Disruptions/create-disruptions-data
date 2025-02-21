@@ -75,7 +75,7 @@ export const main = async (event: APIGatewayEvent) => {
             });
             if (
                 !roadwork?.permitReferenceNumber ||
-                (roadwork && new Date(roadwork.lastUpdatedDatetime) < new Date(permitMessage.data.lastUpdatedDatetime))
+                (roadwork && new Date(roadwork.lastUpdatedDateTime) < new Date(permitMessage.data.lastUpdatedDateTime))
             ) {
                 logger.info(`Sending message: ${permitMessage.data.permitReferenceNumber} to SQS queue`);
                 const { STREET_MANAGER_SQS_QUEUE_URL: streetManagerSqsUrl } = process.env;

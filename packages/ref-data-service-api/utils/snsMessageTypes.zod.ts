@@ -92,7 +92,7 @@ export const permitMessageSchema = baseMessageSchema
         town: data.object_data.town ?? null,
         currentTrafficManagementType: data.object_data.current_traffic_management_type ?? null,
         currentTrafficManagementTypeUpdateDate: data.object_data.current_traffic_manage_type_update_date ?? null,
-        lastUpdatedDatetime: data.event_time ?? null,
+        lastUpdatedDateTime: data.event_time ?? null,
     }));
 
 export type PermitMessage = z.infer<typeof permitMessageSchema>;

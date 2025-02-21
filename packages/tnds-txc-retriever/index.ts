@@ -19,10 +19,10 @@ const getZipFilesFromFTP = async (client: Client): Promise<Map<string, Uint8Arra
 
     for (const file of allFiles) {
         if (file.name.endsWith(".zip")) {
-            const chunks: Buffer[] = [];
+            const chunks: Uint8Array[] = [];
             const writableStream = new Writable({
                 write(chunk: Buffer, _encoding, callback) {
-                    chunks.push(chunk);
+                    chunks.push(new Uint8Array(chunk));
                     callback();
                 },
             });

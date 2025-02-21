@@ -1,6 +1,6 @@
 import { SQSClient, SendMessageCommand } from "@aws-sdk/client-sqs";
 import { APIGatewayEvent } from "aws-lambda";
-import { AwsCommand, mockClient } from "aws-sdk-client-mock/dist/es";
+import { mockClient } from "aws-sdk-client-mock";
 import Mockdate from "mockdate";
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -49,7 +49,7 @@ describe("post-street-manager", () => {
         vi.resetAllMocks();
         sqsMock.reset();
         vi.spyOn(snsMessageValidator, "isValidSignature").mockResolvedValue(true);
-        vi.spyOn(getDbClient, "call").mockImplementation(() => ({}) as ReturnType<typeof getDbClient>);
+        vi.spyOn(getDbClient, "call" as never).mockImplementation(() => ({}) as ReturnType<typeof getDbClient>);
         getRoadworkByIdSpy.mockResolvedValue({
             permitReferenceNumber: "TSR1591199404915-01",
             highwayAuthority: "CITY OF WESTMINSTER",
@@ -109,8 +109,7 @@ describe("post-street-manager", () => {
         expect(sqsMock.commandCalls(SendMessageCommand).length).toBe(1);
         expect(
             // biome-ignore lint/suspicious/noExplicitAny: reason
-            sqsMock.commandCalls(SendMessageCommand as new (input: any) => AwsCommand<any, any, any, any>)[0].args[0]
-                .input.MessageBody,
+            sqsMock.commandCalls(SendMessageCommand)[0].args[0].input.MessageBody,
         ).toBe(JSON.stringify(expected));
     });
 

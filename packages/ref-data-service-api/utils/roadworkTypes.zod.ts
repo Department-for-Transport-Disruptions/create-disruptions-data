@@ -89,7 +89,7 @@ export const roadworkSchema = z.object({
     town: z.string().nullable(),
     currentTrafficManagementType: trafficManagementTypes.nullable(),
     currentTrafficManagementTypeUpdateDate: z.string().datetime().nullable(),
-    lastUpdatedDatetime: z.string().datetime(),
+    lastUpdatedDateTime: z.string().datetime(),
     createdDateTime: z.string().datetime().optional(),
 });
 

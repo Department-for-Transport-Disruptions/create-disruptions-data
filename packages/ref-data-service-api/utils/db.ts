@@ -23,7 +23,7 @@ export type OperatorQueryInput = {
     adminAreaCodes?: string[];
     modes?: RefVehicleMode[];
     page?: number;
-    dataSource?: RefVehicleMode;
+    dataSource?: Datasource;
 };
 
 export type ServicesForOperatorQueryInput = {
@@ -266,9 +266,9 @@ export const getOperators = async (dbClient: Kysely<Database>, input: OperatorQu
 
         const operator = await dbClient
             .selectFrom("operators")
-            .leftJoin("operator_lines", "operator_lines.nocCode", "operators.nocCode")
-            .leftJoin("operator_public_data", "operator_public_data.pubNmId", "operators.pubNmId")
-            .selectAll(["operators", "operator_lines", "operator_public_data"])
+            .leftJoin("operatorLines", "operatorLines.nocCode", "operators.nocCode")
+            .leftJoin("operatorPublicData", "operatorPublicData.pubNmId", "operators.pubNmId")
+            .selectAll(["operators", "operatorLines", "operatorPublicData"])
             .where("operators.nocCode", "=", input.nocCode)
             .executeTakeFirst();
 
@@ -290,8 +290,8 @@ export const getOperators = async (dbClient: Kysely<Database>, input: OperatorQu
 
     if (!!input.adminAreaCodes && input.adminAreaCodes.length > 0) {
         query = query
-            .innerJoin("service_admin_area_codes", "service_admin_area_codes.serviceId", "services.id")
-            .where("service_admin_area_codes.adminAreaCode", "in", input.adminAreaCodes ?? []);
+            .innerJoin("serviceAdminAreaCodes", "serviceAdminAreaCodes.serviceId", "services.id")
+            .where("serviceAdminAreaCodes.adminAreaCode", "in", input.adminAreaCodes ?? []);
     }
 
     if (!!input.modes && input.modes.length > 0) {
@@ -299,7 +299,7 @@ export const getOperators = async (dbClient: Kysely<Database>, input: OperatorQu
     }
 
     if (input.dataSource) {
-        query = query.where("services.dataSource", "=", input.dataSource ?? DataSource.bods);
+        query = query.where("services.dataSource", "=", input.dataSource ?? Datasource.bods);
     }
 
     return query
@@ -404,16 +404,16 @@ export const getServicesByStops = async (dbClient: Kysely<Database>, input: Serv
 
     const services = await dbClient
         .selectFrom("services")
-        .innerJoin("service_journey_patterns", "service_journey_patterns.operatorServiceId", "services.id")
+        .innerJoin("serviceJourneyPatterns", "serviceJourneyPatterns.operatorServiceId", "services.id")
         .innerJoin(
-            "service_journey_pattern_links",
-            "service_journey_pattern_links.journeyPatternId",
-            "service_journey_patterns.id",
+            "serviceJourneyPatternLinks",
+            "serviceJourneyPatternLinks.journeyPatternId",
+            "serviceJourneyPatterns.id",
         )
         .$if(!!input.adminAreaCodes?.[0], (qb) =>
             qb
-                .innerJoin("service_admin_area_codes", "service_admin_area_codes.serviceId", "services.id")
-                .where("service_admin_area_codes.adminAreaCode", "in", input.adminAreaCodes ?? []),
+                .innerJoin("serviceAdminAreaCodes", "serviceAdminAreaCodes.serviceId", "services.id")
+                .where("serviceAdminAreaCodes.adminAreaCode", "in", input.adminAreaCodes ?? []),
         )
         .$if(!!input.nocCodes?.[0], (qb) => qb.where("services.nocCode", "in", input.nocCodes ?? ["---"]))
         .selectAll("services")
@@ -421,8 +421,8 @@ export const getServicesByStops = async (dbClient: Kysely<Database>, input: Serv
         .distinct()
         .where((qb) => qb.or([qb("fromAtcoCode", "in", input.stops), qb("toAtcoCode", "in", input.stops)]))
         .where("dataSource", "=", input.dataSource)
-        .orderBy("service_journey_pattern_links.fromSequenceNumber")
-        .orderBy("service_journey_patterns.direction")
+        .orderBy("serviceJourneyPatternLinks.fromSequenceNumber")
+        .orderBy("serviceJourneyPatterns.direction")
         .execute();
 
     return services;
@@ -441,8 +441,8 @@ export const getServices = async (dbClient: Kysely<Database>, input: ServicesQue
         .$if(!!input.nocCodes?.[0], (qb) => qb.where("services.nocCode", "in", input.nocCodes ?? ["---"]))
         .$if(!!input.adminAreaCodes?.[0], (qb) =>
             qb
-                .innerJoin("service_admin_area_codes", "service_admin_area_codes.serviceId", "services.id")
-                .where("service_admin_area_codes.adminAreaCode", "in", input.adminAreaCodes ?? []),
+                .innerJoin("serviceAdminAreaCodes", "serviceAdminAreaCodes.serviceId", "services.id")
+                .where("serviceAdminAreaCodes.adminAreaCode", "in", input.adminAreaCodes ?? []),
         )
         .where((qb) =>
             qb.or([
@@ -492,18 +492,18 @@ export const getServiceStops = async (
 
     const stops = await dbClient
         .selectFrom("services")
-        .innerJoin("service_journey_patterns", "service_journey_patterns.operatorServiceId", "services.id")
+        .innerJoin("serviceJourneyPatterns", "serviceJourneyPatterns.operatorServiceId", "services.id")
         .innerJoin(
-            "service_journey_pattern_links",
-            "service_journey_pattern_links.journeyPatternId",
-            "service_journey_patterns.id",
+            "serviceJourneyPatternLinks",
+            "serviceJourneyPatternLinks.journeyPatternId",
+            "serviceJourneyPatterns.id",
         )
-        .innerJoin("stops as fromStop", "fromStop.atcoCode", "service_journey_pattern_links.fromAtcoCode")
-        .innerJoin("stops as toStop", "toStop.atcoCode", "service_journey_pattern_links.toAtcoCode")
+        .innerJoin("stops as fromStop", "fromStop.atcoCode", "serviceJourneyPatternLinks.fromAtcoCode")
+        .innerJoin("stops as toStop", "toStop.atcoCode", "serviceJourneyPatternLinks.toAtcoCode")
         .$if(!!input.adminAreaCodes?.[0], (qb) =>
             qb
-                .innerJoin("service_admin_area_codes", "service_admin_area_codes.serviceId", "services.id")
-                .where("service_admin_area_codes.adminAreaCode", "in", input.adminAreaCodes ?? []),
+                .innerJoin("serviceAdminAreaCodes", "serviceAdminAreaCodes.serviceId", "services.id")
+                .where("serviceAdminAreaCodes.adminAreaCode", "in", input.adminAreaCodes ?? []),
         )
         .select([
             "services.id as serviceId",
@@ -542,11 +542,11 @@ export const getServiceStops = async (
             "toStop.timingStatus as toTimingStatus",
             "toStop.administrativeAreaCode as toAdministrativeAreaCode",
             "toStop.status as toStatus",
-            "service_journey_pattern_links.toSequenceNumber",
-            "service_journey_pattern_links.orderInSequence",
-            "service_journey_pattern_links.fromSequenceNumber",
-            "service_journey_pattern_links.journeyPatternId",
-            "service_journey_patterns.direction",
+            "serviceJourneyPatternLinks.toSequenceNumber",
+            "serviceJourneyPatternLinks.orderInSequence",
+            "serviceJourneyPatternLinks.fromSequenceNumber",
+            "serviceJourneyPatternLinks.journeyPatternId",
+            "serviceJourneyPatterns.direction",
         ])
         .distinct()
         .groupBy(["fromId", "toId"])
@@ -558,8 +558,8 @@ export const getServiceStops = async (
         .where("toStop.busStopType", "not in", ignoredBusStopTypes)
         .where((qb) => qb.or([qb("fromStop.status", "=", "active"), qb("toStop.status", "=", "active")]))
         .$if(!!input.modes?.[0], (qb) => qb.where("services.mode", "in", input.modes ?? ["---"]))
-        .orderBy("service_journey_pattern_links.orderInSequence")
-        .orderBy("service_journey_pattern_links.journeyPatternId")
+        .orderBy("serviceJourneyPatternLinks.orderInSequence")
+        .orderBy("serviceJourneyPatternLinks.journeyPatternId")
         .execute();
 
     return stops;
@@ -590,21 +590,21 @@ export const getServiceJourneys = async (
 
     const journeys = await dbClient
         .selectFrom("services")
-        .innerJoin("service_journey_patterns", "service_journey_patterns.operatorServiceId", "services.id")
-        .innerJoin("vehicle_journeys", (join) =>
+        .innerJoin("serviceJourneyPatterns", "serviceJourneyPatterns.operatorServiceId", "services.id")
+        .innerJoin("vehicleJourneys", (join) =>
             join
-                .onRef("vehicle_journeys.operatorServiceId", "=", "services.id")
-                .onRef("vehicle_journeys.journeyPatternRef", "=", "service_journey_patterns.journeyPatternRef"),
+                .onRef("vehicleJourneys.operatorServiceId", "=", "services.id")
+                .onRef("vehicleJourneys.journeyPatternRef", "=", "serviceJourneyPatterns.journeyPatternRef"),
         )
         .select([
             "services.id as serviceId",
             "services.dataSource as dataSource",
-            "vehicle_journeys.journeyCode",
-            "vehicle_journeys.vehicleJourneyCode",
-            "vehicle_journeys.departureTime",
+            "vehicleJourneys.journeyCode",
+            "vehicleJourneys.vehicleJourneyCode",
+            "vehicleJourneys.departureTime",
             "services.destination",
             "services.origin",
-            "service_journey_patterns.direction",
+            "serviceJourneyPatterns.direction",
         ])
         .distinct()
         .where("services.id", "=", service.id)
@@ -628,7 +628,7 @@ export const getAdminAreas = async (dbClient: Kysely<Database>) => {
     logger.info("Starting getAdminAreas...");
 
     const areaCodes = await dbClient
-        .selectFrom("nptg_admin_areas")
+        .selectFrom("nptgAdminAreas")
         .select(["administrativeAreaCode", "name", "shortName"])
         .distinct()
         .execute();
@@ -644,17 +644,17 @@ export const getRoadworks = async (dbClient: Kysely<Database>, input: RoadworksQ
     return dbClient
         .selectFrom("roadworks")
         .innerJoin(
-            "highway_authority_admin_areas",
-            "highway_authority_admin_areas.highwayAuthoritySwaCode",
+            "highwayAuthorityAdminAreas",
+            "highwayAuthorityAdminAreas.highwayAuthoritySwaCode",
             "roadworks.highwayAuthoritySwaCode",
         )
         .$if(!!input.adminAreaCodes && input.adminAreaCodes.length > 0, (qb) =>
-            qb.where("highway_authority_admin_areas.administrativeAreaCode", "in", input.adminAreaCodes ?? []),
+            qb.where("highwayAuthorityAdminAreas.administrativeAreaCode", "in", input.adminAreaCodes ?? []),
         )
         .$if(!!input.permitStatus, (qb) => qb.where("roadworks.permitStatus", "=", input.permitStatus ?? null))
         .$if(!!input.lastUpdatedTimeDelta, (qb) =>
             qb.where(
-                "roadworks.lastUpdatedDatetime",
+                "roadworks.lastUpdatedDateTime",
                 ">=",
                 sql<string>`DATE_SUB(NOW(), INTERVAL ${input.lastUpdatedTimeDelta} MINUTE)`,
             ),
@@ -680,7 +680,7 @@ export const getRoadworks = async (dbClient: Kysely<Database>, input: RoadworksQ
             "roadworks.actualEndDateTime",
             "roadworks.permitStatus",
             "roadworks.workStatus",
-            "highway_authority_admin_areas.administrativeAreaCode",
+            "highwayAuthorityAdminAreas.administrativeAreaCode",
         ])
         .distinct()
         .orderBy("roadworks.proposedStartDateTime")
@@ -695,8 +695,8 @@ export const getRoadworkById = async (dbClient: Kysely<Database>, input: Roadwor
     return dbClient
         .selectFrom("roadworks")
         .innerJoin(
-            "highway_authority_admin_areas",
-            "highway_authority_admin_areas.highwayAuthoritySwaCode",
+            "highwayAuthorityAdminAreas",
+            "highwayAuthorityAdminAreas.highwayAuthoritySwaCode",
             "roadworks.highwayAuthoritySwaCode",
         )
         .where("roadworks.permitReferenceNumber", "=", input.permitReferenceNumber)
@@ -717,9 +717,9 @@ export const getRoadworkById = async (dbClient: Kysely<Database>, input: Roadwor
             "roadworks.actualEndDateTime",
             "roadworks.permitStatus",
             "roadworks.workStatus",
-            "highway_authority_admin_areas.administrativeAreaCode",
+            "highwayAuthorityAdminAreas.administrativeAreaCode",
             "roadworks.createdDateTime",
-            "roadworks.lastUpdatedDatetime",
+            "roadworks.lastUpdatedDateTime",
         ])
         .distinct()
         .executeTakeFirst();
