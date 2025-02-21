@@ -2,5 +2,6 @@
   "search.exclude": {
     "**/.sst": true
   },
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "postman.settings.dotenv-detection-notification-visibility": false
 }

@@ -19,7 +19,9 @@
             "/playwright/.cache/",
             ".env.playwright",
             "playwright/.auth",
-            "./public/scripts/all.js"
+            "./public/scripts/all.js",
+            ".venv",
+            "./packages/txc-uploader/*"
         ]
     },
     "formatter": {
