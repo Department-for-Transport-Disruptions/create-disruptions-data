@@ -4,12 +4,12 @@ import { AwsCommand, mockClient } from "aws-sdk-client-mock/dist/es";
 import Mockdate from "mockdate";
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { getDbClient} from "@create-disruptions-data/shared-ts/utils/db";
+import { getDbClient } from "@create-disruptions-data/shared-ts/utils/db";
 
-import { main } from "./index";
 import { mockStreetManagerNotification, mockStreetManagerNotificationOld } from "../testdata/sample_data";
 import * as db from "../utils/db";
 import * as snsMessageValidator from "../utils/snsMessageValidator";
+import { main } from "./index";
 
 const mockSnsEvent = {
     headers: {
@@ -49,7 +49,7 @@ describe("post-street-manager", () => {
         vi.resetAllMocks();
         sqsMock.reset();
         vi.spyOn(snsMessageValidator, "isValidSignature").mockResolvedValue(true);
-        vi.spyOn(getDbClient, "call").mockImplementation(() => ({} as ReturnType<typeof getDbClient>));
+        vi.spyOn(getDbClient, "call").mockImplementation(() => ({}) as ReturnType<typeof getDbClient>);
         getRoadworkByIdSpy.mockResolvedValue({
             permitReferenceNumber: "TSR1591199404915-01",
             highwayAuthority: "CITY OF WESTMINSTER",
