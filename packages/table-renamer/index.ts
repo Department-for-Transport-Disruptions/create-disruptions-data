@@ -1,5 +1,5 @@
 import { GetParameterCommand, SSMClient } from "@aws-sdk/client-ssm";
-import { Kysely, TableExpression } from "kysely";
+import { Kysely, sql } from "kysely";
 import * as logger from "lambda-log";
 
 import { Database, Tables } from "@create-disruptions-data/shared-ts/db/types";
@@ -77,17 +77,48 @@ export const main = async () => {
     }
 };
 
-export const checkReferenceDataImportHasCompleted = async (tableName: Tables, db: Kysely<Database>): Promise<void> => {
+export const checkReferenceDataImportHasCompleted = async (tableName: string, db: Kysely<Database>): Promise<void> => {
     logger.info(`Check if reference data import has completed for table ${tableName}`);
-    const [newCount] = await db.selectFrom(`${tableName}_new`).select(db.fn.count("id").as("count")).execute();
+
+    const [{ exists: newTableExists }] = await db
+        .selectFrom("pg_tables" as keyof Database)
+        .where(sql.ref("tablename"), "=", `${tableName}_new`)
+        .select(sql<boolean>`EXISTS(SELECT 1)`.as("exists"))
+        .execute();
+
+    let newCount = { count: 0 };
+    if (newTableExists) {
+        const result = await db
+        .selectFrom(`${tableName}_new` as keyof Database)
+        .select(db.fn.count("id").as("count"))
+        .execute();
+        newCount.count = Number(result[0]?.count ?? 0);
+    }
 
     if (newCount.count === 0) {
         throw new Error(`Reference data import has failed with zero rows in ${tableName}New`);
     }
 
-    const [currentCount] = await db.selectFrom(tableName).select(db.fn.count("id").as("count")).execute();
+    const [{ exists: tableExists }] = await db
+        .selectFrom("pg_tables" as keyof Database)
+        .where(sql.ref("tablename"), "=", tableName)
+        .select(sql<boolean>`EXISTS(SELECT 1)`.as("exists"))
+        .execute();
 
-    const percentageResult = (Number(newCount.count) / Number(currentCount.count)) * 100;
+    let currentCount = {count: 0}
+    if (tableExists) {
+        const result = await db
+            .selectFrom(tableName as keyof Database)
+            .select(db.fn.count("id").as("count"))
+            .execute();
+        currentCount.count = Number(result[0]?.count ?? 0);
+    }
+
+    if (currentCount.count === 0) {
+        throw new Error(`Reference data import has failed: ${tableName} (original table) contains zero rows.`);
+    }
+
+    const percentageResult = (newCount.count / currentCount.count) * 100;
 
     if (percentageResult < 75) {
         throw new Error(
