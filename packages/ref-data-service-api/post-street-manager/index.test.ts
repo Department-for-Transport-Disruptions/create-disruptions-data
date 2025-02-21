@@ -1,13 +1,15 @@
 import { SQSClient, SendMessageCommand } from "@aws-sdk/client-sqs";
-import * as dbUtils from "@create-disruptions-data/shared-ts/utils/db";
 import { APIGatewayEvent } from "aws-lambda";
-import { AwsCommand, mockClient } from "aws-sdk-client-mock";
+import { AwsCommand, mockClient } from "aws-sdk-client-mock/dist/es";
 import Mockdate from "mockdate";
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
+
+import { getDbClient} from "@create-disruptions-data/shared-ts/utils/db";
+
+import { main } from "./index";
 import { mockStreetManagerNotification, mockStreetManagerNotificationOld } from "../testdata/sample_data";
 import * as db from "../utils/db";
 import * as snsMessageValidator from "../utils/snsMessageValidator";
-import { main } from "./index";
 
 const mockSnsEvent = {
     headers: {
@@ -47,7 +49,7 @@ describe("post-street-manager", () => {
         vi.resetAllMocks();
         sqsMock.reset();
         vi.spyOn(snsMessageValidator, "isValidSignature").mockResolvedValue(true);
-        vi.spyOn(dbUtils, "getDbClient").mockImplementation(() => ({}) as unknown as SomeDbClientType);
+        vi.spyOn(getDbClient, "call").mockImplementation(() => ({} as ReturnType<typeof getDbClient>));
         getRoadworkByIdSpy.mockResolvedValue({
             permitReferenceNumber: "TSR1591199404915-01",
             highwayAuthority: "CITY OF WESTMINSTER",
@@ -57,20 +59,17 @@ describe("post-street-manager", () => {
             areaName: "LONDON",
             workCategory: "Standard",
             trafficManagementType: "Road closure",
+            administrativeAreaCode: "TMC",
+            createdDateTime: "2020-06-03T08:00:00.000Z",
             proposedStartDateTime: "2020-06-10T00:00:00.000Z",
             proposedEndDateTime: "2020-06-12T00:00:00.000Z",
             actualStartDateTime: "2020-06-11T10:11:00.000Z",
             actualEndDateTime: "2020-06-13T00:00:00.000Z",
             workStatus: "Works in progress",
-            usrn: "8401426",
             activityType: "Remedial works",
-            worksLocationType: "Cycleway, Footpath",
-            isTrafficSensitive: "Yes",
             permitStatus: "permit_modification_request",
             town: "LONDON",
-            currentTrafficManagementType: "Multi-way signals",
-            currentTrafficManagementTypeUpdateDate: null,
-            lastUpdatedDatetime: "2020-06-03T08:00:00.000Z",
+            lastUpdatedDateTime: "2020-06-03T08:00:00.000Z",
         });
 
         sqsMock.on(SendMessageCommand).resolves({ MessageId: "12345" });
@@ -94,20 +93,17 @@ describe("post-street-manager", () => {
             areaName: "LONDON",
             workCategory: "Standard",
             trafficManagementType: "Road closure",
+            administrativeAreaCode: "TMC",
+            createdDateTime: "2020-06-03T08:00:00.000Z",
             proposedStartDateTime: "2020-06-10T00:00:00.000Z",
             proposedEndDateTime: "2020-06-12T00:00:00.000Z",
             actualStartDateTime: "2020-06-11T10:11:00.000Z",
             actualEndDateTime: "2020-06-13T00:00:00.000Z",
             workStatus: "Works in progress",
-            usrn: "8401426",
             activityType: "Remedial works",
-            worksLocationType: "Cycleway, Footpath",
-            isTrafficSensitive: "Yes",
             permitStatus: "permit_modification_request",
             town: "LONDON",
-            currentTrafficManagementType: "Multi-way signals",
-            currentTrafficManagementTypeUpdateDate: null,
-            lastUpdatedDatetime: "2020-06-04T08:00:00.000Z",
+            lastUpdatedDateTime: "2020-06-04T08:00:00.000Z",
         };
 
         expect(sqsMock.commandCalls(SendMessageCommand).length).toBe(1);
