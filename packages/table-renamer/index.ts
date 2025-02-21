@@ -2,7 +2,7 @@ import { GetParameterCommand, SSMClient } from "@aws-sdk/client-ssm";
 import { Kysely, sql } from "kysely";
 import * as logger from "lambda-log";
 
-import { Database, Tables } from "@create-disruptions-data/shared-ts/db/types";
+import { Database } from "@create-disruptions-data/shared-ts/db/types";
 import { getDbClient } from "@create-disruptions-data/shared-ts/utils/db";
 import {
     disableTableRenamerParamName,
@@ -86,12 +86,12 @@ export const checkReferenceDataImportHasCompleted = async (tableName: string, db
         .select(sql<boolean>`EXISTS(SELECT 1)`.as("exists"))
         .execute();
 
-    let newCount = { count: 0 };
+    const newCount = { count: 0 };
     if (newTableExists) {
         const result = await db
-        .selectFrom(`${tableName}_new` as keyof Database)
-        .select(db.fn.count("id").as("count"))
-        .execute();
+            .selectFrom(`${tableName}_new` as keyof Database)
+            .select(db.fn.count("id").as("count"))
+            .execute();
         newCount.count = Number(result[0]?.count ?? 0);
     }
 
@@ -105,7 +105,7 @@ export const checkReferenceDataImportHasCompleted = async (tableName: string, db
         .select(sql<boolean>`EXISTS(SELECT 1)`.as("exists"))
         .execute();
 
-    let currentCount = {count: 0}
+    const currentCount = { count: 0 };
     if (tableExists) {
         const result = await db
             .selectFrom(tableName as keyof Database)
