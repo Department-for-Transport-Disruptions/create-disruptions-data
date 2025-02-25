@@ -218,7 +218,7 @@ export const getStops = async (dbClient: Kysely<Database>, input: StopsQueryInpu
                 .where("localities.administrativeAreaCode", "in", input.adminAreaCodes ?? ["---"])
                 .$if(!!input.polygon, (qb) =>
                     qb.where(
-                        sql<boolean>`ST_CONTAINS(ST_GEOMFROMTEXT(${input.polygon}), Point(stops.longitude, stops.latitude))`,
+                        sql<boolean>`ST_Contains(ST_GeomFromText(${input.polygon}), ST_MakePoint(stops.longitude, stops.latitude))`,
                     ),
                 ),
         )
@@ -258,7 +258,7 @@ export const getOperators = async (dbClient: Kysely<Database>, input: OperatorQu
             .where((qb) =>
                 qb.or([
                     qb("services.endDate", "is", null),
-                    qb(sql`STR_TO_DATE(services.endDate, '%Y-%m-%d')`, ">=", sql`CURDATE()`),
+                    qb(qb.ref("services.endDate"), ">=", sql<string>`CURRENT_DATE::text`),
                 ]),
             )
             .where("nocCode", "=", input.nocCode)
@@ -338,7 +338,7 @@ export const getServicesForOperator = async (dbClient: Kysely<Database>, input: 
         .where((qb) =>
             qb.or([
                 qb("services.endDate", "is", null),
-                qb(sql`STR_TO_DATE(services.endDate, '%Y-%m-%d')`, ">=", sql`CURDATE()`),
+                qb(qb.ref("services.endDate"), ">=", sql<string>`CURRENT_DATE::text`),
             ]),
         )
         .$if(!!input.lineNames && input.lineNames.length > 0, (qb) =>
@@ -445,10 +445,7 @@ export const getServices = async (dbClient: Kysely<Database>, input: ServicesQue
                 .where("serviceAdminAreaCodes.adminAreaCode", "in", input.adminAreaCodes ?? []),
         )
         .where((qb) =>
-            qb.or([
-                qb("services.endDate", "is", null),
-                qb(sql`STR_TO_DATE(services.endDate, '%Y-%m-%d')`, ">=", sql`CURDATE()`),
-            ]),
+            qb.or([qb("services.endDate", "is", null), qb(qb.ref("services.endDate"), ">=", sql`CURRENT_DATE`)]),
         )
         .offset((input.page || 0) * SERVICES_PAGE_SIZE)
         .limit(SERVICES_PAGE_SIZE)
@@ -656,14 +653,14 @@ export const getRoadworks = async (dbClient: Kysely<Database>, input: RoadworksQ
             qb.where(
                 "roadworks.lastUpdatedDateTime",
                 ">=",
-                sql<string>`DATE_SUB(NOW(), INTERVAL ${input.lastUpdatedTimeDelta} MINUTE)`,
+                sql<string>`NOW() - INTERVAL '${input.lastUpdatedTimeDelta} MINUTES'`,
             ),
         )
         .$if(!!input.createdTimeDelta, (qb) =>
             qb.where(
                 "roadworks.createdDateTime",
                 ">=",
-                sql<string>`DATE_SUB(NOW(), INTERVAL ${input.createdTimeDelta} MINUTE)`,
+                sql<string>`NOW() - INTERVAL '${input.createdTimeDelta} MINUTES'`,
             ),
         )
         .select([
