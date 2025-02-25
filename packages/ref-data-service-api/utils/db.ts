@@ -258,7 +258,7 @@ export const getOperators = async (dbClient: Kysely<Database>, input: OperatorQu
             .where((qb) =>
                 qb.or([
                     qb("services.endDate", "is", null),
-                    qb(qb.ref("services.endDate"), ">=", sql<string>`CURRENT_DATE::text`),
+                    qb(sql`CAST(${qb.ref("services.endDate")} AS DATE)`, ">=", sql`CURRENT_DATE`),
                 ]),
             )
             .where("nocCode", "=", input.nocCode)
@@ -338,7 +338,7 @@ export const getServicesForOperator = async (dbClient: Kysely<Database>, input: 
         .where((qb) =>
             qb.or([
                 qb("services.endDate", "is", null),
-                qb(qb.ref("services.endDate"), ">=", sql<string>`CURRENT_DATE::text`),
+                qb(sql`CAST(${qb.ref("services.endDate")} AS DATE)`, ">=", sql`CURRENT_DATE`),
             ]),
         )
         .$if(!!input.lineNames && input.lineNames.length > 0, (qb) =>
@@ -445,7 +445,10 @@ export const getServices = async (dbClient: Kysely<Database>, input: ServicesQue
                 .where("serviceAdminAreaCodes.adminAreaCode", "in", input.adminAreaCodes ?? []),
         )
         .where((qb) =>
-            qb.or([qb("services.endDate", "is", null), qb(qb.ref("services.endDate"), ">=", sql`CURRENT_DATE`)]),
+            qb.or([
+                qb("services.endDate", "is", null),
+                qb(sql`CAST(${qb.ref("services.endDate")} AS DATE)`, ">=", sql`CURRENT_DATE`),
+            ]),
         )
         .offset((input.page || 0) * SERVICES_PAGE_SIZE)
         .limit(SERVICES_PAGE_SIZE)
