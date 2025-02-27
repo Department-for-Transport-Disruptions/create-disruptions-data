@@ -411,6 +411,15 @@ declare module "sst/node/function" {
   }
 }
 
+import "sst/node/queue";
+declare module "sst/node/queue" {
+  export interface QueueResources {
+    "ref-data-service-street-manager-queue": {
+      queueUrl: string;
+    }
+  }
+}
+
 import "sst/node/function";
 declare module "sst/node/function" {
   export interface FunctionResources {
@@ -496,6 +505,15 @@ import "sst/node/function";
 declare module "sst/node/function" {
   export interface FunctionResources {
     "ref-data-service-get-admin-areas-function": {
+      functionName: string;
+    }
+  }
+}
+
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
+    "ref-data-service-post-street-manager-function": {
       functionName: string;
     }
   }

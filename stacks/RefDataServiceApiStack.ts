@@ -1,7 +1,9 @@
 import { SubnetType } from "aws-cdk-lib/aws-ec2";
+import { Subscription, SubscriptionProtocol, Topic } from "aws-cdk-lib/aws-sns";
 import { Api, Function, StackContext, use } from "sst/constructs";
 import { getDomain } from "../shared-ts/utils/domain";
 import { DnsStack } from "./DnsStack";
+import { QueueStack } from "./QueueStack";
 import { RdsStack } from "./RdsStack";
 import { VpcStack } from "./VpcStack";
 import { isUserEnv } from "./utils";
@@ -10,15 +12,13 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
     const { dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostSecret, dbPortSecret } = use(RdsStack);
     const { hostedZone } = use(DnsStack);
     const { vpc, lambdaSg } = use(VpcStack);
-    // const { streetManagerSqsQueue } = use(QueueStack);
+    const { streetManagerSqsQueue } = use(QueueStack);
 
     if (!hostedZone) {
         return;
     }
 
     const { ROOT_DOMAIN: rootDomain } = process.env;
-
-    const _isSandbox = !["test", "preprod", "prod"].includes(stack.stage);
 
     if (!rootDomain) {
         throw new Error("ROOT_DOMAIN must be set");
@@ -33,10 +33,10 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
             throw new Error("PROD_DOMAIN must be set in production");
         }
     }
-    //
-    // const streetManagerTestTopic: Topic | null = new Topic(stack, "street-manager-test-topic", {
-    //     topicName: `street-manager-test-topic-${stack.stage}`,
-    // });
+
+    const streetManagerTestTopic: Topic | null = new Topic(stack, "street-manager-test-topic", {
+        topicName: `street-manager-test-topic-${stack.stage}`,
+    });
 
     const stopsFunction = new Function(stack, "ref-data-service-get-stops-function", {
         bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostSecret, dbPortSecret],
@@ -199,24 +199,24 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
         logRetention: stack.stage === "prod" ? "one_month" : "two_weeks",
     });
 
-    // const postStreetManagerFunction = new Function(stack, "ref-data-service-post-street-manager-function", {
-    //     bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret],
-    //     functionName: `ref-data-service-post-street-manager-function-${stack.stage}`,
-    //     vpc,
-    //     vpcSubnets: {
-    //         subnetType: SubnetType.PRIVATE_WITH_EGRESS,
-    //     },
-    //     securityGroups: [lambdaSg],
-    //     handler: "packages/ref-data-service-api/post-street-manager/index.main",
-    //     timeout: 10,
-    //     memorySize: 512,
-    //     environment: {
-    //         STREET_MANAGER_SQS_QUEUE_URL: streetManagerSqsQueue.queueUrl,
-    //         TEST_STREET_MANAGER_TOPIC_ARN: streetManagerTestTopic?.topicArn ?? "",
-    //     },
-    //     runtime: "nodejs20.x",
-    //     logRetention: stack.stage === "prod" ? "one_month" : "two_weeks",
-    // });
+    const postStreetManagerFunction = new Function(stack, "ref-data-service-post-street-manager-function", {
+        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostSecret, dbPortSecret],
+        functionName: `ref-data-service-post-street-manager-function-${stack.stage}`,
+        vpc,
+        vpcSubnets: {
+            subnetType: SubnetType.PRIVATE_WITH_EGRESS,
+        },
+        securityGroups: [lambdaSg],
+        handler: "packages/ref-data-service-api/post-street-manager/index.main",
+        timeout: 10,
+        memorySize: 512,
+        environment: {
+            STREET_MANAGER_SQS_QUEUE_URL: streetManagerSqsQueue.queueUrl,
+            TEST_STREET_MANAGER_TOPIC_ARN: streetManagerTestTopic?.topicArn ?? "",
+        },
+        runtime: "nodejs20.x",
+        logRetention: stack.stage === "prod" ? "one_month" : "two_weeks",
+    });
 
     const roadworksFunction = new Function(stack, "ref-data-service-get-roadworks-function", {
         bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostSecret, dbPortSecret],
@@ -264,7 +264,7 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
             "GET /services/{serviceId}/routes": serviceRoutesFunction,
             "GET /area-codes": areaCodeFunction,
             "GET /admin-areas": adminAreasFunction,
-            // "POST /street-manager": postStreetManagerFunction,
+            "POST /street-manager": postStreetManagerFunction,
             "GET /roadworks": roadworksFunction,
             "GET /roadworks/{permitReferenceNumber}": roadworkByIdFunction,
         },
@@ -282,13 +282,13 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
         },
     });
 
-    // if (streetManagerTestTopic) {
-    //     new Subscription(stack, "street-manager-test-subscription", {
-    //         endpoint: `${api.url}/street-manager`,
-    //         protocol: SubscriptionProtocol.HTTPS,
-    //         topic: streetManagerTestTopic,
-    //     });
-    // }
+    if (streetManagerTestTopic) {
+        new Subscription(stack, "street-manager-test-subscription", {
+            endpoint: `${api.url}/street-manager`,
+            protocol: SubscriptionProtocol.HTTPS,
+            topic: streetManagerTestTopic,
+        });
+    }
 
     stack.addOutputs({
         ApiEndpoint: api.url,
