@@ -1,8 +1,8 @@
+import { getDbClient } from "@create-disruptions-data/shared-ts/utils/db";
 import { SQSEvent } from "aws-lambda";
 import * as logger from "lambda-log";
-import { getDbClient } from "@create-disruptions-data/shared-ts/utils/db";
-import { roadworkSchema } from "../utils/roadworkTypes.zod";
 import { getRoadworkByPermitReferenceNumber, updateToRoadworksTable, writeToRoadworksTable } from "../utils/db";
+import { roadworkSchema } from "../utils/roadworkTypes.zod";
 
 export const main = async (event: SQSEvent) => {
     const dbClient = getDbClient();

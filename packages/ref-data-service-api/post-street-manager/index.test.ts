@@ -4,16 +4,16 @@ import { mockClient } from "aws-sdk-client-mock";
 import Mockdate from "mockdate";
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 
-import { main } from "./index";
+import { mockStreetManagerNotification, mockStreetManagerNotificationOld } from "../testdata/sample_data";
 import * as db from "../utils/db";
 import * as snsMessageValidator from "../utils/snsMessageValidator";
-import { mockStreetManagerNotification, mockStreetManagerNotificationOld } from "../testdata/sample_data";
+import { main } from "./index";
 
 // 🔹 Mock AWS SQS Client
 const sqsMock = mockClient(SQSClient);
 const getRoadworkByIdMock = vi.spyOn(db, "getRoadworkById");
-const isValidSignatureMock = vi.spyOn(snsMessageValidator, "isValidSignature")
-const confirmSubscriptionMock = vi.spyOn(snsMessageValidator, "confirmSubscription")
+const isValidSignatureMock = vi.spyOn(snsMessageValidator, "isValidSignature");
+const _confirmSubscriptionMock = vi.spyOn(snsMessageValidator, "confirmSubscription");
 // 🔹 Mock `getDbClient` (Fixed `TS2554` Error)
 vi.mock("@create-disruptions-data/shared-ts/utils/db", () => ({
     getDbClient: vi.fn().mockReturnValue({}),
