@@ -1,10 +1,10 @@
 import { Database, RoadworksTable } from "@create-disruptions-data/shared-ts/db/types";
+import { PermitStatus } from "@create-disruptions-data/shared-ts/roadwork.zod"
 import { Datasource } from "@create-disruptions-data/shared-ts/enums";
 import dayjs from "dayjs";
 import { Kysely, sql } from "kysely";
 import * as logger from "lambda-log";
 import { RefVehicleMode } from "./enums";
-import { PermitStatus } from "./roadworkTypes.zod";
 
 // Type definition
 export type StopsQueryInput = {

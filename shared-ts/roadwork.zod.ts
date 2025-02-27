@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const workStatus = z.union([
+export  const workStatus = z.union([
     z.literal("Works planned"),
     z.literal("Works in progress"),
     z.literal("Works completed"),
@@ -13,7 +13,7 @@ const workStatus = z.union([
 
 export type WorkStatus = z.infer<typeof workStatus>;
 
-const trafficManagementTypes = z.union([
+export const trafficManagementTypes = z.union([
     z.literal("Road closure"),
     z.literal("Contra-flow"),
     z.literal("Lane closure"),
@@ -30,7 +30,7 @@ const trafficManagementTypes = z.union([
 
 export type TrafficManagementType = z.infer<typeof trafficManagementTypes>;
 
-const permitStatus = z.union([
+export const permitStatus = z.union([
     z.literal("submitted"),
     z.literal("granted"),
     z.literal("permit_modification_request"),
@@ -43,7 +43,7 @@ const permitStatus = z.union([
 
 export type PermitStatus = z.infer<typeof permitStatus>;
 
-const workCategory = z.union([
+export const workCategory = z.union([
     z.literal("Minor"),
     z.literal("Standard"),
     z.literal("Major"),
