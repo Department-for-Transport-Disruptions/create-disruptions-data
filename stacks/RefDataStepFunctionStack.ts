@@ -418,6 +418,28 @@ export const RefDataStepFunctionStack = ({ stack }: StackContext) => {
         outputPath: JsonPath.DISCARD,
     });
 
+    const tableRenamerTask = new LambdaInvoke(stack, "cdd-ref-data-service-table-renamer-task", {
+        stateName: "Cleardown Database",
+        lambdaFunction: new Function(stack, "cdd-ref-data-service-table-renamer-function", {
+            functionName: `cdd-db-table-renamer-${stack.stage}`,
+            bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostSecret, dbPortSecret],
+            vpc,
+            vpcSubnets: {
+                subnetType: SubnetType.PRIVATE_WITH_EGRESS,
+            },
+            logRetention: stack.stage === "prod" ? "one_month" : "two_weeks",
+            securityGroups: [lambdaSg],
+            nodejs: {
+                install: ["pg", "kysely"],
+            },
+            handler: "packages/table-renamer/index.main",
+            timeout: 120,
+            memorySize: 1024,
+            runtime: "nodejs22.x",
+            enableLiveDev: false,
+        }),
+    });
+
     const zippedObjectsMap = new DistributedMap(stack, "cdd-txc-unzipper-map", {
         stateName: "Get Zipped TxC",
         inputPath: "$[0]",
@@ -467,7 +489,8 @@ export const RefDataStepFunctionStack = ({ stack }: StackContext) => {
         .next(refDataRetrievalParallel)
         .next(zippedObjectsMap)
         .next(refDataUploadingParallel)
-        .next(txcObjectsMap);
+        .next(txcObjectsMap)
+        .next(tableRenamerTask);
 
     new StateMachine(stack, "ref-data-state-machine", {
         stateMachineName: `ref-data-ingestion-state-machine-${stack.stage}`,

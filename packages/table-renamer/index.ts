@@ -4,10 +4,7 @@ import * as logger from "lambda-log";
 
 import { Database } from "@create-disruptions-data/shared-ts/db/types";
 import { getDbClient } from "@create-disruptions-data/shared-ts/utils/db";
-import {
-    disableTableRenamerParamName,
-    putTableRenamerDisableParameter,
-} from "@create-disruptions-data/shared-ts/utils/ssm";
+import { disableTableRenamerParamName } from "@create-disruptions-data/shared-ts/utils/ssm";
 
 const ssm = new SSMClient({ region: "eu-west-2" });
 
@@ -33,9 +30,8 @@ export const main = async () => {
             disableRenamer = ssmOutput.Parameter?.Value;
         } catch (error) {
             if (error instanceof Error) {
-                throw new Error(`Failed to get parameter from ssm: ${error.stack || ""}`);
+                logger.error(`Failed to get parameter from ssm: ${error.stack || ""}`);
             }
-
             throw error;
         }
 
@@ -50,22 +46,16 @@ export const main = async () => {
 
             await deleteAndRenameTables(dbClient);
         } else {
-            await putTableRenamerDisableParameter(stage, "false", logger);
-            throw new Error(
+            const error = new Error(
                 "The SSM Parameter used to check for errors in the scheduled job has returned TRUE indicating an issue",
             );
+            logger.error(error);
+            throw error;
         }
+        logger.info("Table Renamer run successfully completed");
     } catch (e) {
-        if (stage) await putTableRenamerDisableParameter(stage, "false", logger);
         if (e instanceof Error) {
-            logger.error(e);
-
-            return {
-                statusCode: 500,
-                body: JSON.stringify({
-                    error: "There was a problem with the table renamer",
-                }),
-            };
+            logger.error(e, "Error running the Table Renamer");
         }
 
         return {

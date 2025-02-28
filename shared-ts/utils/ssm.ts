@@ -107,20 +107,3 @@ export const getParametersByPath = async (
         throw error;
     }
 };
-
-export const putTableRenamerDisableParameter = async (stage: string, value: "true" | "false", logger: Logger) => {
-    try {
-        const input: PutParameterCommandInput = {
-            Name: `${disableTableRenamerParamName}-${stage}`,
-            Value: value,
-            Type: "String",
-            Overwrite: true,
-        };
-        const command = new PutParameterCommand(input);
-        await ssm.send(command);
-    } catch (error) {
-        if (error instanceof Error) {
-            logger.error(error);
-        }
-    }
-};
