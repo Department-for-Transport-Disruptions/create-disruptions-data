@@ -419,7 +419,7 @@ export const RefDataStepFunctionStack = ({ stack }: StackContext) => {
     });
 
     const tableRenamerTask = new LambdaInvoke(stack, "cdd-ref-data-service-table-renamer-task", {
-        stateName: "Cleardown Database",
+        stateName: "Table Renamer",
         lambdaFunction: new Function(stack, "cdd-ref-data-service-table-renamer-function", {
             functionName: `cdd-db-table-renamer-${stack.stage}`,
             bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostSecret, dbPortSecret],
