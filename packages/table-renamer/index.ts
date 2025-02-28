@@ -54,8 +54,7 @@ export const main = async () => {
         }
         logger.info("Table Renamer run successfully completed");
     } catch (e) {
-        const error = e instanceof Error ? e : new Error(String(e));
-        logger.error({ error, message: "Error running the Table Renamer" });
+        logger.error(`Error running the Table Renamer ${e}`);
 
         return {
             statusCode: 500,
