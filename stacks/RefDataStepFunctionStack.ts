@@ -437,6 +437,21 @@ export const RefDataStepFunctionStack = ({ stack }: StackContext) => {
             memorySize: 1024,
             runtime: "nodejs22.x",
             enableLiveDev: false,
+            environment: {
+                STAGE: stack.stage,
+            },
+            permissions: [
+                new PolicyStatement({
+                    actions: ["ssm:GetParameters", "ssm:GetParameter"],
+                    resources: [
+                        `arn:aws:ssm:${stack.region}:${stack.account}:parameter/sst/create-disruptions-data/${stack.stage}/Secret/DB_*`,
+                    ],
+                }),
+                new PolicyStatement({
+                    actions: ["cloudwatch:PutMetricData"],
+                    resources: ["*"],
+                }),
+            ],
         }),
     });
 

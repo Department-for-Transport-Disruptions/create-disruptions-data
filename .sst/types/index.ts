@@ -414,7 +414,7 @@ declare module "sst/node/function" {
 import "sst/node/function";
 declare module "sst/node/function" {
   export interface FunctionResources {
-    "ref-data-service-table-renamer": {
+    "cdd-ref-data-service-table-renamer-function": {
       functionName: string;
     }
   }
