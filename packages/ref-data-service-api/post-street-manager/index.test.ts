@@ -82,7 +82,7 @@ describe("post-street-manager", () => {
     });
 
     it("should send the validated SNS message body to SQS if request is of type Notification", async () => {
-        await main(mockStreetManagerNotification);
+        await main(mockStreetManagerNotification, {} as Context, () => {});
 
         const expected = {
             permitReferenceNumber: "TSR1591199404915-01",
