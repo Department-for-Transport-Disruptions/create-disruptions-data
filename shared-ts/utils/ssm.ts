@@ -13,8 +13,6 @@ import { Logger } from "./index";
 
 const ssm = new SSMClient({ region: "eu-west-2" });
 
-export const disableTableRenamerParamName = "/scheduled/disable-table-renamer";
-
 export const putParameter = async (
     name: string,
     value: string,
