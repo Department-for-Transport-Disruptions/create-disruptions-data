@@ -1,8 +1,8 @@
 import { Database } from "@create-disruptions-data/shared-ts/db/types";
 import { Datasource } from "@create-disruptions-data/shared-ts/enums";
+import { logger } from "@create-disruptions-data/shared-ts/utils/logger";
 import dayjs from "dayjs";
 import { Kysely, sql } from "kysely";
-import * as logger from "lambda-log";
 import { RefVehicleMode } from "./enums";
 import { PermitStatus } from "./roadworkTypes.zod";
 

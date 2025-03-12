@@ -1,5 +1,6 @@
-import { APIGatewayEvent, APIGatewayProxyResultV2 } from "aws-lambda";
+import { APIGatewayEvent, APIGatewayProxyResultV2, Handler } from "aws-lambda";
 
+import { withLambdaRequestTracker } from "@create-disruptions-data/shared-ts/utils/logger";
 import { ClientError } from "../error";
 import { RoadworksQueryInput, getRoadworks } from "../utils/db";
 import { executeClient } from "../utils/execute-client";
@@ -7,8 +8,10 @@ import { permitStatus } from "../utils/roadworkTypes.zod";
 
 const MAX_ADMIN_AREA_CODES = process.env.MAX_ADMIN_AREA_CODES || "5";
 
-export const main = async (event: APIGatewayEvent): Promise<APIGatewayProxyResultV2> =>
-    executeClient(event, getQueryInput, getRoadworks);
+export const main: Handler = async (event: APIGatewayEvent, context): Promise<APIGatewayProxyResultV2> => {
+    withLambdaRequestTracker(event ?? {}, context ?? {});
+    return executeClient(event, getQueryInput, getRoadworks);
+};
 
 export const getQueryInput = (event: APIGatewayEvent): RoadworksQueryInput => {
     const { queryStringParameters } = event;

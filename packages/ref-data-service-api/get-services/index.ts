@@ -1,6 +1,7 @@
 import { Database } from "@create-disruptions-data/shared-ts/db/types";
 import { Datasource } from "@create-disruptions-data/shared-ts/enums";
-import { APIGatewayEvent, APIGatewayProxyResultV2 } from "aws-lambda";
+import { withLambdaRequestTracker } from "@create-disruptions-data/shared-ts/utils/logger";
+import { APIGatewayEvent, APIGatewayProxyResultV2, Handler } from "aws-lambda";
 import { Kysely } from "kysely";
 import { z } from "zod";
 import { ClientError } from "../error";
@@ -23,10 +24,14 @@ const MAX_ADMIN_AREA_CODES = process.env.MAX_ADMIN_AREA_CODES || "5";
 const MAX_ATCO_CODES = process.env.MAX_ATCO_CODES || "5";
 const MAX_NOC_CODES = process.env.MAX_NOC_CODES || "5";
 
-export const main = async (event: APIGatewayEvent): Promise<APIGatewayProxyResultV2> =>
-    event.queryStringParameters?.atcoCodes
-        ? executeClient(event, getServicesByStopsQueryInput, getServicesByStops, formatServicesWithStops)
-        : executeClient(event, getQueryInput, getServices);
+export const main: Handler = async (event: APIGatewayEvent, context): Promise<APIGatewayProxyResultV2> => {
+    withLambdaRequestTracker(event ?? {}, context ?? {});
+
+    if (event.queryStringParameters?.atcoCodes) {
+        return executeClient(event, getServicesByStopsQueryInput, getServicesByStops, formatServicesWithStops);
+    }
+    return executeClient(event, getQueryInput, getServices);
+};
 
 export const getQueryInput = (event: APIGatewayEvent): ServicesQueryInput => {
     const { queryStringParameters } = event;

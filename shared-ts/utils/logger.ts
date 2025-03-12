@@ -1,3 +1,4 @@
+import { APIGatewayProxyEventPathParameters, APIGatewayProxyEventQueryStringParameters } from "aws-lambda";
 import Pino, { Logger } from "pino";
 import { lambdaRequestTracker, pinoLambdaDestination } from "pino-lambda";
 import { z } from "zod";
@@ -6,12 +7,20 @@ import { z } from "zod";
 type CustomLogger = Logger & {
     filepath?: string;
     subscriptionId?: string;
+    path?: string;
+    method?: string;
+    pathParams?: APIGatewayProxyEventPathParameters | null;
+    queryParams?: APIGatewayProxyEventQueryStringParameters | null;
 };
 
 export const logger = Pino(
     {
         mixin: (_mergeObject, _level, customLogger: CustomLogger) => ({
+            path: customLogger.path,
+            method: customLogger.method,
             subscriptionId: customLogger.subscriptionId,
+            pathParams: customLogger.pathParams,
+            queryParams: customLogger.queryParams,
         }),
     },
     pinoLambdaDestination(),

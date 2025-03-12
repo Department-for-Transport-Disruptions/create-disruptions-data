@@ -1,7 +1,7 @@
 import { SQSClient, SendMessageCommand } from "@aws-sdk/client-sqs";
 import { getDbClient } from "@create-disruptions-data/shared-ts/utils/db";
-import { APIGatewayEvent } from "aws-lambda";
-import * as logger from "lambda-log";
+import { logger, withLambdaRequestTracker } from "@create-disruptions-data/shared-ts/utils/logger";
+import { APIGatewayEvent, Handler } from "aws-lambda";
 import { getRoadworkById } from "../utils/db";
 import { BaseMessage, PermitMessage, permitMessageSchema, snsMessageSchema } from "../utils/snsMessageTypes.zod";
 import { confirmSubscription, isValidSignature } from "../utils/snsMessageValidator";
@@ -29,7 +29,8 @@ const sendPermitMessageToSqs = async (queueUrl: string | undefined, message: Per
     logger.info(`Successfully sent permit message ${message.permitReferenceNumber} to SQS queue`);
 };
 
-export const main = async (event: APIGatewayEvent) => {
+export const main: Handler = async (event: APIGatewayEvent, context) => {
+    withLambdaRequestTracker(event ?? {}, context ?? {});
     if (!event.headers?.["x-amz-sns-message-type"]) {
         logger.error("Invalid headers on request");
         return;

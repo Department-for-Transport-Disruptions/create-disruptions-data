@@ -1,5 +1,6 @@
 import { Datasource } from "@create-disruptions-data/shared-ts/enums";
-import { APIGatewayEvent, APIGatewayProxyResultV2 } from "aws-lambda";
+import { withLambdaRequestTracker } from "@create-disruptions-data/shared-ts/utils/logger";
+import { APIGatewayEvent, APIGatewayProxyResultV2, Handler } from "aws-lambda";
 import { ClientError } from "../error";
 import { isValidMode } from "../utils";
 import { ServicesForOperatorQueryInput, getServicesForOperator } from "../utils/db";
@@ -8,8 +9,10 @@ import { executeClient } from "../utils/execute-client";
 
 const isDataSource = (input: string): input is Datasource => input in Datasource;
 
-export const main = async (event: APIGatewayEvent): Promise<APIGatewayProxyResultV2> =>
-    executeClient(event, getQueryInput, getServicesForOperator);
+export const main: Handler = async (event: APIGatewayEvent, context): Promise<APIGatewayProxyResultV2> => {
+    withLambdaRequestTracker(event ?? {}, context ?? {});
+    return executeClient(event, getQueryInput, getServicesForOperator);
+};
 
 export const getQueryInput = (event: APIGatewayEvent): ServicesForOperatorQueryInput => {
     const { pathParameters, queryStringParameters } = event;
