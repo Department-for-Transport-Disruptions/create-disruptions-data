@@ -561,16 +561,13 @@ importers:
       kysely:
         specifier: ^0.27.4
         version: 0.27.5
-      lambda-log:
-        specifier: ^3.1.0
-        version: 3.1.0
       pg:
         specifier: ^8.13.1
         version: 8.13.1
     devDependencies:
-      '@types/lambda-log':
-        specifier: ^2.2.1
-        version: 2.2.1
+      '@types/aws-lambda':
+        specifier: ^8.10.110
+        version: 8.10.140
       '@types/node':
         specifier: ^20.10.5
         version: 20.14.10

@@ -1,8 +1,8 @@
-import { Kysely } from "kysely";
-import * as logger from "lambda-log";
-
 import { Database } from "@create-disruptions-data/shared-ts/db/types";
 import { getDbClient } from "@create-disruptions-data/shared-ts/utils/db";
+import { logger, withLambdaRequestTracker } from "@create-disruptions-data/shared-ts/utils/logger";
+import { Handler } from "aws-lambda";
+import { Kysely } from "kysely";
 
 export interface TableKey {
     table: keyof Database;
@@ -60,7 +60,9 @@ export const deleteAndRenameTables = async (tables: TableKey[], db: Kysely<Datab
     }
 };
 
-export const main = async () => {
+export const main: Handler = async (event, context) => {
+    withLambdaRequestTracker(event ?? {}, context ?? {});
+
     const { STAGE: stage } = process.env;
     try {
         logger.info("Table Renamer starting... ");

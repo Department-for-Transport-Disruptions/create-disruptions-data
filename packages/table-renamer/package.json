@@ -6,11 +6,10 @@
         "typecheck": "tsc -noEmit"
     },
     "devDependencies": {
-        "@types/lambda-log": "^2.2.1",
+        "@types/aws-lambda": "^8.10.110",
         "@types/node": "^20.10.5"
     },
     "dependencies": {
-        "lambda-log": "^3.1.0",
         "kysely": "^0.27.4",
         "pg": "^8.13.1"
     }
