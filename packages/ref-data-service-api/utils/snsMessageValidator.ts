@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import url from "url";
+import { logger } from "@create-disruptions-data/shared-ts/utils/logger";
 import axios from "axios";
-import * as logger from "lambda-log";
 import { SnsMessage } from "./snsMessageTypes.zod";
 
 export const isValidSignature = async (body: SnsMessage) => {

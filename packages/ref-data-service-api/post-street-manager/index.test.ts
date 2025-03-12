@@ -1,5 +1,5 @@
 import { SQSClient, SendMessageCommand } from "@aws-sdk/client-sqs";
-import { APIGatewayEvent } from "aws-lambda";
+import { APIGatewayEvent, Context } from "aws-lambda";
 import { mockClient } from "aws-sdk-client-mock";
 import Mockdate from "mockdate";
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
@@ -107,14 +107,11 @@ describe("post-street-manager", () => {
         };
 
         expect(sqsMock.commandCalls(SendMessageCommand).length).toBe(1);
-        expect(
-            // biome-ignore lint/suspicious/noExplicitAny: reason
-            sqsMock.commandCalls(SendMessageCommand)[0].args[0].input.MessageBody,
-        ).toBe(JSON.stringify(expected));
+        expect(sqsMock.commandCalls(SendMessageCommand)[0].args[0].input.MessageBody).toBe(JSON.stringify(expected));
     });
 
     it("should not send the validated SNS message body to SQS if permit is older than roadwork", async () => {
-        await main(mockStreetManagerNotificationOld);
+        await main(mockStreetManagerNotificationOld, {} as Context, () => {});
 
         expect(sqsMock.send.calledOnce).toBeFalsy();
     });
@@ -136,7 +133,7 @@ describe("post-street-manager", () => {
                 '  "SubscribeURL" : "https://www.testurl.com"\n' +
                 "}",
         };
-        await main(mockSnsEventSubscription);
+        await main(mockSnsEventSubscription, {} as Context, () => {});
         expect(confirmSubscriptionSpy).toBeCalled();
         expect(confirmSubscriptionSpy).toBeCalledWith("https://www.testurl.com");
     });
@@ -148,7 +145,7 @@ describe("post-street-manager", () => {
                 "x-amz-sns-message-type": undefined,
             },
         };
-        await main(mockSnsEventNoHeader);
+        await main(mockSnsEventNoHeader, {} as Context, () => {});
         expect(sqsMock.send.calledOnce).toBeFalsy();
     });
     it("should error if request body does not match the SNS message schema  ", async () => {
@@ -166,13 +163,13 @@ describe("post-street-manager", () => {
                 '  "UnsubscribeURL" : "https://wwww.testurl.com"\n' +
                 "}",
         };
-        await main(mockSnsEventNoHeader);
+        await main(mockSnsEventNoHeader, {} as Context, () => {});
         expect(sqsMock.send.calledOnce).toBeFalsy();
     });
     it("should error if an invalid signing certificate is provided", async () => {
         vi.spyOn(snsMessageValidator, "isValidSignature").mockResolvedValue(false);
 
-        await main(mockStreetManagerNotification);
+        await main(mockStreetManagerNotification, {} as Context, () => {});
 
         expect(sqsMock.commandCalls(SendMessageCommand).length).toBe(0);
     });
@@ -192,7 +189,7 @@ describe("post-street-manager", () => {
                 '  "UnsubscribeURL" : "https://wwww.testurl.com"\n' +
                 "}",
         };
-        await main(mockSnsEventInvalidArn);
+        await main(mockSnsEventInvalidArn, {} as Context, () => {});
         expect(sqsMock.send.calledOnce).toBeFalsy();
     });
 });
