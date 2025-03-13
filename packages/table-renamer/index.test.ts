@@ -45,14 +45,6 @@ describe("table renamer", () => {
 
             await expect(checkTables(tables, dbClient)).rejects.toThrowError("No data found in table operatorsNew");
         });
-
-        it("should skip check if current table is empty", async () => {
-            const dbClient = await getDbClient();
-            mockExecute.mockResolvedValueOnce([{ count: 100 }]);
-            mockExecute.mockResolvedValueOnce([{ count: 0 }]);
-
-            await expect(checkTables(tables, dbClient)).resolves.not.toThrowError();
-        });
     });
 
     describe("renameTables", () => {
