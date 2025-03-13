@@ -1,0 +1,19 @@
+{
+    "name": "@create-disruptions-data/street-manager-uploader",
+    "version": "0.1.0",
+    "type": "module",
+    "scripts": {
+        "test": "vitest run",
+        "typecheck": "tsc -noEmit"
+    },
+    "devDependencies": {
+        "@types/aws-lambda": "^8.10.110",
+        "@types/node": "^18.13.0",
+        "vitest": "^3.0.5"
+    },
+    "dependencies": {
+        "@create-disruptions-data/shared-ts": "workspace:^",
+        "kysely": "^0.27.5",
+        "pg": "^8.13.1"
+    }
+}

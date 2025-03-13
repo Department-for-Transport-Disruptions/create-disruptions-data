@@ -1,10 +1,12 @@
-import { getDbClient } from "@create-disruptions-data/shared-ts/utils/db";
-import { SQSEvent } from "aws-lambda";
-import * as logger from "lambda-log";
-import { getRoadworkByPermitReferenceNumber, updateToRoadworksTable, writeToRoadworksTable } from "../utils/db";
-import { roadworkSchema } from "../utils/roadworkTypes.zod";
+import { roadworkSchema } from "@create-disruptions-data/shared-ts/roadwork.zod";
 
-export const main = async (event: SQSEvent) => {
+import { getDbClient } from "@create-disruptions-data/shared-ts/utils/db";
+import { logger, withLambdaRequestTracker } from "@create-disruptions-data/shared-ts/utils/logger";
+import { Handler, SQSEvent } from "aws-lambda";
+import { getRoadworkByPermitReferenceNumber, updateToRoadworksTable, writeToRoadworksTable } from "./utils";
+
+export const main: Handler = async (event: SQSEvent, context) => {
+    withLambdaRequestTracker(event ?? {}, context ?? {});
     const dbClient = getDbClient();
 
     const roadwork = roadworkSchema.safeParse(JSON.parse(event.Records[0].body));

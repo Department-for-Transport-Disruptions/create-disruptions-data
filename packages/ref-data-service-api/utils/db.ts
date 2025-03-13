@@ -1,6 +1,6 @@
-import { Database, RoadworksTable } from "@create-disruptions-data/shared-ts/db/types";
-import { PermitStatus } from "@create-disruptions-data/shared-ts/roadwork.zod"
+import { Database } from "@create-disruptions-data/shared-ts/db/types";
 import { Datasource } from "@create-disruptions-data/shared-ts/enums";
+import { PermitStatus } from "@create-disruptions-data/shared-ts/roadwork.zod";
 import dayjs from "dayjs";
 import { Kysely, sql } from "kysely";
 import * as logger from "lambda-log";
@@ -723,47 +723,4 @@ export const getRoadworkById = async (dbClient: Kysely<Database>, input: Roadwor
         ])
         .distinct()
         .executeTakeFirst();
-};
-
-export const getRoadworkByPermitReferenceNumber = async (permitReferenceNumber: string, dbClient: Kysely<Database>) => {
-    return await dbClient
-        .selectFrom("roadworks")
-        .where("permitReferenceNumber", "=", permitReferenceNumber)
-        .selectAll()
-        .executeTakeFirst();
-};
-
-export const updateToRoadworksTable = async (roadwork: RoadworksTable, dbClient: Kysely<Database>) => {
-    await dbClient
-        .updateTable("roadworks")
-        .set({
-            highwayAuthority: roadwork.highwayAuthority,
-            highwayAuthoritySwaCode: roadwork.highwayAuthoritySwaCode,
-            worksLocationCoordinates: roadwork.worksLocationCoordinates,
-            streetName: roadwork.streetName,
-            areaName: roadwork.areaName,
-            workCategory: roadwork.workCategory,
-            trafficManagementType: roadwork.trafficManagementType,
-            proposedStartDateTime: roadwork.proposedStartDateTime,
-            proposedEndDateTime: roadwork.proposedEndDateTime,
-            actualStartDateTime: roadwork.actualStartDateTime,
-            actualEndDateTime: roadwork.actualEndDateTime,
-            workStatus: roadwork.workStatus,
-            usrn: roadwork.usrn,
-            activityType: roadwork.activityType,
-            worksLocationType: roadwork.worksLocationType,
-            isTrafficSensitive: roadwork.isTrafficSensitive,
-            permitStatus: roadwork.permitStatus,
-            town: roadwork.town,
-            currentTrafficManagementType: roadwork.currentTrafficManagementType,
-            currentTrafficManagementTypeUpdateDate: roadwork.currentTrafficManagementTypeUpdateDate,
-            createdDateTime: roadwork.createdDateTime,
-            lastUpdatedDateTime: roadwork.lastUpdatedDateTime,
-        })
-        .where("permitReferenceNumber", "=", roadwork.permitReferenceNumber)
-        .execute();
-};
-
-export const writeToRoadworksTable = async (roadwork: RoadworksTable, dbClient: Kysely<Database>) => {
-    await dbClient.insertInto("roadworks").values(roadwork).execute();
 };

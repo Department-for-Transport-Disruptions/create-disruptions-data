@@ -30,6 +30,7 @@ const sendPermitMessageToSqs = async (queueUrl: string | undefined, message: Per
 };
 
 export const main = async (event: APIGatewayEvent) => {
+    logger.info("event", event);
     if (!event.headers?.["x-amz-sns-message-type"]) {
         logger.error("Invalid headers on request");
         return;
