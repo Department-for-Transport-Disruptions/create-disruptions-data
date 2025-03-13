@@ -26,26 +26,11 @@ const tables: TableKey[] = [
 ];
 
 export const checkTables = async (tables: TableKey[], db: Kysely<Database>): Promise<void> => {
-    for (const { table, newTable } of tables) {
+    for (const { newTable } of tables) {
         const [newCount] = await db.selectFrom(newTable).select(db.fn.count("id").as("count")).execute();
 
         if (newCount.count === 0 || newCount.count === "0") {
             throw new Error(`No data found in table ${newTable}`);
-        }
-
-        const [currentCount] = await db.selectFrom(table).select(db.fn.count("id").as("count")).execute();
-
-        if (currentCount.count === 0 || currentCount.count === "0") {
-            logger.info(`Table ${table} is empty, skipping percentage check`);
-            continue;
-        }
-
-        const percentageResult = (Number(newCount.count) / Number(currentCount.count)) * 100;
-
-        if (percentageResult < 75) {
-            throw new Error(
-                `Tables ${table} and ${newTable} have less than an 75% match, percentage match: ${percentageResult}%`,
-            );
         }
 
         logger.info(`Table ${newTable} valid with ${newCount.count} rows`);

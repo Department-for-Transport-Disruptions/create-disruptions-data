@@ -33,19 +33,10 @@ describe("table renamer", () => {
     const tables: TableKey[] = [{ table: "operators", newTable: "operatorsNew", needsCheck: true }];
 
     describe("getMatchingTables", () => {
-        it("should not throw an error with valid percentages", async () => {
+        it("should not throw an error if there is data in the new table", async () => {
             const dbClient = await getDbClient();
 
             await expect(checkTables(tables, dbClient)).resolves.not.toThrowError();
-        });
-
-        it("should throw an error if match percentage is less than 80%", async () => {
-            const dbClient = await getDbClient();
-            mockExecute.mockResolvedValueOnce([{ count: 50 }]);
-
-            await expect(checkTables(tables, dbClient)).rejects.toThrowError(
-                "Tables operators and operatorsNew have less than an 75% match, percentage match: 50%",
-            );
         });
 
         it("should throw an error if new table is empty", async () => {
@@ -55,7 +46,7 @@ describe("table renamer", () => {
             await expect(checkTables(tables, dbClient)).rejects.toThrowError("No data found in table operatorsNew");
         });
 
-        it("should skip percentage check if current table is empty", async () => {
+        it("should skip check if current table is empty", async () => {
             const dbClient = await getDbClient();
             mockExecute.mockResolvedValueOnce([{ count: 100 }]);
             mockExecute.mockResolvedValueOnce([{ count: 0 }]);
