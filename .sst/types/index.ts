@@ -420,3 +420,120 @@ declare module "sst/node/function" {
   }
 }
 
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
+    "ref-data-service-get-stops-function": {
+      functionName: string;
+    }
+  }
+}
+
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
+    "ref-data-service-get-operators-function": {
+      functionName: string;
+    }
+  }
+}
+
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
+    "ref-data-service-get-services-for-operator-function": {
+      functionName: string;
+    }
+  }
+}
+
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
+    "ref-data-service-get-service-by-id-function": {
+      functionName: string;
+    }
+  }
+}
+
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
+    "ref-data-service-get-services-function": {
+      functionName: string;
+    }
+  }
+}
+
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
+    "ref-data-service-get-service-stops-function": {
+      functionName: string;
+    }
+  }
+}
+
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
+    "ref-data-service-get-service-journeys-function": {
+      functionName: string;
+    }
+  }
+}
+
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
+    "ref-data-service-get-service-routes-function": {
+      functionName: string;
+    }
+  }
+}
+
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
+    "ref-data-service-get-admin-area-codes-function": {
+      functionName: string;
+    }
+  }
+}
+
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
+    "ref-data-service-get-admin-areas-function": {
+      functionName: string;
+    }
+  }
+}
+
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
+    "ref-data-service-get-roadworks-function": {
+      functionName: string;
+    }
+  }
+}
+
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
+    "ref-data-service-get-roadwork-by-id-function": {
+      functionName: string;
+    }
+  }
+}
+
+import "sst/node/api";
+declare module "sst/node/api" {
+  export interface ApiResources {
+    "ref-data-service-api": {
+      url: string;
+    }
+  }
+}
+

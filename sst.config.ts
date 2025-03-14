@@ -5,6 +5,7 @@ import { DynamoDBStack } from "./stacks/DynamoDBStack";
 import { DynamoMigratorStack } from "./stacks/DynamoMigratorStack";
 import { MonitoringStack } from "./stacks/MonitoringStack";
 import { RdsStack } from "./stacks/RdsStack";
+import { RefDataServiceApiStack } from "./stacks/RefDataServiceApiStack";
 import { RefDataStepFunctionStack } from "./stacks/RefDataStepFunctionStack";
 import { RoadworksNotificationStack } from "./stacks/RoadworksNotificationStack";
 import { SiriAPIStack } from "./stacks/SiriAPIStack";
@@ -32,5 +33,6 @@ export default {
         app.stack(RoadworksNotificationStack);
         app.stack(DynamoMigratorStack);
         app.stack(RefDataStepFunctionStack);
+        app.stack(RefDataServiceApiStack);
     },
 } satisfies SSTConfig;
