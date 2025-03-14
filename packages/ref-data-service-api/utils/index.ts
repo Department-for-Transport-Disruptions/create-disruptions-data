@@ -1,8 +1,7 @@
-import { Datasource } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, ReferenceDataVehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { getAreaOfPolygon } from "geolib";
 import { z } from "zod";
 import { ClientError } from "../error";
-import { RefVehicleMode } from "../utils/enums";
 import { ServiceStops, ServiceTracks } from "./db";
 
 const formatPolygon = (polygonToFormat: [number, number][]): string => {
@@ -31,7 +30,8 @@ export const getPolygon = (polygon: string, maxArea: number): string => {
     return `POLYGON((${formatPolygon(parsedPolygon)}))`;
 };
 
-export const isValidMode = (mode: string): mode is RefVehicleMode => !!mode && mode in RefVehicleMode;
+export const isValidMode = (mode: string): mode is ReferenceDataVehicleMode =>
+    !!mode && mode in ReferenceDataVehicleMode;
 
 export const isDataSource = (input: string): input is Datasource => input in Datasource;
 

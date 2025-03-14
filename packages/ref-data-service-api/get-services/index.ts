@@ -1,5 +1,5 @@
 import { Database } from "@create-disruptions-data/shared-ts/db/types";
-import { Datasource } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, ReferenceDataVehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { withLambdaRequestTracker } from "@create-disruptions-data/shared-ts/utils/logger";
 import { APIGatewayEvent, APIGatewayProxyResultV2, Handler } from "aws-lambda";
 import { Kysely } from "kysely";
@@ -17,7 +17,6 @@ import {
     getServices,
     getServicesByStops,
 } from "../utils/db";
-import { RefVehicleMode } from "../utils/enums";
 import { executeClient } from "../utils/execute-client";
 
 const MAX_ADMIN_AREA_CODES = process.env.MAX_ADMIN_AREA_CODES || "5";
@@ -48,8 +47,8 @@ export const getQueryInput = (event: APIGatewayEvent): ServicesQueryInput => {
         throw new ClientError("Invalid mode provided");
     }
 
-    if (filteredModesArray.includes(RefVehicleMode.bus)) {
-        filteredModesArray.push(RefVehicleMode.blank);
+    if (filteredModesArray.includes(ReferenceDataVehicleMode.bus)) {
+        filteredModesArray.push(ReferenceDataVehicleMode.blank);
     }
 
     const dataSourceInput = queryStringParameters?.dataSource ?? Datasource.bods;

@@ -1,12 +1,9 @@
-import { APIGatewayEvent, APIGatewayProxyResultV2, Handler } from "aws-lambda";
-
-import { Datasource } from "@create-disruptions-data/shared-ts/enums";
-
+import { Datasource, ReferenceDataVehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { withLambdaRequestTracker } from "@create-disruptions-data/shared-ts/utils/logger";
+import { APIGatewayEvent, APIGatewayProxyResultV2, Handler } from "aws-lambda";
 import { ClientError } from "../error";
 import { isValidMode } from "../utils";
 import { OperatorQueryInput, getOperators } from "../utils/db";
-import { RefVehicleMode } from "../utils/enums";
 import { executeClient } from "../utils/execute-client";
 
 const MAX_NOC_CODES = process.env.MAX_NOC_CODES || "5";
@@ -60,8 +57,8 @@ export const getQueryInput = (event: APIGatewayEvent): OperatorQueryInput => {
         throw new ClientError("Invalid mode provided");
     }
 
-    if (filteredModesArray.includes(RefVehicleMode.bus)) {
-        filteredModesArray.push(RefVehicleMode.blank);
+    if (filteredModesArray.includes(ReferenceDataVehicleMode.bus)) {
+        filteredModesArray.push(ReferenceDataVehicleMode.blank);
     }
 
     const page = Number(queryStringParameters?.page ?? "1");

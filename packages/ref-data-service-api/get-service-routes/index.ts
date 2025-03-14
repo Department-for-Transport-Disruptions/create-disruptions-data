@@ -1,11 +1,10 @@
-import { APIGatewayEvent, APIGatewayProxyResultV2, Handler } from "aws-lambda";
-
+import { ReferenceDataVehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { withLambdaRequestTracker } from "@create-disruptions-data/shared-ts/utils/logger";
+import { APIGatewayEvent, APIGatewayProxyResultV2, Handler } from "aws-lambda";
 import { ClientError } from "../error";
 import { flattenStops } from "../get-service-stops";
 import { isDataSource, isServiceStops, isValidMode } from "../utils";
 import { ServiceStop, ServiceStops, ServiceStopsQueryInput, ServiceTracks, getServiceStops } from "../utils/db";
-import { RefVehicleMode } from "../utils/enums";
 import { executeClient } from "../utils/execute-client";
 
 export const main: Handler = async (event: APIGatewayEvent, context): Promise<APIGatewayProxyResultV2> => {
@@ -40,8 +39,8 @@ export const getQueryInput = (event: APIGatewayEvent): ServiceStopsQueryInput =>
         throw new ClientError("Invalid mode provided");
     }
 
-    if (filteredModesArray.includes(RefVehicleMode.bus)) {
-        filteredModesArray.push(RefVehicleMode.blank);
+    if (filteredModesArray.includes(ReferenceDataVehicleMode.bus)) {
+        filteredModesArray.push(ReferenceDataVehicleMode.blank);
     }
 
     return {
