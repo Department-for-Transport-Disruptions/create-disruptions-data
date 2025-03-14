@@ -423,7 +423,7 @@ declare module "sst/node/function" {
 import "sst/node/queue";
 declare module "sst/node/queue" {
   export interface QueueResources {
-    "cdd-ref-data-service-street-manager-queue": {
+    "ref-data-service-street-manager-queue": {
       queueUrl: string;
     }
   }

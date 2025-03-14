@@ -35,7 +35,7 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
     }
 
     const streetManagerTestTopic: Topic | null = new Topic(stack, "street-manager-test-topic", {
-        topicName: `cdd-street-manager-test-topic-${stack.stage}`,
+        topicName: `street-manager-test-topic-${stack.stage}`,
     });
 
     const stopsFunction = new Function(stack, "ref-data-service-get-stops-function", {
