@@ -411,6 +411,15 @@ declare module "sst/node/function" {
   }
 }
 
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
+    "cdd-ref-data-service-table-renamer-function": {
+      functionName: string;
+    }
+  }
+}
+
 import "sst/node/queue";
 declare module "sst/node/queue" {
   export interface QueueResources {

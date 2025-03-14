@@ -19,6 +19,7 @@
     },
     "devDependencies": {
         "@types/lambda-log": "^2.2.1",
+        "@types/aws-lambda": "^8.10.110",
         "@types/pg": "^8.11.10",
         "dotenv": "^16.4.5",
         "kysely-ctl": "^0.9.0",

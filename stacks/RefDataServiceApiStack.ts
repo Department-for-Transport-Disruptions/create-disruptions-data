@@ -251,6 +251,18 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
         logRetention: stack.stage === "prod" ? "one_month" : "two_weeks",
     });
 
+    const subDomain = isUserEnv(stack.stage)
+        ? `ref-data-api.${stack.stage}.${getDomain(stack.stage)}`
+        : `ref-data-api.${getDomain(stack.stage)}`;
+
+    const allowedOrigins = [
+        stack.stage === "prod" ? `https://${prodDomain}` : `https://${stack.stage}.cdd.${rootDomain}`,
+    ];
+
+    if (!["preprod", "prod"].includes(stack.stage)) {
+        allowedOrigins.push("http://localhost:3000");
+    }
+
     const api = new Api(stack, "ref-data-service-api", {
         routes: {
             "GET /stops": stopsFunction,
@@ -269,11 +281,14 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
             "GET /roadworks/{permitReferenceNumber}": roadworkByIdFunction,
         },
         customDomain: {
-            domainName: isUserEnv(stack.stage)
-                ? `ref-data-api.${stack.stage}.${getDomain(stack.stage)}`
-                : `ref-data-api.${getDomain(stack.stage)}`,
+            domainName: subDomain,
             hostedZone: hostedZone.zoneName,
             path: "v1",
+        },
+        cors: {
+            allowMethods: ["GET"],
+            allowHeaders: ["Accept", "Content-Type", "Authorization"],
+            allowOrigins: allowedOrigins,
         },
         cdk: {
             httpApi: {

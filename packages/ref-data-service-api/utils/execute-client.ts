@@ -1,9 +1,8 @@
-import { randomUUID } from "crypto";
 import { Database } from "@create-disruptions-data/shared-ts/db/types";
 import { getDbClient } from "@create-disruptions-data/shared-ts/utils/db";
+import { logger } from "@create-disruptions-data/shared-ts/utils/logger";
 import { APIGatewayEvent, APIGatewayProxyResultV2 } from "aws-lambda";
 import { Kysely } from "kysely";
-import * as logger from "lambda-log";
 import { ClientError } from "../error";
 
 export const executeClient = async <InputT, ResponseT, FormattedT>(
@@ -17,16 +16,10 @@ export const executeClient = async <InputT, ResponseT, FormattedT>(
     ) => Promise<FormattedT | null>,
 ): Promise<APIGatewayProxyResultV2> => {
     try {
-        logger.options.dev = process.env.NODE_ENV !== "production";
-        logger.options.debug = process.env.ENABLE_DEBUG_LOGS === "true" || process.env.NODE_ENV !== "production";
-
-        logger.options.meta = {
-            path: event.path,
-            method: event.httpMethod,
-            pathParams: event.pathParameters,
-            queryParams: event.queryStringParameters,
-            id: randomUUID(),
-        };
+        logger.path = event.path;
+        logger.method = event.httpMethod;
+        logger.queryParams = event.queryStringParameters;
+        logger.pathParams = event.pathParameters;
 
         logger.info("Starting request");
 
@@ -106,16 +99,10 @@ export const executeClientWithoutInput = async <InputT, ResponseT, FormattedT>(
     ) => Promise<FormattedT | null>,
 ): Promise<APIGatewayProxyResultV2> => {
     try {
-        logger.options.dev = process.env.NODE_ENV !== "production";
-        logger.options.debug = process.env.ENABLE_DEBUG_LOGS === "true" || process.env.NODE_ENV !== "production";
-
-        logger.options.meta = {
-            path: event.path,
-            method: event.httpMethod,
-            pathParams: event.pathParameters,
-            queryParams: event.queryStringParameters,
-            id: randomUUID(),
-        };
+        logger.path = event.path;
+        logger.method = event.httpMethod;
+        logger.queryParams = event.queryStringParameters;
+        logger.pathParams = event.pathParameters;
 
         logger.info("Starting request without inputs");
 

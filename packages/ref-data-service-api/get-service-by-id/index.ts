@@ -1,14 +1,17 @@
-import { APIGatewayEvent, APIGatewayProxyResultV2 } from "aws-lambda";
+import { APIGatewayEvent, APIGatewayProxyResultV2, Handler } from "aws-lambda";
 
 import { Datasource } from "@create-disruptions-data/shared-ts/enums";
 
+import { withLambdaRequestTracker } from "@create-disruptions-data/shared-ts/utils/logger";
 import { ClientError } from "../error";
 import { isDataSource } from "../utils";
 import { ServiceByIdQueryInput, getServiceById } from "../utils/db";
 import { executeClient } from "../utils/execute-client";
 
-export const main = async (event: APIGatewayEvent): Promise<APIGatewayProxyResultV2> =>
-    executeClient(event, getQueryInput, getServiceById);
+export const main: Handler = async (event: APIGatewayEvent, context): Promise<APIGatewayProxyResultV2> => {
+    withLambdaRequestTracker(event ?? {}, context ?? {});
+    return executeClient(event, getQueryInput, getServiceById);
+};
 
 export const getQueryInput = (event: APIGatewayEvent): ServiceByIdQueryInput => {
     const { pathParameters, queryStringParameters } = event;

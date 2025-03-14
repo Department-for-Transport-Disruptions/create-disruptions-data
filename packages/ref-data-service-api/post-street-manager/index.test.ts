@@ -1,25 +1,21 @@
 import { SQSClient, SendMessageCommand } from "@aws-sdk/client-sqs";
-import { APIGatewayEvent } from "aws-lambda";
+import { APIGatewayEvent, Context } from "aws-lambda";
 import { mockClient } from "aws-sdk-client-mock";
 import Mockdate from "mockdate";
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
-
 import { mockStreetManagerNotification, mockStreetManagerNotificationOld } from "../testdata/sample_data";
 import * as db from "../utils/db";
 import * as snsMessageValidator from "../utils/snsMessageValidator";
 import { main } from "./index";
 
-// 🔹 Mock AWS SQS Client
 const sqsMock = mockClient(SQSClient);
 const getRoadworkByIdMock = vi.spyOn(db, "getRoadworkById");
 const isValidSignatureMock = vi.spyOn(snsMessageValidator, "isValidSignature");
-const _confirmSubscriptionMock = vi.spyOn(snsMessageValidator, "confirmSubscription");
-// 🔹 Mock `getDbClient` (Fixed `TS2554` Error)
+
 vi.mock("@create-disruptions-data/shared-ts/utils/db", () => ({
     getDbClient: vi.fn().mockReturnValue({}),
 }));
 
-// 🔹 Mock `getRoadworkById` (Fixed `TS2345` Error)
 vi.mock("../utils/db", () => ({
     getRoadworkById: vi.fn().mockResolvedValue({
         permitReferenceNumber: "TSR1591199404915-01",
@@ -44,7 +40,6 @@ vi.mock("../utils/db", () => ({
     }),
 }));
 
-// 🔹 Mock `snsMessageValidator` Methods
 vi.mock("../utils/snsMessageValidator", () => ({
     isValidSignature: vi.fn().mockResolvedValue(true),
     confirmSubscription: vi.fn().mockResolvedValue(undefined),
@@ -90,14 +85,14 @@ describe("post-street-manager", () => {
     });
 
     it("should send the validated SNS message body to SQS if request is of type Notification", async () => {
-        await main(mockStreetManagerNotification);
+        await main(mockStreetManagerNotification, {} as Context, () => {});
 
         expect(sqsMock.commandCalls(SendMessageCommand).length).toBe(1);
         expect(sqsMock.commandCalls(SendMessageCommand)[0].args[0].input.MessageBody).toContain("TSR1591199404915-01");
     });
 
     it("should not send the validated SNS message body to SQS if permit is older than roadwork", async () => {
-        await main(mockStreetManagerNotificationOld);
+        await main(mockStreetManagerNotificationOld, {} as Context, () => {});
 
         expect(sqsMock.commandCalls(SendMessageCommand).length).toBe(0);
     });
@@ -122,7 +117,7 @@ describe("post-street-manager", () => {
             }),
         };
 
-        await main(mockSnsEventSubscription as unknown as APIGatewayEvent);
+        await main(mockSnsEventSubscription as unknown as APIGatewayEvent, {} as Context, () => {});
         expect(confirmSubscriptionMock).toBeCalled();
         expect(confirmSubscriptionMock).toBeCalledWith("https://www.testurl.com");
     });
@@ -135,8 +130,7 @@ describe("post-street-manager", () => {
                 "x-amz-sns-message-type": undefined,
             },
         };
-
-        await main(mockSnsEventNoHeader);
+        await main(mockSnsEventNoHeader, {} as Context, () => {});
         expect(sqsMock.send.calledOnce).toBeFalsy();
     });
 
@@ -149,7 +143,7 @@ describe("post-street-manager", () => {
             }),
         };
 
-        await main(mockSnsEventInvalidBody as unknown as APIGatewayEvent);
+        await main(mockSnsEventInvalidBody as unknown as APIGatewayEvent, {} as Context, () => {});
         expect(sqsMock.send.calledOnce).toBeFalsy();
     });
 
@@ -157,8 +151,9 @@ describe("post-street-manager", () => {
         const isValidSignatureMock = vi.mocked(snsMessageValidator.isValidSignature);
         isValidSignatureMock.mockResolvedValue(false);
 
-        await main(mockStreetManagerNotification);
-        expect(sqsMock.send.calledOnce).toBeFalsy();
+        await main(mockStreetManagerNotification, {} as Context, () => {});
+
+        expect(sqsMock.commandCalls(SendMessageCommand).length).toBe(0);
     });
 
     it("should error if an invalid topic ARN is provided", async () => {
@@ -172,7 +167,7 @@ describe("post-street-manager", () => {
             }),
         };
 
-        await main(mockSnsEventInvalidArn as unknown as APIGatewayEvent);
+        await main(mockSnsEventInvalidArn, {} as Context, () => {});
         expect(sqsMock.send.calledOnce).toBeFalsy();
     });
 });

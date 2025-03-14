@@ -1,10 +1,9 @@
 import { Database } from "@create-disruptions-data/shared-ts/db/types";
-import { Datasource } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, ReferenceDataVehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { PermitStatus } from "@create-disruptions-data/shared-ts/roadwork.zod";
+import { logger } from "@create-disruptions-data/shared-ts/utils/logger";
 import dayjs from "dayjs";
 import { Kysely, sql } from "kysely";
-import * as logger from "lambda-log";
-import { RefVehicleMode } from "./enums";
 
 // Type definition
 export type StopsQueryInput = {
@@ -21,7 +20,7 @@ export type OperatorQueryInput = {
     nocCode?: string;
     batchNocCodes?: string[];
     adminAreaCodes?: string[];
-    modes?: RefVehicleMode[];
+    modes?: ReferenceDataVehicleMode[];
     page?: number;
     dataSource?: Datasource;
 };
@@ -29,7 +28,7 @@ export type OperatorQueryInput = {
 export type ServicesForOperatorQueryInput = {
     nocCode: string;
     dataSource: Datasource;
-    modes?: RefVehicleMode[];
+    modes?: ReferenceDataVehicleMode[];
     lineNames?: string[];
 };
 
@@ -87,7 +86,7 @@ export type ServicesByStopsQueryInput = {
     dataSource: Datasource;
     page: number;
     stops: string[];
-    modes?: RefVehicleMode[];
+    modes?: ReferenceDataVehicleMode[];
     includeRoutes: boolean;
     adminAreaCodes?: string[];
     nocCodes?: string[];
@@ -97,14 +96,14 @@ export type ServicesQueryInput = {
     dataSource: Datasource;
     page: number;
     adminAreaCodes?: string[];
-    modes?: RefVehicleMode[];
+    modes?: ReferenceDataVehicleMode[];
     nocCodes?: string[];
 };
 
 export type ServiceStopsQueryInput = {
     serviceRef: string;
     dataSource: Datasource;
-    modes?: RefVehicleMode[];
+    modes?: ReferenceDataVehicleMode[];
     stopTypes?: string[];
     adminAreaCodes?: string[];
     useTracks?: boolean;

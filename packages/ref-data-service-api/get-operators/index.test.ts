@@ -1,6 +1,6 @@
+import { ReferenceDataVehicleMode } from "@create-disruptions-data/shared-ts/enums";
 import { APIGatewayEvent } from "aws-lambda";
 import { describe, expect, it } from "vitest";
-import { RefVehicleMode } from "../utils/enums";
 import { getQueryInput } from "./index";
 
 describe("get-operators", () => {
@@ -71,7 +71,7 @@ describe("get-operators", () => {
             } as unknown as APIGatewayEvent;
 
             expect(getQueryInput(event)).toEqual({
-                modes: [RefVehicleMode.bus, RefVehicleMode.tram, RefVehicleMode.blank],
+                modes: [ReferenceDataVehicleMode.bus, ReferenceDataVehicleMode.tram, ReferenceDataVehicleMode.blank],
                 page: 0,
             });
         });

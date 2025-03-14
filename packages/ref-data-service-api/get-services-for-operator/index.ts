@@ -1,15 +1,17 @@
-import { Datasource } from "@create-disruptions-data/shared-ts/enums";
-import { APIGatewayEvent, APIGatewayProxyResultV2 } from "aws-lambda";
+import { Datasource, ReferenceDataVehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { withLambdaRequestTracker } from "@create-disruptions-data/shared-ts/utils/logger";
+import { APIGatewayEvent, APIGatewayProxyResultV2, Handler } from "aws-lambda";
 import { ClientError } from "../error";
 import { isValidMode } from "../utils";
 import { ServicesForOperatorQueryInput, getServicesForOperator } from "../utils/db";
-import { RefVehicleMode } from "../utils/enums";
 import { executeClient } from "../utils/execute-client";
 
 const isDataSource = (input: string): input is Datasource => input in Datasource;
 
-export const main = async (event: APIGatewayEvent): Promise<APIGatewayProxyResultV2> =>
-    executeClient(event, getQueryInput, getServicesForOperator);
+export const main: Handler = async (event: APIGatewayEvent, context): Promise<APIGatewayProxyResultV2> => {
+    withLambdaRequestTracker(event ?? {}, context ?? {});
+    return executeClient(event, getQueryInput, getServicesForOperator);
+};
 
 export const getQueryInput = (event: APIGatewayEvent): ServicesForOperatorQueryInput => {
     const { pathParameters, queryStringParameters } = event;
@@ -32,8 +34,8 @@ export const getQueryInput = (event: APIGatewayEvent): ServicesForOperatorQueryI
         throw new ClientError("Invalid mode provided");
     }
 
-    if (filteredModesArray.includes(RefVehicleMode.bus)) {
-        filteredModesArray.push(RefVehicleMode.blank);
+    if (filteredModesArray.includes(ReferenceDataVehicleMode.bus)) {
+        filteredModesArray.push(ReferenceDataVehicleMode.blank);
     }
 
     const dataSourceInput = queryStringParameters?.dataSource ?? Datasource.bods;

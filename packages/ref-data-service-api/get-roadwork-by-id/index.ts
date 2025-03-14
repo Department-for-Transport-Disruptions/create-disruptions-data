@@ -1,5 +1,6 @@
-import { APIGatewayEvent, APIGatewayProxyResultV2 } from "aws-lambda";
+import { APIGatewayEvent, APIGatewayProxyResultV2, Handler } from "aws-lambda";
 
+import { withLambdaRequestTracker } from "@create-disruptions-data/shared-ts/utils/logger";
 import { ClientError } from "../error";
 import { getPolygon } from "../utils";
 import { StopsQueryInput, getStops } from "../utils/db";
@@ -10,8 +11,10 @@ const MAX_NAPTAN_CODES = process.env.MAX_NAPTAN_CODES || "5";
 const MAX_ADMIN_AREA_CODES = process.env.MAX_ADMIN_AREA_CODES || "5";
 const MAX_POLYGON_AREA_IN_KM2 = process.env.MAX_POLYGON_AREA_IN_KM2 ? Number(process.env.MAX_POLYGON_AREA_IN_KM2) : 36;
 
-export const main = async (event: APIGatewayEvent): Promise<APIGatewayProxyResultV2> =>
-    executeClient(event, getQueryInput, getStops);
+export const main: Handler = async (event: APIGatewayEvent, context): Promise<APIGatewayProxyResultV2> => {
+    withLambdaRequestTracker(event ?? {}, context ?? {});
+    return executeClient(event, getQueryInput, getStops);
+};
 
 export const getQueryInput = (event: APIGatewayEvent): StopsQueryInput => {
     const { queryStringParameters } = event;
