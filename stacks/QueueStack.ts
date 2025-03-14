@@ -4,7 +4,7 @@ import { RdsStack } from "./RdsStack";
 export function QueueStack({ stack }: StackContext) {
     const { dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostSecret, dbPortSecret } = use(RdsStack);
 
-    const streetManagerSqsQueue = new Queue(stack, "ref-data-service-street-manager-queue", {
+    const streetManagerSqsQueue = new Queue(stack, "cdd-ref-data-service-street-manager-queue", {
         consumer: {
             function: {
                 bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostSecret, dbPortSecret],

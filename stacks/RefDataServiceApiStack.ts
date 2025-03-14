@@ -35,7 +35,7 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
     }
 
     const streetManagerTestTopic: Topic | null = new Topic(stack, "street-manager-test-topic", {
-        topicName: `street-manager-test-topic-${stack.stage}`,
+        topicName: `cdd-street-manager-test-topic-${stack.stage}`,
     });
 
     const stopsFunction = new Function(stack, "ref-data-service-get-stops-function", {
@@ -200,7 +200,7 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
     });
 
     const postStreetManagerFunction = new Function(stack, "ref-data-service-post-street-manager-function", {
-        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostSecret, dbPortSecret],
+        bind: [streetManagerSqsQueue, dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostSecret, dbPortSecret],
         functionName: `ref-data-service-post-street-manager-function-${stack.stage}`,
         vpc,
         vpcSubnets: {
