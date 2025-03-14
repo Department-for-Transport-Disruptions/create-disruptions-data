@@ -414,6 +414,15 @@ declare module "sst/node/function" {
 import "sst/node/function";
 declare module "sst/node/function" {
   export interface FunctionResources {
+    "cdd-ref-data-service-table-renamer-function": {
+      functionName: string;
+    }
+  }
+}
+
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
     "ref-data-service-get-stops-function": {
       functionName: string;
     }
