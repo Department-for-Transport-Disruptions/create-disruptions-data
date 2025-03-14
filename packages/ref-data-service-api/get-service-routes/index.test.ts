@@ -1,11 +1,10 @@
 import { APIGatewayEvent } from "aws-lambda";
 import { describe, expect, it } from "vitest";
 
-import { Datasource } from "@create-disruptions-data/shared-ts/enums";
+import { Datasource, ReferenceDataVehicleMode } from "@create-disruptions-data/shared-ts/enums";
 
 import { stopsDbData } from "../testdata/sample_data";
 import { ServiceStop, ServiceTracks } from "../utils/db";
-import { RefVehicleMode } from "../utils/enums";
 import { formatStopsRoutes, getQueryInput } from "./index";
 
 describe("get-service-routes", () => {
@@ -61,13 +60,13 @@ describe("get-service-routes", () => {
                     serviceId: "234",
                 },
                 queryStringParameters: {
-                    modes: RefVehicleMode.bus,
+                    modes: ReferenceDataVehicleMode.bus,
                 },
             } as unknown as APIGatewayEvent;
 
             expect(getQueryInput(event)).toEqual({
                 serviceRef: "234",
-                modes: [RefVehicleMode.bus, RefVehicleMode.blank],
+                modes: [ReferenceDataVehicleMode.bus, ReferenceDataVehicleMode.blank],
                 useTracks: true,
                 dataSource: Datasource.bods,
             });
