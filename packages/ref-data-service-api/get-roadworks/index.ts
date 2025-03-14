@@ -1,10 +1,9 @@
-import { APIGatewayEvent, APIGatewayProxyResultV2, Handler } from "aws-lambda";
-
+import { permitStatus } from "@create-disruptions-data/shared-ts/roadwork.zod";
 import { withLambdaRequestTracker } from "@create-disruptions-data/shared-ts/utils/logger";
+import { APIGatewayEvent, APIGatewayProxyResultV2, Handler } from "aws-lambda";
 import { ClientError } from "../error";
 import { RoadworksQueryInput, getRoadworks } from "../utils/db";
 import { executeClient } from "../utils/execute-client";
-import { permitStatus } from "../utils/roadworkTypes.zod";
 
 const MAX_ADMIN_AREA_CODES = process.env.MAX_ADMIN_AREA_CODES || "5";
 
