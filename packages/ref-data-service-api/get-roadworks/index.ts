@@ -1,5 +1,5 @@
-import { APIGatewayEvent, APIGatewayProxyResultV2 } from "aws-lambda";
 import { permitStatus } from "@create-disruptions-data/shared-ts/roadwork.zod";
+import { APIGatewayEvent, APIGatewayProxyResultV2 } from "aws-lambda";
 
 import { ClientError } from "../error";
 import { RoadworksQueryInput, getRoadworks } from "../utils/db";

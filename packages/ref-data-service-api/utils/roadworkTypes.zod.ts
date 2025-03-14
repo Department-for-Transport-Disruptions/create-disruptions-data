@@ -1,10 +1,10 @@
-import { z } from "zod";
 import {
     permitStatus,
+    trafficManagementTypes,
     workCategory,
     workStatus,
-    trafficManagementTypes
 } from "@create-disruptions-data/shared-ts/roadwork.zod";
+import { z } from "zod";
 
 export const worksLocationTypes = [
     "Footway",
@@ -43,4 +43,3 @@ export const roadworkSchema = z.object({
     lastUpdatedDateTime: z.string().datetime(),
     createdDateTime: z.string().datetime().optional(),
 });
-
