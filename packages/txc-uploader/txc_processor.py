@@ -10,6 +10,20 @@ from psycopg2.extensions import cursor as Cursor
 
 NOC_INTEGRITY_ERROR_MSG = "Cannot add or update a child row: a foreign key constraint fails (`ref_data`.`services`, CONSTRAINT `fk_services_operators_nocCode` FOREIGN KEY (`nocCode`) REFERENCES `operators` (`nocCode`))"
 
+bank_holiday_txc_mapping = {
+    "New Year’s Day": "NewYearsDay",
+    "Good Friday": "GoodFriday",
+    "Easter Monday": "EasterMonday",
+    "Early May bank holiday": "MayDay",
+    "Spring bank holiday": "SpringBank",
+    "Summer bank holiday": "LateSummerBankHolidayNotScotland",
+    "Scotland Summer bank holiday": "AugustBankHolidayScotland",
+    "Christmas Day": "ChristmasDayHoliday",
+    "Boxing Day": "BoxingDayHoliday",
+    "2nd January": "Jan2ndScotland",
+    "St Andrew’s Day": "StAndrewsDayHoliday",
+}
+
 
 def create_unique_line_id(noc, line_name):
     first_part = "UZ"
@@ -170,14 +184,6 @@ def safeget(dct, *keys):
     return dct
 
 
-# Check if today is a bank holiday
-def is_bank_holiday(today, bank_holidays, region='england-and-wales'):
-    for event in bank_holidays.get(region, {}).get('events', []):
-        if datetime.datetime.strptime(event['date'], '%Y-%m-%d').date() == today:
-            return True
-    return False
-
-
 # Check if a vehicle service is operational_for_today
 def is_service_operational(vehicle_journey, bank_holidays, service_operating_profile, service_operating_period,
                            today=None):
@@ -219,19 +225,33 @@ def is_service_operational(vehicle_journey, bank_holidays, service_operating_pro
         return False
 
     # Check if today is a special operation day
-    days_of_operation = special_days_operation.get('DaysOfOperation', []) if special_days_operation else []
+    days_of_special_operation = special_days_operation.get('DaysOfOperation', []) if special_days_operation else []
 
-    if is_date_within_ranges(today, days_of_operation):
+    if is_date_within_ranges(today, days_of_special_operation):
         return True
+
+    # Check if today is a bank holiday, if so check whether the service is operational
+    todays_bank_holidays = [holiday for holiday in bank_holidays if holiday['date'] == today.strftime('%Y-%m-%d')]
+
+    if todays_bank_holidays:
+        bank_holiday_operation = operating_profile.get('BankHolidayOperation', [])
+
+        days_of_bank_holiday_operation = (bank_holiday_operation.get('DaysOfOperation', []) or []) if bank_holiday_operation else []
+        bank_holiday_non_operation = (bank_holiday_operation.get('BankHolidayNonOperation', []) or []) if bank_holiday_operation else []
+
+
+        for holiday in todays_bank_holidays:
+            txc_holiday_name = bank_holiday_txc_mapping.get(holiday['title'], None)
+            if txc_holiday_name:
+                if txc_holiday_name in days_of_bank_holiday_operation:
+                    return True
+                if txc_holiday_name in bank_holiday_non_operation:
+                    return False
+
 
     # Check if today is a regular operating day
     days_of_week = operating_profile.get('RegularDayType', {}).get('DaysOfWeek', {})
     if today.strftime('%A') not in days_of_week:
-        return False
-
-    # Check bank holiday operation
-    bank_holiday_operation = operating_profile.get('BankHolidayOperation', True)
-    if is_bank_holiday(today, bank_holidays) and not bank_holiday_operation:
         return False
 
     return True
