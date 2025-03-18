@@ -325,6 +325,7 @@ export interface VehicleJourneysTable {
     departureTime: string | null;
     journeyCode: string | null;
     operatorServiceId: number | null;
+    operationalForToday: boolean;
 }
 
 export type VehicleJourneyDB = Selectable<VehicleJourneysTable>;
