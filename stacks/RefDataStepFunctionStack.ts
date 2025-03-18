@@ -379,11 +379,16 @@ export const RefDataStepFunctionStack = ({ stack }: StackContext) => {
                 DATABASE_USERNAME_PARAM: `/sst/create-disruptions-data/${stack.stage}/Secret/DB_USERNAME/value`,
                 DATABASE_PORT_PARAM: `/sst/create-disruptions-data/${stack.stage}/Secret/DB_PORT/value`,
                 DATABASE_PASSWORD_PARAM: `/sst/create-disruptions-data/${stack.stage}/Secret/DB_PASSWORD/value`,
+                BANK_HOLIDAYS_BUCKET_NAME: bankHolidaysBucket.bucketName,
             },
             permissions: [
                 new PolicyStatement({
                     actions: ["s3:GetObject", "s3:HeadObject"],
                     resources: [`${txcBucket.bucketArn}/*`],
+                }),
+                new PolicyStatement({
+                    actions: ["s3:GetObject"],
+                    resources: [`${bankHolidaysBucket.bucketArn}/*`],
                 }),
                 new PolicyStatement({
                     actions: ["ssm:GetParameters", "ssm:GetParameter"],
@@ -396,7 +401,7 @@ export const RefDataStepFunctionStack = ({ stack }: StackContext) => {
                     resources: ["*"],
                 }),
             ],
-            enableLiveDev: false,
+            enableLiveDev: true,
         }),
         payload: {
             type: InputType.OBJECT,
