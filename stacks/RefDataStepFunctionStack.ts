@@ -372,6 +372,7 @@ export const RefDataStepFunctionStack = ({ stack }: StackContext) => {
             timeout: 600,
             memorySize: 1024,
             runtime: "python3.11",
+            reservedConcurrentExecutions: 50,
             logRetention: stack.stage === "prod" ? "one_month" : "two_weeks",
             environment: {
                 DATABASE_NAME_PARAM: `/sst/create-disruptions-data/${stack.stage}/Secret/DB_NAME/value`,
@@ -481,7 +482,7 @@ export const RefDataStepFunctionStack = ({ stack }: StackContext) => {
             prefix: JsonPath.stringAt("$.prefix"),
             maxItems: 100, // TODO: remove before testing
         }),
-        maxConcurrency: stack.stage === "prod" ? 100 : 50,
+        maxConcurrency: 50,
         toleratedFailureCount: 10,
         outputPath: JsonPath.DISCARD,
     });
