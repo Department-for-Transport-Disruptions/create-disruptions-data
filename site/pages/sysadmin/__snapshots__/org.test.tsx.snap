@@ -123,7 +123,7 @@ exports[`ManageOrgs > should render correctly when there are no inputs 1`] = `
                       class=" css-178nxlf-control"
                     >
                       <div
-                        class=" css-1fdsijx-ValueContainer"
+                        class=" css-art2ul-ValueContainer2"
                       >
                         <div
                           class=" css-yl2wa5-placeholder"
@@ -132,7 +132,7 @@ exports[`ManageOrgs > should render correctly when there are no inputs 1`] = `
                           Select code
                         </div>
                         <div
-                          class=" css-qbdosj-Input"
+                          class=" css-w9q2zk-Input2"
                           data-value=""
                         >
                           <input
@@ -157,7 +157,7 @@ exports[`ManageOrgs > should render correctly when there are no inputs 1`] = `
                         </div>
                       </div>
                       <div
-                        class=" css-1hb7zxy-IndicatorsContainer"
+                        class=" css-4xgw5l-IndicatorsContainer2"
                       >
                         <span
                           class=" css-1u9des2-indicatorSeparator"
@@ -522,7 +522,7 @@ exports[`ManageOrgs > should render correctly with inputs 1`] = `
                       class=" css-178nxlf-control"
                     >
                       <div
-                        class=" css-1fdsijx-ValueContainer"
+                        class=" css-art2ul-ValueContainer2"
                       >
                         <div
                           class=" css-yl2wa5-placeholder"
@@ -531,7 +531,7 @@ exports[`ManageOrgs > should render correctly with inputs 1`] = `
                           Select code
                         </div>
                         <div
-                          class=" css-qbdosj-Input"
+                          class=" css-w9q2zk-Input2"
                           data-value=""
                         >
                           <input
@@ -556,7 +556,7 @@ exports[`ManageOrgs > should render correctly with inputs 1`] = `
                         </div>
                       </div>
                       <div
-                        class=" css-1hb7zxy-IndicatorsContainer"
+                        class=" css-4xgw5l-IndicatorsContainer2"
                       >
                         <span
                           class=" css-1u9des2-indicatorSeparator"

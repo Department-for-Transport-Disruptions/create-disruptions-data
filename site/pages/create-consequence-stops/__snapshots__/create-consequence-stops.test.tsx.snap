@@ -228,7 +228,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                     class=" css-1kxfjwu-control"
                   >
                     <div
-                      class=" css-1fdsijx-ValueContainer"
+                      class=" css-art2ul-ValueContainer2"
                     >
                       <div
                         class=" css-yl2wa5-placeholder"
@@ -237,7 +237,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                         Select stops
                       </div>
                       <div
-                        class=" css-qbdosj-Input"
+                        class=" css-w9q2zk-Input2"
                         data-value=""
                       >
                         <input
@@ -262,7 +262,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with errors an
                       </div>
                     </div>
                     <div
-                      class=" css-1hb7zxy-IndicatorsContainer"
+                      class=" css-4xgw5l-IndicatorsContainer2"
                     >
                       <span
                         class=" css-1u9des2-indicatorSeparator"
@@ -1001,7 +1001,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                     class=" css-1kxfjwu-control"
                   >
                     <div
-                      class=" css-1fdsijx-ValueContainer"
+                      class=" css-art2ul-ValueContainer2"
                     >
                       <div
                         class=" css-yl2wa5-placeholder"
@@ -1010,7 +1010,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                         Select stops
                       </div>
                       <div
-                        class=" css-qbdosj-Input"
+                        class=" css-w9q2zk-Input2"
                         data-value=""
                       >
                         <input
@@ -1035,7 +1035,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs 1`
                       </div>
                     </div>
                     <div
-                      class=" css-1hb7zxy-IndicatorsContainer"
+                      class=" css-4xgw5l-IndicatorsContainer2"
                     >
                       <span
                         class=" css-1u9des2-indicatorSeparator"
@@ -1749,7 +1749,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs an
                     class=" css-1kxfjwu-control"
                   >
                     <div
-                      class=" css-1fdsijx-ValueContainer"
+                      class=" css-art2ul-ValueContainer2"
                     >
                       <div
                         class=" css-yl2wa5-placeholder"
@@ -1758,7 +1758,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs an
                         Select stops
                       </div>
                       <div
-                        class=" css-qbdosj-Input"
+                        class=" css-w9q2zk-Input2"
                         data-value=""
                       >
                         <input
@@ -1783,7 +1783,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with inputs an
                       </div>
                     </div>
                     <div
-                      class=" css-1hb7zxy-IndicatorsContainer"
+                      class=" css-4xgw5l-IndicatorsContainer2"
                     >
                       <span
                         class=" css-1u9des2-indicatorSeparator"
@@ -2492,7 +2492,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                     class=" css-1kxfjwu-control"
                   >
                     <div
-                      class=" css-1fdsijx-ValueContainer"
+                      class=" css-art2ul-ValueContainer2"
                     >
                       <div
                         class=" css-yl2wa5-placeholder"
@@ -2501,7 +2501,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                         Select stops
                       </div>
                       <div
-                        class=" css-qbdosj-Input"
+                        class=" css-w9q2zk-Input2"
                         data-value=""
                       >
                         <input
@@ -2526,7 +2526,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with no inputs
                       </div>
                     </div>
                     <div
-                      class=" css-1hb7zxy-IndicatorsContainer"
+                      class=" css-4xgw5l-IndicatorsContainer2"
                     >
                       <span
                         class=" css-1u9des2-indicatorSeparator"
@@ -3165,7 +3165,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
                     class=" css-1kxfjwu-control"
                   >
                     <div
-                      class=" css-1fdsijx-ValueContainer"
+                      class=" css-art2ul-ValueContainer2"
                     >
                       <div
                         class=" css-yl2wa5-placeholder"
@@ -3174,7 +3174,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
                         Select stops
                       </div>
                       <div
-                        class=" css-qbdosj-Input"
+                        class=" css-w9q2zk-Input2"
                         data-value=""
                       >
                         <input
@@ -3199,7 +3199,7 @@ exports[`pages > CreateConsequenceStops > should render correctly with query par
                       </div>
                     </div>
                     <div
-                      class=" css-1hb7zxy-IndicatorsContainer"
+                      class=" css-4xgw5l-IndicatorsContainer2"
                     >
                       <span
                         class=" css-1u9des2-indicatorSeparator"

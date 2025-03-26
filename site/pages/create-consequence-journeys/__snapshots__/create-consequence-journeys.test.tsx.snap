@@ -224,7 +224,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly when global
                     class=" css-1kxfjwu-control"
                   >
                     <div
-                      class=" css-1fdsijx-ValueContainer"
+                      class=" css-art2ul-ValueContainer2"
                     >
                       <div
                         class=" css-1dimb5e-singleValue"
@@ -232,7 +232,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly when global
                         1 - Jordanthorpe - HigH Green (First South Yorkshire)
                       </div>
                       <div
-                        class=" css-qbdosj-Input"
+                        class=" css-w9q2zk-Input2"
                         data-value=""
                       >
                         <input
@@ -256,7 +256,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly when global
                       </div>
                     </div>
                     <div
-                      class=" css-1hb7zxy-IndicatorsContainer"
+                      class=" css-4xgw5l-IndicatorsContainer2"
                     >
                       <div
                         aria-hidden="true"
@@ -380,7 +380,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly when global
                     class=" css-1kxfjwu-control"
                   >
                     <div
-                      class=" css-1fdsijx-ValueContainer"
+                      class=" css-art2ul-ValueContainer2"
                     >
                       <div
                         class=" css-yl2wa5-placeholder"
@@ -389,7 +389,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly when global
                         Select journeys
                       </div>
                       <div
-                        class=" css-qbdosj-Input"
+                        class=" css-w9q2zk-Input2"
                         data-value=""
                       >
                         <input
@@ -414,7 +414,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly when global
                       </div>
                     </div>
                     <div
-                      class=" css-1hb7zxy-IndicatorsContainer"
+                      class=" css-4xgw5l-IndicatorsContainer2"
                     >
                       <span
                         class=" css-1u9des2-indicatorSeparator"
@@ -1171,7 +1171,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with errors
                     class=" css-1kxfjwu-control"
                   >
                     <div
-                      class=" css-1fdsijx-ValueContainer"
+                      class=" css-art2ul-ValueContainer2"
                     >
                       <div
                         class=" css-1dimb5e-singleValue"
@@ -1179,7 +1179,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with errors
                         1 - Jordanthorpe - HigH Green (First South Yorkshire)
                       </div>
                       <div
-                        class=" css-qbdosj-Input"
+                        class=" css-w9q2zk-Input2"
                         data-value=""
                       >
                         <input
@@ -1203,7 +1203,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with errors
                       </div>
                     </div>
                     <div
-                      class=" css-1hb7zxy-IndicatorsContainer"
+                      class=" css-4xgw5l-IndicatorsContainer2"
                     >
                       <div
                         aria-hidden="true"
@@ -1327,7 +1327,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with errors
                     class=" css-1kxfjwu-control"
                   >
                     <div
-                      class=" css-1fdsijx-ValueContainer"
+                      class=" css-art2ul-ValueContainer2"
                     >
                       <div
                         class=" css-yl2wa5-placeholder"
@@ -1336,7 +1336,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with errors
                         Select journeys
                       </div>
                       <div
-                        class=" css-qbdosj-Input"
+                        class=" css-w9q2zk-Input2"
                         data-value=""
                       >
                         <input
@@ -1361,7 +1361,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with errors
                       </div>
                     </div>
                     <div
-                      class=" css-1hb7zxy-IndicatorsContainer"
+                      class=" css-4xgw5l-IndicatorsContainer2"
                     >
                       <span
                         class=" css-1u9des2-indicatorSeparator"
@@ -2112,7 +2112,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                     class=" css-1kxfjwu-control"
                   >
                     <div
-                      class=" css-1fdsijx-ValueContainer"
+                      class=" css-art2ul-ValueContainer2"
                     >
                       <div
                         class=" css-1dimb5e-singleValue"
@@ -2120,7 +2120,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                         1 - Jordanthorpe - HigH Green (First South Yorkshire)
                       </div>
                       <div
-                        class=" css-qbdosj-Input"
+                        class=" css-w9q2zk-Input2"
                         data-value=""
                       >
                         <input
@@ -2144,7 +2144,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                       </div>
                     </div>
                     <div
-                      class=" css-1hb7zxy-IndicatorsContainer"
+                      class=" css-4xgw5l-IndicatorsContainer2"
                     >
                       <div
                         aria-hidden="true"
@@ -2268,7 +2268,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                     class=" css-1kxfjwu-control"
                   >
                     <div
-                      class=" css-1fdsijx-ValueContainer"
+                      class=" css-art2ul-ValueContainer2"
                     >
                       <div
                         class=" css-yl2wa5-placeholder"
@@ -2277,7 +2277,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                         Select journeys
                       </div>
                       <div
-                        class=" css-qbdosj-Input"
+                        class=" css-w9q2zk-Input2"
                         data-value=""
                       >
                         <input
@@ -2302,7 +2302,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                       </div>
                     </div>
                     <div
-                      class=" css-1hb7zxy-IndicatorsContainer"
+                      class=" css-4xgw5l-IndicatorsContainer2"
                     >
                       <span
                         class=" css-1u9des2-indicatorSeparator"
@@ -3028,7 +3028,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                     class=" css-1kxfjwu-control"
                   >
                     <div
-                      class=" css-1fdsijx-ValueContainer"
+                      class=" css-art2ul-ValueContainer2"
                     >
                       <div
                         class=" css-1dimb5e-singleValue"
@@ -3036,7 +3036,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                         1 - Jordanthorpe - HigH Green (First South Yorkshire)
                       </div>
                       <div
-                        class=" css-qbdosj-Input"
+                        class=" css-w9q2zk-Input2"
                         data-value=""
                       >
                         <input
@@ -3060,7 +3060,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                       </div>
                     </div>
                     <div
-                      class=" css-1hb7zxy-IndicatorsContainer"
+                      class=" css-4xgw5l-IndicatorsContainer2"
                     >
                       <div
                         aria-hidden="true"
@@ -3184,7 +3184,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                     class=" css-1kxfjwu-control"
                   >
                     <div
-                      class=" css-1fdsijx-ValueContainer"
+                      class=" css-art2ul-ValueContainer2"
                     >
                       <div
                         class=" css-yl2wa5-placeholder"
@@ -3193,7 +3193,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                         Select journeys
                       </div>
                       <div
-                        class=" css-qbdosj-Input"
+                        class=" css-w9q2zk-Input2"
                         data-value=""
                       >
                         <input
@@ -3218,7 +3218,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                       </div>
                     </div>
                     <div
-                      class=" css-1hb7zxy-IndicatorsContainer"
+                      class=" css-4xgw5l-IndicatorsContainer2"
                     >
                       <span
                         class=" css-1u9des2-indicatorSeparator"
@@ -3944,7 +3944,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                     class=" css-1kxfjwu-control"
                   >
                     <div
-                      class=" css-1fdsijx-ValueContainer"
+                      class=" css-art2ul-ValueContainer2"
                     >
                       <div
                         class=" css-1dimb5e-singleValue"
@@ -3952,7 +3952,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                         1 - Jordanthorpe - HigH Green (First South Yorkshire)
                       </div>
                       <div
-                        class=" css-qbdosj-Input"
+                        class=" css-w9q2zk-Input2"
                         data-value=""
                       >
                         <input
@@ -3976,7 +3976,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                       </div>
                     </div>
                     <div
-                      class=" css-1hb7zxy-IndicatorsContainer"
+                      class=" css-4xgw5l-IndicatorsContainer2"
                     >
                       <div
                         aria-hidden="true"
@@ -4100,7 +4100,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                     class=" css-1kxfjwu-control"
                   >
                     <div
-                      class=" css-1fdsijx-ValueContainer"
+                      class=" css-art2ul-ValueContainer2"
                     >
                       <div
                         class=" css-yl2wa5-placeholder"
@@ -4109,7 +4109,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                         Select journeys
                       </div>
                       <div
-                        class=" css-qbdosj-Input"
+                        class=" css-w9q2zk-Input2"
                         data-value=""
                       >
                         <input
@@ -4134,7 +4134,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with inputs
                       </div>
                     </div>
                     <div
-                      class=" css-1hb7zxy-IndicatorsContainer"
+                      class=" css-4xgw5l-IndicatorsContainer2"
                     >
                       <span
                         class=" css-1u9des2-indicatorSeparator"
@@ -4855,7 +4855,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with no inp
                     class=" css-1kxfjwu-control"
                   >
                     <div
-                      class=" css-1fdsijx-ValueContainer"
+                      class=" css-art2ul-ValueContainer2"
                     >
                       <div
                         class=" css-yl2wa5-placeholder"
@@ -4864,7 +4864,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with no inp
                         Select a service
                       </div>
                       <div
-                        class=" css-qbdosj-Input"
+                        class=" css-w9q2zk-Input2"
                         data-value=""
                       >
                         <input
@@ -4889,7 +4889,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with no inp
                       </div>
                     </div>
                     <div
-                      class=" css-1hb7zxy-IndicatorsContainer"
+                      class=" css-4xgw5l-IndicatorsContainer2"
                     >
                       <span
                         class=" css-1u9des2-indicatorSeparator"
@@ -4957,7 +4957,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with no inp
                     class=" css-1kxfjwu-control"
                   >
                     <div
-                      class=" css-1fdsijx-ValueContainer"
+                      class=" css-art2ul-ValueContainer2"
                     >
                       <div
                         class=" css-yl2wa5-placeholder"
@@ -4966,7 +4966,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with no inp
                         Select journeys
                       </div>
                       <div
-                        class=" css-qbdosj-Input"
+                        class=" css-w9q2zk-Input2"
                         data-value=""
                       >
                         <input
@@ -4991,7 +4991,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with no inp
                       </div>
                     </div>
                     <div
-                      class=" css-1hb7zxy-IndicatorsContainer"
+                      class=" css-4xgw5l-IndicatorsContainer2"
                     >
                       <span
                         class=" css-1u9des2-indicatorSeparator"
@@ -5642,7 +5642,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with query 
                     class=" css-1kxfjwu-control"
                   >
                     <div
-                      class=" css-1fdsijx-ValueContainer"
+                      class=" css-art2ul-ValueContainer2"
                     >
                       <div
                         class=" css-1dimb5e-singleValue"
@@ -5650,7 +5650,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with query 
                         1 - Jordanthorpe - HigH Green (First South Yorkshire)
                       </div>
                       <div
-                        class=" css-qbdosj-Input"
+                        class=" css-w9q2zk-Input2"
                         data-value=""
                       >
                         <input
@@ -5674,7 +5674,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with query 
                       </div>
                     </div>
                     <div
-                      class=" css-1hb7zxy-IndicatorsContainer"
+                      class=" css-4xgw5l-IndicatorsContainer2"
                     >
                       <div
                         aria-hidden="true"
@@ -5798,7 +5798,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with query 
                     class=" css-1kxfjwu-control"
                   >
                     <div
-                      class=" css-1fdsijx-ValueContainer"
+                      class=" css-art2ul-ValueContainer2"
                     >
                       <div
                         class=" css-yl2wa5-placeholder"
@@ -5807,7 +5807,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with query 
                         Select journeys
                       </div>
                       <div
-                        class=" css-qbdosj-Input"
+                        class=" css-w9q2zk-Input2"
                         data-value=""
                       >
                         <input
@@ -5832,7 +5832,7 @@ exports[`pages > CreateConsequenceJourneys > should render correctly with query 
                       </div>
                     </div>
                     <div
-                      class=" css-1hb7zxy-IndicatorsContainer"
+                      class=" css-4xgw5l-IndicatorsContainer2"
                     >
                       <span
                         class=" css-1u9des2-indicatorSeparator"
