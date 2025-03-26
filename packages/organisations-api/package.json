@@ -12,7 +12,7 @@
         "@types/lambda-log": "^2.2.1",
         "@types/node": "^20.10.5",
         "ts-node": "^10.9.1",
-        "vitest": "^2.1.9"
+        "vitest": "^3.0.9"
     },
     "dependencies": {
         "@create-disruptions-data/shared-ts": "workspace:^",

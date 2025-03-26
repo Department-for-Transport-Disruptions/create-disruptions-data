@@ -19,7 +19,7 @@
         "dayjs": "^1.11.7",
         "mockdate": "^3.0.5",
         "ts-node": "^10.9.1",
-        "vitest": "^2.1.9"
+        "vitest": "^3.0.9"
     },
     "dependencies": {
         "@aws-sdk/client-s3": "^3.682.0",

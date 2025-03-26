@@ -37,7 +37,7 @@ exports[`OperatorSearch > should render correctly with errors 1`] = `
             class=" css-1efjb9t-control"
           >
             <div
-              class=" css-1fdsijx-ValueContainer"
+              class=" css-art2ul-ValueContainer2"
             >
               <div
                 class=" css-yl2wa5-placeholder"
@@ -46,7 +46,7 @@ exports[`OperatorSearch > should render correctly with errors 1`] = `
                 Select operators
               </div>
               <div
-                class=" css-qbdosj-Input"
+                class=" css-w9q2zk-Input2"
                 data-value=""
               >
                 <input
@@ -70,7 +70,7 @@ exports[`OperatorSearch > should render correctly with errors 1`] = `
               </div>
             </div>
             <div
-              class=" css-1hb7zxy-IndicatorsContainer"
+              class=" css-4xgw5l-IndicatorsContainer2"
             >
               <span
                 class=" css-1u9des2-indicatorSeparator"
@@ -138,7 +138,7 @@ exports[`OperatorSearch > should render correctly with no errors 1`] = `
             class=" css-1efjb9t-control"
           >
             <div
-              class=" css-1fdsijx-ValueContainer"
+              class=" css-art2ul-ValueContainer2"
             >
               <div
                 class=" css-yl2wa5-placeholder"
@@ -147,7 +147,7 @@ exports[`OperatorSearch > should render correctly with no errors 1`] = `
                 Select operators
               </div>
               <div
-                class=" css-qbdosj-Input"
+                class=" css-w9q2zk-Input2"
                 data-value=""
               >
                 <input
@@ -171,7 +171,7 @@ exports[`OperatorSearch > should render correctly with no errors 1`] = `
               </div>
             </div>
             <div
-              class=" css-1hb7zxy-IndicatorsContainer"
+              class=" css-4xgw5l-IndicatorsContainer2"
             >
               <span
                 class=" css-1u9des2-indicatorSeparator"
