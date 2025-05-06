@@ -40,9 +40,6 @@ module.exports = {
                     // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
                     .reduce((acc, i) => ({ ...acc, [i]: `${i / (baseFontSize / 4)}rem` }), {}),
             }),
-            backgroundImage: {
-                "govuk-crest": "url('/assets/images/govuk-crest-2x.png')",
-            },
             fontSize: {
                 arrow: "0.5em",
                 xs: [
