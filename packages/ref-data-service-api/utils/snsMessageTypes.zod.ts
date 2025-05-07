@@ -1,5 +1,5 @@
+import { worksLocationTypes } from "@create-disruptions-data/shared-ts/roadwork.zod";
 import { z } from "zod";
-import { worksLocationTypes } from "./roadworkTypes.zod";
 
 export const snsMessageAttributeSchema = z.record(
     z.object({
