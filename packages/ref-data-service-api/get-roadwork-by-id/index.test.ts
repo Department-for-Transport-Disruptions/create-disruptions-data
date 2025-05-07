@@ -1,27 +1,29 @@
 import { APIGatewayEvent } from "aws-lambda";
 import { describe, expect, it } from "vitest";
-
-import { getQueryInput } from "../get-roadwork-by-id";
+import { getQueryInput } from "./index";
 
 describe("get-roadwork-by-id", () => {
     describe("input generation", () => {
-        it("only returns page if its valid number", () => {
+        it("only returns permitReferenceNumber if present", () => {
             const event = {
-                queryStringParameters: {
-                    page: "5",
+                pathParameters: {
+                    permitReferenceNumber: "123",
                 },
             } as unknown as APIGatewayEvent;
-            expect(getQueryInput(event)).toEqual({ page: 4 });
+
+            expect(getQueryInput(event)).toEqual({ permitReferenceNumber: "123" });
         });
 
-        it("throws a ClientError if page not a number", () => {
+        it("throws a ClientError if permitReferenceNumber not provided", () => {
             const event = {
-                queryStringParameters: {
-                    page: "a",
+                pathParameters: {
+                    permitReferenceNumber: "",
                 },
             } as unknown as APIGatewayEvent;
 
-            expect(() => getQueryInput(event)).toThrowError("Provided page is not valid");
+            expect(() => getQueryInput(event)).toThrowError(
+                "permitReferenceNumber is required to get a roadwork by Id",
+            );
         });
     });
 });

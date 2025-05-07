@@ -1,9 +1,9 @@
 import { Database } from "@create-disruptions-data/shared-ts/db/types";
 import { Datasource, ReferenceDataVehicleMode } from "@create-disruptions-data/shared-ts/enums";
+import { PermitStatus } from "@create-disruptions-data/shared-ts/roadwork.zod";
 import { logger } from "@create-disruptions-data/shared-ts/utils/logger";
 import dayjs from "dayjs";
 import { Kysely, sql } from "kysely";
-import { PermitStatus } from "./roadworkTypes.zod";
 
 // Type definition
 export type StopsQueryInput = {

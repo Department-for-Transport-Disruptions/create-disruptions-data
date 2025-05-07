@@ -602,6 +602,28 @@ importers:
         specifier: ^2.1.4
         version: 2.1.4(@types/node@20.14.10)(jsdom@21.1.2)(sass@1.77.6)
 
+  packages/street-manager-uploader:
+    dependencies:
+      '@create-disruptions-data/shared-ts':
+        specifier: workspace:^
+        version: link:../../shared-ts
+      kysely:
+        specifier: ^0.27.5
+        version: 0.27.5
+      pg:
+        specifier: ^8.13.1
+        version: 8.13.1
+    devDependencies:
+      '@types/aws-lambda':
+        specifier: ^8.10.110
+        version: 8.10.140
+      '@types/node':
+        specifier: ^18.13.0
+        version: 18.19.39
+      vitest:
+        specifier: ^3.0.5
+        version: 3.0.5(@types/node@18.19.39)(jsdom@21.1.2)(sass@1.77.6)
+
   packages/table-renamer:
     dependencies:
       kysely:
@@ -15817,7 +15839,7 @@ snapshots:
     dependencies:
       '@sinonjs/commons': 2.0.0
       lodash.get: 4.4.2
-      type-detect: 4.0.8
+      type-detect: 4.1.0
 
   '@sinonjs/samsam@8.0.2':
     dependencies:
