@@ -1,5 +1,6 @@
 import os
 from unittest.mock import ANY, MagicMock, patch
+import datetime
 
 import boto3
 from psycopg2.extensions import cursor
@@ -11,7 +12,7 @@ from txc_processor import (
     create_unique_line_id, download_from_s3_and_write_to_db,
     extract_data_for_txc_operator_service_table, format_vehicle_journeys,
     iterate_through_journey_patterns_and_run_insert_queries, make_list,
-    select_route_and_run_insert_query)
+    select_route_and_run_insert_query, is_service_operational)
 
 logger = MagicMock()
 mock_data_dict = test_xml_helpers.generate_mock_data_dict()
@@ -98,6 +99,17 @@ class TestFileHasUsableData:
         service = mock_invalid_data_dict["TransXChange"]["Services"]["Service"]
         assert check_file_has_usable_data(data, service) == False
 
+class TestIsServiceOperational:
+    def test_service_is_operational(self):
+        service = mock_data_dict["TransXChange"]["Services"]["Service"]
+
+        vehicle_journeys = mock_data_dict["TransXChange"]["VehicleJourneys"]["VehicleJourney"]
+
+        print(vehicle_journeys)
+
+        service_operating_profile = mock_data_dict["TransXChange"]["Services"]["Service"]["OperatingProfile"]
+        service_operating_period = mock_data_dict["TransXChange"]["Services"]["Service"]["OperatingPeriod"]
+        assert is_service_operational(vehicle_journeys[0], [], service_operating_profile, service_operating_period, datetime.date(2025, 5, 8)) == True
 
 class TestDatabaseInsertQuerying:
     @patch("txc_processor.insert_into_txc_journey_pattern_table")

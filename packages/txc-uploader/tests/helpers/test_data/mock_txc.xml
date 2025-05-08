@@ -1665,7 +1665,7 @@
       <OperatingProfile>
         <RegularDayType>
           <DaysOfWeek>
-            <MondayToFriday />
+            <MondayToFriday/>
           </DaysOfWeek>
         </RegularDayType>
         <BankHolidayOperation>
@@ -1723,7 +1723,7 @@
       <OperatingProfile>
         <RegularDayType>
           <DaysOfWeek>
-            <MondayToFriday />
+            <Thursday />
           </DaysOfWeek>
         </RegularDayType>
         <BankHolidayOperation>

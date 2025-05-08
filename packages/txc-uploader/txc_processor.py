@@ -224,6 +224,7 @@ def is_service_operational(vehicle_journey, bank_holidays, service_operating_pro
     if is_date_within_ranges(today, special_days_non_operation):
         return False
 
+
     # Check if today is a special operation day
     days_of_special_operation = special_days_operation.get('DaysOfOperation', []) if special_days_operation else []
 
@@ -252,6 +253,8 @@ def is_service_operational(vehicle_journey, bank_holidays, service_operating_pro
     # Check if today is a regular operating day
     days_of_week = operating_profile.get('RegularDayType', {}).get('DaysOfWeek', {})
     if today.strftime('%A') not in days_of_week:
+        print(today.strftime('%A'))
+        print(days_of_week)
         return False
 
     return True
