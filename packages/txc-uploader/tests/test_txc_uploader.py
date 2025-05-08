@@ -19,6 +19,61 @@ mock_non_bus_dict = test_xml_helpers.generate_mock_ferry_txc_data_dict()
 mock_invalid_data_dict = test_xml_helpers.generate_mock_invalid_data_dict()
 mock_tracks_data_dict = test_xml_helpers.generate_mock_txc_tracks_data_dict()
 
+mock_bank_holidays = {
+  "england-and-wales": {
+    "division": "england-and-wales",
+    "events": [
+      {
+        "title": "New Year’s Day",
+        "date": "2020-01-01",
+        "notes": "",
+        "bunting": True
+      },
+      {
+        "title": "Good Friday",
+        "date": "2020-04-10",
+        "notes": "",
+        "bunting": True
+      },
+      {
+        "title": "Easter Monday",
+        "date": "2020-04-13",
+        "notes": "",
+        "bunting": True
+      },
+      {
+        "title": "Early May bank holiday (VE day)",
+        "date": "2020-05-08",
+        "notes": "",
+        "bunting": True
+      },
+      {
+        "title": "Spring bank holiday",
+        "date": "2020-05-25",
+        "notes": "",
+        "bunting": True
+      },
+      {
+        "title": "Summer bank holiday",
+        "date": "2020-08-31",
+        "notes": "",
+        "bunting": True
+      },
+      {
+        "title": "Christmas Day",
+        "date": "2020-12-25",
+        "notes": "",
+        "bunting": True
+      },
+      {
+        "title": "Boxing Day",
+        "date": "2020-12-28",
+        "notes": "Substitute day",
+        "bunting": True
+      }
+    ]
+  }
+}
 
 class TestLineIdGeneration:
     def test_function_returns_correctly_structured_line_id(self):
@@ -55,6 +110,8 @@ class TestDatabaseInsertQuerying:
         vehicle_journeys, _ = format_vehicle_journeys(
             mock_data_dict["TransXChange"]["VehicleJourneys"]["VehicleJourney"],
             "l_4_ANW",
+            [],
+            service
         )
         mock_jp_insert.side_effect = [9, 27, 13, 1, 11, 5, 28, 12, 10, 6, 13, 27, 4]
         mock_cursor = MagicMock()
@@ -138,9 +195,11 @@ class TestDataCollectionFunctionality:
         )
 
     def test_collect_vehicle_journey(self):
+        mock_service_operating_profile = mock_data_dict["TransXChange"]["Services"]["Service"]["OperatingProfile"]
+        mock_service_operating_period = mock_data_dict["TransXChange"]["Services"]["Service"]["OperatingPeriod"]
         assert (
             collect_vehicle_journey(
-                mock_data_dict["TransXChange"]["VehicleJourneys"]["VehicleJourney"][0]
+                mock_data_dict["TransXChange"]["VehicleJourneys"]["VehicleJourney"][0],[], mock_service_operating_profile, mock_service_operating_period
             )
             == test_data.expected_vehicle_journey
         )
@@ -156,6 +215,8 @@ class TestDataCollectionFunctionality:
         vehicle_journeys, _ = format_vehicle_journeys(
             mock_data_dict["TransXChange"]["VehicleJourneys"]["VehicleJourney"],
             "l_4_ANW",
+            [],
+            service
         )
         route_ref, link_refs = iterate_through_journey_patterns_and_run_insert_queries(
             mock_cursor,
@@ -258,8 +319,8 @@ class TestMainFunctionality:
         s3.put_object(Bucket=mock_bucket, Key=mock_key, Body=open(mock_file_dir, "rb"))
 
         download_from_s3_and_write_to_db(
-            s3, cloudwatch, mock_bucket, mock_key, mock_file_dir, db_connection, logger
+            s3, cloudwatch, mock_bucket, mock_key, mock_file_dir, db_connection, logger, {}
         )
         db_patch.assert_called_once_with(
-            mock_data_dict, "WM", "tnds", mock_key, db_connection, logger, cloudwatch
+            mock_data_dict, "WM", "tnds", mock_key, db_connection, logger, cloudwatch, {}
         )

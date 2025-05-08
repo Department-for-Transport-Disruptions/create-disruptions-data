@@ -929,6 +929,7 @@ expected_vehicle_journey = {
     "journey_pattern_ref": "JP1",
     "departure_time": "07:35:00",
     "journey_code": None,
+    "operational_for_today": False,
 }
 
 expected_tracks_data_single_section = [
