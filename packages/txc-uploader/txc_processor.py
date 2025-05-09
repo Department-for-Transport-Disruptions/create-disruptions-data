@@ -1,6 +1,7 @@
 import itertools
 import xml.etree.ElementTree as eT
 from typing import Optional
+import datetime
 
 import xmltodict
 from psycopg2 import IntegrityError
@@ -8,6 +9,20 @@ from psycopg2.extensions import connection as Connection
 from psycopg2.extensions import cursor as Cursor
 
 NOC_INTEGRITY_ERROR_MSG = "Cannot add or update a child row: a foreign key constraint fails (`ref_data`.`services`, CONSTRAINT `fk_services_operators_nocCode` FOREIGN KEY (`nocCode`) REFERENCES `operators` (`nocCode`))"
+
+bank_holiday_txc_mapping = {
+    "New Year’s Day": "NewYearsDay",
+    "Good Friday": "GoodFriday",
+    "Easter Monday": "EasterMonday",
+    "Early May bank holiday": "MayDay",
+    "Spring bank holiday": "SpringBank",
+    "Summer bank holiday": "LateSummerBankHolidayNotScotland",
+    "Scotland Summer bank holiday": "AugustBankHolidayScotland",
+    "Christmas Day": "ChristmasDayHoliday",
+    "Boxing Day": "BoxingDayHoliday",
+    "2nd January": "Jan2ndScotland",
+    "St Andrew’s Day": "StAndrewsDayHoliday",
+}
 
 
 def create_unique_line_id(noc, line_name):
@@ -148,6 +163,22 @@ def collect_journey_pattern_section_refs_and_info(raw_journey_patterns):
     return journey_patterns
 
 
+def is_date_within_ranges(date, date_ranges):
+    if date_ranges is not None:
+        date_ranges = make_list(date_ranges)
+    for date_range in date_ranges:
+        today = datetime.date.today().strftime("%Y-%m-%d")
+        start_date = datetime.datetime.strptime(
+            date_range.get("startDate", today), "%Y-%m-%d"
+        ).date()
+        end_date = datetime.datetime.strptime(
+            date_range.get("endDate", today), "%Y-%m-%d"
+        ).date()
+        if start_date <= date <= end_date:
+            return True
+    return False
+
+
 def safeget(dct, *keys):
     for key in keys:
         try:
@@ -157,7 +188,248 @@ def safeget(dct, *keys):
     return dct
 
 
-def collect_vehicle_journey(vehicle):
+def calculate_days_of_operation(days_of_week):
+    formatted_days_of_week = {}
+
+    if any(
+        key in days_of_week
+        for key in [
+            "Monday",
+            "MondayToFriday",
+            "MondayToSaturday",
+            "MondayToSunday",
+            "NotTuesday",
+            "NotWednesday",
+            "NotThursday",
+            "NotFriday",
+            "NotSaturday",
+            "NotSunday",
+        ]
+    ):
+        formatted_days_of_week["Monday"] = None
+
+    if any(
+        key in days_of_week
+        for key in [
+            "Tuesday",
+            "MondayToFriday",
+            "MondayToSaturday",
+            "MondayToSunday",
+            "NotMonday",
+            "NotWednesday",
+            "NotThursday",
+            "NotFriday",
+            "NotSaturday",
+            "NotSunday",
+        ]
+    ):
+        formatted_days_of_week["Tuesday"] = None
+
+    if any(
+        key in days_of_week
+        for key in [
+            "Wednesday",
+            "MondayToFriday",
+            "MondayToSaturday",
+            "MondayToSunday",
+            "NotMonday",
+            "NotTuesday",
+            "NotThursday",
+            "NotFriday",
+            "NotSaturday",
+            "NotSunday",
+        ]
+    ):
+        formatted_days_of_week["Wednesday"] = None
+
+    if any(
+        key in days_of_week
+        for key in [
+            "Thursday",
+            "MondayToFriday",
+            "MondayToSaturday",
+            "MondayToSunday",
+            "NotMonday",
+            "NotTuesday",
+            "NotWednesday",
+            "NotFriday",
+            "NotSaturday",
+            "NotSunday",
+        ]
+    ):
+        formatted_days_of_week["Thursday"] = None
+
+    if any(
+        key in days_of_week
+        for key in [
+            "Friday",
+            "MondayToFriday",
+            "MondayToSaturday",
+            "MondayToSunday",
+            "NotMonday",
+            "NotTuesday",
+            "NotWednesday",
+            "NotThursday",
+            "NotSaturday",
+            "NotSunday",
+        ]
+    ):
+        formatted_days_of_week["Friday"] = None
+
+    if any(
+        key in days_of_week
+        for key in [
+            "Saturday",
+            "MondayToSaturday",
+            "MondayToSunday",
+            "Weekend",
+            "NotMonday",
+            "NotTuesday",
+            "NotWednesday",
+            "NotThursday",
+            "NotFriday",
+            "NotSunday",
+        ]
+    ):
+        formatted_days_of_week["Saturday"] = None
+
+    if any(
+        key in days_of_week
+        for key in [
+            "Sunday",
+            "MondayToSunday",
+            "Weekend",
+            "NotMonday",
+            "NotTuesday",
+            "NotWednesday",
+            "NotThursday",
+            "NotFriday",
+            "NotSaturday",
+        ]
+    ):
+        formatted_days_of_week["Sunday"] = None
+
+    return formatted_days_of_week
+
+
+# Check if a vehicle service is operational_for_today
+def is_service_operational(
+    vehicle_journey,
+    bank_holidays,
+    service_operating_profile,
+    service_operating_period,
+    today=None,
+):
+    if today is None:
+        today = datetime.date.today()
+
+    # Check the OperatingPeriod of the service
+    service_start_date = datetime.datetime.strptime(
+        service_operating_period["StartDate"], "%Y-%m-%d"
+    ).date()
+    service_end_date = (
+        datetime.datetime.strptime(
+            service_operating_period["EndDate"], "%Y-%m-%d"
+        ).date()
+        if "EndDate" in service_operating_period
+        else None
+    )
+    if (service_end_date and service_end_date < today) or (service_start_date > today):
+        return False
+
+    # Fallback default operating profile
+    default_operating_profile = {
+        "RegularDayType": {
+            "DaysOfWeek": {
+                "Monday": "",
+                "Tuesday": "",
+                "Wednesday": "",
+                "Thursday": "",
+                "Friday": "",
+                "Saturday": "",
+                "Sunday": "",
+            }
+        }
+    }
+
+    # Use the vehicle journey's operating profile or fallback to the service's operating profile or default
+    operating_profile = (
+        vehicle_journey.get("OperatingProfile")
+        or service_operating_profile
+        or default_operating_profile
+    )
+
+    # Check if today is a special non-operation day
+    special_days_operation = operating_profile.get("SpecialDaysOperation", {})
+
+    special_days_non_operation = (
+        special_days_operation.get("DaysOfNonOperation", [])
+        if special_days_operation
+        else []
+    )
+
+    if is_date_within_ranges(today, special_days_non_operation):
+        return False
+
+    # Check if today is a special operation day
+    days_of_special_operation = (
+        special_days_operation.get("DaysOfOperation", [])
+        if special_days_operation
+        else []
+    )
+
+    if is_date_within_ranges(today, days_of_special_operation):
+        return True
+
+    # Check if today is a bank holiday, if so check whether the service is operational
+    todays_bank_holidays = [
+        holiday
+        for holiday in bank_holidays
+        if holiday["date"] == today.strftime("%Y-%m-%d")
+    ]
+
+    if todays_bank_holidays:
+        bank_holiday_operation = operating_profile.get("BankHolidayOperation", [])
+
+        days_of_bank_holiday_operation = (
+            (bank_holiday_operation.get("DaysOfOperation", []) or [])
+            if bank_holiday_operation
+            else []
+        )
+        bank_holiday_non_operation = (
+            (bank_holiday_operation.get("DaysOfNonOperation", []) or [])
+            if bank_holiday_operation
+            else []
+        )
+
+        if "AllBankHolidays" in bank_holiday_operation:
+            return True
+
+        if "AllBankHolidays" in bank_holiday_non_operation:
+            return False
+
+        for holiday in todays_bank_holidays:
+            txc_holiday_name = bank_holiday_txc_mapping.get(holiday["title"], None)
+            if txc_holiday_name:
+                if txc_holiday_name in days_of_bank_holiday_operation:
+                    return True
+                if txc_holiday_name in bank_holiday_non_operation:
+                    return False
+
+    # Check if today is a regular operating day
+    days_of_week = calculate_days_of_operation(
+        operating_profile.get("RegularDayType", {}).get("DaysOfWeek", {})
+    )
+
+    if today.strftime("%A") not in days_of_week:
+        return False
+
+    return True
+
+
+def collect_vehicle_journey(
+    vehicle, bank_holidays, service_operating_profile, service_operating_period
+):
     vehicle_journey_info = {
         "vehicle_journey_code": (
             vehicle["VehicleJourneyCode"] if "VehicleJourneyCode" in vehicle else None
@@ -172,6 +444,9 @@ def collect_vehicle_journey(vehicle):
         ),
         "journey_code": (
             safeget(vehicle, "Operational", "TicketMachine", "JourneyCode")
+        ),
+        "operational_for_today": is_service_operational(
+            vehicle, bank_holidays, service_operating_profile, service_operating_period
         ),
     }
 
@@ -421,11 +696,20 @@ def insert_into_txc_vehicle_journey_table(
             "departure_time": vehicle_journey_info["departure_time"],
             "journey_code": vehicle_journey_info["journey_code"],
             "operator_service_id": operator_service_id,
+            "operational_for_today": vehicle_journey_info["operational_for_today"],
         }
         for vehicle_journey_info in vehicle_journeys_info
     ]
 
-    query = "INSERT INTO vehicle_journeys_new (vehicle_journey_code, service_ref, line_ref, journey_pattern_ref, departure_time, journey_code, operator_service_id) VALUES (%(vehicle_journey_code)s, %(service_ref)s, %(line_ref)s, %(journey_pattern_ref)s, %(departure_time)s, %(journey_code)s, %(operator_service_id)s)"
+    query = """
+          INSERT INTO vehicle_journeys_new (
+              vehicle_journey_code, service_ref, line_ref, journey_pattern_ref, 
+              departure_time, journey_code, operator_service_id, operational_for_today
+          ) VALUES (
+              %(vehicle_journey_code)s, %(service_ref)s, %(line_ref)s, %(journey_pattern_ref)s, 
+              %(departure_time)s, %(journey_code)s, %(operator_service_id)s, %(operational_for_today)s
+          )
+      """
     cursor.executemany(query, values)
 
 
@@ -692,7 +976,15 @@ def select_route_and_run_insert_query(
             insert_into_txc_tracks_table(cursor, tracks, operator_service_id)
 
 
-def format_vehicle_journeys(vehicle_journeys: list, line_id: str):
+def format_vehicle_journeys(
+    vehicle_journeys: list, line_id: str, bank_holidays, service
+):
+    service_operating_profile = (
+        service["OperatingProfile"] if "OperatingProfile" in service else None
+    )
+    service_operating_period = (
+        service["OperatingPeriod"] if "OperatingPeriod" in service else None
+    )
     vehicle_journey_refs = [
         journey["VehicleJourneyRef"]
         for journey in vehicle_journeys
@@ -730,7 +1022,14 @@ def format_vehicle_journeys(vehicle_journeys: list, line_id: str):
         else:
             journey_pattern_count[journey_pattern_ref] += 1
 
-        vehicle_journeys_data.append(collect_vehicle_journey(vehicle_journey))
+        vehicle_journeys_data.append(
+            collect_vehicle_journey(
+                vehicle_journey,
+                bank_holidays,
+                service_operating_profile,
+                service_operating_period,
+            )
+        )
 
     journey_pattern_to_use = (
         max(journey_pattern_count) if journey_pattern_count else None
@@ -747,6 +1046,7 @@ def write_to_database(
     db_connection: Connection,
     logger,
     cloudwatch,
+    bank_holiday_json,
 ):
     try:
         operators = get_operators(data, data_source, cloudwatch)
@@ -840,7 +1140,9 @@ def write_to_database(
                         (
                             vehicle_journeys_for_line,
                             journey_pattern_to_use_for_tracks,
-                        ) = format_vehicle_journeys(vehicle_journeys, line_id)
+                        ) = format_vehicle_journeys(
+                            vehicle_journeys, line_id, bank_holiday_json, service
+                        )
 
                         file_has_useable_data = check_file_has_usable_data(
                             data, service
@@ -937,6 +1239,7 @@ def download_from_s3_and_write_to_db(
     file_path,
     db_connection: Connection,
     logger,
+    bank_holiday_json,
 ):
     s3.download_file(bucket, key, file_path)
     logger.info(f"Downloaded S3 file, '{key}' to '{file_path}'")
@@ -954,7 +1257,14 @@ def download_from_s3_and_write_to_db(
 
     logger.info("Starting write to database...")
     written_success = write_to_database(
-        data_dict, region_code, data_source, key, db_connection, logger, cloudwatch
+        data_dict,
+        region_code,
+        data_source,
+        key,
+        db_connection,
+        logger,
+        cloudwatch,
+        bank_holiday_json,
     )
 
     if written_success:

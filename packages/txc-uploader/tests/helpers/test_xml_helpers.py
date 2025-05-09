@@ -31,6 +31,7 @@ def generate_mock_invalid_data_dict():
 
     return mock_data_dict
 
+
 def generate_mock_ferry_txc_data_dict():
     tree = eT.parse(f"{dir_path}/test_data/mock_ferry_txc.xml")
     xml_data = tree.getroot()

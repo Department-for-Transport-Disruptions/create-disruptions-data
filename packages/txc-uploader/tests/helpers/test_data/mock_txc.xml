@@ -1662,6 +1662,18 @@
         <StartDate>2018-01-28</StartDate>
         <EndDate>2099-12-31</EndDate>
       </OperatingPeriod>
+      <OperatingProfile>
+        <RegularDayType>
+          <DaysOfWeek>
+            <MondayToFriday/>
+          </DaysOfWeek>
+        </RegularDayType>
+        <BankHolidayOperation>
+          <DaysOfNonOperation>
+            <AllBankHolidays />
+          </DaysOfNonOperation>
+        </BankHolidayOperation>
+      </OperatingProfile>
       <RegisteredOperatorRef>OId_ANW</RegisteredOperatorRef>
       <StopRequirements>
         <NoNewStopsRequired />
@@ -1711,7 +1723,7 @@
       <OperatingProfile>
         <RegularDayType>
           <DaysOfWeek>
-            <MondayToFriday />
+            <MondayToFriday/>
           </DaysOfWeek>
         </RegularDayType>
         <BankHolidayOperation>

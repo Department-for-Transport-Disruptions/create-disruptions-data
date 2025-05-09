@@ -1,17 +1,28 @@
+import datetime
 import os
-from unittest.mock import ANY, MagicMock, patch
+from unittest.mock import MagicMock, patch
 
 import boto3
+import pytest
 from psycopg2.extensions import cursor
 from tests.helpers import test_xml_helpers
 from tests.helpers.test_data import test_data
 from txc_processor import (
-    check_file_has_usable_data, collect_journey_pattern_section_refs_and_info,
-    collect_journey_patterns, collect_track_data, collect_vehicle_journey,
-    create_unique_line_id, download_from_s3_and_write_to_db,
-    extract_data_for_txc_operator_service_table, format_vehicle_journeys,
-    iterate_through_journey_patterns_and_run_insert_queries, make_list,
-    select_route_and_run_insert_query)
+    check_file_has_usable_data,
+    collect_journey_pattern_section_refs_and_info,
+    collect_journey_patterns,
+    collect_track_data,
+    collect_vehicle_journey,
+    create_unique_line_id,
+    download_from_s3_and_write_to_db,
+    extract_data_for_txc_operator_service_table,
+    format_vehicle_journeys,
+    iterate_through_journey_patterns_and_run_insert_queries,
+    make_list,
+    select_route_and_run_insert_query,
+    is_service_operational,
+    calculate_days_of_operation,
+)
 
 logger = MagicMock()
 mock_data_dict = test_xml_helpers.generate_mock_data_dict()
@@ -44,6 +55,182 @@ class TestFileHasUsableData:
         assert check_file_has_usable_data(data, service) == False
 
 
+class TestCalculateDaysOfOperation:
+    @pytest.mark.parametrize(
+        "days_of_week, expected_result",
+        [
+            (
+                {"MondayToFriday": None},
+                {
+                    "Monday": None,
+                    "Tuesday": None,
+                    "Wednesday": None,
+                    "Thursday": None,
+                    "Friday": None,
+                },
+            ),
+            ({"Monday": None}, {"Monday": None}),
+            ({"Weekend": None}, {"Saturday": None, "Sunday": None}),
+            (
+                {"NotMonday": None},
+                {
+                    "Tuesday": None,
+                    "Wednesday": None,
+                    "Thursday": None,
+                    "Friday": None,
+                    "Saturday": None,
+                    "Sunday": None,
+                },
+            ),
+        ],
+    )
+    def test_calculate_days_of_operation(self, days_of_week, expected_result):
+        assert calculate_days_of_operation(days_of_week) == expected_result
+
+
+class TestJourneyIsOperational:
+    @pytest.mark.parametrize(
+        "vehicle_journey, expected_result",
+        [
+            (test_data.generate_mock_journey({"MondayToFriday": None}), True),
+            (test_data.generate_mock_journey({"Thursday": None}), True),
+            (test_data.generate_mock_journey({"NotThursday": None}), False),
+        ],
+    )
+    def test_journey_is_operational_using_vehicle_journey(
+        self, vehicle_journey, expected_result
+    ):
+        service_operating_profile = mock_data_dict["TransXChange"]["Services"][
+            "Service"
+        ]["OperatingProfile"]
+        service_operating_period = mock_data_dict["TransXChange"]["Services"][
+            "Service"
+        ]["OperatingPeriod"]
+        assert (
+            is_service_operational(
+                vehicle_journey,
+                [],
+                service_operating_profile,
+                service_operating_period,
+                datetime.date(2025, 5, 8),
+            )
+            == expected_result
+        )
+
+    @pytest.mark.parametrize(
+        "service_operating_profile, expected_result",
+        [
+            (test_data.generate_mock_operating_profile({"MondayToFriday": None}), True),
+            (test_data.generate_mock_operating_profile({"Thursday": None}), True),
+            (test_data.generate_mock_operating_profile({"NotThursday": None}), False),
+            (None, True),
+        ],
+    )
+    def test_journey_is_operational_using_operating_profile(
+        self, service_operating_profile, expected_result
+    ):
+        vehicle_journey = test_data.mock_journey_no_operating_profile
+        service_operating_period = mock_data_dict["TransXChange"]["Services"][
+            "Service"
+        ]["OperatingPeriod"]
+        assert (
+            is_service_operational(
+                vehicle_journey,
+                [],
+                service_operating_profile,
+                service_operating_period,
+                datetime.date(2025, 5, 8),
+            )
+            == expected_result
+        )
+
+    def test_journey_is_operational_using_operating_period(self):
+        vehicle_journey = test_data.generate_mock_journey({"MondayToFriday": None})
+        service_operating_profile = None
+        service_operating_period = {"StartDate": "2018-01-28", "EndDate": "2019-12-31"}
+        assert (
+            is_service_operational(
+                vehicle_journey,
+                [],
+                service_operating_profile,
+                service_operating_period,
+                datetime.date(2025, 5, 8),
+            )
+            == False
+        )
+
+    @pytest.mark.parametrize(
+        "vehicle_journey, bank_holidays, expected_result",
+        [
+            (
+                test_data.generate_mock_journey_bank_holiday(
+                    {"DaysOfNonOperation": {"AllBankHolidays": None}}
+                ),
+                [
+                    {
+                        "title": "Mock bank holiday",
+                        "date": "2025-05-08",
+                    }
+                ],
+                False,
+            ),
+            (
+                test_data.generate_mock_journey_bank_holiday(
+                    {"DaysOfOperation": {"AllBankHolidays": None}}
+                ),
+                [
+                    {
+                        "title": "Mock bank holiday",
+                        "date": "2025-05-08",
+                    }
+                ],
+                True,
+            ),
+            (
+                test_data.generate_mock_journey_bank_holiday(
+                    {"DaysOfNonOperation": {"SpringBank": None}}
+                ),
+                [
+                    {
+                        "title": "Spring bank holiday",
+                        "date": "2025-05-08",
+                    }
+                ],
+                False,
+            ),
+            (
+                test_data.generate_mock_journey_bank_holiday(
+                    {"DaysOfOperation": {"SpringBank": None}}
+                ),
+                [
+                    {
+                        "title": "Spring bank holiday",
+                        "date": "2025-05-08",
+                    }
+                ],
+                True,
+            ),
+        ],
+    )
+    def test_journey_is_operational_bank_holiday(
+        self, vehicle_journey, bank_holidays, expected_result
+    ):
+        service_operating_profile = None
+        service_operating_period = mock_data_dict["TransXChange"]["Services"][
+            "Service"
+        ]["OperatingPeriod"]
+        assert (
+            is_service_operational(
+                vehicle_journey,
+                bank_holidays,
+                service_operating_profile,
+                service_operating_period,
+                datetime.date(2025, 5, 8),
+            )
+            == expected_result
+        )
+
+
 class TestDatabaseInsertQuerying:
     @patch("txc_processor.insert_into_txc_journey_pattern_table")
     @patch("txc_processor.insert_into_txc_journey_pattern_link_table")
@@ -55,6 +242,8 @@ class TestDatabaseInsertQuerying:
         vehicle_journeys, _ = format_vehicle_journeys(
             mock_data_dict["TransXChange"]["VehicleJourneys"]["VehicleJourney"],
             "l_4_ANW",
+            [],
+            service,
         )
         mock_jp_insert.side_effect = [9, 27, 13, 1, 11, 5, 28, 12, 10, 6, 13, 27, 4]
         mock_cursor = MagicMock()
@@ -138,9 +327,18 @@ class TestDataCollectionFunctionality:
         )
 
     def test_collect_vehicle_journey(self):
+        mock_service_operating_profile = mock_data_dict["TransXChange"]["Services"][
+            "Service"
+        ]["OperatingProfile"]
+        mock_service_operating_period = mock_data_dict["TransXChange"]["Services"][
+            "Service"
+        ]["OperatingPeriod"]
         assert (
             collect_vehicle_journey(
-                mock_data_dict["TransXChange"]["VehicleJourneys"]["VehicleJourney"][0]
+                mock_data_dict["TransXChange"]["VehicleJourneys"]["VehicleJourney"][0],
+                [],
+                mock_service_operating_profile,
+                mock_service_operating_period,
             )
             == test_data.expected_vehicle_journey
         )
@@ -156,6 +354,8 @@ class TestDataCollectionFunctionality:
         vehicle_journeys, _ = format_vehicle_journeys(
             mock_data_dict["TransXChange"]["VehicleJourneys"]["VehicleJourney"],
             "l_4_ANW",
+            [],
+            service,
         )
         route_ref, link_refs = iterate_through_journey_patterns_and_run_insert_queries(
             mock_cursor,
@@ -258,8 +458,22 @@ class TestMainFunctionality:
         s3.put_object(Bucket=mock_bucket, Key=mock_key, Body=open(mock_file_dir, "rb"))
 
         download_from_s3_and_write_to_db(
-            s3, cloudwatch, mock_bucket, mock_key, mock_file_dir, db_connection, logger
+            s3,
+            cloudwatch,
+            mock_bucket,
+            mock_key,
+            mock_file_dir,
+            db_connection,
+            logger,
+            {},
         )
         db_patch.assert_called_once_with(
-            mock_data_dict, "WM", "tnds", mock_key, db_connection, logger, cloudwatch
+            mock_data_dict,
+            "WM",
+            "tnds",
+            mock_key,
+            db_connection,
+            logger,
+            cloudwatch,
+            {},
         )

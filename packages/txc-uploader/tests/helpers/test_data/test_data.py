@@ -929,6 +929,7 @@ expected_vehicle_journey = {
     "journey_pattern_ref": "JP1",
     "departure_time": "07:35:00",
     "journey_code": None,
+    "operational_for_today": True,
 }
 
 expected_tracks_data_single_section = [
@@ -1157,3 +1158,57 @@ expected_tracks_data_multiple_sections = [
     {"longitude": "-2.464778057", "latitude": "53.768537920"},
     {"longitude": "-2.464747836", "latitude": "53.768564459"},
 ]
+
+
+def generate_mock_journey(days_of_week):
+    return {
+        "PrivateCode": "J42",
+        "Operational": {
+            "VehicleType": {"VehicleTypeCode": "BUS", "Description": "BUS"}
+        },
+        "OperatingProfile": {
+            "RegularDayType": {"DaysOfWeek": days_of_week},
+            "BankHolidayOperation": {"DaysOfNonOperation": {"AllBankHolidays": None}},
+        },
+        "VehicleJourneyCode": "J42",
+        "ServiceRef": "NW_01_ANW_4_1",
+        "LineRef": "l_4_ANW",
+        "JourneyPatternRef": "JP1",
+        "DepartureTime": "07:35:00",
+    }
+
+
+def generate_mock_journey_bank_holiday(bank_holiday_operation):
+    return {
+        "PrivateCode": "J42",
+        "Operational": {
+            "VehicleType": {"VehicleTypeCode": "BUS", "Description": "BUS"}
+        },
+        "OperatingProfile": {
+            "RegularDayType": {"DaysOfWeek": {"MondayToFriday": None}},
+            "BankHolidayOperation": bank_holiday_operation,
+        },
+        "VehicleJourneyCode": "J42",
+        "ServiceRef": "NW_01_ANW_4_1",
+        "LineRef": "l_4_ANW",
+        "JourneyPatternRef": "JP1",
+        "DepartureTime": "07:35:00",
+    }
+
+
+mock_journey_no_operating_profile = {
+    "PrivateCode": "J42",
+    "Operational": {"VehicleType": {"VehicleTypeCode": "BUS", "Description": "BUS"}},
+    "VehicleJourneyCode": "J42",
+    "ServiceRef": "NW_01_ANW_4_1",
+    "LineRef": "l_4_ANW",
+    "JourneyPatternRef": "JP1",
+    "DepartureTime": "07:35:00",
+}
+
+
+def generate_mock_operating_profile(days_of_week):
+    return {
+        "RegularDayType": {"DaysOfWeek": days_of_week},
+        "BankHolidayOperation": {"DaysOfNonOperation": {"AllBankHolidays": None}},
+    }

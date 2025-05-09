@@ -2,6 +2,24 @@ import { logger } from "@create-disruptions-data/shared-ts/utils/logger";
 import { putObject } from "@create-disruptions-data/shared-ts/utils/s3";
 import axios from "axios";
 
+interface Event {
+    title: string;
+    date: string;
+    notes: string;
+    bunting: boolean;
+}
+
+interface Division {
+    division: string;
+    events: Event[];
+}
+
+export interface BankHolidaysJson {
+    "england-and-wales": Division;
+    scotland: Division;
+    "northern-ireland": Division;
+}
+
 export const getBankHolidaysAndUploadToS3 = async (bankHolidaysBucketName: string) => {
     const url = "https://www.gov.uk/bank-holidays.json";
     const response = await axios.get<object>(url, { responseType: "json" });
@@ -10,11 +28,29 @@ export const getBankHolidaysAndUploadToS3 = async (bankHolidaysBucketName: strin
         throw new Error(`Did not receive any data from bank holidays url: ${url}`);
     }
 
+    const ukBankHolidays = response.data as BankHolidaysJson;
+
+    const mappedScottishHolidays = [...ukBankHolidays.scotland.events].map((holiday) => {
+        if (holiday.title === "Summer bank holiday") {
+            return {
+                ...holiday,
+                title: "Scotland Summer bank holiday",
+            };
+        }
+        return holiday;
+    });
+
+    const bankHolidays = [...ukBankHolidays["england-and-wales"].events, ...mappedScottishHolidays]
+        .filter(
+            (value, index, self) => index === self.findIndex((t) => t.date === value.date && t.title === value.title),
+        )
+        .sort((a, b) => a.date.localeCompare(b.date));
+
     await putObject({
         Bucket: bankHolidaysBucketName,
         Key: "bank-holidays.json",
         ContentType: "application/json",
-        Body: JSON.stringify(response.data),
+        Body: JSON.stringify(bankHolidays),
     });
 };
 
