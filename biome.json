@@ -20,7 +20,8 @@
             ".env.playwright",
             "playwright/.auth",
             "./public/scripts/all.js",
-            ".venv"
+            ".venv",
+            "./packages/txc-uploader/*"
         ]
     },
     "formatter": {

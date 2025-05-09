@@ -1,0 +1,16 @@
+{
+    "name": "@create-disruptions-data/table-renamer",
+    "version": "0.1.0",
+    "type": "module",
+    "scripts": {
+        "typecheck": "tsc -noEmit"
+    },
+    "devDependencies": {
+        "@types/aws-lambda": "^8.10.110",
+        "@types/node": "^20.10.5"
+    },
+    "dependencies": {
+        "kysely": "^0.27.4",
+        "pg": "^8.13.1"
+    }
+}

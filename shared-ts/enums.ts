@@ -147,6 +147,17 @@ export enum VehicleMode {
     coach = "coach",
 }
 
+export enum ReferenceDataVehicleMode {
+    bus = "bus",
+    tram = "tram",
+    coach = "coach",
+    ferry = "ferry",
+    underground = "underground",
+    rail = "rail",
+    metro = "metro",
+    blank = "",
+}
+
 export enum Severity {
     unknown = "unknown",
     normal = "normal",

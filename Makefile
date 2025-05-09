@@ -8,6 +8,12 @@ start-site: kill-site
 
 install-deps:
 	pnpm install
+	( \
+		python3 -m venv venv; \
+		. venv/bin/activate; \
+		pip install -r packages/txc-uploader/requirements.dev.txt --target packages/txc-uploader/; \
+		rm -rf venv; \
+	)
 
 kill-site:
 	lsof -t -i:3000 | xargs -r kill

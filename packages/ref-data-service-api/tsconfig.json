@@ -1,0 +1,17 @@
+{
+    "extends": "@tsconfig/node20/tsconfig.json",
+    "compilerOptions": {
+        "module": "ES2022",
+        "moduleResolution": "Bundler",
+        "baseUrl": ".",
+        "paths": {
+            "@create-disruptions-data/core/*": ["../core/src/*"]
+        }
+    },
+    "ts-node": {
+        "compilerOptions": {
+            "moduleResolution": "node"
+        }
+    },
+    "exclude": ["testdata", "testdata/*", "**/*.test.ts", "tests/", "coverage/", ".vitest/"]
+}

@@ -1,0 +1,11 @@
+*
+!.gitignore
+!index.py
+!__init__.py
+!txc_processor.py
+!requirements.txt
+!requirements.dev.txt
+!tests
+!tests/**/*
+
+__pycache__
