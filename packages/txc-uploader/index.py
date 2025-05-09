@@ -16,15 +16,17 @@ cloudwatch_client = boto3.client("cloudwatch")
 logger = logging.getLogger()
 logger.setLevel(logging.INFO)
 
+
 def get_s3_object(bucket, key):
-    s3 = boto3.client('s3')
+    s3 = boto3.client("s3")
     try:
         response = s3.get_object(Bucket=bucket, Key=key)
-        return response['Body'].read().decode('utf-8')
+        return response["Body"].read().decode("utf-8")
     except (NoCredentialsError, PartialCredentialsError):
         raise Exception("Credentials not available")
     except Exception as e:
         raise Exception(f"An error occurred: {str(e)}")
+
 
 def get_bank_holidays_json(bucket):
     key = "bank-holidays.json"
@@ -34,6 +36,7 @@ def get_bank_holidays_json(bucket):
         raise Exception("No data found in bank-holidays.json")
 
     return json.loads(body)
+
 
 @event_source(data_class=S3Event)
 def main(event: S3Event, context: LambdaContext):
@@ -65,10 +68,12 @@ def main(event: S3Event, context: LambdaContext):
         f'host={"localhost" if is_local else db_params[db_host_param]} dbname={db_params[db_name_param]} user={db_params[db_username_param]} password={db_params[db_password_param]} port={"35432" if is_local else db_params[db_port_param]}'
     ) as db_connection:
         try:
-            bank_holidays_bucket_name = os.getenv('BANK_HOLIDAYS_BUCKET_NAME')
+            bank_holidays_bucket_name = os.getenv("BANK_HOLIDAYS_BUCKET_NAME")
 
             if not bank_holidays_bucket_name:
-                raise Exception("Missing env vars - BANK_HOLIDAYS_BUCKET_NAME must be set")
+                raise Exception(
+                    "Missing env vars - BANK_HOLIDAYS_BUCKET_NAME must be set"
+                )
 
             logger.info("Retrieving bank holidays JSON")
             bank_holidays_json = get_bank_holidays_json(bank_holidays_bucket_name)
@@ -81,7 +86,7 @@ def main(event: S3Event, context: LambdaContext):
                 file_path,
                 db_connection,
                 logger,
-                bank_holidays_json
+                bank_holidays_json,
             )
         except Exception as e:
             logger.error(
