@@ -48,7 +48,10 @@ describe("getBankHolidaysAndUploadToS3", () => {
             Bucket: "test-bucket",
             Key: "bank-holidays.json",
             ContentType: "application/json",
-            Body: JSON.stringify(mockBankHolidaysResponse),
+            Body: JSON.stringify([
+                { title: "Christmas Day", date: "2026-12-25", notes: "", bunting: true },
+                { title: "Boxing Day", date: "2026-12-28", notes: "Substitute day", bunting: true },
+            ]),
         });
     });
 
