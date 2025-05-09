@@ -183,6 +183,32 @@ def safeget(dct, *keys):
             return None
     return dct
 
+def calculate_days_of_operation(days_of_week):
+    formatted_days_of_week = {}
+
+    if any(key in days_of_week for key in ["Monday", "MondayToFriday", "MondayToSaturday", "MondayToSunday", "NotTuesday", "NotWednesday", "NotThursday", "NotFriday", "NotSaturday", "NotSunday" ]):
+        formatted_days_of_week["Monday"] = None
+
+    if any(key in days_of_week for key in ["Tuesday", "MondayToFriday", "MondayToSaturday", "MondayToSunday", "NotMonday", "NotWednesday", "NotThursday", "NotFriday", "NotSaturday", "NotSunday" ]):
+        formatted_days_of_week["Tuesday"] = None
+
+    if any(key in days_of_week for key in ["Wednesday", "MondayToFriday", "MondayToSaturday", "MondayToSunday", "NotMonday", "NotTuesday", "NotThursday", "NotFriday", "NotSaturday", "NotSunday" ]):
+        formatted_days_of_week["Wednesday"] = None
+
+    if any(key in days_of_week for key in ["Thursday", "MondayToFriday", "MondayToSaturday", "MondayToSunday", "NotMonday", "NotTuesday", "NotWednesday", "NotFriday", "NotSaturday", "NotSunday" ]):
+        formatted_days_of_week["Thursday"] = None
+
+    if any(key in days_of_week for key in ["Friday", "MondayToFriday", "MondayToSaturday", "MondayToSunday", "NotMonday", "NotTuesday", "NotWednesday", "NotThursday", "NotSaturday", "NotSunday" ]):
+        formatted_days_of_week["Friday"] = None
+
+    if any(key in days_of_week for key in ["Saturday", "MondayToSaturday", "MondayToSunday", "Weekend", "NotMonday", "NotTuesday", "NotWednesday", "NotThursday", "NotFriday", "NotSunday" ]):
+        formatted_days_of_week["Saturday"] = None
+
+    if any(key in days_of_week for key in ["Sunday", "MondayToSunday", "Weekend", "NotMonday", "NotTuesday", "NotWednesday", "NotThursday", "NotFriday", "NotSaturday" ]):
+        formatted_days_of_week["Sunday"] = None
+
+
+    return formatted_days_of_week
 
 # Check if a vehicle service is operational_for_today
 def is_service_operational(vehicle_journey, bank_holidays, service_operating_profile, service_operating_period,
@@ -238,8 +264,13 @@ def is_service_operational(vehicle_journey, bank_holidays, service_operating_pro
         bank_holiday_operation = operating_profile.get('BankHolidayOperation', [])
 
         days_of_bank_holiday_operation = (bank_holiday_operation.get('DaysOfOperation', []) or []) if bank_holiday_operation else []
-        bank_holiday_non_operation = (bank_holiday_operation.get('BankHolidayNonOperation', []) or []) if bank_holiday_operation else []
+        bank_holiday_non_operation = (bank_holiday_operation.get('DaysOfNonOperation', []) or []) if bank_holiday_operation else []
 
+        if 'AllBankHolidays' in bank_holiday_operation:
+            return True
+
+        if 'AllBankHolidays' in bank_holiday_non_operation:
+            return False
 
         for holiday in todays_bank_holidays:
             txc_holiday_name = bank_holiday_txc_mapping.get(holiday['title'], None)
@@ -251,10 +282,9 @@ def is_service_operational(vehicle_journey, bank_holidays, service_operating_pro
 
 
     # Check if today is a regular operating day
-    days_of_week = operating_profile.get('RegularDayType', {}).get('DaysOfWeek', {})
+    days_of_week = calculate_days_of_operation(operating_profile.get('RegularDayType', {}).get('DaysOfWeek', {}))
+
     if today.strftime('%A') not in days_of_week:
-        print(today.strftime('%A'))
-        print(days_of_week)
         return False
 
     return True
