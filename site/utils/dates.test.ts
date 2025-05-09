@@ -1,10 +1,25 @@
-import { Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
-import { checkOverlap, getDatetimeFromDateAndTime } from "@create-disruptions-data/shared-ts/utils/dates";
+import { DisruptionInfo, Validity } from "@create-disruptions-data/shared-ts/disruptionTypes";
+import { checkOverlap, getDatetimeFromDateAndTime, getDate } from "@create-disruptions-data/shared-ts/utils/dates";
 import dayjs from "dayjs";
-import { describe, expect, it } from "vitest";
-import { convertDateTimeToFormat, formatTime, getEndingOnDateText, isUpcomingDisruption } from "./dates";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import {
+    convertDateTimeToFormat,
+    formatTime,
+    getEndingOnDateText,
+    getFutureDateAsString,
+    getValidityAndPublishStartAndEndDates,
+    isUpcomingDisruption,
+} from "./dates";
+import { MiscellaneousReason } from "@create-disruptions-data/shared-ts/enums";
+import MockDate from "mockdate";
+import { cleanup } from "@testing-library/react";
 
 describe("date/time tests", () => {
+    afterEach(() => {
+        vi.resetAllMocks();
+        cleanup();
+    });
+
     it.each([
         ["2019-01-25", "DD/MM/YYYY", "25/01/2019"],
         ["2019-01-25", "DD/MM/YY", "25/01/19"],
@@ -148,4 +163,54 @@ describe("date/time tests", () => {
     ])("should return whether a disruption is upcoming or not ", (validity, today, result) => {
         expect(isUpcomingDisruption(validity, today)).toEqual(result);
     });
+
+    it.each(["2023-03-03", "2023-07-03"])(
+        "should correctly format validity and publish dates to UTC",
+        (date: string) => {
+            MockDate.set(date);
+
+            const mockDisruptionInfo: DisruptionInfo = {
+                id: "123e4567-e89b-12d3-a456-426614174000",
+                disruptionType: "unplanned",
+                summary: "Road closure on Main Street",
+                description: "Main Street will be closed for maintenance work from 9 AM to 5 PM.",
+                associatedLink: "https://example.com/disruption-details",
+                disruptionReason: MiscellaneousReason.accident,
+                publishStartDate: getFutureDateAsString(0),
+                publishStartTime: "08:00",
+                publishEndDate: getFutureDateAsString(0),
+                publishEndTime: "18:00",
+                disruptionStartDate: getFutureDateAsString(0),
+                disruptionStartTime: "08:00",
+                disruptionEndDate: getFutureDateAsString(0),
+                disruptionEndTime: "18:00",
+                disruptionNoEndDateTime: "",
+                disruptionRepeats: "doesntRepeat",
+                disruptionRepeatsEndDate: "",
+                validity: [
+                    {
+                        disruptionStartDate: getFutureDateAsString(0),
+                        disruptionStartTime: "08:00",
+                        disruptionEndDate: getFutureDateAsString(0),
+                        disruptionEndTime: "18:00",
+                        disruptionNoEndDateTime: "",
+                        disruptionRepeats: "doesntRepeat",
+                        disruptionRepeatsEndDate: "",
+                    },
+                ],
+                displayId: "DISRUPTION-001",
+                orgId: "123e4567-e89b-12d3-a456-426614174001",
+                createdByOperatorOrgId: null,
+                creationTime: "2023-09-30T12:00:00Z",
+                permitReferenceNumber: null,
+            };
+
+            expect(getValidityAndPublishStartAndEndDates(mockDisruptionInfo)).toEqual({
+                publishEndTimestamp: getDate(`${date}T18:00:00.000Z`),
+                publishStartTimestamp: getDate(`${date}T08:00:00.000Z`),
+                validityEndTimestamp: getDate(`${date}T18:00:00.000Z`),
+                validityStartTimestamp: getDate(`${date}T08:00:00.000Z`),
+            });
+        },
+    );
 });
