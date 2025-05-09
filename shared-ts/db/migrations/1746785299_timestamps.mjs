@@ -1,25 +1,23 @@
-import { Kysely } from "kysely";
+import { Kysely, sql } from "kysely";
 
 /**
  *
  * @param {Kysely} db
  */
 export async function up(db) {
-    await db.schema
-        .alterTable("disruptions")
-        .alterColumn("validity_start_timestamp", (col) => col.setDataType("timestamptz"))
-        .alterColumn("validity_end_timestamp", (col) => col.setDataType("timestamptz"))
-        .alterColumn("publish_start_timestamp", (col) => col.setDataType("timestamptz"))
-        .alterColumn("publish_end_timestamp", (col) => col.setDataType("timestamptz"))
-        .execute();
+    await sql`ALTER TABLE disruptions ALTER COLUMN validity_start_timestamp TYPE timestamptz using validity_start_timestamp at time zone 'Europe/London';
+            ALTER TABLE disruptions ALTER COLUMN validity_end_timestamp TYPE timestamptz using validity_end_timestamp at time zone 'Europe/London';
+            ALTER TABLE disruptions ALTER COLUMN publish_start_timestamp TYPE timestamptz using publish_start_timestamp at time zone 'Europe/London';
+            ALTER TABLE disruptions ALTER COLUMN publish_end_timestamp TYPE timestamptz using publish_end_timestamp at time zone 'Europe/London';`.execute(
+        db,
+    );
 
-    await db.schema
-        .alterTable("disruptions_edited")
-        .alterColumn("validity_start_timestamp", (col) => col.setDataType("timestamptz"))
-        .alterColumn("validity_end_timestamp", (col) => col.setDataType("timestamptz"))
-        .alterColumn("publish_start_timestamp", (col) => col.setDataType("timestamptz"))
-        .alterColumn("publish_end_timestamp", (col) => col.setDataType("timestamptz"))
-        .execute();
+    await sql`ALTER TABLE disruptions_edited ALTER COLUMN validity_start_timestamp TYPE timestamptz using validity_start_timestamp at time zone 'Europe/London';
+            ALTER TABLE disruptions_edited ALTER COLUMN validity_end_timestamp TYPE timestamptz using validity_end_timestamp at time zone 'Europe/London';
+            ALTER TABLE disruptions_edited ALTER COLUMN publish_start_timestamp TYPE timestamptz using publish_start_timestamp at time zone 'Europe/London';
+            ALTER TABLE disruptions_edited ALTER COLUMN publish_end_timestamp TYPE timestamptz using publish_end_timestamp at time zone 'Europe/London';`.execute(
+        db,
+    );
 }
 
 /**
@@ -27,19 +25,17 @@ export async function up(db) {
  * @param {Kysely} db
  */
 export async function down(db) {
-    await db.schema
-        .alterTable("disruptions")
-        .alterColumn("validity_start_timestamp", (col) => col.setDataType("timestamp"))
-        .alterColumn("validity_end_timestamp", (col) => col.setDataType("timestamp"))
-        .alterColumn("publish_start_timestamp", (col) => col.setDataType("timestamp"))
-        .alterColumn("publish_end_timestamp", (col) => col.setDataType("timestamp"))
-        .execute();
+    await sql`ALTER TABLE disruptions ALTER COLUMN validity_start_timestamp TYPE timestamp using validity_start_timestamp at time zone 'Europe/London';
+            ALTER TABLE disruptions ALTER COLUMN validity_end_timestamp TYPE timestamp using validity_end_timestamp at time zone 'Europe/London';
+            ALTER TABLE disruptions ALTER COLUMN publish_start_timestamp TYPE timestamp using publish_start_timestamp at time zone 'Europe/London';
+            ALTER TABLE disruptions ALTER COLUMN publish_end_timestamp TYPE timestamp using publish_end_timestamp at time zone 'Europe/London';`.execute(
+        db,
+    );
 
-    await db.schema
-        .alterTable("disruptions_edited")
-        .alterColumn("validity_start_timestamp", (col) => col.setDataType("timestamp"))
-        .alterColumn("validity_end_timestamp", (col) => col.setDataType("timestamp"))
-        .alterColumn("publish_start_timestamp", (col) => col.setDataType("timestamp"))
-        .alterColumn("publish_end_timestamp", (col) => col.setDataType("timestamp"))
-        .execute();
+    await sql`ALTER TABLE disruptions_edited ALTER COLUMN validity_start_timestamp TYPE timestamp using validity_start_timestamp at time zone 'Europe/London';
+            ALTER TABLE disruptions_edited ALTER COLUMN validity_end_timestamp TYPE timestamp using validity_end_timestamp at time zone 'Europe/London';
+            ALTER TABLE disruptions_edited ALTER COLUMN publish_start_timestamp TYPE timestamp using publish_start_timestamp at time zone 'Europe/London';
+            ALTER TABLE disruptions_edited ALTER COLUMN publish_end_timestamp TYPE timestamp using publish_end_timestamp at time zone 'Europe/London';`.execute(
+        db,
+    );
 }
