@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NationalPublicTransportGazetteer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.naptan.org.uk/" CreationDateTime="2022-08-29T19:57:00" ModificationDateTime="2022-08-29T19:57:00" Modification="revise" RevisionNumber="4312" FileName="NPTG.xml" SchemaVersion="2.1" xsi:schemaLocation="http://www.naptan.org.uk/ http://www.naptan.org.uk/schema/2.1/NPTG.xsd" LocationSystem="Grid">
+    <Regions>
+        <Region CreationDateTime="2006-01-25T07:54:31" ModificationDateTime="2006-01-25T07:54:31" RevisionNumber="0">
+            <RegionCode>L</RegionCode>
+            <Name xml:lang="en">London</Name>
+            <Country>England</Country>
+            <AdministrativeAreas>
+                <AdministrativeArea CreationDateTime="2006-01-25T07:54:33" ModificationDateTime="2006-01-25T07:54:33" RevisionNumber="0">
+                    <AdministrativeAreaCode>082</AdministrativeAreaCode>
+                    <AtcoAreaCode>490</AtcoAreaCode>
+                    <Name>Greater London</Name>
+                    <ShortName>London</ShortName>
+                    <NptgDistricts>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>276</NptgDistrictCode>
+                            <Name>Barking and Dagenham</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>277</NptgDistrictCode>
+                            <Name>Barnet</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>278</NptgDistrictCode>
+                            <Name>Bexley</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>279</NptgDistrictCode>
+                            <Name>Brent</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>280</NptgDistrictCode>
+                            <Name>Bromley</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>281</NptgDistrictCode>
+                            <Name>Camden</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>282</NptgDistrictCode>
+                            <Name>City of London</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>283</NptgDistrictCode>
+                            <Name>Croydon</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>284</NptgDistrictCode>
+                            <Name>Ealing</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>285</NptgDistrictCode>
+                            <Name>Enfield</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>286</NptgDistrictCode>
+                            <Name>Greenwich</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>287</NptgDistrictCode>
+                            <Name>Hackney</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>288</NptgDistrictCode>
+                            <Name>Hammersmith and Fulham</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>289</NptgDistrictCode>
+                            <Name>Haringey</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>290</NptgDistrictCode>
+                            <Name>Harrow</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>291</NptgDistrictCode>
+                            <Name>Havering</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>292</NptgDistrictCode>
+                            <Name>Hillingdon</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>293</NptgDistrictCode>
+                            <Name>Hounslow</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>294</NptgDistrictCode>
+                            <Name>Islington</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>295</NptgDistrictCode>
+                            <Name>Kensington and Chelsea</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>296</NptgDistrictCode>
+                            <Name>Kingston upon Thames</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>297</NptgDistrictCode>
+                            <Name>Lambeth</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>298</NptgDistrictCode>
+                            <Name>Lewisham</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>299</NptgDistrictCode>
+                            <Name>Merton</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>300</NptgDistrictCode>
+                            <Name>Newham</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>301</NptgDistrictCode>
+                            <Name>Redbridge</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>302</NptgDistrictCode>
+                            <Name>Richmond upon Thames</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>303</NptgDistrictCode>
+                            <Name>Southwark</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>304</NptgDistrictCode>
+                            <Name>Sutton</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>305</NptgDistrictCode>
+                            <Name>Tower Hamlets</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>306</NptgDistrictCode>
+                            <Name>Waltham Forest</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>307</NptgDistrictCode>
+                            <Name>Wandsworth</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>308</NptgDistrictCode>
+                            <Name>Westminster City of</Name>
+                        </NptgDistrict>
+                    </NptgDistricts>
+                    <National>0</National>
+                    <NaptanPrefixes>
+                        <AlphaPrefix>cyd</AlphaPrefix>
+                        <AlphaPrefix>eng</AlphaPrefix>
+                        <AlphaPrefix>ldn</AlphaPrefix>
+                        <AlphaPrefix>mdx</AlphaPrefix>
+                        <AlphaPrefix>uxb</AlphaPrefix>
+                        <AlphaPrefix>wem</AlphaPrefix>
+                    </NaptanPrefixes>
+                </AdministrativeArea>
+            </AdministrativeAreas>
+        </Region>
+        <Region CreationDateTime="2006-01-25T07:54:31" ModificationDateTime="2006-01-25T07:54:31" RevisionNumber="0">
+            <RegionCode>NE</RegionCode>
+            <Name>North East</Name>
+            <Country>England</Country>
+            <AdministrativeAreas>
+                <AdministrativeArea CreationDateTime="2006-01-25T07:54:33" ModificationDateTime="2006-01-25T07:54:33" RevisionNumber="0">
+                    <AdministrativeAreaCode>015</AdministrativeAreaCode>
+                    <AtcoAreaCode>076</AtcoAreaCode>
+                    <Name>Darlington</Name>
+                    <ShortName>Darlington</ShortName>
+                    <National>0</National>
+                    <NaptanPrefixes>
+                        <AlphaPrefix>dlo</AlphaPrefix>
+                    </NaptanPrefixes>
+                </AdministrativeArea>
+                <AdministrativeArea CreationDateTime="2006-01-25T07:54:33" ModificationDateTime="2006-01-25T07:54:33" RevisionNumber="0">
+                    <AdministrativeAreaCode>022</AdministrativeAreaCode>
+                    <AtcoAreaCode>075</AtcoAreaCode>
+                    <Name>Hartlepool</Name>
+                    <ShortName>Hartlepool</ShortName>
+                    <National>0</National>
+                    <NaptanPrefixes>
+                        <AlphaPrefix>har</AlphaPrefix>
+                    </NaptanPrefixes>
+                </AdministrativeArea>
+                <AdministrativeArea CreationDateTime="2006-01-25T07:54:33" ModificationDateTime="2006-01-25T07:54:33" RevisionNumber="0">
+                    <AdministrativeAreaCode>031</AdministrativeAreaCode>
+                    <AtcoAreaCode>079</AtcoAreaCode>
+                    <Name>Middlesbrough</Name>
+                    <ShortName>Middlesbrough</ShortName>
+                    <National>0</National>
+                    <NaptanPrefixes>
+                        <AlphaPrefix>mbr</AlphaPrefix>
+                    </NaptanPrefixes>
+                </AdministrativeArea>
+                <AdministrativeArea CreationDateTime="2006-01-25T07:54:33" ModificationDateTime="2006-03-10T12:38:33" Modification="revise" RevisionNumber="1">
+                    <AdministrativeAreaCode>047</AdministrativeAreaCode>
+                    <AtcoAreaCode>078</AtcoAreaCode>
+                    <Name>Redcar &amp; Cleveland</Name>
+                    <ShortName>Cleveland</ShortName>
+                    <National>0</National>
+                    <NaptanPrefixes>
+                        <AlphaPrefix>rec</AlphaPrefix>
+                    </NaptanPrefixes>
+                </AdministrativeArea>
+                <AdministrativeArea CreationDateTime="2006-01-25T07:54:33" ModificationDateTime="2006-01-25T07:54:33" RevisionNumber="0">
+                    <AdministrativeAreaCode>054</AdministrativeAreaCode>
+                    <AtcoAreaCode>077</AtcoAreaCode>
+                    <Name>Stockton-on-Tees</Name>
+                    <ShortName>Stockton</ShortName>
+                    <National>0</National>
+                    <NaptanPrefixes>
+                        <AlphaPrefix>skt</AlphaPrefix>
+                    </NaptanPrefixes>
+                </AdministrativeArea>
+                <AdministrativeArea CreationDateTime="2006-01-25T07:54:33" ModificationDateTime="2006-01-25T07:54:33" RevisionNumber="0">
+                    <AdministrativeAreaCode>078</AdministrativeAreaCode>
+                    <AtcoAreaCode>130</AtcoAreaCode>
+                    <Name>Durham</Name>
+                    <ShortName>Durham</ShortName>
+                    <NptgDistricts>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2009-04-20T21:45:53.590" Modification="delete" RevisionNumber="1">
+                            <NptgDistrictCode>42</NptgDistrictCode>
+                            <Name>Chester-le-Street</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2009-04-20T21:45:53.590" Modification="delete" RevisionNumber="1">
+                            <NptgDistrictCode>60</NptgDistrictCode>
+                            <Name>Derwentside</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2009-04-20T21:45:53.590" Modification="delete" RevisionNumber="1">
+                            <NptgDistrictCode>62</NptgDistrictCode>
+                            <Name>Durham</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2009-04-20T21:45:53.590" Modification="delete" RevisionNumber="1">
+                            <NptgDistrictCode>63</NptgDistrictCode>
+                            <Name>Easington</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2009-04-20T21:45:53.590" Modification="delete" RevisionNumber="1">
+                            <NptgDistrictCode>166</NptgDistrictCode>
+                            <Name>Sedgefield</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2009-04-20T21:45:53.590" Modification="delete" RevisionNumber="1">
+                            <NptgDistrictCode>201</NptgDistrictCode>
+                            <Name>Teesdale</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2009-04-20T21:45:53.590" Modification="delete" RevisionNumber="1">
+                            <NptgDistrictCode>221</NptgDistrictCode>
+                            <Name>Wear Valley</Name>
+                        </NptgDistrict>
+                    </NptgDistricts>
+                    <National>0</National>
+                    <NaptanPrefixes>
+                        <AlphaPrefix>dhm</AlphaPrefix>
+                        <AlphaPrefix>dur</AlphaPrefix>
+                        <AlphaPrefix>tsd</AlphaPrefix>
+                        <AlphaPrefix>wea</AlphaPrefix>
+                    </NaptanPrefixes>
+                </AdministrativeArea>
+                <AdministrativeArea CreationDateTime="2006-01-25T07:54:33" ModificationDateTime="2006-01-25T07:54:33" RevisionNumber="0">
+                    <AdministrativeAreaCode>094</AdministrativeAreaCode>
+                    <AtcoAreaCode>310</AtcoAreaCode>
+                    <Name>Northumberland</Name>
+                    <ShortName>Northumberland</ShortName>
+                    <NptgDistricts>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2009-04-20T21:45:53.590" Modification="delete" RevisionNumber="1">
+                            <NptgDistrictCode>3</NptgDistrictCode>
+                            <Name>Alnwick</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2009-04-20T21:45:53.590" Modification="delete" RevisionNumber="1">
+                            <NptgDistrictCode>15</NptgDistrictCode>
+                            <Name>Berwick-upon-Tweed</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2009-04-20T21:45:53.590" Modification="delete" RevisionNumber="1">
+                            <NptgDistrictCode>17</NptgDistrictCode>
+                            <Name>Blyth Valley</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2009-04-20T21:45:53.590" Modification="delete" RevisionNumber="1">
+                            <NptgDistrictCode>35</NptgDistrictCode>
+                            <Name>Castle Morpeth</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2009-04-20T21:45:53.590" Modification="delete" RevisionNumber="1">
+                            <NptgDistrictCode>211</NptgDistrictCode>
+                            <Name>Tynedale</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2009-04-20T21:45:53.590" Modification="delete" RevisionNumber="1">
+                            <NptgDistrictCode>215</NptgDistrictCode>
+                            <Name>Wansbeck</Name>
+                        </NptgDistrict>
+                    </NptgDistricts>
+                    <National>0</National>
+                    <NaptanPrefixes>
+                        <AlphaPrefix>bwc</AlphaPrefix>
+                        <AlphaPrefix>mph</AlphaPrefix>
+                        <AlphaPrefix>nld</AlphaPrefix>
+                        <AlphaPrefix>tyd</AlphaPrefix>
+                    </NaptanPrefixes>
+                </AdministrativeArea>
+                <AdministrativeArea CreationDateTime="2006-01-25T07:54:33" ModificationDateTime="2006-03-10T12:38:33" Modification="revise" RevisionNumber="1">
+                    <AdministrativeAreaCode>103</AdministrativeAreaCode>
+                    <AtcoAreaCode>410</AtcoAreaCode>
+                    <Name>Tyne &amp; Wear</Name>
+                    <ShortName>Tyne &amp; Wear</ShortName>
+                    <NptgDistricts>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>249</NptgDistrictCode>
+                            <Name>Gateshead</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>255</NptgDistrictCode>
+                            <Name>Newcastle upon Tyne</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>256</NptgDistrictCode>
+                            <Name>North Tyneside</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>265</NptgDistrictCode>
+                            <Name>South Tyneside</Name>
+                        </NptgDistrict>
+                        <NptgDistrict CreationDateTime="2006-01-25T07:54:36" ModificationDateTime="2006-01-25T07:54:36" RevisionNumber="0">
+                            <NptgDistrictCode>268</NptgDistrictCode>
+                            <Name>Sunderland</Name>
+                        </NptgDistrict>
+                    </NptgDistricts>
+                    <National>0</National>
+                    <NaptanPrefixes>
+                        <AlphaPrefix>gat</AlphaPrefix>
+                        <AlphaPrefix>ncl</AlphaPrefix>
+                        <AlphaPrefix>snd</AlphaPrefix>
+                        <AlphaPrefix>twr</AlphaPrefix>
+                    </NaptanPrefixes>
+                </AdministrativeArea>
+            </AdministrativeAreas>
+        </Region>
+    </Regions>
+    <NptgLocalities>
+        <NptgLocality CreationDateTime="2005-10-05T11:18:07" ModificationDateTime="2021-08-17T11:15:30.703" Modification="revise" RevisionNumber="1">
+            <NptgLocalityCode>E0034964</NptgLocalityCode>
+            <Descriptor>
+                <LocalityName xml:lang="EN">Amesbury</LocalityName>
+                <Qualify>
+                    <QualifierName xml:lang="en">Bath &amp; North East Somerset</QualifierName>
+                </Qualify>
+            </Descriptor>
+            <AdministrativeAreaRef>001</AdministrativeAreaRef>
+            <NptgDistrictRef>310</NptgDistrictRef>
+            <SourceLocalityType>Lo</SourceLocalityType>
+            <Location>
+                <Translation>
+                    <Easting>365491</Easting>
+                    <Northing>158651</Northing>
+                    <Longitude>-2.496644</Longitude>
+                    <Latitude>51.3259</Latitude>
+                </Translation>
+            </Location>
+        </NptgLocality>
+        <NptgLocality CreationDateTime="2005-10-05T11:18:23" ModificationDateTime="2005-10-05T11:18:23" RevisionNumber="0" Modification="new">
+            <NptgLocalityCode>E0034965</NptgLocalityCode>
+            <Descriptor>
+                <LocalityName xml:lang="EN">Ashgrove</LocalityName>
+                <Qualify>
+                    <QualifierName xml:lang="en">Peasedown St John</QualifierName>
+                </Qualify>
+            </Descriptor>
+            <ParentNptgLocalityRef CreationDateTime="2005-10-05T10:50:38" ModificationDateTime="2012-05-29T11:14:12" Modification="revise" RevisionNumber="1">E0052932</ParentNptgLocalityRef>
+            <AdministrativeAreaRef>001</AdministrativeAreaRef>
+            <NptgDistrictRef>310</NptgDistrictRef>
+            <SourceLocalityType>Lo</SourceLocalityType>
+            <Location>
+                <Translation>
+                    <Easting>370798</Easting>
+                    <Northing>157864</Northing>
+                    <Longitude>-2.420418</Longitude>
+                    <Latitude>51.31913</Latitude>
+                </Translation>
+            </Location>
+        </NptgLocality>
+        <NptgLocality CreationDateTime="2005-10-05T10:45:03" ModificationDateTime="2005-10-05T10:45:03" RevisionNumber="0" Modification="new">
+            <NptgLocalityCode>E0034968</NptgLocalityCode>
+            <Descriptor>
+                <LocalityName xml:lang="EN">Bailbrook</LocalityName>
+            </Descriptor>
+            <ParentNptgLocalityRef CreationDateTime="2005-10-05T10:45:10" ModificationDateTime="2013-10-07T10:42:30" Modification="revise" RevisionNumber="3">E0054812</ParentNptgLocalityRef>
+            <AdministrativeAreaRef>001</AdministrativeAreaRef>
+            <NptgDistrictRef>310</NptgDistrictRef>
+            <SourceLocalityType>Lo</SourceLocalityType>
+            <Location>
+                <Translation>
+                    <Easting>376748</Easting>
+                    <Northing>167119</Northing>
+                    <Longitude>-2.335649</Longitude>
+                    <Latitude>51.40262</Latitude>
+                </Translation>
+            </Location>
+        </NptgLocality>
+        <NptgLocality CreationDateTime="2005-10-05T10:45:09" ModificationDateTime="2005-10-05T10:45:09" RevisionNumber="0" Modification="new">
+            <NptgLocalityCode>E0034970</NptgLocalityCode>
+            <Descriptor>
+                <LocalityName xml:lang="EN">Barrow Vale</LocalityName>
+            </Descriptor>
+            <AdministrativeAreaRef>001</AdministrativeAreaRef>
+            <NptgDistrictRef>310</NptgDistrictRef>
+            <SourceLocalityType>Lo</SourceLocalityType>
+            <Location>
+                <Translation>
+                    <Easting>364747</Easting>
+                    <Northing>160235</Northing>
+                    <Longitude>-2.507479</Longitude>
+                    <Latitude>51.3401</Latitude>
+                </Translation>
+            </Location>
+        </NptgLocality>
+        <NptgLocality CreationDateTime="2005-10-05T10:45:11" ModificationDateTime="2005-10-05T10:45:11" RevisionNumber="0" Modification="new">
+            <NptgLocalityCode>E0034971</NptgLocalityCode>
+            <Descriptor>
+                <LocalityName xml:lang="EN">Bathwick</LocalityName>
+            </Descriptor>
+            <ParentNptgLocalityRef CreationDateTime="2005-10-05T10:45:10" ModificationDateTime="2013-10-07T10:42:30" Modification="revise" RevisionNumber="3">E0054812</ParentNptgLocalityRef>
+            <AdministrativeAreaRef>001</AdministrativeAreaRef>
+            <NptgDistrictRef>310</NptgDistrictRef>
+            <SourceLocalityType>Lo</SourceLocalityType>
+            <Location>
+                <Translation>
+                    <Easting>375615</Easting>
+                    <Northing>165218</Northing>
+                    <Longitude>-2.351805</Longitude>
+                    <Latitude>51.38548</Latitude>
+                </Translation>
+            </Location>
+        </NptgLocality>
+        <NptgLocality CreationDateTime="2005-10-05T11:20:33" ModificationDateTime="2018-03-19T15:19:58.680" Modification="revise" RevisionNumber="1">
+            <NptgLocalityCode>E0034972</NptgLocalityCode>
+            <Descriptor>
+                <LocalityName xml:lang="EN">Beacon Hill</LocalityName>
+                <Qualify>
+                    <QualifierName xml:lang="en">Bath</QualifierName>
+                </Qualify>
+            </Descriptor>
+            <ParentNptgLocalityRef CreationDateTime="2005-10-05T10:45:10" ModificationDateTime="2013-10-07T10:42:30" Modification="revise" RevisionNumber="3">E0054812</ParentNptgLocalityRef>
+            <AdministrativeAreaRef>001</AdministrativeAreaRef>
+            <NptgDistrictRef>310</NptgDistrictRef>
+            <SourceLocalityType>Lo</SourceLocalityType>
+            <Location>
+                <Translation>
+                    <Easting>375140</Easting>
+                    <Northing>166178</Northing>
+                    <Longitude>-2.358698</Longitude>
+                    <Latitude>51.39409</Latitude>
+                </Translation>
+            </Location>
+        </NptgLocality>
+        <NptgLocality CreationDateTime="2005-10-05T10:45:14" ModificationDateTime="2005-10-05T10:45:14" RevisionNumber="0" Modification="new">
+            <NptgLocalityCode>E0034973</NptgLocalityCode>
+            <Descriptor>
+                <LocalityName xml:lang="EN">Beechen Cliff</LocalityName>
+            </Descriptor>
+            <ParentNptgLocalityRef CreationDateTime="2005-10-05T10:45:10" ModificationDateTime="2013-10-07T10:42:30" Modification="revise" RevisionNumber="3">E0054812</ParentNptgLocalityRef>
+            <AdministrativeAreaRef>001</AdministrativeAreaRef>
+            <NptgDistrictRef>310</NptgDistrictRef>
+            <SourceLocalityType>Lo</SourceLocalityType>
+            <Location>
+                <Translation>
+                    <Easting>374896</Easting>
+                    <Northing>164108</Northing>
+                    <Longitude>-2.362058</Longitude>
+                    <Latitude>51.37547</Latitude>
+                </Translation>
+            </Location>
+        </NptgLocality>
+        <NptgLocality CreationDateTime="2005-10-05T10:45:15" ModificationDateTime="2005-10-05T10:45:15" RevisionNumber="0" Modification="new">
+            <NptgLocalityCode>E0034974</NptgLocalityCode>
+            <Descriptor>
+                <LocalityName xml:lang="EN">Belluton</LocalityName>
+            </Descriptor>
+            <AdministrativeAreaRef>001</AdministrativeAreaRef>
+            <NptgDistrictRef>310</NptgDistrictRef>
+            <SourceLocalityType>Lo</SourceLocalityType>
+            <Location>
+                <Translation>
+                    <Easting>361290</Easting>
+                    <Northing>164420</Northing>
+                    <Longitude>-2.557562</Longitude>
+                    <Latitude>51.37751</Latitude>
+                </Translation>
+            </Location>
+        </NptgLocality>
+        <NptgLocality CreationDateTime="2005-10-05T10:45:22" ModificationDateTime="2005-10-05T10:45:22" RevisionNumber="0" Modification="new">
+            <NptgLocalityCode>E0034975</NptgLocalityCode>
+            <Descriptor>
+                <LocalityName xml:lang="EN">Bishop Sutton</LocalityName>
+            </Descriptor>
+            <AdministrativeAreaRef>001</AdministrativeAreaRef>
+            <NptgDistrictRef>310</NptgDistrictRef>
+            <SourceLocalityType>Lo</SourceLocalityType>
+            <Location>
+                <Translation>
+                    <Easting>358644</Easting>
+                    <Northing>159607</Northing>
+                    <Longitude>-2.595016</Longitude>
+                    <Latitude>51.33405</Latitude>
+                </Translation>
+            </Location>
+        </NptgLocality>
+    </NptgLocalities>
+</NationalPublicTransportGazetteer>

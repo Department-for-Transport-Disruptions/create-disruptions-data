@@ -1,0 +1,4 @@
+boto3==1.36.19
+psycopg2-binary==2.9.10
+xmltodict==0.14.2
+aws-lambda-powertools==3.6.0
