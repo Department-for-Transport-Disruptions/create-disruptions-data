@@ -8,6 +8,7 @@ from psycopg2.extensions import cursor
 from tests.helpers import test_xml_helpers
 from tests.helpers.test_data import test_data
 from txc_processor import (
+    calculate_days_of_operation,
     check_file_has_usable_data,
     collect_journey_pattern_section_refs_and_info,
     collect_journey_patterns,
@@ -17,11 +18,10 @@ from txc_processor import (
     download_from_s3_and_write_to_db,
     extract_data_for_txc_operator_service_table,
     format_vehicle_journeys,
+    is_service_operational,
     iterate_through_journey_patterns_and_run_insert_queries,
     make_list,
     select_route_and_run_insert_query,
-    is_service_operational,
-    calculate_days_of_operation,
 )
 
 logger = MagicMock()
@@ -81,6 +81,10 @@ class TestCalculateDaysOfOperation:
                     "Saturday": None,
                     "Sunday": None,
                 },
+            ),
+            (
+                None,
+                {},
             ),
         ],
     )

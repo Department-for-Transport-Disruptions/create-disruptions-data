@@ -1,7 +1,7 @@
+import datetime
 import itertools
 import xml.etree.ElementTree as eT
 from typing import Optional
-import datetime
 
 import xmltodict
 from psycopg2 import IntegrityError
@@ -190,6 +190,9 @@ def safeget(dct, *keys):
 
 def calculate_days_of_operation(days_of_week):
     formatted_days_of_week = {}
+
+    if not days_of_week:
+        return formatted_days_of_week
 
     if any(
         key in days_of_week

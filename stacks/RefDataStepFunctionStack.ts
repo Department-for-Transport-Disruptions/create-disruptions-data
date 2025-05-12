@@ -466,7 +466,6 @@ export const RefDataStepFunctionStack = ({ stack }: StackContext) => {
         itemReader: new S3ObjectsItemReader({
             bucketNamePath: txcZippedBucket.bucketName,
             prefix: JsonPath.stringAt("$.prefix"),
-            maxItems: 100, // TODO: remove before testing
         }),
         resultPath: JsonPath.DISCARD,
     });
