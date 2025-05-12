@@ -126,7 +126,6 @@ export const RdsStack = ({ stack }: StackContext) => {
         timeout: 300,
         memorySize: 512,
         runtime: "nodejs20.x",
-        architecture: "arm_64",
         enableLiveDev: false,
         nodejs: {
             install: ["pg", "kysely"],
@@ -151,7 +150,6 @@ export const RdsStack = ({ stack }: StackContext) => {
         timeout: 300,
         memorySize: 512,
         runtime: "nodejs20.x",
-        architecture: "arm_64",
         enableLiveDev: false,
         nodejs: {
             install: ["pg", "kysely"],
