@@ -367,11 +367,10 @@ export const RefDataStepFunctionStack = ({ stack }: StackContext) => {
             vpcSubnets: {
                 subnetType: SubnetType.PRIVATE_WITH_EGRESS,
             },
-            architecture: "arm_64",
             securityGroups: [lambdaSg],
             timeout: 600,
             memorySize: 1024,
-            runtime: "python3.11",
+            runtime: "python3.12",
             reservedConcurrentExecutions: 50,
             logRetention: stack.stage === "prod" ? "one_month" : "two_weeks",
             environment: {
