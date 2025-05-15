@@ -180,7 +180,7 @@ export const RdsStack = ({ stack }: StackContext) => {
                   ]
                 : [],
         serverlessV2MinCapacity: stack.stage === "prod" ? 1 : 0.5,
-        serverlessV2MaxCapacity: stack.stage === "prod" ? 16 : 8,
+        serverlessV2MaxCapacity: stack.stage === "prod" ? 24 : 12,
         vpcSubnets: {
             subnetType: SubnetType.PRIVATE_ISOLATED,
         },
