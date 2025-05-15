@@ -1,6 +1,7 @@
 import { Duration } from "aws-cdk-lib";
 import { SubnetType } from "aws-cdk-lib/aws-ec2";
-import { PolicyStatement } from "aws-cdk-lib/aws-iam";
+import { ManagedPolicy, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
+import { CfnSchedule } from "aws-cdk-lib/aws-scheduler";
 import {
     Chain,
     DefinitionBody,
@@ -369,7 +370,7 @@ export const RefDataStepFunctionStack = ({ stack }: StackContext) => {
             },
             securityGroups: [lambdaSg],
             timeout: 600,
-            memorySize: 1024,
+            memorySize: 2048,
             runtime: "python3.12",
             reservedConcurrentExecutions: 50,
             logRetention: stack.stage === "prod" ? "one_month" : "two_weeks",
@@ -479,7 +480,7 @@ export const RefDataStepFunctionStack = ({ stack }: StackContext) => {
             bucketNamePath: txcBucket.bucketName,
             prefix: JsonPath.stringAt("$.prefix"),
         }),
-        maxConcurrency: 50,
+        maxConcurrency: stack.stage === "prod" ? 50 : 30,
         toleratedFailureCount: 10,
         outputPath: JsonPath.DISCARD,
     });
@@ -510,8 +511,36 @@ export const RefDataStepFunctionStack = ({ stack }: StackContext) => {
         .next(txcObjectsMap)
         .next(tableRenamerTask);
 
-    new StateMachine(stack, "ref-data-state-machine", {
+    const sfn = new StateMachine(stack, "ref-data-state-machine", {
         stateMachineName: `ref-data-ingestion-state-machine-${stack.stage}`,
         definitionBody: DefinitionBody.fromChainable(chain),
+    });
+
+    const sfnScheduleRole = new Role(stack, "ref-data-sfn-schedule-role", {
+        assumedBy: new ServicePrincipal("scheduler.amazonaws.com"),
+    });
+
+    const sfnSchedulePolicy = new ManagedPolicy(stack, "ref-data-sfn-schedule-policy", {
+        statements: [
+            new PolicyStatement({
+                actions: ["states:StartExecution"],
+                resources: [sfn.stateMachineArn],
+            }),
+        ],
+    });
+
+    sfnScheduleRole.addManagedPolicy(sfnSchedulePolicy);
+
+    new CfnSchedule(stack, "ref-data-sfn-schedule", {
+        target: {
+            arn: sfn.stateMachineArn,
+            roleArn: sfnScheduleRole.roleArn,
+        },
+        scheduleExpression: "cron(0 1 * * ? *)",
+        flexibleTimeWindow: {
+            mode: "OFF",
+        },
+        scheduleExpressionTimezone: "Europe/London",
+        state: ["prod", "preprod"].includes(stack.stage) ? "ENABLED" : "DISABLED",
     });
 };
