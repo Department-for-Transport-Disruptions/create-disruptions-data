@@ -8,6 +8,5 @@ export const main: Handler = async (event: APIGatewayEvent, context): Promise<AP
     withLambdaRequestTracker(event ?? {}, context ?? {});
     return executeClientWithoutInput(event, getAdminAreas, sortAdminAreas);
 };
-export const sortAdminAreas = async (adminAreas: AdminAreas) => {
+export const sortAdminAreas = async (adminAreas: AdminAreas) =>
     adminAreas.sort((a, b) => (a.administrativeAreaCode ?? "").localeCompare(b.administrativeAreaCode ?? ""));
-};
