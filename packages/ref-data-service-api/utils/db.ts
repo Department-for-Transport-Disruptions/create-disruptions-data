@@ -547,8 +547,7 @@ export const getServiceStops = async (
             "serviceJourneyPatternLinks.journeyPatternId",
             "serviceJourneyPatterns.direction",
         ])
-        .distinct()
-        .groupBy(["fromId", "toId"])
+        .distinctOn(["fromStop.id", "toStop.id"])
         .where("services.id", "=", service.id)
         .where("dataSource", "=", input.dataSource)
         .where("fromStop.stopType", "not in", ignoredStopTypes)
@@ -557,8 +556,13 @@ export const getServiceStops = async (
         .where("toStop.busStopType", "not in", ignoredBusStopTypes)
         .where((qb) => qb.or([qb("fromStop.status", "=", "active"), qb("toStop.status", "=", "active")]))
         .$if(!!input.modes?.[0], (qb) => qb.where("services.mode", "in", input.modes ?? ["---"]))
-        .orderBy("serviceJourneyPatternLinks.orderInSequence")
-        .orderBy("serviceJourneyPatternLinks.journeyPatternId")
+        .orderBy([
+            "fromStop.id",
+            "toStop.id",
+            "serviceJourneyPatternLinks.orderInSequence",
+            "serviceJourneyPatternLinks.journeyPatternId",
+        ])
+
         .execute();
 
     return stops;
