@@ -62,7 +62,7 @@ export default class RootDocument extends Document<DocumentProps> {
         return (
             <Html lang="en" className="govuk-template--rebranded">
                 <Head nonce={nonce} />
-                <body className="govuk-template--rebranded__body">
+                <body className="govuk-template__body">
                     <Link href="#main-content" className="govuk-skip-link">
                         Skip to main content
                     </Link>
@@ -70,11 +70,6 @@ export default class RootDocument extends Document<DocumentProps> {
 
                     <Main />
                     <NextScript nonce={nonce} />
-                    <script>
-                        document.body.className += ' js-enabled' + ('noModule' in HTMLScriptElement.prototype ? '
-                        govuk-frontend-supported' : '');
-                    </script>
-                    <script nonce={nonce} src="/scripts/all.js" />
                 </body>
             </Html>
         );

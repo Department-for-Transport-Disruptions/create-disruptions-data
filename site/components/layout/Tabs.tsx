@@ -4,22 +4,23 @@ import { ReactElement } from "react";
 interface TabsProps {
     tabs: Tab[];
     tabsTitle: string;
+    activeTabHeader: "live" | "upcoming" | "recentlyClosed";
 }
 
 interface Tab {
     tabHeader: string;
     content: ReactElement;
-    handleTabClick?: () => void;
+    handleTabClick?: (event: React.MouseEvent<HTMLAnchorElement>) => void;
 }
 
-const Tabs = ({ tabsTitle, tabs }: TabsProps): ReactElement => (
+const Tabs = ({ tabsTitle, tabs, activeTabHeader }: TabsProps): ReactElement => (
     <div className="govuk-tabs" data-module="govuk-tabs">
         <h2 className="govuk-tabs__title">{tabsTitle}</h2>
         <ul className="govuk-tabs__list">
             {tabs.map((tab, index) => (
                 <li
                     key={`tab-${index + 1}`}
-                    className={`govuk-tabs__list-item${index === 0 ? " govuk-tabs__list-item--selected" : ""}`}
+                    className={`govuk-tabs__list-item${kebabCase(tab.tabHeader) === kebabCase(activeTabHeader) ? " govuk-tabs__list-item--selected" : ""}`}
                 >
                     <a className="govuk-tabs__tab" href={`#${kebabCase(tab.tabHeader)}`} onClick={tab.handleTabClick}>
                         {tab.tabHeader}
@@ -30,7 +31,7 @@ const Tabs = ({ tabsTitle, tabs }: TabsProps): ReactElement => (
         {tabs.map((tab, index) => (
             <div
                 key={`tab-panel-${index + 1}`}
-                className={`govuk-tabs__panel${index !== 0 ? " govuk-tabs__panel--hidden" : ""}`}
+                className={`govuk-tabs__panel${kebabCase(tab.tabHeader) !== kebabCase(activeTabHeader) ? " govuk-tabs__panel--hidden" : ""}`}
                 id={kebabCase(tab.tabHeader)}
             >
                 {tab.content}
