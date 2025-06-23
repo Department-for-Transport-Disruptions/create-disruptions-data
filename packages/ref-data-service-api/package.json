@@ -7,7 +7,7 @@
         "typecheck": "tsc -noEmit"
     },
     "dependencies": {
-        "@aws-sdk/client-sqs": "^3.750.0",
+        "@aws-sdk/client-sqs": "^3.830.0",
         "@create-disruptions-data/shared-ts": "workspace:^",
         "@types/aws-lambda": "^8.10.110",
         "axios": "^1.7.7",
