@@ -103,151 +103,165 @@ export const RdsStack = ({ stack }: StackContext) => {
                 install: ["pg", "kysely"],
             },
         });
-    } else {
-        new Function(stack, "cdd-kysely-db-migrator-migrate-function", {
-            bind: [dbUsernameSecret, dbPasswordSecret, dbHostSecret, dbPortSecret, dbNameSecret],
-            functionName: `cdd-kysely-db-migrator-migrate-${stack.stage}`,
-            vpc,
-            vpcSubnets: {
-                subnetType: SubnetType.PRIVATE_WITH_EGRESS,
-            },
-            securityGroups: [lambdaSg],
-            handler: "packages/db-migrator/index.main",
-            timeout: 300,
-            memorySize: 512,
-            runtime: "nodejs20.x",
-            architecture: "arm_64",
-            enableLiveDev: false,
-            nodejs: {
-                install: ["pg", "kysely"],
-            },
-            copyFiles: [
-                {
-                    from: "./shared-ts/db/migrations",
-                    to: "./packages/db-migrator/migrations",
-                },
-            ],
-        });
 
-        new Function(stack, "cdd-kysely-db-migrator-rollback-function", {
-            bind: [dbUsernameSecret, dbPasswordSecret, dbHostSecret, dbPortSecret, dbNameSecret],
-            functionName: `cdd-kysely-db-migrator-rollback-${stack.stage}`,
-            vpc,
-            vpcSubnets: {
-                subnetType: SubnetType.PRIVATE_WITH_EGRESS,
-            },
-            securityGroups: [lambdaSg],
-            handler: "packages/db-migrator/index.main",
-            timeout: 300,
-            memorySize: 512,
-            runtime: "nodejs20.x",
-            architecture: "arm_64",
-            enableLiveDev: false,
-            nodejs: {
-                install: ["pg", "kysely"],
-            },
-            environment: {
-                ROLLBACK: "true",
-            },
-            copyFiles: [
-                {
-                    from: "./shared-ts/db/migrations",
-                    to: "./packages/db-migrator/migrations",
-                },
-            ],
-        });
-
-        const cluster = new rds.DatabaseCluster(stack, "cdd-rds-db-cluster", {
-            clusterIdentifier: `cdd-rds-db-cluster-${stack.stage}`,
-            engine: rds.DatabaseClusterEngine.auroraPostgres({ version: rds.AuroraPostgresEngineVersion.VER_16_4 }),
-            writer: rds.ClusterInstance.serverlessV2("cdd-rds-instance-1", {
-                enablePerformanceInsights: true,
-            }),
-            readers:
-                stack.stage === "prod"
-                    ? [
-                          rds.ClusterInstance.serverlessV2("cdd-rds-instance-2", {
-                              enablePerformanceInsights: true,
-                          }),
-                      ]
-                    : [],
-            serverlessV2MinCapacity: stack.stage === "prod" ? 1 : 0.5,
-            serverlessV2MaxCapacity: stack.stage === "prod" ? 4 : 1,
-            vpcSubnets: {
-                subnetType: SubnetType.PRIVATE_ISOLATED,
-            },
-            securityGroups: [dbSg],
-            vpc,
-            defaultDatabaseName: "disruptions",
-        });
-
-        const cfnCluster = cluster.node.defaultChild as rds.CfnDBCluster;
-
-        cfnCluster.masterUserPassword = undefined;
-        cfnCluster.manageMasterUserPassword = true;
-
-        const proxyDetails = createRdsProxy(stack, cfnCluster, vpc, dbSg);
-
-        new CnameRecord(stack, "cdd-rds-internal-domain", {
-            recordName: `db.${privateHostedZone.zoneName}`,
-            zone: privateHostedZone,
-            domainName: proxyDetails.proxy ? proxyDetails.proxy.attrEndpoint : cluster.clusterEndpoint.hostname,
-        });
-
-        new CnameRecord(stack, "cdd-rds-read-internal-domain", {
-            recordName: `db-ro.${privateHostedZone.zoneName}`,
-            zone: privateHostedZone,
-            domainName: proxyDetails.proxyReadEndpoint
-                ? proxyDetails.proxyReadEndpoint.attrEndpoint
-                : cluster.clusterReadEndpoint.hostname,
-        });
-
-        const bastionHost = new BastionHostLinux(stack, "cdd-rds-bastion-host", {
-            vpc,
-            blockDevices: [
-                {
-                    deviceName: "/dev/sdh",
-                    volume: BlockDeviceVolume.ebs(10, {
-                        encrypted: true,
-                    }),
-                },
-            ],
-            instanceName: `cdd-rds-bastion-host-${stack.stage}`,
-            subnetSelection: {
-                subnetType: SubnetType.PRIVATE_WITH_EGRESS,
-            },
-            securityGroup: bastionSg,
-        });
-
-        Tags.of(bastionHost.instance).add("Bastion", "true");
-
-        if (stack.stage === "prod") {
-            const backupVault = new BackupVault(stack, "cdd-rds-backup-vault", {
-                backupVaultName: `cdd-rds-backup-vault-${stack.stage}`,
-            });
-
-            const backupPlan = new BackupPlan(stack, "cdd-rds-backup-plan", {
-                backupPlanName: `cdd-rds-backup-plan-${stack.stage}`,
-                backupPlanRules: [
-                    BackupPlanRule.daily(backupVault),
-                    BackupPlanRule.monthly5Year(backupVault),
-                    new BackupPlanRule({
-                        backupVault,
-                        ruleName: "Continuous",
-                        scheduleExpression: Schedule.cron({
-                            minute: "0",
-                        }),
-                        enableContinuousBackup: true,
-                        deleteAfter: Duration.days(35),
-                    }),
-                ],
-            });
-
-            backupPlan.addSelection("cdd-rds-backup-selection", {
-                resources: [BackupResource.fromArn(cluster.clusterArn)],
-            });
-        }
+        return {
+            dbUsernameSecret,
+            dbPasswordSecret,
+            dbHostSecret,
+            dbPortSecret,
+            dbNameSecret,
+            dbHostROSecret,
+        };
     }
 
-    return { dbUsernameSecret, dbPasswordSecret, dbHostSecret, dbPortSecret, dbNameSecret, dbHostROSecret };
+    new Function(stack, "cdd-kysely-db-migrator-migrate-function", {
+        bind: [dbUsernameSecret, dbPasswordSecret, dbHostSecret, dbPortSecret, dbNameSecret],
+        functionName: `cdd-kysely-db-migrator-migrate-${stack.stage}`,
+        vpc,
+        vpcSubnets: {
+            subnetType: SubnetType.PRIVATE_WITH_EGRESS,
+        },
+        securityGroups: [lambdaSg],
+        handler: "packages/db-migrator/index.main",
+        timeout: 300,
+        memorySize: 512,
+        runtime: "nodejs20.x",
+        enableLiveDev: false,
+        nodejs: {
+            install: ["pg", "kysely"],
+        },
+        copyFiles: [
+            {
+                from: "./shared-ts/db/migrations",
+                to: "./packages/db-migrator/migrations",
+            },
+        ],
+    });
+
+    new Function(stack, "cdd-kysely-db-migrator-rollback-function", {
+        bind: [dbUsernameSecret, dbPasswordSecret, dbHostSecret, dbPortSecret, dbNameSecret],
+        functionName: `cdd-kysely-db-migrator-rollback-${stack.stage}`,
+        vpc,
+        vpcSubnets: {
+            subnetType: SubnetType.PRIVATE_WITH_EGRESS,
+        },
+        securityGroups: [lambdaSg],
+        handler: "packages/db-migrator/index.main",
+        timeout: 300,
+        memorySize: 512,
+        runtime: "nodejs20.x",
+        enableLiveDev: false,
+        nodejs: {
+            install: ["pg", "kysely"],
+        },
+        environment: {
+            ROLLBACK: "true",
+        },
+        copyFiles: [
+            {
+                from: "./shared-ts/db/migrations",
+                to: "./packages/db-migrator/migrations",
+            },
+        ],
+    });
+
+    const cluster = new rds.DatabaseCluster(stack, "cdd-rds-db-cluster", {
+        clusterIdentifier: `cdd-rds-db-cluster-${stack.stage}`,
+        engine: rds.DatabaseClusterEngine.auroraPostgres({ version: rds.AuroraPostgresEngineVersion.VER_16_4 }),
+        writer: rds.ClusterInstance.serverlessV2("cdd-rds-instance-1", {
+            enablePerformanceInsights: true,
+        }),
+        readers:
+            stack.stage === "prod"
+                ? [
+                      rds.ClusterInstance.serverlessV2("cdd-rds-instance-2", {
+                          enablePerformanceInsights: true,
+                      }),
+                  ]
+                : [],
+        serverlessV2MinCapacity: stack.stage === "prod" ? 1 : 0.5,
+        serverlessV2MaxCapacity: stack.stage === "prod" ? 24 : 12,
+        vpcSubnets: {
+            subnetType: SubnetType.PRIVATE_ISOLATED,
+        },
+        securityGroups: [dbSg],
+        vpc,
+        defaultDatabaseName: "disruptions",
+    });
+
+    const cfnCluster = cluster.node.defaultChild as rds.CfnDBCluster;
+
+    cfnCluster.masterUserPassword = undefined;
+    cfnCluster.manageMasterUserPassword = true;
+
+    const proxyDetails = createRdsProxy(stack, cfnCluster, vpc, dbSg);
+
+    new CnameRecord(stack, "cdd-rds-internal-domain", {
+        recordName: `db.${privateHostedZone.zoneName}`,
+        zone: privateHostedZone,
+        domainName: proxyDetails.proxy ? proxyDetails.proxy.attrEndpoint : cluster.clusterEndpoint.hostname,
+    });
+
+    new CnameRecord(stack, "cdd-rds-read-internal-domain", {
+        recordName: `db-ro.${privateHostedZone.zoneName}`,
+        zone: privateHostedZone,
+        domainName: proxyDetails.proxyReadEndpoint
+            ? proxyDetails.proxyReadEndpoint.attrEndpoint
+            : cluster.clusterReadEndpoint.hostname,
+    });
+
+    const bastionHost = new BastionHostLinux(stack, "cdd-rds-bastion-host", {
+        vpc,
+        blockDevices: [
+            {
+                deviceName: "/dev/sdh",
+                volume: BlockDeviceVolume.ebs(10, {
+                    encrypted: true,
+                }),
+            },
+        ],
+        instanceName: `cdd-rds-bastion-host-${stack.stage}`,
+        subnetSelection: {
+            subnetType: SubnetType.PRIVATE_WITH_EGRESS,
+        },
+        securityGroup: bastionSg,
+    });
+
+    Tags.of(bastionHost.instance).add("Bastion", "true");
+
+    if (stack.stage === "prod") {
+        const backupVault = new BackupVault(stack, "cdd-rds-backup-vault", {
+            backupVaultName: `cdd-rds-backup-vault-${stack.stage}`,
+        });
+
+        const backupPlan = new BackupPlan(stack, "cdd-rds-backup-plan", {
+            backupPlanName: `cdd-rds-backup-plan-${stack.stage}`,
+            backupPlanRules: [
+                BackupPlanRule.daily(backupVault),
+                BackupPlanRule.monthly5Year(backupVault),
+                new BackupPlanRule({
+                    backupVault,
+                    ruleName: "Continuous",
+                    scheduleExpression: Schedule.cron({
+                        minute: "0",
+                    }),
+                    enableContinuousBackup: true,
+                    deleteAfter: Duration.days(35),
+                }),
+            ],
+        });
+
+        backupPlan.addSelection("cdd-rds-backup-selection", {
+            resources: [BackupResource.fromArn(cluster.clusterArn)],
+        });
+    }
+
+    return {
+        dbUsernameSecret,
+        dbPasswordSecret,
+        dbHostSecret,
+        dbPortSecret,
+        dbNameSecret,
+        dbHostROSecret,
+    };
 };

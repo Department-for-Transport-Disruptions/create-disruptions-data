@@ -269,6 +269,10 @@ export const SiriAPIStack = ({ stack }: StackContext) => {
     });
 
     const key = apiGateway.cdk.restApi.addApiKey("ApiKey");
+    const bodsApiKey = apiGateway.cdk.restApi.addApiKey("cdd-siri-sx-api-key-bods", {
+        apiKeyName: `cdd-siri-sx-api-key-bods-${stack.stage}`,
+    });
 
     plan.addApiKey(key);
+    plan.addApiKey(bodsApiKey);
 };

@@ -16,9 +16,9 @@
         "vitest": "^3.0.9"
     },
     "dependencies": {
-        "@aws-sdk/client-ses": "^3.682.0",
+        "@aws-sdk/client-ses": "^3.744.0",
         "@create-disruptions-data/shared-ts": "workspace:^",
-        "kysely": "^0.27.4",
+        "kysely": "^0.27.5",
         "lambda-log": "^3.1.0",
         "pg": "^8.13.1"
     }
