@@ -130,6 +130,7 @@ const ViewAllRoadworks = ({ liveRoadworks }: ViewAllRoadworksProps) => {
                 roadworks={roadWorkCoordinates(liveRoadworks)}
             />
             <Tabs
+                activeTabHeader={"live"}
                 tabs={[
                     {
                         tabHeader: "Live",
