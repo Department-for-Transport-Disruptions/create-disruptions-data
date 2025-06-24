@@ -60,7 +60,7 @@ export default class RootDocument extends Document<DocumentProps> {
         const { nonce } = this.props;
 
         return (
-            <Html lang="en" className="govuk-template bg-backgroundGrey">
+            <Html lang="en" className="govuk-template--rebranded">
                 <Head nonce={nonce} />
                 <body className="govuk-template__body">
                     <Link href="#main-content" className="govuk-skip-link">
@@ -70,7 +70,6 @@ export default class RootDocument extends Document<DocumentProps> {
 
                     <Main />
                     <NextScript nonce={nonce} />
-                    <script nonce={nonce} src="/scripts/all.js" />
                 </body>
             </Html>
         );

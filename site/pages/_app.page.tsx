@@ -7,7 +7,6 @@ import Header from "../components/layout/Header";
 import type { Session } from "../schemas/session.schema";
 import { getCsrfToken } from "../utils";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import { initAll } from "govuk-frontend";
 
 config.autoAddCss = false;
 
@@ -38,7 +37,9 @@ const CustomApp = ({ Component, pageProps, csrfToken, session }: AppProps & Exte
                 bodyElement.classList.add("govuk-frontend-supported");
             }
 
-            initAll();
+            if (typeof window !== "undefined" && window.GOVUKFrontend) {
+                window.GOVUKFrontend.initAll();
+            }
         }
     }, []);
 

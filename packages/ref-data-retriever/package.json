@@ -12,7 +12,7 @@
         "@types/aws-lambda": "^8.10.110"
     },
     "dependencies": {
-        "@aws-sdk/client-s3": "^3.744.0",
+        "@aws-sdk/client-s3": "^3.830.0",
         "adm-zip": "^0.5.10",
         "axios": "^1.7.7"
     }

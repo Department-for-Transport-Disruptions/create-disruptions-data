@@ -1,3 +1,4 @@
+"use client";
 import { randomUUID } from "crypto";
 import { Progress } from "@create-disruptions-data/shared-ts/enums";
 import { getDate } from "@create-disruptions-data/shared-ts/utils/dates";
@@ -212,10 +213,14 @@ const Dashboard = ({
             </Link>
 
             <Tabs
+                activeTabHeader={activeTab}
                 tabs={[
                     {
                         tabHeader: "Live",
-                        handleTabClick: () => setActiveTab("live"),
+                        handleTabClick: (event) => {
+                            event.preventDefault();
+                            setActiveTab("live");
+                        },
                         content: enableLoadingSpinnerOnPageLoad ? (
                             <LoadingBox loading={isLoading}>
                                 <Table
@@ -246,7 +251,10 @@ const Dashboard = ({
                     },
                     {
                         tabHeader: "Upcoming",
-                        handleTabClick: () => setActiveTab("upcoming"),
+                        handleTabClick: (event) => {
+                            event.preventDefault();
+                            setActiveTab("upcoming");
+                        },
                         content: enableLoadingSpinnerOnPageLoad ? (
                             <LoadingBox loading={isLoading}>
                                 <Table
@@ -277,7 +285,10 @@ const Dashboard = ({
                     },
                     {
                         tabHeader: "Recently closed",
-                        handleTabClick: () => setActiveTab("recentlyClosed"),
+                        handleTabClick: (event) => {
+                            event.preventDefault();
+                            setActiveTab("recentlyClosed");
+                        },
                         content: enableLoadingSpinnerOnPageLoad ? (
                             <LoadingBox loading={isLoading}>
                                 <Table

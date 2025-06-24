@@ -8,6 +8,7 @@ describe("Tabs", () => {
     it("should render correctly when given a table as the content", () => {
         const { asFragment } = render(
             <Tabs
+                activeTabHeader={"live"}
                 tabs={[
                     {
                         tabHeader: "Live",
@@ -73,6 +74,7 @@ describe("Tabs", () => {
     it("should render correctly when given simple text as the content", () => {
         const { asFragment } = render(
             <Tabs
+                activeTabHeader={"live"}
                 tabs={[
                     {
                         tabHeader: "Live",

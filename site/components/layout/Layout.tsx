@@ -54,7 +54,7 @@ export const BaseLayout = ({
     return (
         <>
             <Head>
-                <link rel="icon" href="/favicon.ico" />
+                <link rel="icon" href="/assets/rebrand/images/favicon.ico" />
                 <title>{buildTitle(errors, title || "Create Disruptions")}</title>
                 <meta name="description" content={description || "Create Disruptions"} />
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
