@@ -22,6 +22,8 @@ export default {
         };
     },
     stacks(app) {
+        app.setDefaultRemovalPolicy(app.mode === "dev" ? "destroy" : "retain");
+
         app.stack(VpcStack);
         app.stack(DnsStack);
         app.stack(RdsStack);

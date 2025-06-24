@@ -126,7 +126,6 @@ export const RdsStack = ({ stack }: StackContext) => {
         timeout: 300,
         memorySize: 512,
         runtime: "nodejs20.x",
-        architecture: "arm_64",
         enableLiveDev: false,
         nodejs: {
             install: ["pg", "kysely"],
@@ -151,7 +150,6 @@ export const RdsStack = ({ stack }: StackContext) => {
         timeout: 300,
         memorySize: 512,
         runtime: "nodejs20.x",
-        architecture: "arm_64",
         enableLiveDev: false,
         nodejs: {
             install: ["pg", "kysely"],
@@ -182,7 +180,7 @@ export const RdsStack = ({ stack }: StackContext) => {
                   ]
                 : [],
         serverlessV2MinCapacity: stack.stage === "prod" ? 1 : 0.5,
-        serverlessV2MaxCapacity: stack.stage === "prod" ? 16 : 8,
+        serverlessV2MaxCapacity: stack.stage === "prod" ? 24 : 12,
         vpcSubnets: {
             subnetType: SubnetType.PRIVATE_ISOLATED,
         },

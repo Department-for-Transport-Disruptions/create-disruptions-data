@@ -43,10 +43,10 @@ jobs:
       - name: Install packages
         run: pnpm i --frozen-lockfile
 
-      - name: Set up Python 3.11.11
+      - name: Set up Python 3.12.10
         uses: actions/setup-python@v5
         with:
-          python-version: 3.11.11
+          python-version: 3.12.10
 
       - name: Install python packages
         working-directory: packages/txc-uploader
