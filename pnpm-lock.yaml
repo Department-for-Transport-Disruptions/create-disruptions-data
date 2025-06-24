@@ -826,8 +826,8 @@ importers:
         specifier: ^0.5.0
         version: 0.5.0
       govuk-frontend:
-        specifier: 5.10.2
-        version: 5.10.2
+        specifier: 5.11.0
+        version: 5.11.0
       jose:
         specifier: ^4.15.5
         version: 4.15.9
@@ -5902,8 +5902,8 @@ packages:
   govuk-colours@1.1.0:
     resolution: {integrity: sha512-EcwnP9PsWubmTcsJtLF8w0D5b69j43LwYtSqGyPtO3903J0bbwB2t5ujWZ9UhsbLamuUmigBkNpLItU3/KuFqw==}
 
-  govuk-frontend@5.10.2:
-    resolution: {integrity: sha512-eVYB2rfUCihehZFHQyylt12/OuXq2JLs+70igcrB1FmbepcDqs1XwKiq96hsPbPF9Vn2f6QXO1OatyD3bq5c9Q==}
+  govuk-frontend@5.11.0:
+    resolution: {integrity: sha512-RYZDEF1J6nVw5XauQGH+91qplExgHUXfXII7dtIme6I4u3eSvU59yZ0/EFKEwRgTslSqlhJODOnAi5rnQFU5Gw==}
     engines: {node: '>= 4.2.0'}
 
   graceful-fs@4.2.11:
@@ -16261,7 +16261,7 @@ snapshots:
 
   govuk-colours@1.1.0: {}
 
-  govuk-frontend@5.10.2: {}
+  govuk-frontend@5.11.0: {}
 
   graceful-fs@4.2.11: {}
 
