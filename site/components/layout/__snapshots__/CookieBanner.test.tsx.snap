@@ -4,7 +4,7 @@ exports[`CookieBanner > should render correctly 1`] = `
 <div>
   <div
     aria-label="cookie banner"
-    class="pt-4"
+    class="govuk-cookie-banner"
     id="global-cookie-message"
     role="region"
   >
@@ -73,34 +73,49 @@ exports[`CookieBanner > should render correctly when accept all is clicked 1`] =
 <div>
   <div
     aria-label="cookie banner"
-    class="py-5 text-lg"
+    class="govuk-cookie-banner"
     id="cookies-accepted-message"
     role="region"
   >
     <div
-      class="govuk-width-container relative"
+      class="govuk-cookie-banner__message govuk-width-container"
     >
-      <p
-        role="alert"
+      <div
+        class="govuk-grid-row"
       >
-        You’ve accepted all cookies. You can
-         
-        <a
-          class="govuk-link"
-          href="/cookies"
+        <div
+          class="govuk-grid-column-two-thirds"
         >
-          change your cookie settings
-        </a>
-         
-        at any time.
-      </p>
-      <button
-        class="govuk-link text-govBlue hover:text-hoverBlue cursor-pointer text-lg absolute right-0 p-0 top-[-1px] max-md:static"
-        id="hide"
-        type="button"
+          <div
+            class="govuk-cookie-banner__content"
+          >
+            <p
+              class="govuk-body"
+            >
+              You’ve accepted all cookies. You can
+               
+              <a
+                class="govuk-link"
+                href="/cookies"
+              >
+                change your cookie settings
+              </a>
+               
+              at any time.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        class="govuk-button-group"
       >
-        Hide
-      </button>
+        <button
+          class="govuk-button"
+          type="button"
+        >
+          Hide
+        </button>
+      </div>
     </div>
   </div>
 </div>
