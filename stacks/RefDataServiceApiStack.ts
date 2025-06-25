@@ -253,7 +253,7 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
 
     const subDomain = isUserEnv(stack.stage)
         ? `ref-data-api.${stack.stage}.${getDomain(stack.stage)}`
-        : `ref-data-api.${getDomain(stack.stage)}`;
+        : `ref-data-api.${getDomain(stack.stage, true)}`;
 
     const allowedOrigins = [
         stack.stage === "prod" ? `https://${prodDomain}` : `https://${stack.stage}.cdd.${rootDomain}`,
