@@ -10,6 +10,8 @@ import { DnsStack } from "./DnsStack";
 import { VpcStack } from "./VpcStack";
 import { isUserEnv } from "./utils";
 
+const BACKUP_RETENTION_DAYS = Duration.days(35);
+
 const createRdsProxy = (stack: Stack, cluster: rds.CfnDBCluster, vpc: IVpc, dbSg: ISecurityGroup) => {
     let proxy: rds.CfnDBProxy | null = null;
     let proxyReadEndpoint: rds.CfnDBProxyEndpoint | null = null;
@@ -187,6 +189,13 @@ export const RdsStack = ({ stack }: StackContext) => {
         securityGroups: [dbSg],
         vpc,
         defaultDatabaseName: "disruptions",
+        ...(stack.stage === "prod"
+            ? {
+                  backup: {
+                      retention: BACKUP_RETENTION_DAYS,
+                  },
+              }
+            : {}),
     });
 
     const cfnCluster = cluster.node.defaultChild as rds.CfnDBCluster;
@@ -246,7 +255,7 @@ export const RdsStack = ({ stack }: StackContext) => {
                         minute: "0",
                     }),
                     enableContinuousBackup: true,
-                    deleteAfter: Duration.days(35),
+                    deleteAfter: BACKUP_RETENTION_DAYS,
                 }),
             ],
         });
