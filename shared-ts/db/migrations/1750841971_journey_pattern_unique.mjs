@@ -18,5 +18,5 @@ export async function up(db) {
  * @param {Kysely} db
  */
 export async function down(db) {
-    await db.schema.dropIndex("idx_service_journey_patterns_unique").on("service_journey_patterns").execute();
+    await db.schema.dropIndex("idx_service_journey_patterns_unique").execute();
 }
