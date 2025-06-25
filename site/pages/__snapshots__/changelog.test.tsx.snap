@@ -55,8 +55,50 @@ exports[`Changelog > should render correctly 1`] = `
           <p
             class="govuk-body"
           >
-            Last updated: 30 January 2025
+            Last updated: 25 June 2025
           </p>
+          <hr
+            class="govuk-section-break govuk-section-break--xl govuk-section-break--visible"
+          />
+          <h2
+            class="govuk-heading-l"
+          >
+            June 2025 (2.2.0)
+          </h2>
+           
+          <p
+            class="govuk-body"
+          >
+            This release will deploy the following changes:
+          </p>
+          <ul
+            class="govuk-list govuk-list--bullet"
+          >
+            <li>
+              Implement GOV.UK’s refreshed brand 
+            </li>
+          </ul>
+          <hr
+            class="govuk-section-break govuk-section-break--xl govuk-section-break--visible"
+          />
+          <h2
+            class="govuk-heading-l"
+          >
+            May 2025 (2.1.0)
+          </h2>
+           
+          <p
+            class="govuk-body"
+          >
+            This release will deploy the following changes:
+          </p>
+          <ul
+            class="govuk-list govuk-list--bullet"
+          >
+            <li>
+              A fix to set the correct timestamp for a disruption's validity and publish datetime
+            </li>
+          </ul>
           <hr
             class="govuk-section-break govuk-section-break--xl govuk-section-break--visible"
           />
