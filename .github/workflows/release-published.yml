@@ -61,3 +61,7 @@ jobs:
           MAP_BOX_ACCESS_TOKEN: ${{ secrets.MAP_BOX_ACCESS_TOKEN }}
         run: |
           pnpm run deploy --stage prod
+
+      - name: Run database migrations
+        run: |
+          aws lambda invoke --function-name cdd-kysely-db-migrator-migrate-prod --cli-binary-format raw-in-base64-out response.json

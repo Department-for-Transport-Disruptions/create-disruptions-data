@@ -111,6 +111,10 @@ jobs:
         run: |
           pnpm run deploy --stage test
 
+      - name: Run database migrations
+        run: |
+          aws lambda invoke --function-name cdd-kysely-db-migrator-migrate-test --cli-binary-format raw-in-base64-out response.json
+
   deploy_to_preprod:
     needs: ['deploy_to_test']
     name: Deploy to Pre-Prod
@@ -163,6 +167,10 @@ jobs:
           MAP_BOX_ACCESS_TOKEN: ${{ secrets.MAP_BOX_ACCESS_TOKEN }}
         run: |
           pnpm run deploy --stage preprod
+
+      - name: Run database migrations
+        run: |
+          aws lambda invoke --function-name cdd-kysely-db-migrator-migrate-preprod --cli-binary-format raw-in-base64-out response.json
 
   create_draft_release:
     needs: ['deploy_to_preprod']
