@@ -218,10 +218,10 @@ export const disruptionInfoSchema = z.object({
         [z.literal("planned"), z.literal("unplanned")],
         setZodDefaultError("Select a disruption type"),
     ),
-    summary: z.string(setZodDefaultError("Enter a summary for this disruption")).min(1).max(100, {
+    summary: z.string(setZodDefaultError("Enter a summary for this disruption")).trim().min(1).max(100, {
         message: "Summary must not exceed 100 characters",
     }),
-    description: z.string(setZodDefaultError("Enter a description for this disruption")).min(1).max(1000, {
+    description: z.string(setZodDefaultError("Enter a description for this disruption")).trim().min(1).max(1000, {
         message: "Description must not exceed 1000 characters",
     }),
     associatedLink: z
@@ -764,7 +764,7 @@ export const disruptionInfoSchemaRefined = disruptionInfoSchema
 
 const baseConsequence = {
     disruptionId: z.string().uuid(),
-    description: z.string(setZodDefaultError("Enter a consequence description")).min(1).max(1000, {
+    description: z.string(setZodDefaultError("Enter a consequence description")).trim().min(1).max(1000, {
         message: "Description must not exceed 1000 characters",
     }),
     removeFromJourneyPlanners: z.union([z.literal("yes"), z.literal("no")], setZodDefaultError("Select yes or no")),
