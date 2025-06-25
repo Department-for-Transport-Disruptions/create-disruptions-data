@@ -93,7 +93,7 @@ def main(event, context):
         source_bucket = record["s3"]["bucket"]["name"]
         key = unquote_plus(record["s3"]["object"]["key"])
         tmpkey = key.replace("/", "")
-        download_path = "/tmp/{}{}".format(uuid.uuid4(), tmpkey)
+        download_path = f"/tmp/{uuid.uuid4()}{tmpkey}"
         s3_client.download_file(source_bucket, key, download_path)
 
         try:
@@ -120,3 +120,7 @@ def main(event, context):
             )
 
             put_cloudwatch_metric(os.getenv("VALIDATION_FAILURE_METRIC"), 1)
+
+        finally:
+            if os.path.isfile(download_path):
+                os.remove(download_path)
