@@ -63,7 +63,7 @@ program
 
             const orgs = z.array(orgsSchema).parse(organisationsInDynamo.Items);
 
-            const chosenOrg = await withUserPrompt("poolId", {
+            const chosenOrg = await withUserPrompt("orgId", {
                 type: "list",
                 choices: orgs.map((org) => org.name ?? ""),
             });

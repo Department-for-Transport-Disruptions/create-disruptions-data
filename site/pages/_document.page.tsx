@@ -70,6 +70,7 @@ export default class RootDocument extends Document<DocumentProps> {
 
                     <Main />
                     <NextScript nonce={nonce} />
+                    <script nonce={nonce} src="/scripts/all.js" />
                 </body>
             </Html>
         );
