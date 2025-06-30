@@ -1,6 +1,7 @@
 import { Duration, Tags } from "aws-cdk-lib";
-import { BackupVault } from "aws-cdk-lib/aws-backup";
+import { BackupPlan, BackupPlanRule, BackupResource, BackupVault } from "aws-cdk-lib/aws-backup";
 import { BastionHostLinux, BlockDeviceVolume, ISecurityGroup, IVpc, SubnetType } from "aws-cdk-lib/aws-ec2";
+import { Schedule } from "aws-cdk-lib/aws-events";
 import { PolicyDocument, PolicyStatement, Role, ServicePrincipal } from "aws-cdk-lib/aws-iam";
 import * as rds from "aws-cdk-lib/aws-rds";
 import { CnameRecord } from "aws-cdk-lib/aws-route53";
@@ -238,30 +239,30 @@ export const RdsStack = ({ stack }: StackContext) => {
     Tags.of(bastionHost.instance).add("Bastion", "true");
 
     if (stack.stage === "prod") {
-        new BackupVault(stack, "cdd-rds-backup-vault", {
+        const backupVault = new BackupVault(stack, "cdd-rds-backup-vault", {
             backupVaultName: `cdd-rds-backup-vault-${stack.stage}`,
         });
 
-        // const backupPlan = new BackupPlan(stack, "cdd-rds-backup-plan", {
-        //     backupPlanName: `cdd-rds-backup-plan-${stack.stage}`,
-        //     backupPlanRules: [
-        //         BackupPlanRule.daily(backupVault),
-        //         BackupPlanRule.monthly5Year(backupVault),
-        //         new BackupPlanRule({
-        //             backupVault,
-        //             ruleName: "Continuous",
-        //             scheduleExpression: Schedule.cron({
-        //                 minute: "0",
-        //             }),
-        //             enableContinuousBackup: true,
-        //             deleteAfter: BACKUP_RETENTION_DAYS,
-        //         }),
-        //     ],
-        // });
+        const backupPlan = new BackupPlan(stack, "cdd-rds-backup-plan", {
+            backupPlanName: `cdd-rds-backup-plan-${stack.stage}`,
+            backupPlanRules: [
+                BackupPlanRule.daily(backupVault),
+                BackupPlanRule.monthly5Year(backupVault),
+                new BackupPlanRule({
+                    backupVault,
+                    ruleName: "Continuous",
+                    scheduleExpression: Schedule.cron({
+                        minute: "0",
+                    }),
+                    enableContinuousBackup: true,
+                    deleteAfter: BACKUP_RETENTION_DAYS,
+                }),
+            ],
+        });
 
-        // backupPlan.addSelection("cdd-rds-backup-selection", {
-        //     resources: [BackupResource.fromArn(cluster.clusterArn)],
-        // });
+        backupPlan.addSelection("cdd-rds-backup-selection", {
+            resources: [BackupResource.fromArn(cluster.clusterArn)],
+        });
     }
 
     return {
