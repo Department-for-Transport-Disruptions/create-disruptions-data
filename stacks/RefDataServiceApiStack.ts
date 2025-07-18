@@ -259,9 +259,7 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
         ? `ref-data-api.${stack.stage}.${getDomain(stack.stage)}`
         : `ref-data-api.${getDomain(stack.stage, true)}`;
 
-    const allowedOrigins = [
-        stack.stage === "prod" ? `https://${prodDomain}` : `https://${stack.stage}.cdd.${rootDomain}`,
-    ];
+    const allowedOrigins = [`https://${stack.stage}.cdd.${rootDomain}`];
 
     if (!["preprod", "prod"].includes(stack.stage)) {
         allowedOrigins.push("http://localhost:3000");
@@ -310,6 +308,8 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
     }
 
     stack.addOutputs({
-        ApiEndpoint: api.url,
+        ApiEndpoint: api.url ?? "",
     });
+
+    return { apiUrl: api.customDomainUrl ?? api.url };
 }

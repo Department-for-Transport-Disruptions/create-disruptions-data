@@ -469,6 +469,7 @@ export const RefDataStepFunctionStack = ({ stack }: StackContext) => {
             prefix: JsonPath.stringAt("$.prefix"),
         }),
         resultPath: JsonPath.DISCARD,
+        toleratedFailureCount: 40,
     });
 
     zippedObjectsMap.itemProcessor(unzipperTask);
