@@ -885,7 +885,7 @@ def check_file_has_usable_data(data: dict, service: dict) -> bool:
 
 
 def insert_into_txc_tracks_table(cursor: Cursor, tracks, operator_service_id):
-    batched_tracks = [tracks[i: i + 200] for i in range(0, len(tracks), 200)]
+    batched_tracks = [tracks[i : i + 200] for i in range(0, len(tracks), 200)]
 
     for batch in batched_tracks:
 
@@ -953,8 +953,8 @@ def collect_track_data(route_sections, route_section_refs, link_refs):
                                                 location
                                             )
                                             if (
-                                                    longitude is not None
-                                                    and latitude is not None
+                                                longitude is not None
+                                                and latitude is not None
                                             ):
                                                 routes.append(
                                                     {
