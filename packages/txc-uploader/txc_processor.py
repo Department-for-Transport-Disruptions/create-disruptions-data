@@ -885,17 +885,33 @@ def check_file_has_usable_data(data: dict, service: dict) -> bool:
 
 
 def insert_into_txc_tracks_table(cursor: Cursor, tracks, operator_service_id):
-    values = [
-        {
-            "operator_service_id": operator_service_id,
-            "longitude": track["longitude"],
-            "latitude": track["latitude"],
-        }
-        for track in tracks
-    ]
+    batched_tracks = [tracks[i: i + 200] for i in range(0, len(tracks), 200)]
 
-    query = """INSERT INTO tracks_new (operator_service_id, longitude, latitude) VALUES (%(operator_service_id)s, %(longitude)s, %(latitude)s)"""
-    cursor.executemany(query, values)
+    for batch in batched_tracks:
+
+        values = [
+            {
+                "operator_service_id": operator_service_id,
+                "longitude": track["longitude"],
+                "latitude": track["latitude"],
+            }
+            for track in batch
+        ]
+
+        query = """INSERT INTO tracks_new (operator_service_id, longitude, latitude) VALUES (%(operator_service_id)s, %(longitude)s, %(latitude)s)"""
+        cursor.executemany(query, values)
+
+
+def extract_coordinates(location):
+    """Extract longitude and latitude from a location or translation."""
+    translation = location.get("Translation", None)
+    if translation is None:
+        longitude = location.get("Longitude", None)
+        latitude = location.get("Latitude", None)
+    else:
+        longitude = translation.get("Longitude", None)
+        latitude = translation.get("Latitude", None)
+    return longitude, latitude
 
 
 def collect_track_data(route_sections, route_section_refs, link_refs):
@@ -933,20 +949,19 @@ def collect_track_data(route_sections, route_section_refs, link_refs):
                                     locations = make_list(mapping["Location"])
                                     if locations is not None:
                                         for location in locations:
-                                            translation = location.get(
-                                                "Translation", None
+                                            longitude, latitude = extract_coordinates(
+                                                location
                                             )
-                                            if translation is None:
-                                                longitude = location["Longitude"]
-                                                latitude = location["Latitude"]
-                                            else:
-                                                longitude = translation["Longitude"]
-                                                latitude = translation["Latitude"]
-                                            route = {
-                                                "longitude": longitude,
-                                                "latitude": latitude,
-                                            }
-                                            routes.append(route)
+                                            if (
+                                                    longitude is not None
+                                                    and latitude is not None
+                                            ):
+                                                routes.append(
+                                                    {
+                                                        "longitude": longitude,
+                                                        "latitude": latitude,
+                                                    }
+                                                )
 
     clean_routes = [k for k, g in itertools.groupby(routes)]
 
@@ -976,7 +991,8 @@ def select_route_and_run_insert_query(
             tracks = collect_track_data(
                 route_sections, make_list(route_section_refs), link_refs
             )
-            insert_into_txc_tracks_table(cursor, tracks, operator_service_id)
+            if tracks:
+                insert_into_txc_tracks_table(cursor, tracks, operator_service_id)
 
 
 def format_vehicle_journeys(
