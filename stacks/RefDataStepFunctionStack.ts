@@ -188,7 +188,7 @@ export const RefDataStepFunctionStack = ({ stack }: StackContext) => {
             bind: [tndsFtpHostSecret, tndsFtpUsernameSecret, tndsFtpPasswordSecret],
             handler: "packages/tnds-txc-retriever/index.main",
             timeout: 120,
-            memorySize: 1024,
+            memorySize: 2048,
             diskSize: 1024,
             runtime: "nodejs22.x",
             logRetention: stack.stage === "prod" ? "one_month" : "two_weeks",
@@ -469,6 +469,7 @@ export const RefDataStepFunctionStack = ({ stack }: StackContext) => {
             prefix: JsonPath.stringAt("$.prefix"),
         }),
         resultPath: JsonPath.DISCARD,
+        toleratedFailureCount: 10,
     });
 
     zippedObjectsMap.itemProcessor(unzipperTask);
