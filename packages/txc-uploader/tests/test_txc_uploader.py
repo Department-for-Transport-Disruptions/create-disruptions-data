@@ -442,6 +442,120 @@ class TestDataCollectionFunctionality:
             mock_op_service_id,
         )
 
+    @patch("txc_processor.insert_into_txc_tracks_table")
+    def test_no_tracks_inserted_when_coordinates_missing(self, mock_routes_insert):
+        mock_cursor = MagicMock(spec=cursor)
+        mock_op_service_id = 12
+        mock_tracks_data_dict["TransXChange"]["RouteSections"]["RouteSection"] = [
+            {
+                "@id": "RS1",
+                "RouteLink": {
+                    "@id": "RL1",
+                    "Track": {
+                        "Mapping": {
+                            "Location": [
+                                {
+                                    "@id": "L1",
+                                }
+                            ]
+                        }
+                    },
+                },
+            }
+        ]
+
+        select_route_and_run_insert_query(
+            mock_cursor,
+            mock_tracks_data_dict,
+            mock_op_service_id,
+            "RT1",
+            ["RL1"],
+        )
+
+        mock_routes_insert.assert_not_called()
+
+
+class TestCollectTrackData:
+    def test_omit_easting_northing_from_tracks(self):
+        route_sections = [
+            {
+                "@id": "section1",
+                "RouteLink": [
+                    {
+                        "@id": "link1",
+                        "Track": {
+                            "Mapping": {
+                                "Location": [
+                                    {"Easting": 500000, "Northing": 200000},
+                                    {"Longitude": 1.1111, "Latitude": 2.2222},
+                                    {
+                                        "Translation": {
+                                            "Easting": 600000,
+                                            "Northing": 300000,
+                                        }
+                                    },
+                                    {
+                                        "Translation": {
+                                            "Longitude": 3.3333,
+                                            "Latitude": 4.4444,
+                                        }
+                                    },
+                                ]
+                            }
+                        },
+                    },
+                ],
+            }
+        ]
+        route_section_refs = ["section1"]
+        link_refs = ["link1"]
+        expected_routes = [
+            {"longitude": 1.1111, "latitude": 2.2222},
+            {"longitude": 3.3333, "latitude": 4.4444},
+        ]
+
+        result = collect_track_data(route_sections, route_section_refs, link_refs)
+        assert result == expected_routes
+
+    def test_omit_track_data_with_none_values(self):
+        route_sections = [
+            {
+                "@id": "section1",
+                "RouteLink": [
+                    {
+                        "@id": "link1",
+                        "Track": {
+                            "Mapping": {
+                                "Location": [
+                                    {
+                                        "Translation": {
+                                            "Easting": 500000,
+                                            "Northing": 200000,
+                                        }
+                                    },
+                                    {
+                                        "Translation": {
+                                            "Longitude": 1.1111,
+                                            "Latitude": 2.2222,
+                                        }
+                                    },
+                                    {"Random": "Value"},
+                                ]
+                            }
+                        },
+                    },
+                ],
+            }
+        ]
+        route_section_refs = ["section1"]
+        link_refs = ["link1"]
+        expected_routes = [
+            {"longitude": 1.1111, "latitude": 2.2222},
+        ]
+
+        result = collect_track_data(route_sections, route_section_refs, link_refs)
+        assert result == expected_routes
+
 
 class TestMainFunctionality:
     @patch("txc_processor.write_to_database")
