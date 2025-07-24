@@ -308,8 +308,6 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
     }
 
     stack.addOutputs({
-        ApiEndpoint: api.url ?? "",
+        ApiEndpoint: api.url,
     });
-
-    return { apiUrl: api.customDomainUrl ?? api.url };
 }

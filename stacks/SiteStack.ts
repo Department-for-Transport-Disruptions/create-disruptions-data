@@ -12,7 +12,6 @@ import { MonitoringStack } from "./MonitoringStack";
 import { RdsStack } from "./RdsStack";
 import { VpcStack } from "./VpcStack";
 import { createBucket, isUserEnv } from "./utils";
-import { RefDataServiceApiStack } from "./RefDataServiceApiStack";
 
 export const SiteStack = ({ stack }: StackContext) => {
     const { organisationsTableV2: organisationsTable } = use(DynamoDBStack);
@@ -21,7 +20,6 @@ export const SiteStack = ({ stack }: StackContext) => {
     const { dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbHostSecret, dbPortSecret } =
         use(RdsStack);
     const { vpc, siteSg } = use(VpcStack);
-    const { apiUrl } = use(RefDataServiceApiStack);
 
     const siteImageBucket = createBucket(stack, "cdd-image-bucket", true);
 
@@ -36,6 +34,10 @@ export const SiteStack = ({ stack }: StackContext) => {
             throw new Error("PROD_DOMAIN must be set in production");
         }
     }
+
+    const apiUrl = !["test", "preprod", "prod"].includes(stack.stage)
+        ? `https://ref-data-api.${stack.stage}.sandbox.cdd.dft-create-data.com/v1`
+        : `https://ref-data-api.${stack.stage}.cdd.dft-create-data.com/v1`;
 
     const middlewareCognitoUser = new User(stack, "cdd-site-middleware-user", {
         userName: `cdd-site-middleware-user-${stack.stage}-${stack.region}`,
