@@ -417,11 +417,15 @@ export const getServicesByStops = async (dbClient: Kysely<Database>, input: Serv
         .$if(!!input.nocCodes?.[0], (qb) => qb.where("services.nocCode", "in", input.nocCodes ?? ["---"]))
         .selectAll("services")
         .select(["fromAtcoCode", "toAtcoCode"])
-        .distinct()
+        .distinctOn(["fromAtcoCode", "toAtcoCode"])
         .where((qb) => qb.or([qb("fromAtcoCode", "in", input.stops), qb("toAtcoCode", "in", input.stops)]))
         .where("dataSource", "=", input.dataSource)
-        .orderBy("serviceJourneyPatternLinks.fromSequenceNumber")
-        .orderBy("serviceJourneyPatterns.direction")
+        .orderBy([
+            "fromAtcoCode",
+            "toAtcoCode",
+            "serviceJourneyPatternLinks.fromSequenceNumber",
+            "serviceJourneyPatterns.direction",
+        ])
         .execute();
 
     return services;

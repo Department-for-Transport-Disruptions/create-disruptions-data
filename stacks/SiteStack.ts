@@ -35,9 +35,9 @@ export const SiteStack = ({ stack }: StackContext) => {
         }
     }
 
-    const apiUrl = !["preprod", "prod"].includes(stack.stage)
-        ? "https://api.test.ref-data.dft-create-data.com/v1"
-        : `https://api.${stack.stage}.ref-data.dft-create-data.com/v1`;
+    const apiUrl = !["test", "preprod", "prod"].includes(stack.stage)
+        ? `https://ref-data-api.${stack.stage}.sandbox.cdd.dft-create-data.com/v1`
+        : `https://ref-data-api.${stack.stage}.cdd.dft-create-data.com/v1`;
 
     const middlewareCognitoUser = new User(stack, "cdd-site-middleware-user", {
         userName: `cdd-site-middleware-user-${stack.stage}-${stack.region}`,

@@ -30,13 +30,13 @@ export default {
         app.stack(MonitoringStack);
         app.stack(CognitoStack);
         app.stack(DynamoDBStack);
+        app.stack(QueueStack);
+        app.stack(RefDataServiceApiStack);
         app.stack(SiteStack);
         app.stack(SiriGeneratorStack);
         app.stack(SiriAPIStack);
         app.stack(RoadworksNotificationStack);
         app.stack(DynamoMigratorStack);
         app.stack(RefDataStepFunctionStack);
-        app.stack(QueueStack);
-        app.stack(RefDataServiceApiStack);
     },
 } satisfies SSTConfig;

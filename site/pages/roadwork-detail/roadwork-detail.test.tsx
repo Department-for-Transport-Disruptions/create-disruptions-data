@@ -25,7 +25,7 @@ const mockRoadwork: Roadwork = {
     workCategory: "Standard",
     administrativeAreaCode: "083",
     createdDateTime: "2023-12-01T08:54:05.351Z",
-    lastUpdatedDatetime: "2023-12-01T08:54:05.351Z",
+    lastUpdatedDateTime: "2023-12-01T08:54:05.351Z",
 };
 
 describe("RoadworkDetail", () => {
