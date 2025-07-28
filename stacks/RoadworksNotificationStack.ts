@@ -124,4 +124,35 @@ export const RoadworksNotificationStack = ({ stack }: StackContext) => {
             alarmName: `cdd-new-roadworks-notification-failure-alarm-${stack.stage}`,
         })
         .addAlarmAction(new SnsAction(alarmTopic));
+
+    const cleanupRoadworks = new Function(stack, "cdd-cleanup-roadworks", {
+        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret],
+        functionName: `cdd-cleanup-roadworks-${stack.stage}`,
+        handler: "packages/cleanup-roadworks/index.main",
+        runtime: "nodejs22.x",
+        timeout: 600,
+        memorySize: 1024,
+        environment: {
+            STAGE: stack.stage,
+        },
+        logRetention: stack.stage === "prod" ? "one_month" : "two_weeks",
+        permissions: [
+            new PolicyStatement({
+                actions: ["cloudwatch:PutMetricData"],
+                resources: ["*"],
+            }),
+            new PolicyStatement({
+                actions: ["ssm:PutParameter"],
+                resources: ["*"],
+            }),
+        ],
+    });
+
+    const enableSchedule = stack.stage === "prod" || stack.stage === "preprod" || stack.stage === "test";
+
+    new Cron(stack, "cdd-cleanup-roadworks-cron", {
+        job: cleanupRoadworks,
+        enabled: enableSchedule,
+        schedule: "cron(0 1 * * ? *)",
+    });
 };
