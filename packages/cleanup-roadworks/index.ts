@@ -1,7 +1,7 @@
-import { Kysely, sql } from "kysely";
-import { logger } from "@create-disruptions-data/shared-ts/utils/logger";
 import { Database } from "@create-disruptions-data/shared-ts/db/types";
 import { getDbClient } from "@create-disruptions-data/shared-ts/utils/db";
+import { logger } from "@create-disruptions-data/shared-ts/utils/logger";
+import { Kysely, sql } from "kysely";
 
 export const deleteOldRoadworks = async (dbClient: Kysely<Database>) => {
     await dbClient
