@@ -1,10 +1,10 @@
-import { program } from "commander";
-import { DataApiDialect } from "kysely-data-api";
+import * as fs from "node:fs";
+import path from "node:path";
 import { RDSData } from "@aws-sdk/client-rds-data";
 import { Database } from "@create-disruptions-data/shared-ts/db/types";
+import { program } from "commander";
 import { Kysely } from "kysely";
-import path from "node:path";
-import * as fs from "node:fs";
+import { DataApiDialect } from "kysely-data-api";
 import { withUserPrompt } from "../utils";
 
 program

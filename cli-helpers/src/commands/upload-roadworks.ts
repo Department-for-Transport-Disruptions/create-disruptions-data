@@ -1,12 +1,12 @@
-import { program } from "commander";
-import { Database, NewRoadworkDB } from "@create-disruptions-data/shared-ts/db/types";
-import { CamelCasePlugin, Kysely, PostgresDialect } from "kysely";
-import pg from "pg";
 import * as fs from "node:fs";
 import path from "node:path";
+import { Database, NewRoadworkDB } from "@create-disruptions-data/shared-ts/db/types";
 import { roadworkSchema } from "@create-disruptions-data/shared-ts/roadwork.zod";
-import { z } from "zod";
 import { Promise as BluebirdPromise } from "bluebird";
+import { program } from "commander";
+import { CamelCasePlugin, Kysely, PostgresDialect } from "kysely";
+import pg from "pg";
+import { z } from "zod";
 import { withUserPrompt } from "../utils";
 
 const { Pool } = pg;
