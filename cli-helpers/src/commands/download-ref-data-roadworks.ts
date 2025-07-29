@@ -70,13 +70,14 @@ program
                 .offset(offset)
                 .execute();
 
-            if (roadworks.length > 0) {
-                const jsonData = JSON.stringify(roadworks, null, 2);
-                fs.appendFileSync(filePath, (offset > 0 ? "," : "") + jsonData.slice(1, -1), "utf-8");
-                offset += limit;
-            } else {
+            if (roadworks.length === 0) {
                 hasMoreData = false;
+                continue;
             }
+
+            const jsonData = JSON.stringify(roadworks, null, 2);
+            fs.appendFileSync(filePath, (offset > 0 ? "," : "") + jsonData.slice(1, -1), "utf-8");
+            offset += limit;
         }
 
         fs.appendFileSync(filePath, "]", "utf-8");
