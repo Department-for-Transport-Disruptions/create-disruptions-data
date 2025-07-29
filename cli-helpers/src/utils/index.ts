@@ -7,7 +7,8 @@ import { z } from "zod";
 type Prompt = {
     type: keyof QuestionMap;
     choices?: string[];
-    default?: string;
+    default?: string | boolean;
+    message?: string;
 };
 
 export const withUserPrompt = async (name: string, prompt: Prompt) => {
