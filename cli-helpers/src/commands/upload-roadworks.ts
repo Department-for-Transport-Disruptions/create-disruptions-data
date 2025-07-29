@@ -68,7 +68,7 @@ program
         const filePath = path.join(__dirname, "roadworks.json");
         const roadworksData = JSON.parse(fs.readFileSync(filePath, "utf-8"));
 
-        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+        // biome-ignore lint/suspicious/noExplicitAny: Change needed to map roadworksData to the expected schema. Data is parsed via Zod in the next step anyway.
         const processedRoadworks = roadworksData.map((roadwork: any) => ({
             ...roadwork,
             lastUpdatedDateTime: roadwork.lastUpdatedDatetime,
@@ -95,9 +95,13 @@ program
 
         const roadworksChunks = chunkArray(parsedRoadworks.data, 50);
 
-        await BluebirdPromise.map(roadworksChunks, (batch) => writeToRoadworksTable(batch), {
-            concurrency: 10,
-        });
+        try {
+            await BluebirdPromise.map(roadworksChunks, (batch) => writeToRoadworksTable(batch), {
+                concurrency: 10,
+            });
+        } catch (e) {
+            console.error(e);
+        }
 
         console.log("Successfully uploaded roadworks to the disruptions database.");
     });

@@ -30,7 +30,7 @@ program
             const prodRunConfirmed = await withUserPrompt("confirmProdRun", {
                 type: "confirm",
                 message:
-                    "You are going to run this command against the preprod database. Are you sure you want to continue?",
+                    "You are going to run this command against the prod database. Are you sure you want to continue?",
                 default: false,
             });
 
@@ -62,8 +62,7 @@ program
         const limit = 800;
 
         while (hasMoreData) {
-            // biome-ignore lint/style/noUnusedTemplateLiteral: <explanation>
-            console.log(`Fetching roadworks data...`);
+            console.log("Fetching roadworks data...");
             const roadworks = await refDataDbClient
                 .selectFrom("roadworks")
                 .selectAll()
