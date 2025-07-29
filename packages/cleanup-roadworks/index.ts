@@ -3,6 +3,12 @@ import { getDbClient } from "@create-disruptions-data/shared-ts/utils/db";
 import { logger } from "@create-disruptions-data/shared-ts/utils/logger";
 import { Kysely, sql } from "kysely";
 
+/**
+ * Remove outdated roadworks from the database. Roadworks are considered outdated if:
+ * - The actual end date time is more than 7 days old and the permit status is "closed".
+ * - The last updated date time is more than 7 days old and the permit status is "revoked", "refused", "cancelled", or "closed".
+ * - The work status is "Works in progress" and both the proposed end date time and last updated date time are more than 2 months old.
+ */
 export const deleteOldRoadworks = async (dbClient: Kysely<Database>) => {
     await dbClient
         .deleteFrom("roadworks")
