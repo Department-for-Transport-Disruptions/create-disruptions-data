@@ -360,6 +360,15 @@ declare module "sst/node/function" {
 import "sst/node/function";
 declare module "sst/node/function" {
   export interface FunctionResources {
+    "cdd-cleanup-roadworks": {
+      functionName: string;
+    }
+  }
+}
+
+import "sst/node/function";
+declare module "sst/node/function" {
+  export interface FunctionResources {
     "cdd-dynamo-disruption-bulk-migrator": {
       functionName: string;
     }
