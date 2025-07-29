@@ -193,6 +193,19 @@ importers:
         specifier: ^0.29.1
         version: 0.29.8(jsdom@21.1.2)(playwright@1.52.0)(sass@1.87.0)
 
+  packages/cleanup-roadworks:
+    dependencies:
+      kysely:
+        specifier: ^0.27.5
+        version: 0.27.6
+      pg:
+        specifier: ^8.13.1
+        version: 8.16.2
+    devDependencies:
+      '@types/node':
+        specifier: ^18.13.0
+        version: 18.19.96
+
   packages/db-cleardown:
     dependencies:
       '@create-disruptions-data/shared-ts':
