@@ -13,12 +13,13 @@ export const RoadworksNotificationStack = ({ stack }: StackContext) => {
     const { organisationsTableV2: organisationsTable } = use(DynamoDBStack);
     const { clientId, clientSecret, userPoolId, userPoolArn } = use(CognitoStack);
     const { alarmTopic } = use(MonitoringStack);
-    const { dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret } = use(RdsStack);
+    const { dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbHostSecret, dbPortSecret } =
+        use(RdsStack);
     const { vpc, lambdaSg } = use(VpcStack);
 
-    const apiUrl = !["preprod", "prod"].includes(stack.stage)
-        ? "https://api.test.ref-data.dft-create-data.com/v1"
-        : `https://api.${stack.stage}.ref-data.dft-create-data.com/v1`;
+    const apiUrl = !["test", "preprod", "prod"].includes(stack.stage)
+        ? `https://ref-data-api.${stack.stage}.sandbox.cdd.dft-create-data.com/v1`
+        : `https://ref-data-api.${stack.stage}.cdd.dft-create-data.com/v1`;
 
     const url =
         stack.stage === "prod"
@@ -126,7 +127,7 @@ export const RoadworksNotificationStack = ({ stack }: StackContext) => {
         .addAlarmAction(new SnsAction(alarmTopic));
 
     const cleanupRoadworks = new Function(stack, "cdd-cleanup-roadworks", {
-        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret],
+        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostSecret, dbPortSecret],
         functionName: `cdd-cleanup-roadworks-${stack.stage}`,
         handler: "packages/cleanup-roadworks/index.main",
         runtime: "nodejs22.x",
