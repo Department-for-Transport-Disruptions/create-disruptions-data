@@ -662,16 +662,16 @@ export const getRoadworks = async (dbClient: Kysely<Database>, input: RoadworksQ
         .$if(!!input.permitStatus, (qb) => qb.where("roadworks.permitStatus", "=", input.permitStatus ?? null))
         .$if(!!input.lastUpdatedTimeDelta, (qb) =>
             qb.where(
-                "roadworks.lastUpdatedDateTime",
+                sql`CAST(roadworks.last_updated_date_time AS TIMESTAMPTZ)`,
                 ">=",
-                sql<string>`NOW() - INTERVAL '${input.lastUpdatedTimeDelta} MINUTES'`,
+                sql`NOW() - INTERVAL '${sql.lit(input.lastUpdatedTimeDelta)} MINUTES'`,
             ),
         )
         .$if(!!input.createdTimeDelta, (qb) =>
             qb.where(
-                "roadworks.createdDateTime",
+                sql`CAST(roadworks.created_date_time AS TIMESTAMPTZ)`,
                 ">=",
-                sql<string>`NOW() - INTERVAL '${input.createdTimeDelta} MINUTES'`,
+                sql`NOW() - INTERVAL '${sql.lit(input.createdTimeDelta)} MINUTES'`,
             ),
         )
         .select([
