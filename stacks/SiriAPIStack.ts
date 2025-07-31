@@ -21,9 +21,9 @@ export const SiriAPIStack = ({ stack }: StackContext) => {
         return;
     }
 
-    const apiUrl = !["preprod", "prod"].includes(stack.stage)
-        ? "https://api.test.ref-data.dft-create-data.com/v1"
-        : `https://api.${stack.stage}.ref-data.dft-create-data.com/v1`;
+    const apiUrl = !["test", "preprod", "prod"].includes(stack.stage)
+        ? `https://ref-data-api.${stack.stage}.sandbox.cdd.dft-create-data.com/v1`
+        : `https://ref-data-api.${stack.stage}.cdd.dft-create-data.com/v1`;
 
     const subDomain = ["sandbox", "test", "preprod", "prod"].includes(stack.stage) ? "api" : `api.${stack.stage}`;
 
