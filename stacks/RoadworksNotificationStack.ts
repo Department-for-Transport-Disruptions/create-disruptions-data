@@ -136,6 +136,14 @@ export const RoadworksNotificationStack = ({ stack }: StackContext) => {
         environment: {
             STAGE: stack.stage,
         },
+        vpc,
+        vpcSubnets: {
+            subnetType: SubnetType.PRIVATE_WITH_EGRESS,
+        },
+        securityGroups: [lambdaSg],
+        nodejs: {
+            install: ["pg", "kysely"],
+        },
         logRetention: stack.stage === "prod" ? "one_month" : "two_weeks",
         permissions: [
             new PolicyStatement({
