@@ -1,6 +1,6 @@
+import { SubnetType } from "aws-cdk-lib/aws-ec2";
 import { Queue, StackContext, use } from "sst/constructs";
 import { RdsStack } from "./RdsStack";
-import { SubnetType } from "aws-cdk-lib/aws-ec2";
 import { VpcStack } from "./VpcStack";
 
 export function QueueStack({ stack }: StackContext) {
