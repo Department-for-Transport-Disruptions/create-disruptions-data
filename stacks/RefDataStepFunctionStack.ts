@@ -147,39 +147,39 @@ export const RefDataStepFunctionStack = ({ stack }: StackContext) => {
         }),
     });
 
-    // const bodsTxcRetrieverTask = new LambdaInvoke(stack, "cdd-bods-txc-retriever-task", {
-    //     stateName: "Retrieve BODS TxC",
-    //     lambdaFunction: new Function(stack, "cdd-bods-txc-retriever-function", {
-    //         functionName: `cdd-bods-txc-retriever-${stack.stage}`,
-    //         handler: "packages/bods-txc-retriever/index.main",
-    //         timeout: 300,
-    //         memorySize: 2048,
-    //         runtime: "nodejs22.x",
-    //         logRetention: stack.stage === "prod" ? "one_month" : "two_weeks",
-    //         permissions: [
-    //             new PolicyStatement({
-    //                 actions: ["s3:PutObject"],
-    //                 resources: [`${txcZippedBucket.bucketArn}/*`],
-    //             }),
-    //             new PolicyStatement({
-    //                 actions: ["s3:PutObject"],
-    //                 resources: [`${txcBucket.bucketArn}/*`],
-    //             }),
-    //             new PolicyStatement({
-    //                 actions: ["cloudwatch:PutMetricData"],
-    //                 resources: ["*"],
-    //             }),
-    //         ],
-    //         environment: {
-    //             BODS_URL: "https://data.bus-data.dft.gov.uk/timetable/download/bulk_archive",
-    //             BODS_COACH_URL: "https://coach.bus-data.dft.gov.uk/TxC-2.4.zip",
-    //             TXC_ZIPPED_BUCKET_NAME: txcZippedBucket.bucketName,
-    //             TXC_BUCKET_NAME: txcBucket.bucketName,
-    //         },
-    //         enableLiveDev: false,
-    //     }),
-    //     outputPath: "$.Payload",
-    // });
+    const bodsTxcRetrieverTask = new LambdaInvoke(stack, "cdd-bods-txc-retriever-task", {
+        stateName: "Retrieve BODS TxC",
+        lambdaFunction: new Function(stack, "cdd-bods-txc-retriever-function", {
+            functionName: `cdd-bods-txc-retriever-${stack.stage}`,
+            handler: "packages/bods-txc-retriever/index.main",
+            timeout: 300,
+            memorySize: 2048,
+            runtime: "nodejs22.x",
+            logRetention: stack.stage === "prod" ? "one_month" : "two_weeks",
+            permissions: [
+                new PolicyStatement({
+                    actions: ["s3:PutObject"],
+                    resources: [`${txcZippedBucket.bucketArn}/*`],
+                }),
+                new PolicyStatement({
+                    actions: ["s3:PutObject"],
+                    resources: [`${txcBucket.bucketArn}/*`],
+                }),
+                new PolicyStatement({
+                    actions: ["cloudwatch:PutMetricData"],
+                    resources: ["*"],
+                }),
+            ],
+            environment: {
+                BODS_URL: "https://data.bus-data.dft.gov.uk/timetable/download/bulk_archive",
+                BODS_COACH_URL: "https://coach.bus-data.dft.gov.uk/TxC-2.4.zip",
+                TXC_ZIPPED_BUCKET_NAME: txcZippedBucket.bucketName,
+                TXC_BUCKET_NAME: txcBucket.bucketName,
+            },
+            enableLiveDev: false,
+        }),
+        outputPath: "$.Payload",
+    });
 
     const tndsTxcRetrieverTask = new LambdaInvoke(stack, "cdd-tnds-txc-retriever-task", {
         stateName: "Retrieve TNDS TxC",
@@ -492,6 +492,7 @@ export const RefDataStepFunctionStack = ({ stack }: StackContext) => {
         stateName: "Ref Data Retrieval",
     })
         .branch(tndsTxcRetrieverTask)
+        .branch(bodsTxcRetrieverTask)
         .branch(nocRetrieverTask)
         .branch(naptanRetrieverTask)
         .branch(nptgRetrieverTask)
