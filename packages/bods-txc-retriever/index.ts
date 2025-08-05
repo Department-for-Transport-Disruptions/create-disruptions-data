@@ -4,6 +4,7 @@ import { startS3Upload } from "@create-disruptions-data/shared-ts/utils/s3";
 import { Handler } from "aws-lambda";
 import axios from "axios";
 import dayjs from "dayjs";
+import pThrottle from "p-throttle";
 import { Entry, Parse } from "unzipper";
 
 const getBodsDataAndUploadToS3 = async (bodsUrl: string, txcZippedBucketName: string, txcBucketName: string) => {
@@ -18,6 +19,15 @@ const getBodsDataAndUploadToS3 = async (bodsUrl: string, txcZippedBucketName: st
             forceStream: true,
         }),
     );
+
+    const throttle = pThrottle({
+        limit: 100,
+        interval: 1000,
+    });
+
+    const throttledUpload = throttle(async (upload: ReturnType<typeof startS3Upload>) => {
+        await upload.done();
+    });
 
     const promises = [];
 
@@ -35,10 +45,10 @@ const getBodsDataAndUploadToS3 = async (bodsUrl: string, txcZippedBucketName: st
 
             if (fileName.endsWith(".zip")) {
                 upload = startS3Upload(txcZippedBucketName, `${prefix}/bods/${fileName}`, entry, "application/zip");
-                promises.push(upload.done());
+                promises.push(throttledUpload(upload));
             } else if (fileName.endsWith(".xml")) {
                 upload = startS3Upload(txcBucketName, `${prefix}/bods/${fileName}`, entry, "application/xml");
-                promises.push(upload.done());
+                promises.push(throttledUpload(upload));
             }
         }
 
