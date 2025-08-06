@@ -7,6 +7,15 @@ import dayjs from "dayjs";
 import pThrottle from "p-throttle";
 import { Entry, Parse } from "unzipper";
 
+const throttle = pThrottle({
+    limit: 50,
+    interval: 1000,
+});
+
+const throttledUpload = throttle(async (upload: ReturnType<typeof startS3Upload>) => {
+    await upload.done();
+});
+
 const getBodsDataAndUploadToS3 = async (bodsUrl: string, txcZippedBucketName: string, txcBucketName: string) => {
     logger.info("Starting retrieval of BODS data");
 
@@ -19,15 +28,6 @@ const getBodsDataAndUploadToS3 = async (bodsUrl: string, txcZippedBucketName: st
             forceStream: true,
         }),
     );
-
-    const throttle = pThrottle({
-        limit: 100,
-        interval: 1000,
-    });
-
-    const throttledUpload = throttle(async (upload: ReturnType<typeof startS3Upload>) => {
-        await upload.done();
-    });
 
     const promises = [];
 
