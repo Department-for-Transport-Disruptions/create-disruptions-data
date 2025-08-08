@@ -189,9 +189,6 @@ importers:
       '@types/unzipper':
         specifier: ^0.10.10
         version: 0.10.11
-      p-throttle:
-        specifier: ^7.0.0
-        version: 7.0.0
       vitest:
         specifier: ^0.29.1
         version: 0.29.8(jsdom@21.1.2)(playwright@1.52.0)(sass@1.87.0)
@@ -7386,10 +7383,6 @@ packages:
   p-locate@4.1.0:
     resolution: {integrity: sha512-R79ZZ/0wAxKGu3oYMlz8jy/kbhsNrS7SKZ7PxEHBgJ5+F2mtFW2fK2cOtBh1cHYkQsbzFV7I+EoRKe6Yt0oK7A==}
     engines: {node: '>=8'}
-
-  p-throttle@7.0.0:
-    resolution: {integrity: sha512-aio0v+S0QVkH1O+9x4dHtD4dgCExACcL+3EtNaGqC01GBudS9ijMuUsmN8OVScyV4OOp0jqdLShZFuSlbL/AsA==}
-    engines: {node: '>=18'}
 
   p-try@2.2.0:
     resolution: {integrity: sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==}
@@ -18504,8 +18497,6 @@ snapshots:
   p-locate@4.1.0:
     dependencies:
       p-limit: 2.3.0
-
-  p-throttle@7.0.0: {}
 
   p-try@2.2.0: {}
 
