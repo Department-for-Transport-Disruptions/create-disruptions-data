@@ -4,17 +4,7 @@ import { startS3Upload } from "@create-disruptions-data/shared-ts/utils/s3";
 import { Handler } from "aws-lambda";
 import axios from "axios";
 import dayjs from "dayjs";
-import pThrottle from "p-throttle";
 import { Entry, Parse } from "unzipper";
-
-const throttle = pThrottle({
-    limit: 50,
-    interval: 1000,
-});
-
-const throttledUpload = throttle(async (upload: ReturnType<typeof startS3Upload>) => {
-    await upload.done();
-});
 
 const getBodsDataAndUploadToS3 = async (bodsUrl: string, txcZippedBucketName: string, txcBucketName: string) => {
     logger.info("Starting retrieval of BODS data");
@@ -45,10 +35,10 @@ const getBodsDataAndUploadToS3 = async (bodsUrl: string, txcZippedBucketName: st
 
             if (fileName.endsWith(".zip")) {
                 upload = startS3Upload(txcZippedBucketName, `${prefix}/bods/${fileName}`, entry, "application/zip");
-                promises.push(throttledUpload(upload));
+                promises.push(upload.done());
             } else if (fileName.endsWith(".xml")) {
                 upload = startS3Upload(txcBucketName, `${prefix}/bods/${fileName}`, entry, "application/xml");
-                promises.push(throttledUpload(upload));
+                promises.push(upload.done());
             }
         }
 
