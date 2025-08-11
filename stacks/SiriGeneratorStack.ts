@@ -10,7 +10,7 @@ import { DynamoDBStack } from "./DynamoDBStack";
 import { MonitoringStack } from "./MonitoringStack";
 import { RdsStack } from "./RdsStack";
 import { VpcStack } from "./VpcStack";
-import { createBucket } from "./utils";
+import { createBucket, getRefDataApiUrl } from "./utils";
 
 export const SiriGeneratorStack = ({ stack }: StackContext) => {
     const { organisationsTableV2: organisationsTable } = use(DynamoDBStack);
@@ -46,9 +46,7 @@ export const SiriGeneratorStack = ({ stack }: StackContext) => {
         },
     ]);
 
-    const apiUrl = !["preprod", "prod"].includes(stack.stage)
-        ? "https://api.test.ref-data.dft-create-data.com/v1"
-        : `https://api.${stack.stage}.ref-data.dft-create-data.com/v1`;
+    const apiUrl = getRefDataApiUrl(stack.stage);
 
     const siriGenerator = new Function(stack, "cdd-siri-sx-generator", {
         functionName: `cdd-siri-sx-generator-${stack.stage}`,
