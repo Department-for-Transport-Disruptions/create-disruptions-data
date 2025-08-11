@@ -8,6 +8,7 @@ import { DynamoDBStack } from "./DynamoDBStack";
 import { MonitoringStack } from "./MonitoringStack";
 import { RdsStack } from "./RdsStack";
 import { VpcStack } from "./VpcStack";
+import { getRefDataApiUrl } from "./utils";
 
 export const RoadworksNotificationStack = ({ stack }: StackContext) => {
     const { organisationsTableV2: organisationsTable } = use(DynamoDBStack);
@@ -17,9 +18,7 @@ export const RoadworksNotificationStack = ({ stack }: StackContext) => {
         use(RdsStack);
     const { vpc, lambdaSg } = use(VpcStack);
 
-    const apiUrl = !["test", "preprod", "prod"].includes(stack.stage)
-        ? `https://ref-data-api.${stack.stage}.sandbox.cdd.dft-create-data.com/v1`
-        : `https://ref-data-api.${stack.stage}.cdd.dft-create-data.com/v1`;
+    const apiUrl = getRefDataApiUrl(stack.stage);
 
     const url =
         stack.stage === "prod"

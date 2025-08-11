@@ -30,3 +30,15 @@ export const createBucket = (
 export const isUserEnv = (stage: string) => !["sandbox", "test", "preprod", "prod"].includes(stage);
 
 export const isSharedSandboxEnv = (stage: string) => stage === "sandbox";
+
+export const getRefDataApiUrl = (stage: string) => {
+    const oldRefDataApiUrl = !["preprod", "prod"].includes(stage)
+        ? "https://api.test.ref-data.dft-create-data.com/v1"
+        : `https://api.${stage}.ref-data.dft-create-data.com/v1`;
+
+    const disruptionsRefDataApiUrl = !["test", "preprod", "prod"].includes(stage)
+        ? `https://ref-data-api.${stage}.sandbox.cdd.dft-create-data.com/v1`
+        : `https://ref-data-api.${stage}.cdd.dft-create-data.com/v1`;
+
+    return ["prod"].includes(stage) ? oldRefDataApiUrl : disruptionsRefDataApiUrl;
+};

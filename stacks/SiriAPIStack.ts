@@ -8,7 +8,7 @@ import { DynamoDBStack } from "./DynamoDBStack";
 import { RdsStack } from "./RdsStack";
 import { SiriGeneratorStack } from "./SiriGeneratorStack";
 import { VpcStack } from "./VpcStack";
-import { isUserEnv } from "./utils";
+import { getRefDataApiUrl, isUserEnv } from "./utils";
 
 export const SiriAPIStack = ({ stack }: StackContext) => {
     const { siriSXBucket, disruptionsJsonBucket, disruptionsCsvBucket } = use(SiriGeneratorStack);
@@ -21,9 +21,7 @@ export const SiriAPIStack = ({ stack }: StackContext) => {
         return;
     }
 
-    const apiUrl = !["test", "preprod", "prod"].includes(stack.stage)
-        ? `https://ref-data-api.${stack.stage}.sandbox.cdd.dft-create-data.com/v1`
-        : `https://ref-data-api.${stack.stage}.cdd.dft-create-data.com/v1`;
+    const apiUrl = getRefDataApiUrl(stack.stage);
 
     const subDomain = ["sandbox", "test", "preprod", "prod"].includes(stack.stage) ? "api" : `api.${stack.stage}`;
 

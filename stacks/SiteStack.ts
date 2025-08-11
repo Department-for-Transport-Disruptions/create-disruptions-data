@@ -11,7 +11,7 @@ import { DynamoDBStack } from "./DynamoDBStack";
 import { MonitoringStack } from "./MonitoringStack";
 import { RdsStack } from "./RdsStack";
 import { VpcStack } from "./VpcStack";
-import { createBucket, isUserEnv } from "./utils";
+import { createBucket, getRefDataApiUrl, isUserEnv } from "./utils";
 
 export const SiteStack = ({ stack }: StackContext) => {
     const { organisationsTableV2: organisationsTable } = use(DynamoDBStack);
@@ -35,9 +35,7 @@ export const SiteStack = ({ stack }: StackContext) => {
         }
     }
 
-    const apiUrl = !["test", "preprod", "prod"].includes(stack.stage)
-        ? `https://ref-data-api.${stack.stage}.sandbox.cdd.dft-create-data.com/v1`
-        : `https://ref-data-api.${stack.stage}.cdd.dft-create-data.com/v1`;
+    const apiUrl = getRefDataApiUrl(stack.stage);
 
     const middlewareCognitoUser = new User(stack, "cdd-site-middleware-user", {
         userName: `cdd-site-middleware-user-${stack.stage}-${stack.region}`,
