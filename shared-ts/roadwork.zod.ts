@@ -93,27 +93,36 @@ export const roadworkSchema = z.object({
     createdDateTime: z.string().datetime().optional(),
 });
 
-export const roadwork = z.object({
-    permitReferenceNumber: z.string(),
-    highwayAuthority: z.string().optional(),
-    highwayAuthoritySwaCode: z.coerce.number(),
-    worksLocationCoordinates: z.string().nullish(),
-    streetName: z.string().nullish(),
-    areaName: z.string().nullish(),
-    proposedStartDateTime: z.string().datetime().nullish(),
-    proposedEndDateTime: z.string().datetime().nullish(),
-    actualStartDateTime: z.string().datetime().nullish(),
-    actualEndDateTime: z.string().datetime().nullish(),
-    workStatus: workStatus.nullish(),
-    activityType: z.string().nullish(),
-    permitStatus: permitStatus.nullish(),
-    town: z.string().nullish(),
-    administrativeAreaCode: z.string(),
-    workCategory: workCategory.nullish(),
-    trafficManagementType: z.string().nullish(),
-    createdDateTime: z.string().datetime().nullish(),
-    lastUpdatedDateTime: z.string().datetime().nullish(),
-});
+export const roadwork = z
+    .object({
+        permitReferenceNumber: z.string(),
+        highwayAuthority: z.string().optional(),
+        highwayAuthoritySwaCode: z.coerce.number(),
+        worksLocationCoordinates: z.string().nullish(),
+        streetName: z.string().nullish(),
+        areaName: z.string().nullish(),
+        proposedStartDateTime: z.string().datetime().nullish(),
+        proposedEndDateTime: z.string().datetime().nullish(),
+        actualStartDateTime: z.string().datetime().nullish(),
+        actualEndDateTime: z.string().datetime().nullish(),
+        workStatus: workStatus.nullish(),
+        activityType: z.string().nullish(),
+        permitStatus: permitStatus.nullish(),
+        town: z.string().nullish(),
+        administrativeAreaCode: z.string(),
+        workCategory: workCategory.nullish(),
+        trafficManagementType: z.string().nullish(),
+        createdDateTime: z.string().datetime().nullish(),
+        lastUpdatedDateTime: z.string().datetime().nullish(),
+        lastUpdatedDatetime: z.string().datetime().nullish(),
+    })
+    .transform((data) => {
+        if (data.lastUpdatedDatetime) {
+            return { ...data, lastUpdatedDateTime: data.lastUpdatedDatetime };
+        }
+
+        return data;
+    });
 
 export type Roadwork = z.infer<typeof roadwork>;
 
