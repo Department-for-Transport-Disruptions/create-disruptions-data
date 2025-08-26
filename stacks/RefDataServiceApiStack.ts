@@ -259,7 +259,7 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
         ? `ref-data-api.${stack.stage}.${getDomain(stack.stage)}`
         : `ref-data-api.${getDomain(stack.stage, true)}`;
 
-    const allowedOrigins = [getDomain(stack.stage)];
+    const allowedOrigins = [`https://${getDomain(stack.stage)}`];
 
     if (!["preprod", "prod"].includes(stack.stage)) {
         allowedOrigins.push("http://localhost:3000");
