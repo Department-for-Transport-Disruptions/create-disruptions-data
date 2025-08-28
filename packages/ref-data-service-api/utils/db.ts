@@ -515,9 +515,14 @@ export const getServiceStops = async (
         .innerJoin("stops as fromStop", "fromStop.atcoCode", "serviceJourneyPatternLinks.fromAtcoCode")
         .innerJoin("stops as toStop", "toStop.atcoCode", "serviceJourneyPatternLinks.toAtcoCode")
         .$if(!!input.adminAreaCodes?.[0], (qb) =>
-            qb
-                .innerJoin("serviceAdminAreaCodes", "serviceAdminAreaCodes.serviceId", "services.id")
-                .where("serviceAdminAreaCodes.adminAreaCode", "in", input.adminAreaCodes ?? []),
+            qb.where((eb) =>
+                eb.exists(
+                    eb
+                        .selectFrom("serviceAdminAreaCodes")
+                        .where("serviceAdminAreaCodes.serviceId", "=", eb.ref("services.id"))
+                        .where("serviceAdminAreaCodes.adminAreaCode", "in", input.adminAreaCodes ?? []),
+                ),
+            ),
         )
         .select([
             "services.id as serviceId",
