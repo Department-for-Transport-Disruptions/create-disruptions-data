@@ -401,38 +401,26 @@ export const getServiceById = async (dbClient: Kysely<Database>, input: ServiceB
 export const getServicesByStops = async (dbClient: Kysely<Database>, input: ServicesByStopsQueryInput) => {
     logger.info("Starting getServicesByStops...");
 
-    const buildBaseQuery = (column: "fromAtcoCode" | "toAtcoCode") => {
-        return dbClient
-            .selectFrom("services")
-            .innerJoin("serviceJourneyPatterns", "serviceJourneyPatterns.operatorServiceId", "services.id")
-            .innerJoin(
-                "serviceJourneyPatternLinks",
-                "serviceJourneyPatternLinks.journeyPatternId",
-                "serviceJourneyPatterns.id",
-            )
-            .$if(!!input.adminAreaCodes?.[0], (qb) =>
-                qb.where((eb) =>
-                    eb.exists(
-                        eb
-                            .selectFrom("serviceAdminAreaCodes")
-                            .where("serviceAdminAreaCodes.serviceId", "=", eb.ref("services.id"))
-                            .where("serviceAdminAreaCodes.adminAreaCode", "in", input.adminAreaCodes ?? []),
-                    ),
-                ),
-            )
-            .$if(!!input.nocCodes?.[0], (qb) => qb.where("services.nocCode", "in", input.nocCodes ?? ["---"]))
-            .selectAll("services")
-            .select(["fromAtcoCode", "toAtcoCode"])
-            .where("dataSource", "=", input.dataSource)
-            .where(column, "in", input.stops);
-    };
+    const services = await dbClient
+        .selectFrom("services")
+        .innerJoin("serviceJourneyPatterns", "serviceJourneyPatterns.operatorServiceId", "services.id")
+        .innerJoin(
+            "serviceJourneyPatternLinks",
+            "serviceJourneyPatternLinks.journeyPatternId",
+            "serviceJourneyPatterns.id",
+        )
+        .$if(!!input.adminAreaCodes?.[0], (qb) =>
+            qb
+                .innerJoin("serviceAdminAreaCodes", "serviceAdminAreaCodes.serviceId", "services.id")
+                .where("serviceAdminAreaCodes.adminAreaCode", "in", input.adminAreaCodes ?? []),
+        )
+        .$if(!!input.nocCodes?.[0], (qb) => qb.where("services.nocCode", "in", input.nocCodes ?? ["---"]))
+        .selectAll("services")
+        .select(["fromAtcoCode", "toAtcoCode"])
 
-    const fromStopsQuery = buildBaseQuery("fromAtcoCode");
-    const toStopsQuery = buildBaseQuery("toAtcoCode");
-
-    return await fromStopsQuery
-        .union(toStopsQuery)
         .distinctOn(["fromAtcoCode", "toAtcoCode"])
+        .where((qb) => qb.or([qb("fromAtcoCode", "in", input.stops), qb("toAtcoCode", "in", input.stops)]))
+        .where("dataSource", "=", input.dataSource)
         .orderBy([
             "fromAtcoCode",
             "toAtcoCode",
@@ -440,6 +428,8 @@ export const getServicesByStops = async (dbClient: Kysely<Database>, input: Serv
             "serviceJourneyPatterns.direction",
         ])
         .execute();
+
+    return services;
 };
 
 export const getServices = async (dbClient: Kysely<Database>, input: ServicesQueryInput) => {
