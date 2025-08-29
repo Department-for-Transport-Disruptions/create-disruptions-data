@@ -410,9 +410,14 @@ export const getServicesByStops = async (dbClient: Kysely<Database>, input: Serv
             "serviceJourneyPatterns.id",
         )
         .$if(!!input.adminAreaCodes?.[0], (qb) =>
-            qb
-                .innerJoin("serviceAdminAreaCodes", "serviceAdminAreaCodes.serviceId", "services.id")
-                .where("serviceAdminAreaCodes.adminAreaCode", "in", input.adminAreaCodes ?? []),
+            qb.where((eb) =>
+                eb.exists(
+                    eb
+                        .selectFrom("serviceAdminAreaCodes")
+                        .where("serviceAdminAreaCodes.serviceId", "=", eb.ref("services.id"))
+                        .where("serviceAdminAreaCodes.adminAreaCode", "in", input.adminAreaCodes ?? []),
+                ),
+            ),
         )
         .$if(!!input.nocCodes?.[0], (qb) => qb.where("services.nocCode", "in", input.nocCodes ?? ["---"]))
         .selectAll("services")
@@ -444,9 +449,14 @@ export const getServices = async (dbClient: Kysely<Database>, input: ServicesQue
         .$if(!!input.modes?.[0], (qb) => qb.where("services.mode", "in", input.modes ?? ["---"]))
         .$if(!!input.nocCodes?.[0], (qb) => qb.where("services.nocCode", "in", input.nocCodes ?? ["---"]))
         .$if(!!input.adminAreaCodes?.[0], (qb) =>
-            qb
-                .innerJoin("serviceAdminAreaCodes", "serviceAdminAreaCodes.serviceId", "services.id")
-                .where("serviceAdminAreaCodes.adminAreaCode", "in", input.adminAreaCodes ?? []),
+            qb.where((eb) =>
+                eb.exists(
+                    eb
+                        .selectFrom("serviceAdminAreaCodes")
+                        .where("serviceAdminAreaCodes.serviceId", "=", eb.ref("services.id"))
+                        .where("serviceAdminAreaCodes.adminAreaCode", "in", input.adminAreaCodes ?? []),
+                ),
+            ),
         )
         .where((qb) =>
             qb.or([
