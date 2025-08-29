@@ -9,7 +9,7 @@ import { VpcStack } from "./VpcStack";
 import { isUserEnv } from "./utils";
 
 export function RefDataServiceApiStack({ stack }: StackContext) {
-    const { dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostSecret, dbPortSecret } = use(RdsStack);
+    const { dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret } = use(RdsStack);
     const { hostedZone } = use(DnsStack);
     const { vpc, lambdaSg } = use(VpcStack);
     const { streetManagerSqsQueue } = use(QueueStack);
@@ -43,7 +43,7 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
     }
 
     const stopsFunction = new Function(stack, "ref-data-service-get-stops-function", {
-        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostSecret, dbPortSecret],
+        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret],
         functionName: `ref-data-service-get-stops-function-${stack.stage}`,
         vpc,
         vpcSubnets: {
@@ -63,7 +63,7 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
     });
 
     const operatorsFunction = new Function(stack, "ref-data-service-get-operators-function", {
-        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostSecret, dbPortSecret],
+        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret],
         functionName: `ref-data-service-get-operators-function-${stack.stage}`,
         vpc,
         vpcSubnets: {
@@ -81,7 +81,7 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
     });
 
     const servicesForOperatorFunction = new Function(stack, "ref-data-service-get-services-for-operator-function", {
-        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostSecret, dbPortSecret],
+        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret],
         functionName: `ref-data-service-get-services-for-operator-function-${stack.stage}`,
         vpc,
         vpcSubnets: {
@@ -96,7 +96,7 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
     });
 
     const serviceByIdFunction = new Function(stack, "ref-data-service-get-service-by-id-function", {
-        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostSecret, dbPortSecret],
+        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret],
         functionName: `ref-data-service-get-service-by-id-function-${stack.stage}`,
         vpc,
         vpcSubnets: {
@@ -111,7 +111,7 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
     });
 
     const servicesFunction = new Function(stack, "ref-data-service-get-services-function", {
-        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostSecret, dbPortSecret],
+        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret],
         functionName: `ref-data-service-get-services-function-${stack.stage}`,
         vpc,
         vpcSubnets: {
@@ -129,7 +129,7 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
     });
 
     const serviceStopsFunction = new Function(stack, "ref-data-service-get-service-stops-function", {
-        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostSecret, dbPortSecret],
+        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret],
         functionName: `ref-data-service-get-service-stops-function-${stack.stage}`,
         vpc,
         vpcSubnets: {
@@ -144,7 +144,7 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
     });
 
     const serviceJourneysFunction = new Function(stack, "ref-data-service-get-service-journeys-function", {
-        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostSecret, dbPortSecret],
+        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret],
         functionName: `ref-data-service-get-service-journeys-function-${stack.stage}`,
         vpc,
         vpcSubnets: {
@@ -159,7 +159,7 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
     });
 
     const serviceRoutesFunction = new Function(stack, "ref-data-service-get-service-routes-function", {
-        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostSecret, dbPortSecret],
+        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret],
         functionName: `ref-data-service-get-service-routes-function-${stack.stage}`,
         vpc,
         vpcSubnets: {
@@ -174,7 +174,7 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
     });
 
     const areaCodeFunction = new Function(stack, "ref-data-service-get-admin-area-codes-function", {
-        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostSecret, dbPortSecret],
+        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret],
         functionName: `ref-data-service-get-admin-area-codes-function-${stack.stage}`,
         vpc,
         vpcSubnets: {
@@ -189,7 +189,7 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
     });
 
     const adminAreasFunction = new Function(stack, "ref-data-service-get-admin-areas-function", {
-        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostSecret, dbPortSecret],
+        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret],
         functionName: `ref-data-service-get-admin-areas-function-${stack.stage}`,
         vpc,
         vpcSubnets: {
@@ -204,7 +204,7 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
     });
 
     const postStreetManagerFunction = new Function(stack, "ref-data-service-post-street-manager-function", {
-        bind: [streetManagerSqsQueue, dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostSecret, dbPortSecret],
+        bind: [streetManagerSqsQueue, dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret],
         functionName: `ref-data-service-post-street-manager-function-${stack.stage}`,
         vpc,
         vpcSubnets: {
@@ -223,7 +223,7 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
     });
 
     const roadworksFunction = new Function(stack, "ref-data-service-get-roadworks-function", {
-        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostSecret, dbPortSecret],
+        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret],
         functionName: `ref-data-service-get-roadworks-function-${stack.stage}`,
         vpc,
         vpcSubnets: {
@@ -241,7 +241,7 @@ export function RefDataServiceApiStack({ stack }: StackContext) {
     });
 
     const roadworkByIdFunction = new Function(stack, "ref-data-service-get-roadwork-by-id-function", {
-        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostSecret, dbPortSecret],
+        bind: [dbUsernameSecret, dbPasswordSecret, dbNameSecret, dbHostROSecret, dbPortSecret],
         functionName: `ref-data-service-get-roadwork-by-id-function-${stack.stage}`,
         vpc,
         vpcSubnets: {

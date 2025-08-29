@@ -5,6 +5,8 @@ import { APIGatewayEvent, APIGatewayProxyResultV2 } from "aws-lambda";
 import { Kysely } from "kysely";
 import { ClientError } from "../error";
 
+const dbClient = getDbClient(true);
+
 export const executeClient = async <InputT, ResponseT, FormattedT>(
     event: APIGatewayEvent,
     getQueryInputFunction: (event: APIGatewayEvent) => InputT,
@@ -22,8 +24,6 @@ export const executeClient = async <InputT, ResponseT, FormattedT>(
         logger.pathParams = event.pathParameters;
 
         logger.info("Starting request");
-
-        const dbClient = getDbClient();
 
         const input = getQueryInputFunction(event);
 
@@ -105,8 +105,6 @@ export const executeClientWithoutInput = async <InputT, ResponseT, FormattedT>(
         logger.pathParams = event.pathParameters;
 
         logger.info("Starting request without inputs");
-
-        const dbClient = getDbClient();
 
         const result = await clientFunction(dbClient);
 
