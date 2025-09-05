@@ -217,7 +217,7 @@ export const getStops = async (dbClient: Kysely<Database>, input: StopsQueryInpu
                 .where("localities.administrativeAreaCode", "in", input.adminAreaCodes ?? ["---"])
                 .$if(!!input.polygon, (qb) =>
                     qb.where(
-                        sql<boolean>`ST_Contains(ST_GeomFromText(${input.polygon}), ST_MakePoint(stops.longitude, stops.latitude))`,
+                        sql<boolean>`ST_Contains(ST_GeomFromText(${input.polygon}), ST_MakePoint(stops.longitude::double precision, stops.latitude::double precision))`,
                     ),
                 ),
         )
